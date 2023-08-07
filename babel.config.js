@@ -1,15 +1,15 @@
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: ["babel-preset-expo"],
+    presets: ['babel-preset-expo'],
     plugins: [
       [
-        "module-resolver",
+        'module-resolver',
         {
-          root: ["./src"],
-          extensions: [".ios.js", ".android.js", ".js", ".json", ".ts", ".tsx"],
+          root: ['./src'],
+          extensions: ['.ios.js', '.android.js', '.js', '.json', '.ts', '.tsx'],
           alias: {
-            "@": "./src",
+            '@': './src',
           },
         },
       ],

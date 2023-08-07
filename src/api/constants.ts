@@ -10,8 +10,4 @@
  * Do not distribute
  */
 
-import { create } from 'twrnc';
-
-const tw = create(require('../../tailwind.config.js'));
-
-export default tw;
+export const BASE_URL = 'https://greek-api.in-staging.space';
