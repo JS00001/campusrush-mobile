@@ -1,31 +1,29 @@
 /*
  * Created on Mon Aug 07 2023
- * Authored by JS00001
+ *
+ * This software is the proprietary property of CampusRush.
+ * All rights reserved. Unauthorized copying, modification, or distribution
+ * of this software, in whole or in part, is strictly prohibited.
+ * For licensing information contact CampusRush.
  *
  * Copyright (c) 2023 CampusRush
+ * Do not distribute
  */
 
 import { registerRootComponent } from "expo";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
+
+import tw from "@/lib/tailwind";
 
 const App = () => {
   return (
-    <View style={styles.container}>
+    <View style={tw`bg-red-500`}>
       <Text>Open up App.tsx to start working on your app!</Text>
       <StatusBar style="auto" />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 registerRootComponent(App);
 
