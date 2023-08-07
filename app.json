@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "campusrush-mobile",
-    "slug": "campusrush-mobile",
+    "slug": "campusrush",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9e0d874e-cc30-4dca-ae7e-9609b121b1ae"
+      }
+    },
+    "owner": "js00001"
   }
 }
