@@ -10,14 +10,8 @@
  * Do not distribute
  */
 
-import { registerRootComponent } from "expo";
-
-import NavigationProvider from "@/providers/NavigationProvider";
-
-const App = () => {
-  return <NavigationProvider>''</NavigationProvider>;
+const UpdateBilling = () => {
+  return <></>;
 };
 
-registerRootComponent(App);
-
-export default App;
+export default UpdateBilling;

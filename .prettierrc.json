@@ -1,6 +1,7 @@
 {
   "tabWidth": 2,
   "printWidth": 80,
+  "singleAttributePerLine": true,
   "overrides": [
     {
       "files": ["*.ts", "*.js"],

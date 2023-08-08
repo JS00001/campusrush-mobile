@@ -10,14 +10,12 @@
  * Do not distribute
  */
 
-import { registerRootComponent } from "expo";
+import { DefaultTheme } from '@react-navigation/native';
 
-import NavigationProvider from "@/providers/NavigationProvider";
-
-const App = () => {
-  return <NavigationProvider>''</NavigationProvider>;
+export const navigationTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: '#fff',
+  },
 };
-
-registerRootComponent(App);
-
-export default App;

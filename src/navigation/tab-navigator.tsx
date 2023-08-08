@@ -10,14 +10,16 @@
  * Do not distribute
  */
 
-import { registerRootComponent } from "expo";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import NavigationProvider from "@/providers/NavigationProvider";
+export const Tab = createBottomTabNavigator();
 
-const App = () => {
-  return <NavigationProvider>''</NavigationProvider>;
+/**
+ * Tab Navigator for the App
+ *
+ * This is the main tab navigator for the app
+ * and contains five independent stack navigators
+ */
+export const TabNavigator = () => {
+  return <></>;
 };
-
-registerRootComponent(App);
-
-export default App;
