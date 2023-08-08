@@ -14,16 +14,7 @@ import Button from "@/ui/Button";
 import Layout from "@/ui/Layout";
 
 const Landing = () => {
-  return (
-    <Layout>
-      <Button
-        disabled
-        iconRight="arrow-left-up-line"
-      >
-        Hello World
-      </Button>
-    </Layout>
-  );
+  return <Layout></Layout>;
 };
 
 export default Landing;

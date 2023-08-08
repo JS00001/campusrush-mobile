@@ -45,7 +45,12 @@ export const Stack = createNativeStackNavigator();
  */
 export const AuthStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        gestureEnabled: false,
+      }}
+    >
       <Stack.Screen
         name="Landing"
         component={LandingScreen}
