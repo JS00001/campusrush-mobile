@@ -12,10 +12,15 @@
 
 import { registerRootComponent } from "expo";
 
+import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/NavigationProvider";
 
 const App = () => {
-  return <NavigationProvider>''</NavigationProvider>;
+  return (
+    <NavigationProvider>
+      <RootNavigator />
+    </NavigationProvider>
+  );
 };
 
 registerRootComponent(App);

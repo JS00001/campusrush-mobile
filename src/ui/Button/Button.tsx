@@ -10,7 +10,36 @@
  * Do not distribute
  */
 
-interface ButtonProps {}
+import classNames from "classnames";
+import Icon from "react-native-remix-icon";
+import { TouchableOpacityProps } from "react-native";
+
+interface ButtonProps extends TouchableOpacityProps {
+  size?: keyof typeof sizeClasses;
+  color?: keyof typeof colorClasses;
+  style?: any;
+  loading?: boolean;
+  disabled?: boolean;
+  iconLeft?: string; // TODO: Add proper icon name support
+  iconRight?: string; // TODO: Add proper icon name support
+  children?: React.ReactNode;
+}
+
+const sizeClasses = {
+  sm: classNames(),
+  lg: classNames(),
+};
+
+const colorClasses = {
+  primary: {
+    container: classNames(),
+    text: classNames(),
+  },
+  secondary: {
+    container: classNames(),
+    text: classNames(),
+  },
+};
 
 const Button: React.FC<ButtonProps> = () => {
   return <></>;
