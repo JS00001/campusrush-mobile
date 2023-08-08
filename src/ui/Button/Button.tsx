@@ -10,9 +10,11 @@
  * Do not distribute
  */
 
-import classNames from "classnames";
 import Icon from "react-native-remix-icon";
-import { TouchableOpacityProps } from "react-native";
+import { TouchableOpacityProps, TouchableOpacity, View } from "react-native";
+
+import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
 
 interface ButtonProps extends TouchableOpacityProps {
   size?: keyof typeof sizeClasses;
@@ -22,27 +24,127 @@ interface ButtonProps extends TouchableOpacityProps {
   disabled?: boolean;
   iconLeft?: string; // TODO: Add proper icon name support
   iconRight?: string; // TODO: Add proper icon name support
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }
 
+/**
+ * Size classes provide the proper sizes for both the container and text
+ * components of the button.
+ */
 const sizeClasses = {
-  sm: classNames(),
-  lg: classNames(),
+  sm: {
+    container: tw.style("px-8 py-3.5"),
+    text: tw.style("text-base font-normal"),
+    icon: 16,
+  },
+  lg: {
+    container: tw.style("w-full p-6"),
+    text: tw.style("text-lg font-medium"),
+    icon: 20,
+  },
 };
 
+/**
+ * Color classes provide the proper colors for the container, text, and icon
+ * components of the button.
+ *
+ * Each color class is an object with properties for each component.
+ * Each component property will have different state styles
+ * (e.g. hover, active, disabled, etc.)
+ */
 const colorClasses = {
   primary: {
-    container: classNames(),
-    text: classNames(),
+    container: {
+      default: tw.style("bg-slate-900"),
+      disabled: tw.style("bg-slate-300"),
+    },
+    text: {
+      default: tw.style("text-white"),
+      disabled: tw.style("text-slate-200"),
+    },
+    icon: {
+      default: "text-white",
+      disabled: "text-slate-200",
+    },
   },
   secondary: {
-    container: classNames(),
-    text: classNames(),
+    container: {
+      default: tw.style("bg-transparent border border-slate-400"),
+      disabled: tw.style("bg-transparent border border-slate-100"),
+    },
+    text: {
+      default: tw.style("text-slate-500"),
+      disabled: tw.style("text-slate-300"),
+    },
+    icon: {
+      default: "text-slate-500",
+      disabled: "text-slate-300",
+    },
   },
 };
 
-const Button: React.FC<ButtonProps> = () => {
-  return <></>;
+const Button: React.FC<ButtonProps> = ({
+  size = "lg",
+  color = "primary",
+  style,
+  loading,
+  disabled,
+  iconLeft,
+  iconRight,
+  children,
+  ...props
+}) => {
+  disabled = disabled || loading;
+
+  // The container classes are applied to the TouchableOpacity component
+  // These classes are responsible for the background color, layout, etc.
+  const containerClasses = tw.style(
+    "flex flex-row items-center justify-center rounded-lg gap-2.5",
+    !disabled && colorClasses[color].container.default, // Set the default color if the button is not disabled
+    disabled && colorClasses[color].container.disabled, // Set the disabled color if the button is disabled
+    sizeClasses[size].container,
+    style,
+  );
+
+  // The text classes are applied to the Text component
+  // These classes are responsible for the text color, font size, etc.
+  const textClasses = tw.style(
+    !disabled && colorClasses[color].text.default, // Set the default color if the button is not disabled
+    disabled && colorClasses[color].text.disabled, // Set the disabled color if the button is disabled
+    sizeClasses[size].text,
+  );
+
+  // The icon color is applied to the Icon component
+  // This color is not using tw.style as we need to pass
+  // a direct color value to the Icon component
+  const iconColor = tw.color(
+    disabled
+      ? colorClasses[color].icon.disabled
+      : colorClasses[color].icon.default,
+  );
+
+  // The icon size is applied to the Icon component
+  // This size is not using tw.style as we need to pass
+  // a direct size value to the Icon component
+  const iconSize = sizeClasses[size].icon;
+
+  return (
+    <TouchableOpacity
+      disabled={disabled || loading}
+      style={containerClasses}
+      {...props}
+    >
+      {iconLeft && <Icon name={iconLeft} />}
+      <Text style={textClasses}>{children}</Text>
+      {iconRight && (
+        <Icon
+          name={iconRight}
+          color={iconColor}
+          size={iconSize}
+        />
+      )}
+    </TouchableOpacity>
+  );
 };
 
 export default Button;
