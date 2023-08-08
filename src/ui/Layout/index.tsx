@@ -1,5 +1,5 @@
 /*
- * Created on Mon Aug 07 2023
+ * Created on Tue Aug 08 2023
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,20 +10,6 @@
  * Do not distribute
  */
 
-import Button from "@/ui/Button";
-import Layout from "@/ui/Layout";
+import Layout from "./Layout";
 
-const Landing = () => {
-  return (
-    <Layout>
-      <Button
-        disabled
-        iconRight="arrow-left-up-line"
-      >
-        Hello World
-      </Button>
-    </Layout>
-  );
-};
-
-export default Landing;
+export default Layout;

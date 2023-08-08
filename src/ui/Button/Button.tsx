@@ -38,7 +38,7 @@ const sizeClasses = {
     icon: 16,
   },
   lg: {
-    container: tw.style("w-full p-6"),
+    container: tw.style("w-full p-5"),
     text: tw.style("text-lg font-medium"),
     icon: 20,
   },
