@@ -32,7 +32,7 @@ interface TextProps {
 }
 
 const variantClasses = {
-  header: tw.style("text-[32px] font-bold"),
+  header: tw.style("text-[32px] font-DMSans_Bold"),
   title: tw.style("text-lg font-medium"),
   body: tw.style("text-base font-normal"),
   text: tw.style("text-sm font-normal"),

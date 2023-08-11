@@ -38,7 +38,7 @@ const sizeClasses = {
     icon: 16,
   },
   lg: {
-    container: tw.style("w-full p-5"),
+    container: tw.style("w-full p-4"),
     text: tw.style("text-lg font-medium"),
     icon: 20,
   },
@@ -53,9 +53,9 @@ const sizeClasses = {
  * (e.g. hover, active, disabled, etc.)
  */
 const colorClasses = {
-  primary: {
+  dark: {
     container: {
-      default: tw.style("bg-slate-900"),
+      default: tw.style("bg-primary"),
       disabled: tw.style("bg-slate-300"),
     },
     text: {
@@ -67,25 +67,25 @@ const colorClasses = {
       disabled: "text-slate-200",
     },
   },
-  secondary: {
+  light: {
     container: {
-      default: tw.style("bg-transparent border border-slate-400"),
-      disabled: tw.style("bg-transparent border border-slate-100"),
+      default: tw.style("bg-white"),
+      disabled: tw.style("bg-slate-300"),
     },
     text: {
-      default: tw.style("text-slate-500"),
-      disabled: tw.style("text-slate-300"),
+      default: tw.style("text-primary"),
+      disabled: tw.style("text-slate-200"),
     },
     icon: {
-      default: "text-slate-500",
-      disabled: "text-slate-300",
+      default: "text-primary",
+      disabled: "text-slate-200",
     },
   },
 };
 
 const Button: React.FC<ButtonProps> = ({
   size = "lg",
-  color = "primary",
+  color = "dark",
   style,
   loading,
   disabled,

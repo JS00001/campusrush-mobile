@@ -9,7 +9,8 @@
  * Copyright (c) 2023 CampusRush
  * Do not distribute
  */
-import { View, ViewProps } from "react-native";
+
+import { ViewProps, SafeAreaView, View } from "react-native";
 
 import tw from "@/lib/tailwind";
 
@@ -27,13 +28,17 @@ const Layout: React.FC<LayoutProps> = ({
   flexGap = "24px",
 }) => {
   const containerClasses = tw.style(
-    "w-full items-center px-6",
+    "h-full w-full items-center px-6",
     flexGap && { gap: flexGap },
     centerChildren && "items-center",
     style,
   );
 
-  return <View style={containerClasses}>{children}</View>;
+  return (
+    <SafeAreaView style={tw`z-10`}>
+      <View style={containerClasses}>{children}</View>
+    </SafeAreaView>
+  );
 };
 
 export default Layout;

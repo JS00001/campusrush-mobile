@@ -11,14 +11,26 @@
  */
 
 import { registerRootComponent } from "expo";
+import * as ExpoSplashScreen from "expo-splash-screen";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { startNetworkLogging } from "react-native-network-logger";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/NavigationProvider";
 
+ExpoSplashScreen.preventAutoHideAsync();
+
+if (__DEV__) startNetworkLogging();
+
 const App = () => {
   return (
     <NavigationProvider>
-      <RootNavigator />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <RootNavigator />
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
     </NavigationProvider>
   );
 };

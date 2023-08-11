@@ -10,9 +10,31 @@
  * Do not distribute
  */
 
+import {
+  useFonts,
+  DMSans_400Regular,
+  DMSans_500Medium,
+  DMSans_700Bold,
+} from "@expo-google-fonts/dm-sans";
+
+import { useEffect } from "react";
+import * as ExpoSplashScreen from "expo-splash-screen";
 import { AuthStack } from "@/navigation/stack-navigator";
 
 const RootNavigator = () => {
+  const [fontsLoaded] = useFonts({
+    DMSans_400Regular,
+    DMSans_500Medium,
+    DMSans_700Bold,
+  });
+
+  useEffect(() => {
+    if (fontsLoaded) ExpoSplashScreen.hideAsync();
+  }, [fontsLoaded]);
+
+  // If the fonts are not loaded, we can't render the app
+  if (!fontsLoaded) return null;
+
   return <AuthStack />;
 };
 
