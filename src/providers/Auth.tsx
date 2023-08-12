@@ -23,6 +23,8 @@ interface AuthContextProps {
   refreshToken: string | null;
   organization: Organization;
 
+  clearUserData: () => void;
+
   signOut: () => void;
   signIn: (input: LoginAsOrganizationInput) => Promise<void>;
   signUp: (input: RegisterAsOrganizationInput) => Promise<void>;
@@ -81,7 +83,6 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   // On initial load, load the refresh token and access token from storage
   useEffect(() => {
     _loadInitialData();
-    console.log("Fetching part 1");
   }, []);
 
   // Load initial data on app load
@@ -118,8 +119,6 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     } catch (error) {
       setAccessToken("");
     }
-
-    console.log("Fetching part 3");
   };
 
   // Load the currently logged in organization
@@ -136,8 +135,6 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     } catch (error) {
       setOrganization({} as Organization);
     }
-
-    console.log("Fetching part 4");
   };
 
   /**
@@ -199,6 +196,14 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     });
   };
 
+  // Clear all user data
+  const clearUserData = async () => {
+    await AsyncStorage.removeItem("refreshToken");
+    setOrganization({} as Organization);
+    setAccessToken("");
+    setRefreshToken("");
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -210,6 +215,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
         signOut,
         signIn,
         signUp,
+        clearUserData,
         updateOrganization,
       }}
     >

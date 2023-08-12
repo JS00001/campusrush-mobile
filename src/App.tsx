@@ -11,6 +11,7 @@
  */
 
 import { registerRootComponent } from "expo";
+import Toast from "react-native-toast-message";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
@@ -19,6 +20,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import queryClient from "@/lib/queryClient";
 import AuthProvider from "@/providers/Auth";
+import AxiosIntercepter from "@/providers/Axios";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
 import DevEnvironmentProvider from "@/providers/DevEnvironment";
@@ -31,15 +33,18 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <NavigationProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <BottomSheetModalProvider>
-              <DevEnvironmentProvider>
-                <RootNavigator />
-              </DevEnvironmentProvider>
-            </BottomSheetModalProvider>
-          </GestureHandlerRootView>
-        </NavigationProvider>
+        <AxiosIntercepter>
+          <NavigationProvider>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <BottomSheetModalProvider>
+                <DevEnvironmentProvider>
+                  <RootNavigator />
+                  <Toast />
+                </DevEnvironmentProvider>
+              </BottomSheetModalProvider>
+            </GestureHandlerRootView>
+          </NavigationProvider>
+        </AxiosIntercepter>
       </AuthProvider>
     </QueryClientProvider>
   );

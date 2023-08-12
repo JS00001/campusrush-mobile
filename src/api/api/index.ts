@@ -10,10 +10,10 @@
  * Do not distribute
  */
 
-import axios from 'axios';
+import { axiosClient } from '@/providers/Axios';
 
 import { API_VERSION_URL } from '@/api/constants';
 
-const apiClient = axios.create({
-  baseURL: API_VERSION_URL,
-});
+axiosClient.defaults.baseURL = API_VERSION_URL;
+
+const authAPIClient = axiosClient;
