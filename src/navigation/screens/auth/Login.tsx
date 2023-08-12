@@ -35,6 +35,9 @@ const Login = () => {
         title: "Login",
         subtitle: "Login as an organization",
       }}
+      termsAndConditions={{
+        shown: true,
+      }}
     >
       <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
       <TextInput

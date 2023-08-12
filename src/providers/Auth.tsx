@@ -29,6 +29,9 @@ interface AuthContextProps {
   signIn: (input: LoginAsOrganizationInput) => Promise<void>;
   signUp: (input: RegisterAsOrganizationInput) => Promise<void>;
 
+  verifyOrganization: (input: VerifyOrganizationInput) => Promise<void>;
+  resendVerificationEmail: () => Promise<void>;
+
   updateOrganization: (organization: Organization) => void;
 }
 
@@ -71,6 +74,18 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   const registerAsOrganizationMutation = useMutation({
     mutationFn: (input: RegisterAsOrganizationInput) => {
       return authAPI.registerAsOrganization(input);
+    },
+  });
+
+  const resendVerificationEmailMutation = useMutation({
+    mutationFn: () => {
+      return authAPI.resendVerification({ accessToken });
+    },
+  });
+
+  const verifyOrganizationMutation = useMutation({
+    mutationFn: (input: VerifyOrganizationInput) => {
+      return authAPI.verifyOrganization(input);
     },
   });
 
@@ -204,6 +219,29 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     setRefreshToken("");
   };
 
+  // Verify the organization
+  const verifyOrganization = async (input: VerifyOrganizationInput) => {
+    try {
+      await verifyOrganizationMutation.mutateAsync(input);
+
+      setOrganization({
+        ...organization,
+        verified: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Resend the verification email
+  const resendVerificationEmail = async () => {
+    try {
+      await resendVerificationEmailMutation.mutateAsync();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -215,6 +253,10 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
         signOut,
         signIn,
         signUp,
+
+        verifyOrganization,
+        resendVerificationEmail,
+
         clearUserData,
         updateOrganization,
       }}

@@ -34,9 +34,12 @@ const RegistrationStep1 = () => {
       flexGap="18px"
       header={{
         hasBackButton: true,
-        cta: "Step 1/5",
+        cta: "Step 1/3",
         title: "Register",
         subtitle: "Please provide your organizations information",
+      }}
+      termsAndConditions={{
+        shown: true,
       }}
     >
       <TextInput

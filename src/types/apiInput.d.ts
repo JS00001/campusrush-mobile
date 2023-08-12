@@ -34,16 +34,16 @@ interface CheckEmailExistsInput {
 }
 
 interface VerifyOrganizationInput {
-  accessToken: string;
+  accessToken?: string;
   code: string;
 }
 
 interface ResendVerificationInput {
-  accessToken: string;
+  accessToken?: string;
 }
 
 interface GetOrganizationInput {
-  accessToken: string;
+  accessToken?: string;
 }
 
 interface RefreshAccessTokenInput {

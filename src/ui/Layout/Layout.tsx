@@ -19,6 +19,7 @@ import HeaderSvg from "@/assets/HeaderSvg";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import TermsAndConditions from "@/components/TermsAndConditions";
+import { has } from "lodash";
 
 interface LayoutProps extends ViewProps {
   flexGap?: string;
@@ -46,6 +47,7 @@ const Layout: React.FC<LayoutProps> = ({
   children,
   scrollable,
   centerChildren,
+  termsAndConditions,
   flexGap = "24px",
 }) => {
   const navigation = useNavigation();
@@ -72,12 +74,15 @@ const Layout: React.FC<LayoutProps> = ({
         <View style={tw`flex-1 z-10`}>
           <View style={tw`px-6 py-8`}>
             <SafeAreaView style={tw`min-h-48 flex-col justify-between`}>
-              <TouchableOpacity
-                onPress={onBackPress}
-                style={tw`h-10 w-10 rounded-full items-center justify-center bg-navy-100`}
-              >
-                <Icon name="ri-arrow-left-line" size={22} color="#fff" />
-              </TouchableOpacity>
+              {header.hasBackButton && (
+                <TouchableOpacity
+                  onPress={onBackPress}
+                  style={tw`h-10 w-10 rounded-full items-center justify-center bg-navy-100`}
+                >
+                  <Icon name="ri-arrow-left-line" size={22} color="#fff" />
+                </TouchableOpacity>
+              )}
+              <View style={tw`flex-1`} />
 
               <View style={tw`gap-y-3 `}>
                 <Text style={tw`text-gray-300`}>{header.cta}</Text>
@@ -94,14 +99,14 @@ const Layout: React.FC<LayoutProps> = ({
             {!scrollable && (
               <View style={[containerClasses, tw`py-8`]}>
                 {children}
-                <TermsAndConditions></TermsAndConditions>
+                {termsAndConditions?.shown && <TermsAndConditions />}
               </View>
             )}
 
             {scrollable && (
               <ScrollView contentContainerStyle={[containerClasses, tw`py-8`]}>
                 {children}
-                <TermsAndConditions></TermsAndConditions>
+                {termsAndConditions?.shown && <TermsAndConditions />}
               </ScrollView>
             )}
           </SafeAreaView>

@@ -10,8 +10,59 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
+
+import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
+import Layout from "@/ui/Layout";
+import Button from "@/ui/Button";
+import TextInput from "@/ui/TextInput";
+import Hyperlink from "@/ui/Hyperlink";
+import useVerification from "@/hooks/useVerification";
+
 const Verification = () => {
-  return <></>;
+  const {
+    isLoading,
+    code,
+    setCode,
+    handleSubmission,
+    resendVerificationEmail,
+  } = useVerification();
+
+  return (
+    <Layout
+      scrollable
+      flexGap="18px"
+      header={{
+        hasBackButton: false,
+        title: "Verification",
+        subtitle: "You must have a verified email to continue.",
+      }}
+    >
+      <TextInput
+        placeholder="Verification Code"
+        value={code}
+        onChangeText={setCode}
+      />
+
+      <Button
+        loading={isLoading}
+        iconRight="ri-arrow-right-line"
+        onPress={handleSubmission}
+      >
+        Continue
+      </Button>
+
+      <View style={tw`flex-row justify-center`}>
+        <Text style={tw`text-slate-500 text-center`}>
+          Didn't receive a code?&nbsp;
+        </Text>
+        <Hyperlink color="dark" onPress={resendVerificationEmail}>
+          Resend
+        </Hyperlink>
+      </View>
+    </Layout>
+  );
 };
 
 export default Verification;

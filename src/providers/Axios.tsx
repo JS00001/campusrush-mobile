@@ -10,13 +10,13 @@
  * Do not distribute
  */
 
-import { useEffect } from "react";
-import Toast from "react-native-toast-message";
 import axios, {
   AxiosError,
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from "axios";
+import { useEffect } from "react";
+import Toast from "react-native-toast-message";
 
 import { useAuth } from "@/providers/Auth";
 import { BASE_URL } from "@/api/constants";

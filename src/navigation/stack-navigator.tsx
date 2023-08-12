@@ -92,6 +92,9 @@ export const VerificationStack = () => {
       <Stack.Screen
         name="Verification"
         component={VerificationScreen}
+        options={{
+          headerShown: false,
+        }}
       />
     </Stack.Navigator>
   );
