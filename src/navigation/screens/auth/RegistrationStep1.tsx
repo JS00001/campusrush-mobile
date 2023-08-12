@@ -15,10 +15,18 @@ import { useState } from "react";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
+import useOrganizationCreation from "@/hooks/useOrganizationCreation";
 
 const RegistrationStep1 = () => {
-  const [school, setSchool] = useState("");
-  const [organization, setOrganization] = useState("");
+  const {
+    isLoading,
+    schools,
+    organizations,
+    schoolName,
+    organizationName,
+    setOrganizationName,
+    setSchoolName,
+  } = useOrganizationCreation();
 
   return (
     <Layout
@@ -33,13 +41,13 @@ const RegistrationStep1 = () => {
     >
       <TextInput
         placeholder="School Name"
-        value={school}
-        onChangeText={setSchool}
+        value={schoolName}
+        onChangeText={setSchoolName}
       />
       <TextInput
         placeholder="Organization Name"
-        value={organization}
-        onChangeText={setOrganization}
+        value={organizationName}
+        onChangeText={setOrganizationName}
       />
       <Button iconRight="ri-arrow-right-line">Continue</Button>
     </Layout>

@@ -17,3 +17,36 @@ import { AUTH_VERSION_URL } from '@/api/constants';
 const authAPIClient = axios.create({
   baseURL: AUTH_VERSION_URL,
 });
+
+/**
+ * GET /auth/v1/organizations/list
+ *
+ * Returns
+ * - data
+ *  - organizations
+ *  - schools
+ */
+const getOrganizations = (): Promise<GetOrganizationsAPIResponse> => {
+  return authAPIClient.get('/organizations/list');
+};
+
+/**
+ * POST /auth/v1/login/as/organization
+ *
+ * Returns
+ * - data
+ *  - organization
+ *  - accessToken
+ *  - refreshToken
+ */
+const loginAsOrganization = (
+  data: LoginAsOrganizationInput,
+): Promise<LoginAsOrganizationAPIResponse> => {
+  return authAPIClient.post('/login/as/organization', data);
+};
+
+export default {
+  getOrganizations,
+
+  loginAsOrganization,
+};

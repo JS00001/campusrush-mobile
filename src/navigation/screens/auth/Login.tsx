@@ -10,17 +10,21 @@
  * Do not distribute
  */
 
-import { useState } from "react";
-
 import Layout from "@/ui/Layout";
-1;
-import TextInput from "@/ui/TextInput";
 import Button from "@/ui/Button";
-import { KeyboardAvoidingView } from "react-native";
+import TextInput from "@/ui/TextInput";
+
+import useLogin from "@/hooks/useLogin";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    isLoading,
+    email,
+    password,
+    setEmail,
+    setPassword,
+    handleSubmission,
+  } = useLogin();
 
   return (
     <Layout
@@ -34,12 +38,14 @@ const Login = () => {
     >
       <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
       <TextInput
+        secureTextEntry
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
       />
-      <Button iconRight="ri-arrow-right-line">Continue</Button>
+      <Button iconRight="ri-arrow-right-line" onPress={handleSubmission}>
+        Continue
+      </Button>
     </Layout>
   );
 };

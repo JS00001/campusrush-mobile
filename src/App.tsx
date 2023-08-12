@@ -16,9 +16,11 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { startNetworkLogging } from "react-native-network-logger";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import queryClient from "@/lib/queryClient";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/NavigationProvider";
-import DevEnvironmentProvider from "./providers/DevEnvironmentProvider";
+import DevEnvironmentProvider from "@/providers/DevEnvironmentProvider";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -26,15 +28,17 @@ if (__DEV__) startNetworkLogging();
 
 const App = () => {
   return (
-    <NavigationProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <BottomSheetModalProvider>
-          <DevEnvironmentProvider>
-            <RootNavigator />
-          </DevEnvironmentProvider>
-        </BottomSheetModalProvider>
-      </GestureHandlerRootView>
-    </NavigationProvider>
+    <QueryClientProvider client={queryClient}>
+      <NavigationProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <BottomSheetModalProvider>
+            <DevEnvironmentProvider>
+              <RootNavigator />
+            </DevEnvironmentProvider>
+          </BottomSheetModalProvider>
+        </GestureHandlerRootView>
+      </NavigationProvider>
+    </QueryClientProvider>
   );
 };
 
