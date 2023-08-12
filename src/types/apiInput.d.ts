@@ -14,3 +14,42 @@ interface LoginAsOrganizationInput {
   email: string;
   password: string;
 }
+
+interface RegisterAsOrganizationInput {
+  name: string;
+  school: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
+interface CheckOrganizationExistsInput {
+  school: string;
+  organization: string;
+}
+
+interface CheckEmailExistsInput {
+  email: string;
+}
+
+interface VerifyOrganizationInput {
+  accessToken: string;
+  code: string;
+}
+
+interface ResendVerificationInput {
+  accessToken: string;
+}
+
+interface GetOrganizationInput {
+  accessToken: string;
+}
+
+interface RefreshAccessTokenInput {
+  refreshToken?: string;
+}
+
+interface LogoutInput {
+  accessToken: string;
+}

@@ -12,15 +12,16 @@
 
 import { registerRootComponent } from "expo";
 import * as ExpoSplashScreen from "expo-splash-screen";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { startNetworkLogging } from "react-native-network-logger";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import queryClient from "@/lib/queryClient";
+import AuthProvider from "@/providers/Auth";
 import RootNavigator from "@/navigation/root-navigator";
-import NavigationProvider from "@/providers/NavigationProvider";
-import DevEnvironmentProvider from "@/providers/DevEnvironmentProvider";
-import { QueryClientProvider } from "@tanstack/react-query";
+import NavigationProvider from "@/providers/Navigation";
+import DevEnvironmentProvider from "@/providers/DevEnvironment";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -29,15 +30,17 @@ if (__DEV__) startNetworkLogging();
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <NavigationProvider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <BottomSheetModalProvider>
-            <DevEnvironmentProvider>
-              <RootNavigator />
-            </DevEnvironmentProvider>
-          </BottomSheetModalProvider>
-        </GestureHandlerRootView>
-      </NavigationProvider>
+      <AuthProvider>
+        <NavigationProvider>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <BottomSheetModalProvider>
+              <DevEnvironmentProvider>
+                <RootNavigator />
+              </DevEnvironmentProvider>
+            </BottomSheetModalProvider>
+          </GestureHandlerRootView>
+        </NavigationProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 };

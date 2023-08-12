@@ -27,6 +27,8 @@ interface APIError {
   };
 }
 
+type LogoutAPIResponse = APIResponse;
+
 type GetOrganizationsAPIResponse = APIResponse & {
   data: {
     data: {
@@ -42,6 +44,64 @@ type LoginAsOrganizationAPIResponse = APIResponse & {
       organization: Organization;
       accessToken: string;
       refreshToken: string;
+    };
+  };
+};
+
+type RegisterAsOrganizationAPIResponse = APIResponse & {
+  data: {
+    data: {
+      organization: Organization;
+      accessToken: string;
+      refreshToken: string;
+    };
+  };
+};
+
+type GetOrganizationAPIResponse = APIResponse & {
+  data: {
+    data: {
+      organization: Organization;
+    };
+  };
+};
+
+type CheckOrganizationExistsAPIResponse = APIResponse & {
+  data: {
+    data: {
+      exists: boolean;
+    };
+  };
+};
+
+type CheckEmailExistsAPIResponse = APIResponse & {
+  data: {
+    data: {
+      exists: boolean;
+    };
+  };
+};
+
+type VerifyOrganizationAPIResponse = APIResponse & {
+  data: {
+    data: {
+      organization: Organization;
+    };
+  };
+};
+
+type ResendVerificationAPIResponse = APIResponse & {
+  data: {
+    data: {
+      message: string;
+    };
+  };
+};
+
+type RefreshAccessTokenAPIResponse = APIResponse & {
+  data: {
+    data: {
+      accessToken: string;
     };
   };
 };

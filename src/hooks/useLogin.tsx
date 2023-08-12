@@ -11,35 +11,24 @@
  */
 
 import { useFormik } from "formik";
-import { useMutation } from "@tanstack/react-query";
 
-import authAPI from "@/api/auth";
+import { useAuth } from "@/providers/Auth";
 
-const useOrganizationCreation = () => {
-  const mutation = useMutation({
-    mutationFn: (values: LoginAsOrganizationInput) => {
-      return authAPI.loginAsOrganization(values);
-    },
-  });
+const useLogin = () => {
+  const { signIn } = useAuth();
 
   const form = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
-    onSubmit: (values) => {
-      mutation.mutate(values, {
-        onSuccess: ({ data }) => {
-          const accessToken = data?.data.accessToken;
-          const refreshToken = data?.data.refreshToken;
-        },
-        onError: () => {},
-      });
+    onSubmit: async (values: LoginAsOrganizationInput) => {
+      await signIn(values);
     },
   });
 
   return {
-    ...mutation,
+    isLoading: form.isSubmitting,
     email: form.values.email,
     password: form.values.password,
     handleSubmission: () => form.handleSubmit(),
@@ -48,4 +37,4 @@ const useOrganizationCreation = () => {
   };
 };
 
-export default useOrganizationCreation;
+export default useLogin;

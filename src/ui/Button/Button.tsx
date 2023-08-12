@@ -11,7 +11,12 @@
  */
 
 import Icon from "react-native-remix-icon";
-import { TouchableOpacityProps, TouchableOpacity, View } from "react-native";
+import {
+  TouchableOpacityProps,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
+} from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -112,6 +117,7 @@ const Button: React.FC<ButtonProps> = ({
     !disabled && colorClasses[color].text.default, // Set the default color if the button is not disabled
     disabled && colorClasses[color].text.disabled, // Set the disabled color if the button is disabled
     sizeClasses[size].text,
+    loading && "opacity-0", // Hide the text if the button is loading
   );
 
   // The icon color is applied to the Icon component
@@ -136,6 +142,13 @@ const Button: React.FC<ButtonProps> = ({
     >
       {iconLeft && <Icon name={iconLeft} />}
       <Text style={textClasses}>{children}</Text>
+      {loading && (
+        <ActivityIndicator
+          style={tw`absolute inset-0`}
+          color={iconColor}
+          size={iconSize}
+        />
+      )}
       {iconRight && <Icon name={iconRight} color={iconColor} size={iconSize} />}
     </TouchableOpacity>
   );

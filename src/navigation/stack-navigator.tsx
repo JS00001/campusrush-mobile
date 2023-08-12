@@ -12,6 +12,8 @@
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import AddScreen from "@/navigation/screens/add/Add";
+
 import PNMsScreen from "@/navigation/screens/pnms/PNMs";
 
 import HomeScreen from "@/navigation/screens/home/Home";
@@ -34,6 +36,7 @@ import LandingScreen from "@/navigation/screens/auth/Landing";
 import RegistrationStep1Screen from "@/navigation/screens/auth/RegistrationStep1";
 import RegistrationStep2Screen from "@/navigation/screens/auth/RegistrationStep2";
 import RegistrationStep3Screen from "@/navigation/screens/auth/RegistrationStep3";
+import RegistrationProvider from "@/providers/Registration";
 
 export const Stack = createNativeStackNavigator();
 
@@ -45,32 +48,34 @@ export const Stack = createNativeStackNavigator();
  */
 export const AuthStack = () => {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen
-        name="Landing"
-        component={LandingScreen}
-      />
-      <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-      />
-      <Stack.Screen
-        name="RegistrationStep1"
-        component={RegistrationStep1Screen}
-      />
-      <Stack.Screen
-        name="RegistrationStep2"
-        component={RegistrationStep2Screen}
-      />
-      <Stack.Screen
-        name="RegistrationStep3"
-        component={RegistrationStep3Screen}
-      />
-    </Stack.Navigator>
+    <RegistrationProvider>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen
+          name="Landing"
+          component={LandingScreen}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+        />
+        <Stack.Screen
+          name="RegistrationStep1"
+          component={RegistrationStep1Screen}
+        />
+        <Stack.Screen
+          name="RegistrationStep2"
+          component={RegistrationStep2Screen}
+        />
+        <Stack.Screen
+          name="RegistrationStep3"
+          component={RegistrationStep3Screen}
+        />
+      </Stack.Navigator>
+    </RegistrationProvider>
   );
 };
 
@@ -140,6 +145,23 @@ export const PNMsStack = () => {
       <Stack.Screen
         name="PNMs"
         component={PNMsScreen}
+      />
+    </Stack.Navigator>
+  );
+};
+
+/**
+ * Stack Navigator App Add Screen
+ *
+ * This is the main stack navigator for the app
+ * when the user is on the "Add" tab
+ */
+export const AddStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Add"
+        component={AddScreen}
       />
     </Stack.Navigator>
   );

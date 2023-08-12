@@ -43,7 +43,11 @@ const Login = () => {
         value={password}
         onChangeText={setPassword}
       />
-      <Button iconRight="ri-arrow-right-line" onPress={handleSubmission}>
+      <Button
+        loading={isLoading}
+        iconRight="ri-arrow-right-line"
+        onPress={handleSubmission}
+      >
         Continue
       </Button>
     </Layout>

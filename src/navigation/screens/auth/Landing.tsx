@@ -43,7 +43,7 @@ const Landing: React.FC<LandingProps> = ({ navigation }) => {
         <View style={tw`items-center gap-y-10 justify-center h-2/3`}>
           <Logo64Svg />
           <Typewriter
-            delay={25}
+            delay={20}
             variant="header"
             style={tw`text-white text-center`}
             text="Elevate Recruitment With CampusRush"
