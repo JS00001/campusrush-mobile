@@ -1,12 +1,21 @@
 {
   "tabWidth": 2,
   "printWidth": 80,
-  "singleAttributePerLine": true,
   "overrides": [
     {
       "files": ["*.ts", "*.js"],
       "options": {
         "singleQuote": true
+      }
+    },
+    {
+      "files": [
+        "src/navigation/root-navigator.tsx",
+        "src/navigation/stack-navigator.tsx",
+        "src/navigation/tab-navigator.tsx"
+      ],
+      "options": {
+        "singleAttributePerLine": true
       }
     }
   ]

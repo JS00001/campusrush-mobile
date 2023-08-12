@@ -29,6 +29,14 @@
         "projectId": "9e0d874e-cc30-4dca-ae7e-9609b121b1ae"
       }
     },
-    "owner": "js00001"
+    "owner": "js00001",
+    "plugins": [
+      [
+        "expo-sensors",
+        {
+          "motionPermission": "Allow $(PRODUCT_NAME) to access your device motion."
+        }
+      ]
+    ]
   }
 }

@@ -16,11 +16,7 @@ interface Logo128SvgProps {}
 
 const Logo128Svg: React.FC<Logo128SvgProps> = () => {
   return (
-    <Svg
-      width={214}
-      height={128}
-      fill="none"
-    >
+    <Svg width={214} height={128} fill="none">
       <Path
         fill="url(#a)"
         d="m207.444 29.734-92.98-28.567a26.627 26.627 0 0 0-15.596 0L5.885 29.734c-7.847 2.41-7.847 12.787 0 15.197l16.21 4.98 11.58 3.56 14.99 4.605 50.2 15.424c3.019.927 8.813 2.084 15.596 0l25.018-7.686 25.018-7.686 42.947-13.194c7.85-2.413 7.85-12.787 0-15.2Z"
@@ -45,11 +41,7 @@ const Logo128Svg: React.FC<Logo128SvgProps> = () => {
           gradientUnits="userSpaceOnUse"
         >
           <Stop stopColor="#fff" />
-          <Stop
-            offset={1}
-            stopColor="#fff"
-            stopOpacity={0.9}
-          />
+          <Stop offset={1} stopColor="#fff" stopOpacity={0.9} />
         </LinearGradient>
       </Defs>
     </Svg>

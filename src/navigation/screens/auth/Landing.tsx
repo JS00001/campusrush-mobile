@@ -11,16 +11,30 @@
  */
 
 import { View } from "react-native";
-import Button from "@/ui/Button";
-import tw from "@/lib/tailwind";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import Layout from "@/ui/Layout";
-import LandingSvg from "@/assets/LandingSvg";
-import Logo64Svg from "@/assets/Logo64Svg";
 import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
+import Layout from "@/ui/Layout";
+import Button from "@/ui/Button";
+import Logo64Svg from "@/assets/Logo64Svg";
+import LandingSvg from "@/assets/LandingSvg";
 import TermsAndConditions from "@/components/TermsAndConditions";
+import Typewriter from "@/ui/Typewriter";
 
-const Landing = () => {
+interface LandingProps {
+  navigation: NativeStackNavigationProp<any>;
+}
+
+const Landing: React.FC<LandingProps> = ({ navigation }) => {
+  const handleCreateAccount = () => {
+    navigation.navigate("RegistrationStep1");
+  };
+
+  const handleLogBackIn = () => {
+    navigation.navigate("Login");
+  };
+
   return (
     <>
       <LandingSvg />
@@ -28,17 +42,21 @@ const Landing = () => {
       <Layout style={tw`justify-between`}>
         <View style={tw`items-center gap-y-10 justify-center h-2/3`}>
           <Logo64Svg />
-          <Text
+          <Typewriter
+            delay={25}
             variant="header"
             style={tw`text-white text-center`}
-          >
-            Elevate Recruitment With CampusRush
-          </Text>
+            text="Elevate Recruitment With CampusRush"
+          />
         </View>
 
         <View style={tw`w-full`}>
-          <Button color="light">Create Account</Button>
-          <Button style={tw`bg-transparent`}>Log Back In</Button>
+          <Button color="light" onPress={handleCreateAccount}>
+            Create Account
+          </Button>
+          <Button style={tw`bg-transparent`} onPress={handleLogBackIn}>
+            Log Back In
+          </Button>
           <TermsAndConditions color="light" />
         </View>
       </Layout>

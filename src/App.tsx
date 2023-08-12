@@ -18,6 +18,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/NavigationProvider";
+import DevEnvironmentProvider from "./providers/DevEnvironmentProvider";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -28,7 +29,9 @@ const App = () => {
     <NavigationProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <BottomSheetModalProvider>
-          <RootNavigator />
+          <DevEnvironmentProvider>
+            <RootNavigator />
+          </DevEnvironmentProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </NavigationProvider>

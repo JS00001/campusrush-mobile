@@ -136,13 +136,7 @@ const Button: React.FC<ButtonProps> = ({
     >
       {iconLeft && <Icon name={iconLeft} />}
       <Text style={textClasses}>{children}</Text>
-      {iconRight && (
-        <Icon
-          name={iconRight}
-          color={iconColor}
-          size={iconSize}
-        />
-      )}
+      {iconRight && <Icon name={iconRight} color={iconColor} size={iconSize} />}
     </TouchableOpacity>
   );
 };

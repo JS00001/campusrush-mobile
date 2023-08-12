@@ -16,11 +16,7 @@ interface Logo32SvgProps {}
 
 const Logo32Svg: React.FC<Logo32SvgProps> = () => {
   return (
-    <Svg
-      width={54}
-      height={32}
-      fill="none"
-    >
+    <Svg width={54} height={32} fill="none">
       <Path
         fill="url(#a)"
         d="M51.86 7.433 28.617.292a6.657 6.657 0 0 0-3.9 0L1.472 7.433c-1.961.603-1.961 3.197 0 3.8l4.053 1.245 2.895.89 3.747 1.151 12.55 3.856c.755.232 2.203.52 3.9 0l6.254-1.922 6.254-1.921 10.737-3.299c1.962-.603 1.962-3.196 0-3.8Z"
@@ -45,11 +41,7 @@ const Logo32Svg: React.FC<Logo32SvgProps> = () => {
           gradientUnits="userSpaceOnUse"
         >
           <Stop stopColor="#fff" />
-          <Stop
-            offset={1}
-            stopColor="#fff"
-            stopOpacity={0.9}
-          />
+          <Stop offset={1} stopColor="#fff" stopOpacity={0.9} />
         </LinearGradient>
       </Defs>
     </Svg>

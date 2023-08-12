@@ -16,11 +16,7 @@ interface Logo64SvgProps {}
 
 const Logo64Svg: React.FC<Logo64SvgProps> = () => {
   return (
-    <Svg
-      width={107}
-      height={64}
-      fill="none"
-    >
+    <Svg width={107} height={64} fill="none">
       <Path
         fill="url(#a)"
         d="M103.722 14.867 57.232.584a13.314 13.314 0 0 0-7.798 0L2.942 14.867c-3.923 1.205-3.923 6.393 0 7.598l8.105 2.49 5.79 1.78 7.495 2.303 25.1 7.712a13.33 13.33 0 0 0 7.798 0l12.51-3.843 12.509-3.843 21.473-6.597c3.925-1.207 3.925-6.393 0-7.6Z"
@@ -45,11 +41,7 @@ const Logo64Svg: React.FC<Logo64SvgProps> = () => {
           gradientUnits="userSpaceOnUse"
         >
           <Stop stopColor="#fff" />
-          <Stop
-            offset={1}
-            stopColor="#fff"
-            stopOpacity={0.9}
-          />
+          <Stop offset={1} stopColor="#fff" stopOpacity={0.9} />
         </LinearGradient>
       </Defs>
     </Svg>

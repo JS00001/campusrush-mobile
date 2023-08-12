@@ -10,8 +10,40 @@
  * Do not distribute
  */
 
+import { useState } from "react";
+
+import Layout from "@/ui/Layout";
+import Button from "@/ui/Button";
+import TextInput from "@/ui/TextInput";
+
 const RegistrationStep1 = () => {
-  return <></>;
+  const [school, setSchool] = useState("");
+  const [organization, setOrganization] = useState("");
+
+  return (
+    <Layout
+      scrollable
+      flexGap="18px"
+      header={{
+        hasBackButton: true,
+        cta: "Step 1/5",
+        title: "Register",
+        subtitle: "Please provide your organizations information",
+      }}
+    >
+      <TextInput
+        placeholder="School Name"
+        value={school}
+        onChangeText={setSchool}
+      />
+      <TextInput
+        placeholder="Organization Name"
+        value={organization}
+        onChangeText={setOrganization}
+      />
+      <Button iconRight="ri-arrow-right-line">Continue</Button>
+    </Layout>
+  );
 };
 
 export default RegistrationStep1;

@@ -31,7 +31,7 @@ interface TextProps {
   style?: any;
 }
 
-const variantClasses = {
+export const variantClasses = {
   header: tw.style("text-[32px] font-DMSans_Bold"),
   title: tw.style("text-lg font-medium"),
   body: tw.style("text-base font-normal"),
@@ -48,10 +48,7 @@ const Text: React.FC<TextProps> = ({
   const textStyle = tw.style(variantClasses[variant], style);
 
   return (
-    <TextWithNoFontScaling
-      style={textStyle}
-      {...props}
-    >
+    <TextWithNoFontScaling style={textStyle} {...props}>
       {children}
     </TextWithNoFontScaling>
   );

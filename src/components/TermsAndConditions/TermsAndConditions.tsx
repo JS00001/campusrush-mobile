@@ -21,7 +21,7 @@ interface TermsAndConditionsProps {
 
 const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ color }) => {
   return (
-    <>
+    <View>
       <Text style={tw`text-slate-500 mt-8 text-center`}>
         By continuing, you acknowledge and agree to our
       </Text>
@@ -30,7 +30,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ color }) => {
         <Text style={tw`text-slate-500 text-center`}>&nbsp;and&nbsp;</Text>
         <Hyperlink color={color}>Privacy Policy</Hyperlink>
       </View>
-    </>
+    </View>
   );
 };
 
