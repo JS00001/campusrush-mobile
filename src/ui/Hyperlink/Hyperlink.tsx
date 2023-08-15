@@ -17,7 +17,6 @@ import tw from "@/lib/tailwind";
 
 interface HyperlinkProps extends TouchableOpacityProps {
   color?: keyof typeof colorClasses;
-  onPress?: () => void;
   children: React.ReactNode;
 }
 
@@ -28,7 +27,6 @@ const colorClasses = {
 
 const Hyperlink: React.FC<HyperlinkProps> = ({
   color = "dark",
-  onPress,
   children,
   ...props
 }) => {

@@ -10,83 +10,94 @@
  * Do not distribute
  */
 
-import { createContext, useReducer, useContext } from "react";
+import { useFormik } from "formik";
+import { createContext, useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+
+import authAPI from "@/api/auth";
+import { useAuth } from "@/providers/Auth";
 
 interface RegistrationState {
   schoolName: string;
   organizationName: string;
   email: string;
+  password: string;
+  confirmPassword: string;
   firstName: string;
   lastName: string;
-  password: string;
 }
 
-const initialState: RegistrationState = {
-  schoolName: "",
-  organizationName: "",
-  email: "",
-  firstName: "",
-  lastName: "",
-  password: "",
-};
+interface RegistrationContext extends RegistrationState {
+  isLoading: boolean;
+  schools?: String[];
+  organizations?: String[];
 
-const RegistrationContext = createContext<RegistrationState>(initialState);
+  handleSubmission: () => void;
+  setSchoolName: (schoolName: string) => void;
+  setOrganizationName: (organizationName: string) => void;
+  setEmail: (email: string) => void;
+  setPassword: (password: string) => void;
+  setConfirmPassword: (confirmPassword: string) => void;
+  setFirstName: (firstName: string) => void;
+  setLastName: (lastName: string) => void;
+}
 
-type RegistrationAction =
-  | { type: "schoolName"; payload: string }
-  | { type: "organizationName"; payload: string }
-  | { type: "email"; payload: string }
-  | { type: "firstName"; payload: string }
-  | { type: "lastName"; payload: string }
-  | { type: "password"; payload: string };
-
-const registrationReducer = (
-  state: RegistrationState,
-  action: RegistrationAction,
-) => {
-  switch (action.type) {
-    case "schoolName":
-      return { ...state, schoolName: action.payload };
-    case "organizationName":
-      return { ...state, organizationName: action.payload };
-    case "email":
-      return { ...state, email: action.payload };
-    case "firstName":
-      return { ...state, firstName: action.payload };
-    case "lastName":
-      return { ...state, lastName: action.payload };
-    case "password":
-      return { ...state, password: action.payload };
-    default:
-      return state;
-  }
-};
+const RegistrationContext = createContext<RegistrationContext>({} as any);
 
 const RegistrationProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
-  const [state, dispatch] = useReducer(registrationReducer, initialState);
+  const { signUp, isLoading } = useAuth();
 
-  const setSchoolName = (schoolName: string) =>
-    dispatch({ type: "schoolName", payload: schoolName });
+  const query = useQuery({
+    queryKey: ["getOrganizations"],
+    queryFn: () => {
+      return authAPI.getOrganizations();
+    },
+  });
 
-  const setOrganizationName = (organizationName: string) =>
-    dispatch({ type: "organizationName", payload: organizationName });
+  const form = useFormik({
+    initialValues: {
+      schoolName: "",
+      organizationName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      firstName: "",
+      lastName: "",
+    },
+    onSubmit: async (values) => {
+      // Map values to input
+      const input: RegisterAsOrganizationInput = {
+        name: values.organizationName,
+        email: values.email,
+        password: values.password,
+        school: values.schoolName,
+        firstName: values.firstName,
+        lastName: values.lastName,
+      };
 
-  const setEmail = (email: string) =>
-    dispatch({ type: "email", payload: email });
-
-  const setFirstName = (firstName: string) =>
-    dispatch({ type: "firstName", payload: firstName });
-
-  const setLastName = (lastName: string) =>
-    dispatch({ type: "lastName", payload: lastName });
-
-  const setPassword = (password: string) =>
-    dispatch({ type: "password", payload: password });
+      await signUp(input);
+    },
+  });
 
   return (
-    <RegistrationContext.Provider value={state}>
+    <RegistrationContext.Provider
+      value={{
+        ...form.values,
+        handleSubmission: () => form.handleSubmit(),
+        isLoading: form.isSubmitting || isLoading || query.isLoading,
+        schools: query?.data?.data?.data.schools,
+        organizations: query?.data?.data?.data.organizations,
+        setSchoolName: form.setFieldValue.bind(null, "schoolName"),
+        setOrganizationName: form.setFieldValue.bind(null, "organizationName"),
+        setEmail: form.setFieldValue.bind(null, "email"),
+        setPassword: form.setFieldValue.bind(null, "password"),
+        setConfirmPassword: form.setFieldValue.bind(null, "confirmPassword"),
+        setFirstName: form.setFieldValue.bind(null, "firstName"),
+        setLastName: form.setFieldValue.bind(null, "lastName"),
+      }}
+    >
       {children}
     </RegistrationContext.Provider>
   );

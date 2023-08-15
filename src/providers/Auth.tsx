@@ -85,7 +85,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
 
   const verifyOrganizationMutation = useMutation({
     mutationFn: (input: VerifyOrganizationInput) => {
-      return authAPI.verifyOrganization(input);
+      return authAPI.verifyOrganization({ ...input, accessToken });
     },
   });
 

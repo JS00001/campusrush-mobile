@@ -104,7 +104,10 @@ const Layout: React.FC<LayoutProps> = ({
             )}
 
             {scrollable && (
-              <ScrollView contentContainerStyle={[containerClasses, tw`py-8`]}>
+              <ScrollView
+                keyboardShouldPersistTaps="handled"
+                contentContainerStyle={[containerClasses, tw`py-8`]}
+              >
                 {children}
                 {termsAndConditions?.shown && <TermsAndConditions />}
               </ScrollView>
@@ -118,7 +121,10 @@ const Layout: React.FC<LayoutProps> = ({
     <SafeAreaView style={tw`z-10`}>
       {!scrollable && <View style={containerClasses}>{children}</View>}
       {scrollable && (
-        <ScrollView contentContainerStyle={containerClasses}>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={containerClasses}
+        >
           {children}
         </ScrollView>
       )}

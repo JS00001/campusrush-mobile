@@ -62,11 +62,14 @@ const TextInput: React.FC<TextInputProps> = ({
     // Input Sizing
     "border p-5 rounded-md z-10 text-lg leading-5",
     // Input Styling
-    "border-slate-400 bg-transparent",
+    " bg-transparent",
+    // Error Styling
+    error ? "border-red-500" : "border-slate-400",
     inputStyle,
   );
   const labelClasses = tw.style(
-    "absolute left-3 -z-10 text-slate-500 bg-white px-1",
+    "absolute left-3 -z-10 bg-white px-1",
+    error ? "text-red-500" : "text-slate-500",
   );
 
   // Animate between placeholder and label state
@@ -111,7 +114,7 @@ const TextInput: React.FC<TextInputProps> = ({
       <Animated.Text
         style={[labelClasses, { top: placeholderY, fontSize: placeholderSize }]}
       >
-        {placeholder}
+        {error ?? placeholder}
       </Animated.Text>
     </Pressable>
   );

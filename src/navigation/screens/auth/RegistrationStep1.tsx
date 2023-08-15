@@ -15,9 +15,14 @@ import { useState } from "react";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
-import useOrganizationCreation from "@/hooks/useOrganizationCreation";
+import { useRegistration } from "@/providers/Registration";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-const RegistrationStep1 = () => {
+interface RegistrationProps {
+  navigation: NativeStackNavigationProp<any>;
+}
+
+const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
   const {
     isLoading,
     schools,
@@ -26,7 +31,11 @@ const RegistrationStep1 = () => {
     organizationName,
     setOrganizationName,
     setSchoolName,
-  } = useOrganizationCreation();
+  } = useRegistration();
+
+  const onContinue = () => {
+    navigation.navigate("RegistrationStep2");
+  };
 
   return (
     <Layout
@@ -52,7 +61,9 @@ const RegistrationStep1 = () => {
         value={organizationName}
         onChangeText={setOrganizationName}
       />
-      <Button iconRight="ri-arrow-right-line">Continue</Button>
+      <Button iconRight="ri-arrow-right-line" onPress={onContinue}>
+        Continue
+      </Button>
     </Layout>
   );
 };

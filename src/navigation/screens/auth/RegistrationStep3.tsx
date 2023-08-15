@@ -10,8 +10,64 @@
  * Do not distribute
  */
 
-const RegistrationStep3 = () => {
-  return <></>;
+import { useState } from "react";
+
+import Layout from "@/ui/Layout";
+import Button from "@/ui/Button";
+import TextInput from "@/ui/TextInput";
+import { useRegistration } from "@/providers/Registration";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+interface RegistrationProps {
+  navigation: NativeStackNavigationProp<any>;
+}
+
+const RegistrationStep3: React.FC<RegistrationProps> = ({ navigation }) => {
+  const {
+    handleSubmission,
+    isLoading,
+    password,
+    confirmPassword,
+    setPassword,
+    setConfirmPassword,
+  } = useRegistration();
+
+  const onComplete = () => {
+    handleSubmission();
+  };
+
+  return (
+    <Layout
+      scrollable
+      flexGap="18px"
+      header={{
+        hasBackButton: true,
+        cta: "Step 3/3",
+        title: "Register",
+        subtitle: "Choose a secure password",
+      }}
+      termsAndConditions={{
+        shown: true,
+      }}
+    >
+      <TextInput
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+      <TextInput
+        placeholder="Confirm Password"
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        secureTextEntry
+      />
+
+      <Button iconRight="ri-arrow-right-line" onPress={onComplete}>
+        Complete Registration
+      </Button>
+    </Layout>
+  );
 };
 
 export default RegistrationStep3;

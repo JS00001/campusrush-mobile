@@ -13,14 +13,13 @@
 import { View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
+import Typewriter from "@/ui/Typewriter";
 import Logo64Svg from "@/assets/Logo64Svg";
 import LandingSvg from "@/assets/LandingSvg";
 import TermsAndConditions from "@/components/TermsAndConditions";
-import Typewriter from "@/ui/Typewriter";
 
 interface LandingProps {
   navigation: NativeStackNavigationProp<any>;
@@ -57,6 +56,14 @@ const Landing: React.FC<LandingProps> = ({ navigation }) => {
           <Button style={tw`bg-transparent`} onPress={handleLogBackIn}>
             Log Back In
           </Button>
+          {__DEV__ && (
+            <Button
+              style={tw`bg-transparent`}
+              onPress={() => navigation.navigate("UITesting")}
+            >
+              UI Testing
+            </Button>
+          )}
           <TermsAndConditions color="light" />
         </View>
       </Layout>

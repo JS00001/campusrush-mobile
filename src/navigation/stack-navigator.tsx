@@ -33,9 +33,11 @@ import UpdateSecurityScreen from "@/navigation/screens/settings/organization/Upd
 
 import LoginScreen from "@/navigation/screens/auth/Login";
 import LandingScreen from "@/navigation/screens/auth/Landing";
+import UITestingScreen from "@/navigation/screens/auth/UITesting";
 import RegistrationStep1Screen from "@/navigation/screens/auth/RegistrationStep1";
 import RegistrationStep2Screen from "@/navigation/screens/auth/RegistrationStep2";
 import RegistrationStep3Screen from "@/navigation/screens/auth/RegistrationStep3";
+
 import RegistrationProvider from "@/providers/Registration";
 
 export const Stack = createNativeStackNavigator();
@@ -74,6 +76,12 @@ export const AuthStack = () => {
           name="RegistrationStep3"
           component={RegistrationStep3Screen}
         />
+        {__DEV__ && (
+          <Stack.Screen
+            name="UITesting"
+            component={UITestingScreen}
+          />
+        )}
       </Stack.Navigator>
     </RegistrationProvider>
   );

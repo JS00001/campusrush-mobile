@@ -31,7 +31,7 @@ const useVerification = () => {
     code: form.values.code,
     setCode: form.setFieldValue.bind(null, "code"),
     handleSubmission: () => form.handleSubmit(),
-    resendVerificationEmail,
+    resendVerificationEmail: () => resendVerificationEmail(),
   };
 };
 
