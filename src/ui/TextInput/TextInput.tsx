@@ -39,6 +39,8 @@ interface TextInputProps extends RNTextInputProps {
   containerStyle?: any;
   inputStyle?: any;
   error?: string;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -47,6 +49,8 @@ const TextInput: React.FC<TextInputProps> = ({
   inputStyle,
   containerStyle,
   error,
+  onFocus,
+  onBlur,
   ...props
 }) => {
   // Create a ref so we can focus the input from the container
@@ -103,10 +107,12 @@ const TextInput: React.FC<TextInputProps> = ({
         onFocus={() => {
           setIsFocused(true);
           animatePlaceholder(-8, 14);
+          onFocus?.();
         }}
         onBlur={() => {
           setIsFocused(false);
           if (!props?.value) animatePlaceholder(20, 18);
+          onBlur?.();
         }}
         {...props}
       />
