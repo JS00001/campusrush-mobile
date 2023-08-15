@@ -17,6 +17,7 @@ import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import { useRegistration } from "@/providers/Registration";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import Autocomplete from "@/ui/Autocomplete";
 
 interface RegistrationProps {
   navigation: NativeStackNavigationProp<any>;
@@ -51,16 +52,20 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
         shown: true,
       }}
     >
-      <TextInput
+      <Autocomplete
         placeholder="School Name"
+        options={schools || []}
         value={schoolName}
         onChangeText={setSchoolName}
       />
-      <TextInput
+
+      <Autocomplete
         placeholder="Organization Name"
+        options={organizations || []}
         value={organizationName}
         onChangeText={setOrganizationName}
       />
+
       <Button iconRight="ri-arrow-right-line" onPress={onContinue}>
         Continue
       </Button>

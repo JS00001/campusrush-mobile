@@ -29,8 +29,8 @@ interface RegistrationState {
 
 interface RegistrationContext extends RegistrationState {
   isLoading: boolean;
-  schools?: String[];
-  organizations?: String[];
+  schools?: string[];
+  organizations?: string[];
 
   handleSubmission: () => void;
   setSchoolName: (schoolName: string) => void;

@@ -20,6 +20,7 @@ const UITesting: React.FC<UITestingProps> = () => {
   const form = useFormik({
     initialValues: {
       organization: "",
+      school: "",
     },
     onSubmit: (values) => {},
   });
@@ -55,6 +56,13 @@ const UITesting: React.FC<UITestingProps> = () => {
         options={organizations}
         value={form.values.organization}
         onChangeText={(text) => form.setFieldValue("organization", text)}
+      ></Autocomplete>
+
+      <Autocomplete
+        placeholder="School"
+        options={schools}
+        value={form.values.school}
+        onChangeText={(text) => form.setFieldValue("school", text)}
       ></Autocomplete>
     </Layout>
   );

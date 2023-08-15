@@ -32,8 +32,8 @@ type LogoutAPIResponse = APIResponse;
 type GetOrganizationsAPIResponse = APIResponse & {
   data: {
     data: {
-      organizations: String[];
-      schools: String[];
+      organizations: string[];
+      schools: string[];
     };
   };
 };

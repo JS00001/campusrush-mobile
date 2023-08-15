@@ -16,7 +16,7 @@ import {
   TouchableOpacity,
   TextInputProps as RNTextInputProps,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -26,6 +26,7 @@ interface AutocompleteProps extends RNTextInputProps {
   placeholder: string;
   options: string[];
   value?: string;
+  error?: string;
   onChangeText?: (value: string) => void;
 }
 
@@ -33,6 +34,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   placeholder,
   options,
   value,
+  error,
   onChangeText,
   ...props
 }) => {
@@ -78,11 +80,11 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   // Styling
   const dropdownViewClasses = tw.style(
     // Positioning and size
-    `absolute top-18 rounded-md border w-full max-h-48 py-2`,
+    `absolute top-18 rounded-md border w-full max-h-48 py-2 z-30`,
     // Styling
     `bg-white border-slate-400`,
     // Whether to show the dropdown or not
-    focused ? "visible" : "hidden",
+    !focused && "hidden",
   );
 
   return (
@@ -94,6 +96,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         onChangeText={filterOptions}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        error={error}
       />
 
       <ScrollView

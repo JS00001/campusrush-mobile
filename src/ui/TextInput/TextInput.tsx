@@ -11,15 +11,13 @@
  */
 
 import {
-  View,
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
   Pressable,
   Animated,
 } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface TextInputWithDefaultProps extends RNTextInput {
@@ -60,7 +58,7 @@ const TextInput: React.FC<TextInputProps> = ({
   const placeholderY = useRef(new Animated.Value(20)).current;
   const placeholderSize = useRef(new Animated.Value(18)).current;
 
-  const containerClasses = tw.style("relative w-full", containerStyle);
+  const containerClasses = tw.style("relative w-full -z-10", containerStyle);
 
   const inputClasses = tw.style(
     // Input Sizing
