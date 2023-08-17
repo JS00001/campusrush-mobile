@@ -11,10 +11,10 @@
  */
 
 import {
+  Animated,
+  Pressable,
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
-  Pressable,
-  Animated,
 } from "react-native";
 import { useRef, useState } from "react";
 
@@ -51,37 +51,26 @@ const TextInput: React.FC<TextInputProps> = ({
   onBlur,
   ...props
 }) => {
-  // Create a ref so we can focus the input from the container
+  // Create a ref to the text input so we can focus the input programmatically
   const textInputRef = useRef<RNTextInput>(null);
-  const [isFocused, setIsFocused] = useState(false);
-
+  // Create a ref to the placeholder's y position
   const placeholderY = useRef(new Animated.Value(20)).current;
+  // Create a ref to the placeholder's size
   const placeholderSize = useRef(new Animated.Value(18)).current;
 
-  const containerClasses = tw.style("relative w-full -z-10", containerStyle);
-
-  const inputClasses = tw.style(
-    // Input Sizing
-    "border p-5 rounded-md z-10 text-lg leading-5",
-    // Input Styling
-    " bg-transparent",
-    // Error Styling
-    error ? "border-red-500" : "border-slate-400",
-    inputStyle,
-  );
-  const labelClasses = tw.style(
-    "absolute left-3 -z-10 bg-white px-1",
-    error ? "text-red-500" : "text-slate-500",
-  );
+  // Whether the input is focused or not
+  const [_, setIsFocused] = useState(false);
 
   // Animate between placeholder and label state
   const animatePlaceholder = (toValue: number, fontSize: number) => {
     Animated.parallel([
+      // Animate the placeholder up and down
       Animated.timing(placeholderY, {
         toValue,
         duration: 300,
         useNativeDriver: false,
       }),
+      // Animate the placeholder size
       Animated.timing(placeholderSize, {
         toValue: fontSize,
         duration: 300,
@@ -90,9 +79,34 @@ const TextInput: React.FC<TextInputProps> = ({
     ]).start();
   };
 
+  // Focus the input when anywhere in the input container is pressed
   const onContainerPress = () => {
     textInputRef.current?.focus();
   };
+
+  // Styling
+  const containerClasses = tw.style(
+    // Positioning and size
+    "relative w-full -z-10",
+    // Passed in container styles
+    containerStyle,
+  );
+
+  const inputClasses = tw.style(
+    // Input Sizing
+    "border p-5 rounded-md text-lg leading-5",
+    // Error Styling
+    error ? "border-red-500" : "border-slate-400",
+    // Passed in input styles
+    inputStyle,
+  );
+
+  const labelClasses = tw.style(
+    // Label Sizing and Styling
+    "absolute left-3 -z-10 bg-white px-1",
+    // If there is an error, make the label red
+    error ? "text-red-500" : "text-slate-500",
+  );
 
   return (
     <Pressable style={containerClasses} onPress={onContainerPress}>
@@ -103,13 +117,21 @@ const TextInput: React.FC<TextInputProps> = ({
         editable={!disabled}
         style={inputClasses}
         onFocus={() => {
+          // Animate the placeholder up on focus
           setIsFocused(true);
           animatePlaceholder(-8, 14);
+          // If there is an onFocus prop, call it
+          // This allows us to pass an onFocus prop to this component,
+          // while still being able to use the onFocus prop on the TextInput
           onFocus?.();
         }}
         onBlur={() => {
+          // Animate the placeholder back down on blur
           setIsFocused(false);
           if (!props?.value) animatePlaceholder(20, 18);
+          // If there is an onBlur prop, call it
+          // This allows us to pass an onBlur prop to this component,
+          // while still being able to use the onBlur prop on the TextInput
           onBlur?.();
         }}
         {...props}

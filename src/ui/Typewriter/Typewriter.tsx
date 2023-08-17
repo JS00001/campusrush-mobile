@@ -28,16 +28,23 @@ const Typewriter: React.FC<TypewriterProps> = ({
   delay = 100,
   variant = "text",
 }) => {
+  // The current text that is being displayed
   const [currentText, setCurrentText] = useState("");
+  // The current index of the text that is being displayed
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // If the current index is less than the length of the text, then we want to
+  // add a new character to the current text after a delay
   useEffect(() => {
+    // Check if the current index is less than the length of the text (there are more characters to display)
     if (currentIndex < text.length) {
+      // Every x milliseconds, add a new character to the current text
       const timeout = setTimeout(() => {
         setCurrentText(currentText + text[currentIndex]);
         setCurrentIndex(currentIndex + 1);
       }, delay);
 
+      // Clear the timeout when the component unmounts
       return () => clearTimeout(timeout);
     }
   }, [currentText, currentIndex]);

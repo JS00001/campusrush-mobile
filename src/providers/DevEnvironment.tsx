@@ -12,9 +12,8 @@
 
 import { DeviceMotion } from "expo-sensors";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useCallback, useEffect, useMemo, useRef } from "react";
-
 import NetworkLogger from "react-native-network-logger";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 interface DevEnvironmentProviderProps {
   children: React.ReactNode;
@@ -23,23 +22,27 @@ interface DevEnvironmentProviderProps {
 const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
   children,
 }) => {
-  // ref
+  // Ref to the bottom sheet modal so we can programmatically open it
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-  // variables
+  // Memoized snap points (When the bottom sheet modal is open)
   const snapPoints = useMemo(() => ["75%"], []);
 
-  // callbacks
+  // Open the bottom sheet modal
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
 
+  // Listen for shake gesture if we are in development mode
   useEffect(() => {
+    // Ensure we are in development mode
     if (__DEV__) {
+      // Listen for shake gesture, show dev screen when it happens
       const subscription = listenForShake(() => {
         handlePresentModalPress();
       });
 
+      // Remove the listener when the component unmounts
       return () => subscription.remove();
     }
   }, []);
@@ -65,8 +68,8 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
 };
 
 const listenForShake = (shakeAction: () => void) => {
-  let shaking = false;
-  let shakeStartTime = 0;
+  let shaking = false; // Whether or not the device is currently shaking
+  let shakeStartTime = 0; // When the shake started
   const shakeThreshold = 2; //  How hard the shake has to be to register (lower = harder)
   const shakeDuration = 1000; // How long until we consider a shake complete (in milliseconds)
 

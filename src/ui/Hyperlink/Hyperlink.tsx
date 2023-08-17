@@ -20,6 +20,10 @@ interface HyperlinkProps extends TouchableOpacityProps {
   children: React.ReactNode;
 }
 
+/**
+ * Color classes provide the proper colors for the text component of the
+ * hyperlink.
+ */
 const colorClasses = {
   dark: tw.style("text-primary"),
   light: tw.style("text-white"),
@@ -30,7 +34,13 @@ const Hyperlink: React.FC<HyperlinkProps> = ({
   children,
   ...props
 }) => {
-  const textClasses = tw.style("underline font-semibold", colorClasses[color]);
+  // Styling
+  const textClasses = tw.style(
+    // Base styles
+    "underline font-semibold",
+    // The proper color class is selected based on the color prop
+    colorClasses[color],
+  );
 
   return (
     <TouchableOpacity {...props}>

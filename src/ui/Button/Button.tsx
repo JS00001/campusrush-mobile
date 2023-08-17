@@ -12,10 +12,9 @@
 
 import Icon from "react-native-remix-icon";
 import {
+  ActivityIndicator,
   TouchableOpacityProps,
   TouchableOpacity,
-  View,
-  ActivityIndicator,
 } from "react-native";
 
 import Text from "@/ui/Text";
@@ -99,6 +98,7 @@ const Button: React.FC<ButtonProps> = ({
   children,
   ...props
 }) => {
+  // Set the button to disabled if it is loading or disabled
   disabled = disabled || loading;
 
   // The container classes are applied to the TouchableOpacity component

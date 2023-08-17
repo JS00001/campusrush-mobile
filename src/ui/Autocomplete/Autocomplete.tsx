@@ -12,11 +12,11 @@
 
 import {
   View,
-  ScrollView,
+  FlatList,
   TouchableOpacity,
   TextInputProps as RNTextInputProps,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -78,9 +78,16 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   };
 
   // Styling
+  const containerClasses = tw.style(
+    // Positioning and size
+    `relative w-full`,
+    // If the dropdown is visible, make sure it is on top
+    focused && "z-50",
+  );
+
   const dropdownViewClasses = tw.style(
     // Positioning and size
-    `absolute top-18 rounded-md border w-full max-h-48 py-2 z-30`,
+    `absolute top-18 rounded-md border w-full max-h-48 py-2`,
     // Styling
     `bg-white border-slate-400`,
     // Whether to show the dropdown or not
@@ -88,7 +95,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   );
 
   return (
-    <>
+    <View style={containerClasses}>
       <TextInput
         {...props}
         placeholder={placeholder}
@@ -99,49 +106,65 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         error={error}
       />
 
-      <ScrollView
+      <FlatList
         keyboardShouldPersistTaps="handled"
         style={dropdownViewClasses}
-      >
-        <View>
-          {filteredOptions.length === 0 && (
+        data={filteredOptions}
+        keyExtractor={(item, index) => index.toString()}
+        ListHeaderComponent={
+          // If there are no results found, show a message
+          filteredOptions.length === 0 ? (
             <Text style={tw`text-slate-500 px-4 py-3`}>No results found</Text>
-          )}
+          ) : null
+        }
+        renderItem={({ item }) => (
+          <AutocompleteOption
+            option={item}
+            value={value}
+            onPress={handleOptionSelect}
+          />
+        )}
+      />
+    </View>
+  );
+};
 
-          {filteredOptions.map((option, index) => (
-            <TouchableOpacity
-              key={index}
-              style={tw.style("px-4 py-2")}
-              onPress={() => handleOptionSelect(option)}
-            >
-              <Text style={tw`text-slate-500`}>
-                {value && option.toLowerCase().includes(value.toLowerCase()) ? (
-                  <>
-                    {option.slice(
-                      0,
-                      option.toLowerCase().indexOf(value.toLowerCase()),
-                    )}
-                    <Text style={tw`text-black font-medium`}>
-                      {option.slice(
-                        option.toLowerCase().indexOf(value.toLowerCase()),
-                        option.toLowerCase().indexOf(value.toLowerCase()) +
-                          value.length,
-                      )}
-                    </Text>
-                    {option.slice(
-                      option.toLowerCase().indexOf(value.toLowerCase()) +
-                        value.length,
-                    )}
-                  </>
-                ) : (
-                  option
-                )}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </ScrollView>
-    </>
+interface AutocompleteOptionProps {
+  option: string;
+  value: string | undefined;
+  onPress: (option: string) => void;
+}
+
+export const AutocompleteOption: React.FC<AutocompleteOptionProps> = ({
+  option,
+  value,
+  onPress,
+}) => {
+  return (
+    <TouchableOpacity
+      style={tw.style("px-4 py-2")}
+      onPress={() => onPress(option)}
+    >
+      <Text style={tw`text-slate-500`}>
+        {value && option.toLowerCase().includes(value.toLowerCase()) ? (
+          <>
+            {option.slice(0, option.toLowerCase().indexOf(value.toLowerCase()))}
+            <Text style={tw`text-black font-medium`}>
+              {option.slice(
+                option.toLowerCase().indexOf(value.toLowerCase()),
+                option.toLowerCase().indexOf(value.toLowerCase()) +
+                  value.length,
+              )}
+            </Text>
+            {option.slice(
+              option.toLowerCase().indexOf(value.toLowerCase()) + value.length,
+            )}
+          </>
+        ) : (
+          option
+        )}
+      </Text>
+    </TouchableOpacity>
   );
 };
 

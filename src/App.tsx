@@ -25,8 +25,12 @@ import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
 import DevEnvironmentProvider from "@/providers/DevEnvironment";
 
+// Prevent native splash screen from autohiding
+// when app/component is mounted
 ExpoSplashScreen.preventAutoHideAsync();
 
+// If we are in development mode, start network logging
+// Can be shown by shaking the device
 if (__DEV__) startNetworkLogging();
 
 const App = () => {
@@ -50,6 +54,8 @@ const App = () => {
   );
 };
 
+// Register the root component
+// This is the main component that is mounted
 registerRootComponent(App);
 
 export default App;

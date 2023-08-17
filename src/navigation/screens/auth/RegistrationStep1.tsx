@@ -40,7 +40,6 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
 
   return (
     <Layout
-      scrollable
       flexGap="18px"
       header={{
         hasBackButton: true,

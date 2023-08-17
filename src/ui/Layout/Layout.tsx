@@ -11,15 +11,14 @@
  */
 
 import Icon from "react-native-remix-icon";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { ViewProps, SafeAreaView, View, ScrollView } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import HeaderSvg from "@/assets/HeaderSvg";
-import { useNavigation } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import TermsAndConditions from "@/components/TermsAndConditions";
-import { has } from "lodash";
 
 interface LayoutProps extends ViewProps {
   flexGap?: string;
@@ -50,24 +49,31 @@ const Layout: React.FC<LayoutProps> = ({
   termsAndConditions,
   flexGap = "24px",
 }) => {
+  // Allow layout to access navigation
   const navigation = useNavigation();
 
-  const containerClasses = tw.style(
-    "h-full w-full items-center px-6",
-    flexGap && { gap: flexGap },
-    centerChildren && "items-center",
-    style,
-  );
-
+  // Handle back button press
   const onBackPress = () => {
     navigation.goBack();
   };
+
+  // Styling
+  const containerClasses = tw.style(
+    // Base styles
+    "h-full w-full items-center px-6",
+    // If flexGap is provided, add gap style
+    flexGap && { gap: flexGap },
+    // If centerChildren is true, center the children
+    centerChildren && "items-center",
+    // Custom styles as provided by the style prop
+    style,
+  );
 
   if (header)
     return (
       <>
         <View style={tw`-z-10 absolute`}>
-          <HeaderSvg></HeaderSvg>
+          <HeaderSvg />
         </View>
 
         {/* Header */}

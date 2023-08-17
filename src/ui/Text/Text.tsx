@@ -14,10 +14,12 @@ import { Text as RNText } from "react-native";
 
 import tw from "@/lib/tailwind";
 
+// This is a hack to disable font scaling for all text components
 interface TextWithDefaultProps extends RNText {
   defaultProps?: { allowFontScaling?: boolean };
 }
 
+// This is a hack to disable font scaling for all text components
 const TextWithNoFontScaling = Object.assign(RNText, {
   defaultProps: {
     ...(RNText as unknown as TextWithDefaultProps).defaultProps,
@@ -31,6 +33,10 @@ interface TextProps {
   style?: any;
 }
 
+/**
+ * Variant classes provide the proper font size and font weight for the text
+ * component.
+ */
 export const variantClasses = {
   header: tw.style("text-[32px] font-DMSans_Bold"),
   title: tw.style("text-lg font-medium"),
@@ -45,7 +51,13 @@ const Text: React.FC<TextProps> = ({
   style,
   ...props
 }) => {
-  const textStyle = tw.style(variantClasses[variant], style);
+  // Styling
+  const textStyle = tw.style(
+    // The proper variant class is selected based on the variant prop
+    variantClasses[variant],
+    // Add custom styles if provided
+    style,
+  );
 
   return (
     <TextWithNoFontScaling style={textStyle} {...props}>
