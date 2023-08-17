@@ -38,7 +38,10 @@ const Landing: React.FC<LandingProps> = ({ navigation }) => {
     <>
       <LandingSvg />
 
-      <Layout style={tw`justify-between`}>
+      <Layout
+        style={tw`bg-transparent`}
+        contentContainerStyle={tw`justify-between`}
+      >
         <View style={tw`items-center gap-y-10 justify-center h-2/3`}>
           <Logo64Svg />
           <Typewriter

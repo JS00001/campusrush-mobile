@@ -16,54 +16,65 @@ import { useFormik } from "formik";
 
 interface UITestingProps {}
 
+// TESTING AUTOCOMPLETE
+// const UITesting: React.FC<UITestingProps> = () => {
+//   const form = useFormik({
+//     initialValues: {
+//       organization: "",
+//       school: "",
+//     },
+//     onSubmit: (values) => {},
+//   });
+
+//   const organizations = [
+//     "Acacia",
+//     "Alpha Chi Rho",
+//     "Alpha Chi Sigma",
+//     "Alpha Delta",
+//     "Alpha Delta Gamma",
+//     "Alpha Delta Phi",
+//     "Alpha Epsilon Pi",
+//     "Alpha Gamma Omega",
+//   ];
+
+//   const schools = [
+//     "University of California, Berkeley",
+//     "University of California, Los Angeles",
+//     "University of California, San Diego",
+//     "University of California, Irvine",
+//     "University of California, Davis",
+//     "University of California, Santa Barbara",
+//     "University of California, Santa Cruz",
+//     "University of California, Riverside",
+//     "University of California, Merced",
+//     "University of California, San Francisco",
+//   ];
+
+//   return (
+//     <Layout>
+//       <Autocomplete
+//         placeholder="Organization"
+//         options={organizations}
+//         value={form.values.organization}
+//         onChangeText={(text) => form.setFieldValue("organization", text)}
+//       ></Autocomplete>
+
+//       <Autocomplete
+//         placeholder="School"
+//         options={schools}
+//         value={form.values.school}
+//         onChangeText={(text) => form.setFieldValue("school", text)}
+//       ></Autocomplete>
+//     </Layout>
+//   );
+// };
+
+// TESTING NEW LAYOUT
 const UITesting: React.FC<UITestingProps> = () => {
-  const form = useFormik({
-    initialValues: {
-      organization: "",
-      school: "",
-    },
-    onSubmit: (values) => {},
-  });
-
-  const organizations = [
-    "Acacia",
-    "Alpha Chi Rho",
-    "Alpha Chi Sigma",
-    "Alpha Delta",
-    "Alpha Delta Gamma",
-    "Alpha Delta Phi",
-    "Alpha Epsilon Pi",
-    "Alpha Gamma Omega",
-  ];
-
-  const schools = [
-    "University of California, Berkeley",
-    "University of California, Los Angeles",
-    "University of California, San Diego",
-    "University of California, Irvine",
-    "University of California, Davis",
-    "University of California, Santa Barbara",
-    "University of California, Santa Cruz",
-    "University of California, Riverside",
-    "University of California, Merced",
-    "University of California, San Francisco",
-  ];
-
   return (
     <Layout>
-      <Autocomplete
-        placeholder="Organization"
-        options={organizations}
-        value={form.values.organization}
-        onChangeText={(text) => form.setFieldValue("organization", text)}
-      ></Autocomplete>
-
-      <Autocomplete
-        placeholder="School"
-        options={schools}
-        value={form.values.school}
-        onChangeText={(text) => form.setFieldValue("school", text)}
-      ></Autocomplete>
+      <Layout.Header title="Test" subtitle="Test 2" hasBackButton />
+      This is content
     </Layout>
   );
 };

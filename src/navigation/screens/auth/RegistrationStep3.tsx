@@ -10,8 +10,6 @@
  * Do not distribute
  */
 
-import { useState } from "react";
-
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
@@ -37,19 +35,12 @@ const RegistrationStep3: React.FC<RegistrationProps> = ({ navigation }) => {
   };
 
   return (
-    <Layout
-      scrollable
-      flexGap="18px"
-      header={{
-        hasBackButton: true,
-        cta: "Step 3/3",
-        title: "Register",
-        subtitle: "Choose a secure password",
-      }}
-      termsAndConditions={{
-        shown: true,
-      }}
-    >
+    <Layout scrollable gap={18} hasTermsAndConditions>
+      <Layout.Header
+        hasBackButton
+        title="Register"
+        subtitle="Choose a secure password"
+      />
       <TextInput
         placeholder="Password"
         value={password}

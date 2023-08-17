@@ -87,7 +87,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
   const dropdownViewClasses = tw.style(
     // Positioning and size
-    `absolute top-18 rounded-md border w-full max-h-48 py-2`,
+    `absolute top-18 rounded-md border w-full max-h-40 py-2`,
     // Styling
     `bg-white border-slate-400`,
     // Whether to show the dropdown or not
@@ -111,11 +111,9 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         style={dropdownViewClasses}
         data={filteredOptions}
         keyExtractor={(item, index) => index.toString()}
-        ListHeaderComponent={
+        ListEmptyComponent={
           // If there are no results found, show a message
-          filteredOptions.length === 0 ? (
-            <Text style={tw`text-slate-500 px-4 py-3`}>No results found</Text>
-          ) : null
+          <Text style={tw`text-slate-500 px-4 py-3`}>No results found</Text>
         }
         renderItem={({ item }) => (
           <AutocompleteOption

@@ -39,18 +39,13 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
   };
 
   return (
-    <Layout
-      flexGap="18px"
-      header={{
-        hasBackButton: true,
-        cta: "Step 1/3",
-        title: "Register",
-        subtitle: "Please provide your organizations information",
-      }}
-      termsAndConditions={{
-        shown: true,
-      }}
-    >
+    <Layout gap={18} hasTermsAndConditions>
+      <Layout.Header
+        hasBackButton
+        title="Register"
+        subtitle="Please provide your organizations information"
+      />
+
       <Autocomplete
         placeholder="School Name"
         options={schools || []}

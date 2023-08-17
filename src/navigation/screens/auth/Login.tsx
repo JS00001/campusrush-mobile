@@ -27,18 +27,12 @@ const Login = () => {
   } = useLogin();
 
   return (
-    <Layout
-      scrollable
-      flexGap="18px"
-      header={{
-        hasBackButton: true,
-        title: "Login",
-        subtitle: "Login as an organization",
-      }}
-      termsAndConditions={{
-        shown: true,
-      }}
-    >
+    <Layout scrollable keyboardAvoiding gap={18} hasTermsAndConditions>
+      <Layout.Header
+        hasBackButton
+        title="Login"
+        subtitle="Login as an organization"
+      />
       <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
       <TextInput
         secureTextEntry
