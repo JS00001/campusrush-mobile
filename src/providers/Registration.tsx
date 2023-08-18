@@ -89,19 +89,27 @@ const RegistrationProvider: React.FC<{ children?: React.ReactNode }> = ({
         isLoading: form.isSubmitting || isLoading || query.isLoading,
         schools: query?.data?.data?.data.schools,
         organizations: query?.data?.data?.data.organizations,
-        setSchoolName: (schoolName: string) =>
-          form.setFieldValue("schoolName", schoolName),
-        setOrganizationName: (organizationName: string) =>
-          form.setFieldValue("organizationName", organizationName),
-        setEmail: (email: string) => form.setFieldValue("email", email),
-        setPassword: (password: string) =>
-          form.setFieldValue("password", password),
-        setConfirmPassword: (confirmPassword: string) =>
-          form.setFieldValue("confirmPassword", confirmPassword),
-        setFirstName: (firstName: string) =>
-          form.setFieldValue("firstName", firstName),
-        setLastName: (lastName: string) =>
-          form.setFieldValue("lastName", lastName),
+        setSchoolName: (schoolName: string) => {
+          form.setFieldValue("schoolName", schoolName);
+        },
+        setOrganizationName: (organizationName: string) => {
+          form.setFieldValue("organizationName", organizationName);
+        },
+        setEmail: (email: string) => {
+          form.setFieldValue("email", email);
+        },
+        setPassword: (password: string) => {
+          form.setFieldValue("password", password);
+        },
+        setConfirmPassword: (confirmPassword: string) => {
+          form.setFieldValue("confirmPassword", confirmPassword);
+        },
+        setFirstName: (firstName: string) => {
+          form.setFieldValue("firstName", firstName);
+        },
+        setLastName: (lastName: string) => {
+          form.setFieldValue("lastName", lastName);
+        },
       }}
     >
       {children}
