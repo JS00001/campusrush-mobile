@@ -22,16 +22,22 @@ interface RegistrationProps {
 
 const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
   const {
+    errors,
     isLoading,
     schools,
     organizations,
-    schoolName,
-    organizationName,
-    setOrganizationName,
-    setSchoolName,
+    school,
+    name, // organization name
+    setName,
+    setSchool,
+    validateFields,
   } = useRegistration();
 
   const onContinue = () => {
+    const isValid = validateFields(["name", "school"]);
+
+    if (!isValid) return;
+
     navigation.navigate("RegistrationStep2");
   };
 
@@ -45,16 +51,18 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
 
       <Autocomplete
         placeholder="School Name"
-        options={schools || []}
-        value={schoolName}
-        onChangeText={setSchoolName}
+        options={schools}
+        value={school}
+        onChangeText={setSchool}
+        error={errors.school}
       />
 
       <Autocomplete
         placeholder="Organization Name"
-        options={organizations || []}
-        value={organizationName}
-        onChangeText={setOrganizationName}
+        options={organizations}
+        value={name}
+        onChangeText={setName}
+        error={errors.name}
       />
 
       <Button iconRight="ri-arrow-right-line" onPress={onContinue}>

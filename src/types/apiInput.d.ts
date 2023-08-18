@@ -22,6 +22,7 @@ interface RegisterAsOrganizationInput {
   lastName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 interface CheckOrganizationExistsInput {

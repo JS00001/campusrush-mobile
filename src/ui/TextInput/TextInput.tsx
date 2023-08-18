@@ -177,7 +177,7 @@ const TextInput: React.FC<TextInputProps> = ({
       <Animated.Text
         style={[labelClasses, { top: placeholderY, fontSize: placeholderSize }]}
       >
-        {error ?? placeholder}
+        {error || placeholder}
       </Animated.Text>
     </Pressable>
   );

@@ -37,7 +37,7 @@ const RegistrationStep2: React.FC<RegistrationProps> = ({ navigation }) => {
   };
 
   return (
-    <Layout scrollable gap={18} hasTermsAndConditions>
+    <Layout scrollable keyboardAvoiding gap={18} hasTermsAndConditions>
       <Layout.Header
         hasBackButton
         title="Register"
