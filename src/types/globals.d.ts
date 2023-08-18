@@ -22,3 +22,9 @@ interface Organization {
   // Users of the organization
   pnms: PNM[];
 }
+
+interface APIError {
+  field?: string;
+  message: string;
+  humanMessage: string;
+}

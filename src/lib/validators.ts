@@ -46,6 +46,9 @@ const validateRegistration = (
   }
 
   if (input.password !== input.confirmPassword) {
+    if (errors.password) return;
+    if (errors.confirmPassword) return;
+    errors.password = 'Passwords do not match';
     errors.confirmPassword = 'Passwords do not match';
   }
 
@@ -60,11 +63,13 @@ const validateRegistration = (
   // Validate email is a valid email
   const emailRegex = /\S+@\S+\.\S+/;
   if (!emailRegex.test(input.email)) {
+    if (errors.email) return;
     errors.email = 'Invalid email address';
   }
 
   // Validate password is at least 6 characters
   if (input.password.length < 6) {
+    if (errors.password) return;
     errors.password = 'Password too short';
   }
 
@@ -72,26 +77,72 @@ const validateRegistration = (
   const nameRegex = /^[a-zA-Z]+$/;
 
   if (!nameRegex.test(input.firstName)) {
+    if (errors.firstName) return;
     errors.firstName = 'Invalid first name';
   }
 
   if (!nameRegex.test(input.lastName)) {
+    if (errors.lastName) return;
     errors.lastName = 'Invalid last name';
   }
 
   // Validate organization name is a valid organization name
   if (!organizations.includes(input.name)) {
+    if (errors.name) return;
     errors.name = 'Invalid organization';
   }
 
   // Validate school name is a valid school name
   if (!schools.includes(input.school)) {
+    if (errors.school) return;
     errors.school = 'Invalid school name';
+  }
+
+  // Check if all errors are empty
+  // If so, return an empty object
+  const allErrors = Object.values(errors).filter((error) => error !== '');
+
+  if (allErrors.length === 0) {
+    return {} as RegisterAsOrganizationInput;
+  }
+
+  return errors;
+};
+
+const validateLogin = (input: LoginAsOrganizationInput) => {
+  const errors = {
+    email: '',
+    password: '',
+  };
+
+  if (!input.email) {
+    errors.email = 'Email is required';
+  }
+
+  if (!input.password) {
+    errors.password = 'Password is required';
+  }
+
+  // Validate email is a valid email
+  const emailRegex = /\S+@\S+\.\S+/;
+
+  if (!emailRegex.test(input.email)) {
+    if (errors.email) return;
+    errors.email = 'Invalid email address';
+  }
+
+  // Check if all errors are empty
+  // If so, return an empty object
+  const allErrors = Object.values(errors).filter((error) => error !== '');
+
+  if (allErrors.length === 0) {
+    return {} as LoginAsOrganizationInput;
   }
 
   return errors;
 };
 
 export default {
+  validateLogin,
   validateRegistration,
 };

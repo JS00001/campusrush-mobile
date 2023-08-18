@@ -10,34 +10,40 @@
  * Do not distribute
  */
 
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import Autocomplete from "@/ui/Autocomplete";
 import { useRegistration } from "@/providers/Registration";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 interface RegistrationProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
+  // Import the context from the RegistrationProvider
   const {
+    // Status fields
     errors,
-    isLoading,
+    validateFields,
+    // Form values
+    name,
+    school,
     schools,
     organizations,
-    school,
-    name, // organization name
+    // Form Methods
     setName,
     setSchool,
-    validateFields,
   } = useRegistration();
 
+  // Handle the submission of the form
   const onContinue = () => {
+    // Ensure the fields are valid
     const isValid = validateFields(["name", "school"]);
-
+    // If the fields are not valid, dont navigate to the next screen
     if (!isValid) return;
-
+    // Navigate to the next screen if the fields are valid
     navigation.navigate("RegistrationStep2");
   };
 

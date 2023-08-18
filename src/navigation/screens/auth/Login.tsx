@@ -18,6 +18,7 @@ import useLogin from "@/hooks/useLogin";
 
 const Login = () => {
   const {
+    errors,
     isLoading,
     email,
     password,
@@ -33,12 +34,18 @@ const Login = () => {
         title="Login"
         subtitle="Login as an organization"
       />
-      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
+      <TextInput
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        error={errors.email}
+      />
       <TextInput
         secureTextEntry
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
+        error={errors.password}
       />
       <Button
         loading={isLoading}

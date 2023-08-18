@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useEffect, useState, useContext } from "react";
 
 import authAPI from "@/api/auth";
+import { AxiosError } from "axios";
 
 interface AuthContextProps {
   isLoading: boolean;
@@ -26,8 +27,8 @@ interface AuthContextProps {
   clearUserData: () => void;
 
   signOut: () => void;
-  signIn: (input: LoginAsOrganizationInput) => Promise<void>;
-  signUp: (input: RegisterAsOrganizationInput) => Promise<void>;
+  signIn: (input: LoginAsOrganizationInput) => Promise<void | APIError>;
+  signUp: (input: RegisterAsOrganizationInput) => Promise<void | APIError>;
 
   verifyOrganization: (input: VerifyOrganizationInput) => Promise<void>;
   resendVerificationEmail: () => Promise<void>;
@@ -169,7 +170,9 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       setRefreshToken(refreshToken);
       setOrganization(organization);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        return error.response?.data?.error as APIError;
+      }
     }
   };
 
@@ -186,7 +189,9 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       setRefreshToken(refreshToken);
       setOrganization(organization);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        return error.response?.data?.error as APIError;
+      }
     }
   };
 

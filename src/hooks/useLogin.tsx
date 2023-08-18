@@ -13,6 +13,8 @@
 import { useFormik } from "formik";
 
 import { useAuth } from "@/providers/Auth";
+import validators from "@/lib/validators";
+import Toast from "react-native-toast-message";
 
 const useLogin = () => {
   const { signIn } = useAuth();
@@ -22,16 +24,37 @@ const useLogin = () => {
       email: "",
       password: "",
     },
+    validate: validators.validateLogin,
+    validateOnBlur: false,
+    validateOnChange: false,
     onSubmit: async (values: LoginAsOrganizationInput) => {
-      await signIn(values);
+      const error = await signIn(values);
+
+      if (error) {
+        // check if error has field property and if the field exists in the form
+        if (error.field && form.values.hasOwnProperty(error.field)) {
+          // set the error on the field
+          form.setFieldError(error.field, error.humanMessage);
+        } else {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: error.humanMessage,
+          });
+        }
+      }
     },
   });
 
   return {
+    errors: form.errors,
     isLoading: form.isSubmitting,
+
     email: form.values.email,
     password: form.values.password,
-    handleSubmission: () => form.handleSubmit(),
+    handleSubmission: () => {
+      form.handleSubmit();
+    },
     setEmail: (email: string) => form.setFieldValue("email", email),
     setPassword: (password: string) => form.setFieldValue("password", password),
   };

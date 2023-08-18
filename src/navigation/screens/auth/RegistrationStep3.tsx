@@ -14,23 +14,30 @@ import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import { useRegistration } from "@/providers/Registration";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-interface RegistrationProps {
-  navigation: NativeStackNavigationProp<any>;
-}
-
-const RegistrationStep3: React.FC<RegistrationProps> = ({ navigation }) => {
+const RegistrationStep3: React.FC = () => {
+  // Import the context from the RegistrationProvider
   const {
+    // Status fields
+    errors,
+    validateFields,
+    // Form Methods
     handleSubmission,
-    isLoading,
+    // Form values
     password,
     confirmPassword,
+    // Form Methods
     setPassword,
     setConfirmPassword,
   } = useRegistration();
 
+  // Handle the submission of the form
   const onComplete = () => {
+    // Ensure the fields are valid
+    const isValid = validateFields(["password", "confirmPassword"]);
+    // If the fields are not valid, dont submit the final request
+    if (!isValid) return;
+    // Submit the final request if the fields are valid
     handleSubmission();
   };
 
@@ -46,12 +53,14 @@ const RegistrationStep3: React.FC<RegistrationProps> = ({ navigation }) => {
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+        error={errors.password}
       />
       <TextInput
         placeholder="Confirm Password"
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         secureTextEntry
+        error={errors.confirmPassword}
       />
 
       <Button iconRight="ri-arrow-right-line" onPress={onComplete}>

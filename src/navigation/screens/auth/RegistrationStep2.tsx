@@ -9,33 +9,42 @@
  * Copyright (c) 2023 CampusRush
  * Do not distribute
  */
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import { useRegistration } from "@/providers/Registration";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React from "react";
 
 interface RegistrationProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const RegistrationStep2: React.FC<RegistrationProps> = ({ navigation }) => {
+  // Import the context from the RegistrationProvider
   const {
-    isLoading,
+    // Status fields
+    errors,
+    validateFields,
+    // Form values
     email,
-    setEmail,
     firstName,
-    setFirstName,
     lastName,
+    // Form Methods
+    setEmail,
+    setFirstName,
     setLastName,
   } = useRegistration();
 
+  // Handle the submission of the form
   const onContinue = () => {
+    // Ensure the fields are valid
+    const isValid = validateFields(["email", "firstName", "lastName"]);
+    // If the fields are not valid, dont navigate to the next screen
+    if (!isValid) return;
+    // Navigate to the next screen if the fields are valid
     navigation.navigate("RegistrationStep3");
   };
-
   return (
     <Layout scrollable keyboardAvoiding gap={18} hasTermsAndConditions>
       <Layout.Header
@@ -43,16 +52,23 @@ const RegistrationStep2: React.FC<RegistrationProps> = ({ navigation }) => {
         title="Register"
         subtitle="Please provide your personal details"
       />
-      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
+      <TextInput
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        error={errors.email}
+      />
       <TextInput
         placeholder="First Name"
         value={firstName}
         onChangeText={setFirstName}
+        error={errors.firstName}
       />
       <TextInput
         placeholder="Last Name"
         value={lastName}
         onChangeText={setLastName}
+        error={errors.lastName}
       />
 
       <Button iconRight="ri-arrow-right-line" onPress={onContinue}>
