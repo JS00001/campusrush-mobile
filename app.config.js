@@ -1,0 +1,43 @@
+const IS_DEV = process.env.APP_VARIANT === 'development';
+
+export default {
+  name: IS_DEV ? 'Campus Rush (DEV)' : 'Campus Rush',
+  slug: 'campusrush',
+  version: '1.0.0',
+  orientation: 'portrait',
+  icon: IS_DEV ? './assets/development-icon.png' : './assets/icon.png',
+  userInterfaceStyle: 'light',
+  splash: {
+    image: IS_DEV ? './assets/development-splash.png' : './assets/splash.png',
+    resizeMode: 'contain',
+    backgroundColor: '#ffffff',
+  },
+  assetBundlePatterns: ['**/*'],
+  ios: {
+    supportsTablet: true,
+    bundleIdentifier: 'app.campusrush',
+  },
+  android: {
+    adaptiveIcon: {
+      foregroundImage: './assets/adaptive-icon.png',
+      backgroundColor: '#ffffff',
+    },
+  },
+  web: {
+    favicon: './assets/favicon.png',
+  },
+  extra: {
+    eas: {
+      projectId: '9e0d874e-cc30-4dca-ae7e-9609b121b1ae',
+    },
+  },
+  owner: 'js00001',
+  plugins: [
+    [
+      'expo-sensors',
+      {
+        motionPermission: 'Allow $(PRODUCT_NAME) to access your device motion.',
+      },
+    ],
+  ],
+};
