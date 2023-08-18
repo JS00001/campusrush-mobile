@@ -29,7 +29,7 @@ const useVerification = () => {
   return {
     isLoading: form.isSubmitting,
     code: form.values.code,
-    setCode: form.setFieldValue.bind(null, "code"),
+    setCode: (code: string) => form.setFieldValue("code", code),
     handleSubmission: () => form.handleSubmit(),
     resendVerificationEmail: () => resendVerificationEmail(),
   };

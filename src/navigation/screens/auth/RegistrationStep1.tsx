@@ -10,14 +10,11 @@
  * Do not distribute
  */
 
-import { useState } from "react";
-
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
-import TextInput from "@/ui/TextInput";
+import Autocomplete from "@/ui/Autocomplete";
 import { useRegistration } from "@/providers/Registration";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import Autocomplete from "@/ui/Autocomplete";
 
 interface RegistrationProps {
   navigation: NativeStackNavigationProp<any>;

@@ -16,7 +16,7 @@ import {
   TouchableOpacity,
   TextInputProps as RNTextInputProps,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";

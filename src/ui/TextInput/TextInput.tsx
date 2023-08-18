@@ -16,14 +16,16 @@ import {
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
 } from "react-native";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import tw from "@/lib/tailwind";
 
+// This is a hack to disable font scaling for all text components
 interface TextInputWithDefaultProps extends RNTextInput {
   defaultProps?: { allowFontScaling?: boolean };
 }
 
+// This is a hack to disable font scaling for all text components
 const TextInputWithNoFontScaling = Object.assign(RNTextInput, {
   defaultProps: {
     ...(RNTextInput as unknown as TextInputWithDefaultProps).defaultProps,
@@ -37,6 +39,7 @@ interface TextInputProps extends RNTextInputProps {
   containerStyle?: any;
   inputStyle?: any;
   error?: string;
+  value?: string;
   onFocus?: () => void;
   onBlur?: () => void;
 }
@@ -47,6 +50,7 @@ const TextInput: React.FC<TextInputProps> = ({
   inputStyle,
   containerStyle,
   error,
+  value,
   onFocus,
   onBlur,
   ...props
@@ -67,13 +71,13 @@ const TextInput: React.FC<TextInputProps> = ({
       // Animate the placeholder up and down
       Animated.timing(placeholderY, {
         toValue,
-        duration: 300,
+        duration: 200,
         useNativeDriver: false,
       }),
       // Animate the placeholder size
       Animated.timing(placeholderSize, {
         toValue: fontSize,
-        duration: 300,
+        duration: 200,
         useNativeDriver: false,
       }),
     ]).start();
@@ -83,6 +87,13 @@ const TextInput: React.FC<TextInputProps> = ({
   const onContainerPress = () => {
     textInputRef.current?.focus();
   };
+
+  useEffect(() => {
+    if (value) {
+      setIsFocused(true);
+      animatePlaceholder(-8, 14);
+    }
+  }, []);
 
   // Styling
   const containerClasses = tw.style(
@@ -116,6 +127,7 @@ const TextInput: React.FC<TextInputProps> = ({
         ref={textInputRef}
         editable={!disabled}
         style={inputClasses}
+        value={value}
         onFocus={() => {
           // Animate the placeholder up on focus
           setIsFocused(true);
@@ -128,7 +140,7 @@ const TextInput: React.FC<TextInputProps> = ({
         onBlur={() => {
           // Animate the placeholder back down on blur
           setIsFocused(false);
-          if (!props?.value) animatePlaceholder(20, 18);
+          if (!value) animatePlaceholder(20, 18);
           // If there is an onBlur prop, call it
           // This allows us to pass an onBlur prop to this component,
           // while still being able to use the onBlur prop on the TextInput

@@ -32,8 +32,8 @@ const useLogin = () => {
     email: form.values.email,
     password: form.values.password,
     handleSubmission: () => form.handleSubmit(),
-    setEmail: form.setFieldValue.bind(null, "email"),
-    setPassword: form.setFieldValue.bind(null, "password"),
+    setEmail: (email: string) => form.setFieldValue("email", email),
+    setPassword: (password: string) => form.setFieldValue("password", password),
   };
 };
 

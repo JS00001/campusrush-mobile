@@ -30,15 +30,11 @@ const Verification = () => {
   } = useVerification();
 
   return (
-    <Layout
-      scrollable
-      flexGap="18px"
-      header={{
-        hasBackButton: false,
-        title: "Verification",
-        subtitle: "You must have a verified email to continue.",
-      }}
-    >
+    <Layout scrollable gap={18}>
+      <Layout.Header
+        title="Verification"
+        subtitle="You must have a verified email to continue"
+      />
       <TextInput
         placeholder="Verification Code"
         value={code}

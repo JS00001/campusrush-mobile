@@ -15,6 +15,7 @@ import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import { useRegistration } from "@/providers/Registration";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React from "react";
 
 interface RegistrationProps {
   navigation: NativeStackNavigationProp<any>;
@@ -24,10 +25,10 @@ const RegistrationStep2: React.FC<RegistrationProps> = ({ navigation }) => {
   const {
     isLoading,
     email,
-    firstName,
-    lastName,
     setEmail,
+    firstName,
     setFirstName,
+    lastName,
     setLastName,
   } = useRegistration();
 
