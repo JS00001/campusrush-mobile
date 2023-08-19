@@ -94,9 +94,9 @@ const UITesting: React.FC<UITestingProps> = () => {
       />
       <SelectionCard
         selected={selected === 1}
-        title="Test"
-        description="Test 2"
-        subtitle="Test 3"
+        title="Basic Monthly Plan"
+        description="Monthly Subscription"
+        subtitle="$9.99 /mo"
         onPress={() => setSelected(1)}
       />
     </Layout>

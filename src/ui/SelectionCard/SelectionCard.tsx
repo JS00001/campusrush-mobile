@@ -12,8 +12,8 @@
 
 import { TouchableOpacity } from "react-native";
 
-import tw from "@/lib/tailwind";
 import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
 
 interface SelectionCardProps {
   selected: boolean;
@@ -23,6 +23,7 @@ interface SelectionCardProps {
   children?: React.ReactNode;
   hideChildrenWhenUnselected?: boolean;
   onPress: () => void;
+  style?: any;
 }
 
 const SelectionCard: React.FC<SelectionCardProps> = ({
@@ -33,7 +34,9 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
   children,
   hideChildrenWhenUnselected,
   onPress,
+  style,
 }) => {
+  // If hideChildrenWhenUnselected is true, then we don't want to render the children when the card is unselected
   const ChildrenComponent = hideChildrenWhenUnselected ? null : children;
 
   // Styling
@@ -44,6 +47,8 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
     selected ? "bg-white" : "bg-slate-100",
     // Set border color based on selected state
     selected ? "border border-primary" : "border border-transparent",
+    // If the style prop is passed in, then apply it
+    style,
   );
 
   return (
@@ -56,7 +61,11 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
       )}
 
       {/* Description */}
-      {description && <Text style={tw`text-slate-500`}>{description}</Text>}
+      {description && (
+        <Text variant="text" style={tw`text-slate-500`}>
+          {description}
+        </Text>
+      )}
 
       {/* Subtitle */}
       {subtitle && (
