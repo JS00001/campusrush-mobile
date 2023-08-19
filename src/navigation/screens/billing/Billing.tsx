@@ -10,8 +10,61 @@
  * Do not distribute
  */
 
+import Layout from "@/ui/Layout";
+import Button from "@/ui/Button";
+
+import useBilling from "@/hooks/useBilling";
+import SegmentedControl from "@/ui/SegmentedControl";
+import SelectionCard from "@/ui/SelectionCard/SelectionCard";
+import Text from "@/ui/Text";
+
 const Billing = () => {
-  return <></>;
+  const {
+    isLoading,
+    currentTab,
+    setCurrentTab,
+    offeringIDs,
+    packages,
+    setSelectedPackage,
+    selectedPackage,
+  } = useBilling();
+
+  const onSegmentedControlChange = (event: any) => {
+    setCurrentTab(event.nativeEvent.selectedSegmentIndex);
+  };
+
+  if (isLoading) return null;
+
+  return (
+    <Layout scrollable gap={18} hasTermsAndConditions>
+      <Layout.Header title="Billing" subtitle="Select a plan to get started" />
+      <SegmentedControl
+        values={offeringIDs}
+        selectedIndex={currentTab}
+        onChange={onSegmentedControlChange}
+      />
+
+      {packages.map(({ product }, i) => (
+        <SelectionCard
+          key={i}
+          hideChildrenWhenUnselected
+          title={product.title}
+          subtitle={product.priceString + " / mo"}
+          description={
+            product.introPrice
+              ? `with ${
+                  product.introPrice.periodNumberOfUnits
+                }-${product.introPrice.periodUnit.toLowerCase()} free trial`
+              : "one-time purchase"
+          }
+          selected={selectedPackage === i}
+          onPress={() => setSelectedPackage(i)}
+        ></SelectionCard>
+      ))}
+
+      <Button>Continue</Button>
+    </Layout>
+  );
 };
 
 export default Billing;

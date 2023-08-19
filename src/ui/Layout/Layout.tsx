@@ -85,11 +85,6 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
   );
 
   // Get the type of container needed for the content
-  // const ContentContainerIdentifier = scrollable
-  //   ? "ScrollView"
-  //   : keyboardAvoiding
-  //   ? "KeyboardAvoidingView"
-  //   : "View";
   const ContentContainerIdentifier =
     scrollable && keyboardAvoiding
       ? "KeyboardAwareScrollView"

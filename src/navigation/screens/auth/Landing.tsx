@@ -42,7 +42,7 @@ const Landing: React.FC<LandingProps> = ({ navigation }) => {
         style={tw`bg-transparent`}
         contentContainerStyle={tw`justify-between`}
       >
-        <View style={tw`items-center gap-y-10 justify-center h-2/3`}>
+        <View style={tw`items-center gap-y-10 justify-center flex-1`}>
           <Logo64Svg />
           <Typewriter
             delay={20}
@@ -64,9 +64,10 @@ const Landing: React.FC<LandingProps> = ({ navigation }) => {
               style={tw`bg-transparent`}
               onPress={() => navigation.navigate("UITesting")}
             >
-              UI Testing
+              UI Testing (DEV)
             </Button>
           )}
+
           <TermsAndConditions color="light" />
         </View>
       </Layout>

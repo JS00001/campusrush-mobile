@@ -122,6 +122,9 @@ export const BillingStack = () => {
       <Stack.Screen
         name="Billing"
         component={BillingScreen}
+        options={{
+          headerShown: false,
+        }}
       />
     </Stack.Navigator>
   );

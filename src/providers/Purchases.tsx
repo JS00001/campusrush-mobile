@@ -11,11 +11,18 @@
  */
 
 import { useEffect, createContext, useContext, useState } from "react";
-import Purchases, { PurchasesPackage } from "react-native-purchases";
+import Purchases, {
+  PurchasesOffering,
+  PurchasesPackage,
+} from "react-native-purchases";
 
 import AppConstants from "@/lib/constants";
 
-interface PurchasesContextProps {}
+interface PurchasesContextProps {
+  isLoading: boolean;
+  offeringIDs: string[];
+  offerings: PurchasesOffering[];
+}
 
 const PurchasesContext = createContext<PurchasesContextProps>(
   {} as PurchasesContextProps,
@@ -24,24 +31,50 @@ const PurchasesContext = createContext<PurchasesContextProps>(
 const PurchasesProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [packages, setPackages] = useState<PurchasesPackage[]>([]);
+  // Whether or not the offerings are loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // A list of all the available offering IDs
+  const [offeringIDs, setOfferingIDs] = useState<string[]>([]);
+  // A list of all the available offerings
+  const [offerings, setOfferings] = useState<PurchasesOffering[]>([]);
 
   useEffect(() => {
+    // Configure RevenueCat
     Purchases.configure({ apiKey: AppConstants.revenueCatPublicKey });
 
     const fetchOfferings = async () => {
-      const offerings = await Purchases.getOfferings();
-      const currentPackages = offerings.current?.availablePackages;
+      // Get all offerings from RevenueCat
+      const RCOfferings = (await Purchases.getOfferings()).all;
+      // Get all packages with metadata that have a key of "available" and a value of true
+      const RCCurrentOfferingIDs = Object.keys(RCOfferings).filter(
+        (key) => RCOfferings[key].metadata.available,
+      );
+      // Return the same PackageOffering object but only with the packages that are available
+      const RCCurrentOfferings = RCCurrentOfferingIDs.map(
+        (key) => RCOfferings[key],
+      );
 
-      if (currentPackages) {
-        setPackages(currentPackages);
+      // If there are any offerings, set the state
+      if (RCCurrentOfferings.length > 0) {
+        // Set the offering IDs to be used in the Billing screen
+        // These are the options on the segmented control
+        setOfferingIDs(RCCurrentOfferingIDs);
+        // Set the offerings to be used in the Billing screen
+        setOfferings(RCCurrentOfferings);
       }
+
+      // Set the loading state to false
+      setIsLoading(false);
     };
 
     fetchOfferings();
   }, []);
 
-  return <>{children}</>;
+  return (
+    <PurchasesContext.Provider value={{ isLoading, offeringIDs, offerings }}>
+      {children}
+    </PurchasesContext.Provider>
+  );
 };
 
 export const usePurchases = () => useContext(PurchasesContext);

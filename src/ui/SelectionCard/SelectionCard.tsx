@@ -16,13 +16,19 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface SelectionCardProps {
+  // Whether or not the card is selected
   selected: boolean;
+  // Default content
   title?: string;
   description?: string;
   subtitle?: string;
+  // Action items
+  pressable?: boolean;
+  onPress: () => void;
+  // Children
   children?: React.ReactNode;
   hideChildrenWhenUnselected?: boolean;
-  onPress: () => void;
+  // Styling
   style?: any;
 }
 
@@ -31,13 +37,18 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
   title,
   description,
   subtitle,
+  pressable = true,
+  onPress,
   children,
   hideChildrenWhenUnselected,
-  onPress,
   style,
 }) => {
   // If hideChildrenWhenUnselected is true, then we don't want to render the children when the card is unselected
-  const ChildrenComponent = hideChildrenWhenUnselected ? null : children;
+  const ChildrenComponent = hideChildrenWhenUnselected
+    ? selected
+      ? children
+      : null
+    : children;
 
   // Styling
   const containerClasses = tw.style(
@@ -52,7 +63,11 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
   );
 
   return (
-    <TouchableOpacity style={containerClasses} onPress={onPress}>
+    <TouchableOpacity
+      style={containerClasses}
+      onPress={onPress}
+      disabled={!pressable}
+    >
       {/* Title */}
       {title && (
         <Text variant="body" style={tw`text-primary`}>

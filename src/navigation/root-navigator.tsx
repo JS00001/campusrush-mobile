@@ -21,7 +21,11 @@ import { useEffect } from "react";
 import * as ExpoSplashScreen from "expo-splash-screen";
 
 import { useAuth } from "@/providers/Auth";
-import { AuthStack, VerificationStack } from "@/navigation/stack-navigator";
+import {
+  AuthStack,
+  BillingStack,
+  VerificationStack,
+} from "@/navigation/stack-navigator";
 import { TabNavigator } from "@/navigation/tab-navigator";
 
 const RootNavigator = () => {
@@ -42,6 +46,8 @@ const RootNavigator = () => {
 
   // If the fonts are not loaded or the user is loading, we can't render the app
   if (!fontsLoaded || isLoading) return null;
+
+  return <BillingStack />;
 
   // If the user is not logged in, we show the AuthStack
   if (lodash.isEmpty(organization)) return <AuthStack />;

@@ -140,7 +140,7 @@ const Button: React.FC<ButtonProps> = ({
       style={containerClasses}
       {...props}
     >
-      {iconLeft && <Icon name={iconLeft} />}
+      {iconLeft && <Icon name={iconLeft} color={iconColor} size={iconSize} />}
       <Text style={textClasses}>{children}</Text>
       {loading && (
         <ActivityIndicator
