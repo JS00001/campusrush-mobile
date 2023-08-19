@@ -12,7 +12,10 @@
 
 import Autocomplete from "@/ui/Autocomplete/Autocomplete";
 import Layout from "@/ui/Layout";
+import SegmentedControl from "@/ui/SegmentedControl";
+import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 import { useFormik } from "formik";
+import React from "react";
 
 interface UITestingProps {}
 
@@ -69,12 +72,33 @@ interface UITestingProps {}
 //   );
 // };
 
-// TESTING NEW LAYOUT
+// TESTING NEW LAYOUT AND SEGMENTED CONTROL
 const UITesting: React.FC<UITestingProps> = () => {
+  const [selected, setSelected] = React.useState(0);
+
   return (
     <Layout>
       <Layout.Header title="Test" subtitle="Test 2" hasBackButton />
-      This is content
+      {/* <SegmentedControl
+        values={["Monthly", "Yearly"]}
+        selectedIndex={0}
+        onChange={() => {}}
+      /> */}
+      '
+      <SelectionCard
+        selected={selected === 0}
+        title="Basic Lifetime Plan"
+        description="One-time Purchase"
+        subtitle="$849.99"
+        onPress={() => setSelected(0)}
+      />
+      <SelectionCard
+        selected={selected === 1}
+        title="Test"
+        description="Test 2"
+        subtitle="Test 3"
+        onPress={() => setSelected(1)}
+      />
     </Layout>
   );
 };

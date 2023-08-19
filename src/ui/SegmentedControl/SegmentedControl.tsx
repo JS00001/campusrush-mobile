@@ -10,10 +10,38 @@
  * Do not distribute
  */
 
-interface SegmentedControlProps {}
+import tw from "@/lib/tailwind";
+import RNSegmentedControl from "@react-native-segmented-control/segmented-control";
 
-const SegmentedControl: React.FC<SegmentedControlProps> = () => {
-  return <></>;
+interface SegmentedControlProps {
+  values: string[];
+  selectedIndex: number;
+  onChange: (event: any) => void;
+}
+
+const SegmentedControl: React.FC<SegmentedControlProps> = ({
+  values,
+  selectedIndex,
+  onChange,
+}) => {
+  return (
+    <RNSegmentedControl
+      values={values}
+      selectedIndex={selectedIndex}
+      onChange={onChange}
+      style={tw.style("w-full h-10")}
+      tintColor={tw.color("primary")}
+      fontStyle={{
+        color: tw.color("slate-600"),
+        fontSize: 14,
+      }}
+      activeFontStyle={{
+        color: tw.color("white"),
+        fontSize: 14,
+      }}
+      backgroundColor={tw.color("slate-100")}
+    />
+  );
 };
 
 export default SegmentedControl;
