@@ -1,6 +1,6 @@
 {
   "name": "campusrush-mobile",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "src/App.tsx",
   "scripts": {
     "dev": "expo start --dev-client",
@@ -9,12 +9,15 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "format:fix": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "build:development:ios": "eas build --platform ios --profile development",
+    "build:production:ios": "eas build --platform ios --profile production"
   },
   "dependencies": {
     "@expo-google-fonts/dm-sans": "^0.2.3",
     "@gorhom/bottom-sheet": "^4",
     "@react-native-async-storage/async-storage": "1.18.2",
+    "@react-native-segmented-control/segmented-control": "2.4.1",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
@@ -33,6 +36,7 @@
     "react-native-gesture-handler": "~2.12.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-network-logger": "^1.15.0",
+    "react-native-purchases": "^6.6.2",
     "react-native-reanimated": "~3.3.0",
     "react-native-remix-icon": "^0.4.0",
     "react-native-safe-area-context": "4.6.3",

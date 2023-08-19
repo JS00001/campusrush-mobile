@@ -21,6 +21,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import queryClient from "@/lib/queryClient";
 import AuthProvider from "@/providers/Auth";
 import AxiosIntercepter from "@/providers/Axios";
+import PurchasesProvider from "@/providers/Purchases";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
 import DevEnvironmentProvider from "@/providers/DevEnvironment";
@@ -36,20 +37,22 @@ if (__DEV__) startNetworkLogging();
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <AxiosIntercepter>
-          <NavigationProvider>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-              <BottomSheetModalProvider>
-                <DevEnvironmentProvider>
-                  <RootNavigator />
-                  <Toast />
-                </DevEnvironmentProvider>
-              </BottomSheetModalProvider>
-            </GestureHandlerRootView>
-          </NavigationProvider>
-        </AxiosIntercepter>
-      </AuthProvider>
+      <PurchasesProvider>
+        <AuthProvider>
+          <AxiosIntercepter>
+            <NavigationProvider>
+              <GestureHandlerRootView style={{ flex: 1 }}>
+                <BottomSheetModalProvider>
+                  <DevEnvironmentProvider>
+                    <RootNavigator />
+                    <Toast />
+                  </DevEnvironmentProvider>
+                </BottomSheetModalProvider>
+              </GestureHandlerRootView>
+            </NavigationProvider>
+          </AxiosIntercepter>
+        </AuthProvider>
+      </PurchasesProvider>
     </QueryClientProvider>
   );
 };

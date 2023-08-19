@@ -18,7 +18,7 @@ import authAPI from "@/api/auth";
 import validators from "@/lib/validators";
 import { useAuth } from "@/providers/Auth";
 
-interface RegistrationContext extends RegisterAsOrganizationInput {
+interface RegistrationContextProps extends RegisterAsOrganizationInput {
   // Status Items
   isLoading: boolean;
   errors: Record<string, string>;
@@ -42,7 +42,7 @@ interface RegistrationContext extends RegisterAsOrganizationInput {
 }
 
 // Create the context
-const RegistrationContext = createContext<RegistrationContext>({} as any);
+const RegistrationContext = createContext<RegistrationContextProps>({} as any);
 
 const RegistrationProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
@@ -90,7 +90,7 @@ const RegistrationProvider: React.FC<{ children?: React.ReactNode }> = ({
       form.values,
       organizations,
       schools,
-    );
+    ) as any;
 
     // Remove any items in the object that arent in the fields array
     // This is to prevent errors from showing up on other steps
