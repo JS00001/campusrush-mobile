@@ -33,6 +33,15 @@ const Billing = () => {
     setCurrentTab(event.nativeEvent.selectedSegmentIndex);
   };
 
+  const buttonCTA = packages[selectedPackage]?.product.introPrice
+    ? `Start your ${packages[selectedPackage]?.product.introPrice
+        ?.periodNumberOfUnits}-${packages[
+        selectedPackage
+      ]?.product.introPrice?.periodUnit.toLowerCase()} free trial\nthen ${packages[
+        selectedPackage
+      ]?.product.priceString} / mo`
+    : `Purchase for ${packages[selectedPackage]?.product.priceString}`;
+
   if (isLoading) return null;
 
   return (
@@ -62,7 +71,7 @@ const Billing = () => {
         ></SelectionCard>
       ))}
 
-      <Button>Continue</Button>
+      <Button>{buttonCTA}</Button>
     </Layout>
   );
 };

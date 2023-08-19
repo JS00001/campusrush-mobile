@@ -114,6 +114,7 @@ const Button: React.FC<ButtonProps> = ({
   // The text classes are applied to the Text component
   // These classes are responsible for the text color, font size, etc.
   const textClasses = tw.style(
+    "text-center",
     !disabled && colorClasses[color].text.default, // Set the default color if the button is not disabled
     disabled && colorClasses[color].text.disabled, // Set the disabled color if the button is disabled
     sizeClasses[size].text,
