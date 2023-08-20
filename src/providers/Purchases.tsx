@@ -10,7 +10,11 @@
  * Do not distribute
  */
 
-import Purchases, { PurchasesOffering } from "react-native-purchases";
+import Purchases, {
+  PurchasesOffering,
+  PurchasesPackage,
+  PurchasesError,
+} from "react-native-purchases";
 import { useEffect, createContext, useContext, useState } from "react";
 
 import AppConstants from "@/lib/constants";
@@ -19,6 +23,8 @@ interface PurchasesContextProps {
   isLoading: boolean;
   offeringIDs: string[];
   offerings: PurchasesOffering[];
+
+  purchasePackage: (pkg: PurchasesPackage) => Promise<void>;
 }
 
 const PurchasesContext = createContext<PurchasesContextProps>(
@@ -74,8 +80,18 @@ const PurchasesProvider: React.FC<{ children: React.ReactNode }> = ({
     fetchOfferings();
   }, []);
 
+  const purchasePackage = async (pkg: PurchasesPackage) => {
+    try {
+      const { customerInfo, productIdentifier } =
+        await Purchases.purchasePackage(pkg);
+      console.log(customerInfo, productIdentifier);
+    } catch (error) {}
+  };
+
   return (
-    <PurchasesContext.Provider value={{ isLoading, offeringIDs, offerings }}>
+    <PurchasesContext.Provider
+      value={{ isLoading, offeringIDs, offerings, purchasePackage }}
+    >
       {children}
     </PurchasesContext.Provider>
   );

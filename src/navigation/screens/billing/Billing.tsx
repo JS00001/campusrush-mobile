@@ -14,13 +14,14 @@ import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 
 import useBilling from "@/hooks/useBilling";
-import SegmentedControl from "@/ui/SegmentedControl";
 import ProductCard from "@/components/ProductCard";
+import SegmentedControl from "@/ui/SegmentedControl";
 
 const Billing = () => {
   const {
     isLoading,
-    product,
+    selectedProduct,
+    selectedPackage,
     buttonCTA,
     packages,
     offeringIDs,
@@ -28,10 +29,15 @@ const Billing = () => {
     packageID,
     setOfferingID,
     setPackageID,
+    completePurchase,
   } = useBilling();
 
   const onSegmentedControlChange = (event: any) => {
     setOfferingID(event.nativeEvent.selectedSegmentIndex);
+  };
+
+  const onButtonPress = () => {
+    completePurchase();
   };
 
   if (isLoading) return null;
@@ -54,7 +60,7 @@ const Billing = () => {
         />
       ))}
 
-      <Button>{buttonCTA}</Button>
+      <Button onPress={onButtonPress}>{buttonCTA}</Button>
     </Layout>
   );
 };
