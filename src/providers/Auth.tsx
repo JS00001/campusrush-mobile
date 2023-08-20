@@ -11,6 +11,7 @@
  */
 
 import { useMutation } from "@tanstack/react-query";
+import Purchases, { CustomerInfo } from "react-native-purchases";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useEffect, useState, useContext } from "react";
 
@@ -24,11 +25,15 @@ interface AuthContextProps {
   refreshToken: string | null;
   organization: Organization;
 
+  billingData: CustomerInfo;
+
   clearUserData: () => void;
 
   signOut: () => void;
   signIn: (input: LoginAsOrganizationInput) => Promise<void | APIError>;
   signUp: (input: RegisterAsOrganizationInput) => Promise<void | APIError>;
+
+  refetchBillingData: () => Promise<void>;
 
   verifyOrganization: (input: VerifyOrganizationInput) => Promise<void>;
   resendVerificationEmail: () => Promise<void>;
@@ -41,28 +46,35 @@ const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
-  // Declare state variables
+  // Whether or not the app is loading
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  // The current organizations access token
   const [accessToken, setAccessToken] = useState<string>("");
+  // The current organizations refresh token
   const [refreshToken, setRefreshToken] = useState<string>("");
+  // The current organization's data
   const [organization, setOrganization] = useState<Organization>(
     {} as Organization,
   );
-
-  // Declare temporary local variables
-  let _accessToken: string | null = null;
-  let _refreshToken: string | null = null;
+  // The current organization's billing data
+  const [billingData, setBillingData] = useState<CustomerInfo>(
+    {} as CustomerInfo,
+  );
 
   // Declare all AuthAPI mutations
   const refreshAccessTokenMutation = useMutation({
-    mutationFn: () => {
-      return authAPI.refreshAccessToken({ refreshToken });
+    mutationFn: (refreshToken: string) => {
+      return authAPI.refreshAccessToken({
+        refreshToken,
+      });
     },
   });
 
   const getOrganizationMutation = useMutation({
-    mutationFn: () => {
-      return authAPI.getOrganization({ accessToken });
+    mutationFn: (accessToken: string) => {
+      return authAPI.getOrganization({
+        accessToken,
+      });
     },
   });
 
@@ -96,79 +108,127 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     },
   });
 
-  // On initial load, load the refresh token and access token from storage
+  // On initial load (ONLY ONCE)
+  // Load the refresh token,
+  // if refresh token, will load access token,
+  // if access token, will load organization,
+  // if organization, will load billing data
   useEffect(() => {
-    _loadInitialData();
+    _loadRefreshToken();
   }, []);
-
-  // Load initial data on app load
-  const _loadInitialData = async () => {
-    await _loadRefreshToken();
-    await _loadAccessToken();
-    await _loadOrganization();
-    setIsLoading(false);
-  };
 
   // Load the refresh token from storage (if it exists)
   const _loadRefreshToken = async () => {
     const refreshToken = await AsyncStorage.getItem("refreshToken");
 
+    // If the refresh token exists, set it
     if (refreshToken) {
-      _refreshToken = refreshToken;
       setRefreshToken(refreshToken);
+      // Refresh the access token using the refresh token
+      _loadAccessToken(refreshToken);
+    } else {
+      // If the refresh token doesn't exist, set the loading state to false
+      setRefreshToken("");
+      setIsLoading(false);
     }
   };
 
   // Refresh the access token with the refresh token
-  const _loadAccessToken = async () => {
-    if (!_refreshToken) {
-      setIsLoading(false);
-      return;
-    }
-
+  const _loadAccessToken = async (refreshToken: string) => {
     try {
-      const response = await refreshAccessTokenMutation.mutateAsync();
+      // Request a new access token using the refresh token
+      const response = await refreshAccessTokenMutation.mutateAsync(
+        refreshToken,
+      );
+      // The access token
       const accessToken = response.data?.data.accessToken;
-
-      _accessToken = accessToken;
+      // store the access token in state
       setAccessToken(accessToken);
+      // Load the organization from the access token
+      _loadOrganization(accessToken);
     } catch (error) {
+      // If the request or access token is invalid, set the loading state to false
       setAccessToken("");
+      setIsLoading(false);
     }
   };
 
   // Load the currently logged in organization
-  const _loadOrganization = async () => {
-    if (!_accessToken) {
+  const _loadOrganization = async (accessToken: string) => {
+    try {
+      // Get the currently logged in organization
+      const response = await getOrganizationMutation.mutateAsync(accessToken);
+      // The organization data
+      const organization = response.data?.data.organization;
+      // Set the organization in state
+      setOrganization(organization);
+      // Load the organization's billing data from revenue cat
+      _loadBillingData(organization);
+    } catch (error) {
+      // If the request or access token is invalid, set the loading state to false
+      setOrganization({} as Organization);
       setIsLoading(false);
-      return;
+    }
+  };
+
+  // Load the currently logged in organization's billing data
+  const _loadBillingData = async (organization: Organization) => {
+    try {
+      // Login the user with revenue cat
+      await Purchases.logIn(organization.customerId);
+      // Get the organization's billing data
+      const billingData = await Purchases.getCustomerInfo();
+      // Set the billing data in state
+      setBillingData(billingData);
+    } catch (error) {
+      setBillingData({} as CustomerInfo);
     }
 
-    try {
-      const response = await getOrganizationMutation.mutateAsync();
-      const organization = response.data?.data.organization;
-      setOrganization(organization);
-    } catch (error) {
-      setOrganization({} as Organization);
-    }
+    // Finally, set the loading state to false
+    setIsLoading(false);
   };
 
   /**
    * Public APIs
    */
+  // Refetch billing data
+  const refetchBillingData = async () => {
+    try {
+      // Login the user with revenue cat
+      await Purchases.logIn(organization.customerId);
+
+      // Get the organization's billing data
+      const billingData = await Purchases.getCustomerInfo();
+
+      // Set the billing data in state
+      setBillingData(billingData);
+    } catch (error) {
+      setBillingData({} as CustomerInfo);
+    }
+  };
 
   // Sign in as an organization
   const signIn = async (input: LoginAsOrganizationInput) => {
     try {
+      // The login response/request
       const response = await loginAsOrganizationMutation.mutateAsync(input);
+      // The new organization data
       const organization = response.data?.data.organization;
+      // The new access token
       const accessToken = response.data?.data.accessToken;
+      // The new refresh token
       const refreshToken = response.data?.data.refreshToken;
 
+      // Store the refresh token in storage
       await AsyncStorage.setItem("refreshToken", refreshToken);
+
+      // Update the state for all of the new data
       setAccessToken(accessToken);
       setRefreshToken(refreshToken);
       setOrganization(organization);
+
+      // Load the new organization's billing data
+      _loadBillingData(organization);
     } catch (error) {
       if (error instanceof AxiosError) {
         return error.response?.data?.error as APIError;
@@ -179,15 +239,25 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   // Sign up as an organization
   const signUp = async (input: RegisterAsOrganizationInput) => {
     try {
+      // The register response/request
       const response = await registerAsOrganizationMutation.mutateAsync(input);
+      // The new organization data
       const organization = response.data?.data.organization;
+      // The new access token
       const accessToken = response.data?.data.accessToken;
+      // The new refresh token
       const refreshToken = response.data?.data.refreshToken;
 
+      // Store the refresh token in storage
       await AsyncStorage.setItem("refreshToken", refreshToken);
+
+      // Update the state for all of the new data
       setAccessToken(accessToken);
       setRefreshToken(refreshToken);
       setOrganization(organization);
+
+      // Load the new organization's billing data
+      _loadBillingData(organization);
     } catch (error) {
       if (error instanceof AxiosError) {
         return error.response?.data?.error as APIError;
@@ -202,23 +272,21 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
 
   // Sign out the organization
   const signOut = async () => {
-    if (!accessToken) {
-      return;
-    }
+    if (!accessToken) return;
 
     logoutMutation.mutate(undefined, {
       onSuccess: async () => {
-        await AsyncStorage.removeItem("refreshToken");
-        setOrganization({} as Organization);
-        setAccessToken("");
-        setRefreshToken("");
+        await clearUserData();
       },
     });
   };
 
   // Clear all user data
   const clearUserData = async () => {
+    // Clear the refresh token from storage
     await AsyncStorage.removeItem("refreshToken");
+
+    // Clear all of the user data from state
     setOrganization({} as Organization);
     setAccessToken("");
     setRefreshToken("");
@@ -254,6 +322,9 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
         accessToken,
         refreshToken,
         organization,
+        billingData,
+
+        refetchBillingData,
 
         signOut,
         signIn,

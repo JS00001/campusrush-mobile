@@ -10,10 +10,18 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
 import { DeviceMotion } from "expo-sensors";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import NetworkLogger from "react-native-network-logger";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
+import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
+import Layout from "@/ui/Layout";
+import Button from "@/ui/Button";
+import { useAuth } from "@/providers/Auth";
+import SegmentedControl from "@/ui/SegmentedControl";
 
 interface DevEnvironmentProviderProps {
   children: React.ReactNode;
@@ -22,6 +30,10 @@ interface DevEnvironmentProviderProps {
 const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
   children,
 }) => {
+  // Use data from auth provider
+  const { signOut } = useAuth();
+  // The active index of the segmented control
+  const [activeIndex, setActiveIndex] = useState<number>(0);
   // Ref to the bottom sheet modal so we can programmatically open it
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
@@ -55,13 +67,48 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
         index={0}
         snapPoints={snapPoints}
       >
-        <NetworkLogger
-          theme={{
-            colors: {
-              background: "white",
-            },
-          }}
-        />
+        <View style={tw`w-full px-4 py-2`}>
+          <SegmentedControl
+            values={["Network", "Overrides"]}
+            selectedIndex={activeIndex}
+            onChange={(event) => {
+              setActiveIndex(event.nativeEvent.selectedSegmentIndex);
+            }}
+          />
+        </View>
+
+        {/* Network logger */}
+        {activeIndex === 0 && (
+          <NetworkLogger
+            theme={{
+              colors: {
+                background: "white",
+              },
+            }}
+          />
+        )}
+
+        {/* Overrides */}
+        {activeIndex === 1 && (
+          <>
+            <Layout gap={8} scrollable>
+              <Text style={tw`w-full text-gray-500 font-medium`} variant="body">
+                Auth Overrides
+              </Text>
+              <Button onPress={signOut}>Force Logout</Button>
+
+              <Text
+                style={tw`w-full text-gray-500 font-medium mt-6`}
+                variant="body"
+              >
+                Subscription Overrides
+              </Text>
+              <Button disabled>Clear Subscriptions</Button>
+              <Button disabled>Force Basic Subscription</Button>
+              <Button disabled>Force Pro Subscription</Button>
+            </Layout>
+          </>
+        )}
       </BottomSheetModal>
     </>
   );

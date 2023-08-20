@@ -29,7 +29,7 @@ import {
 import { TabNavigator } from "@/navigation/tab-navigator";
 
 const RootNavigator = () => {
-  const { isLoading, organization } = useAuth();
+  const { isLoading, organization, billingData } = useAuth();
   const [fontsLoaded] = useFonts({
     DMSans_400Regular,
     DMSans_500Medium,
@@ -47,13 +47,15 @@ const RootNavigator = () => {
   // If the fonts are not loaded or the user is loading, we can't render the app
   if (!fontsLoaded || isLoading) return null;
 
-  return <BillingStack />;
-
   // If the user is not logged in, we show the AuthStack
   if (lodash.isEmpty(organization)) return <AuthStack />;
 
   // If the user is not verified, we show the VerificationStack
   if (!organization?.verified) return <VerificationStack />;
+
+  // If the user has no active entitlements, we show the BillingStack
+  if (lodash.isEmpty(billingData?.entitlements?.active))
+    return <BillingStack />;
 
   // If the user is logged in and verified, we show the TabNavigator
   // (the main app)

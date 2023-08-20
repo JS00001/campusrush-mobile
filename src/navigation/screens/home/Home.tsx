@@ -10,13 +10,8 @@
  * Do not distribute
  */
 
-import { useAuth } from "@/providers/Auth";
-import Button from "@/ui/Button";
-
 const Home = () => {
-  const { signOut } = useAuth();
-
-  return <Button onPress={signOut}>Sign out</Button>;
+  return <></>;
 };
 
 export default Home;

@@ -46,10 +46,10 @@ const validateRegistration = (
   }
 
   if (input.password !== input.confirmPassword) {
-    if (errors.password) return;
-    if (errors.confirmPassword) return;
-    errors.password = 'Passwords do not match';
-    errors.confirmPassword = 'Passwords do not match';
+    if (!errors.password && !errors.confirmPassword) {
+      errors.password = 'Passwords do not match';
+      errors.confirmPassword = 'Passwords do not match';
+    }
   }
 
   if (!input.firstName) {
@@ -63,39 +63,33 @@ const validateRegistration = (
   // Validate email is a valid email
   const emailRegex = /\S+@\S+\.\S+/;
   if (!emailRegex.test(input.email)) {
-    if (errors.email) return;
-    errors.email = 'Invalid email address';
+    if (!errors.email) errors.email = 'Invalid email address';
   }
 
   // Validate password is at least 6 characters
   if (input.password.length < 6) {
-    if (errors.password) return;
-    errors.password = 'Password too short';
+    if (!errors.password) errors.password = 'Password too short';
   }
 
   // Validate name only has letters
   const nameRegex = /^[a-zA-Z]+$/;
 
   if (!nameRegex.test(input.firstName)) {
-    if (errors.firstName) return;
-    errors.firstName = 'Invalid first name';
+    if (!errors.firstName) errors.firstName = 'Invalid first name';
   }
 
   if (!nameRegex.test(input.lastName)) {
-    if (errors.lastName) return;
-    errors.lastName = 'Invalid last name';
+    if (!errors.lastName) errors.lastName = 'Invalid last name';
   }
 
   // Validate organization name is a valid organization name
   if (!organizations.includes(input.name)) {
-    if (errors.name) return;
-    errors.name = 'Invalid organization';
+    if (!errors.name) errors.name = 'Invalid organization';
   }
 
   // Validate school name is a valid school name
   if (!schools.includes(input.school)) {
-    if (errors.school) return;
-    errors.school = 'Invalid school name';
+    if (!errors.school) errors.school = 'Invalid school name';
   }
 
   // Check if all errors are empty
@@ -127,8 +121,7 @@ const validateLogin = (input: LoginAsOrganizationInput) => {
   const emailRegex = /\S+@\S+\.\S+/;
 
   if (!emailRegex.test(input.email)) {
-    if (errors.email) return;
-    errors.email = 'Invalid email address';
+    if (!errors.email) errors.email = 'Invalid email address';
   }
 
   // Check if all errors are empty

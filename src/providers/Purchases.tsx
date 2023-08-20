@@ -13,7 +13,6 @@
 import Purchases, {
   PurchasesOffering,
   PurchasesPackage,
-  PurchasesError,
 } from "react-native-purchases";
 import { useEffect, createContext, useContext, useState } from "react";
 
@@ -41,9 +40,12 @@ const PurchasesProvider: React.FC<{ children: React.ReactNode }> = ({
   // A list of all the available offerings
   const [offerings, setOfferings] = useState<PurchasesOffering[]>([]);
 
+  // Fetch all products/offerings/packages on initial app load only
   useEffect(() => {
     // Configure RevenueCat
-    Purchases.configure({ apiKey: AppConstants.revenueCatPublicKey });
+    Purchases.configure({
+      apiKey: AppConstants.revenueCatPublicKey,
+    });
 
     const fetchOfferings = async () => {
       // Get all offerings from RevenueCat
@@ -82,9 +84,7 @@ const PurchasesProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const purchasePackage = async (pkg: PurchasesPackage) => {
     try {
-      const { customerInfo, productIdentifier } =
-        await Purchases.purchasePackage(pkg);
-      console.log(customerInfo, productIdentifier);
+      await Purchases.purchasePackage(pkg);
     } catch (error) {}
   };
 

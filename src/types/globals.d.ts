@@ -11,6 +11,7 @@
  */
 
 interface Organization {
+  _id: string;
   // Identifying information
   name: string;
   firstName: string;
@@ -21,6 +22,9 @@ interface Organization {
 
   // Users of the organization
   pnms: PNM[];
+
+  // Billing information
+  customerId: string;
 }
 
 interface APIError {
