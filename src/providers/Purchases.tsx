@@ -10,11 +10,8 @@
  * Do not distribute
  */
 
+import Purchases, { PurchasesOffering } from "react-native-purchases";
 import { useEffect, createContext, useContext, useState } from "react";
-import Purchases, {
-  PurchasesOffering,
-  PurchasesPackage,
-} from "react-native-purchases";
 
 import AppConstants from "@/lib/constants";
 
@@ -53,6 +50,13 @@ const PurchasesProvider: React.FC<{ children: React.ReactNode }> = ({
       const RCCurrentOfferings = RCCurrentOfferingIDs.map(
         (key) => RCOfferings[key],
       );
+
+      // Sort the packages by price (lowest to highest)
+      RCCurrentOfferings.forEach((offering) => {
+        offering.availablePackages.sort(
+          (a, b) => a.product.price - b.product.price,
+        );
+      });
 
       // If there are any offerings, set the state
       if (RCCurrentOfferings.length > 0) {

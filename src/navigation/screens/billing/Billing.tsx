@@ -15,32 +15,24 @@ import Button from "@/ui/Button";
 
 import useBilling from "@/hooks/useBilling";
 import SegmentedControl from "@/ui/SegmentedControl";
-import SelectionCard from "@/ui/SelectionCard/SelectionCard";
-import Text from "@/ui/Text";
+import ProductCard from "@/components/ProductCard";
 
 const Billing = () => {
   const {
     isLoading,
-    currentTab,
-    setCurrentTab,
-    offeringIDs,
+    product,
+    buttonCTA,
     packages,
-    setSelectedPackage,
-    selectedPackage,
+    offeringIDs,
+    offeringID,
+    packageID,
+    setOfferingID,
+    setPackageID,
   } = useBilling();
 
   const onSegmentedControlChange = (event: any) => {
-    setCurrentTab(event.nativeEvent.selectedSegmentIndex);
+    setOfferingID(event.nativeEvent.selectedSegmentIndex);
   };
-
-  const buttonCTA = packages[selectedPackage]?.product.introPrice
-    ? `Start your ${packages[selectedPackage]?.product.introPrice
-        ?.periodNumberOfUnits}-${packages[
-        selectedPackage
-      ]?.product.introPrice?.periodUnit.toLowerCase()} free trial\nthen ${packages[
-        selectedPackage
-      ]?.product.priceString} / mo`
-    : `Purchase for ${packages[selectedPackage]?.product.priceString}`;
 
   if (isLoading) return null;
 
@@ -49,26 +41,17 @@ const Billing = () => {
       <Layout.Header title="Billing" subtitle="Select a plan to get started" />
       <SegmentedControl
         values={offeringIDs}
-        selectedIndex={currentTab}
+        selectedIndex={offeringID}
         onChange={onSegmentedControlChange}
       />
 
       {packages.map(({ product }, i) => (
-        <SelectionCard
+        <ProductCard
           key={i}
-          hideChildrenWhenUnselected
-          title={product.title}
-          subtitle={product.priceString + " / mo"}
-          description={
-            product.introPrice
-              ? `with ${
-                  product.introPrice.periodNumberOfUnits
-                }-${product.introPrice.periodUnit.toLowerCase()} free trial`
-              : "one-time purchase"
-          }
-          selected={selectedPackage === i}
-          onPress={() => setSelectedPackage(i)}
-        ></SelectionCard>
+          product={product}
+          selected={i === packageID}
+          onPress={() => setPackageID(i)}
+        />
       ))}
 
       <Button>{buttonCTA}</Button>
