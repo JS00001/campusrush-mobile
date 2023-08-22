@@ -53,6 +53,8 @@ const RootNavigator = () => {
   // If the user is not verified, we show the VerificationStack
   if (!organization?.verified) return <VerificationStack />;
 
+  console.log(billingData?.entitlements?.active);
+
   // If the user has no active entitlements, we show the BillingStack
   if (lodash.isEmpty(billingData?.entitlements?.active))
     return <BillingStack />;

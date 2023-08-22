@@ -27,6 +27,9 @@ const useBilling = () => {
   // Index of the currently selected package
   const [packageID, setPackageID] = useState<number>(0);
 
+  // Whether a purchase is loading or not
+  const [isPurchaseLoading, setIsPurchaseLoading] = useState<boolean>(false);
+
   // List of all packages in the currently selected offering
   const packages = offerings?.[offeringID]?.availablePackages;
   // Currently selected package
@@ -50,13 +53,20 @@ const useBilling = () => {
     : `Purchase for ${selectedProduct?.priceString}`;
 
   const completePurchase = async () => {
-    const purchase = await purchasePackage(selectedPackage);
+    // Set purchase loading to true
+    setIsPurchaseLoading(true);
+    // Complete purchase
+    await purchasePackage(selectedPackage);
 
-    refetchBillingData();
+    // Refetch billing data
+    await refetchBillingData();
+    // Set purchase loading to false
+    setIsPurchaseLoading(false);
   };
 
   return {
-    isLoading,
+    areOfferingsLoading: isLoading,
+    isPurchaseLoading,
     buttonCTA,
     selectedProduct,
     selectedPackage,

@@ -17,6 +17,7 @@ import Purchases, {
 import { useEffect, createContext, useContext, useState } from "react";
 
 import AppConstants from "@/lib/constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface PurchasesContextProps {
   isLoading: boolean;
@@ -42,12 +43,15 @@ const PurchasesProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Fetch all products/offerings/packages on initial app load only
   useEffect(() => {
-    // Configure RevenueCat
-    Purchases.configure({
-      apiKey: AppConstants.revenueCatPublicKey,
-    });
+    const init = async () => {
+      const currentCustomerId = await AsyncStorage.getItem("customerId");
 
-    const fetchOfferings = async () => {
+      // Configure RevenueCat
+      Purchases.configure({
+        apiKey: AppConstants.revenueCatPublicKey,
+        appUserID: currentCustomerId || undefined,
+      });
+
       // Get all offerings from RevenueCat
       const RCOfferings = (await Purchases.getOfferings()).all;
       // Get all packages with metadata that have a key of "available" and a value of true
@@ -79,7 +83,7 @@ const PurchasesProvider: React.FC<{ children: React.ReactNode }> = ({
       setIsLoading(false);
     };
 
-    fetchOfferings();
+    init();
   }, []);
 
   const purchasePackage = async (pkg: PurchasesPackage) => {

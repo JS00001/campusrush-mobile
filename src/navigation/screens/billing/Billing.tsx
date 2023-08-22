@@ -19,9 +19,8 @@ import SegmentedControl from "@/ui/SegmentedControl";
 
 const Billing = () => {
   const {
-    isLoading,
-    selectedProduct,
-    selectedPackage,
+    areOfferingsLoading,
+    isPurchaseLoading,
     buttonCTA,
     packages,
     offeringIDs,
@@ -40,7 +39,7 @@ const Billing = () => {
     completePurchase();
   };
 
-  if (isLoading) return null;
+  if (areOfferingsLoading) return null;
 
   return (
     <Layout scrollable gap={18} hasTermsAndConditions>
@@ -60,7 +59,9 @@ const Billing = () => {
         />
       ))}
 
-      <Button onPress={onButtonPress}>{buttonCTA}</Button>
+      <Button loading={isPurchaseLoading} onPress={onButtonPress}>
+        {buttonCTA}
+      </Button>
     </Layout>
   );
 };

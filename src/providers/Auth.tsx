@@ -176,6 +176,10 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     try {
       // Login the user with revenue cat
       await Purchases.logIn(organization.customerId);
+
+      // Set the customer Id in local storage
+      await AsyncStorage.setItem("customerId", organization.customerId);
+
       // Get the organization's billing data
       const billingData = await Purchases.getCustomerInfo();
       // Set the billing data in state
@@ -196,6 +200,9 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     try {
       // Login the user with revenue cat
       await Purchases.logIn(organization.customerId);
+
+      // Set the customer Id in local storage
+      await AsyncStorage.setItem("customerId", organization.customerId);
 
       // Get the organization's billing data
       const billingData = await Purchases.getCustomerInfo();
