@@ -138,7 +138,7 @@ export const BillingStack = () => {
  */
 export const HomeStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="Home"
         component={HomeScreen}
@@ -155,7 +155,7 @@ export const HomeStack = () => {
  */
 export const PNMsStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="PNMs"
         component={PNMsScreen}
@@ -172,7 +172,7 @@ export const PNMsStack = () => {
  */
 export const AddStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="Add"
         component={AddScreen}
@@ -189,7 +189,7 @@ export const AddStack = () => {
  */
 export const MessagesStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="Messages"
         component={MessagesScreen}
@@ -206,7 +206,7 @@ export const MessagesStack = () => {
  */
 export const SettingsStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="Settings"
         component={SettingsScreen}

@@ -10,12 +10,15 @@
  * Do not distribute
  */
 
+import ActionCard from "@/ui/ActionCard";
 import Autocomplete from "@/ui/Autocomplete/Autocomplete";
 import Layout from "@/ui/Layout";
 import SegmentedControl from "@/ui/SegmentedControl";
 import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 import { useFormik } from "formik";
 import React from "react";
+import { View } from "react-native";
+import tw from "@/lib/tailwind";
 
 interface UITestingProps {}
 
@@ -84,8 +87,8 @@ const UITesting: React.FC<UITestingProps> = () => {
         selectedIndex={0}
         onChange={() => {}}
       /> */}
-      '
-      <SelectionCard
+
+      {/* <SelectionCard
         selected={selected === 0}
         title="Basic Lifetime Plan"
         description="One-time Purchase"
@@ -98,7 +101,31 @@ const UITesting: React.FC<UITestingProps> = () => {
         description="Monthly Subscription"
         subtitle="$9.99 /mo"
         onPress={() => setSelected(1)}
+      /> */}
+
+      <ActionCard
+        title="Test"
+        subtitle="Test 2"
+        icon="ri-building-2-fill"
+        onPress={() => {}}
       />
+
+      <View style={tw`flex-row gap-6 w-full`}>
+        <ActionCard
+          title="Test"
+          subtitle="Test 2"
+          icon="ri-building-2-fill"
+          onPress={() => {}}
+          size="sm"
+        />
+        <ActionCard
+          title="Test"
+          subtitle="Test 2"
+          icon="ri-building-2-fill"
+          onPress={() => {}}
+          size="sm"
+        />
+      </View>
     </Layout>
   );
 };

@@ -35,7 +35,6 @@ export const TabNavigator = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-
         tabBarActiveTintColor: tw.color("primary"),
         tabBarInactiveTintColor: tw.color("gray-400"),
       }}

@@ -10,8 +10,18 @@
  * Do not distribute
  */
 
+import Layout from "@/ui/Layout";
+
 const UpdateNotifications = () => {
-  return <></>;
+  return (
+    <Layout>
+      <Layout.Header
+        hasBackButton
+        title="Notifications"
+        subtitle="Manage your notifications"
+      />
+    </Layout>
+  );
 };
 
 export default UpdateNotifications;

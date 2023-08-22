@@ -45,6 +45,11 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
     bottomSheetModalRef.current?.present();
   }, []);
 
+  // Close the bottom sheet modal
+  const handleCloseModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.dismiss();
+  }, []);
+
   // Listen for shake gesture if we are in development mode
   useEffect(() => {
     // Ensure we are in development mode
@@ -95,7 +100,14 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
               <Text style={tw`w-full text-gray-500 font-medium`} variant="body">
                 Auth Overrides
               </Text>
-              <Button onPress={signOut}>Force Logout</Button>
+              <Button
+                onPress={() => {
+                  signOut();
+                  handleCloseModalPress();
+                }}
+              >
+                Force Logout
+              </Button>
 
               <Text
                 style={tw`w-full text-gray-500 font-medium mt-6`}

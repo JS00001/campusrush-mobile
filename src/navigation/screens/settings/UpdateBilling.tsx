@@ -10,8 +10,18 @@
  * Do not distribute
  */
 
+import Layout from "@/ui/Layout";
+
 const UpdateBilling = () => {
-  return <></>;
+  return (
+    <Layout>
+      <Layout.Header
+        hasBackButton
+        title="Billing"
+        subtitle="Manage your current plan"
+      />
+    </Layout>
+  );
 };
 
 export default UpdateBilling;
