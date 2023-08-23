@@ -26,6 +26,7 @@
     "expo": "~49.0.5",
     "expo-dev-client": "~2.4.6",
     "expo-font": "~11.4.0",
+    "expo-notifications": "~0.20.1",
     "expo-sensors": "~12.3.0",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
