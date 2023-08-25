@@ -10,8 +10,23 @@
  * Do not distribute
  */
 
-const UpdateGeneral = () => {
-  return <></>;
+import Layout from "@/ui/Layout";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+interface UpdateGeneralProps {
+  navigation: NativeStackNavigationProp<any>;
+}
+
+const UpdateGeneral: React.FC<UpdateGeneralProps> = ({ navigation }) => {
+  return (
+    <Layout>
+      <Layout.Header
+        hasBackButton
+        title="General"
+        subtitle="Update general information"
+      />
+    </Layout>
+  );
 };
 
 export default UpdateGeneral;

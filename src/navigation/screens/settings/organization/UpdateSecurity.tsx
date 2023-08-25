@@ -10,8 +10,23 @@
  * Do not distribute
  */
 
-const UpdateSecurity = () => {
-  return <></>;
+import Layout from "@/ui/Layout";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+interface UpdateSecurityProps {
+  navigation: NativeStackNavigationProp<any>;
+}
+
+const UpdateSecurity: React.FC<UpdateSecurityProps> = ({ navigation }) => {
+  return (
+    <Layout>
+      <Layout.Header
+        hasBackButton
+        title="Security"
+        subtitle="Update security information"
+      />
+    </Layout>
+  );
 };
 
 export default UpdateSecurity;

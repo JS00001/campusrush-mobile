@@ -10,13 +10,30 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
-import ActionCard from "@/ui/ActionCard";
-import Button from "@/ui/Button";
-import Layout from "@/ui/Layout";
 import { View } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-const Settings = () => {
+import tw from "@/lib/tailwind";
+import Layout from "@/ui/Layout";
+import ActionCard from "@/ui/ActionCard";
+
+interface SettingsProps {
+  navigation: NativeStackNavigationProp<any>;
+}
+
+const Settings: React.FC<SettingsProps> = ({ navigation }) => {
+  const onOrganizationPress = () => {
+    navigation.navigate("UpdateOrganization");
+  };
+
+  const onBillingPress = () => {
+    navigation.navigate("UpdateBilling");
+  };
+
+  const onNotificationsPress = () => {
+    navigation.navigate("UpdateNotifications");
+  };
+
   return (
     <Layout scrollable>
       <Layout.Header title="Settings" subtitle="Manage your organization" />
@@ -25,21 +42,21 @@ const Settings = () => {
         title="Organization"
         subtitle="Manage your organization"
         icon="ri-building-2-fill"
-        onPress={() => {}}
+        onPress={onOrganizationPress}
       />
 
       <ActionCard
         title="Billing"
         subtitle="Manage your billing"
         icon="ri-bank-card-2-fill"
-        onPress={() => {}}
+        onPress={onBillingPress}
       />
 
       <ActionCard
         title="Notifications"
         subtitle="Manage your notifications"
         icon="ri-notification-2-fill"
-        onPress={() => {}}
+        onPress={onNotificationsPress}
       />
 
       <View style={tw`w-full flex-row gap-5`}>
