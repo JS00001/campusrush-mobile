@@ -10,8 +10,17 @@
  * Do not distribute
  */
 
+import Layout from "@/ui/Layout";
+
 const Messages = () => {
-  return <></>;
+  return (
+    <Layout scrollable>
+      <Layout.Header
+        title="Messages"
+        subtitle="Message potential new members"
+      />
+    </Layout>
+  );
 };
 
 export default Messages;

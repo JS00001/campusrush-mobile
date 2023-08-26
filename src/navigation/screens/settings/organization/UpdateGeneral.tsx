@@ -10,21 +10,39 @@
  * Do not distribute
  */
 
-import Layout from "@/ui/Layout";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import Layout from "@/ui/Layout";
+import Button from "@/ui/Button";
+import TextInput from "@/ui/TextInput";
+import { useAuth } from "@/providers/Auth";
 
 interface UpdateGeneralProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const UpdateGeneral: React.FC<UpdateGeneralProps> = ({ navigation }) => {
+  const { organization } = useAuth();
+
   return (
-    <Layout>
+    <Layout scrollable>
       <Layout.Header
         hasBackButton
         title="General"
         subtitle="Update general information"
       />
+
+      <TextInput placeholder="Email" value={organization.email || "N/A"} />
+      <TextInput
+        placeholder="First Name"
+        value={organization.firstName || "N/A"}
+      />
+      <TextInput
+        placeholder="Last Name"
+        value={organization.lastName || "N/A"}
+      />
+
+      <Button>Save</Button>
     </Layout>
   );
 };

@@ -14,6 +14,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
 import ActionCard from "@/ui/ActionCard";
+import TextInput from "@/ui/TextInput";
+import { useAuth } from "@/providers/Auth";
 
 interface UpdateOrganizationProps {
   navigation: NativeStackNavigationProp<any>;
@@ -22,6 +24,8 @@ interface UpdateOrganizationProps {
 const UpdateOrganization: React.FC<UpdateOrganizationProps> = ({
   navigation,
 }) => {
+  const { organization } = useAuth();
+
   const onGeneralPress = () => {
     navigation.navigate("UpdateGeneral");
   };
@@ -36,6 +40,17 @@ const UpdateOrganization: React.FC<UpdateOrganizationProps> = ({
         hasBackButton
         title="Organization"
         subtitle="Manage your organization"
+      />
+
+      <TextInput
+        disabled
+        placeholder="Organization Name"
+        value={organization.name || "N/A"}
+      />
+      <TextInput
+        disabled
+        placeholder="School"
+        value={organization.school || "N/A"}
       />
 
       <ActionCard

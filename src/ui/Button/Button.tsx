@@ -24,6 +24,7 @@ interface ButtonProps extends TouchableOpacityProps {
   size?: keyof typeof sizeClasses;
   color?: keyof typeof colorClasses;
   style?: any;
+  textStyle?: any;
   loading?: boolean;
   disabled?: boolean;
   iconLeft?: string; // TODO: Add proper icon name support
@@ -91,6 +92,7 @@ const Button: React.FC<ButtonProps> = ({
   size = "lg",
   color = "dark",
   style,
+  textStyle,
   loading,
   disabled,
   iconLeft,
@@ -119,6 +121,7 @@ const Button: React.FC<ButtonProps> = ({
     disabled && colorClasses[color].text.disabled, // Set the disabled color if the button is disabled
     sizeClasses[size].text,
     loading && "opacity-0", // Hide the text if the button is loading
+    textStyle,
   );
 
   // The icon color is applied to the Icon component

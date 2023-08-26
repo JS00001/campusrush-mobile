@@ -113,8 +113,14 @@ const TextInput: React.FC<TextInputProps> = ({
   const inputClasses = tw.style(
     // Input Sizing
     "border p-5 rounded-md text-lg leading-5",
+    // Disabled text styling
+    disabled && "text-slate-500",
     // Error Styling
-    error ? "border-red-500" : "border-slate-400",
+    error
+      ? "border-red-500"
+      : disabled
+      ? "border-slate-200"
+      : "border-slate-400",
     // Passed in input styles
     inputStyle,
   );
@@ -123,7 +129,7 @@ const TextInput: React.FC<TextInputProps> = ({
     // Label Sizing and Styling
     "absolute left-3 -z-10 bg-white px-1",
     // If there is an error, make the label red
-    error ? "text-red-500" : "text-slate-500",
+    error ? "text-red-500" : disabled ? "text-slate-300" : "text-slate-500",
   );
 
   return (

@@ -17,14 +17,14 @@ import tw from "@/lib/tailwind";
 
 interface SelectionCardProps {
   // Whether or not the card is selected
-  selected: boolean;
+  selected?: boolean;
   // Default content
   title?: string;
   description?: string;
   subtitle?: string;
   // Action items
   pressable?: boolean;
-  onPress: () => void;
+  onPress?: () => void;
   // Children
   children?: React.ReactNode;
   hideChildrenWhenUnselected?: boolean;

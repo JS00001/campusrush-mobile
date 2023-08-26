@@ -10,8 +10,11 @@
  * Do not distribute
  */
 
-import Layout from "@/ui/Layout";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import Button from "@/ui/Button";
+import Layout from "@/ui/Layout";
+import TextInput from "@/ui/TextInput";
 
 interface UpdateSecurityProps {
   navigation: NativeStackNavigationProp<any>;
@@ -19,12 +22,18 @@ interface UpdateSecurityProps {
 
 const UpdateSecurity: React.FC<UpdateSecurityProps> = ({ navigation }) => {
   return (
-    <Layout>
+    <Layout scrollable>
       <Layout.Header
         hasBackButton
         title="Security"
         subtitle="Update security information"
       />
+
+      <TextInput placeholder="Current Password" secureTextEntry />
+      <TextInput placeholder="New Password" secureTextEntry />
+      <TextInput placeholder="Confirm Password" secureTextEntry />
+
+      <Button>Save</Button>
     </Layout>
   );
 };

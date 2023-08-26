@@ -14,7 +14,7 @@ import Layout from "@/ui/Layout";
 
 const UpdateBilling = () => {
   return (
-    <Layout>
+    <Layout scrollable>
       <Layout.Header
         hasBackButton
         title="Billing"

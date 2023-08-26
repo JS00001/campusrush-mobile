@@ -10,8 +10,8 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
 import { DeviceMotion } from "expo-sensors";
+import { View, Pressable } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import NetworkLogger from "react-native-network-logger";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -71,6 +71,15 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
         ref={bottomSheetModalRef}
         index={0}
         snapPoints={snapPoints}
+        // Add box shadow to the bottom sheet modal
+        style={tw`shadow-lg`}
+        // Make clicking outside the bottom sheet modal dismiss it
+        backdropComponent={() => (
+          <Pressable
+            style={tw`h-full w-full absolute bg-black opacity-20`}
+            onPress={handleCloseModalPress}
+          />
+        )}
       >
         <View style={tw`w-full px-4 py-2`}>
           <SegmentedControl
