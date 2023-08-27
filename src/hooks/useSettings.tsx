@@ -41,20 +41,26 @@ const useSettings = () => {
     },
     onSubmit: async (values) => {
       let response;
-      // Update the organization
+
       try {
+        // Attempt to update the organization
         response = await mutation.mutateAsync(values);
       } catch (error) {
+        // If the error is a request error
         if (error instanceof AxiosError) {
+          // Extract the error message
           const errorMessage = error.response?.data?.error as APIError;
 
+          // If there is a field that the error applies to
+          // and the form has that field
           if (
             errorMessage.field &&
             form.values.hasOwnProperty(errorMessage.field)
           ) {
-            // set the error on the field
+            // Set the field error
             form.setFieldError(errorMessage.field, errorMessage.humanMessage);
           } else {
+            // Else show the error as a toast message
             Toast.show({
               type: "error",
               text1: "Error",
@@ -64,9 +70,11 @@ const useSettings = () => {
         }
       }
 
-      // Return if there was an error
+      // If there was an error, there is no response
+      // This is to prevent the code below from running
       if (!response) return;
 
+      // Get the updated organization from the response
       let updatedOrganization = response?.data.data.organization;
 
       // Update the organization in the auth context
