@@ -105,3 +105,11 @@ type RefreshAccessTokenAPIResponse = APIResponse & {
     };
   };
 };
+
+type UpdateOrganizationAPIResponse = APIResponse & {
+  data: {
+    data: {
+      organization: Organization;
+    };
+  };
+};

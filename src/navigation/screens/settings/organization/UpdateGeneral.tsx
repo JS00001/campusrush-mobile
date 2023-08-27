@@ -10,19 +10,34 @@
  * Do not distribute
  */
 
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
-import { useAuth } from "@/providers/Auth";
+import useSettings from "@/hooks/useSettings";
 
-interface UpdateGeneralProps {
-  navigation: NativeStackNavigationProp<any>;
-}
+const UpdateGeneral: React.FC = () => {
+  const {
+    email,
+    firstName,
+    lastName,
+    setEmail,
+    setFirstName,
+    setLastName,
+    errors,
+    isLoading,
+    handleSubmission,
+    validateFields,
+  } = useSettings();
 
-const UpdateGeneral: React.FC<UpdateGeneralProps> = ({ navigation }) => {
-  const { organization } = useAuth();
+  // Handle the submission of the form
+  const onSave = () => {
+    // Ensure the fields are valid
+    const isValid = validateFields(["email", "firstName", "lastName"]);
+    // If the fields are not valid, dont navigate to the next screen
+    if (!isValid) return;
+    // Handle the submission of the form
+    handleSubmission();
+  };
 
   return (
     <Layout scrollable>
@@ -32,17 +47,28 @@ const UpdateGeneral: React.FC<UpdateGeneralProps> = ({ navigation }) => {
         subtitle="Update general information"
       />
 
-      <TextInput placeholder="Email" value={organization.email || "N/A"} />
+      <TextInput
+        placeholder="Email"
+        value={email || "N/A"}
+        onChangeText={setEmail}
+        error={errors.email}
+      />
       <TextInput
         placeholder="First Name"
-        value={organization.firstName || "N/A"}
+        value={firstName || "N/A"}
+        onChangeText={setFirstName}
+        error={errors.firstName}
       />
       <TextInput
         placeholder="Last Name"
-        value={organization.lastName || "N/A"}
+        value={lastName || "N/A"}
+        onChangeText={setLastName}
+        error={errors.lastName}
       />
 
-      <Button>Save</Button>
+      <Button onPress={onSave} loading={isLoading}>
+        Save Changes
+      </Button>
     </Layout>
   );
 };

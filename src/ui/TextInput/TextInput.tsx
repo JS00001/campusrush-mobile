@@ -102,6 +102,14 @@ const TextInput: React.FC<TextInputProps> = ({
     }
   }, []);
 
+  // If the value prop changes, update the current text
+  useEffect(() => {
+    setCurrentText(value || "");
+
+    // If the value prop is empty, animate the placeholder back to the placeholder state
+    if (!value) animatePlaceholder(20, 18);
+  }, [value]);
+
   // Styling
   const containerClasses = tw.style(
     // Positioning and size

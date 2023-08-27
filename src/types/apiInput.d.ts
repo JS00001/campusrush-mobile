@@ -54,3 +54,14 @@ interface RefreshAccessTokenInput {
 interface LogoutInput {
   accessToken: string;
 }
+
+interface UpdateOrganizationInput {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  currentPassword?: string;
+  newPassword?: string;
+  confirmNewPassword?: string;
+  notificationPushToken?: string;
+  notificationsEnabled?: boolean;
+}

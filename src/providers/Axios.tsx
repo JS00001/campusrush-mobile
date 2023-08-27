@@ -103,6 +103,8 @@ const AxiosIntercepter: React.FC<{ children?: React.ReactNode }> = ({
         clearUserData();
         return Promise.reject(error);
       }
+
+      return Promise.reject(error);
     };
 
     const resInterceptor = axiosClient.interceptors.response.use(

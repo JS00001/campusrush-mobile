@@ -71,8 +71,6 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
         ref={bottomSheetModalRef}
         index={0}
         snapPoints={snapPoints}
-        // Add box shadow to the bottom sheet modal
-        style={tw`shadow-lg`}
         // Make clicking outside the bottom sheet modal dismiss it
         backdropComponent={() => (
           <Pressable
