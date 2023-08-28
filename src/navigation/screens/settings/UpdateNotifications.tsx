@@ -12,8 +12,27 @@
 
 import Layout from "@/ui/Layout";
 import SelectionCard from "@/ui/SelectionCard/SelectionCard";
+import { useNotifications } from "@/providers/Notifications";
 
 const UpdateNotifications = () => {
+  const {
+    isLoading,
+    notificationsEnabled,
+    setNotificationsEnabled,
+    enableNotificationsSubtitle,
+    disableNotificationsSubtitle,
+  } = useNotifications();
+
+  // Update the notification status to enabled
+  const onNotificationsEnable = () => {
+    setNotificationsEnabled(true);
+  };
+
+  // Update the notification status to disabled
+  const onNotificationsDisable = () => {
+    setNotificationsEnabled(false);
+  };
+
   return (
     <Layout scrollable>
       <Layout.Header
@@ -23,17 +42,20 @@ const UpdateNotifications = () => {
       />
 
       <SelectionCard
-        selected
+        loading={isLoading}
+        selected={notificationsEnabled}
         title="Enable Notifications"
         description="You will receive push notifications for various events to better help your organization succeed."
-        subtitle="Currently Selected"
-        onPress={() => {}}
+        subtitle={enableNotificationsSubtitle}
+        onPress={onNotificationsEnable}
       />
       <SelectionCard
+        loading={isLoading}
+        selected={!notificationsEnabled}
         title="Disable Notifications"
         description="You will not receive push notifications. You can turn notifications back on at any time."
-        subtitle="Click to disable notifications"
-        onPress={() => {}}
+        subtitle={disableNotificationsSubtitle}
+        onPress={onNotificationsDisable}
       />
     </Layout>
   );

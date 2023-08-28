@@ -19,12 +19,12 @@ interface Organization {
   email: string;
   school: string;
   verified: boolean;
-
   // Users of the organization
   pnms: PNM[];
-
-  // Billing information
+  // Billing
   customerId: string;
+  // Notifications
+  notificationsEnabled: boolean;
 }
 
 interface APIError {

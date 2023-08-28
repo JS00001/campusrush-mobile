@@ -10,13 +10,13 @@
  * Do not distribute
  */
 
+import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import Purchases, { CustomerInfo } from "react-native-purchases";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useEffect, useState, useContext } from "react";
 
 import authAPI from "@/api/auth";
-import { AxiosError } from "axios";
 
 interface AuthContextProps {
   isLoading: boolean;
