@@ -16,4 +16,21 @@ import { API_VERSION_URL } from '@/api/constants';
 
 axiosClient.defaults.baseURL = API_VERSION_URL + '/organization';
 
-const authAPIClient = axiosClient;
+const organizationAPIClient = axiosClient;
+
+/**
+ * PUT /api/v1/organization/update
+ *
+ * Returns
+ * - data
+ *  - organization
+ */
+const updateOrganization = (
+  data: UpdateOrganizationInput,
+): Promise<UpdateOrganizationAPIResponse> => {
+  return organizationAPIClient.put('/update', data);
+};
+
+export default {
+  updateOrganization,
+};

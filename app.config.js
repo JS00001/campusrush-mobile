@@ -34,6 +34,12 @@ export default {
       publicKey: 'appl_cjerjYwfjLIGoYMsbLhqPxeeqwp',
     },
   },
+  updates: {
+    url: 'https://u.expo.dev/9e0d874e-cc30-4dca-ae7e-9609b121b1ae',
+  },
+  runtimeVersion: {
+    policy: 'appVersion',
+  },
   owner: 'js00001',
   plugins: [
     [

@@ -135,7 +135,70 @@ const validateLogin = (input: LoginAsOrganizationInput) => {
   return errors;
 };
 
+const validateSettings = (input: UpdateOrganizationInput) => {
+  const errors = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    currentPassword: '',
+    newPassword: '',
+    confirmNewPassword: '',
+  };
+
+  if (!input.currentPassword) {
+    errors.currentPassword = 'Current password is required';
+  }
+
+  if (!input.newPassword) {
+    errors.newPassword = 'Password is required';
+  }
+
+  if (!input.confirmNewPassword) {
+    errors.confirmNewPassword = 'Password is required';
+  }
+
+  if (input.newPassword !== input.confirmNewPassword) {
+    if (!errors.newPassword && !errors.confirmNewPassword) {
+      errors.newPassword = 'Passwords do not match';
+      errors.confirmNewPassword = 'Passwords do not match';
+    }
+  }
+
+  const nameRegex = /^[a-zA-Z]+$/;
+
+  if (input.firstName && !nameRegex.test(input.firstName)) {
+    if (!errors.firstName) errors.firstName = 'Invalid first name';
+  }
+
+  if (input.lastName && !nameRegex.test(input.lastName)) {
+    if (!errors.lastName) errors.lastName = 'Invalid last name';
+  }
+
+  // Validate email is a valid email
+  const emailRegex = /\S+@\S+\.\S+/;
+
+  if (input.email && !emailRegex.test(input.email)) {
+    if (!errors.email) errors.email = 'Invalid email address';
+  }
+
+  // Validate password is at least 6 characters
+  if (input.newPassword && input.newPassword.length < 6) {
+    if (!errors.newPassword) errors.newPassword = 'Password too short';
+  }
+
+  // Check if all errors are empty
+  // If so, return an empty object
+  const allErrors = Object.values(errors).filter((error) => error !== '');
+
+  if (allErrors.length === 0) {
+    return {} as UpdateOrganizationInput;
+  }
+
+  return errors;
+};
+
 export default {
   validateLogin,
   validateRegistration,
+  validateSettings,
 };

@@ -26,10 +26,10 @@ import VerificationScreen from "@/navigation/screens/verification/Verification";
 
 import SettingsScreen from "@/navigation/screens/settings/Settings";
 import UpdateBillingScreen from "@/navigation/screens/settings/UpdateBilling";
-import OrganizationScreen from "@/navigation/screens/settings/organization/Organization";
 import UpdateNotificationsScreen from "@/navigation/screens/settings/UpdateNotifications";
 import UpdateGeneralScreen from "@/navigation/screens/settings/organization/UpdateGeneral";
 import UpdateSecurityScreen from "@/navigation/screens/settings/organization/UpdateSecurity";
+import UpdateOrganizationScreen from "@/navigation/screens/settings/organization/UpdateOrganization";
 
 import LoginScreen from "@/navigation/screens/auth/Login";
 import LandingScreen from "@/navigation/screens/auth/Landing";
@@ -216,8 +216,8 @@ export const SettingsStack = () => {
         component={UpdateBillingScreen}
       />
       <Stack.Screen
-        name="Organization"
-        component={OrganizationScreen}
+        name="UpdateOrganization"
+        component={UpdateOrganizationScreen}
       />
       <Stack.Screen
         name="UpdateGeneral"

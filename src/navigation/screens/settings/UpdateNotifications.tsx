@@ -11,14 +11,29 @@
  */
 
 import Layout from "@/ui/Layout";
+import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 
 const UpdateNotifications = () => {
   return (
-    <Layout>
+    <Layout scrollable>
       <Layout.Header
         hasBackButton
         title="Notifications"
         subtitle="Manage your notifications"
+      />
+
+      <SelectionCard
+        selected
+        title="Enable Notifications"
+        description="You will receive push notifications for various events to better help your organization succeed."
+        subtitle="Currently Selected"
+        onPress={() => {}}
+      />
+      <SelectionCard
+        title="Disable Notifications"
+        description="You will not receive push notifications. You can turn notifications back on at any time."
+        subtitle="Click to disable notifications"
+        onPress={() => {}}
       />
     </Layout>
   );

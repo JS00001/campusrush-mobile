@@ -18,6 +18,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { startNetworkLogging } from "react-native-network-logger";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import toastConfig from "@/lib/toast";
 import queryClient from "@/lib/queryClient";
 import AuthProvider from "@/providers/Auth";
 import AxiosIntercepter from "@/providers/Axios";
@@ -45,7 +46,7 @@ const App = () => {
                 <BottomSheetModalProvider>
                   <DevEnvironmentProvider>
                     <RootNavigator />
-                    <Toast />
+                    <Toast config={toastConfig} />
                   </DevEnvironmentProvider>
                 </BottomSheetModalProvider>
               </GestureHandlerRootView>

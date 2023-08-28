@@ -10,8 +10,17 @@
  * Do not distribute
  */
 
+import Layout from "@/ui/Layout";
+
 const PNMs = () => {
-  return <></>;
+  return (
+    <Layout scrollable>
+      <Layout.Header
+        title="PNMs"
+        subtitle="View and manage all potential new members"
+      />
+    </Layout>
+  );
 };
 
 export default PNMs;
