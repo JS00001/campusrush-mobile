@@ -30,7 +30,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
 }) => {
   // Styling
   const containerClasses = tw.style(
-    "z-20 w-full h-full justify-end",
+    "z-10 w-full h-full justify-end",
     // Positioning
     "absolute bottom-6 right-6",
   );

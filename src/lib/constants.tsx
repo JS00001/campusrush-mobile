@@ -10,9 +10,10 @@
  * Do not distribute
  */
 
-import ExpoConstants from 'expo-constants';
+import ExpoConstants from "expo-constants";
 
 const AppConstants = {
+  version: ExpoConstants.expoConfig?.version,
   revenueCatPublicKey: ExpoConstants.expoConfig?.extra?.revenueCat?.publicKey,
 };
 

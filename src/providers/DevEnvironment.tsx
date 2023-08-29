@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import lodash from "lodash";
 import { DeviceMotion } from "expo-sensors";
 import { View, Pressable } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
@@ -22,6 +23,7 @@ import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import { useAuth } from "@/providers/Auth";
 import SegmentedControl from "@/ui/SegmentedControl";
+import AppConstants from "@/lib/constants";
 
 interface DevEnvironmentProviderProps {
   children: React.ReactNode;
@@ -31,7 +33,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
   children,
 }) => {
   // Use data from auth provider
-  const { signOut } = useAuth();
+  const { signOut, organization, billingData } = useAuth();
   // The active index of the segmented control
   const [activeIndex, setActiveIndex] = useState<number>(0);
   // Ref to the bottom sheet modal so we can programmatically open it
@@ -81,7 +83,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
       >
         <View style={tw`w-full px-4 py-2`}>
           <SegmentedControl
-            values={["Network", "Overrides"]}
+            values={["Network", "Overrides", "Debug Info"]}
             selectedIndex={activeIndex}
             onChange={(event) => {
               setActiveIndex(event.nativeEvent.selectedSegmentIndex);
@@ -103,28 +105,132 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
         {/* Overrides */}
         {activeIndex === 1 && (
           <>
-            <Layout gap={8} scrollable>
-              <Text style={tw`w-full text-gray-500 font-medium`} variant="body">
-                Auth Overrides
-              </Text>
-              <Button
-                onPress={() => {
-                  signOut();
-                  handleCloseModalPress();
-                }}
-              >
-                Force Logout
-              </Button>
+            <Layout gap={20} scrollable>
+              <View style={tw`w-full gap-y-2`}>
+                <Text
+                  style={tw`w-full text-gray-500 font-medium`}
+                  variant="body"
+                >
+                  Current Subscription?
+                </Text>
 
-              <Text
-                style={tw`w-full text-gray-500 font-medium mt-6`}
-                variant="body"
-              >
-                Subscription Overrides
-              </Text>
-              <Button disabled>Clear Subscriptions</Button>
-              <Button disabled>Force Basic Subscription</Button>
-              <Button disabled>Force Pro Subscription</Button>
+                <View style={tw`bg-slate-100 p-3 rounded-md w-full`}>
+                  {lodash.isEmpty(billingData?.entitlements?.active) ? (
+                    <Text style={tw`text-red-700`}>No active subscription</Text>
+                  ) : (
+                    <Text style={tw`text-green-700`}>Subscription active</Text>
+                  )}
+                </View>
+              </View>
+
+              <View style={tw`w-full gap-y-2`}>
+                <Text
+                  style={tw`w-full text-gray-500 font-medium`}
+                  variant="body"
+                >
+                  Auth Overrides
+                </Text>
+                <Button
+                  iconLeft="ri-logout-circle-line"
+                  onPress={() => {
+                    signOut();
+                    handleCloseModalPress();
+                  }}
+                >
+                  Force Logout
+                </Button>
+              </View>
+
+              <View style={tw`w-full gap-y-2`}>
+                <Text
+                  style={tw`w-full text-gray-500 font-medium`}
+                  variant="body"
+                >
+                  Subscription Overrides
+                </Text>
+                <Button
+                  disabled={lodash.isEmpty(organization)}
+                  iconLeft="ri-delete-bin-line"
+                >
+                  Clear Subscriptions
+                </Button>
+                <Button
+                  disabled={lodash.isEmpty(organization)}
+                  iconLeft="ri-vip-diamond-line"
+                >
+                  Force Basic Subscription
+                </Button>
+                <Button
+                  disabled={lodash.isEmpty(organization)}
+                  iconLeft="ri-copper-diamond-line"
+                >
+                  Force Pro Subscription
+                </Button>
+              </View>
+            </Layout>
+          </>
+        )}
+
+        {/* Debug Information */}
+        {activeIndex === 2 && (
+          <>
+            <Layout gap={20} scrollable contentContainerStyle={tw`items-start`}>
+              <View style={tw`w-full gap-y-2`}>
+                <Text style={tw` text-gray-500 font-medium`} variant="body">
+                  App Version
+                </Text>
+                <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
+                  <Text>{AppConstants.version}</Text>
+                </View>
+              </View>
+
+              <View style={tw`w-full gap-y-2`}>
+                <Text style={tw`text-gray-500 font-medium`} variant="body">
+                  Current Organization
+                </Text>
+                <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
+                  <Text>
+                    {JSON.stringify(organization, null, 2).slice(1, -1)}
+                  </Text>
+                </View>
+              </View>
+
+              <View style={tw`w-full gap-y-2`}>
+                <Text
+                  style={tw`w-full text-gray-500 font-medium`}
+                  variant="body"
+                >
+                  Current Subscription
+                </Text>
+
+                <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
+                  {lodash.isEmpty(billingData?.entitlements?.active) ? (
+                    <Text>No active subscription</Text>
+                  ) : (
+                    <Text>
+                      {JSON.stringify(
+                        billingData?.entitlements?.active,
+                        null,
+                        2,
+                      ).slice(1, -1)}
+                    </Text>
+                  )}
+                </View>
+              </View>
+
+              <View style={tw`w-full gap-y-2`}>
+                <Text style={tw`text-gray-500 font-medium`} variant="body">
+                  RevenueCat Entitlement Information
+                </Text>
+                <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
+                  <Text>
+                    {JSON.stringify(billingData?.entitlements, null, 2).slice(
+                      1,
+                      -1,
+                    )}
+                  </Text>
+                </View>
+              </View>
             </Layout>
           </>
         )}

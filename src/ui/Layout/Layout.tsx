@@ -107,6 +107,7 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
     ),
     ScrollView: (
       <ScrollView
+        automaticallyAdjustKeyboardInsets
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={contentContainerStyles}
       >
