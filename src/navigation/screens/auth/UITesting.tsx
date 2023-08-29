@@ -19,6 +19,7 @@ import { useFormik } from "formik";
 import React from "react";
 import { View } from "react-native";
 import tw from "@/lib/tailwind";
+import ActionButton from "@/ui/ActionButton/ActionButton";
 
 interface UITestingProps {}
 
@@ -80,15 +81,17 @@ const UITesting: React.FC<UITestingProps> = () => {
   const [selected, setSelected] = React.useState(0);
 
   return (
-    <Layout>
-      <Layout.Header title="Test" subtitle="Test 2" hasBackButton />
-      {/* <SegmentedControl
+    <>
+      <Layout>
+        <Layout.Header title="Test" subtitle="Test 2" hasBackButton />
+
+        {/* <SegmentedControl
         values={["Monthly", "Yearly"]}
         selectedIndex={0}
         onChange={() => {}}
       /> */}
 
-      {/* <SelectionCard
+        {/* <SelectionCard
         selected={selected === 0}
         title="Basic Lifetime Plan"
         description="One-time Purchase"
@@ -103,30 +106,33 @@ const UITesting: React.FC<UITestingProps> = () => {
         onPress={() => setSelected(1)}
       /> */}
 
-      <ActionCard
-        title="Test"
-        subtitle="Test 2"
-        icon="ri-building-2-fill"
-        onPress={() => {}}
-      />
+        <ActionCard
+          title="Test"
+          subtitle="Test 2"
+          icon="ri-building-2-fill"
+          onPress={() => {}}
+        />
 
-      <View style={tw`flex-row gap-6 w-full`}>
-        <ActionCard
-          title="Test"
-          subtitle="Test 2"
-          icon="ri-building-2-fill"
-          onPress={() => {}}
-          size="sm"
-        />
-        <ActionCard
-          title="Test"
-          subtitle="Test 2"
-          icon="ri-building-2-fill"
-          onPress={() => {}}
-          size="sm"
-        />
-      </View>
-    </Layout>
+        <View style={tw`flex-row gap-6 w-full`}>
+          <ActionCard
+            title="Test"
+            subtitle="Test 2"
+            icon="ri-building-2-fill"
+            onPress={() => {}}
+            size="sm"
+          />
+          <ActionCard
+            title="Test"
+            subtitle="Test 2"
+            icon="ri-building-2-fill"
+            onPress={() => {}}
+            size="sm"
+          />
+        </View>
+      </Layout>
+
+      <ActionButton icon="ri-add-line" onPress={() => {}} />
+    </>
   );
 };
 

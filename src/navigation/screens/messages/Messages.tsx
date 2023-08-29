@@ -11,11 +11,11 @@
  */
 
 import tw from "@/lib/tailwind";
+import ActionButton from "@/ui/ActionButton";
 import Button from "@/ui/Button";
 import Layout from "@/ui/Layout";
 import Text from "@/ui/Text";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { View } from "react-native";
 
 interface MessagesProps {
   navigation: NativeStackNavigationProp<any>;
@@ -27,14 +27,15 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
   };
 
   return (
-    <Layout scrollable gap={8}>
-      <Layout.Header
-        title="Messages"
-        subtitle="Message potential new members"
-      />
-
-      <Button onPress={onNewChatPress}>New Message</Button>
-    </Layout>
+    <>
+      <ActionButton icon="ri-add-line" onPress={onNewChatPress} />
+      <Layout scrollable gap={8}>
+        <Layout.Header
+          title="Messages"
+          subtitle="Message potential new members"
+        />
+      </Layout>
+    </>
   );
 };
 

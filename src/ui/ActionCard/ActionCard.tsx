@@ -20,6 +20,7 @@ interface ActionCardProps {
   title: string;
   subtitle: string;
   icon: string;
+  pressable?: boolean;
   size?: keyof typeof sizeClasses;
   onPress?: () => void;
   style?: any;
@@ -31,8 +32,8 @@ const sizeClasses = {
     childContainer: tw.style("flex-col gap-y-2.5"),
   },
   md: {
-    container: tw.style(),
-    childContainer: tw.style(),
+    container: tw.style("p-5 flex-1"),
+    childContainer: tw.style("flex-col gap-y-2"),
   },
   lg: {
     container: tw.style(
@@ -47,6 +48,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
   subtitle,
   icon,
   size = "lg",
+  pressable = true,
   onPress,
   style,
 }) => {
@@ -67,41 +69,53 @@ const ActionCard: React.FC<ActionCardProps> = ({
   );
 
   return (
-    <TouchableOpacity style={containerClasses} onPress={onPress}>
+    <TouchableOpacity
+      style={containerClasses}
+      onPress={onPress}
+      disabled={!pressable}
+    >
       <View style={childContainerClasses}>
         {/* Left side icon */}
         <View
           style={tw.style(
-            size == "sm" && "p-2 rounded-sm bg-slate-200 self-start",
+            size != "lg" && "p-2 rounded-sm bg-slate-200 self-start",
           )}
         >
           <RemixIcon name={icon} size={24} color={tw.color("primary")} />
         </View>
 
         {/* Title and subtitle for size=lg */}
-        <View style={tw.style(size == "sm" && "hidden", "shrink")}>
+        <View style={tw.style(size != "lg" && "hidden", "shrink")}>
           <Text style={tw`text-slate-500`}>{title}</Text>
           <Text variant="body" style={tw`text-primary`}>
             {subtitle}
           </Text>
         </View>
 
-        {/* Title and subtitle for size=sm */}
+        {/* Title and subtitle for size=sm and medium */}
         <View style={tw.style(size == "lg" && "hidden")}>
-          <Text variant="body" style={tw`text-primary`}>
+          <Text
+            variant={size == "md" ? "header" : "body"}
+            style={tw`text-primary`}
+          >
             {title}
           </Text>
           <Text style={tw`text-slate-500`}>{subtitle}</Text>
         </View>
       </View>
 
+      {/* Allow non-pressable buttons to still look proper */}
+      <View />
+
       {/* Right side chevron */}
-      <RemixIcon
-        style={tw.style(size === "sm" && "hidden")}
-        name="ri-arrow-right-s-line"
-        size={24}
-        color={tw.color("primary")}
-      />
+      {pressable && (
+        <RemixIcon
+          style={tw.style(size === "sm" && "hidden")}
+          name="ri-arrow-right-s-line"
+          size={24}
+          color={tw.color("primary")}
+        />
+      )}
     </TouchableOpacity>
   );
 };

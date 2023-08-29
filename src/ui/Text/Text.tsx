@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { Text as RNText } from "react-native";
+import { Text as RNText, TextProps as RNTextProps } from "react-native";
 
 import tw from "@/lib/tailwind";
 
@@ -27,7 +27,7 @@ const TextWithNoFontScaling = Object.assign(RNText, {
   },
 });
 
-interface TextProps {
+interface TextProps extends RNTextProps {
   variant?: keyof typeof variantClasses;
   children?: React.ReactNode;
   style?: any;
