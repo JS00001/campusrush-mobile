@@ -10,15 +10,30 @@
  * Do not distribute
  */
 
+import tw from "@/lib/tailwind";
+import Button from "@/ui/Button";
 import Layout from "@/ui/Layout";
+import Text from "@/ui/Text";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { View } from "react-native";
 
-const Messages = () => {
+interface MessagesProps {
+  navigation: NativeStackNavigationProp<any>;
+}
+
+const Messages: React.FC<MessagesProps> = ({ navigation }) => {
+  const onNewChatPress = () => {
+    navigation.navigate("CreateMessage");
+  };
+
   return (
-    <Layout scrollable>
+    <Layout scrollable gap={8}>
       <Layout.Header
         title="Messages"
         subtitle="Message potential new members"
       />
+
+      <Button onPress={onNewChatPress}>New Message</Button>
     </Layout>
   );
 };

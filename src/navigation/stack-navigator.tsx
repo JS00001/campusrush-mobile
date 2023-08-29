@@ -19,6 +19,7 @@ import PNMsScreen from "@/navigation/screens/pnms/PNMs";
 import HomeScreen from "@/navigation/screens/home/Home";
 
 import MessagesScreen from "@/navigation/screens/messages/Messages";
+import CreateMessage from "@/navigation/screens/messages/CreateMessage";
 
 import BillingScreen from "@/navigation/screens/billing/Billing";
 
@@ -193,6 +194,10 @@ export const MessagesStack = () => {
       <Stack.Screen
         name="Messages"
         component={MessagesScreen}
+      />
+      <Stack.Screen
+        name="CreateMessage"
+        component={CreateMessage}
       />
     </Stack.Navigator>
   );
