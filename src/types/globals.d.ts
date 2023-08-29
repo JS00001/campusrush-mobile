@@ -27,6 +27,24 @@ interface Organization {
   notificationsEnabled: boolean;
 }
 
+interface PNM {
+  // Organization information
+  organization: string;
+  // Identifying information
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  // Social media
+  instagram: string;
+  snapchat: string;
+  // Other information
+  receivedBid: boolean;
+  classification: string;
+  // Timestamps
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 interface APIError {
   field?: string;
   message: string;

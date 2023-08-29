@@ -10,27 +10,33 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
-import { useAuth } from "@/providers/Auth";
-import ActionCard from "@/ui/ActionCard";
-import Layout from "@/ui/Layout";
-import Text from "@/ui/Text";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { View } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
+import Layout from "@/ui/Layout";
+import ActionCard from "@/ui/ActionCard";
+import { useAuth } from "@/providers/Auth";
+import RecentPnms from "@/components/RecentPnms";
+import useStatistics from "@/hooks/useStatistics";
 
 interface HomeProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const Home: React.FC<HomeProps> = ({ navigation }) => {
+  // Load data from the API
   const { organization } = useAuth();
+  const { numPnms, numBids, isLoading, recentPnms } = useStatistics();
 
+  // When the user clicks the "New PNM" CTA
   const onAddPNM = () => {
     navigation.navigate("Add");
   };
 
   return (
-    <Layout contentContainerStyle={tw`items-start`}>
+    <Layout scrollable contentContainerStyle={tw`items-start`}>
       <Text variant="header" numberOfLines={1}>
         Welcome {organization.firstName}
       </Text>
@@ -39,19 +45,21 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
       <Text variant="title">Organization Statistics</Text>
       <View style={tw`w-full flex-row gap-5`}>
         <ActionCard
+          size="md"
+          loading={isLoading}
           pressable={false}
-          title="120"
+          title={numPnms?.toString()}
           subtitle="Current PNMs registered to rush"
           icon="ri-user-fill"
-          size="md"
         />
 
         <ActionCard
+          size="md"
+          loading={isLoading}
           pressable={false}
-          title="123"
+          title={numBids?.toString()}
           subtitle="PNMs expected to receive bids"
           icon="ri-user-star-fill"
-          size="md"
         />
       </View>
 
@@ -66,6 +74,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
 
       {/* Recently Added PNMs */}
       <Text variant="title">Recently Added PNMs</Text>
+      <RecentPnms pnms={recentPnms} loading={isLoading} />
     </Layout>
   );
 };

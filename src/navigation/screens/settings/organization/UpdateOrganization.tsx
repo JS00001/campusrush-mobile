@@ -12,6 +12,8 @@
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
+import tw from "@/lib/tailwind";
+import Button from "@/ui/Button";
 import Layout from "@/ui/Layout";
 import ActionCard from "@/ui/ActionCard";
 import TextInput from "@/ui/TextInput";
@@ -24,7 +26,7 @@ interface UpdateOrganizationProps {
 const UpdateOrganization: React.FC<UpdateOrganizationProps> = ({
   navigation,
 }) => {
-  const { organization } = useAuth();
+  const { organization, signOut, isLoading } = useAuth();
 
   const onGeneralPress = () => {
     navigation.navigate("UpdateGeneral");
@@ -66,6 +68,15 @@ const UpdateOrganization: React.FC<UpdateOrganizationProps> = ({
         icon="ri-shield-check-fill"
         onPress={onSecurityPress}
       />
+
+      <Button
+        size="sm"
+        style={tw`w-full bg-primary`}
+        iconLeft="ri-logout-circle-r-line"
+        onPress={signOut}
+      >
+        Sign Out of {organization.name}
+      </Button>
     </Layout>
   );
 };

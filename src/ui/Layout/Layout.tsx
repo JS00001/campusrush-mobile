@@ -70,14 +70,14 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
   // Styling
   const safeAreaStyles = tw.style(
     // Positioning and color
-    "z-10 bg-white",
+    "z-10 bg-white flex-1 h-full",
     // Custom styles as provided by the style prop
     style,
   );
 
   const contentContainerStyles = tw.style(
     // Sizing and positioning
-    "h-full w-full items-center p-6",
+    "w-full items-center p-6",
     // If flexGap is provided, add gap style
     gap.toString() && { gap: gap },
     // Custom styles as provided by the style prop

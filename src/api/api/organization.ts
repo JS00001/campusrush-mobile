@@ -19,6 +19,20 @@ axiosClient.defaults.baseURL = API_VERSION_URL + '/organization';
 const organizationAPIClient = axiosClient;
 
 /**
+ * GET /api/v1/organization/statistics
+ *
+ * Returns
+ * - data
+ *  - numPnms
+ *  - numPnmsWithBid
+ *  - recentPnms
+ */
+const getOrganizationStatistics =
+  (): Promise<GetOrganizationStatisticsAPIResponse> => {
+    return organizationAPIClient.get('/statistics');
+  };
+
+/**
  * PUT /api/v1/organization/update
  *
  * Returns
@@ -32,5 +46,6 @@ const updateOrganization = (
 };
 
 export default {
+  getOrganizationStatistics,
   updateOrganization,
 };

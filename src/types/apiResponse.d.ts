@@ -113,3 +113,13 @@ type UpdateOrganizationAPIResponse = APIResponse & {
     };
   };
 };
+
+type GetOrganizationStatisticsAPIResponse = APIResponse & {
+  data: {
+    data: {
+      numPnms: number;
+      numPnmsWithBid: number;
+      recentPnms: PNM[];
+    };
+  };
+};
