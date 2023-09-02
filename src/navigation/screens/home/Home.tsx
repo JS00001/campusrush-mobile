@@ -32,7 +32,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
 
   // When the user clicks the "New PNM" CTA
   const onAddPNM = () => {
-    navigation.navigate("Add");
+    navigation.navigate("AddTab", { screen: "Add" });
   };
 
   return (

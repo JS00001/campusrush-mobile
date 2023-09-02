@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import IconButton from "@/ui/IconButton/IconButton";
 import Layout from "@/ui/Layout";
 
 const PNMs = () => {
@@ -19,6 +20,8 @@ const PNMs = () => {
         title="PNMs"
         subtitle="View and manage all potential new members"
       />
+
+      <IconButton icon="ri-filter-3-fill" />
     </Layout>
   );
 };

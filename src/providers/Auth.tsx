@@ -20,24 +20,17 @@ import authAPI from "@/api/auth";
 
 interface AuthContextProps {
   isLoading: boolean;
-
   accessToken: string | null;
   refreshToken: string | null;
   organization: Organization;
-
   billingData: CustomerInfo;
-
   clearUserData: () => void;
-
   signOut: () => void;
   signIn: (input: LoginAsOrganizationInput) => Promise<void | APIError>;
   signUp: (input: RegisterAsOrganizationInput) => Promise<void | APIError>;
-
   refetchBillingData: () => Promise<void>;
-
   verifyOrganization: (input: VerifyOrganizationInput) => Promise<void>;
   resendVerificationEmail: () => Promise<void>;
-
   updateOrganization: (organization: Organization) => void;
 }
 

@@ -23,6 +23,7 @@ interface Organization {
   pnms: PNM[];
   // Billing
   customerId: string;
+  entitlements: string[];
   // Notifications
   notificationsEnabled: boolean;
 }
