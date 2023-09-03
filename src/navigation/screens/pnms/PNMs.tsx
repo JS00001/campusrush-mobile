@@ -10,11 +10,8 @@
  * Do not distribute
  */
 
-import usePnms from "@/hooks/usePnms";
-import lodash from "lodash";
-import IconButton from "@/ui/IconButton/IconButton";
 import Layout from "@/ui/Layout";
-
+import usePnms from "@/hooks/usePnms";
 import PnmsList from "@/components/PnmsList";
 
 const PNMs = () => {

@@ -16,6 +16,7 @@ import { View, TouchableOpacity, SectionList } from "react-native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
+import { debounce } from "lodash";
 
 interface PnmsListProps {
   pnms: PNM[];
@@ -26,6 +27,8 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms }) => {
   const sectionListRef = useRef<SectionList>(null);
   // Store the current letter
   const [currentLetter, setCurrentLetter] = useState("A");
+  // Is scrolling state
+  const [isScrolling, setIsScrolling] = useState(false);
 
   // When pnms change, create a new list like this
   // [ {title: "A", data: {pnms starting with A}}, {title: "B", data: {pnms starting with B}}, ...}}]
@@ -92,10 +95,35 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms }) => {
     }
   };
 
+  // On visible items changed
+  const onViewableItemsChanged = debounce((info) => {
+    // get first visible item
+    const firstItem = info.viewableItems[0];
+
+    // If there is a first item, set the current letter to the first letter of the first item
+    if (firstItem) {
+      setCurrentLetter(firstItem.section.title);
+    }
+
+    // Set is scrolling to false
+    setIsScrolling(false);
+  }, 300);
+
+  const handleScroll = () => {
+    if (!isScrolling) {
+      setIsScrolling(true);
+    }
+  };
+
   return (
     <View style={tw`flex-row h-full gap-x-2`}>
       {/* The contacts */}
       <SectionList
+        onScroll={handleScroll}
+        onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={{
+          itemVisiblePercentThreshold: 100,
+        }}
         showsVerticalScrollIndicator={false}
         ref={sectionListRef}
         sections={data}
