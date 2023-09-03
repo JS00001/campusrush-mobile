@@ -10,31 +10,32 @@
  * Do not distribute
  */
 
+import { debounce } from "lodash";
 import { useMemo, useRef, useState } from "react";
 import { View, TouchableOpacity, SectionList } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
-import { debounce } from "lodash";
 
 interface PnmsListProps {
   pnms: PNM[];
 }
 
 const PnmsList: React.FC<PnmsListProps> = ({ pnms }) => {
-  // Create a ref to the sectionlist so we can scroll to a specific index
+  // Create a ref to the sectionlist so we can scroll to a specific index programatically
   const sectionListRef = useRef<SectionList>(null);
-  // Store the current letter
+  // Store the current letter from the alphabet list
   const [currentLetter, setCurrentLetter] = useState("A");
-  // Is scrolling state
+  // Whether or not the list is scrolling, used to prevent the alphabet list from changing the current letter
   const [isScrolling, setIsScrolling] = useState(false);
 
   // When pnms change, create a new list like this
   // [ {title: "A", data: {pnms starting with A}}, {title: "B", data: {pnms starting with B}}, ...}}]
   // Only have an entry if there are pnms with that letter first name
-  // it MUSt return an array of objects with a title and data property
+  // Memoize so it only updates when pnms change
   const data = useMemo(() => {
+    // Reduce the pnms to an object with keys of the first letter of the first name
     const reduction = pnms.reduce(
       (acc, pnm) => {
         // Get the first letter of the first name
@@ -47,17 +48,16 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms }) => {
             data: [],
           };
         }
-
         // Add the pnm to that letter's data
         acc[firstLetter].data.push(pnm);
 
+        // Return the accumulator
         return acc;
       },
       {} as Record<string, { title: string; data: PNM[] }>,
     );
 
-    // Convert the object to an array
-
+    // Convert the object to an array and return it
     return Object.values(reduction);
   }, [pnms]);
 
@@ -84,78 +84,83 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms }) => {
       // Scroll to the closest letter
       sectionListRef.current?.scrollToLocation({
         sectionIndex: closestIndex,
+        // We use 1 because this WILL NOT WORK if we use 0
+        // Using 0 scrolls to "A" all the time (not sure why)
         itemIndex: 1,
       });
     } else {
-      // Scroll to the letter
+      // Scroll to the letter index
       sectionListRef.current?.scrollToLocation({
         sectionIndex: index,
+        // We use 1 because this WILL NOT WORK if we use 0
+        // Using 0 scrolls to "A" all the time (not sure why)
         itemIndex: 1,
       });
     }
   };
 
-  // On visible items changed
+  // When the viewable items change, get the first item and set the current letter to the first letter of the first item
   const onViewableItemsChanged = debounce((info) => {
-    // get first visible item
+    // Get the first item
     const firstItem = info.viewableItems[0];
 
-    // If there is a first item, set the current letter to the first letter of the first item
+    // If there is a first item, set the current letter to the section title
+    // The section title is the first letter of the first name
     if (firstItem) {
       setCurrentLetter(firstItem.section.title);
     }
 
     // Set is scrolling to false
     setIsScrolling(false);
-  }, 300);
+  }, 100);
 
+  // When the list is scrolling, set is scrolling to true
   const handleScroll = () => {
     if (!isScrolling) {
       setIsScrolling(true);
     }
   };
 
+  const renderItem = ({ item: pnm }: { item: PNM }) => (
+    <ListItem
+      key={pnm._id}
+      title={`${pnm.firstName} ${pnm.lastName}`}
+      subtitle={pnm.phoneNumber}
+    />
+  );
+
+  const ListEmptyComponent = () => {
+    return new Array(20)
+      .fill(0)
+      .map((_, i) => (
+        <ListItem key={i} title="" subtitle="" loading pressable={false} />
+      ));
+  };
+
   return (
     <View style={tw`flex-row h-full gap-x-2`}>
       {/* The contacts */}
       <SectionList
+        sections={data}
+        ref={sectionListRef}
         onScroll={handleScroll}
+        contentContainerStyle={tw`gap-y-2`}
+        showsVerticalScrollIndicator={false}
+        renderItem={renderItem}
+        // If there is no data, it is probably loading so show skeletons
+        ListEmptyComponent={ListEmptyComponent}
+        // When the viewable items change, this updates the current letter
         onViewableItemsChanged={onViewableItemsChanged}
+        // The viewability config is set to 100% so that the section header is visible when the first item is fully visible
         viewabilityConfig={{
           itemVisiblePercentThreshold: 100,
         }}
-        showsVerticalScrollIndicator={false}
-        ref={sectionListRef}
-        sections={data}
-        contentContainerStyle={tw`gap-y-2`}
         // Create a header for each letter
         renderSectionHeader={({ section: { title } }) => (
           <Text style={tw`text-slate-400 bg-white w-full font-medium`}>
             {title}
           </Text>
         )}
-        // Render each item as a list item
-        renderItem={({ item: pnm }) => (
-          <ListItem
-            key={pnm._id}
-            title={`${pnm.firstName} ${pnm.lastName}`}
-            subtitle={pnm.phoneNumber}
-          />
-        )}
-        // If there is no data, it is probably loading so show skeletons
-        ListEmptyComponent={() => {
-          return new Array(20)
-            .fill(0)
-            .map((_, i) => (
-              <ListItem
-                key={i}
-                title=""
-                subtitle=""
-                loading
-                pressable={false}
-              />
-            ));
-        }}
       />
 
       {/* The alphabet list to sort contacts */}
