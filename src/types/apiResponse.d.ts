@@ -123,3 +123,11 @@ type GetOrganizationStatisticsAPIResponse = APIResponse & {
     };
   };
 };
+
+type GetPnmsAPIResponse = APIResponse & {
+  data: {
+    data: {
+      pnms: PNM[];
+    };
+  };
+};

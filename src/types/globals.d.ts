@@ -29,6 +29,7 @@ interface Organization {
 }
 
 interface PNM {
+  _id: string;
   // Organization information
   organization: string;
   // Identifying information

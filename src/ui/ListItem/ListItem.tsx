@@ -11,13 +11,13 @@
  */
 
 import RemixIcon from "react-native-remix-icon";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";
 
-interface ListItemProps {
+interface ListItemProps extends TouchableOpacityProps {
   title: string;
   subtitle: string;
   pressable?: boolean;
@@ -33,6 +33,7 @@ const ListItem: React.FC<ListItemProps> = ({
   onPress,
   style,
   loading,
+  ...props
 }) => {
   // Styling
   const containerClasses = tw.style(
@@ -46,6 +47,7 @@ const ListItem: React.FC<ListItemProps> = ({
 
   return (
     <TouchableOpacity
+      {...props}
       disabled={!pressable}
       onPress={onPress}
       style={containerClasses}
@@ -73,7 +75,7 @@ const ListItem: React.FC<ListItemProps> = ({
       {pressable && (
         <RemixIcon
           name="ri-arrow-right-s-line"
-          size={24}
+          size={20}
           color={tw.color("primary")}
         />
       )}

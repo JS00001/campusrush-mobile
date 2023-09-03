@@ -14,7 +14,7 @@ import { axiosClient } from '@/providers/Axios';
 
 import { API_VERSION_URL } from '@/api/constants';
 
-axiosClient.defaults.baseURL = API_VERSION_URL + '/organization';
+axiosClient.defaults.baseURL = API_VERSION_URL;
 
 const organizationAPIClient = axiosClient;
 
@@ -29,7 +29,7 @@ const organizationAPIClient = axiosClient;
  */
 const getOrganizationStatistics =
   (): Promise<GetOrganizationStatisticsAPIResponse> => {
-    return organizationAPIClient.get('/statistics');
+    return organizationAPIClient.get('/organization/statistics');
   };
 
 /**
@@ -42,7 +42,7 @@ const getOrganizationStatistics =
 const updateOrganization = (
   data: UpdateOrganizationInput,
 ): Promise<UpdateOrganizationAPIResponse> => {
-  return organizationAPIClient.put('/update', data);
+  return organizationAPIClient.put('/organization/update', data);
 };
 
 export default {

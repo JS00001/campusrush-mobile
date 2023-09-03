@@ -10,18 +10,25 @@
  * Do not distribute
  */
 
+import usePnms from "@/hooks/usePnms";
+import lodash from "lodash";
 import IconButton from "@/ui/IconButton/IconButton";
 import Layout from "@/ui/Layout";
 
+import PnmsList from "@/components/PnmsList";
+
 const PNMs = () => {
+  const { pnms } = usePnms();
+
   return (
-    <Layout scrollable>
+    <Layout>
       <Layout.Header
         title="PNMs"
         subtitle="View and manage all potential new members"
       />
 
-      <IconButton icon="ri-filter-3-fill" />
+      {/* <IconButton icon="ri-filter-3-fill" /> */}
+      <PnmsList pnms={pnms} />
     </Layout>
   );
 };

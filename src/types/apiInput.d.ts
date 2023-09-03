@@ -65,3 +65,8 @@ interface UpdateOrganizationInput {
   notificationPushToken?: string;
   notificationsEnabled?: boolean;
 }
+
+interface GetPnmsInput {
+  page: number;
+  pageSize: number;
+}
