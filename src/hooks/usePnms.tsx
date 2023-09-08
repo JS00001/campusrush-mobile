@@ -10,13 +10,12 @@
  * Do not distribute
  */
 
-import lodash from "lodash";
+import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import pnmsApi from "@/api/api/pnms";
 import { useAuth } from "@/providers/Auth";
-import { useFormik } from "formik";
 
 const usePnms = () => {
   // The default page size for pagination
@@ -109,6 +108,7 @@ const usePnms = () => {
     const filtered = pnms.filter((pnm) => {
       const fullName = `${pnm.firstName} ${pnm.lastName}`;
 
+      // If there is no query, return all PNMs
       if (query === "") {
         return true;
       }

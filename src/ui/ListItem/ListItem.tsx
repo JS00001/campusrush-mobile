@@ -14,6 +14,7 @@ import RemixIcon from "react-native-remix-icon";
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
 import Text from "@/ui/Text";
+import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";
 
@@ -21,18 +22,20 @@ interface ListItemProps extends TouchableOpacityProps {
   title: string;
   subtitle: string;
   pressable?: boolean;
-  onPress?: () => void;
-  style?: any;
+  badge?: string;
   loading?: boolean;
+  style?: any;
+  onPress?: () => void;
 }
 
 const ListItem: React.FC<ListItemProps> = ({
   title,
   subtitle,
-  pressable = true,
+  badge,
   onPress,
   style,
   loading,
+  pressable = true,
   ...props
 }) => {
   // Styling
@@ -71,14 +74,17 @@ const ListItem: React.FC<ListItemProps> = ({
         {loading && <Skeleton height={15} width={250} />}
       </View>
 
-      {/* Chevron if pressable */}
-      {pressable && (
-        <RemixIcon
-          name="ri-arrow-right-s-line"
-          size={20}
-          color={tw.color("primary")}
-        />
-      )}
+      {/* Chevron if pressable and Badge if passed */}
+      <View style={tw`flex-row items-center`}>
+        {badge && <Badge>Bid</Badge>}
+        {pressable && (
+          <RemixIcon
+            name="ri-arrow-right-s-line"
+            size={20}
+            color={tw.color("primary")}
+          />
+        )}
+      </View>
     </TouchableOpacity>
   );
 };

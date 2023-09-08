@@ -142,6 +142,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
       key={pnm._id}
       title={`${pnm.firstName} ${pnm.lastName}`}
       subtitle={pnm.phoneNumber}
+      badge={pnm.receivedBid ? "Bid" : undefined}
     />
   );
 
