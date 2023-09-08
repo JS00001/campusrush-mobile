@@ -10,22 +10,41 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
+import { MenuView } from "@react-native-menu/menu";
+
+import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import usePnms from "@/hooks/usePnms";
+import TextInput from "@/ui/TextInput";
+import IconButton from "@/ui/IconButton";
 import PnmsList from "@/components/PnmsList";
 
 const PNMs = () => {
-  const { pnms } = usePnms();
+  const { pnms, refetch } = usePnms();
+
+  const onRefetch = async () => {
+    await refetch();
+  };
 
   return (
-    <Layout>
+    <Layout gap={8}>
       <Layout.Header
         title="PNMs"
         subtitle="View and manage all potential new members"
       />
 
-      {/* <IconButton icon="ri-filter-3-fill" /> */}
-      <PnmsList pnms={pnms} />
+      <View style={tw`flex-row w-full gap-x-2`}>
+        <TextInput
+          icon="ri-search-line"
+          variant="alternate"
+          placeholder="Search"
+          containerStyle={tw`flex-shrink`}
+        />
+
+        <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
+      </View>
+      <PnmsList pnms={pnms} onRefetch={onRefetch} />
     </Layout>
   );
 };

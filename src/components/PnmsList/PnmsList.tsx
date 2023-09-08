@@ -10,9 +10,14 @@
  * Do not distribute
  */
 
+import {
+  View,
+  TouchableOpacity,
+  SectionList,
+  RefreshControl,
+} from "react-native";
 import { debounce } from "lodash";
 import { useMemo, useRef, useState } from "react";
-import { View, TouchableOpacity, SectionList } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -20,11 +25,14 @@ import ListItem from "@/ui/ListItem";
 
 interface PnmsListProps {
   pnms: PNM[];
+  onRefetch?: () => Promise<void>;
 }
 
-const PnmsList: React.FC<PnmsListProps> = ({ pnms }) => {
+const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch }) => {
   // Create a ref to the sectionlist so we can scroll to a specific index programatically
   const sectionListRef = useRef<SectionList>(null);
+  // Whether or not the list is refreshing
+  const [isRefetching, setIsRefetching] = useState(false);
   // Store the current letter from the alphabet list
   const [currentLetter, setCurrentLetter] = useState("A");
   // Whether or not the list is scrolling, used to prevent the alphabet list from changing the current letter
@@ -121,6 +129,13 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms }) => {
     }
   };
 
+  // On refresh, set is refetching to true and call the on refetch prop
+  const onRefresh = async () => {
+    setIsRefetching(true);
+    await onRefetch?.();
+    setIsRefetching(false);
+  };
+
   const renderItem = ({ item: pnm }: { item: PNM }) => (
     <ListItem
       key={pnm._id}
@@ -161,6 +176,9 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms }) => {
             {title}
           </Text>
         )}
+        refreshControl={
+          <RefreshControl refreshing={isRefetching} onRefresh={onRefresh} />
+        }
       />
 
       {/* The alphabet list to sort contacts */}
@@ -187,7 +205,7 @@ const AlphabetList: React.FC<AlphabetListProps> = ({
   return (
     <View style={tw`mb-6`}>
       <View
-        style={tw`bg-slate-100 rounded-full justify-between h-full py-1 items-center`}
+        style={tw`bg-slate-100 rounded-full justify-between py-1 items-center`}
       >
         {alphabetChars.map((char, i) => {
           // Stlying

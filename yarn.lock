@@ -1886,6 +1886,11 @@
     prompts "^2.4.0"
     semver "^6.3.0"
 
+"@react-native-menu/menu@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@react-native-menu/menu/-/menu-0.8.0.tgz#dbf227c2081e5ffd3d2073ee68ecc84cf8639727"
+  integrity sha512-kxiT6ySZsDbBvNWovrKVAfs4AQvAytKIf0f8KQLkVO6eNYMUmONBQPzi6onTTbVujXtZHambo7qr/PcedaR8Tg==
+
 "@react-native-segmented-control/segmented-control@2.4.1":
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/@react-native-segmented-control/segmented-control/-/segmented-control-2.4.1.tgz#ea612c8b12bfea7712c7ea456b7b98dfc6748485"
@@ -2046,6 +2051,10 @@
   dependencies:
     "@tanstack/query-core" "4.32.6"
     use-sync-external-store "^1.2.0"
+
+"@types/@react-native-menu/menu":
+  version "0.8.0"
+  resolved "https://codeload.github.com/react-native-menu/menu/tar.gz/a21c18258c7c2d16b261ef800e4186032e6de995"
 
 "@types/hammerjs@^2.0.36":
   version "2.0.41"

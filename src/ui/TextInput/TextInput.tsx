@@ -19,6 +19,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 
 import tw from "@/lib/tailwind";
+import RemixIcon from "react-native-remix-icon";
 
 // This is a hack to disable font scaling for all text components
 interface TextInputWithDefaultProps extends RNTextInput {
@@ -34,19 +35,76 @@ const TextInputWithNoFontScaling = Object.assign(RNTextInput, {
 });
 
 interface TextInputProps extends RNTextInputProps {
+  variant?: "default" | "alternate";
   placeholder: string;
   disabled?: boolean;
   containerStyle?: any;
   inputStyle?: any;
   error?: string;
   value?: string;
-  useValue?: boolean; // Whether to use the value prop or to use current text (NOT RECOMMENDED TO BE USED)
-  onChangeText?: (text: string) => void;
+  // ONLY CAN BE FALSE IF VARIANT IS "default"
+  useValue?: boolean;
+  // ONLY CAN BE SET IF VARIANT IS "alternate"
+  icon?: string;
   onFocus?: () => void;
   onBlur?: () => void;
+  onChangeText?: (text: string) => void;
 }
 
+// This simply acts as a "proxy" component to render the correct text input
 const TextInput: React.FC<TextInputProps> = ({
+  variant = "default",
+  placeholder,
+  disabled,
+  inputStyle,
+  containerStyle,
+  error,
+  value,
+  useValue,
+  icon,
+  onChangeText,
+  onFocus,
+  onBlur,
+  ...props
+}) => {
+  if (variant === "default") {
+    return (
+      <DefaultTextInput
+        placeholder={placeholder}
+        disabled={disabled}
+        inputStyle={inputStyle}
+        containerStyle={containerStyle}
+        error={error}
+        value={value}
+        useValue={useValue}
+        onChangeText={onChangeText}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        {...props}
+      />
+    );
+  } else if (variant === "alternate") {
+    return (
+      <AlternateTextInput
+        placeholder={placeholder}
+        disabled={disabled}
+        inputStyle={inputStyle}
+        containerStyle={containerStyle}
+        error={error}
+        value={value}
+        icon={icon}
+        onChangeText={onChangeText}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        {...props}
+      />
+    );
+  }
+
+  return <></>;
+};
+
+const DefaultTextInput: React.FC<TextInputProps> = ({
   placeholder,
   disabled,
   inputStyle,
@@ -193,6 +251,84 @@ const TextInput: React.FC<TextInputProps> = ({
       >
         {error || placeholder}
       </Animated.Text>
+    </Pressable>
+  );
+};
+
+const AlternateTextInput: React.FC<TextInputProps> = ({
+  placeholder,
+  disabled,
+  inputStyle,
+  containerStyle,
+  error,
+  value,
+  icon,
+  onChangeText,
+  onFocus,
+  onBlur,
+  ...props
+}) => {
+  // Create a ref to the text input so we can focus the input programmatically
+  const textInputRef = useRef<RNTextInput>(null);
+
+  // Focus the input when anywhere in the input container is pressed
+  const onContainerPress = () => {
+    textInputRef.current?.focus();
+  };
+
+  // Styling
+  const containerClasses = tw.style(
+    // Positioning and size
+    "relative w-full -z-10 flex-row rounded-full bg-slate-100 items-center pr-4",
+    // For icon styles
+    icon && "pl-4",
+    // Passed in container styles
+    containerStyle,
+  );
+
+  const inputClasses = tw.style(
+    // Input Sizing
+    "py-4 text-base leading-5 px-4",
+    // Icon styles
+    icon && "pl-2",
+    // Disabled text styling
+    disabled && "text-slate-500",
+    // Error Styling
+    error
+      ? "border-red-500"
+      : disabled
+      ? "border-slate-200"
+      : "border-slate-400",
+    // Passed in input styles
+    inputStyle,
+  );
+
+  return (
+    <Pressable style={containerClasses} onPress={onContainerPress}>
+      {icon && (
+        <RemixIcon name={icon} size={18} color={tw.color("slate-400")} />
+      )}
+      <TextInputWithNoFontScaling
+        placeholder={placeholder}
+        ref={textInputRef}
+        editable={!disabled}
+        style={inputClasses}
+        onChangeText={onChangeText}
+        value={value}
+        onFocus={() => {
+          // If there is an onFocus prop, call it
+          // This allows us to pass an onFocus prop to this component,
+          // while still being able to use the onFocus prop on the TextInput
+          onFocus?.();
+        }}
+        onBlur={() => {
+          // If there is an onBlur prop, call it
+          // This allows us to pass an onBlur prop to this component,
+          // while still being able to use the onBlur prop on the TextInput
+          onBlur?.();
+        }}
+        {...props}
+      />
     </Pressable>
   );
 };

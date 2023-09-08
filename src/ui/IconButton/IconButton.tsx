@@ -32,7 +32,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   // Styling
   const containerClasses = tw.style(
     // Base styles
-    "p-4 rounded-full bg-slate-100",
+    "p-3.5 rounded-full bg-slate-100 self-start",
     // Disabled styles
     disabled && "opacity-50",
     // Custom styles
