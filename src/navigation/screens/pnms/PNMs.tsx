@@ -21,7 +21,7 @@ import IconButton from "@/ui/IconButton";
 import PnmsList from "@/components/PnmsList";
 
 const PNMs = () => {
-  const { pnms, refetch } = usePnms();
+  const { pnms, refetch, onFilterPress, isLoading, selectedFilter } = usePnms();
 
   const onRefetch = async () => {
     await refetch();
@@ -42,9 +42,35 @@ const PNMs = () => {
           containerStyle={tw`flex-shrink`}
         />
 
-        <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
+        <MenuView
+          title="Filter By"
+          onPressAction={onFilterPress}
+          actions={[
+            {
+              id: "remove-filters",
+              title: "No Filters",
+              image: "xmark",
+              state: selectedFilter === "" ? "on" : "off",
+            },
+            {
+              id: "filter-by-received-bid",
+              title: "Received Bid",
+              image: "person.badge.plus",
+              state: selectedFilter === "filter-by-received-bid" ? "on" : "off",
+            },
+            {
+              id: "filter-by-not-received-bid",
+              title: "Has Not Received Bid",
+              image: "person.badge.minus",
+              state:
+                selectedFilter === "filter-by-not-received-bid" ? "on" : "off",
+            },
+          ]}
+        >
+          <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
+        </MenuView>
       </View>
-      <PnmsList pnms={pnms} onRefetch={onRefetch} />
+      <PnmsList loading={isLoading} pnms={pnms} onRefetch={onRefetch} />
     </Layout>
   );
 };

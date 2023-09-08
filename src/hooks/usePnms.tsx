@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import pnmsApi from "@/api/api/pnms";
@@ -22,6 +23,10 @@ const usePnms = () => {
 
   // Get access token so that we can cache the query
   const { accessToken } = useAuth();
+
+  // Create a state variable to store the filtered PNMs
+  const [filteredPnms, setFilteredPnms] = useState<PNM[]>([]);
+  const [selectedFilter, setSelectedFilter] = useState<string>("");
 
   // Create a query to get the organization statistics
   const query = useQuery({
@@ -36,12 +41,58 @@ const usePnms = () => {
     keepPreviousData: true,
   });
 
-  // Extract the data from the query
-  const pnms = query.data?.data?.data.pnms || [];
+  useEffect(() => {
+    if (query.data?.data?.data) {
+      setFilteredPnms(query.data.data.data.pnms || []);
+    }
+  }, [query.data]);
+
+  const pnms = query.data?.data?.data?.pnms || [];
+
+  // Filter the PNMs based on the filter selected
+  const filterByPnmsWithBid = () => {
+    const filtered = pnms.filter((pnm) => pnm.receivedBid);
+    setFilteredPnms(filtered);
+  };
+
+  // Filter the PNMs based on the filter selected
+  const filterByPnmsWithoutBid = () => {
+    const filtered = pnms.filter((pnm) => !pnm.receivedBid);
+    setFilteredPnms(filtered);
+  };
+
+  // Remove all filters from the PNMs
+  const removeFilters = () => {
+    setFilteredPnms(pnms);
+  };
+
+  // Handle the filter press event
+  const onFilterPress = (e: any) => {
+    const eventId = e.nativeEvent.event;
+
+    switch (eventId) {
+      case "filter-by-received-bid":
+        filterByPnmsWithBid();
+        setSelectedFilter("filter-by-received-bid");
+        break;
+      case "filter-by-not-received-bid":
+        filterByPnmsWithoutBid();
+        setSelectedFilter("filter-by-not-received-bid");
+        break;
+      case "remove-filters":
+        removeFilters();
+        setSelectedFilter("");
+        break;
+      default:
+        break;
+    }
+  };
 
   return {
     ...query,
-    pnms,
+    selectedFilter,
+    onFilterPress,
+    pnms: filteredPnms,
   };
 };
 

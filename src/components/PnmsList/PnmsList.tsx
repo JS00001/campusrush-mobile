@@ -25,10 +25,11 @@ import ListItem from "@/ui/ListItem";
 
 interface PnmsListProps {
   pnms: PNM[];
+  loading?: boolean;
   onRefetch?: () => Promise<void>;
 }
 
-const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch }) => {
+const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
   // Create a ref to the sectionlist so we can scroll to a specific index programatically
   const sectionListRef = useRef<SectionList>(null);
   // Whether or not the list is refreshing
@@ -136,7 +137,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch }) => {
     setIsRefetching(false);
   };
 
-  const renderItem = ({ item: pnm }: { item: PNM }) => (
+  const ItemComponent = ({ item: pnm }: { item: PNM }) => (
     <ListItem
       key={pnm._id}
       title={`${pnm.firstName} ${pnm.lastName}`}
@@ -145,11 +146,24 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch }) => {
   );
 
   const ListEmptyComponent = () => {
-    return new Array(20)
-      .fill(0)
-      .map((_, i) => (
-        <ListItem key={i} title="" subtitle="" loading pressable={false} />
-      ));
+    if (loading) {
+      return new Array(20)
+        .fill(0)
+        .map((_, i) => (
+          <ListItem key={i} title="" subtitle="" loading pressable={false} />
+        ));
+    } else {
+      return (
+        <>
+          <Text variant="title" style={tw`text-center mt-16 text-primary`}>
+            No PNMs found
+          </Text>
+          <Text style={tw`text-slate-600`}>
+            Try changing your filters or refreshing the page
+          </Text>
+        </>
+      );
+    }
   };
 
   return (
@@ -161,7 +175,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch }) => {
         onScroll={handleScroll}
         contentContainerStyle={tw`gap-y-2`}
         showsVerticalScrollIndicator={false}
-        renderItem={renderItem}
+        renderItem={ItemComponent}
         // If there is no data, it is probably loading so show skeletons
         ListEmptyComponent={ListEmptyComponent}
         // When the viewable items change, this updates the current letter
@@ -220,7 +234,9 @@ const AlphabetList: React.FC<AlphabetListProps> = ({
 
           // On press, set the current letter
           const handlePress = () => {
-            setCurrentLetter(char);
+            requestAnimationFrame(() => {
+              setCurrentLetter(char);
+            });
           };
 
           return (
