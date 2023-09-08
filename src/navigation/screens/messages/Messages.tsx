@@ -10,12 +10,15 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
-import ActionButton from "@/ui/ActionButton";
-import Button from "@/ui/Button";
-import Layout from "@/ui/Layout";
-import Text from "@/ui/Text";
+import { View } from "react-native";
+import { MenuView } from "@react-native-menu/menu";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import tw from "@/lib/tailwind";
+import Layout from "@/ui/Layout";
+import TextInput from "@/ui/TextInput";
+import IconButton from "@/ui/IconButton";
+import ActionButton from "@/ui/ActionButton";
 
 interface MessagesProps {
   navigation: NativeStackNavigationProp<any>;
@@ -34,6 +37,43 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
           title="Messages"
           subtitle="Message potential new members"
         />
+
+        <View style={tw`flex-row w-full gap-x-2`}>
+          <TextInput
+            icon="ri-search-line"
+            variant="alternate"
+            placeholder="Search Messages"
+            containerStyle={tw`flex-shrink`}
+          />
+
+          <MenuView
+            title="Filter By"
+            actions={[
+              {
+                id: "remove-filters",
+                title: "No Filters",
+                image: "xmark",
+              },
+              {
+                id: "filter-by-unread-messages",
+                title: "Unread Messages",
+                image: "message",
+              },
+              {
+                id: "filter-by-alphabetical",
+                title: "Alphabetical",
+                image: "textformat.abc",
+              },
+              {
+                id: "filter-by-received-bid",
+                title: "Received Bid",
+                image: "person.badge.plus",
+              },
+            ]}
+          >
+            <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
+          </MenuView>
+        </View>
       </Layout>
     </>
   );

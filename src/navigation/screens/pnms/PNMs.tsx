@@ -38,7 +38,7 @@ const PNMs = () => {
         <TextInput
           icon="ri-search-line"
           variant="alternate"
-          placeholder="Search"
+          placeholder="Search PNMS"
           containerStyle={tw`flex-shrink`}
         />
 
