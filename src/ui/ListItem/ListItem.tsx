@@ -75,7 +75,7 @@ const ListItem: React.FC<ListItemProps> = ({
       </View>
 
       {/* Chevron if pressable and Badge if passed */}
-      <View style={tw`flex-row items-center`}>
+      <View style={tw`flex-row items-center gap-x-2`}>
         {badge && <Badge>Bid</Badge>}
         {pressable && (
           <RemixIcon
