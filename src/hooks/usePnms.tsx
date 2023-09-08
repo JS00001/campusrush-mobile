@@ -10,11 +10,13 @@
  * Do not distribute
  */
 
+import lodash from "lodash";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import pnmsApi from "@/api/api/pnms";
 import { useAuth } from "@/providers/Auth";
+import { useFormik } from "formik";
 
 const usePnms = () => {
   // The default page size for pagination
@@ -39,6 +41,13 @@ const usePnms = () => {
       });
     },
     keepPreviousData: true,
+  });
+
+  const form = useFormik({
+    initialValues: {
+      searchQuery: "",
+    },
+    onSubmit: (values) => {},
   });
 
   useEffect(() => {
@@ -88,8 +97,29 @@ const usePnms = () => {
     }
   };
 
+  // When refresh control is triggered, refetch the query
   const onRefetch = async () => {
     await query.refetch();
+  };
+
+  // Use lodash debounce to search the PNMs after 1 second of inactivity
+  const setSearchQuery = (query: string) => {
+    form.setFieldValue("searchQuery", query);
+
+    const filtered = pnms.filter((pnm) => {
+      const fullName = `${pnm.firstName} ${pnm.lastName}`;
+
+      if (query === "") {
+        return true;
+      }
+
+      return (
+        fullName.toLowerCase().includes(query.toLowerCase()) ||
+        pnm.phoneNumber.includes(query)
+      );
+    });
+
+    setFilteredPnms(filtered);
   };
 
   return {
@@ -98,6 +128,9 @@ const usePnms = () => {
     onFilterPress,
     onRefetch,
     pnms: filteredPnms,
+    // Search form
+    setSearchQuery,
+    searchQuery: form.values.searchQuery,
   };
 };
 

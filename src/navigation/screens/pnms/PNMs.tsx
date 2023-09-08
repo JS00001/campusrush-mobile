@@ -21,8 +21,15 @@ import IconButton from "@/ui/IconButton";
 import PnmsList from "@/components/PnmsList";
 
 const PNMs = () => {
-  const { pnms, isLoading, selectedFilter, onRefetch, onFilterPress } =
-    usePnms();
+  const {
+    pnms,
+    isLoading,
+    selectedFilter,
+    searchQuery,
+    setSearchQuery,
+    onRefetch,
+    onFilterPress,
+  } = usePnms();
 
   return (
     <Layout gap={8}>
@@ -36,6 +43,8 @@ const PNMs = () => {
           icon="ri-search-line"
           variant="alternate"
           placeholder="Search PNMS"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
           containerStyle={tw`flex-shrink`}
         />
 
@@ -67,6 +76,7 @@ const PNMs = () => {
           <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
         </MenuView>
       </View>
+
       <PnmsList loading={isLoading} pnms={pnms} onRefetch={onRefetch} />
     </Layout>
   );

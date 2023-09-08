@@ -167,9 +167,10 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
   };
 
   return (
-    <View style={tw`flex-row h-full gap-x-2`}>
+    <View style={tw`flex-row gap-x-2 `}>
       {/* The contacts */}
       <SectionList
+        style={tw`mb-[120px]`}
         sections={data}
         ref={sectionListRef}
         onScroll={handleScroll}
