@@ -21,11 +21,8 @@ import IconButton from "@/ui/IconButton";
 import PnmsList from "@/components/PnmsList";
 
 const PNMs = () => {
-  const { pnms, refetch, onFilterPress, isLoading, selectedFilter } = usePnms();
-
-  const onRefetch = async () => {
-    await refetch();
-  };
+  const { pnms, isLoading, selectedFilter, onRefetch, onFilterPress } =
+    usePnms();
 
   return (
     <Layout gap={8}>

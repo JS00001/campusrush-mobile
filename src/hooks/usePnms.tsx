@@ -88,10 +88,15 @@ const usePnms = () => {
     }
   };
 
+  const onRefetch = async () => {
+    await query.refetch();
+  };
+
   return {
     ...query,
     selectedFilter,
     onFilterPress,
+    onRefetch,
     pnms: filteredPnms,
   };
 };
