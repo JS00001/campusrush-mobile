@@ -25,6 +25,7 @@ import AxiosIntercepter from "@/providers/Axios";
 import PurchasesProvider from "@/providers/Purchases";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
+import BottomSheetProvider from "@/providers/BottomSheet";
 import NotificationsProvider from "@/providers/Notifications";
 import DevEnvironmentProvider from "@/providers/DevEnvironment";
 
@@ -47,8 +48,10 @@ const App = () => {
                 <GestureHandlerRootView style={{ flex: 1 }}>
                   <BottomSheetModalProvider>
                     <DevEnvironmentProvider>
-                      <RootNavigator />
-                      <Toast config={toastConfig} />
+                      <BottomSheetProvider>
+                        <RootNavigator />
+                        <Toast config={toastConfig} />
+                      </BottomSheetProvider>
                     </DevEnvironmentProvider>
                   </BottomSheetModalProvider>
                 </GestureHandlerRootView>

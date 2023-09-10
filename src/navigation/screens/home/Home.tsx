@@ -11,7 +11,6 @@
  */
 
 import { View } from "react-native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -20,19 +19,17 @@ import ActionCard from "@/ui/ActionCard";
 import { useAuth } from "@/providers/Auth";
 import RecentPnms from "@/components/RecentPnms";
 import useStatistics from "@/hooks/useStatistics";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
-interface HomeProps {
-  navigation: NativeStackNavigationProp<any>;
-}
-
-const Home: React.FC<HomeProps> = ({ navigation }) => {
+const Home: React.FC = () => {
   // Load data from the API
   const { organization } = useAuth();
+  const { handlePresentModalPress } = useBottomSheets();
   const { numPnms, numBids, isLoading, recentPnms } = useStatistics();
 
   // When the user clicks the "New PNM" CTA
   const onAddPNM = () => {
-    navigation.navigate("AddTab", { screen: "Add" });
+    handlePresentModalPress("ADD_PNM");
   };
 
   return (

@@ -21,6 +21,7 @@ import {
   SettingsStack,
 } from "@/navigation/stack-navigator";
 import tw from "@/lib/tailwind";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 export const Tab = createBottomTabNavigator();
 
@@ -31,6 +32,12 @@ export const Tab = createBottomTabNavigator();
  * and contains five independent stack navigators
  */
 export const TabNavigator = () => {
+  const { handlePresentModalPress } = useBottomSheets();
+
+  const onAddTabPress = () => {
+    handlePresentModalPress("ADD_PNM");
+  };
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -99,6 +106,12 @@ export const TabNavigator = () => {
       <Tab.Screen
         name="AddTab"
         component={AddStack}
+        listeners={({ navigation, route }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            onAddTabPress();
+          },
+        })}
         options={{
           tabBarLabel: "Add",
           tabBarIcon: ({ color, focused }) => (

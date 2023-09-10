@@ -137,6 +137,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
     setIsRefetching(false);
   };
 
+  // The components for each item in teh section list
   const ItemComponent = ({ item: pnm }: { item: PNM }) => (
     <ListItem
       key={pnm._id}
