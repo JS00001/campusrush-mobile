@@ -15,8 +15,9 @@ import { useMemo } from "react";
 import Layout from "@/ui/Layout";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import Text from "@/ui/Text";
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
 import tw from "@/lib/tailwind";
+import ActionCard from "@/ui/ActionCard";
 
 interface AddPnmProps {
   innerRef: React.RefObject<any>;
@@ -25,7 +26,7 @@ interface AddPnmProps {
 
 const AddPnm: React.FC<AddPnmProps> = ({ innerRef, handleCloseModalPress }) => {
   // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["75%"], []);
+  const snapPoints = useMemo(() => ["60%"], []);
 
   return (
     <BottomSheetModal
@@ -39,8 +40,32 @@ const AddPnm: React.FC<AddPnmProps> = ({ innerRef, handleCloseModalPress }) => {
         />
       )}
     >
-      <Layout>
-        <Text>Add Pnm</Text>
+      <Layout contentContainerStyle={tw`items-start`}>
+        <View>
+          <Text variant="title">Add a PNM</Text>
+          <Text variant="body" style={tw`text-slate-600`}>
+            Add a PNM to your chapter to keep track of their rush.
+          </Text>
+        </View>
+
+        <ActionCard
+          title="Add PNM Manually"
+          subtitle="Add a PNMs info manually"
+          icon="ri-user-voice-fill"
+          onPress={() => console.log("Add PNM Manually")}
+        />
+        <ActionCard
+          title="Add PNM from Contacts"
+          subtitle="Add a PNM from your contacts"
+          icon="ri-contacts-fill"
+          onPress={() => console.log("Add PNM from Contacts")}
+        />
+        <ActionCard
+          title="Display QR Code"
+          subtitle="Have a PNM scan a QR code"
+          icon="ri-qr-code-fill"
+          onPress={() => console.log("Display QR Code")}
+        />
       </Layout>
     </BottomSheetModal>
   );
