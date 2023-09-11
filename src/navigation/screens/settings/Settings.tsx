@@ -15,13 +15,35 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
+import Button from "@/ui/Button";
 import ActionCard from "@/ui/ActionCard";
+import { useAuth } from "@/providers/Auth";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface SettingsProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const Settings: React.FC<SettingsProps> = ({ navigation }) => {
+  const { organization, signOut } = useAuth();
+  const { handlePresentModalPress } = useBottomSheets();
+
+  const onHelpPress = () => {
+    handlePresentModalPress("HELP");
+  };
+
+  const onAboutPress = () => {
+    handlePresentModalPress("ABOUT");
+  };
+
+  const onTermsAndConditionsPress = () => {
+    handlePresentModalPress("TERMS_AND_CONDITIONS");
+  };
+
+  const onPrivacyPolicyPress = () => {
+    handlePresentModalPress("PRIVACY_POLICY");
+  };
+
   const onOrganizationPress = () => {
     navigation.navigate("UpdateOrganization");
   };
@@ -35,7 +57,7 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
   };
 
   return (
-    <Layout scrollable>
+    <Layout scrollable gap={12}>
       <Layout.Header title="Settings" subtitle="Manage your organization" />
 
       <ActionCard
@@ -59,23 +81,49 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
         onPress={onNotificationsPress}
       />
 
-      <View style={tw`w-full flex-row gap-5`}>
+      <View style={tw`w-full flex-row gap-3`}>
         <ActionCard
+          size="sm"
           title="Help"
           subtitle="Contact our support team now"
           icon="ri-questionnaire-fill"
-          onPress={() => {}}
-          size="sm"
+          onPress={onHelpPress}
         />
 
         <ActionCard
+          size="sm"
           title="About"
           subtitle="View identifying app information"
           icon="ri-information-fill"
-          onPress={() => {}}
-          size="sm"
+          onPress={onAboutPress}
         />
       </View>
+      <View style={tw`w-full flex-row gap-3`}>
+        <ActionCard
+          size="sm"
+          title="Terms of Use"
+          subtitle="View our terms and conditions"
+          icon="ri-file-list-3-fill"
+          onPress={onTermsAndConditionsPress}
+        />
+
+        <ActionCard
+          size="sm"
+          title="Privacy Policy"
+          subtitle="View our privacy policy"
+          icon="ri-file-list-3-fill"
+          onPress={onPrivacyPolicyPress}
+        />
+      </View>
+
+      <Button
+        size="sm"
+        style={tw`w-full bg-primary`}
+        iconLeft="ri-logout-circle-r-line"
+        onPress={signOut}
+      >
+        Sign Out of {organization.name}
+      </Button>
     </Layout>
   );
 };

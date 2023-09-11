@@ -10,8 +10,16 @@
  * Do not distribute
  */
 
+import Help from "./Help";
+import About from "./About";
 import AddPnm from "./AddPnm";
 import PrivacyPolicy from "./PrivacyPolicy";
 import TermsAndConditions from "./TermsAndConditions";
 
-export default { AddPnm, PrivacyPolicy, TermsAndConditions };
+export default {
+  Help,
+  About,
+  AddPnm,
+  PrivacyPolicy,
+  TermsAndConditions,
+};
