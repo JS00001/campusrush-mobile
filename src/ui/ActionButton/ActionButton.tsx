@@ -10,7 +10,6 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
 import Icon from "react-native-remix-icon";
 import { TouchableOpacityProps, TouchableOpacity } from "react-native";
 
@@ -29,26 +28,19 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   ...props
 }) => {
   // Styling
-  const containerClasses = tw.style(
-    "z-10 w-full h-full justify-end",
-    // Positioning
-    "absolute bottom-6 right-6",
-  );
-
   const buttonClasses = tw.style(
     // Default styles
     "p-5 rounded-full bg-primary shadow-lg self-end",
+    // Positioning absolute
+    "z-20 bottom-0 absolute bottom-4 right-4",
     // Custom styles
     style,
   );
 
   return (
-    <View style={containerClasses}>
-      {/* The Action button itself */}
-      <TouchableOpacity {...props} onPress={onPress} style={buttonClasses}>
-        <Icon name={icon} size={28} color="white" />
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity {...props} onPress={onPress} style={buttonClasses}>
+      <Icon name={icon} size={28} color="white" />
+    </TouchableOpacity>
   );
 };
 

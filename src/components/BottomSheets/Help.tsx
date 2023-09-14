@@ -10,12 +10,13 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
-import Text from "@/ui/Text";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useMemo } from "react";
 import { Pressable } from "react-native";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+
+import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
+import Layout from "@/ui/Layout";
 
 interface HelpProps {
   innerRef: React.RefObject<any>;

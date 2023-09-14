@@ -116,12 +116,7 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
         />
       </View>
 
-      <Button
-        size="sm"
-        style={tw`w-full bg-primary`}
-        iconLeft="ri-logout-circle-r-line"
-        onPress={signOut}
-      >
+      <Button size="sm" style={tw`w-full bg-primary`} onPress={signOut}>
         Sign Out of {organization.name}
       </Button>
     </Layout>

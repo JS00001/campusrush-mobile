@@ -19,14 +19,17 @@ import Layout from "@/ui/Layout";
 import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
 import ActionButton from "@/ui/ActionButton";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface MessagesProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const Messages: React.FC<MessagesProps> = ({ navigation }) => {
+  const { handlePresentModalPress } = useBottomSheets();
+
   const onNewChatPress = () => {
-    navigation.navigate("CreateMessage");
+    handlePresentModalPress("NEW_MESSAGE");
   };
 
   return (

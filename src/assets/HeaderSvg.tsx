@@ -17,9 +17,9 @@ interface HeaderSvgProps {}
 const HeaderSvg: React.FC<HeaderSvgProps> = () => {
   return (
     <Svg width={390} height={846} fill="none" style={{ marginTop: -10 }}>
-      <Path fill="#03014F" d="M0 2h390v844H0V2Z" />
+      <Path fill="#020037" d="M0 2h390v844H0V2Z" />
       <Path
-        fill="#010D4F"
+        fill="#010C4A"
         d="M0 292V2h390v118c-45.547 96.922-136.602 212.545-241.5 212.545-54.778 0-105.781-9.512-148.5-40.545Z"
       />
       <Path

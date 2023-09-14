@@ -16,9 +16,10 @@ import { createContext, useCallback, useContext, useRef } from "react";
 import BottomSheetComponents from "@/components/BottomSheets";
 
 const BottomSheets = [
-  { name: "ADD_PNM", component: BottomSheetComponents.AddPnm },
   { name: "ABOUT", component: BottomSheetComponents.About },
+  { name: "ADD_PNM", component: BottomSheetComponents.AddPnm },
   { name: "HELP", component: BottomSheetComponents.Help },
+  { name: "NEW_MESSAGE", component: BottomSheetComponents.NewMessage },
   {
     name: "TERMS_AND_CONDITIONS",
     component: BottomSheetComponents.TermsAndConditions,

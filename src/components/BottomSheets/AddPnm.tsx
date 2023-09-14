@@ -11,12 +11,12 @@
  */
 
 import { useMemo } from "react";
-
-import Layout from "@/ui/Layout";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import Text from "@/ui/Text";
 import { Pressable, View } from "react-native";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Layout from "@/ui/Layout";
 import ActionCard from "@/ui/ActionCard";
 
 interface AddPnmProps {
@@ -40,7 +40,7 @@ const AddPnm: React.FC<AddPnmProps> = ({ innerRef, handleCloseModalPress }) => {
         />
       )}
     >
-      <Layout contentContainerStyle={tw`items-start`}>
+      <Layout scrollable contentContainerStyle={tw`items-start`}>
         <View>
           <Text variant="title">Add a PNM</Text>
           <Text variant="body" style={tw`text-slate-600`}>
