@@ -21,6 +21,8 @@ interface Organization {
   verified: boolean;
   // Users of the organization
   pnms: PNM[];
+  // Authentication
+  role: 'user' | 'admin';
   // Billing
   customerId: string;
   entitlements: string[];
