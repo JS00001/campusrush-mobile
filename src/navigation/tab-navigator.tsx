@@ -14,13 +14,15 @@ import Icon from "react-native-remix-icon";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import {
-  AddStack,
+  AdminStack,
   HomeStack,
   MessagesStack,
   PNMsStack,
   SettingsStack,
 } from "@/navigation/stack-navigator";
+
 import tw from "@/lib/tailwind";
+import { useAuth } from "@/providers/Auth";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
 export const Tab = createBottomTabNavigator();
@@ -32,6 +34,7 @@ export const Tab = createBottomTabNavigator();
  * and contains five independent stack navigators
  */
 export const TabNavigator = () => {
+  const { organization } = useAuth();
   const { handlePresentModalPress } = useBottomSheets();
 
   const onAddTabPress = () => {
@@ -81,7 +84,7 @@ export const TabNavigator = () => {
               />
             ),
         }}
-      ></Tab.Screen>
+      />
       <Tab.Screen
         name="PNMsTab"
         component={PNMsStack}
@@ -102,10 +105,10 @@ export const TabNavigator = () => {
               />
             ),
         }}
-      ></Tab.Screen>
+      />
       <Tab.Screen
         name="AddTab"
-        component={AddStack}
+        component={HomeStack}
         listeners={({ navigation, route }) => ({
           tabPress: (e) => {
             e.preventDefault();
@@ -143,7 +146,7 @@ export const TabNavigator = () => {
               />
             ),
         }}
-      ></Tab.Screen>
+      />
       <Tab.Screen
         name="SettingsTab"
         component={SettingsStack}
@@ -164,7 +167,31 @@ export const TabNavigator = () => {
               />
             ),
         }}
-      ></Tab.Screen>
+      />
+
+      {organization.role === "admin" && (
+        <Tab.Screen
+          name="AdminTab"
+          component={AdminStack}
+          options={{
+            tabBarLabel: "Admin",
+            tabBarIcon: ({ color, focused }) =>
+              focused ? (
+                <Icon
+                  name="ri-admin-fill"
+                  size={26}
+                  color={color}
+                />
+              ) : (
+                <Icon
+                  name="ri-admin-line"
+                  size={26}
+                  color={color}
+                />
+              ),
+          }}
+        />
+      )}
     </Tab.Navigator>
   );
 };

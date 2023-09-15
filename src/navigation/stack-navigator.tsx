@@ -12,7 +12,7 @@
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import AddScreen from "@/navigation/screens/add/Add";
+import AdminScreen from "@/navigation/screens/admin/Admin";
 
 import PNMsScreen from "@/navigation/screens/pnms/PNMs";
 
@@ -165,23 +165,6 @@ export const PNMsStack = () => {
 };
 
 /**
- * Stack Navigator App Add Screen
- *
- * This is the main stack navigator for the app
- * when the user is on the "Add" tab
- */
-export const AddStack = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen
-        name="Add"
-        component={AddScreen}
-      />
-    </Stack.Navigator>
-  );
-};
-
-/**
  * Stack Navigator App Messages Screen
  *
  * This is the main stack navigator for the app
@@ -230,6 +213,23 @@ export const SettingsStack = () => {
       <Stack.Screen
         name="UpdateNotifications"
         component={UpdateNotificationsScreen}
+      />
+    </Stack.Navigator>
+  );
+};
+
+/**
+ * Stack Navigator App Admin Screen
+ *
+ * This is the main stack navigator for the app
+ * when the user is on the "Admin" tab and is an admin
+ */
+export const AdminStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name="Admin"
+        component={AdminScreen}
       />
     </Stack.Navigator>
   );
