@@ -131,3 +131,44 @@ type GetPnmsAPIResponse = APIResponse & {
     };
   };
 };
+
+type GetAdminStatisticsAPIResponse = APIResponse & {
+  data: {
+    data: {
+      numOrganizations: number;
+      numPayingOrganizations: number;
+    };
+  };
+};
+
+type GetAdminOrganizationsAPIResponse = APIResponse & {
+  data: {
+    data: {
+      organizations: Organization[];
+    };
+  };
+};
+
+type GetAdminOrganizationAPIResponse = APIResponse & {
+  data: {
+    data: {
+      organization: Organization;
+    };
+  };
+};
+
+type UpgradeOrganizationAPIResponse = APIResponse & {
+  data: {
+    data: {
+      organization: Organization;
+    };
+  };
+};
+
+type DowngradeOrganizationAPIResponse = APIResponse & {
+  data: {
+    data: {
+      organization: Organization;
+    };
+  };
+};

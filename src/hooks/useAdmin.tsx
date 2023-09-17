@@ -1,5 +1,5 @@
 /*
- * Created on Sat Sep 02 2023
+ * Created on Sun Sep 17 2023
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,127 +10,98 @@
  * Do not distribute
  */
 
-import { useFormik } from "formik";
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
-import pnmsApi from "@/api/api/pnms";
+import adminApi from "@/api/api/admin";
 import { useAuth } from "@/providers/Auth";
 
 const useAdmin = () => {
-  // The default page size for pagination
-  const PAGE = 1;
-  const PAGE_SIZE = 700;
+  const { organization, updateOrganization, accessToken } = useAuth();
 
-  // Get access token so that we can cache the query
-  const { accessToken } = useAuth();
-
-  // Create a state variable to store the filtered PNMs
-  const [filteredPnms, setFilteredPnms] = useState<PNM[]>([]);
-  const [selectedFilter, setSelectedFilter] = useState<string>("");
-
-  // Create a query to get the organization statistics
-  const query = useQuery({
-    // Use access token as the query key so response is cached on a per-user basis
-    queryKey: ["listPnms", PAGE, accessToken],
-    queryFn: async () => {
-      return pnmsApi.getPnms({
-        page: PAGE,
-        pageSize: PAGE_SIZE,
-      });
+  const getStatisticsQuery = useQuery({
+    queryKey: ["getAdminStatistics", accessToken],
+    queryFn: () => {
+      return adminApi.getStatistics();
     },
-    keepPreviousData: true,
   });
 
-  const form = useFormik({
-    initialValues: {
-      searchQuery: "",
+  const getOrganizationsQuery = useQuery({
+    queryKey: ["getAdminOrganizations", accessToken],
+    queryFn: () => {
+      return adminApi.getOrganizations();
     },
-    onSubmit: (values) => {},
   });
 
-  useEffect(() => {
-    if (query.data?.data?.data) {
-      setFilteredPnms(query.data.data.data.pnms || []);
-    }
-  }, [query.data]);
+  const upgradeOrganizationMutation = useMutation({
+    mutationFn: (input: UpgradeOrganizationInput) => {
+      return adminApi.upgradeOrganization(input);
+    },
+  });
 
-  const pnms = query.data?.data?.data?.pnms || [];
+  const downgradeOrganizationMutation = useMutation({
+    mutationFn: (input: DowngradeOrganizationInput) => {
+      return adminApi.downgradeOrganization(input);
+    },
+  });
 
-  // Filter the PNMs based on the filter selected
-  const filterByPnmsWithBid = () => {
-    const filtered = pnms.filter((pnm) => pnm.receivedBid);
-    setFilteredPnms(filtered);
-  };
-
-  // Filter the PNMs based on the filter selected
-  const filterByPnmsWithoutBid = () => {
-    const filtered = pnms.filter((pnm) => !pnm.receivedBid);
-    setFilteredPnms(filtered);
-  };
-
-  // Remove all filters from the PNMs
-  const removeFilters = () => {
-    setFilteredPnms(pnms);
-  };
-
-  // Handle the filter press event
-  const onFilterPress = (e: any) => {
-    const eventId = e.nativeEvent.event;
-
-    switch (eventId) {
-      case "filter-by-received-bid":
-        filterByPnmsWithBid();
-        setSelectedFilter("filter-by-received-bid");
-        break;
-      case "filter-by-not-received-bid":
-        filterByPnmsWithoutBid();
-        setSelectedFilter("filter-by-not-received-bid");
-        break;
-      case "remove-filters":
-        removeFilters();
-        setSelectedFilter("");
-        break;
-      default:
-        break;
-    }
-  };
-
-  // When refresh control is triggered, refetch the query
-  const onRefetch = async () => {
-    await query.refetch();
-  };
-
-  // Use lodash debounce to search the PNMs after 1 second of inactivity
-  const setSearchQuery = (query: string) => {
-    form.setFieldValue("searchQuery", query);
-
-    const filtered = pnms.filter((pnm) => {
-      const fullName = `${pnm.firstName} ${pnm.lastName}`;
-
-      // If there is no query, return all PNMs
-      if (query === "") {
-        return true;
-      }
-
-      return (
-        fullName.toLowerCase().includes(query.toLowerCase()) ||
-        pnm.phoneNumber.includes(query)
-      );
+  /**
+   * Give an organization a basic subscription (lifetime)
+   * If no id is provided, the current organization is used (admin only)
+   */
+  const forceBasicSubscription = async (id?: string) => {
+    const response = await upgradeOrganizationMutation.mutateAsync({
+      id: id || organization?._id,
+      entitlements: ["basic"],
     });
 
-    setFilteredPnms(filtered);
+    const updatedOrganization = response.data?.data.organization;
+
+    if (updatedOrganization) {
+      updateOrganization(updatedOrganization);
+    }
+  };
+
+  /**
+   * Give an organization a pro subscription (monthly)
+   * If no id is provided, the current organization is used (admin only)
+   */
+  const forceProSubscription = async (id?: string) => {
+    const response = await upgradeOrganizationMutation.mutateAsync({
+      id: id || organization?._id,
+      entitlements: ["pro"],
+    });
+
+    const updatedOrganization = response.data?.data.organization;
+
+    if (updatedOrganization) {
+      updateOrganization(updatedOrganization);
+    }
+  };
+
+  /**
+   * Give an organization a pro subscription (monthly)
+   * If no id is provided, the current organization is used (admin only)
+   */
+  const clearSubscription = async (id?: string) => {
+    const response = await downgradeOrganizationMutation.mutateAsync({
+      id: id || organization?._id,
+    });
+
+    const updatedOrganization = response.data?.data.organization;
+
+    if (updatedOrganization) {
+      updateOrganization(updatedOrganization);
+    }
   };
 
   return {
-    ...query,
-    selectedFilter,
-    onFilterPress,
-    onRefetch,
-    pnms: filteredPnms,
-    // Search form
-    setSearchQuery,
-    searchQuery: form.values.searchQuery,
+    getStatisticsQuery,
+    getOrganizationsQuery,
+    upgradeOrganizationMutation,
+    downgradeOrganizationMutation,
+    forceBasicSubscription,
+    forceProSubscription,
+    clearSubscription,
   };
 };
 

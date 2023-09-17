@@ -1,0 +1,90 @@
+/*
+ * Created on Sat Sep 02 2023
+ *
+ * This software is the proprietary property of CampusRush.
+ * All rights reserved. Unauthorized copying, modification, or distribution
+ * of this software, in whole or in part, is strictly prohibited.
+ * For licensing information contact CampusRush.
+ *
+ * Copyright (c) 2023 CampusRush
+ * Do not distribute
+ */
+
+import { axiosClient } from '@/providers/Axios';
+import { ADMIN_VERSION_URL } from '@/api/constants';
+
+// Set the base URL for all routes in this file
+axiosClient.defaults.baseURL = ADMIN_VERSION_URL;
+// Create a new axios client for this file
+const adminAPIClient = axiosClient;
+
+/**
+ * GET /admin/v1/statistics
+ *
+ * Returns
+ * - data
+ *   - numOrganizations
+ *   - numPayingOrganizations
+ */
+const getStatistics = (): Promise<GetAdminStatisticsAPIResponse> => {
+  return adminAPIClient.get(`/statistics`);
+};
+
+/**
+ * GET /admin/v1/organizations
+ *
+ * Returns
+ * - data
+ *  - organizations
+ */
+const getOrganizations = (): Promise<GetAdminOrganizationsAPIResponse> => {
+  return adminAPIClient.get(`/organizations`);
+};
+
+/**
+ * GET /admin/v1/organization/:id
+ *
+ * Returns
+ * - data
+ *  - organization
+ */
+const getOrganization = (
+  data: GetAdminOrganizationInput,
+): Promise<GetAdminOrganizationAPIResponse> => {
+  return adminAPIClient.get(`/organization/${data.id}`);
+};
+
+/**
+ * POST /admin/v1/upgrade/:id
+ *
+ * Returns
+ * - data
+ *  - organization
+ */
+const upgradeOrganization = (
+  data: UpgradeOrganizationInput,
+): Promise<UpgradeOrganizationAPIResponse> => {
+  return adminAPIClient.post(`/upgrade/${data.id}`, data);
+};
+
+/**
+ * POST /admin/v1/downgrade/:id
+ *
+ * Returns
+ * - data
+ *  - organization
+ */
+const downgradeOrganization = (
+  data: DowngradeOrganizationInput,
+): Promise<DowngradeOrganizationAPIResponse> => {
+  return adminAPIClient.post(`/downgrade/${data.id}`);
+};
+
+export default {
+  getStatistics,
+  getOrganizations,
+  getOrganization,
+
+  upgradeOrganization,
+  downgradeOrganization,
+};

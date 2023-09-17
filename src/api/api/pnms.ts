@@ -11,12 +11,14 @@
  */
 
 import { axiosClient } from '@/providers/Axios';
-
 import { API_VERSION_URL } from '@/api/constants';
 
+// Set the base URL for all routes in this file
 axiosClient.defaults.baseURL = API_VERSION_URL;
-
+// Create a new axios client for this file
 const pnmsAPIClient = axiosClient;
+// The prefix for all routes in this file
+const PREFIX = '/pnms';
 
 /**
  * GET /api/v1/pnms/list
@@ -26,7 +28,7 @@ const pnmsAPIClient = axiosClient;
  *  - pnms
  */
 const getPnms = (data: GetPnmsInput): Promise<GetPnmsAPIResponse> => {
-  return pnmsAPIClient.get('/pnms/list', { params: data });
+  return pnmsAPIClient.get(`${PREFIX}/list'`, { params: data });
 };
 
 export default {

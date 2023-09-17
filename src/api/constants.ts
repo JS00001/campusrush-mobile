@@ -24,3 +24,6 @@ export const AUTH_VERSION_URL = `${BASE_URL}/auth/v1`;
 
 // The URL of the rest of the API routes
 export const API_VERSION_URL = `${BASE_URL}/api/v1`;
+
+// The URL of the Admin API routes
+export const ADMIN_VERSION_URL = `${BASE_URL}/admin/v1`;

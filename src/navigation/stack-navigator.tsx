@@ -13,6 +13,9 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AdminScreen from "@/navigation/screens/admin/Admin";
+import AdminBillingScreen from "@/navigation/screens/admin/Billing";
+import AdminStatisticsScreen from "@/navigation/screens/admin/Statistics";
+import AdminOrganizationsScreen from "@/navigation/screens/admin/Organizations";
 
 import PNMsScreen from "@/navigation/screens/pnms/PNMs";
 
@@ -230,6 +233,18 @@ export const AdminStack = () => {
       <Stack.Screen
         name="Admin"
         component={AdminScreen}
+      />
+      <Stack.Screen
+        name="AdminBilling"
+        component={AdminBillingScreen}
+      />
+      <Stack.Screen
+        name="AdminStatistics"
+        component={AdminStatisticsScreen}
+      />
+      <Stack.Screen
+        name="AdminOrganizations"
+        component={AdminOrganizationsScreen}
       />
     </Stack.Navigator>
   );

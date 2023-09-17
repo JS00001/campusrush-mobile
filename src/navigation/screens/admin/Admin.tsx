@@ -12,14 +12,49 @@
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
+import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
+import Button from "@/ui/Button";
 import ActionCard from "@/ui/ActionCard";
+import useAdmin from "@/hooks/useAdmin";
 
 interface AdminProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const Admin: React.FC<AdminProps> = ({ navigation }) => {
+  const {
+    clearSubscription,
+    forceProSubscription,
+    forceBasicSubscription,
+    upgradeOrganizationMutation,
+    downgradeOrganizationMutation,
+  } = useAdmin();
+
+  const onStatisticsPress = () => {
+    navigation.navigate("AdminStatistics");
+  };
+
+  const onOrganizationsPress = () => {
+    navigation.navigate("AdminOrganizations");
+  };
+
+  const onBillingPress = () => {
+    navigation.navigate("AdminBilling");
+  };
+
+  const onForceBasicPress = () => {
+    forceBasicSubscription();
+  };
+
+  const onForceProPress = () => {
+    forceProSubscription();
+  };
+
+  const onClearSubscriptionPress = () => {
+    clearSubscription();
+  };
+
   return (
     <Layout scrollable gap={12}>
       <Layout.Header title="Admin" subtitle="Admin options/developer options" />
@@ -28,19 +63,47 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
         title="Statistics"
         subtitle="View statistics for the app"
         icon="ri-bar-chart-2-fill"
+        onPress={onStatisticsPress}
       />
 
       <ActionCard
         title="View Organizations"
         subtitle="List all registered organizations"
         icon="ri-group-fill"
+        onPress={onOrganizationsPress}
       />
 
       <ActionCard
         title="Update Organization Billing"
         subtitle="Update an organization's billing"
         icon="ri-bank-card-2-fill"
+        onPress={onBillingPress}
       />
+
+      <Button
+        size="sm"
+        style={tw`w-full`}
+        onPress={onForceBasicPress}
+        loading={upgradeOrganizationMutation.isLoading}
+      >
+        Force Basic Subscription
+      </Button>
+      <Button
+        size="sm"
+        style={tw`w-full`}
+        onPress={onForceProPress}
+        loading={upgradeOrganizationMutation.isLoading}
+      >
+        Force Pro Subscription
+      </Button>
+      <Button
+        size="sm"
+        style={tw`w-full`}
+        onPress={onClearSubscriptionPress}
+        loading={downgradeOrganizationMutation.isLoading}
+      >
+        Clear Current Subscription
+      </Button>
     </Layout>
   );
 };

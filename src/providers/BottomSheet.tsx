@@ -15,6 +15,12 @@ import { createContext, useCallback, useContext, useRef } from "react";
 
 import BottomSheetComponents from "@/components/BottomSheets";
 
+/**
+ * All bottom sheets that can be opened
+ *
+ * MUST add new bottom sheets here for them to be accessible
+ * Put all bottom sheets in the @/components/BottomSheets folder
+ */
 const BottomSheets = [
   { name: "ABOUT", component: BottomSheetComponents.About },
   { name: "ADD_PNM", component: BottomSheetComponents.AddPnm },

@@ -54,7 +54,10 @@ const RootNavigator = () => {
   if (!organization?.verified) return <VerificationStack />;
 
   // If the user has no active entitlements, we show the BillingStack
-  if (lodash.isEmpty(billingData?.entitlements?.active))
+  if (
+    lodash.isEmpty(billingData?.entitlements?.active) ||
+    organization.entitlements?.length === 0
+  )
     return <BillingStack />;
 
   // If the user is logged in and verified, we show the TabNavigator
