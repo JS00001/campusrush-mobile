@@ -48,7 +48,7 @@ const Badge: React.FC<BadgeProps> = ({ children, style, size = "sm" }) => {
   // Styling
   const containerClasses = tw.style(
     // Styles applying to all sizes
-    "bg-primary rounded-full justify-center items-center",
+    "bg-primary rounded-lg justify-center items-center",
     // Styles applying to specific sizes
     size && sizeClasses[size],
     // Custom styles

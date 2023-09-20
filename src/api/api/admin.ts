@@ -11,12 +11,11 @@
  */
 
 import { axiosClient } from '@/providers/Axios';
-import { ADMIN_VERSION_URL } from '@/api/constants';
 
-// Set the base URL for all routes in this file
-axiosClient.defaults.baseURL = ADMIN_VERSION_URL;
 // Create a new axios client for this file
 const adminAPIClient = axiosClient;
+// Set the Prefix URL for this client
+const PREFIX = '/admin/v1';
 
 /**
  * GET /admin/v1/statistics
@@ -27,7 +26,7 @@ const adminAPIClient = axiosClient;
  *   - numPayingOrganizations
  */
 const getStatistics = (): Promise<GetAdminStatisticsAPIResponse> => {
-  return adminAPIClient.get(`/statistics`);
+  return adminAPIClient.get(`${PREFIX}/statistics`);
 };
 
 /**
@@ -38,7 +37,7 @@ const getStatistics = (): Promise<GetAdminStatisticsAPIResponse> => {
  *  - organizations
  */
 const getOrganizations = (): Promise<GetAdminOrganizationsAPIResponse> => {
-  return adminAPIClient.get(`/organizations`);
+  return adminAPIClient.get(`${PREFIX}/organizations`);
 };
 
 /**
@@ -51,7 +50,7 @@ const getOrganizations = (): Promise<GetAdminOrganizationsAPIResponse> => {
 const getOrganization = (
   data: GetAdminOrganizationInput,
 ): Promise<GetAdminOrganizationAPIResponse> => {
-  return adminAPIClient.get(`/organization/${data.id}`);
+  return adminAPIClient.get(`${PREFIX}/organization/${data.id}`);
 };
 
 /**
@@ -64,7 +63,7 @@ const getOrganization = (
 const upgradeOrganization = (
   data: UpgradeOrganizationInput,
 ): Promise<UpgradeOrganizationAPIResponse> => {
-  return adminAPIClient.post(`/upgrade/${data.id}`, data);
+  return adminAPIClient.post(`${PREFIX}/upgrade/${data.id}`, data);
 };
 
 /**
@@ -77,7 +76,7 @@ const upgradeOrganization = (
 const downgradeOrganization = (
   data: DowngradeOrganizationInput,
 ): Promise<DowngradeOrganizationAPIResponse> => {
-  return adminAPIClient.post(`/downgrade/${data.id}`);
+  return adminAPIClient.post(`${PREFIX}/downgrade/${data.id}`);
 };
 
 export default {
