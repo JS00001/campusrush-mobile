@@ -21,18 +21,14 @@ import PNMsScreen from "@/navigation/screens/pnms/PNMs";
 
 import HomeScreen from "@/navigation/screens/home/Home";
 
+import AddManual from "@/navigation/screens/add/AddManual";
+import AddQrCode from "@/navigation/screens/add/AddQrCode";
+
 import MessagesScreen from "@/navigation/screens/messages/Messages";
 
 import BillingScreen from "@/navigation/screens/billing/Billing";
 
 import VerificationScreen from "@/navigation/screens/verification/Verification";
-
-import SettingsScreen from "@/navigation/screens/settings/Settings";
-import UpdateBillingScreen from "@/navigation/screens/settings/UpdateBilling";
-import UpdateNotificationsScreen from "@/navigation/screens/settings/UpdateNotifications";
-import UpdateGeneralScreen from "@/navigation/screens/settings/organization/UpdateGeneral";
-import UpdateSecurityScreen from "@/navigation/screens/settings/organization/UpdateSecurity";
-import UpdateOrganizationScreen from "@/navigation/screens/settings/organization/UpdateOrganization";
 
 import LoginScreen from "@/navigation/screens/auth/Login";
 import LandingScreen from "@/navigation/screens/auth/Landing";
@@ -40,6 +36,13 @@ import UITestingScreen from "@/navigation/screens/auth/UITesting";
 import RegistrationStep1Screen from "@/navigation/screens/auth/RegistrationStep1";
 import RegistrationStep2Screen from "@/navigation/screens/auth/RegistrationStep2";
 import RegistrationStep3Screen from "@/navigation/screens/auth/RegistrationStep3";
+
+import SettingsScreen from "@/navigation/screens/settings/Settings";
+import UpdateBillingScreen from "@/navigation/screens/settings/UpdateBilling";
+import UpdateNotificationsScreen from "@/navigation/screens/settings/UpdateNotifications";
+import UpdateGeneralScreen from "@/navigation/screens/settings/organization/UpdateGeneral";
+import UpdateSecurityScreen from "@/navigation/screens/settings/organization/UpdateSecurity";
+import UpdateOrganizationScreen from "@/navigation/screens/settings/organization/UpdateOrganization";
 
 import RegistrationProvider from "@/providers/Registration";
 
@@ -162,6 +165,27 @@ export const PNMsStack = () => {
       <Stack.Screen
         name="PNMs"
         component={PNMsScreen}
+      />
+    </Stack.Navigator>
+  );
+};
+
+/**
+ * Stack Navigator App Add Screen
+ *
+ * This is the main stack navigator for the app
+ * when the user is on the "Add" tab
+ */
+export const AddStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name="AddManual"
+        component={AddManual}
+      />
+      <Stack.Screen
+        name="AddQrCode"
+        component={AddQrCode}
       />
     </Stack.Navigator>
   );

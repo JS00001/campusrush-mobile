@@ -14,6 +14,7 @@ import Icon from "react-native-remix-icon";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import {
+  AddStack,
   AdminStack,
   HomeStack,
   MessagesStack,
@@ -108,8 +109,8 @@ export const TabNavigator = () => {
       />
       <Tab.Screen
         name="AddTab"
-        component={HomeStack}
-        listeners={({ navigation, route }) => ({
+        component={AddStack}
+        listeners={() => ({
           tabPress: (e) => {
             e.preventDefault();
             onAddTabPress();

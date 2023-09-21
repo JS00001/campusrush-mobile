@@ -84,10 +84,10 @@ const BottomSheetProvider: React.FC<{ children?: React.ReactNode }> = ({
       {BottomSheets.map((sheet, index) => {
         // Create props
         const props = {
-          innerRef: (ref: BottomSheetModal) =>
-            (bottomSheetModalRef.current[index] = ref),
           key: sheet.name,
           handleCloseModalPress: () => handleCloseModalPress(sheet.name),
+          innerRef: (ref: BottomSheetModal) =>
+            (bottomSheetModalRef.current[index] = ref),
         };
 
         const ComponentToRender = sheet.component as any;
