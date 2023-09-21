@@ -11,12 +11,11 @@
  */
 
 import { useMemo } from "react";
-import { Pressable } from "react-native";
+import { Pressable, ScrollView } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
 
 interface PrivacyPolicyProps {
   innerRef: React.RefObject<any>;
@@ -42,9 +41,9 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({
         />
       )}
     >
-      <Layout>
+      <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-2`}>
         <Text>Privacy Policy</Text>
-      </Layout>
+      </ScrollView>
     </BottomSheetModal>
   );
 };

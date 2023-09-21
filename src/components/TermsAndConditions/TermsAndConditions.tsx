@@ -10,11 +10,12 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
-import { useBottomSheets } from "@/providers/BottomSheet";
-import Hyperlink from "@/ui/Hyperlink";
-import Text from "@/ui/Text";
 import { View } from "react-native";
+
+import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
+import Hyperlink from "@/ui/Hyperlink";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface TermsAndConditionsProps {
   color?: "dark" | "light";

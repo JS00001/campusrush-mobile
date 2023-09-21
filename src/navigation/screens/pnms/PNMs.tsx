@@ -31,6 +31,8 @@ const PNMs = () => {
     onFilterPress,
   } = usePnms();
 
+  const searchPlaceholder = `Search ${pnms.length + " " || ""}PNMs`;
+
   return (
     <Layout gap={8}>
       <Layout.Header
@@ -42,7 +44,7 @@ const PNMs = () => {
         <TextInput
           icon="ri-search-line"
           variant="alternate"
-          placeholder="Search PNMS"
+          placeholder={searchPlaceholder}
           value={searchQuery}
           onChangeText={setSearchQuery}
           containerStyle={tw`flex-shrink`}
