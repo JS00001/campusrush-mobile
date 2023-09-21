@@ -11,14 +11,11 @@
  */
 
 import { axiosClient } from '@/providers/Axios';
-import { API_VERSION_URL } from '@/api/constants';
 
-// Set the base URL for all routes in this file
-axiosClient.defaults.baseURL = API_VERSION_URL;
 // Create a new axios client for this file
 const organizationAPIClient = axiosClient;
 // The prefix for all routes in this file
-const PREFIX = '/organization';
+const PREFIX = '/api/v1/organization';
 
 /**
  * GET /api/v1/organization/statistics

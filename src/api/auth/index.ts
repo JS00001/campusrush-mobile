@@ -12,10 +12,10 @@
 
 import axios from 'axios';
 
-import { AUTH_VERSION_URL } from '@/api/constants';
+import { BASE_URL } from '@/api/constants';
 
 const authAPIClient = axios.create({
-  baseURL: AUTH_VERSION_URL,
+  baseURL: `${BASE_URL}/auth/v1`,
 });
 
 /**
