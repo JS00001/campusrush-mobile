@@ -13,18 +13,27 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
+import useAdmin from "@/hooks/useAdmin";
+import AdminOrganizationList from "@/components/AdminOrganizationList";
 
 interface OrganizationsProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const Organizations: React.FC<OrganizationsProps> = ({ navigation }) => {
+  const { organizations, getOrganizationsQuery } = useAdmin();
+
   return (
-    <Layout scrollable gap={12}>
+    <Layout gap={12}>
       <Layout.Header
         hasBackButton
         title="Organizations"
         subtitle="View all registered organizations"
+      />
+
+      <AdminOrganizationList
+        loading={getOrganizationsQuery.isLoading}
+        organizations={organizations}
       />
     </Layout>
   );

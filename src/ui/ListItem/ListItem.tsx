@@ -43,7 +43,7 @@ const ListItem: React.FC<ListItemProps> = ({
     // Default classes
     "bg-slate-100 w-full py-3 px-5 rounded-md",
     // If pressable, add justify for chevron
-    pressable && "flex-row justify-between items-center",
+    "flex-row justify-between items-center",
     // Custom classes
     style,
   );

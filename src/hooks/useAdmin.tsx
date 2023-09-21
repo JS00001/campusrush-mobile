@@ -94,7 +94,20 @@ const useAdmin = () => {
     }
   };
 
+  // Structure data to be more usable
+  const organizations =
+    getOrganizationsQuery.data?.data?.data.organizations || [];
+
+  // Structure data to be more usable
+  const statistics = {
+    numOrganizations: getStatisticsQuery.data?.data?.data.numOrganizations || 0,
+    numPayingOrganizations:
+      getStatisticsQuery.data?.data?.data.numPayingOrganizations || 0,
+  };
+
   return {
+    organizations,
+    statistics,
     getStatisticsQuery,
     getOrganizationsQuery,
     upgradeOrganizationMutation,
