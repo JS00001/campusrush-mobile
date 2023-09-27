@@ -1,5 +1,5 @@
 /*
- * Created on Sat Aug 19 2023
+ * Created on Tue Sep 26 2023
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,73 +10,112 @@
  * Do not distribute
  */
 
-import { useState } from "react";
-
 import { useAuth } from "@/providers/Auth";
 import { usePurchases } from "@/providers/Purchases";
 
 const useBilling = () => {
-  // Import refetch billing data from auth provider
-  const { refetchBillingData } = useAuth();
+  const { offerings } = usePurchases();
+  const { refetchBillingData, billingData } = useAuth();
 
-  // Import data from the Purchases provider
-  const { offeringIDs, offerings, isLoading, purchasePackage } = usePurchases();
+  // Fetches the productIdentifiers of all active entitlements
+  const activeEntitlements = Object.keys(billingData.entitlements.active).map(
+    (key) => billingData.entitlements.active[key].productIdentifier,
+  );
 
-  // Index of the currently selected offering
-  const [offeringID, setOfferingID] = useState<number>(0);
-  // Index of the currently selected package
-  const [packageID, setPackageID] = useState<number>(0);
+  // Create an array of products that are in the active entitlements
+  // For each offering that is available...
+  const activeProducts = offerings
+    .map((offering) => {
+      // Check if the offering has any packages that are in the active entitlements
+      // This is a "hack" to get the product information for the active entitlements
+      const availablePackages = offering.availablePackages.filter((pkg) =>
+        activeEntitlements.includes(pkg.product.identifier),
+      );
 
-  // Whether a purchase is loading or not
-  const [isPurchaseLoading, setIsPurchaseLoading] = useState<boolean>(false);
+      // For each package/product that the user DOES have access/entitlement to...
+      const formattedAvailablePackages = availablePackages.map((pkg) => {
+        // Find the entitlements "key" that has a productIdentifier matching the current package/product
+        const entitlementKey = Object.keys(
+          billingData.entitlements.active,
+        ).find((key) => {
+          return (
+            billingData.entitlements.active[key].productIdentifier ===
+            pkg.product.identifier
+          );
+        });
 
-  // List of all packages in the currently selected offering
-  const packages = offerings?.[offeringID]?.availablePackages;
-  // Currently selected package
-  const selectedPackage = packages?.[packageID];
-  // Currently selected product
-  const selectedProduct = packages?.[packageID]?.product;
+        // If there is an entitlement key, then the user has access to the product
+        // populate the entitlement
+        const entitlement = entitlementKey
+          ? billingData.entitlements.active[entitlementKey]
+          : (null as any);
 
-  // **PRIVATE VAR** Whether or not a product is a subscription
-  const _isSubscription = selectedProduct?.productCategory === "SUBSCRIPTION";
-  // **PRIVATE VAR** Whether or not a product has a trial period (free trial)
-  const _hasTrialPeriod = selectedProduct?.introPrice !== null;
-  // **PRIVATE VAR** The length of a trial period (formatted as "3-day" or "1-week" etc.)
-  // prettier-ignore
-  const _trialLength = `${selectedProduct?.introPrice?.periodNumberOfUnits}-${selectedProduct?.introPrice?.periodUnit.toLowerCase()}`;
+        // Return both the product itself and the entitlement data for every active product/package
+        return {
+          product: pkg.product,
+          entitlement: entitlement,
+        };
+      });
 
-  // CTA for the button (confirming a user's purchase)
-  const buttonCTA = _isSubscription
-    ? _hasTrialPeriod
-      ? `Start your ${_trialLength} free trial\nthen ${selectedProduct?.priceString} / mo`
-      : `Purchase for ${selectedProduct?.priceString} / mo`
-    : `Purchase for ${selectedProduct?.priceString}`;
+      // Return an array of all the products that the user has access to
+      return formattedAvailablePackages;
+    })
+    .flat();
 
-  const completePurchase = async () => {
-    // Set purchase loading to true
-    setIsPurchaseLoading(true);
-    // Complete purchase
-    await purchasePackage(selectedPackage);
+  // The URL to redirect to for billing management
+  const managementURL = billingData.managementURL;
 
-    // Refetch billing data
-    await refetchBillingData();
-    // Set purchase loading to false
-    setIsPurchaseLoading(false);
-  };
+  // Format all of the products to be properly displayed, each product in the array will be formatted as:
+  // {
+  //   title: "Product Title",
+  //   description: "Product Description",
+  //   subtitle: "Product Price",
+  //   perks: ["Perk 1", "Perk 2", "Perk 3"]
+  // }
+  const activeProductsFormatted = activeProducts.map((product) => {
+    // Whether or not a product is a subscription
+    const _isSubscription = product?.product.productCategory === "SUBSCRIPTION";
+    // Whether or not the subscription is pending cancellation
+    const _isPendingCancellation = product?.entitlement?.willRenew === false;
+    // When the product will either cancel or renew, formatted as MM/DD/YY
+    const _expirationDate = product?.entitlement?.expirationDate
+      ? new Date(product?.entitlement?.expirationDate).toLocaleDateString()
+      : null;
+
+    // The title of the product (should always exist, but just in case)
+    const title = product?.product.title ?? "No title";
+
+    // The description of the product (either pending cancellation or renews automatically or one-time purchase)
+    const description = _isSubscription
+      ? _isPendingCancellation
+        ? `Pending cancellation on ${_expirationDate}`
+        : `Renews automatically on ${_expirationDate}`
+      : `One-time purchase`;
+
+    // How much the product costs, formatted as "$1.99" or "$1.99 / mo"
+    const subtitle =
+      `${product?.product.priceString} ${_isSubscription ? "/ mo" : ""}` ??
+      "No price";
+
+    // TODO: Add perks
+    const perks: String[] = [
+      "This is Perk 1",
+      "This is Perk 2",
+      "This is Perk 3",
+      "This is Perk 4",
+    ];
+
+    return {
+      title,
+      description,
+      subtitle,
+      perks,
+    };
+  });
 
   return {
-    areOfferingsLoading: isLoading,
-    isPurchaseLoading,
-    buttonCTA,
-    selectedProduct,
-    selectedPackage,
-    offeringIDs,
-    packages,
-    packageID,
-    setPackageID,
-    offeringID,
-    setOfferingID,
-    completePurchase,
+    managementURL,
+    activeProducts: activeProductsFormatted,
   };
 };
 

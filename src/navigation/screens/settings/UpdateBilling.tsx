@@ -10,9 +10,13 @@
  * Do not distribute
  */
 
+import useBilling from "@/hooks/useBilling";
+import Button from "@/ui/Button";
 import Layout from "@/ui/Layout";
+import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 
 const UpdateBilling = () => {
+  const { activeProducts, managementURL } = useBilling();
   return (
     <Layout scrollable>
       <Layout.Header
@@ -20,6 +24,19 @@ const UpdateBilling = () => {
         title="Billing"
         subtitle="Manage your current plan"
       />
+
+      {activeProducts.map((product) => (
+        <SelectionCard
+          pressable={false}
+          title={product.title}
+          subtitle={product.subtitle}
+          description={product.description}
+        >
+          <Button color="light" size="sm">
+            Manage
+          </Button>
+        </SelectionCard>
+      ))}
     </Layout>
   );
 };
