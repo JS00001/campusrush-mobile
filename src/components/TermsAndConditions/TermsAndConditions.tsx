@@ -10,25 +10,41 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
+
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Hyperlink from "@/ui/Hyperlink";
-import Text from "@/ui/Text";
-import { View } from "react-native";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface TermsAndConditionsProps {
   color?: "dark" | "light";
 }
 
 const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ color }) => {
+  const { handlePresentModalPress } = useBottomSheets();
+
+  const onTermsAndConditionsPress = () => {
+    handlePresentModalPress("TERMS_AND_CONDITIONS");
+  };
+
+  const onPrivacyPolicyPress = () => {
+    handlePresentModalPress("PRIVACY_POLICY");
+  };
+
   return (
     <View>
       <Text style={tw`text-slate-500 mt-8 text-center`}>
         By continuing, you acknowledge and agree to our
       </Text>
       <View style={tw`flex-row justify-center`}>
-        <Hyperlink color={color}>Terms and Conditions</Hyperlink>
+        <Hyperlink color={color} onPress={onTermsAndConditionsPress}>
+          Terms and Conditions
+        </Hyperlink>
         <Text style={tw`text-slate-500 text-center`}>&nbsp;and&nbsp;</Text>
-        <Hyperlink color={color}>Privacy Policy</Hyperlink>
+        <Hyperlink color={color} onPress={onPrivacyPolicyPress}>
+          Privacy Policy
+        </Hyperlink>
       </View>
     </View>
   );

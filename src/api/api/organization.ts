@@ -12,11 +12,24 @@
 
 import { axiosClient } from '@/providers/Axios';
 
-import { API_VERSION_URL } from '@/api/constants';
-
-axiosClient.defaults.baseURL = API_VERSION_URL + '/organization';
-
+// Create a new axios client for this file
 const organizationAPIClient = axiosClient;
+// The prefix for all routes in this file
+const PREFIX = '/api/v1/organization';
+
+/**
+ * GET /api/v1/organization/statistics
+ *
+ * Returns
+ * - data
+ *  - numPnms
+ *  - numPnmsWithBid
+ *  - recentPnms
+ */
+const getOrganizationStatistics =
+  (): Promise<GetOrganizationStatisticsAPIResponse> => {
+    return organizationAPIClient.get(`${PREFIX}/statistics`);
+  };
 
 /**
  * PUT /api/v1/organization/update
@@ -28,9 +41,10 @@ const organizationAPIClient = axiosClient;
 const updateOrganization = (
   data: UpdateOrganizationInput,
 ): Promise<UpdateOrganizationAPIResponse> => {
-  return organizationAPIClient.put('/update', data);
+  return organizationAPIClient.put(`${PREFIX}/update`, data);
 };
 
 export default {
+  getOrganizationStatistics,
   updateOrganization,
 };

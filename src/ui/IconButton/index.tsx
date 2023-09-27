@@ -1,5 +1,5 @@
 /*
- * Created on Fri Aug 11 2023
+ * Created on Sat Sep 02 2023
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,10 +10,6 @@
  * Do not distribute
  */
 
-import { axiosClient } from '@/providers/Axios';
+import IconButton from "./IconButton";
 
-import { API_VERSION_URL } from '@/api/constants';
-
-axiosClient.defaults.baseURL = API_VERSION_URL;
-
-const authAPIClient = axiosClient;
+export default IconButton;

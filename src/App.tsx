@@ -25,6 +25,8 @@ import AxiosIntercepter from "@/providers/Axios";
 import PurchasesProvider from "@/providers/Purchases";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
+import BottomSheetProvider from "@/providers/BottomSheet";
+import NotificationsProvider from "@/providers/Notifications";
 import DevEnvironmentProvider from "@/providers/DevEnvironment";
 
 // Prevent native splash screen from autohiding
@@ -42,14 +44,18 @@ const App = () => {
         <AuthProvider>
           <AxiosIntercepter>
             <NavigationProvider>
-              <GestureHandlerRootView style={{ flex: 1 }}>
-                <BottomSheetModalProvider>
-                  <DevEnvironmentProvider>
-                    <RootNavigator />
-                    <Toast config={toastConfig} />
-                  </DevEnvironmentProvider>
-                </BottomSheetModalProvider>
-              </GestureHandlerRootView>
+              <NotificationsProvider>
+                <GestureHandlerRootView style={{ flex: 1 }}>
+                  <BottomSheetModalProvider>
+                    <DevEnvironmentProvider>
+                      <BottomSheetProvider>
+                        <RootNavigator />
+                        <Toast config={toastConfig} />
+                      </BottomSheetProvider>
+                    </DevEnvironmentProvider>
+                  </BottomSheetModalProvider>
+                </GestureHandlerRootView>
+              </NotificationsProvider>
             </NavigationProvider>
           </AxiosIntercepter>
         </AuthProvider>

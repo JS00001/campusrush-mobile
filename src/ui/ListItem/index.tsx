@@ -1,5 +1,5 @@
 /*
- * Created on Mon Aug 07 2023
+ * Created on Tue Aug 29 2023
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,8 +10,6 @@
  * Do not distribute
  */
 
-const Add = () => {
-  return <></>;
-};
+import ListItem from "./ListItem";
 
-export default Add;
+export default ListItem;

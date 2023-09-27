@@ -10,7 +10,8 @@
  * Do not distribute
  */
 
-import { TouchableOpacity } from "react-native";
+import Icon from "react-native-remix-icon";
+import { TouchableOpacity, View, ActivityIndicator } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -30,6 +31,8 @@ interface SelectionCardProps {
   hideChildrenWhenUnselected?: boolean;
   // Styling
   style?: any;
+  // State
+  loading?: boolean;
 }
 
 const SelectionCard: React.FC<SelectionCardProps> = ({
@@ -42,6 +45,7 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
   children,
   hideChildrenWhenUnselected,
   style,
+  loading,
 }) => {
   // If hideChildrenWhenUnselected is true, then we don't want to render the children when the card is unselected
   const ChildrenComponent = hideChildrenWhenUnselected
@@ -58,6 +62,8 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
     selected ? "bg-white" : "bg-slate-100",
     // Set border color based on selected state
     selected ? "border border-primary" : "border border-transparent",
+    // Lower the opacity if the card is loading
+    loading && "opacity-30",
     // If the style prop is passed in, then apply it
     style,
   );
@@ -68,6 +74,24 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
       onPress={onPress}
       disabled={!pressable}
     >
+      {/* Loading Spinner */}
+      {loading && (
+        <View style={tw`absolute inset-0 items-center justify-center`}>
+          <ActivityIndicator color={tw.color("primary")} />
+        </View>
+      )}
+
+      {/* Selected Icon */}
+      {selected && (
+        <View style={tw`absolute p-4 right-0`}>
+          <Icon
+            name="ri-checkbox-circle-fill"
+            size={20}
+            color={tw.color("primary")}
+          />
+        </View>
+      )}
+
       {/* Title */}
       {title && (
         <Text variant="body" style={tw`text-primary`}>

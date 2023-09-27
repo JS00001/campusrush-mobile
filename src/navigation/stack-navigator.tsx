@@ -12,11 +12,18 @@
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import AddScreen from "@/navigation/screens/add/Add";
+import AdminScreen from "@/navigation/screens/admin/Admin";
+import AdminBillingScreen from "@/navigation/screens/admin/Billing";
+import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
+import AdminStatisticsScreen from "@/navigation/screens/admin/Statistics";
+import AdminOrganizationsScreen from "@/navigation/screens/admin/Organizations";
 
 import PNMsScreen from "@/navigation/screens/pnms/PNMs";
 
 import HomeScreen from "@/navigation/screens/home/Home";
+
+import AddManual from "@/navigation/screens/add/AddManual";
+import AddQrCode from "@/navigation/screens/add/AddQrCode";
 
 import MessagesScreen from "@/navigation/screens/messages/Messages";
 
@@ -24,19 +31,19 @@ import BillingScreen from "@/navigation/screens/billing/Billing";
 
 import VerificationScreen from "@/navigation/screens/verification/Verification";
 
-import SettingsScreen from "@/navigation/screens/settings/Settings";
-import UpdateBillingScreen from "@/navigation/screens/settings/UpdateBilling";
-import UpdateNotificationsScreen from "@/navigation/screens/settings/UpdateNotifications";
-import UpdateGeneralScreen from "@/navigation/screens/settings/organization/UpdateGeneral";
-import UpdateSecurityScreen from "@/navigation/screens/settings/organization/UpdateSecurity";
-import UpdateOrganizationScreen from "@/navigation/screens/settings/organization/UpdateOrganization";
-
 import LoginScreen from "@/navigation/screens/auth/Login";
 import LandingScreen from "@/navigation/screens/auth/Landing";
 import UITestingScreen from "@/navigation/screens/auth/UITesting";
 import RegistrationStep1Screen from "@/navigation/screens/auth/RegistrationStep1";
 import RegistrationStep2Screen from "@/navigation/screens/auth/RegistrationStep2";
 import RegistrationStep3Screen from "@/navigation/screens/auth/RegistrationStep3";
+
+import SettingsScreen from "@/navigation/screens/settings/Settings";
+import UpdateBillingScreen from "@/navigation/screens/settings/UpdateBilling";
+import UpdateNotificationsScreen from "@/navigation/screens/settings/UpdateNotifications";
+import UpdateGeneralScreen from "@/navigation/screens/settings/organization/UpdateGeneral";
+import UpdateSecurityScreen from "@/navigation/screens/settings/organization/UpdateSecurity";
+import UpdateOrganizationScreen from "@/navigation/screens/settings/organization/UpdateOrganization";
 
 import RegistrationProvider from "@/providers/Registration";
 
@@ -174,8 +181,12 @@ export const AddStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
-        name="Add"
-        component={AddScreen}
+        name="AddManual"
+        component={AddManual}
+      />
+      <Stack.Screen
+        name="AddQrCode"
+        component={AddQrCode}
       />
     </Stack.Navigator>
   );
@@ -230,6 +241,39 @@ export const SettingsStack = () => {
       <Stack.Screen
         name="UpdateNotifications"
         component={UpdateNotificationsScreen}
+      />
+    </Stack.Navigator>
+  );
+};
+
+/**
+ * Stack Navigator App Admin Screen
+ *
+ * This is the main stack navigator for the app
+ * when the user is on the "Admin" tab and is an admin
+ */
+export const AdminStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name="Admin"
+        component={AdminScreen}
+      />
+      <Stack.Screen
+        name="AdminBilling"
+        component={AdminBillingScreen}
+      />
+      <Stack.Screen
+        name="AdminStatistics"
+        component={AdminStatisticsScreen}
+      />
+      <Stack.Screen
+        name="AdminOrganizations"
+        component={AdminOrganizationsScreen}
+      />
+      <Stack.Screen
+        name="AdminUITesting"
+        component={AdminUITestingScreen}
       />
     </Stack.Navigator>
   );

@@ -40,7 +40,7 @@ const Landing: React.FC<LandingProps> = ({ navigation }) => {
 
       <Layout
         style={tw`bg-transparent`}
-        contentContainerStyle={tw`justify-between`}
+        contentContainerStyle={tw`justify-between h-full`}
       >
         <View style={tw`items-center gap-y-10 justify-center flex-1`}>
           <Logo64Svg />

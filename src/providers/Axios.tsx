@@ -36,7 +36,7 @@ const axiosClient = axios.create({
 const AxiosIntercepter: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
-  const { accessToken, clearUserData } = useAuth();
+  const { accessToken, clearUserData, refetchBillingData } = useAuth();
 
   useEffect(() => {
     // Add an access token to the request headers
@@ -64,8 +64,12 @@ const AxiosIntercepter: React.FC<{ children?: React.ReactNode }> = ({
     };
 
     const responseErrInterceptor = async (error: AxiosErrorConfig) => {
-      // If error is not an unauthorized or rate limit error, reject the promise
-      if (error.response?.status != 401 && error.response?.status != 429) {
+      // If error is not an unauthorized or rate limit error, or entitlement error, reject the promise
+      if (
+        error.response?.status != 401 &&
+        error.response?.status != 429 &&
+        error.response?.status != 403
+      ) {
         return Promise.reject(error);
       }
 
@@ -99,8 +103,13 @@ const AxiosIntercepter: React.FC<{ children?: React.ReactNode }> = ({
         return await axiosClient.request(config);
       }
 
-      if (responseData.error?.message == "UNAUTHORIZED_REQUEST") {
+      if (responseData.error?.message == "UNAUTHORIZED") {
         clearUserData();
+        return Promise.reject(error);
+      }
+
+      if (responseData.error?.message == "MISSING_ENTITLEMENT") {
+        refetchBillingData();
         return Promise.reject(error);
       }
 

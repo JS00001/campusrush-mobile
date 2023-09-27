@@ -65,3 +65,21 @@ interface UpdateOrganizationInput {
   notificationPushToken?: string;
   notificationsEnabled?: boolean;
 }
+
+interface GetPnmsInput {
+  page: number;
+  pageSize: number;
+}
+
+interface GetAdminOrganizationInput {
+  id: string;
+}
+
+interface UpgradeOrganizationInput {
+  id: string;
+  entitlements: string[];
+}
+
+interface DowngradeOrganizationInput {
+  id: string;
+}

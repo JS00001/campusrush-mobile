@@ -19,12 +19,34 @@ interface Organization {
   email: string;
   school: string;
   verified: boolean;
-
   // Users of the organization
   pnms: PNM[];
-
-  // Billing information
+  // Authentication
+  role: 'user' | 'admin';
+  // Billing
   customerId: string;
+  entitlements: string[];
+  // Notifications
+  notificationsEnabled: boolean;
+}
+
+interface PNM {
+  _id: string;
+  // Organization information
+  organization: string;
+  // Identifying information
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  // Social media
+  instagram: string;
+  snapchat: string;
+  // Other information
+  receivedBid: boolean;
+  classification: string;
+  // Timestamps
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface APIError {

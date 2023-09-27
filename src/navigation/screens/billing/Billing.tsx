@@ -13,7 +13,7 @@
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 
-import useBilling from "@/hooks/useBilling";
+import usePurchase from "@/hooks/usePurchase";
 import ProductCard from "@/components/ProductCard";
 import SegmentedControl from "@/ui/SegmentedControl";
 
@@ -29,7 +29,7 @@ const Billing = () => {
     setOfferingID,
     setPackageID,
     completePurchase,
-  } = useBilling();
+  } = usePurchase();
 
   const onSegmentedControlChange = (event: any) => {
     setOfferingID(event.nativeEvent.selectedSegmentIndex);
