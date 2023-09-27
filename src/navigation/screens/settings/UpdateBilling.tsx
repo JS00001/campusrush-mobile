@@ -10,13 +10,23 @@
  * Do not distribute
  */
 
-import useBilling from "@/hooks/useBilling";
+import { Linking } from "react-native";
+
 import Button from "@/ui/Button";
 import Layout from "@/ui/Layout";
-import SelectionCard from "@/ui/SelectionCard/SelectionCard";
+import useBilling from "@/hooks/useBilling";
+import BillingDetails from "@/components/BillingDetails";
 
 const UpdateBilling = () => {
   const { activeProducts, managementURL } = useBilling();
+
+  // Open the URL to manage billing (typically the app store)
+  const onManageBilling = () => {
+    if (managementURL) {
+      Linking.openURL(managementURL);
+    }
+  };
+
   return (
     <Layout scrollable>
       <Layout.Header
@@ -24,19 +34,11 @@ const UpdateBilling = () => {
         title="Billing"
         subtitle="Manage your current plan"
       />
+      {/* All plans/perks that the user has purchased/subscribed to */}
+      <BillingDetails activeProducts={activeProducts} />
 
-      {activeProducts.map((product) => (
-        <SelectionCard
-          pressable={false}
-          title={product.title}
-          subtitle={product.subtitle}
-          description={product.description}
-        >
-          <Button color="light" size="sm">
-            Manage
-          </Button>
-        </SelectionCard>
-      ))}
+      {/* Button to manage billing */}
+      <Button onPress={onManageBilling}>Manage Subscription</Button>
     </Layout>
   );
 };

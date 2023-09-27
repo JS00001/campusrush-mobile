@@ -14,8 +14,8 @@ import { useAuth } from "@/providers/Auth";
 import { usePurchases } from "@/providers/Purchases";
 
 const useBilling = () => {
+  const { billingData } = useAuth();
   const { offerings } = usePurchases();
-  const { refetchBillingData, billingData } = useAuth();
 
   // Fetches the productIdentifiers of all active entitlements
   const activeEntitlements = Object.keys(billingData.entitlements.active).map(
@@ -77,9 +77,16 @@ const useBilling = () => {
     const _isSubscription = product?.product.productCategory === "SUBSCRIPTION";
     // Whether or not the subscription is pending cancellation
     const _isPendingCancellation = product?.entitlement?.willRenew === false;
-    // When the product will either cancel or renew, formatted as MM/DD/YY
+    // When the product will either cancel or renew, formatted as Oct 21, 2023
     const _expirationDate = product?.entitlement?.expirationDate
-      ? new Date(product?.entitlement?.expirationDate).toLocaleDateString()
+      ? new Date(product?.entitlement?.expirationDate).toLocaleDateString(
+          "en-US",
+          {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          },
+        )
       : null;
 
     // The title of the product (should always exist, but just in case)
@@ -98,7 +105,7 @@ const useBilling = () => {
       "No price";
 
     // TODO: Add perks
-    const perks: String[] = [
+    const perks: string[] = [
       "This is Perk 1",
       "This is Perk 2",
       "This is Perk 3",
