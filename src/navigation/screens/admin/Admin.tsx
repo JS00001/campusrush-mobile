@@ -43,6 +43,10 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
     navigation.navigate("AdminBilling");
   };
 
+  const onUITestingPress = () => {
+    navigation.navigate("AdminUITesting");
+  };
+
   const onForceBasicPress = () => {
     forceBasicSubscription();
   };
@@ -78,6 +82,13 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
         subtitle="Update an organization's billing"
         icon="ri-bank-card-2-fill"
         onPress={onBillingPress}
+      />
+
+      <ActionCard
+        title="UI Testing"
+        subtitle="Test new UI in a sandbox environment"
+        icon="ri-layout-masonry-fill"
+        onPress={onUITestingPress}
       />
 
       <Button

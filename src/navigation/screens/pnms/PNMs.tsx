@@ -31,7 +31,9 @@ const PNMs = () => {
     onFilterPress,
   } = usePnms();
 
-  const searchPlaceholder = `Search ${pnms.length + " " || ""}PNMs`;
+  const searchPlaceholder = `Search ${
+    pnms.length ? `${pnms.length} ` : ""
+  }PNMs`;
 
   return (
     <Layout gap={8}>
