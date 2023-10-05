@@ -13,6 +13,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
+import { useState } from "react";
 
 interface NewMessageProps {
   navigation: NativeStackNavigationProp<any>;
@@ -20,12 +21,20 @@ interface NewMessageProps {
 }
 
 const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
-  const { pnms } = route.params;
+  // Create a state variable to hold the pnms from the route params
+  const [pnms, setPnms] = useState<PNM[]>(route.params.pnms);
+
+  const onPnmRemove = (pnm: PNM) => {
+    // Remove the pnm from the state variable
+    setPnms((prevPnms) =>
+      prevPnms.filter((prevPnm) => prevPnm._id !== pnm._id),
+    );
+  };
 
   return (
     <>
       <Layout scrollable gap={8}>
-        <Layout.ChatHeader pnms={pnms} />
+        <Layout.ChatHeader pnms={pnms} onPnmRemove={onPnmRemove} />
       </Layout>
     </>
   );

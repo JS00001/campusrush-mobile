@@ -57,9 +57,11 @@ const Badge: React.FC<BadgeProps> = ({
   // Styling
   const containerClasses = tw.style(
     // Styles applying to all sizes
-    "bg-primary rounded-lg justify-center items-center flex-row gap-2",
+    "bg-primary rounded-lg justify-center items-center flex-row",
     // Styles applying to specific sizes
     size && sizeClasses[size],
+    // If there is a removable icon, add padding to the right
+    removable && tw.style("pr-8"),
     // Custom styles
     style,
   );
@@ -73,9 +75,9 @@ const Badge: React.FC<BadgeProps> = ({
       {removable && (
         <TouchableOpacity
           onPress={onRemove}
-          style={tw`bg-slate-100 rounded-full`}
+          style={tw`py-3 pr-3 pl-6 absolute -right-1`}
         >
-          <View>
+          <View style={tw`bg-slate-100 rounded-full`}>
             <RemixIcon
               name="ri-close-line"
               size={14}

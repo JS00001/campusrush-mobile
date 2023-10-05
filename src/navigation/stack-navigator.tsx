@@ -48,6 +48,12 @@ import UpdateSecurityScreen from "@/navigation/screens/settings/organization/Upd
 import UpdateOrganizationScreen from "@/navigation/screens/settings/organization/UpdateOrganization";
 
 import RegistrationProvider from "@/providers/Registration";
+import { useEffect, useLayoutEffect } from "react";
+import {
+  getFocusedRouteNameFromRoute,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 
 export const Stack = createNativeStackNavigator();
 

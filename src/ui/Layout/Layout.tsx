@@ -202,9 +202,10 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, hasBackButton }) => {
 
 interface ChatHeaderProps {
   pnms: PNM[];
+  onPnmRemove?: (pnm: PNM) => void;
 }
 
-const ChatHeader: React.FC<ChatHeaderProps> = ({ pnms }) => {
+const ChatHeader: React.FC<ChatHeaderProps> = ({ pnms, onPnmRemove }) => {
   const navigation = useNavigation();
 
   // Whether or not the chat is a single PNM
@@ -246,23 +247,38 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ pnms }) => {
           icon="ri-more-fill"
           onPress={() => {}}
           size="sm"
-          disabled={isSinglePnm}
+          disabled={!isSinglePnm}
           // Hide the button if it's not a single PNM
           style={tw.style("opacity-0", isSinglePnm && "opacity-100")}
         />
       </View>
 
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={tw`flex-row gap-0.5 pl-6 pb-3`}
-      >
-        {pnms.map((pnm, index) => (
-          <Badge key={index} size="md" removable>
-            {pnm.firstName + " " + pnm.lastName}
-          </Badge>
-        ))}
-      </ScrollView>
+      {!isSinglePnm && (
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={tw`flex-row gap-0.5 pl-6 pb-3`}
+        >
+          {pnms.map((pnm, index) => {
+            const onPnmRemovePress = () => {
+              if (onPnmRemove) {
+                onPnmRemove(pnm);
+              }
+            };
+
+            return (
+              <Badge
+                key={index}
+                size="md"
+                removable
+                onRemove={onPnmRemovePress}
+              >
+                {pnm.firstName + " " + pnm.lastName}
+              </Badge>
+            );
+          })}
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 };
