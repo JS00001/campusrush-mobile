@@ -25,7 +25,9 @@ import HomeScreen from "@/navigation/screens/home/Home";
 import AddManual from "@/navigation/screens/add/AddManual";
 import AddQrCode from "@/navigation/screens/add/AddQrCode";
 
+import ChatScreen from "@/navigation/screens/messages/Chat";
 import MessagesScreen from "@/navigation/screens/messages/Messages";
+import NewMessageScreen from "@/navigation/screens/messages/NewMessage";
 
 import BillingScreen from "@/navigation/screens/billing/Billing";
 
@@ -204,6 +206,14 @@ export const MessagesStack = () => {
       <Stack.Screen
         name="Messages"
         component={MessagesScreen}
+      />
+      <Stack.Screen
+        name="NewMessage"
+        component={NewMessageScreen}
+      />
+      <Stack.Screen
+        name="Chat"
+        component={ChatScreen}
       />
     </Stack.Navigator>
   );

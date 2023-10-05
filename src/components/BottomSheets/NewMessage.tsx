@@ -12,12 +12,15 @@
 
 import { useMemo } from "react";
 import { Pressable, View } from "react-native";
+import Toast from "react-native-toast-message";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import ActionCard from "@/ui/ActionCard";
+import useContacts from "@/hooks/messaging/useContacts";
 
 interface NewMessageProps {
   innerRef: React.RefObject<any>;
@@ -30,6 +33,46 @@ const NewMessage: React.FC<NewMessageProps> = ({
 }) => {
   // Memoized snap points (When the bottom sheet modal is open)
   const snapPoints = useMemo(() => ["65%"], []);
+
+  const navigation = useNavigation();
+
+  const { isLoading, uncontactedPnms, allPnms } = useContacts();
+
+  const onMessageAllPress = () => {
+    if (allPnms.length === 0) {
+      Toast.show({
+        type: "error",
+        text1: "No PNMs",
+        text2: "You have no PNMs to message",
+      });
+      handleCloseModalPress();
+      return;
+    }
+
+    (navigation.navigate as any)("NewMessage", {
+      pnms: allPnms,
+    });
+
+    handleCloseModalPress();
+  };
+
+  const onMessageNewMembersPress = () => {
+    if (uncontactedPnms.length === 0) {
+      Toast.show({
+        type: "error",
+        text1: "No PNMs",
+        text2: "You have sent messages to all PNMs",
+      });
+      handleCloseModalPress();
+      return;
+    }
+
+    (navigation.navigate as any)("NewMessage", {
+      pnms: uncontactedPnms,
+    });
+
+    handleCloseModalPress();
+  };
 
   return (
     <BottomSheetModal
@@ -51,19 +94,24 @@ const NewMessage: React.FC<NewMessageProps> = ({
           </Text>
         </View>
         <ActionCard
-          title="Direct Message"
-          subtitle="Start a message with a single user from your contacts"
-          icon="ri-chat-private-fill"
+          title="Message All"
+          subtitle="Send a message to all PNMs"
+          icon="ri-chat-voice-fill"
+          loading={isLoading}
+          onPress={onMessageAllPress}
         />
         <ActionCard
-          title="Message All"
-          subtitle="Send a message to all users in your contacts"
-          icon="ri-chat-voice-fill"
+          title="Direct Message"
+          subtitle="Start a message with a single user"
+          icon="ri-chat-private-fill"
+          loading={isLoading}
         />
         <ActionCard
           title="Message New Members"
-          subtitle="Send a message to all users who you have not contacted"
+          subtitle="Send a message to all PNMs you have not contacted"
           icon="ri-chat-history-fill"
+          loading={isLoading}
+          onPress={onMessageNewMembersPress}
         />
       </Layout>
     </BottomSheetModal>

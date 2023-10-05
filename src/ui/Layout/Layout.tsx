@@ -27,6 +27,8 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import HeaderSvg from "@/assets/HeaderSvg";
 import TermsAndConditions from "@/components/TermsAndConditions";
+import Badge from "../Badge";
+import IconButton from "../IconButton";
 
 interface LayoutProps extends ViewProps {
   children?: React.ReactNode;
@@ -41,6 +43,7 @@ interface LayoutProps extends ViewProps {
 
 interface LayoutComponents {
   Header: React.FC<HeaderProps>;
+  ChatHeader: React.FC<ChatHeaderProps>;
 }
 
 const Layout: React.FC<LayoutProps> & LayoutComponents = ({
@@ -57,14 +60,16 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
   const LayoutHeader = React.Children.toArray(children).find(
     (child) =>
       React.isValidElement(child) &&
-      (child as any).type.displayName == "Layout.Header",
+      ((child as any).type.displayName == "Layout.Header" ||
+        (child as any).type.displayName == "Layout.ChatHeader"),
   );
 
   // Remove the header from the children
   const LayoutChildren = React.Children.toArray(children).filter(
     (child) =>
       React.isValidElement(child) &&
-      (child as any).type.displayName != "Layout.Header",
+      (child as any).type.displayName != "Layout.Header" &&
+      (child as any).type.displayName != "Layout.ChatHeader",
   );
 
   // Styling
@@ -195,7 +200,77 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, hasBackButton }) => {
   );
 };
 
+interface ChatHeaderProps {
+  pnms: PNM[];
+}
+
+const ChatHeader: React.FC<ChatHeaderProps> = ({ pnms }) => {
+  const navigation = useNavigation();
+
+  // Whether or not the chat is a single PNM
+  const isSinglePnm = pnms.length === 1;
+
+  // Use the users name if it's a single PNM
+  const header = isSinglePnm
+    ? `${pnms[0].firstName} ${pnms[0].lastName}`
+    : `New Message (${pnms.length} PNMs)`;
+
+  // When the back arrow is pressed, go back to the previous screen
+  const onBackArrowPress = () => navigation.goBack();
+
+  // Styling
+  const safeAreaStyles = tw.style(
+    // Positioning and color
+    "w-full border-b border-slate-200",
+  );
+
+  const headerStyles = tw.style(
+    // Positioning and color
+    "justify-between flex-row items-center px-6 py-3",
+  );
+
+  return (
+    <SafeAreaView style={safeAreaStyles}>
+      <View style={headerStyles}>
+        <IconButton
+          icon="ri-arrow-left-line"
+          onPress={onBackArrowPress}
+          size="sm"
+        />
+
+        <Text variant="body" style={tw`font-medium`}>
+          {header}
+        </Text>
+
+        <IconButton
+          icon="ri-more-fill"
+          onPress={() => {}}
+          size="sm"
+          disabled={isSinglePnm}
+          // Hide the button if it's not a single PNM
+          style={tw.style("opacity-0", isSinglePnm && "opacity-100")}
+        />
+      </View>
+
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={tw`flex-row gap-0.5 pl-6 pb-3`}
+      >
+        {pnms.map((pnm, index) => (
+          <Badge key={index} size="md" removable>
+            {pnm.firstName + " " + pnm.lastName}
+          </Badge>
+        ))}
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
 Header.displayName = "Layout.Header";
 Layout.Header = Header;
+
+ChatHeader.displayName = "Layout.ChatHeader";
+Layout.ChatHeader = ChatHeader;
 
 export default Layout;

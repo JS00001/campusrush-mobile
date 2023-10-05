@@ -172,3 +172,36 @@ type DowngradeOrganizationAPIResponse = APIResponse & {
     };
   };
 };
+
+type GetMessagesAPIResponse = APIResponse & {
+  data: {
+    data: {
+      messages: Message[];
+    };
+  };
+};
+
+type GetConversationsAPIResponse = APIResponse & {
+  data: {
+    data: {
+      conversations: Conversation[];
+    };
+  };
+};
+
+type GetContactsAPIResponse = APIResponse & {
+  data: {
+    data: {
+      uncontacted: PNM[];
+      all: PNM[];
+    };
+  };
+};
+
+type SendMessageAPIResponse = APIResponse & {
+  data: {
+    data: {
+      conversations: Conversation[];
+    };
+  };
+};

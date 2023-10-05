@@ -83,3 +83,14 @@ interface UpgradeOrganizationInput {
 interface DowngradeOrganizationInput {
   id: string;
 }
+
+interface GetMessagesInput {
+  limit: number;
+  offset: number;
+  pnmId: string;
+}
+
+interface SendMessageInput {
+  pnms: string[];
+  message: string;
+}

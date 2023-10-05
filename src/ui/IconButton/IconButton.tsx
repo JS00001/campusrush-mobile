@@ -17,14 +17,31 @@ import tw from "@/lib/tailwind";
 
 interface IconButtonProps extends TouchableOpacityProps {
   icon: string;
+  size?: keyof typeof sizeClasses;
   disabled?: boolean;
   onPress?: () => void;
   style?: any;
 }
 
+/**
+ * Size classes provide the proper sizes for both the container and text
+ * components of the button.
+ */
+const sizeClasses = {
+  sm: {
+    container: tw.style("p-2"),
+    icon: 20,
+  },
+  lg: {
+    container: tw.style("p-3.5"),
+    icon: 24,
+  },
+};
+
 const IconButton: React.FC<IconButtonProps> = ({
   icon,
   disabled,
+  size = "lg",
   onPress,
   style,
   ...props
@@ -32,7 +49,9 @@ const IconButton: React.FC<IconButtonProps> = ({
   // Styling
   const containerClasses = tw.style(
     // Base styles
-    "p-3.5 rounded-full bg-slate-100 self-start",
+    "rounded-full bg-slate-100 self-start",
+    // Size styles
+    sizeClasses[size].container,
     // Disabled styles
     disabled && "opacity-50",
     // Custom styles
@@ -46,7 +65,11 @@ const IconButton: React.FC<IconButtonProps> = ({
       disabled={disabled}
       style={containerClasses}
     >
-      <RemixIcon name={icon} size={24} color={tw.color("slate-600")} />
+      <RemixIcon
+        name={icon}
+        size={sizeClasses[size].icon}
+        color={tw.color("slate-600")}
+      />
     </TouchableOpacity>
   );
 };
