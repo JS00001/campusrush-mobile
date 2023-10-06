@@ -2052,10 +2052,6 @@
     "@tanstack/query-core" "4.32.6"
     use-sync-external-store "^1.2.0"
 
-"@types/@react-native-menu/menu":
-  version "0.8.0"
-  resolved "https://codeload.github.com/react-native-menu/menu/tar.gz/a21c18258c7c2d16b261ef800e4186032e6de995"
-
 "@types/hammerjs@^2.0.36":
   version "2.0.41"
   resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.41.tgz#f6ecf57d1b12d2befcce00e928a6a097c22980aa"

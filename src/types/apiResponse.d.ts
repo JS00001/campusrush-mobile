@@ -13,7 +13,6 @@ interface APIResponse {
   data: {
     data: {
       error?: APIError;
-      message?: string;
     };
   };
 }
@@ -177,6 +176,7 @@ type GetMessagesAPIResponse = APIResponse & {
   data: {
     data: {
       messages: Message[];
+      nextOffset: number;
     };
   };
 };
@@ -202,6 +202,7 @@ type SendMessageAPIResponse = APIResponse & {
   data: {
     data: {
       conversations: Conversation[];
+      messages: Message[];
     };
   };
 };

@@ -18,12 +18,12 @@ import tw from "@/lib/tailwind";
 interface MessageProps {
   content: string;
   sent: boolean;
-  createdAt: string;
+  createdAt?: string;
 }
 
 const Message: React.FC<MessageProps> = ({ content, sent, createdAt }) => {
   // Convert the createdAt string to a Date object
-  const date = new Date(createdAt);
+  const date = new Date(createdAt ?? "");
   // Extract just the time from the Date object
   const time = date.toLocaleTimeString([], {
     hour: "2-digit",
@@ -31,7 +31,7 @@ const Message: React.FC<MessageProps> = ({ content, sent, createdAt }) => {
   });
 
   // Style the message bubble for a sent message
-  const sentMessageClasses = tw.style("bg-blue-500 self-end max-w-4/5");
+  const sentMessageClasses = tw.style("bg-blue-800 self-end max-w-4/5");
   // Style the message text for a sent message
   const sentTextClasses = tw.style("text-white");
 
@@ -71,10 +71,12 @@ const Message: React.FC<MessageProps> = ({ content, sent, createdAt }) => {
         <Text style={textClasses}>{content}</Text>
       </View>
 
-      {/* Message timestamp */}
-      <Text variant="subtext" style={timestampClasses}>
-        {time}
-      </Text>
+      {/* Message timestamp if provided */}
+      {createdAt === undefined ? null : (
+        <Text variant="subtext" style={timestampClasses}>
+          {time}
+        </Text>
+      )}
     </>
   );
 };

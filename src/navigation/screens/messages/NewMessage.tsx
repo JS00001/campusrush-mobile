@@ -14,15 +14,21 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
 import { useState } from "react";
+import MessageBox from "@/components/MessageBox";
+import useMessaging from "@/hooks/messaging/useMessaging";
 
 interface NewMessageProps {
   navigation: NativeStackNavigationProp<any>;
   route: any;
 }
 
-const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
+const NewMessage: React.FC<NewMessageProps> = ({ route }) => {
   // Create a state variable to hold the pnms from the route params
   const [pnms, setPnms] = useState<PNM[]>(route.params.pnms);
+  // Use the messaging hook to send messages
+  const { sendMessage } = useMessaging();
+
+  const pnmIds = pnms.map((pnm) => pnm._id);
 
   const onPnmRemove = (pnm: PNM) => {
     // Remove the pnm from the state variable
@@ -31,10 +37,19 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
     );
   };
 
+  const onSend = (message: string) => {
+    // Send the message
+    sendMessage({ message, pnms: pnmIds });
+  };
+
   return (
     <>
       <Layout scrollable gap={8}>
         <Layout.ChatHeader pnms={pnms} onPnmRemove={onPnmRemove} />
+
+        <Layout.Footer keyboardAvoiding>
+          <MessageBox onSend={onSend} />
+        </Layout.Footer>
       </Layout>
     </>
   );

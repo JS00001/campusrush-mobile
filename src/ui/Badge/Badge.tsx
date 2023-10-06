@@ -57,7 +57,7 @@ const Badge: React.FC<BadgeProps> = ({
   // Styling
   const containerClasses = tw.style(
     // Styles applying to all sizes
-    "bg-primary rounded-lg justify-center items-center flex-row",
+    "bg-primary rounded-full justify-center items-center flex-row",
     // Styles applying to specific sizes
     size && sizeClasses[size],
     // If there is a removable icon, add padding to the right

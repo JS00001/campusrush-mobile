@@ -32,6 +32,10 @@ const sizeClasses = {
     container: tw.style("p-2"),
     icon: 20,
   },
+  md: {
+    container: tw.style("p-2.5"),
+    icon: 22,
+  },
   lg: {
     container: tw.style("p-3.5"),
     icon: 24,
@@ -49,7 +53,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   // Styling
   const containerClasses = tw.style(
     // Base styles
-    "rounded-full bg-slate-100 self-start",
+    "rounded-full bg-slate-100 ",
     // Size styles
     sizeClasses[size].container,
     // Disabled styles
@@ -68,7 +72,7 @@ const IconButton: React.FC<IconButtonProps> = ({
       <RemixIcon
         name={icon}
         size={sizeClasses[size].icon}
-        color={tw.color("slate-600")}
+        color={tw.color("primary")}
       />
     </TouchableOpacity>
   );

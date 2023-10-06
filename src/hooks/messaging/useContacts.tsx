@@ -23,6 +23,8 @@ const useContacts = () => {
   const query = useQuery({
     // Use access token as the query key so response is cached on a per-user basis
     queryKey: ["contacts", accessToken],
+    // This is so we can call the query when the bottom sheet is opened
+    enabled: false,
     queryFn: async () => {
       return messagingApi.getContacts();
     },

@@ -24,11 +24,11 @@ import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import Text from "@/ui/Text";
+import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
+import IconButton from "@/ui/IconButton";
 import HeaderSvg from "@/assets/HeaderSvg";
 import TermsAndConditions from "@/components/TermsAndConditions";
-import Badge from "../Badge";
-import IconButton from "../IconButton";
 
 interface LayoutProps extends ViewProps {
   children?: React.ReactNode;
@@ -44,6 +44,7 @@ interface LayoutProps extends ViewProps {
 interface LayoutComponents {
   Header: React.FC<HeaderProps>;
   ChatHeader: React.FC<ChatHeaderProps>;
+  Footer: React.FC<FooterProps>;
 }
 
 const Layout: React.FC<LayoutProps> & LayoutComponents = ({
@@ -64,12 +65,20 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
         (child as any).type.displayName == "Layout.ChatHeader"),
   );
 
+  // The footer component if passed
+  const LayoutFooter = React.Children.toArray(children).find(
+    (child) =>
+      React.isValidElement(child) &&
+      (child as any).type.displayName == "Layout.Footer",
+  );
+
   // Remove the header from the children
   const LayoutChildren = React.Children.toArray(children).filter(
     (child) =>
       React.isValidElement(child) &&
       (child as any).type.displayName != "Layout.Header" &&
-      (child as any).type.displayName != "Layout.ChatHeader",
+      (child as any).type.displayName != "Layout.ChatHeader" &&
+      (child as any).type.displayName != "Layout.Footer",
   );
 
   // Styling
@@ -148,6 +157,9 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
         {/* Render the content container (Automatically adds children) */}
         {ContentContainer}
       </SafeAreaView>
+
+      {/* If there is a footer, render it */}
+      {LayoutFooter}
     </View>
   );
 };
@@ -283,10 +295,76 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ pnms, onPnmRemove }) => {
   );
 };
 
+interface FooterProps {
+  children: React.ReactNode;
+  scrollable?: boolean;
+  keyboardAvoiding?: boolean;
+}
+
+const Footer: React.FC<FooterProps> = ({
+  scrollable,
+  keyboardAvoiding,
+  children,
+}) => {
+  // The content container identifier to select the correct layout component
+  const ContentContainerIdentifier = scrollable
+    ? "ScrollView"
+    : keyboardAvoiding
+    ? "KeyboardAvoidingView"
+    : "View";
+
+  // The options for the content container
+  const ContentContainer = {
+    ScrollView: (
+      <ScrollView
+        automaticallyAdjustKeyboardInsets
+        keyboardShouldPersistTaps="handled"
+      >
+        <SafeAreaView>{children}</SafeAreaView>
+      </ScrollView>
+    ),
+    KeyboardAvoidingView: (
+      <KeyboardAvoidingView behavior="padding">
+        <SafeAreaView>{children}</SafeAreaView>
+      </KeyboardAvoidingView>
+    ),
+    View: (
+      <View>
+        <SafeAreaView>{children}</SafeAreaView>
+      </View>
+    ),
+  }[ContentContainerIdentifier];
+
+  // Return the content container
+  return ContentContainer;
+};
+
+/**
+ * Layout Sub-Components
+ *
+ * These are the sub-components that make up the layout.
+ * They each need to have a displayName so that they can be
+ * accessed from the Layout component.
+ *
+ * Example:
+ *  Layout.Header
+ *  Layout.ChatHeader
+ *  ...
+ *
+ * Make sure they are assigned to the Layout component
+ *
+ * Example:
+ * Layout.Header = Header
+ * Layout.ChatHeader = ChatHeader
+ * ...
+ */
 Header.displayName = "Layout.Header";
 Layout.Header = Header;
 
 ChatHeader.displayName = "Layout.ChatHeader";
 Layout.ChatHeader = ChatHeader;
+
+Footer.displayName = "Layout.Footer";
+Layout.Footer = Footer;
 
 export default Layout;
