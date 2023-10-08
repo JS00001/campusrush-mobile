@@ -24,7 +24,7 @@ interface NewMessageProps {
 
 const NewMessage: React.FC<NewMessageProps> = ({ route }) => {
   // Create a state variable to hold the pnms from the route params
-  const [pnms, setPnms] = useState<PNM[]>(route.params.pnms);
+  const [pnms, setPnms] = useState<PNM[]>(route?.params.pnms || []);
   // Use the messaging hook to send messages
   const { sendMessage } = useMessaging();
 

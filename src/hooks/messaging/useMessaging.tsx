@@ -24,14 +24,20 @@ const useMessaging = (pnmId?: string) => {
   // Get access token so that we can cache the query
   const { accessToken, organization } = useAuth();
   // Use the conversations hook
-  const { addConversations } = useConversations();
+  const { addConversations, setIsSendingMessage } = useConversations();
+
+  // Create a mutation to send a message
+  const mutation = useMutation({
+    mutationFn: (input: SendMessageInput) => {
+      return messagingApi.sendMessage(input);
+    },
+  });
 
   // Create a query to get the organizations messages
   const query = useInfiniteQuery({
     // Use access token as the query key so response is cached on a per-user basis
-    queryKey: ["messaging", accessToken],
-    // This is so we can call the query when the bottom sheet is opened
-    enabled: false,
+    queryKey: ["messaging", accessToken, pnmId],
+    enabled: !!pnmId,
     queryFn: async ({ pageParam = 0 }) => {
       return messagingApi.getMessages({
         limit: 50,
@@ -55,14 +61,8 @@ const useMessaging = (pnmId?: string) => {
   // Create a state to store the messages, so we can update them
   const [messages, setMessages] = useState(messagesData || []);
 
-  // Create a mutation to send a message
-  const mutation = useMutation({
-    mutationFn: (input: SendMessageInput) => {
-      return messagingApi.sendMessage(input);
-    },
-  });
-
   const sendMessage = async (input: SendMessageInput) => {
+    setIsSendingMessage(true);
     // Create a temporary message so we can update the UI, this
     // will be replaced by the actual message when the mutation
     // is successful
@@ -79,6 +79,11 @@ const useMessaging = (pnmId?: string) => {
       setMessages((messages) => [temporaryMessage, ...messages]);
     }
 
+    // If the message was sent to multiple PNMs, navigate to the messages screen
+    if (input.pnms.length > 1) {
+      (navigation.navigate as any)("Messages");
+    }
+
     // Attempt to send the message
     let response;
 
@@ -86,22 +91,17 @@ const useMessaging = (pnmId?: string) => {
       response = await mutation.mutateAsync(input);
     } catch (error) {
       // TODO: Handle error, add a "failed" state to all messages or smth
+      setIsSendingMessage(false);
       return;
     }
 
-    // Add the conversations to the conversations state
+    // Destrucure the conversations from the response
     let conversations = response.data.data.conversations;
 
+    // Add the conversations to the conversations state
     addConversations(conversations);
-
-    // If the message was sent to multiple PNMs, navigate to the messages screen
-    if (input.pnms.length > 1) {
-      (navigation.navigate as any)("Messages", {
-        state: "SENT_MESSAGE",
-      });
-
-      return;
-    }
+    // Set the message loading state to false
+    setIsSendingMessage(false);
   };
 
   return {

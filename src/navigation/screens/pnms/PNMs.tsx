@@ -42,7 +42,7 @@ const PNMs = () => {
         subtitle="View and manage all potential new members"
       />
 
-      <View style={tw`flex-row w-full gap-x-2`}>
+      <View style={tw`flex-row w-full gap-x-1`}>
         <TextInput
           icon="ri-search-line"
           variant="alternate"

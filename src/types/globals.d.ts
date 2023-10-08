@@ -68,6 +68,7 @@ interface APIError {
 }
 
 interface Message {
+  _id?: string;
   // The organization that sent or received the message
   organization: string;
   // The PNM that sent or received the message
@@ -83,10 +84,18 @@ interface Message {
 }
 
 interface Conversation {
+  _id?: string;
   // The organization that sent or received the message
   organization: string;
   // The PNM that sent or received the message
-  pnm: string;
+  pnm: {
+    // The PNM's id
+    _id: string;
+    // The PNM's first name
+    firstName: string;
+    // The PNM's last name
+    lastName: string;
+  };
   // Whether the conversation is read or unread
   read: boolean;
   // The last message sent or received

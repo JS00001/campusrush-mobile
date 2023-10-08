@@ -11,14 +11,16 @@
  */
 
 import { useQuery } from "@tanstack/react-query";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import { useAuth } from "@/providers/Auth";
 import messagingApi from "@/api/api/messaging";
 
 interface ConversationsContextProps {
   isLoading: boolean;
+  isSendingMessage: boolean;
   conversations: Conversation[];
+  setIsSendingMessage: (isSendingMessage: boolean) => void;
   addConversations: (conversations: Conversation[]) => void;
 }
 
@@ -31,6 +33,10 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
 }) => {
   // Import data from auth provider
   const { accessToken } = useAuth();
+  // Create a state for whether a sent message is loading
+  const [_isSendingMessage, _setIsSendingMessage] = useState(false);
+  // Create a state to store the conversations
+  const [conversations, setConversations] = useState<Conversation[]>([]);
 
   // The query to get conversations
   const query = useQuery({
@@ -41,16 +47,37 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     },
   });
 
-  // Convert the data into a readable format
-  const conversationsData = query.data?.data?.data.conversations || [];
-  // Create a state to store the conversations
-  const [conversations, setConversations] =
-    useState<Conversation[]>(conversationsData);
+  useEffect(() => {
+    // Convert the data into a readable format
+    const conversationsData = query.data?.data?.data.conversations || [];
+    // Set the conversations state
+    setConversations(conversationsData);
+  }, [query.data]);
+
+  // The method to set whether a message is loading
+  const setIsSendingMessage = (isSendingMessage: boolean) => {
+    _setIsSendingMessage(isSendingMessage);
+  };
 
   // The method to add a conversation to the state
   const addConversations = (conversations: Conversation[]) => {
+    // Add the conversation to the state if the conversation _id does not exist
+    // else update the conversation
     setConversations((prevConversations) => {
-      return [...prevConversations, ...conversations];
+      return conversations.map((conversation) => {
+        const conversationIndex = prevConversations.findIndex(
+          (prevConversation) => prevConversation._id === conversation._id,
+        );
+
+        if (conversationIndex === -1) {
+          return conversation;
+        }
+
+        return {
+          ...prevConversations[conversationIndex],
+          ...conversation,
+        };
+      });
     });
   };
 
@@ -58,6 +85,8 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     <ConversationsContext.Provider
       value={{
         isLoading: query.isLoading,
+        isSendingMessage: _isSendingMessage,
+        setIsSendingMessage,
         conversations,
         addConversations,
       }}
