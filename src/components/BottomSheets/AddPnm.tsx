@@ -11,13 +11,12 @@
  */
 
 import { useMemo } from "react";
-import { Pressable, View } from "react-native";
+import { Pressable, View, ScrollView } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
 import ActionCard from "@/ui/ActionCard";
 
 interface AddPnmProps {
@@ -53,7 +52,7 @@ const AddPnm: React.FC<AddPnmProps> = ({ innerRef, handleCloseModalPress }) => {
         />
       )}
     >
-      <Layout scrollable contentContainerStyle={tw`items-start`}>
+      <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-2`}>
         <View>
           <Text variant="title">Add a PNM</Text>
           <Text variant="body" style={tw`text-slate-600`}>
@@ -79,7 +78,7 @@ const AddPnm: React.FC<AddPnmProps> = ({ innerRef, handleCloseModalPress }) => {
           icon="ri-qr-code-fill"
           onPress={onAddPnmQrCodePress}
         />
-      </Layout>
+      </ScrollView>
     </BottomSheetModal>
   );
 };

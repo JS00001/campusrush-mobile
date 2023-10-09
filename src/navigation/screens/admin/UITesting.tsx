@@ -43,7 +43,6 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
       <Message
         content="This is a longer sent message that should wrap to the next line"
         sent
-        createdAt="2023-09-17T00:00:00.000Z"
       />
       <Message
         sent

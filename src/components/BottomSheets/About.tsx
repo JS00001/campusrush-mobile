@@ -11,12 +11,11 @@
  */
 
 import { useMemo } from "react";
-import { Pressable } from "react-native";
+import { Pressable, ScrollView } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
 
 interface AboutProps {
   innerRef: React.RefObject<any>;
@@ -39,9 +38,9 @@ const About: React.FC<AboutProps> = ({ innerRef, handleCloseModalPress }) => {
         />
       )}
     >
-      <Layout>
+      <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-2`}>
         <Text>About</Text>
-      </Layout>
+      </ScrollView>
     </BottomSheetModal>
   );
 };

@@ -30,7 +30,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   // Styling
   const buttonClasses = tw.style(
     // Default styles
-    "p-5 rounded-full bg-primary shadow-lg self-end",
+    "p-4 rounded-full bg-primary shadow-lg self-end",
     // Positioning absolute
     "z-20 bottom-0 absolute bottom-4 right-4",
     // Custom styles

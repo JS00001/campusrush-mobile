@@ -89,7 +89,9 @@ const PurchasesProvider: React.FC<{ children: React.ReactNode }> = ({
   const purchasePackage = async (pkg: PurchasesPackage) => {
     try {
       await Purchases.purchasePackage(pkg);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

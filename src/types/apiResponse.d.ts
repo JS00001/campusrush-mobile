@@ -13,7 +13,6 @@ interface APIResponse {
   data: {
     data: {
       error?: APIError;
-      message?: string;
     };
   };
 }
@@ -169,6 +168,41 @@ type DowngradeOrganizationAPIResponse = APIResponse & {
   data: {
     data: {
       organization: Organization;
+    };
+  };
+};
+
+type GetMessagesAPIResponse = APIResponse & {
+  data: {
+    data: {
+      messages: Message[];
+      nextOffset: number;
+    };
+  };
+};
+
+type GetConversationsAPIResponse = APIResponse & {
+  data: {
+    data: {
+      conversations: Conversation[];
+    };
+  };
+};
+
+type GetContactsAPIResponse = APIResponse & {
+  data: {
+    data: {
+      uncontacted: PNM[];
+      all: PNM[];
+    };
+  };
+};
+
+type SendMessageAPIResponse = APIResponse & {
+  data: {
+    data: {
+      conversations: Conversation[];
+      messages: Message[];
     };
   };
 };

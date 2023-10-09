@@ -22,12 +22,12 @@ import tw from "@/lib/tailwind";
 import RemixIcon from "react-native-remix-icon";
 
 // This is a hack to disable font scaling for all text components
-interface TextInputWithDefaultProps extends RNTextInput {
+export interface TextInputWithDefaultProps extends RNTextInput {
   defaultProps?: { allowFontScaling?: boolean };
 }
 
 // This is a hack to disable font scaling for all text components
-const TextInputWithNoFontScaling = Object.assign(RNTextInput, {
+export const TextInputWithNoFontScaling = Object.assign(RNTextInput, {
   defaultProps: {
     ...(RNTextInput as unknown as TextInputWithDefaultProps).defaultProps,
     allowFontScaling: false,
