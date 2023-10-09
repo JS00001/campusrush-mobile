@@ -40,7 +40,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ onSend }) => {
     // Positioning and size
     "flex-row gap-1 px-6 py-2 border-t items-center",
     // Coloring
-    "border-slate-200 ",
+    "border-slate-100 ",
   );
 
   return (
@@ -83,7 +83,7 @@ const MessagingTextInput: React.FC<MessagingTextInputProps> = ({
   // Styling
   const containerClasses = tw.style(
     // Positioning and size
-    "relative w-full -z-10 flex-row rounded-4 bg-slate-100 items-center pr-4",
+    "relative w-full -z-10 flex-row rounded-xl bg-slate-100 items-center pr-4",
     // Allow the input to shrink when the container is too small, (more content on one line)
     "flex-shrink",
   );

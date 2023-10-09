@@ -47,14 +47,6 @@ export const TabNavigator = () => {
       screenOptions={{
         tabBarStyle: {
           height: 90,
-          // Add box shadow to tab bar
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 3,
-          },
-          shadowOpacity: 0.1,
-          shadowRadius: 10,
         },
         tabBarItemStyle: {
           margin: 5,
