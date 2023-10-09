@@ -13,34 +13,21 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
-import { useState } from "react";
 import MessageBox from "@/components/MessageBox";
-import useMessaging from "@/hooks/messaging/useMessaging";
+import useMessageSender from "@/hooks/messaging/useMessageSender";
 
 interface NewMessageProps {
-  navigation: NativeStackNavigationProp<any>;
   route: any;
+  navigation: NativeStackNavigationProp<any>;
 }
 
 const NewMessage: React.FC<NewMessageProps> = ({ route }) => {
-  // Create a state variable to hold the pnms from the route params
-  const [pnms, setPnms] = useState<PNM[]>(route?.params.pnms || []);
-  // Use the messaging hook to send messages
-  const { sendMessage } = useMessaging();
+  // Define the pnms from the route params
+  const routePnms = route.params.pnms;
 
-  const pnmIds = pnms.map((pnm) => pnm._id);
-
-  const onPnmRemove = (pnm: PNM) => {
-    // Remove the pnm from the state variable
-    setPnms((prevPnms) =>
-      prevPnms.filter((prevPnm) => prevPnm._id !== pnm._id),
-    );
-  };
-
-  const onSend = (message: string) => {
-    // Send the message
-    sendMessage({ message, pnms: pnmIds });
-  };
+  // Import the functions needed to send messages and manage the PNMS that messages
+  // are being sent to
+  const { pnms, sendMessage, onPnmRemove } = useMessageSender(routePnms);
 
   return (
     <>
@@ -48,7 +35,7 @@ const NewMessage: React.FC<NewMessageProps> = ({ route }) => {
         <Layout.ChatHeader pnms={pnms} onPnmRemove={onPnmRemove} />
 
         <Layout.Footer keyboardAvoiding>
-          <MessageBox onSend={onSend} />
+          <MessageBox onSend={sendMessage} />
         </Layout.Footer>
       </Layout>
     </>

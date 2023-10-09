@@ -1,0 +1,86 @@
+/*
+ * Created on Sun Oct 9 2023
+ *
+ * This software is the proprietary property of CampusRush.
+ * All rights reserved. Unauthorized copying, modification, or distribution
+ * of this software, in whole or in part, is strictly prohibited.
+ * For licensing information contact CampusRush.
+ *
+ * Copyright (c) 2023 CampusRush
+ * Do not distribute
+ */
+
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigation } from "@react-navigation/native";
+
+import messagingApi from "@/api/api/messaging";
+import { useConversations } from "@/providers/Conversations";
+
+const useMessageSender = (_pnms: PNM[]) => {
+  // Create a navigation state so we can navigate back to the conversations screen
+  const navigation = useNavigation();
+
+  // Create state to store the pnmIds
+  const [pnms, setPnms] = useState(_pnms);
+
+  // Use the conversations hook to add conversations to the state variable
+  const { addConversations, setIsSendingMessage } = useConversations();
+
+  // Create a mutation to send a message
+  const mutation = useMutation({
+    mutationFn: (input: SendMessageInput) => {
+      return messagingApi.sendMessage(input);
+    },
+  });
+
+  // Remove a PNM from the list when they are removed.
+  const onPnmRemove = (pnm: PNM) => {
+    // Remove the pnm from the state variable
+    setPnms((prevPnms) =>
+      prevPnms.filter((prevPnm) => prevPnm._id !== pnm._id),
+    );
+  };
+
+  const sendMessage = async (content: string) => {
+    setIsSendingMessage(true);
+
+    // Create an input object to send to the mutation
+    let input: SendMessageInput = {
+      message: content,
+      pnms: pnms.map((pnm) => pnm._id),
+    };
+
+    // If the message was sent to multiple PNMs, navigate to the messages screen
+    if (input.pnms.length > 1) {
+      (navigation.navigate as any)("Messages");
+    }
+
+    // Attempt to send the message
+    let response;
+
+    try {
+      response = await mutation.mutateAsync(input);
+    } catch (error) {
+      // TODO: Handle error, add a "failed" state to all messages or smth
+      setIsSendingMessage(false);
+      return;
+    }
+
+    // Destrucure the conversations from the response
+    let conversations = response.data.data.conversations;
+
+    // Add the conversations to the conversations state
+    addConversations(conversations);
+    // Set the message loading state to false
+    setIsSendingMessage(false);
+  };
+
+  return {
+    pnms,
+    sendMessage,
+    onPnmRemove,
+  };
+};
+
+export default useMessageSender;
