@@ -10,11 +10,15 @@
  * Do not distribute
  */
 
-import { useEffect, useState } from "react";
 import RemixIcon from "react-native-remix-icon";
 import { MenuView } from "@react-native-menu/menu";
 import { ActivityIndicator, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import {
+  ConversationStatus,
+  useConversations,
+} from "@/providers/Conversations";
 
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
@@ -24,7 +28,6 @@ import IconButton from "@/ui/IconButton";
 import ActionButton from "@/ui/ActionButton";
 import Conversation from "@/components/Conversation";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import { useConversations } from "@/providers/Conversations";
 
 interface MessagesProps {
   navigation: NativeStackNavigationProp<any>;
@@ -34,26 +37,7 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
   // Import bottom sheets hook to show the "New Message" modal
   const { handlePresentModalPress } = useBottomSheets();
   // Import the conversations from the provider
-  const { conversations, isLoading, isSendingMessage } = useConversations();
-  // Create a state for the status message, and whether or not a message is being sent
-  const [statusMessage, setStatusMessage] = useState<"SENDING" | "SENT" | "">(
-    "SENDING",
-  );
-
-  // When the conversation has an update to the isSendingMessage state...
-  useEffect(() => {
-    // If a message is being sent, set the status message to "SENDING"
-    if (isSendingMessage) {
-      setStatusMessage("SENDING");
-    } else if (statusMessage === "SENDING") {
-      // If a message was being sent, and now it's not, set the status message to "SENT"
-      setStatusMessage("SENT");
-      // After 2 seconds, set the status message to an empty string, hiding it
-      setTimeout(() => {
-        setStatusMessage("");
-      }, 2000);
-    }
-  }, [isSendingMessage]);
+  const { conversations, isLoading, status } = useConversations();
 
   // When the new chat action button is pressed, present the modal
   const onNewChatPress = () => {
@@ -63,17 +47,19 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
   return (
     <>
       {/* Status message, only shown when a message is sent */}
-      {statusMessage != "" && (
+      {status != ConversationStatus.idle && (
         <StatusIcon>
           <StatusIcon.Icon>
-            {statusMessage == "SENDING" && (
+            {status == ConversationStatus.sending && (
               <ActivityIndicator size="large" color="white" />
             )}
-            {statusMessage == "SENT" && (
+            {status == ConversationStatus.sent && (
               <RemixIcon name="ri-check-line" size={36} color="white" />
             )}
           </StatusIcon.Icon>
-          {statusMessage == "SENT" && <StatusIcon.Text>Sent!</StatusIcon.Text>}
+          {status == ConversationStatus.sent && (
+            <StatusIcon.Text>Sent!</StatusIcon.Text>
+          )}
         </StatusIcon>
       )}
 

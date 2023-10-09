@@ -27,8 +27,10 @@ const PREFIX = '/api/v1/messaging';
 const getMessages = (
   data: GetMessagesInput,
 ): Promise<GetMessagesAPIResponse> => {
-  return messagingAPIClient.get(`${PREFIX}/messages/${data.pnmId}`, {
-    params: data,
+  const { pnmId, ...rest } = data;
+
+  return messagingAPIClient.get(`${PREFIX}/messages/${pnmId}`, {
+    params: rest,
   });
 };
 

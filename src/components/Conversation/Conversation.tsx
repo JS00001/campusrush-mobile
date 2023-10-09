@@ -10,13 +10,12 @@
  * Do not distribute
  */
 
-import RemixIcon from "react-native-remix-icon";
 import { TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
-import tw from "@/lib/tailwind";
 import date from "@/lib/date";
+import tw from "@/lib/tailwind";
 
 interface ConversationProps {
   conversation: Conversation;
@@ -31,14 +30,14 @@ const Conversation: React.FC<ConversationProps> = ({ conversation }) => {
   // When the conversation is pressed, navigate to the chat screen
   const onPress = () => {
     (navigation.navigate as any)("Chat", {
-      pnmId: (conversation.pnm as unknown as PNM)._id,
+      pnm: conversation.pnm,
     });
   };
 
   // Styling
   const containerClasses = tw.style(
     // Default classes
-    "bg-slate-100 w-full py-3 pr-4 pl-4 rounded-md",
+    "bg-slate-100 w-full py-3 pr-4 pl-4 rounded-md gap-6",
     // Add justify for timestamp
     "flex-row justify-between items-center",
   );
@@ -52,7 +51,7 @@ const Conversation: React.FC<ConversationProps> = ({ conversation }) => {
 
   return (
     <TouchableOpacity onPress={onPress} style={containerClasses}>
-      <View style={tw`flex-row items-center gap-2`}>
+      <View style={tw`flex-row items-center gap-2 flex-shrink`}>
         {/* Unread indicator */}
         <View style={unreadIndicatorClasses} />
 
@@ -62,14 +61,14 @@ const Conversation: React.FC<ConversationProps> = ({ conversation }) => {
             {fullName}
           </Text>
 
-          <Text variant="subtext" style={tw`text-slate-500`}>
+          <Text variant="subtext" style={tw`text-slate-500`} numberOfLines={1}>
             {conversation.lastMessage}
           </Text>
         </View>
       </View>
 
       {/* Timestamp */}
-      <View style={tw`h-full`}>
+      <View style={tw`h-full `}>
         <Text style={tw`text-slate-400`} variant="subtext">
           {date.timeAgo(conversation.updatedAt)}
         </Text>

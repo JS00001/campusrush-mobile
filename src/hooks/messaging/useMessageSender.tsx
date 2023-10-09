@@ -14,8 +14,11 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 
+import {
+  ConversationStatus,
+  useConversations,
+} from "@/providers/Conversations";
 import messagingApi from "@/api/api/messaging";
-import { useConversations } from "@/providers/Conversations";
 
 const useMessageSender = (_pnms: PNM[]) => {
   // Create a navigation state so we can navigate back to the conversations screen
@@ -25,7 +28,7 @@ const useMessageSender = (_pnms: PNM[]) => {
   const [pnms, setPnms] = useState(_pnms);
 
   // Use the conversations hook to add conversations to the state variable
-  const { addConversations, setIsSendingMessage } = useConversations();
+  const { addConversations, setStatus } = useConversations();
 
   // Create a mutation to send a message
   const mutation = useMutation({
@@ -43,7 +46,8 @@ const useMessageSender = (_pnms: PNM[]) => {
   };
 
   const sendMessage = async (content: string) => {
-    setIsSendingMessage(true);
+    // Set the conversation status to "sending"
+    setStatus(ConversationStatus.sending);
 
     // Create an input object to send to the mutation
     let input: SendMessageInput = {
@@ -63,7 +67,7 @@ const useMessageSender = (_pnms: PNM[]) => {
       response = await mutation.mutateAsync(input);
     } catch (error) {
       // TODO: Handle error, add a "failed" state to all messages or smth
-      setIsSendingMessage(false);
+      setStatus(ConversationStatus.failed);
       return;
     }
 
@@ -72,8 +76,8 @@ const useMessageSender = (_pnms: PNM[]) => {
 
     // Add the conversations to the conversations state
     addConversations(conversations);
-    // Set the message loading state to false
-    setIsSendingMessage(false);
+    // Set the conversation status to "sent"
+    setStatus(ConversationStatus.sent);
   };
 
   return {

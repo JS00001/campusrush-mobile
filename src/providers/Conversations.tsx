@@ -16,11 +16,17 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "@/providers/Auth";
 import messagingApi from "@/api/api/messaging";
 
-interface ConversationsContextProps {
+export enum ConversationStatus {
+  idle = "idle",
+  sending = "sending",
+  sent = "sent",
+  failed = "failed",
+}
+export interface ConversationsContextProps {
   isLoading: boolean;
-  isSendingMessage: boolean;
+  status: ConversationStatus;
   conversations: Conversation[];
-  setIsSendingMessage: (isSendingMessage: boolean) => void;
+  setStatus: (status: ConversationStatus) => void;
   addConversations: (conversations: Conversation[]) => void;
 }
 
@@ -33,10 +39,12 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
 }) => {
   // Import data from auth provider
   const { accessToken } = useAuth();
-  // Create a state for whether a sent message is loading
-  const [_isSendingMessage, _setIsSendingMessage] = useState(false);
   // Create a state to store the conversations
   const [conversations, setConversations] = useState<Conversation[]>([]);
+  // Create a status state for the conversations
+  const [_status, _setStatus] = useState<ConversationStatus>(
+    ConversationStatus.idle,
+  );
 
   // The query to get conversations
   const query = useQuery({
@@ -54,10 +62,14 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     setConversations(conversationsData);
   }, [query.data]);
 
-  // The method to set whether a message is loading
-  const setIsSendingMessage = (isSendingMessage: boolean) => {
-    _setIsSendingMessage(isSendingMessage);
-  };
+  useEffect(() => {
+    // If a message has been sent, remove the status after 2 seconds
+    if (_status === ConversationStatus.sent) {
+      setTimeout(() => {
+        _setStatus(ConversationStatus.idle);
+      }, 2000);
+    }
+  }, [_status]);
 
   // The method to add a conversation to the state
   const addConversations = (conversations: Conversation[]) => {
@@ -65,14 +77,17 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     // else update the conversation
     setConversations((prevConversations) => {
       return conversations.map((conversation) => {
+        // Check if the conversation exists in the state
         const conversationIndex = prevConversations.findIndex(
           (prevConversation) => prevConversation._id === conversation._id,
         );
 
+        // If the conversation does not exist, add it to the state
         if (conversationIndex === -1) {
           return conversation;
         }
 
+        // If the conversation exists, update it
         return {
           ...prevConversations[conversationIndex],
           ...conversation,
@@ -85,8 +100,8 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     <ConversationsContext.Provider
       value={{
         isLoading: query.isLoading,
-        isSendingMessage: _isSendingMessage,
-        setIsSendingMessage,
+        status: _status,
+        setStatus: _setStatus,
         conversations,
         addConversations,
       }}

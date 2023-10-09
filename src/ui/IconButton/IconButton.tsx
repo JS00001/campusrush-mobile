@@ -57,7 +57,7 @@ const IconButton: React.FC<IconButtonProps> = ({
     // Size styles
     sizeClasses[size].container,
     // Disabled styles
-    disabled && "opacity-50",
+    disabled && "opacity-30",
     // Custom styles
     style,
   );
