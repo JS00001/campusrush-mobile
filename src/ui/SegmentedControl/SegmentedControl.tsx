@@ -10,8 +10,9 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
 import RNSegmentedControl from "@react-native-segmented-control/segmented-control";
+
+import tw from "@/lib/tailwind";
 
 interface SegmentedControlProps {
   values: string[];

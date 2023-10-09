@@ -15,7 +15,7 @@ import { TouchableOpacity, View } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Skeleton from "../Skeleton";
+import Skeleton from "@/ui/Skeleton";
 
 interface ActionCardProps {
   title: string;

@@ -10,12 +10,12 @@
  * Do not distribute
  */
 
-import Icon from "react-native-remix-icon";
 import {
   ActivityIndicator,
   TouchableOpacityProps,
   TouchableOpacity,
 } from "react-native";
+import Icon from "react-native-remix-icon";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";

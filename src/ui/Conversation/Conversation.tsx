@@ -37,21 +37,21 @@ const Conversation: React.FC<ConversationProps> = ({ conversation }) => {
   // Styling
   const containerClasses = tw.style(
     // Default classes
-    "bg-slate-100 w-full py-3 pr-4 pl-4 rounded-md gap-6",
+    "bg-slate-100 w-full p-4 rounded-md gap-6",
     // Add justify for timestamp
     "flex-row justify-between items-center",
   );
 
   const unreadIndicatorClasses = tw.style(
     // Default classes
-    "rounded-full bg-blue-500 p-1",
+    "rounded-full bg-blue-500 p-[3px]",
     // If the conversation is read, hide the indicator
     conversation.read && "opacity-0",
   );
 
   return (
     <TouchableOpacity onPress={onPress} style={containerClasses}>
-      <View style={tw`flex-row items-center gap-2 flex-shrink`}>
+      <View style={tw`flex-row items-center gap-3 flex-shrink`}>
         {/* Unread indicator */}
         <View style={unreadIndicatorClasses} />
 
