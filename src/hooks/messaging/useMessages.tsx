@@ -10,14 +10,17 @@
  * Do not distribute
  */
 
+import { useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
 import messagingApi from "@/api/api/messaging";
+import { useConversations } from "@/providers/Conversations";
 
 const useMessages = (pnmId: string) => {
   // Get access token so that we can cache the query
   const { accessToken } = useAuth();
+  const { setConversationAsRead } = useConversations();
 
   // Create a query to get the organizations messages
   const query = useInfiniteQuery({
@@ -37,6 +40,14 @@ const useMessages = (pnmId: string) => {
       return lastPage.data.data.nextOffset;
     },
   });
+
+  // Set the conversation as read only when the query data changes
+  // This ensures the conversation actually has messages to read
+  useEffect(() => {
+    if (query.data) {
+      setConversationAsRead(pnmId);
+    }
+  }, [query.data]);
 
   // Combine the messages from all pages
   const messages = query.data?.pages.flatMap((page) => page.data.data.messages);

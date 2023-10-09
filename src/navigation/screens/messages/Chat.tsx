@@ -23,6 +23,7 @@ interface ChatProps {
 }
 
 const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
+  // Get the pnm from the route params
   const pnm = route.params.pnm;
 
   const { messages, isLoading } = useMessages(pnm._id);

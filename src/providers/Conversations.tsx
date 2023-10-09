@@ -26,7 +26,9 @@ export interface ConversationsContextProps {
   isLoading: boolean;
   status: ConversationStatus;
   conversations: Conversation[];
+  refetch: () => Promise<void>;
   setStatus: (status: ConversationStatus) => void;
+  setConversationAsRead: (pnmId: string) => void;
   addConversations: (conversations: Conversation[]) => void;
 }
 
@@ -96,14 +98,40 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     });
   };
 
+  // Method to set a conversation as read
+  const setConversationAsRead = (pnmId: string) => {
+    // Set the conversation as read
+    setConversations((prevConversations) => {
+      return prevConversations.map((conversation) => {
+        // If the conversation is the one being read, set it as read
+        if (conversation.pnm._id === pnmId) {
+          return {
+            ...conversation,
+            read: true,
+          };
+        }
+
+        // Otherwise, return the conversation as is
+        return conversation;
+      });
+    });
+  };
+
+  // Method to refetch the query
+  const refetch = async () => {
+    await query.refetch();
+  };
+
   return (
     <ConversationsContext.Provider
       value={{
+        refetch,
         isLoading: query.isLoading,
         status: _status,
         setStatus: _setStatus,
         conversations,
         addConversations,
+        setConversationAsRead,
       }}
     >
       {children}

@@ -26,7 +26,7 @@ import TextInput from "@/ui/TextInput";
 import StatusIcon from "@/ui/StatusIcon";
 import IconButton from "@/ui/IconButton";
 import ActionButton from "@/ui/ActionButton";
-import Conversation from "@/components/Conversation";
+import Conversations from "@/components/Conversations";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface MessagesProps {
@@ -37,7 +37,7 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
   // Import bottom sheets hook to show the "New Message" modal
   const { handlePresentModalPress } = useBottomSheets();
   // Import the conversations from the provider
-  const { conversations, isLoading, status } = useConversations();
+  const { conversations, isLoading, status, refetch } = useConversations();
 
   // When the new chat action button is pressed, present the modal
   const onNewChatPress = () => {
@@ -67,7 +67,7 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
       <ActionButton icon="ri-add-line" onPress={onNewChatPress} />
 
       {/* Content in the main layout */}
-      <Layout scrollable gap={8}>
+      <Layout gap={8}>
         <Layout.Header
           title="Messages"
           subtitle="Message potential new members"
@@ -111,10 +111,12 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
           </MenuView>
         </View>
 
-        {/* The conversations list */}
-        {conversations.map((conversation) => (
-          <Conversation key={conversation._id} conversation={conversation} />
-        ))}
+        {/* The conversations that exist */}
+        <Conversations
+          loading={isLoading}
+          onRefetch={refetch}
+          conversations={conversations}
+        />
       </Layout>
     </>
   );
