@@ -91,7 +91,7 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
 
   const contentContainerStyles = tw.style(
     // Sizing and positioning
-    "w-full items-center p-6",
+    "w-full items-center px-6 pt-6",
     // If flexGap is provided, add gap style
     gap.toString() && { gap: gap },
     // Custom styles as provided by the style prop
@@ -140,7 +140,7 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
       </KeyboardAvoidingView>
     ),
     View: (
-      <View style={contentContainerStyles}>
+      <View style={[contentContainerStyles, tw`flex-1`]}>
         {LayoutChildren}
         {hasTermsAndConditions && <TermsAndConditions color={color} />}
       </View>
