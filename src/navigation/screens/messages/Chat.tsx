@@ -13,9 +13,9 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
-import useMessages from "@/hooks/messaging/useMessages";
-import Message from "@/ui/Message";
 import MessageBox from "@/components/MessageBox";
+import MessageList from "@/components/MessageList";
+import useMessages from "@/hooks/messaging/useMessages";
 
 interface ChatProps {
   route: any;
@@ -26,24 +26,29 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
   // Get the pnm from the route params
   const pnm = route.params.pnm;
 
-  const { messages, isLoading } = useMessages(pnm._id);
+  const { messages, isLoading, fetchNextPage, refetch } = useMessages(pnm._id);
 
   // Ensure that the pnm is defined, otherwise go back
   if (!pnm) navigation.goBack();
 
+  const onEndReached = async () => {
+    await fetchNextPage();
+  };
+
+  const onStartReached = async () => {
+    await refetch();
+  };
+
   return (
     <>
-      <Layout scrollable gap={8}>
+      <Layout gap={8}>
         <Layout.ChatHeader pnms={[route.params.pnm]} />
 
-        {messages?.map((message) => (
-          <Message
-            key={message._id}
-            content={message.content}
-            sent={message.sent}
-            // createdAt={message.createdAt.toString()}
-          />
-        ))}
+        <MessageList
+          messages={messages}
+          onEndReached={onEndReached}
+          onStartReached={onStartReached}
+        />
 
         <Layout.Footer keyboardAvoiding>
           <MessageBox onSend={() => {}} />
