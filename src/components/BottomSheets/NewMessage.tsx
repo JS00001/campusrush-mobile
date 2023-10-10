@@ -24,11 +24,13 @@ import useContacts from "@/hooks/messaging/useContacts";
 interface NewMessageProps {
   innerRef: React.RefObject<any>;
   handleCloseModalPress: () => void;
+  handleSnapToPosition: (position: string) => void;
 }
 
 const NewMessage: React.FC<NewMessageProps> = ({
   innerRef,
   handleCloseModalPress,
+  handleSnapToPosition,
 }) => {
   // Memoized snap points (When the bottom sheet modal is open)
   const snapPoints = useMemo(() => ["65%"], []);
@@ -36,6 +38,11 @@ const NewMessage: React.FC<NewMessageProps> = ({
   const navigation = useNavigation();
   // Custom hook to get contacts
   const { isLoading, refetch, uncontactedPnms, allPnms } = useContacts();
+
+  // When the user presses the direct message button
+  const onMessagePress = () => {
+    handleSnapToPosition("90%");
+  };
 
   // When the user presses the message all button
   const onMessageAllPress = () => {
@@ -125,6 +132,7 @@ const NewMessage: React.FC<NewMessageProps> = ({
           subtitle="Start a message with a single user"
           icon="ri-chat-private-fill"
           loading={isLoading}
+          onPress={onMessagePress}
         />
         <ActionCard
           title="Message New Members"

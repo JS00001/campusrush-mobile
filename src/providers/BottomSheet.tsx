@@ -40,6 +40,15 @@ interface BottomSheetContextProps {
   handlePresentModalPress: (
     name: (typeof BottomSheets)[number]["name"],
   ) => void;
+  handleSnapToIndex: (
+    name: (typeof BottomSheets)[number]["name"],
+    index: number,
+  ) => void;
+  handleSnapToPosition: (
+    name: (typeof BottomSheets)[number]["name"],
+    position: string,
+  ) => void;
+
   handleCloseModalPress: (name: (typeof BottomSheets)[number]["name"]) => void;
 }
 
@@ -73,9 +82,31 @@ const BottomSheetProvider: React.FC<{ children?: React.ReactNode }> = ({
     [],
   );
 
+  const handleSnapToIndex = useCallback(
+    (name: (typeof BottomSheets)[number]["name"], index: number) => {
+      // Find the index of the bottom sheet we want to close
+      const sheetIndex = BottomSheets.findIndex((sheet) => sheet.name === name);
+      // Close the bottom sheet modal
+      bottomSheetModalRef.current[sheetIndex]?.snapToIndex(index);
+    },
+    [],
+  );
+
+  const handleSnapToPosition = useCallback(
+    (name: (typeof BottomSheets)[number]["name"], position: string) => {
+      // Find the index of the bottom sheet we want to close
+      const sheetIndex = BottomSheets.findIndex((sheet) => sheet.name === name);
+      // Close the bottom sheet modal
+      bottomSheetModalRef.current[sheetIndex]?.snapToPosition(position);
+    },
+    [],
+  );
+
   return (
     <BottomSheetContext.Provider
       value={{
+        handleSnapToIndex,
+        handleSnapToPosition,
         handlePresentModalPress,
         handleCloseModalPress,
       }}
@@ -86,6 +117,10 @@ const BottomSheetProvider: React.FC<{ children?: React.ReactNode }> = ({
         const props = {
           key: sheet.name,
           handleCloseModalPress: () => handleCloseModalPress(sheet.name),
+          handleSnapToIndex: (index: number) =>
+            handleSnapToIndex(sheet.name, index),
+          handleSnapToPosition: (position: string) =>
+            handleSnapToPosition(sheet.name, position),
           innerRef: (ref: BottomSheetModal) =>
             (bottomSheetModalRef.current[index] = ref),
         };
