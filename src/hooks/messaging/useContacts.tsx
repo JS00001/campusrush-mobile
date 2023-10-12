@@ -32,11 +32,13 @@ const useContacts = () => {
 
   // Extract the data from the query
   const allPnms = query.data?.data?.data?.all ?? [];
+  const suggestedPnms = query.data?.data?.data?.suggested ?? [];
   const uncontactedPnms = query.data?.data?.data?.uncontacted ?? [];
 
   return {
     ...query,
     allPnms,
+    suggestedPnms,
     uncontactedPnms,
   };
 };

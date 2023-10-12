@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Toast from "react-native-toast-message";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
@@ -20,6 +20,16 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ActionCard from "@/ui/ActionCard";
 import useContacts from "@/hooks/messaging/useContacts";
+
+enum NewMessageScreens {
+  NewMessage = "NEW_MESSAGE",
+  DirectMessage = "DIRECT_MESSAGE",
+}
+
+type ScreensList = Record<
+  NewMessageScreens,
+  { position: string; component: JSX.Element }
+>;
 
 interface NewMessageProps {
   innerRef: React.RefObject<any>;
@@ -32,16 +42,100 @@ const NewMessage: React.FC<NewMessageProps> = ({
   handleCloseModalPress,
   handleSnapToPosition,
 }) => {
+  // Custom hook to get contacts
+  const { refetch } = useContacts();
   // Memoized snap points (When the bottom sheet modal is open)
   const snapPoints = useMemo(() => ["65%"], []);
+  // State to keep track of which screen the user is on
+  const [_screen, _setScreen] = useState<NewMessageScreens>(
+    NewMessageScreens.NewMessage,
+  );
+
+  // When the bottom sheet modal is open
+  const onBottomSheetOpen = (index: number) => {
+    // If the bottom sheet modal is open
+    if (index === 0) {
+      // Refetch the contacts
+      refetch();
+    }
+    // If the bottom sheet modal is closed
+    else {
+      // Reset the screen
+      setScreen(NewMessageScreens.NewMessage);
+    }
+  };
+
+  // Method to set the screen to a new step
+  const setScreen = (screen: NewMessageScreens) => {
+    // Set the screen
+    _setScreen(screen);
+    // and then snap to the new position
+    handleSnapToPosition(ScreensList[screen].position);
+  };
+
+  // Create a list of all of the screens
+  const ScreensList: ScreensList = {
+    [NewMessageScreens.NewMessage]: {
+      position: "65%",
+      component: (
+        <NewMessageStep
+          handleCloseModalPress={handleCloseModalPress}
+          setScreen={setScreen}
+        />
+      ),
+    },
+    [NewMessageScreens.DirectMessage]: {
+      position: "90%",
+      component: (
+        <DirectMessageStep
+          handleCloseModalPress={handleCloseModalPress}
+          setScreen={setScreen}
+        />
+      ),
+    },
+  };
+
+  // Select the proper screen
+  const ScreenComponent = ScreensList[_screen].component;
+
+  return (
+    <BottomSheetModal
+      ref={innerRef}
+      index={0}
+      snapPoints={snapPoints}
+      onChange={onBottomSheetOpen}
+      backdropComponent={() => (
+        <Pressable
+          style={tw`h-full w-full absolute bg-black opacity-20`}
+          onPress={handleCloseModalPress}
+        />
+      )}
+    >
+      {ScreenComponent}
+    </BottomSheetModal>
+  );
+};
+
+/**
+ * The "New Message" screen, this is the first screen in the modal flow
+ */
+interface NewMessageScreenProps {
+  handleCloseModalPress: () => void;
+  setScreen: (screen: NewMessageScreens) => void;
+}
+
+const NewMessageStep: React.FC<NewMessageScreenProps> = ({
+  handleCloseModalPress,
+  setScreen,
+}) => {
   // Navigation hook to navigate to new message screen
   const navigation = useNavigation();
   // Custom hook to get contacts
-  const { isLoading, refetch, uncontactedPnms, allPnms } = useContacts();
+  const { isLoading, uncontactedPnms, allPnms } = useContacts();
 
   // When the user presses the direct message button
   const onMessagePress = () => {
-    handleSnapToPosition("90%");
+    setScreen(NewMessageScreens.DirectMessage);
   };
 
   // When the user presses the message all button
@@ -90,59 +184,66 @@ const NewMessage: React.FC<NewMessageProps> = ({
     });
   };
 
-  // When the bottom sheet modal is open
-  const onBottomSheetOpen = (index: number) => {
-    // If the bottom sheet modal is open
-    if (index === 0) {
-      // Refetch the contacts
-      refetch();
-    }
-  };
+  return (
+    <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-4`}>
+      <View>
+        <Text variant="title">New Message</Text>
+        <Text variant="body" style={tw`text-slate-600`}>
+          Start a new message with potential members
+        </Text>
+      </View>
+      <ActionCard
+        title="Message All"
+        subtitle="Send a message to all PNMs"
+        icon="ri-chat-voice-fill"
+        loading={isLoading}
+        onPress={onMessageAllPress}
+      />
+      <ActionCard
+        title="Direct Message"
+        subtitle="Start a message with a single user"
+        icon="ri-chat-private-fill"
+        loading={isLoading}
+        onPress={onMessagePress}
+      />
+      <ActionCard
+        title="Message New Members"
+        subtitle="Send a message to all PNMs you have not contacted"
+        icon="ri-chat-history-fill"
+        loading={isLoading}
+        onPress={onMessageNewMembersPress}
+      />
+    </ScrollView>
+  );
+};
+
+/**
+ * The "Send to user" screen, this is the only other screen in the modal flow
+ * and is opened when the user presses the "Direct Message" button
+ */
+interface DirectMessageScreenProps {
+  handleCloseModalPress?: () => void;
+  setScreen?: (screen: NewMessageScreens) => void;
+}
+
+const DirectMessageStep: React.FC<DirectMessageScreenProps> = ({
+  handleCloseModalPress,
+  setScreen,
+}) => {
+  // Navigation hook to navigate to new message screen
+  const navigation = useNavigation();
+  // Custom hook to get contacts
+  const { isLoading, suggestedPnms } = useContacts();
 
   return (
-    <BottomSheetModal
-      ref={innerRef}
-      index={0}
-      snapPoints={snapPoints}
-      // On open callback
-      onChange={onBottomSheetOpen}
-      backdropComponent={() => (
-        <Pressable
-          style={tw`h-full w-full absolute bg-black opacity-20`}
-          onPress={handleCloseModalPress}
-        />
-      )}
-    >
-      <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-4`}>
-        <View>
-          <Text variant="title">New Message</Text>
-          <Text variant="body" style={tw`text-slate-600`}>
-            Start a new message with potential members
-          </Text>
-        </View>
-        <ActionCard
-          title="Message All"
-          subtitle="Send a message to all PNMs"
-          icon="ri-chat-voice-fill"
-          loading={isLoading}
-          onPress={onMessageAllPress}
-        />
-        <ActionCard
-          title="Direct Message"
-          subtitle="Start a message with a single user"
-          icon="ri-chat-private-fill"
-          loading={isLoading}
-          onPress={onMessagePress}
-        />
-        <ActionCard
-          title="Message New Members"
-          subtitle="Send a message to all PNMs you have not contacted"
-          icon="ri-chat-history-fill"
-          loading={isLoading}
-          onPress={onMessageNewMembersPress}
-        />
-      </ScrollView>
-    </BottomSheetModal>
+    <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-4`}>
+      <View>
+        <Text variant="title">Begin Typing</Text>
+        <Text variant="body" style={tw`text-slate-600`}>
+          Search for a PNM to message
+        </Text>
+      </View>
+    </ScrollView>
   );
 };
 

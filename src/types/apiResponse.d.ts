@@ -192,8 +192,9 @@ type GetConversationsAPIResponse = APIResponse & {
 type GetContactsAPIResponse = APIResponse & {
   data: {
     data: {
-      uncontacted: PNM[];
       all: PNM[];
+      suggested: PNM[];
+      uncontacted: PNM[];
     };
   };
 };
