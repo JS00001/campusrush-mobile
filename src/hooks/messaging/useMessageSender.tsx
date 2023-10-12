@@ -81,6 +81,7 @@ const useMessageSender = (_pnms: PNM[]) => {
   };
 
   return {
+    ...mutation,
     pnms,
     sendMessage,
     onPnmRemove,

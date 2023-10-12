@@ -59,13 +59,13 @@ const Message: React.FC<MessageProps> = ({ content, sent, createdAt }) => {
   // The styling for the message timestamp, based on whether the message was sent or received
   const timestampClasses = tw.style(
     // Shared styles
-    "text-gray-500 -mt-2",
+    "text-gray-500 mt-1",
     // Conditional styles
     sent ? "self-end" : "self-start",
   );
 
   return (
-    <>
+    <View>
       {/* Message bubble and content */}
       <View style={messageClasses}>
         <Text style={textClasses}>{content}</Text>
@@ -77,7 +77,7 @@ const Message: React.FC<MessageProps> = ({ content, sent, createdAt }) => {
           {time}
         </Text>
       )}
-    </>
+    </View>
   );
 };
 

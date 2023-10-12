@@ -13,9 +13,11 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
+import ProgressBar from "@/ui/ProgressBar";
 import MessageBox from "@/components/MessageBox";
 import MessageList from "@/components/MessageList";
 import useMessages from "@/hooks/messaging/useMessages";
+import useMessageSender from "@/hooks/messaging/useMessageSender";
 
 interface ChatProps {
   route: any;
@@ -26,16 +28,24 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
   // Get the pnm from the route params
   const pnm = route.params.pnm;
 
-  const { messages, isLoading, fetchNextPage, refetch } = useMessages(pnm._id);
+  // Get the method to send a message
+  const { sendMessage, isLoading } = useMessageSender([pnm]);
+  // Get the messages from the pnm, and the methods to update them
+  const { messages, fetchNextPage, refetch, addMessage } = useMessages(pnm._id);
 
   // Ensure that the pnm is defined, otherwise go back
   if (!pnm) navigation.goBack();
 
+  // When the user reaches the end of the list, fetch the next page
   const onEndReached = async () => {
     await fetchNextPage();
   };
 
-  const onStartReached = async () => {
+  const onStartReached = async () => {};
+
+  const onSend = async (text: string) => {
+    addMessage(text);
+    await sendMessage(text);
     await refetch();
   };
 
@@ -51,7 +61,8 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
         />
 
         <Layout.Footer keyboardAvoiding>
-          <MessageBox onSend={() => {}} />
+          <ProgressBar loading={isLoading} />
+          <MessageBox onSend={onSend} />
         </Layout.Footer>
       </Layout>
     </>

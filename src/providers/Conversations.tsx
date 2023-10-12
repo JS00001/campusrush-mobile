@@ -78,7 +78,7 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     // Add the conversation to the state if the conversation _id does not exist
     // else update the conversation
     setConversations((prevConversations) => {
-      return conversations.map((conversation) => {
+      const newConversations = conversations.map((conversation) => {
         // Check if the conversation exists in the state
         const conversationIndex = prevConversations.findIndex(
           (prevConversation) => prevConversation._id === conversation._id,
@@ -95,6 +95,9 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
           ...conversation,
         };
       });
+
+      // Return the new conversations
+      return [...newConversations, ...prevConversations];
     });
   };
 
