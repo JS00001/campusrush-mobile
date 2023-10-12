@@ -79,7 +79,7 @@ interface TextProps {
 
 const StatusIconText: React.FC<TextProps> = ({ children }) => {
   return (
-    <Text style={tw`text-white `} variant="title">
+    <Text style={tw`text-white`} variant="title">
       {children}
     </Text>
   );

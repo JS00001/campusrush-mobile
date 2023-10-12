@@ -107,10 +107,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
           <>
             <Layout gap={20} scrollable>
               <View style={tw`w-full gap-y-2`}>
-                <Text
-                  style={tw`w-full text-gray-500 font-medium`}
-                  variant="body"
-                >
+                <Text style={tw`w-full font-medium`} variant="body">
                   Current Subscription?
                 </Text>
 
@@ -124,10 +121,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text
-                  style={tw`w-full text-gray-500 font-medium`}
-                  variant="body"
-                >
+                <Text style={tw`w-full font-medium`} variant="body">
                   Auth Overrides
                 </Text>
                 <Button
@@ -142,10 +136,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text
-                  style={tw`w-full text-gray-500 font-medium`}
-                  variant="body"
-                >
+                <Text style={tw`w-full font-medium`} variant="body">
                   Subscription Overrides
                 </Text>
                 <Button
@@ -176,7 +167,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
           <>
             <Layout gap={20} scrollable contentContainerStyle={tw`items-start`}>
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw` text-gray-500 font-medium`} variant="body">
+                <Text style={tw`font-medium`} variant="body">
                   App Version
                 </Text>
                 <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
@@ -185,7 +176,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`text-gray-500 font-medium`} variant="body">
+                <Text style={tw`font-medium`} variant="body">
                   Current Organization
                 </Text>
                 <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
@@ -196,10 +187,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text
-                  style={tw`w-full text-gray-500 font-medium`}
-                  variant="body"
-                >
+                <Text style={tw`w-full font-medium`} variant="body">
                   Current Subscription
                 </Text>
 
@@ -219,7 +207,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`text-gray-500 font-medium`} variant="body">
+                <Text style={tw`font-medium`} variant="body">
                   RevenueCat Entitlement Information
                 </Text>
                 <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>

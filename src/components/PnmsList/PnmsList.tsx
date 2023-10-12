@@ -157,12 +157,10 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
     } else {
       return (
         <>
-          <Text variant="title" style={tw`text-center mt-16 text-primary`}>
+          <Text variant="title" style={tw`text-center mt-16`}>
             No PNMs found
           </Text>
-          <Text style={tw`text-slate-600`}>
-            Try changing your filters or refreshing the page
-          </Text>
+          <Text>Try changing your filters or refreshing the page</Text>
         </>
       );
     }
@@ -188,9 +186,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
         }}
         // Create a header for each letter
         renderSectionHeader={({ section: { title } }) => (
-          <Text style={tw`text-slate-400 bg-white w-full font-medium`}>
-            {title}
-          </Text>
+          <Text style={tw`bg-white w-full font-medium`}>{title}</Text>
         )}
         refreshControl={
           <RefreshControl refreshing={isRefetching} onRefresh={onRefresh} />

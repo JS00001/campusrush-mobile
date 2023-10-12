@@ -55,7 +55,7 @@ const AddPnm: React.FC<AddPnmProps> = ({ innerRef, handleCloseModalPress }) => {
       <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-2`}>
         <View>
           <Text variant="title">Add a PNM</Text>
-          <Text variant="body" style={tw`text-slate-600`}>
+          <Text variant="body">
             Add a PNM to your chapter to keep track of their rush.
           </Text>
         </View>

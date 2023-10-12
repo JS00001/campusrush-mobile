@@ -114,7 +114,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         keyExtractor={(item, index) => index.toString()}
         ListEmptyComponent={
           // If there are no results found, show a message
-          <Text style={tw`text-slate-500 px-4 py-3`}>No results found</Text>
+          <Text style={tw`px-4 py-3`}>No results found</Text>
         }
         renderItem={({ item }) => (
           <AutocompleteOption
@@ -144,7 +144,7 @@ export const AutocompleteOption: React.FC<AutocompleteOptionProps> = ({
       style={tw.style("px-4 py-2")}
       onPress={() => onPress(option)}
     >
-      <Text style={tw`text-slate-500`}>
+      <Text>
         {value && option.toLowerCase().includes(value.toLowerCase()) ? (
           <>
             {option.slice(0, option.toLowerCase().indexOf(value.toLowerCase()))}

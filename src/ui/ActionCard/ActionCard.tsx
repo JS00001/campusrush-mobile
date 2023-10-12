@@ -90,7 +90,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
         {/* Title and subtitle for size=lg */}
         <View style={tw.style(size != "lg" && "hidden", "shrink")}>
           {/* If size is lg AND component isnt loading, show content */}
-          {!loading && <Text style={tw`text-slate-500`}>{title}</Text>}
+          {!loading && <Text>{title}</Text>}
           {!loading && (
             <Text variant="body" style={tw`text-primary`}>
               {subtitle}
@@ -113,7 +113,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
               {title}
             </Text>
           )}
-          {!loading && <Text style={tw`text-slate-500`}>{subtitle}</Text>}
+          {!loading && <Text>{subtitle}</Text>}
 
           {/* If size is sm or md AND component is loading, show skeletons */}
           {loading && <Skeleton width={"100%"} height={40} />}

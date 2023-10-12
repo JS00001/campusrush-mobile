@@ -44,7 +44,7 @@ const BillingDetails: React.FC<BillingDetailsProps> = ({ activeProducts }) => {
                   color={tw.color("primary")}
                   size={20}
                 />
-                <Text style={tw`text-slate-500`}>{perk}</Text>
+                <Text>{perk}</Text>
               </View>
             ))}
         </SelectionCard>

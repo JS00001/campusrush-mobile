@@ -29,6 +29,7 @@ import tw from "@/lib/tailwind";
 import IconButton from "@/ui/IconButton";
 import HeaderSvg from "@/assets/HeaderSvg";
 import TermsAndConditions from "@/components/TermsAndConditions";
+import ProgressBar from "../ProgressBar";
 
 interface LayoutProps extends ViewProps {
   children?: React.ReactNode;
@@ -214,10 +215,15 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, hasBackButton }) => {
 
 interface ChatHeaderProps {
   pnms: PNM[];
+  loading?: boolean;
   onPnmRemove?: (pnm: PNM) => void;
 }
 
-const ChatHeader: React.FC<ChatHeaderProps> = ({ pnms, onPnmRemove }) => {
+const ChatHeader: React.FC<ChatHeaderProps> = ({
+  pnms,
+  loading,
+  onPnmRemove,
+}) => {
   const navigation = useNavigation();
 
   // Whether or not the chat is a single PNM
@@ -251,7 +257,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ pnms, onPnmRemove }) => {
           size="sm"
         />
 
-        <Text variant="body" style={tw`font-medium`}>
+        <Text variant="body" style={tw`font-medium text-black`}>
           {header}
         </Text>
 
@@ -291,6 +297,8 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ pnms, onPnmRemove }) => {
           })}
         </ScrollView>
       )}
+
+      <ProgressBar loading={loading} />
     </SafeAreaView>
   );
 };

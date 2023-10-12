@@ -50,9 +50,7 @@ const Verification = () => {
       </Button>
 
       <View style={tw`flex-row justify-center`}>
-        <Text style={tw`text-slate-500 text-center`}>
-          Didn't receive a code?&nbsp;
-        </Text>
+        <Text style={tw`text-center`}>Didn't receive a code?&nbsp;</Text>
         <Hyperlink color="dark" onPress={resendVerificationEmail}>
           Resend
         </Hyperlink>

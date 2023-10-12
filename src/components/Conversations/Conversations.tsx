@@ -55,12 +55,10 @@ const Conversations: React.FC<ConversationsProps> = ({
     } else {
       return (
         <>
-          <Text variant="title" style={tw`text-center mt-16 text-primary`}>
+          <Text variant="title" style={tw`text-center mt-16`}>
             No conversations found
           </Text>
-          <Text style={tw`text-slate-600`}>
-            Try sending a message to someone
-          </Text>
+          <Text>Try sending a message to someone</Text>
         </>
       );
     }

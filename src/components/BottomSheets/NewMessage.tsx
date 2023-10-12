@@ -18,8 +18,10 @@ import { Pressable, ScrollView, View } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import TextInput from "@/ui/TextInput";
 import ActionCard from "@/ui/ActionCard";
 import useContacts from "@/hooks/messaging/useContacts";
+import RecentPnms from "../RecentPnms";
 
 enum NewMessageScreens {
   NewMessage = "NEW_MESSAGE",
@@ -85,7 +87,7 @@ const NewMessage: React.FC<NewMessageProps> = ({
       ),
     },
     [NewMessageScreens.DirectMessage]: {
-      position: "90%",
+      position: "70%",
       component: (
         <DirectMessageStep
           handleCloseModalPress={handleCloseModalPress}
@@ -188,9 +190,7 @@ const NewMessageStep: React.FC<NewMessageScreenProps> = ({
     <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-4`}>
       <View>
         <Text variant="title">New Message</Text>
-        <Text variant="body" style={tw`text-slate-600`}>
-          Start a new message with potential members
-        </Text>
+        <Text variant="body">Start a new message with potential members</Text>
       </View>
       <ActionCard
         title="Message All"
@@ -228,22 +228,43 @@ interface DirectMessageScreenProps {
 
 const DirectMessageStep: React.FC<DirectMessageScreenProps> = ({
   handleCloseModalPress,
-  setScreen,
 }) => {
   // Navigation hook to navigate to new message screen
   const navigation = useNavigation();
   // Custom hook to get contacts
   const { isLoading, suggestedPnms } = useContacts();
 
+  const onPnmPress = (pnm: PNM) => {
+    // Close the bottom sheet modal
+    handleCloseModalPress?.();
+    // and navigate to the new message screen
+    (navigation.navigate as any)("Chat", {
+      pnm: pnm,
+    });
+  };
+
   return (
-    <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-4`}>
+    <View style={tw`px-6 pt-6 gap-y-6 flex-1 `}>
       <View>
         <Text variant="title">Begin Typing</Text>
-        <Text variant="body" style={tw`text-slate-600`}>
-          Search for a PNM to message
-        </Text>
+        <Text variant="body">Search for a PNM to message</Text>
       </View>
-    </ScrollView>
+
+      <TextInput
+        icon="ri-search-line"
+        variant="alternate"
+        placeholder="Search"
+      />
+
+      <View style={tw`gap-y-3 flex-1`}>
+        <Text variant="body">Suggested Contacts</Text>
+        <RecentPnms
+          pnms={suggestedPnms}
+          loading={isLoading}
+          onPress={onPnmPress}
+        />
+      </View>
+    </View>
   );
 };
 

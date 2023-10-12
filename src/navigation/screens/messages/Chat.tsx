@@ -52,7 +52,7 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
   return (
     <>
       <Layout gap={8}>
-        <Layout.ChatHeader pnms={[route.params.pnm]} />
+        <Layout.ChatHeader pnms={[route.params.pnm]} loading={isLoading} />
 
         <MessageList
           messages={messages}
@@ -61,7 +61,6 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
         />
 
         <Layout.Footer keyboardAvoiding>
-          <ProgressBar loading={isLoading} />
           <MessageBox onSend={onSend} />
         </Layout.Footer>
       </Layout>
