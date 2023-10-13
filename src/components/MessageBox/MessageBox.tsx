@@ -104,6 +104,7 @@ const MessagingTextInput: React.FC<MessagingTextInputProps> = ({
         style={inputClasses}
         placeholder={placeholder}
         onChangeText={onChangeText}
+        placeholderTextColor={tw.color("slate-300")}
         {...props}
       />
     </Pressable>

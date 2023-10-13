@@ -315,6 +315,7 @@ const AlternateTextInput: React.FC<TextInputProps> = ({
         style={inputClasses}
         onChangeText={onChangeText}
         value={value}
+        placeholderTextColor={tw.color("slate-300")}
         onFocus={() => {
           // If there is an onFocus prop, call it
           // This allows us to pass an onFocus prop to this component,
