@@ -10,12 +10,18 @@
  * Do not distribute
  */
 
-import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { MenuAction } from "@react-native-menu/menu";
 
 import pnmsApi from "@/api/api/pnms";
 import { useAuth } from "@/providers/Auth";
+
+export enum PNMFilter {
+  NoFilter = "NO_FILTER",
+  ReceivedBid = "RECEIVED_BID",
+  NotReceivedBid = "NOT_RECEIVED_BID",
+}
 
 const usePnms = () => {
   // The default page size for pagination
@@ -25,13 +31,18 @@ const usePnms = () => {
   // Get access token so that we can cache the query
   const { accessToken } = useAuth();
 
-  // Create a state variable to store the filtered PNMs
+  // Create a state variable to store the filtered PNMs and the PNMs
+  const [pnms, setPnms] = useState<PNM[]>([]);
   const [filteredPnms, setFilteredPnms] = useState<PNM[]>([]);
-  const [selectedFilter, setSelectedFilter] = useState<string>("");
+
+  // All filtering options
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedFilter, setSelectedFilter] = useState<PNMFilter>(
+    PNMFilter.NoFilter,
+  );
 
   // Create a query to get the organization statistics
   const query = useQuery({
-    // Use access token as the query key so response is cached on a per-user basis
     queryKey: ["listPnms", PAGE, accessToken],
     queryFn: async () => {
       return pnmsApi.getPnms({
@@ -42,95 +53,89 @@ const usePnms = () => {
     keepPreviousData: true,
   });
 
-  const form = useFormik({
-    initialValues: {
-      searchQuery: "",
-    },
-    onSubmit: (values) => {},
-  });
-
+  // When the query loads, set the PNMs
   useEffect(() => {
-    if (query.data?.data?.data) {
-      setFilteredPnms(query.data.data.data.pnms || []);
+    if (query.data) {
+      const formattedPnms = query.data.data.data.pnms;
+
+      setPnms(formattedPnms);
     }
   }, [query.data]);
 
-  const pnms = query.data?.data?.data?.pnms || [];
+  // When the query first loads, or when the search query or selected filter changes, filter the PNMs
+  useEffect(() => {
+    // First, filter all the PNMs based on the search query, by full name or phone number
+    const matchedPnms = pnms.filter((pnm) => {
+      const fullName = `${pnm.firstName} ${pnm.lastName}`;
 
-  // Filter the PNMs based on the filter selected
-  const filterByPnmsWithBid = () => {
-    const filtered = pnms.filter((pnm) => pnm.receivedBid);
-    setFilteredPnms(filtered);
-  };
+      // Return true if the full name or phone number includes the search query
+      return (
+        fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        pnm.phoneNumber.includes(searchQuery)
+      );
+    });
 
-  // Filter the PNMs based on the filter selected
-  const filterByPnmsWithoutBid = () => {
-    const filtered = pnms.filter((pnm) => !pnm.receivedBid);
-    setFilteredPnms(filtered);
-  };
-
-  // Remove all filters from the PNMs
-  const removeFilters = () => {
-    setFilteredPnms(pnms);
-  };
-
-  // Handle the filter press event
-  const onFilterPress = (e: any) => {
-    const eventId = e.nativeEvent.event;
-
-    switch (eventId) {
-      case "filter-by-received-bid":
-        filterByPnmsWithBid();
-        setSelectedFilter("filter-by-received-bid");
+    // Then, filter the matched PNMs based on the selected filter
+    switch (selectedFilter) {
+      case PNMFilter.ReceivedBid:
+        const pnmsWithBids = matchedPnms.filter((pnm) => pnm.receivedBid);
+        setFilteredPnms(pnmsWithBids);
         break;
-      case "filter-by-not-received-bid":
-        filterByPnmsWithoutBid();
-        setSelectedFilter("filter-by-not-received-bid");
+      case PNMFilter.NotReceivedBid:
+        const pnmsWithoutBid = matchedPnms.filter((pnm) => !pnm.receivedBid);
+        setFilteredPnms(pnmsWithoutBid);
         break;
-      case "remove-filters":
-        removeFilters();
-        setSelectedFilter("");
+      case PNMFilter.NoFilter:
+        setFilteredPnms(matchedPnms);
         break;
       default:
         break;
     }
+  }, [searchQuery, selectedFilter, pnms]);
+
+  // Handle the filter press event
+  const onFilterPress = (e: any) => {
+    const eventId = e.nativeEvent.event as PNMFilter;
+
+    setSelectedFilter(eventId);
   };
 
-  // When refresh control is triggered, refetch the query
+  // On refetch, refresh the query
   const onRefetch = async () => {
     await query.refetch();
   };
 
-  // Use lodash debounce to search the PNMs after 1 second of inactivity
-  const setSearchQuery = (query: string) => {
-    form.setFieldValue("searchQuery", query);
-
-    const filtered = pnms.filter((pnm) => {
-      const fullName = `${pnm.firstName} ${pnm.lastName}`;
-
-      // If there is no query, return all PNMs
-      if (query === "") {
-        return true;
-      }
-
-      return (
-        fullName.toLowerCase().includes(query.toLowerCase()) ||
-        pnm.phoneNumber.includes(query)
-      );
-    });
-
-    setFilteredPnms(filtered);
-  };
+  // The actions for the filter menu
+  const filterActions: MenuAction[] = [
+    {
+      id: PNMFilter.NoFilter,
+      title: "No Filters",
+      image: "xmark",
+      state: selectedFilter === PNMFilter.NoFilter ? "on" : "off",
+    },
+    {
+      id: PNMFilter.ReceivedBid,
+      title: "Received Bid",
+      image: "person.badge.plus",
+      state: selectedFilter === PNMFilter.ReceivedBid ? "on" : "off",
+    },
+    {
+      id: PNMFilter.NotReceivedBid,
+      title: "Has Not Received Bid",
+      image: "person.badge.minus",
+      state: selectedFilter === PNMFilter.NotReceivedBid ? "on" : "off",
+    },
+  ];
 
   return {
     ...query,
-    selectedFilter,
-    onFilterPress,
-    onRefetch,
     pnms: filteredPnms,
-    // Search form
+    searchQuery,
+    selectedFilter,
+    filterActions,
+    onRefetch,
+    onFilterPress,
     setSearchQuery,
-    searchQuery: form.values.searchQuery,
   };
 };
 

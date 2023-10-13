@@ -15,16 +15,16 @@ import { MenuView } from "@react-native-menu/menu";
 
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
-import usePnms from "@/hooks/usePnms";
 import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
 import PnmsList from "@/components/PnmsList";
+import usePnms from "@/hooks/usePnms";
 
 const PNMs = () => {
   const {
     pnms,
     isLoading,
-    selectedFilter,
+    filterActions,
     searchQuery,
     setSearchQuery,
     onRefetch,
@@ -44,6 +44,7 @@ const PNMs = () => {
 
       <View style={tw`flex-row w-full gap-x-1`}>
         <TextInput
+          autoCorrect={false}
           icon="ri-search-line"
           variant="alternate"
           placeholder={searchPlaceholder}
@@ -55,27 +56,7 @@ const PNMs = () => {
         <MenuView
           title="Filter By"
           onPressAction={onFilterPress}
-          actions={[
-            {
-              id: "remove-filters",
-              title: "No Filters",
-              image: "xmark",
-              state: selectedFilter === "" ? "on" : "off",
-            },
-            {
-              id: "filter-by-received-bid",
-              title: "Received Bid",
-              image: "person.badge.plus",
-              state: selectedFilter === "filter-by-received-bid" ? "on" : "off",
-            },
-            {
-              id: "filter-by-not-received-bid",
-              title: "Has Not Received Bid",
-              image: "person.badge.minus",
-              state:
-                selectedFilter === "filter-by-not-received-bid" ? "on" : "off",
-            },
-          ]}
+          actions={filterActions}
         >
           <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
         </MenuView>

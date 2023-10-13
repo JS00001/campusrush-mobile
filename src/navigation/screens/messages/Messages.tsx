@@ -47,17 +47,17 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
   return (
     <>
       {/* Status message, only shown when a message is sent */}
-      {status != ConversationStatus.idle && (
+      {status != ConversationStatus.Idle && (
         <StatusIcon>
           <StatusIcon.Icon>
-            {status == ConversationStatus.sending && (
+            {status == ConversationStatus.Sending && (
               <ActivityIndicator size="large" color="white" />
             )}
-            {status == ConversationStatus.sent && (
+            {status == ConversationStatus.Sent && (
               <RemixIcon name="ri-check-line" size={36} color="white" />
             )}
           </StatusIcon.Icon>
-          {status == ConversationStatus.sent && (
+          {status == ConversationStatus.Sent && (
             <StatusIcon.Text>Sent!</StatusIcon.Text>
           )}
         </StatusIcon>

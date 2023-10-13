@@ -58,7 +58,7 @@ const useMessageSender = (_pnms: PNM[]) => {
       // Navigate to the messages screen
       (navigation.navigate as any)("Messages");
       // Set the conversation status to "sending"
-      setStatus(ConversationStatus.sending);
+      setStatus(ConversationStatus.Sending);
     }
 
     // Attempt to send the message
@@ -68,7 +68,7 @@ const useMessageSender = (_pnms: PNM[]) => {
       response = await mutation.mutateAsync(input);
     } catch (error) {
       // TODO: Handle error, add a "failed" state to all messages or smth
-      setStatus(ConversationStatus.failed);
+      setStatus(ConversationStatus.Failed);
       return;
     }
 
@@ -80,7 +80,7 @@ const useMessageSender = (_pnms: PNM[]) => {
 
     // If the message was sent to multiple PNMs, set the conversation status to "sent"
     if (input.pnms.length > 1) {
-      setStatus(ConversationStatus.sent);
+      setStatus(ConversationStatus.Sent);
       return;
     }
   };

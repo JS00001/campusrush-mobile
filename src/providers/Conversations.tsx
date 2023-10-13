@@ -17,10 +17,10 @@ import { useAuth } from "@/providers/Auth";
 import messagingApi from "@/api/api/messaging";
 
 export enum ConversationStatus {
-  idle = "idle",
-  sending = "sending",
-  sent = "sent",
-  failed = "failed",
+  Idle = "IDLE",
+  Sending = "SENDING",
+  Sent = "SENT",
+  Failed = "FAILED",
 }
 export interface ConversationsContextProps {
   isLoading: boolean;
@@ -45,7 +45,7 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   const [conversations, setConversations] = useState<Conversation[]>([]);
   // Create a status state for the conversations
   const [_status, _setStatus] = useState<ConversationStatus>(
-    ConversationStatus.idle,
+    ConversationStatus.Idle,
   );
 
   // The query to get conversations
@@ -66,9 +66,9 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
 
   useEffect(() => {
     // If a message has been sent, remove the status after 2 seconds
-    if (_status === ConversationStatus.sent) {
+    if (_status === ConversationStatus.Sent) {
       setTimeout(() => {
-        _setStatus(ConversationStatus.idle);
+        _setStatus(ConversationStatus.Idle);
       }, 2000);
     }
   }, [_status]);
