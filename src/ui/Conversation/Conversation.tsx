@@ -44,7 +44,7 @@ const Conversation: React.FC<ConversationProps> = ({ conversation }) => {
 
   const unreadIndicatorClasses = tw.style(
     // Default classes
-    "rounded-full bg-blue-500 p-[3px]",
+    "rounded-full bg-blue-600 p-[4px]",
     // If the conversation is read, hide the indicator
     conversation.read && "opacity-0",
   );

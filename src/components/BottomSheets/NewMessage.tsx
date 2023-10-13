@@ -20,8 +20,8 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import TextInput from "@/ui/TextInput";
 import ActionCard from "@/ui/ActionCard";
+import RecentPnms from "@/components/RecentPnms";
 import useContacts from "@/hooks/messaging/useContacts";
-import RecentPnms from "../RecentPnms";
 
 enum NewMessageScreens {
   NewMessage = "NEW_MESSAGE",
@@ -47,7 +47,7 @@ const NewMessage: React.FC<NewMessageProps> = ({
   // Custom hook to get contacts
   const { refetch } = useContacts();
   // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["65%"], []);
+  const snapPoints = useMemo(() => ["65%", "80%"], []);
   // State to keep track of which screen the user is on
   const [_screen, _setScreen] = useState<NewMessageScreens>(
     NewMessageScreens.NewMessage,
