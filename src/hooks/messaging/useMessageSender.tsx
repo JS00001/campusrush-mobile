@@ -46,9 +46,6 @@ const useMessageSender = (_pnms: PNM[]) => {
   };
 
   const sendMessage = async (content: string) => {
-    // Set the conversation status to "sending"
-    setStatus(ConversationStatus.sending);
-
     // Create an input object to send to the mutation
     let input: SendMessageInput = {
       message: content,
@@ -56,8 +53,12 @@ const useMessageSender = (_pnms: PNM[]) => {
     };
 
     // If the message was sent to multiple PNMs, navigate to the messages screen
+    // and set the conversation status to "sending"
     if (input.pnms.length > 1) {
+      // Navigate to the messages screen
       (navigation.navigate as any)("Messages");
+      // Set the conversation status to "sending"
+      setStatus(ConversationStatus.sending);
     }
 
     // Attempt to send the message
@@ -76,8 +77,12 @@ const useMessageSender = (_pnms: PNM[]) => {
 
     // Add the conversations to the conversations state
     addConversations(conversations);
-    // Set the conversation status to "sent"
-    setStatus(ConversationStatus.sent);
+
+    // If the message was sent to multiple PNMs, set the conversation status to "sent"
+    if (input.pnms.length > 1) {
+      setStatus(ConversationStatus.sent);
+      return;
+    }
   };
 
   return {

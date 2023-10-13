@@ -74,30 +74,19 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   }, [_status]);
 
   // The method to add a conversation to the state
-  const addConversations = (conversations: Conversation[]) => {
-    // Add the conversation to the state if the conversation _id does not exist
-    // else update the conversation
+  const addConversations = (_conversations: Conversation[]) => {
+    // go through the current state, if a conversation has the same id as one in _conversations, remove it
+    // then add all new conversations to the state
     setConversations((prevConversations) => {
-      const newConversations = conversations.map((conversation) => {
-        // Check if the conversation exists in the state
-        const conversationIndex = prevConversations.findIndex(
-          (prevConversation) => prevConversation._id === conversation._id,
-        );
+      const filteredConversations = prevConversations.filter(
+        (conversation) =>
+          // If the conversation is not in the new conversations, keep it
+          !_conversations.find(
+            (_conversation) => _conversation.pnm._id === conversation.pnm._id,
+          ),
+      );
 
-        // If the conversation does not exist, add it to the state
-        if (conversationIndex === -1) {
-          return conversation;
-        }
-
-        // If the conversation exists, update it
-        return {
-          ...prevConversations[conversationIndex],
-          ...conversation,
-        };
-      });
-
-      // Return the new conversations
-      return [...newConversations, ...prevConversations];
+      return [..._conversations, ...filteredConversations];
     });
   };
 
