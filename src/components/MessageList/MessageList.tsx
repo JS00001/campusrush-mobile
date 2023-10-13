@@ -14,6 +14,7 @@ import { FlatList } from "react-native-bidirectional-infinite-scroll";
 
 import tw from "@/lib/tailwind";
 import Message from "@/ui/Message";
+import messaging from "@/lib/messages";
 
 interface MessageListProps {
   messages?: Message[];
@@ -26,18 +27,21 @@ const MessageList: React.FC<MessageListProps> = ({
   onEndReached,
   onStartReached,
 }) => {
+  const timestampedMessages = messaging.groupByDate(messages ?? []);
+
   return (
     <FlatList
       style={tw`w-full -mt-6`}
       contentContainerStyle={tw`gap-y-2 `}
-      data={messages}
+      data={timestampedMessages}
       inverted
       renderItem={({ item }) => (
         <Message
           key={item._id}
           content={item.content}
           sent={item.sent}
-          createdAt={item.createdAt.toString()}
+          date={item.showDate ? item.date : undefined}
+          createdAt={item.showTimestamp ? item.createdAt.toString() : undefined}
         />
       )}
       onEndReached={onEndReached}

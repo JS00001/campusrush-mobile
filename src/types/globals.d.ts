@@ -83,6 +83,15 @@ interface Message {
   updatedAt: Date;
 }
 
+interface TimestampedMessage extends Message {
+  // The date the message was sent
+  date?: string;
+  // Whether or not there should be a timestamp shown
+  showTimestamp?: boolean;
+  // Whether or not to show the date
+  showDate?: boolean;
+}
+
 interface Conversation {
   _id?: string;
   // The organization that sent or received the message
