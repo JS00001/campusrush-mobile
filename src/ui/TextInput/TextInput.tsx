@@ -127,7 +127,7 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
   const placeholderSize = useRef(new Animated.Value(18)).current;
 
   // Whether the input is focused or not
-  const [_, setIsFocused] = useState(false);
+  const [focused, setIsFocused] = useState(false);
 
   // Animate between placeholder and label state
   const animatePlaceholder = (toValue: number, fontSize: number) => {
@@ -186,7 +186,9 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
       ? "border-red-500"
       : disabled
       ? "border-slate-200"
-      : "border-slate-400",
+      : focused
+      ? "border-primary"
+      : "border-slate-300",
     // Passed in input styles
     inputStyle,
   );
@@ -195,7 +197,13 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
     // Label Sizing and Styling
     "absolute left-3 -z-10 bg-white px-1",
     // If there is an error, make the label red
-    error ? "text-red-500" : disabled ? "text-slate-300" : "text-slate-500",
+    error
+      ? "text-red-500"
+      : disabled
+      ? "text-slate-300"
+      : focused
+      ? "text-primary"
+      : "text-slate-400",
   );
 
   return (

@@ -162,7 +162,7 @@ export const TabNavigator = () => {
         }}
       />
 
-      {organization.role === "admin" && (
+      {organization.role == "admin" && (
         <Tab.Screen
           name="AdminTab"
           component={AdminStack}

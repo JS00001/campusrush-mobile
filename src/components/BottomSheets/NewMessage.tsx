@@ -54,7 +54,7 @@ const NewMessage: React.FC<NewMessageProps> = ({
   );
 
   // When the bottom sheet modal is open
-  const onBottomSheetOpen = (index: number) => {
+  const onBottomSheetChange = (index: number) => {
     // If the bottom sheet modal is open
     if (index >= 0) {
       // Refetch the contacts
@@ -106,7 +106,7 @@ const NewMessage: React.FC<NewMessageProps> = ({
       ref={innerRef}
       index={0}
       snapPoints={snapPoints}
-      onChange={onBottomSheetOpen}
+      onChange={onBottomSheetChange}
       backdropComponent={() => (
         <Pressable
           style={tw`h-full w-full absolute bg-black opacity-20`}
