@@ -34,10 +34,20 @@ interface MessagesProps {
 }
 
 const Messages: React.FC<MessagesProps> = ({ navigation }) => {
+  // Import the conversations and methods from the conversations provider
+  const {
+    status,
+    isLoading,
+    searchQuery,
+    filterActions,
+    conversations,
+    refetch,
+    onFilterPress,
+    setSearchQuery,
+  } = useConversations();
+
   // Import bottom sheets hook to show the "New Message" modal
   const { handlePresentModalPress } = useBottomSheets();
-  // Import the conversations from the provider
-  const { conversations, isLoading, status, refetch } = useConversations();
 
   // When the new chat action button is pressed, present the modal
   const onNewChatPress = () => {
@@ -76,36 +86,19 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
         {/* The top action bar for search and filter */}
         <View style={tw`flex-row w-full gap-x-1`}>
           <TextInput
+            autoCorrect={false}
             icon="ri-search-line"
             variant="alternate"
-            placeholder="Search Messages"
+            placeholder="Search Conversations"
+            value={searchQuery}
+            onChangeText={setSearchQuery}
             containerStyle={tw`flex-shrink`}
           />
 
           <MenuView
             title="Filter By"
-            actions={[
-              {
-                id: "remove-filters",
-                title: "No Filters",
-                image: "xmark",
-              },
-              {
-                id: "filter-by-unread-messages",
-                title: "Unread Messages",
-                image: "message",
-              },
-              {
-                id: "filter-by-alphabetical",
-                title: "Alphabetical",
-                image: "textformat.abc",
-              },
-              {
-                id: "filter-by-received-bid",
-                title: "Received Bid",
-                image: "person.badge.plus",
-              },
-            ]}
+            actions={filterActions}
+            onPressAction={onFilterPress}
           >
             <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
           </MenuView>

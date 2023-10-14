@@ -131,7 +131,6 @@ const usePnms = () => {
     ...query,
     pnms: filteredPnms,
     searchQuery,
-    selectedFilter,
     filterActions,
     onRefetch,
     onFilterPress,

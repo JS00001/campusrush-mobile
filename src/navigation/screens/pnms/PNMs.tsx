@@ -15,22 +15,23 @@ import { MenuView } from "@react-native-menu/menu";
 
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
+import usePnms from "@/hooks/usePnms";
 import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
 import PnmsList from "@/components/PnmsList";
-import usePnms from "@/hooks/usePnms";
 
 const PNMs = () => {
   const {
     pnms,
     isLoading,
-    filterActions,
     searchQuery,
-    setSearchQuery,
+    filterActions,
     onRefetch,
     onFilterPress,
+    setSearchQuery,
   } = usePnms();
 
+  // Define a placeholder of how many PNMs are being searched (if any)
   const searchPlaceholder = `Search ${
     pnms.length ? `${pnms.length} ` : ""
   }PNMs`;

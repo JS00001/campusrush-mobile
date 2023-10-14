@@ -11,6 +11,7 @@
  */
 
 import { useQuery } from "@tanstack/react-query";
+import { MenuAction } from "@react-native-menu/menu";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { useAuth } from "@/providers/Auth";
@@ -22,11 +23,22 @@ export enum ConversationStatus {
   Sent = "SENT",
   Failed = "FAILED",
 }
+
+export enum ConversationFilter {
+  NoFilter = "NO_FILTER",
+  Unread = "UNREAD",
+}
+
 export interface ConversationsContextProps {
   isLoading: boolean;
+  searchQuery: string;
+  filterActions: MenuAction[];
   status: ConversationStatus;
   conversations: Conversation[];
+
   refetch: () => Promise<void>;
+  onFilterPress: (e: any) => void;
+  setSearchQuery: (query: string) => void;
   setStatus: (status: ConversationStatus) => void;
   setConversationAsRead: (pnmId: string) => void;
   addConversations: (conversations: Conversation[]) => void;
@@ -41,8 +53,20 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
 }) => {
   // Import data from auth provider
   const { accessToken } = useAuth();
+
   // Create a state to store the conversations
   const [conversations, setConversations] = useState<Conversation[]>([]);
+  // Create a state to store filtered conversations
+  const [filteredConversations, setFilteredConversations] = useState<
+    Conversation[]
+  >([]);
+
+  // All filtering options
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedFilter, setSelectedFilter] = useState<ConversationFilter>(
+    ConversationFilter.NoFilter,
+  );
+
   // Create a status state for the conversations
   const [_status, _setStatus] = useState<ConversationStatus>(
     ConversationStatus.Idle,
@@ -57,21 +81,54 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     },
   });
 
+  // When the query loads, set the conversations
   useEffect(() => {
-    // Convert the data into a readable format
-    const conversationsData = query.data?.data?.data.conversations || [];
-    // Set the conversations state
-    setConversations(conversationsData);
+    if (query.data) {
+      const formattedConversations = query.data.data.data.conversations;
+
+      setConversations(formattedConversations);
+    }
   }, [query.data]);
 
+  // If a message has been sent, remove the status after 2 seconds
   useEffect(() => {
-    // If a message has been sent, remove the status after 2 seconds
     if (_status === ConversationStatus.Sent) {
       setTimeout(() => {
         _setStatus(ConversationStatus.Idle);
       }, 2000);
     }
   }, [_status]);
+
+  // When the query first loads, or when the search query or selected filter changes, filter the Conversations
+  useEffect(() => {
+    // First, filter all the conversations based on the search query, by full name or phone number
+    const matchedConversations = conversations.filter((conversation) => {
+      const pnmFullName = `${conversation.pnm.firstName} ${conversation.pnm.lastName}`;
+
+      // Return true if the full name or phone number includes the search query
+      return (
+        conversation.lastMessage
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        pnmFullName.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    });
+
+    // Then, filter the matched Conversations based on the selected filter
+    switch (selectedFilter) {
+      case ConversationFilter.Unread:
+        const unreadConversations = matchedConversations.filter(
+          (conversation) => !conversation.read,
+        );
+        setFilteredConversations(unreadConversations);
+        break;
+      case ConversationFilter.NoFilter:
+        setFilteredConversations(matchedConversations);
+        break;
+      default:
+        break;
+    }
+  }, [searchQuery, selectedFilter, conversations]);
 
   // The method to add a conversation to the state
   const addConversations = (_conversations: Conversation[]) => {
@@ -109,21 +166,49 @@ const ConversationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     });
   };
 
+  // Handle the filter press event
+  const onFilterPress = (e: any) => {
+    const eventId = e.nativeEvent.event as ConversationFilter;
+
+    setSelectedFilter(eventId);
+  };
+
   // Method to refetch the query
   const refetch = async () => {
     await query.refetch();
   };
 
+  // The actions for the filter menu
+  const filterActions: MenuAction[] = [
+    {
+      id: ConversationFilter.NoFilter,
+      title: "No Filters",
+      image: "xmark",
+      state: selectedFilter === ConversationFilter.NoFilter ? "on" : "off",
+    },
+    {
+      id: ConversationFilter.Unread,
+      title: "Unread Messages",
+      image: "message",
+      state: selectedFilter === ConversationFilter.Unread ? "on" : "off",
+    },
+  ];
+
   return (
     <ConversationsContext.Provider
       value={{
-        refetch,
-        isLoading: query.isLoading,
+        searchQuery,
+        filterActions,
         status: _status,
-        setStatus: _setStatus,
-        conversations,
+        isLoading: query.isLoading,
+        conversations: filteredConversations,
+
+        refetch,
+        onFilterPress,
+        setSearchQuery,
         addConversations,
         setConversationAsRead,
+        setStatus: _setStatus,
       }}
     >
       {children}

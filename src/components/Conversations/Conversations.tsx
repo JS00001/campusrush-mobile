@@ -58,7 +58,9 @@ const Conversations: React.FC<ConversationsProps> = ({
           <Text variant="title" style={tw`text-center mt-16`}>
             No conversations found
           </Text>
-          <Text>Try sending a message to someone</Text>
+          <Text style={tw`text-center`}>
+            Try changing your filters or sending a message{" "}
+          </Text>
         </>
       );
     }
