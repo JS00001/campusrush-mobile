@@ -47,7 +47,7 @@ const NewMessage: React.FC<NewMessageProps> = ({
   // Custom hook to get contacts
   const { refetch } = useContacts();
   // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["65%", "80%"], []);
+  const snapPoints = useMemo(() => ["65%", "80%", "95%"], []);
   // State to keep track of which screen the user is on
   const [_screen, _setScreen] = useState<NewMessageScreens>(
     NewMessageScreens.NewMessage,
@@ -56,11 +56,11 @@ const NewMessage: React.FC<NewMessageProps> = ({
   // When the bottom sheet modal is open
   const onBottomSheetOpen = (index: number) => {
     // If the bottom sheet modal is open
-    if (index === 0) {
+    if (index >= 0) {
       // Refetch the contacts
       refetch();
     }
-    // If the bottom sheet modal is closed
+    // // If the bottom sheet modal is closed
     else {
       // Reset the screen
       setScreen(NewMessageScreens.NewMessage);
@@ -81,17 +81,18 @@ const NewMessage: React.FC<NewMessageProps> = ({
       position: "65%",
       component: (
         <NewMessageStep
-          handleCloseModalPress={handleCloseModalPress}
           setScreen={setScreen}
+          handleCloseModalPress={handleCloseModalPress}
         />
       ),
     },
     [NewMessageScreens.DirectMessage]: {
-      position: "70%",
+      position: "80%",
       component: (
         <DirectMessageStep
-          handleCloseModalPress={handleCloseModalPress}
           setScreen={setScreen}
+          handleSnapToPosition={handleSnapToPosition}
+          handleCloseModalPress={handleCloseModalPress}
         />
       ),
     },
@@ -223,16 +224,24 @@ const NewMessageStep: React.FC<NewMessageScreenProps> = ({
  */
 interface DirectMessageScreenProps {
   handleCloseModalPress?: () => void;
+  handleSnapToPosition?: (position: string) => void;
   setScreen?: (screen: NewMessageScreens) => void;
 }
 
 const DirectMessageStep: React.FC<DirectMessageScreenProps> = ({
   handleCloseModalPress,
+  handleSnapToPosition,
 }) => {
   // Navigation hook to navigate to new message screen
   const navigation = useNavigation();
   // Custom hook to get contacts
-  const { isLoading, suggestedPnms } = useContacts();
+  const {
+    searchQuery,
+    isLoading,
+    filteredPnms,
+    directMessageHeader,
+    setSearchQuery,
+  } = useContacts();
 
   const onPnmPress = (pnm: PNM) => {
     // Close the bottom sheet modal
@@ -251,15 +260,21 @@ const DirectMessageStep: React.FC<DirectMessageScreenProps> = ({
       </View>
 
       <TextInput
+        autoCorrect={false}
         icon="ri-search-line"
         variant="alternate"
         placeholder="Search"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        onFocus={() => {
+          handleSnapToPosition?.("95%");
+        }}
       />
 
       <View style={tw`gap-y-3 flex-1`}>
-        <Text variant="body">Suggested Contacts</Text>
+        <Text variant="body">{directMessageHeader}</Text>
         <RecentPnms
-          pnms={suggestedPnms}
+          pnms={filteredPnms}
           loading={isLoading}
           onPress={onPnmPress}
         />

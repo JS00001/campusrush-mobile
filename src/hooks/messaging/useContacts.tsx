@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
@@ -18,6 +19,13 @@ import messagingApi from "@/api/api/messaging";
 const useContacts = () => {
   // Get access token so that we can cache the query
   const { accessToken } = useAuth();
+
+  // Create a state variable to store the filtered PNMs and the PNMs
+  const [allPnms, setAllPnms] = useState<PNM[]>([]);
+  const [filteredPnms, setFilteredPnms] = useState<PNM[]>([]);
+
+  // The string to search for
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   // Create a query to get the organization statistics
   const query = useQuery({
@@ -31,15 +39,49 @@ const useContacts = () => {
   });
 
   // Extract the data from the query
-  const allPnms = query.data?.data?.data?.all ?? [];
   const suggestedPnms = query.data?.data?.data?.suggested ?? [];
   const uncontactedPnms = query.data?.data?.data?.uncontacted ?? [];
+
+  useEffect(() => {
+    if (query.data) {
+      const formattedPnms = query.data.data.data.all;
+
+      setAllPnms(formattedPnms);
+    }
+  }, [query.data]);
+
+  // Filter the PNMs based on the search query
+  useEffect(() => {
+    if (searchQuery === "") {
+      setFilteredPnms(suggestedPnms);
+    } else {
+      const matchedPnms = allPnms.filter((pnm) => {
+        const fullName = `${pnm.firstName} ${pnm.lastName}`;
+
+        // Return true if the full name or phone number includes the search query
+        return (
+          fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          pnm.phoneNumber.includes(searchQuery)
+        );
+      });
+
+      setFilteredPnms(matchedPnms);
+    }
+  }, [searchQuery, allPnms]);
+
+  // Show a list of suggested PNMs if the search query is empty
+  // else show a list of filtered PNMs from all PNMs
+  const directMessageHeader =
+    searchQuery === "" ? "Suggested Contacts" : "Results";
 
   return {
     ...query,
     allPnms,
-    suggestedPnms,
+    searchQuery,
+    filteredPnms,
     uncontactedPnms,
+    directMessageHeader,
+    setSearchQuery,
   };
 };
 
