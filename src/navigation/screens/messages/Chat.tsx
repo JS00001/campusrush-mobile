@@ -13,7 +13,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
-import ProgressBar from "@/ui/ProgressBar";
+import ChatHeader from "@/components/ChatHeader";
 import MessageBox from "@/components/MessageBox";
 import MessageList from "@/components/MessageList";
 import useMessages from "@/hooks/messaging/useMessages";
@@ -52,7 +52,9 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
   return (
     <>
       <Layout gap={8}>
-        <Layout.ChatHeader pnms={[route.params.pnm]} loading={isLoading} />
+        <Layout.CustomHeader>
+          <ChatHeader pnms={[route.params.pnm]} loading={isLoading} />
+        </Layout.CustomHeader>
 
         <MessageList
           messages={messages}

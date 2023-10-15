@@ -11,8 +11,8 @@
  */
 
 import {
-  ViewProps,
   View,
+  ViewProps,
   ScrollView,
   SafeAreaView,
   KeyboardAvoidingView,
@@ -24,12 +24,9 @@ import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import Text from "@/ui/Text";
-import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
-import IconButton from "@/ui/IconButton";
 import HeaderSvg from "@/assets/HeaderSvg";
 import TermsAndConditions from "@/components/TermsAndConditions";
-import ProgressBar from "../ProgressBar";
 
 interface LayoutProps extends ViewProps {
   children?: React.ReactNode;
@@ -44,7 +41,7 @@ interface LayoutProps extends ViewProps {
 
 interface LayoutComponents {
   Header: React.FC<HeaderProps>;
-  ChatHeader: React.FC<ChatHeaderProps>;
+  CustomHeader: React.FC<CustomHeaderProps>;
   Footer: React.FC<FooterProps>;
 }
 
@@ -63,7 +60,7 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
     (child) =>
       React.isValidElement(child) &&
       ((child as any).type.displayName == "Layout.Header" ||
-        (child as any).type.displayName == "Layout.ChatHeader"),
+        (child as any).type.displayName == "Layout.CustomHeader"),
   );
 
   // The footer component if passed
@@ -78,7 +75,7 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
     (child) =>
       React.isValidElement(child) &&
       (child as any).type.displayName != "Layout.Header" &&
-      (child as any).type.displayName != "Layout.ChatHeader" &&
+      (child as any).type.displayName != "Layout.CustomHeader" &&
       (child as any).type.displayName != "Layout.Footer",
   );
 
@@ -213,94 +210,12 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, hasBackButton }) => {
   );
 };
 
-interface ChatHeaderProps {
-  pnms: PNM[];
-  loading?: boolean;
-  onPnmRemove?: (pnm: PNM) => void;
+interface CustomHeaderProps {
+  children: React.ReactNode;
 }
 
-const ChatHeader: React.FC<ChatHeaderProps> = ({
-  pnms,
-  loading,
-  onPnmRemove,
-}) => {
-  const navigation = useNavigation();
-
-  // Whether or not the chat is a single PNM
-  const isSinglePnm = pnms.length === 1;
-
-  // Use the users name if it's a single PNM
-  const header = isSinglePnm
-    ? `${pnms[0].firstName} ${pnms[0].lastName}`
-    : `New Message (${pnms.length} PNMs)`;
-
-  // When the back arrow is pressed, go back to the previous screen
-  const onBackArrowPress = () => navigation.goBack();
-
-  // Styling
-  const safeAreaStyles = tw.style(
-    // Positioning and color
-    "w-full border-b border-slate-200",
-  );
-
-  const headerStyles = tw.style(
-    // Positioning and color
-    "justify-between flex-row items-center px-6 py-3",
-  );
-
-  return (
-    <SafeAreaView style={safeAreaStyles}>
-      <View style={headerStyles}>
-        <IconButton
-          icon="ri-arrow-left-line"
-          onPress={onBackArrowPress}
-          size="sm"
-        />
-
-        <Text variant="body" style={tw`font-medium text-black`}>
-          {header}
-        </Text>
-
-        <IconButton
-          icon="ri-more-fill"
-          onPress={() => {}}
-          size="sm"
-          disabled={!isSinglePnm}
-          // Hide the button if it's not a single PNM
-          style={tw.style("opacity-0", isSinglePnm && "opacity-100")}
-        />
-      </View>
-
-      {!isSinglePnm && (
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={tw`flex-row gap-0.5 pl-6 pb-3`}
-        >
-          {pnms.map((pnm, index) => {
-            const onPnmRemovePress = () => {
-              if (onPnmRemove) {
-                onPnmRemove(pnm);
-              }
-            };
-
-            return (
-              <Badge
-                key={index}
-                size="md"
-                removable
-                onRemove={onPnmRemovePress}
-              >
-                {pnm.firstName + " " + pnm.lastName}
-              </Badge>
-            );
-          })}
-        </ScrollView>
-      )}
-
-      <ProgressBar loading={loading} />
-    </SafeAreaView>
-  );
+const CustomHeader: React.FC<CustomHeaderProps> = ({ children }) => {
+  return children;
 };
 
 interface FooterProps {
@@ -369,8 +284,8 @@ const Footer: React.FC<FooterProps> = ({
 Header.displayName = "Layout.Header";
 Layout.Header = Header;
 
-ChatHeader.displayName = "Layout.ChatHeader";
-Layout.ChatHeader = ChatHeader;
+CustomHeader.displayName = "Layout.CustomHeader";
+Layout.CustomHeader = CustomHeader;
 
 Footer.displayName = "Layout.Footer";
 Layout.Footer = Footer;
