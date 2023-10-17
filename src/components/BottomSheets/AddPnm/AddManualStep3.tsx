@@ -18,6 +18,7 @@ import { AddPnmScreens } from "./types";
 
 import Text from "@/ui/Text";
 import Button from "@/ui/Button";
+import ButtonGroup from "@/ui/ButtonGroup";
 
 interface AddManualStep3ScreenProps {
   handleCloseModalPress: () => void;
@@ -28,25 +29,30 @@ const AddManualStep3: React.FC<AddManualStep3ScreenProps> = ({
   setScreen,
   handleCloseModalPress,
 }) => {
+  const onBackPress = () => {
+    setScreen(AddPnmScreens.AddManualStep2);
+  };
+
+  const onNextPress = () => {};
+
   return (
     <KeyboardAwareScrollView
       style={tw`p-6`}
       contentContainerStyle={tw`gap-y-4 flex-1`}
     >
       <View style={tw`mb-2`}>
-        <Text variant="title">Add PNM Manually 3</Text>
-        <Text variant="body">Add a PNM to your chapter</Text>
+        <Text variant="title">Finalize</Text>
+        <Text variant="body">Does this look correct?</Text>
       </View>
 
-      <TextInput placeholder="First Name" />
-      <TextInput placeholder="Last Name" />
-      <TextInput placeholder="Phone Number" />
-      <TextInput placeholder="Instagram" />
-      <TextInput placeholder="Snapchat" />
-      <TextInput placeholder="Classification" />
-      <Button size="sm" iconRight="ri-arrow-right-line">
-        Add PNM
-      </Button>
+      <ButtonGroup>
+        <Button size="sm" color="gray" onPress={onBackPress}>
+          No, Go Back
+        </Button>
+        <Button size="sm" onPress={onNextPress}>
+          Yes, Add PNM
+        </Button>
+      </ButtonGroup>
     </KeyboardAwareScrollView>
   );
 };

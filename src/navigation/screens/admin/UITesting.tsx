@@ -13,7 +13,9 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
-import Message from "@/ui/Message";
+import ButtonGroup from "@/ui/ButtonGroup";
+import Button from "@/ui/Button";
+import tw from "@/lib/tailwind";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
@@ -28,27 +30,18 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
         subtitle="Test new UI in a sandbox environment"
       />
 
-      <Message
-        content="This is a sent message"
-        sent
-        createdAt="2023-09-17T00:00:00.000Z"
-      />
+      <ButtonGroup>
+        <Button size="sm" color="gray">
+          Test1
+        </Button>
+        <Button size="sm">Test2 long</Button>
+      </ButtonGroup>
 
-      <Message
-        content="This is a received message"
-        sent={false}
-        createdAt="2023-09-17T00:00:00.000Z"
-      />
-
-      <Message
-        content="This is a longer sent message that should wrap to the next line"
-        sent
-      />
-      <Message
-        sent
-        content="This is an even longer message that should wrap to the next line, and then some. This should be a very long paragraph but should still be readable"
-        createdAt="2023-09-17T00:00:00.000Z"
-      />
+      <ButtonGroup>
+        <Button size="sm">Test1</Button>
+        <Button size="sm">Test2</Button>
+        <Button size="sm">Test3</Button>
+      </ButtonGroup>
     </Layout>
   );
 };

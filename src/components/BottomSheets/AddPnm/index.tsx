@@ -13,7 +13,6 @@
 import { useMemo, useState } from "react";
 import { Pressable } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useNavigation } from "@react-navigation/native";
 
 import { AddPnmScreens, ScreensList } from "./types";
 
@@ -35,10 +34,8 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
   handleCloseModalPress,
   handleSnapToPosition,
 }) => {
-  const navigation = useNavigation();
-
   // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["55%", "75%", "95%"], []);
+  const snapPoints = useMemo(() => ["55%", "65%", "75%", "95%"], []);
   const [_screen, _setScreen] = useState<AddPnmScreens>(AddPnmScreens.AddPnm);
 
   // When the bottom sheet modal is open
@@ -69,16 +66,17 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
       ),
     },
     [AddPnmScreens.AddManualStep1]: {
-      position: "95%",
+      position: "65%",
       component: (
         <AddManualStep1
           setScreen={setScreen}
+          handleSnapToPosition={handleSnapToPosition}
           handleCloseModalPress={handleCloseModalPress}
         />
       ),
     },
     [AddPnmScreens.AddManualStep2]: {
-      position: "80%",
+      position: "50%",
       component: (
         <AddManualStep2
           setScreen={setScreen}

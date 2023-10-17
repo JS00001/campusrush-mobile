@@ -19,35 +19,50 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
+import ButtonGroup from "@/ui/ButtonGroup";
 
 interface AddManualStep1ScreenProps {
   handleCloseModalPress: () => void;
   setScreen: (screen: AddPnmScreens) => void;
+  handleSnapToPosition: (position: string) => void;
 }
 
 const AddManualStep1: React.FC<AddManualStep1ScreenProps> = ({
   setScreen,
+  handleSnapToPosition,
   handleCloseModalPress,
 }) => {
+  const onBackPress = () => {
+    setScreen(AddPnmScreens.AddPnm);
+  };
+
+  const onNextPress = () => {
+    setScreen(AddPnmScreens.AddManualStep2);
+  };
+
   return (
     <KeyboardAwareScrollView
       style={tw`p-6`}
       contentContainerStyle={tw`gap-y-4 flex-1`}
     >
       <View style={tw`mb-2`}>
-        <Text variant="title">Add PNM Manually</Text>
-        <Text variant="body">Add a PNM to your chapter</Text>
+        <Text variant="title">Basic Information</Text>
+        <Text variant="body">Enter the PNM's name and contact information</Text>
       </View>
 
       <TextInput placeholder="First Name" />
       <TextInput placeholder="Last Name" />
       <TextInput placeholder="Phone Number" />
-      <TextInput placeholder="Instagram" />
-      <TextInput placeholder="Snapchat" />
       <TextInput placeholder="Classification" />
-      <Button size="sm" iconRight="ri-arrow-right-line">
-        Add PNM
-      </Button>
+
+      <ButtonGroup>
+        <Button size="sm" color="gray" onPress={onBackPress}>
+          Go Back
+        </Button>
+        <Button size="sm" onPress={onNextPress}>
+          Next
+        </Button>
+      </ButtonGroup>
     </KeyboardAwareScrollView>
   );
 };

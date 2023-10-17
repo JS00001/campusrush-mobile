@@ -86,6 +86,20 @@ const colorClasses = {
       disabled: "text-slate-200",
     },
   },
+  gray: {
+    container: {
+      default: tw.style("bg-slate-100"),
+      disabled: tw.style("bg-slate-50"),
+    },
+    text: {
+      default: tw.style("text-primary"),
+      disabled: tw.style("text-slate-400"),
+    },
+    icon: {
+      default: "text-primary",
+      disabled: "text-slate-400",
+    },
+  },
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -106,7 +120,7 @@ const Button: React.FC<ButtonProps> = ({
   // The container classes are applied to the TouchableOpacity component
   // These classes are responsible for the background color, layout, etc.
   const containerClasses = tw.style(
-    "flex flex-row items-center justify-center rounded-lg gap-2.5",
+    "flex flex-row items-center justify-center rounded-lg gap-2.5 flex-1",
     !disabled && colorClasses[color].container.default, // Set the default color if the button is not disabled
     disabled && colorClasses[color].container.disabled, // Set the disabled color if the button is disabled
     sizeClasses[size].container,

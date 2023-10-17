@@ -11,13 +11,15 @@
  */
 
 import tw from "@/lib/tailwind";
-import { View, TextInput } from "react-native";
+import { View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { AddPnmScreens } from "./types";
 
 import Text from "@/ui/Text";
 import Button from "@/ui/Button";
+import TextInput from "@/ui/TextInput";
+import ButtonGroup from "@/ui/ButtonGroup";
 
 interface AddManualStep2ScreenProps {
   handleCloseModalPress: () => void;
@@ -28,25 +30,35 @@ const AddManualStep2: React.FC<AddManualStep2ScreenProps> = ({
   setScreen,
   handleCloseModalPress,
 }) => {
+  const onBackPress = () => {
+    setScreen(AddPnmScreens.AddManualStep1);
+  };
+
+  const onNextPress = () => {
+    setScreen(AddPnmScreens.AddManualStep3);
+  };
+
   return (
     <KeyboardAwareScrollView
       style={tw`p-6`}
       contentContainerStyle={tw`gap-y-4 flex-1`}
     >
       <View style={tw`mb-2`}>
-        <Text variant="title">Add PNM Manually 2</Text>
-        <Text variant="body">Add a PNM to your chapter</Text>
+        <Text variant="title">Social Media</Text>
+        <Text variant="body">Enter the PNM's known social media</Text>
       </View>
 
-      <TextInput placeholder="First Name" />
-      <TextInput placeholder="Last Name" />
-      <TextInput placeholder="Phone Number" />
       <TextInput placeholder="Instagram" />
       <TextInput placeholder="Snapchat" />
-      <TextInput placeholder="Classification" />
-      <Button size="sm" iconRight="ri-arrow-right-line">
-        Add PNM
-      </Button>
+
+      <ButtonGroup>
+        <Button size="sm" color="gray" onPress={onBackPress}>
+          Go Back
+        </Button>
+        <Button size="sm" onPress={onNextPress}>
+          Next
+        </Button>
+      </ButtonGroup>
     </KeyboardAwareScrollView>
   );
 };
