@@ -11,6 +11,8 @@
  */
 
 import { useFormik } from "formik";
+import { AxiosError } from "axios";
+import Toast from "react-native-toast-message";
 import { useMutation } from "@tanstack/react-query";
 
 import pnmApi from "@/api/api/pnms";
@@ -54,7 +56,44 @@ const useCreatePnm = (): UseCreatePnm => {
       instagram: "",
       snapchat: "",
     },
-    onSubmit: async (values) => {},
+    onSubmit: async (values) => {
+      let response;
+
+      try {
+        // Try to add the pnm
+        response = await mutation.mutateAsync(values);
+      } catch (error) {
+        // If the error is an axios error
+        if (error instanceof AxiosError) {
+          // Extract the error message
+          const errorMessage = error.response?.data?.error as APIError;
+
+          // If there is a field that the error applies to
+          // and the form has that field
+          if (
+            errorMessage.field &&
+            form.values.hasOwnProperty(errorMessage.field)
+          ) {
+            // Set the field error
+            form.setFieldError(errorMessage.field, errorMessage.humanMessage);
+          }
+        }
+      }
+
+      // If there was an error, there is no response
+      // This is to prevent the code below from running
+      if (!response) return;
+
+      // Clear all of the fields and errors
+      form.resetForm();
+
+      // Show a success toast
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Added a PNM successfully",
+      });
+    },
   });
 
   const validateFields = (fields: (keyof CreatePnmInput)[]) => {

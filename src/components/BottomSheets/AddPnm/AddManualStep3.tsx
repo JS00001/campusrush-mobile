@@ -18,6 +18,7 @@ import { AddPnmScreens } from "./types";
 
 import Text from "@/ui/Text";
 import Button from "@/ui/Button";
+import ListItem from "@/ui/ListItem";
 import ButtonGroup from "@/ui/ButtonGroup";
 import type { UseCreatePnm } from "@/hooks/useCreatePnm";
 
@@ -37,28 +38,62 @@ const AddManualStep3: React.FC<AddManualStep3ScreenProps> = ({
   handleCloseModalPress,
   ...props
 }) => {
+  // These are all the possible form fields and their corresponding labels
+  const items = {
+    firstName: "First Name",
+    lastName: "Last Name",
+    phoneNumber: "Phone Number",
+    classification: "Classification",
+    instagram: "Instagram",
+    snapchat: "Snapchat",
+  };
+
   // When the back button is pressed, return to the previous step
   const onBackPress = () => {
     setScreen(AddPnmScreens.AddManualStep2);
   };
 
-  const onNextPress = () => {};
+  // When next is pressed, submit the form
+  const onNextPress = async () => {
+    props.handleSubmission();
+  };
 
   return (
     <KeyboardAwareScrollView
       style={tw`p-6`}
-      contentContainerStyle={tw`gap-y-4 flex-1`}
+      contentContainerStyle={tw`gap-y-3 flex-1`}
     >
+      {/* Header and subheader */}
       <View style={tw`mb-2`}>
         <Text variant="title">Finalize</Text>
         <Text variant="body">Does this look correct?</Text>
       </View>
 
+      {/* The list of all the form fields and their values */}
+      {Object.keys(items).map((key) => {
+        const value = props[key as keyof UseCreatePnm];
+
+        return (
+          <ListItem
+            key={key}
+            pressable={false}
+            title={items[key as keyof typeof items]}
+            subtitle={(value as string) || "N/A"}
+          />
+        );
+      })}
+
+      {/* The buttons to submit or go back */}
       <ButtonGroup>
-        <Button size="sm" color="gray" onPress={onBackPress}>
+        <Button
+          size="sm"
+          color="gray"
+          onPress={onBackPress}
+          disabled={props.isLoading}
+        >
           No, Go Back
         </Button>
-        <Button size="sm" onPress={onNextPress}>
+        <Button size="sm" onPress={onNextPress} disabled={props.isLoading}>
           Yes, Add PNM
         </Button>
       </ButtonGroup>

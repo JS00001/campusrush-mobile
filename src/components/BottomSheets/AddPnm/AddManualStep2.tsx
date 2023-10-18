@@ -42,7 +42,7 @@ const AddManualStep2: React.FC<AddManualStep2ScreenProps> = ({
 }) => {
   // When the back button is pressed, return to the previous step
   const onBackPress = () => {
-    setScreen(AddPnmScreens.AddPnm);
+    setScreen(AddPnmScreens.AddManualStep1);
   };
 
   // When the next button is pressed, make sure the fields are valid
@@ -56,13 +56,13 @@ const AddManualStep2: React.FC<AddManualStep2ScreenProps> = ({
 
     if (!isValid) return;
 
-    setScreen(AddPnmScreens.AddManualStep2);
+    setScreen(AddPnmScreens.AddManualStep3);
   };
 
   // When a text input is focused (keyboard is opened), snap to the top
   // so that the user can see the inputs fully
   const onFocus = () => {
-    handleSnapToPosition("95%");
+    handleSnapToPosition("85%");
   };
 
   return (
