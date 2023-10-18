@@ -28,6 +28,18 @@ const getPnms = (data: GetPnmsInput): Promise<GetPnmsAPIResponse> => {
   return pnmsAPIClient.get(`${PREFIX}/list`, { params: data });
 };
 
+/**
+ * POST /api/v1/pnms/create
+ *
+ * Returns
+ * - data
+ *  - pnm
+ */
+const createPnm = (data: CreatePnmInput): Promise<CreatePnmAPIResponse> => {
+  return pnmsAPIClient.post(`${PREFIX}/create`, data);
+};
+
 export default {
   getPnms,
+  createPnm,
 };

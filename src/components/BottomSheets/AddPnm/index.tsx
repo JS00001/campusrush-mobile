@@ -10,13 +10,14 @@
  * Do not distribute
  */
 
-import { useMemo, useState } from "react";
 import { Pressable } from "react-native";
+import { useMemo, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import { AddPnmScreens, ScreensList } from "./types";
 
 import tw from "@/lib/tailwind";
+import useCreatePnm from "@/hooks/useCreatePnm";
 import AddPnm from "@/components/BottomSheets/AddPnm/AddPnm";
 import AddQrCodeStep from "@/components/BottomSheets/AddPnm/AddQrCode";
 import AddManualStep1 from "@/components/BottomSheets/AddPnm/AddManualStep1";
@@ -34,8 +35,13 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
   handleCloseModalPress,
   handleSnapToPosition,
 }) => {
+  // Get the values needed to create a PNM
+  const { ...values } = useCreatePnm();
+
   // Memoized snap points (When the bottom sheet modal is open)
   const snapPoints = useMemo(() => ["55%", "65%", "75%", "95%"], []);
+
+  // The current screen that is visible
   const [_screen, _setScreen] = useState<AddPnmScreens>(AddPnmScreens.AddPnm);
 
   // When the bottom sheet modal is open
@@ -54,7 +60,8 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
     handleSnapToPosition(ScreensList[screen].position);
   };
 
-  // Create a list of all of the screens
+  // Create a list of all of the screens, pass the values of the hook to the screens
+  // that need them, and then render the proper screen based on the current screen
   const ScreensList: ScreensList = {
     [AddPnmScreens.AddPnm]: {
       position: "55%",
@@ -69,6 +76,7 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
       position: "65%",
       component: (
         <AddManualStep1
+          {...values}
           setScreen={setScreen}
           handleSnapToPosition={handleSnapToPosition}
           handleCloseModalPress={handleCloseModalPress}
@@ -79,7 +87,9 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
       position: "50%",
       component: (
         <AddManualStep2
+          {...values}
           setScreen={setScreen}
+          handleSnapToPosition={handleSnapToPosition}
           handleCloseModalPress={handleCloseModalPress}
         />
       ),
@@ -88,6 +98,7 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
       position: "80%",
       component: (
         <AddManualStep3
+          {...values}
           setScreen={setScreen}
           handleCloseModalPress={handleCloseModalPress}
         />

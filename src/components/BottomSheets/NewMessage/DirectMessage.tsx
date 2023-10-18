@@ -52,7 +52,7 @@ const DirectMessage: React.FC<DirectMessageProps> = ({
   };
 
   return (
-    <View style={tw`px-6 pt-6 gap-y-6 flex-1 `}>
+    <View style={tw`px-6 pt-6 gap-y-6 flex-1`}>
       <View>
         <Text variant="title">Begin Typing</Text>
         <Text variant="body">Search for a PNM to message</Text>

@@ -11,7 +11,7 @@
  */
 
 import tw from "@/lib/tailwind";
-import { View, TextInput } from "react-native";
+import { View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { AddPnmScreens } from "./types";
@@ -19,8 +19,15 @@ import { AddPnmScreens } from "./types";
 import Text from "@/ui/Text";
 import Button from "@/ui/Button";
 import ButtonGroup from "@/ui/ButtonGroup";
+import type { UseCreatePnm } from "@/hooks/useCreatePnm";
 
-interface AddManualStep3ScreenProps {
+/**
+ * The props for this screen extend the values of the "useCreatePnm" hook
+ * This is because all of the values from the hook are passed from the parent
+ * component, and the parent component is the one that is responsible for
+ * handling the state of the forms.
+ */
+interface AddManualStep3ScreenProps extends UseCreatePnm {
   handleCloseModalPress: () => void;
   setScreen: (screen: AddPnmScreens) => void;
 }
@@ -28,7 +35,9 @@ interface AddManualStep3ScreenProps {
 const AddManualStep3: React.FC<AddManualStep3ScreenProps> = ({
   setScreen,
   handleCloseModalPress,
+  ...props
 }) => {
+  // When the back button is pressed, return to the previous step
   const onBackPress = () => {
     setScreen(AddPnmScreens.AddManualStep2);
   };

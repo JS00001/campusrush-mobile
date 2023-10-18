@@ -207,3 +207,11 @@ type SendMessageAPIResponse = APIResponse & {
     };
   };
 };
+
+type CreatePnmAPIResponse = APIResponse & {
+  data: {
+    data: {
+      pnm: PNM;
+    };
+  };
+};

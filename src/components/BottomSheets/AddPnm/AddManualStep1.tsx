@@ -20,8 +20,15 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import ButtonGroup from "@/ui/ButtonGroup";
+import type { UseCreatePnm } from "@/hooks/useCreatePnm";
 
-interface AddManualStep1ScreenProps {
+/**
+ * The props for this screen extend the values of the "useCreatePnm" hook
+ * This is because all of the values from the hook are passed from the parent
+ * component, and the parent component is the one that is responsible for
+ * handling the state of the forms.
+ */
+interface AddManualStep1ScreenProps extends UseCreatePnm {
   handleCloseModalPress: () => void;
   setScreen: (screen: AddPnmScreens) => void;
   handleSnapToPosition: (position: string) => void;
@@ -31,13 +38,31 @@ const AddManualStep1: React.FC<AddManualStep1ScreenProps> = ({
   setScreen,
   handleSnapToPosition,
   handleCloseModalPress,
+  ...props
 }) => {
+  // When the back button is pressed, return to the previous step
   const onBackPress = () => {
     setScreen(AddPnmScreens.AddPnm);
   };
 
+  // When the next button is pressed, make sure the fields are valid
+  // and then go to the next step
   const onNextPress = () => {
+    const isValid = props.validateFields([
+      "firstName",
+      "lastName",
+      "phoneNumber",
+    ]);
+
+    if (!isValid) return;
+
     setScreen(AddPnmScreens.AddManualStep2);
+  };
+
+  // When a text input is focused (keyboard is opened), snap to the top
+  // so that the user can see the inputs fully
+  const onFocus = () => {
+    handleSnapToPosition("95%");
   };
 
   return (
@@ -50,10 +75,34 @@ const AddManualStep1: React.FC<AddManualStep1ScreenProps> = ({
         <Text variant="body">Enter the PNM's name and contact information</Text>
       </View>
 
-      <TextInput placeholder="First Name" />
-      <TextInput placeholder="Last Name" />
-      <TextInput placeholder="Phone Number" />
-      <TextInput placeholder="Classification" />
+      <TextInput
+        placeholder="First Name"
+        value={props.firstName}
+        onFocus={onFocus}
+        error={props.errors?.firstName}
+        onChangeText={props.setFirstName}
+      />
+      <TextInput
+        placeholder="Last Name"
+        value={props.lastName}
+        onFocus={onFocus}
+        error={props.errors?.lastName}
+        onChangeText={props.setLastName}
+      />
+      <TextInput
+        placeholder="Phone Number"
+        value={props.phoneNumber}
+        onFocus={onFocus}
+        error={props.errors?.phoneNumber}
+        onChangeText={props.setPhoneNumber}
+      />
+      <TextInput
+        placeholder="Classification"
+        value={props.classification}
+        onFocus={onFocus}
+        error={props.errors?.classification}
+        onChangeText={props.setClassification}
+      />
 
       <ButtonGroup>
         <Button size="sm" color="gray" onPress={onBackPress}>

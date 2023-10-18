@@ -20,22 +20,49 @@ import Text from "@/ui/Text";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import ButtonGroup from "@/ui/ButtonGroup";
+import type { UseCreatePnm } from "@/hooks/useCreatePnm";
 
-interface AddManualStep2ScreenProps {
+/**
+ * The props for this screen extend the values of the "useCreatePnm" hook
+ * This is because all of the values from the hook are passed from the parent
+ * component, and the parent component is the one that is responsible for
+ * handling the state of the forms.
+ */
+interface AddManualStep2ScreenProps extends UseCreatePnm {
   handleCloseModalPress: () => void;
   setScreen: (screen: AddPnmScreens) => void;
+  handleSnapToPosition: (position: string) => void;
 }
 
 const AddManualStep2: React.FC<AddManualStep2ScreenProps> = ({
   setScreen,
+  handleSnapToPosition,
   handleCloseModalPress,
+  ...props
 }) => {
+  // When the back button is pressed, return to the previous step
   const onBackPress = () => {
-    setScreen(AddPnmScreens.AddManualStep1);
+    setScreen(AddPnmScreens.AddPnm);
   };
 
+  // When the next button is pressed, make sure the fields are valid
+  // and then go to the next step
   const onNextPress = () => {
-    setScreen(AddPnmScreens.AddManualStep3);
+    const isValid = props.validateFields([
+      "firstName",
+      "lastName",
+      "phoneNumber",
+    ]);
+
+    if (!isValid) return;
+
+    setScreen(AddPnmScreens.AddManualStep2);
+  };
+
+  // When a text input is focused (keyboard is opened), snap to the top
+  // so that the user can see the inputs fully
+  const onFocus = () => {
+    handleSnapToPosition("95%");
   };
 
   return (
@@ -48,8 +75,21 @@ const AddManualStep2: React.FC<AddManualStep2ScreenProps> = ({
         <Text variant="body">Enter the PNM's known social media</Text>
       </View>
 
-      <TextInput placeholder="Instagram" />
-      <TextInput placeholder="Snapchat" />
+      <TextInput
+        placeholder="Instagram"
+        value={props.instagram}
+        onFocus={onFocus}
+        onChangeText={props.setInstagram}
+        error={props.errors?.instagram}
+      />
+
+      <TextInput
+        placeholder="Snapchat"
+        value={props.snapchat}
+        onFocus={onFocus}
+        onChangeText={props.setSnapchat}
+        error={props.errors?.snapchat}
+      />
 
       <ButtonGroup>
         <Button size="sm" color="gray" onPress={onBackPress}>
