@@ -98,7 +98,6 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     <View style={containerClasses}>
       <TextInput
         {...props}
-        useValue
         placeholder={placeholder}
         value={value}
         onChangeText={filterOptions}

@@ -42,8 +42,6 @@ interface TextInputProps extends RNTextInputProps {
   inputStyle?: any;
   error?: string;
   value?: string;
-  // ONLY CAN BE FALSE IF VARIANT IS "default"
-  useValue?: boolean;
   // ONLY CAN BE SET IF VARIANT IS "alternate"
   icon?: string;
   onFocus?: () => void;
@@ -60,7 +58,6 @@ const TextInput: React.FC<TextInputProps> = ({
   containerStyle,
   error,
   value,
-  useValue,
   icon,
   onChangeText,
   onFocus,
@@ -76,7 +73,6 @@ const TextInput: React.FC<TextInputProps> = ({
         containerStyle={containerStyle}
         error={error}
         value={value}
-        useValue={useValue}
         onChangeText={onChangeText}
         onFocus={onFocus}
         onBlur={onBlur}
@@ -111,14 +107,11 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
   containerStyle,
   error,
   value,
-  useValue,
   onChangeText,
   onFocus,
   onBlur,
   ...props
 }) => {
-  // The current text in the input (This is for performance reasons)
-  const [currentText, setCurrentText] = useState<string>(value || "");
   // Create a ref to the text input so we can focus the input programmatically
   const textInputRef = useRef<RNTextInput>(null);
   // Create a ref to the placeholder's y position
@@ -159,14 +152,6 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
       animatePlaceholder(-8, 14);
     }
   }, []);
-
-  // If the value prop changes, update the current text
-  useEffect(() => {
-    setCurrentText(value || "");
-
-    // If the value prop is empty, animate the placeholder back to the placeholder state
-    if (!value) animatePlaceholder(20, 18);
-  }, [value]);
 
   // Styling
   const containerClasses = tw.style(
@@ -215,16 +200,9 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
         editable={!disabled}
         style={inputClasses}
         onChangeText={(text) => {
-          // If the useValue prop is true, just call the onChangeText prop
-          if (useValue) onChangeText?.(text);
-          // Otherwise, set the current text (will not inform the parent component of the change until blur)
-          else setCurrentText(text);
+          onChangeText?.(text);
         }}
-        value={
-          // If the useValue prop is true, use the value prop
-          // Otherwise, use the current text
-          useValue ? value : currentText
-        }
+        value={value}
         onFocus={() => {
           // Animate the placeholder up on focus
           setIsFocused(true);
@@ -239,12 +217,7 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
           setIsFocused(false);
 
           // If useValue is true AND there is no value, animate the placeholder back to the placeholder state
-          if (useValue && !value) animatePlaceholder(20, 18);
-          // If useValue is false AND there is no current text, animate the placeholder back to the placeholder state
-          else if (!useValue && !currentText) animatePlaceholder(20, 18);
-
-          // If useValue is false and there is current text, call the onChangeText prop
-          if (!useValue && currentText) onChangeText?.(currentText);
+          if (!value) animatePlaceholder(20, 18);
 
           // If there is an onBlur prop, call it
           // This allows us to pass an onBlur prop to this component,
