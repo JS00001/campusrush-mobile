@@ -121,7 +121,7 @@ const MessagingTextInput: React.FC<MessagingTextInputProps> = ({
         formattedWords.push(
           <Text
             key={word + index}
-            style={tw.style(" text-white font-medium bg-blue-500")}
+            style={tw.style(" text-white font-medium bg-blue-600")}
           >
             {word}
           </Text>,
@@ -251,10 +251,11 @@ const CommandAutocomplete: React.FC<CommandAutocompleteProps> = ({
     <ScrollView
       style={containerStyles}
       showsVerticalScrollIndicator={false}
-      keyboardShouldPersistTaps
+      keyboardShouldPersistTaps="always"
     >
       {keywords.map((keyword, i) => (
         <TouchableOpacity
+          key={keyword.keyword + i}
           style={tw`px-4 border-b border-slate-100 py-3`}
           onPress={() => onKeywordPress(keyword.keyword)}
         >
