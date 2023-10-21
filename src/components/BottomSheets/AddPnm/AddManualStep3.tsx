@@ -21,6 +21,7 @@ import Button from "@/ui/Button";
 import ListItem from "@/ui/ListItem";
 import ButtonGroup from "@/ui/ButtonGroup";
 import type { UseCreatePnm } from "@/hooks/useCreatePnm";
+import { useEffect } from "react";
 
 /**
  * The props for this screen extend the values of the "useCreatePnm" hook
@@ -55,8 +56,12 @@ const AddManualStep3: React.FC<AddManualStep3ScreenProps> = ({
 
   // When next is pressed, submit the form
   const onNextPress = async () => {
-    props.handleSubmission();
+    await props.handleSubmission();
+    // TODO: Ensure that the form was submitted successfully
+    handleCloseModalPress();
   };
+
+  useEffect(() => {}, []);
 
   return (
     <KeyboardAwareScrollView
@@ -93,7 +98,7 @@ const AddManualStep3: React.FC<AddManualStep3ScreenProps> = ({
         >
           No, Go Back
         </Button>
-        <Button size="sm" onPress={onNextPress} disabled={props.isLoading}>
+        <Button size="sm" onPress={onNextPress} loading={props.isLoading}>
           Yes, Add PNM
         </Button>
       </ButtonGroup>

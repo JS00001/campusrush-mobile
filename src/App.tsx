@@ -26,6 +26,7 @@ import PurchasesProvider from "@/providers/Purchases";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
 import BottomSheetProvider from "@/providers/BottomSheet";
+import PreferencesProvider from "@/providers/Preferences";
 import NotificationsProvider from "@/providers/Notifications";
 import DevEnvironmentProvider from "@/providers/DevEnvironment";
 
@@ -43,20 +44,22 @@ const App = () => {
       <PurchasesProvider>
         <AuthProvider>
           <AxiosIntercepter>
-            <NavigationProvider>
-              <NotificationsProvider>
-                <GestureHandlerRootView style={{ flex: 1 }}>
-                  <BottomSheetModalProvider>
-                    <DevEnvironmentProvider>
-                      <BottomSheetProvider>
-                        <RootNavigator />
-                        <Toast config={toastConfig} />
-                      </BottomSheetProvider>
-                    </DevEnvironmentProvider>
-                  </BottomSheetModalProvider>
-                </GestureHandlerRootView>
-              </NotificationsProvider>
-            </NavigationProvider>
+            <PreferencesProvider>
+              <NavigationProvider>
+                <NotificationsProvider>
+                  <GestureHandlerRootView style={{ flex: 1 }}>
+                    <BottomSheetModalProvider>
+                      <DevEnvironmentProvider>
+                        <BottomSheetProvider>
+                          <RootNavigator />
+                          <Toast config={toastConfig} />
+                        </BottomSheetProvider>
+                      </DevEnvironmentProvider>
+                    </BottomSheetModalProvider>
+                  </GestureHandlerRootView>
+                </NotificationsProvider>
+              </NavigationProvider>
+            </PreferencesProvider>
           </AxiosIntercepter>
         </AuthProvider>
       </PurchasesProvider>

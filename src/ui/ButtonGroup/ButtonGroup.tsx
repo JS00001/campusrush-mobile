@@ -10,8 +10,10 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
+import React from "react";
 import { View } from "react-native";
+
+import tw from "@/lib/tailwind";
 
 interface ButtonGroupProps {
   children: React.ReactNode;
@@ -19,6 +21,15 @@ interface ButtonGroupProps {
 }
 
 const ButtonGroup: React.FC<ButtonGroupProps> = ({ children, style }) => {
+  // Modify all the children to have "style={tw.style('flex-1')}"
+  // so that they take up equal space
+  children = React.Children.map(children, (child) => {
+    return React.cloneElement(child as any, {
+      style: tw.style("flex-1", (child as any).props.style),
+    });
+  });
+
+  // Styling
   const containerClasses = tw.style(
     "flex flex-row items-center gap-x-2",
     style,

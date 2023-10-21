@@ -44,6 +44,16 @@ const AppConstants = {
       description: "Will be replaced with phone number of the PNM",
     },
   ],
+
+  /**
+   *  All locally stored user preferences with their default values
+   */
+  preferences: {
+    /**
+     * Whether user has seen the "tutorial" tooltip telling a user to type "@" to see text replacements
+     */
+    messagingTooltipSeen: false,
+  },
 };
 
 export default AppConstants;

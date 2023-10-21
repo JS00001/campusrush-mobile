@@ -22,8 +22,9 @@ import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import { useAuth } from "@/providers/Auth";
-import SegmentedControl from "@/ui/SegmentedControl";
 import AppConstants from "@/lib/constants";
+import SegmentedControl from "@/ui/SegmentedControl";
+import { usePreferences } from "@/providers/Preferences";
 
 interface DevEnvironmentProviderProps {
   children: React.ReactNode;
@@ -32,6 +33,7 @@ interface DevEnvironmentProviderProps {
 const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
   children,
 }) => {
+  const { updatePreferences } = usePreferences();
   // Use data from auth provider
   const { signOut, organization, billingData } = useAuth();
   // The active index of the segmented control
@@ -132,6 +134,23 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
                   }}
                 >
                   Force Logout
+                </Button>
+              </View>
+
+              <View style={tw`w-full gap-y-2`}>
+                <Text style={tw`w-full font-medium`} variant="body">
+                  Preferences Overrides
+                </Text>
+                <Button
+                  iconLeft="ri-settings-3-line"
+                  onPress={() => {
+                    updatePreferences({
+                      ...AppConstants.preferences,
+                    });
+                    handleCloseModalPress();
+                  }}
+                >
+                  Reset All Preferences
                 </Button>
               </View>
 

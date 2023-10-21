@@ -29,7 +29,7 @@ export interface UseCreatePnm {
   instagram?: string;
   snapchat?: string;
 
-  handleSubmission: () => void;
+  handleSubmission: () => Promise<void>;
   validateFields: (fields: (keyof CreatePnmInput)[]) => boolean;
 
   setFirstName: (firstName: string) => void;
@@ -151,8 +151,8 @@ const useCreatePnm = (): UseCreatePnm => {
     setSnapchat: (snapchat: string) => {
       form.setFieldValue("snapchat", snapchat);
     },
-    handleSubmission: () => {
-      form.handleSubmit();
+    handleSubmission: async () => {
+      await form.submitForm();
     },
   };
 };

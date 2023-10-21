@@ -23,6 +23,8 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import IconButton from "@/ui/IconButton";
 import AppConstants from "@/lib/constants";
+import Walkthroughs from "@/components/Walkthroughs";
+import { usePreferences } from "@/providers/Preferences";
 import { TextInputWithNoFontScaling } from "@/ui/TextInput/TextInput";
 
 interface MessageBoxProps {
@@ -32,6 +34,8 @@ interface MessageBoxProps {
 const MessageBox: React.FC<MessageBoxProps> = ({ onSend }) => {
   // The message value that is to be sent
   const [value, setValue] = useState<string>("");
+  // The preferences
+  const { messagingTooltipSeen, updatePreferences } = usePreferences();
   // Whether or not the send button should be disabled (if there is no message)
   const isButtonDisabled = value.length === 0;
 
@@ -43,6 +47,11 @@ const MessageBox: React.FC<MessageBoxProps> = ({ onSend }) => {
     setValue("");
   };
 
+  // When the walkthrough is closed, update the preferences
+  const onWalkthroughClose = () => {
+    updatePreferences({ messagingTooltipSeen: true });
+  };
+
   // Styling
   const containerClasses = tw.style(
     // Positioning and size
@@ -52,31 +61,32 @@ const MessageBox: React.FC<MessageBoxProps> = ({ onSend }) => {
   );
 
   return (
-    <>
-      <View>
-        <CommandAutocomplete value={value} setValue={setValue} />
-        <View style={containerClasses}>
-          {/* TODO: Add events */}
-          <IconButton
-            size="md"
-            icon="ri-calendar-event-line"
-            onPress={() => {}}
-            disabled={true}
-          />
-          <MessagingTextInput
-            placeholder="Send a message"
-            value={value}
-            onChangeText={setValue}
-          />
-          <IconButton
-            size="md"
-            icon="ri-send-plane-2-line"
-            disabled={isButtonDisabled}
-            onPress={onSendPress}
-          />
-        </View>
+    <Walkthroughs.MessageBoxWalkthrough
+      onClose={onWalkthroughClose}
+      isVisible={!messagingTooltipSeen}
+    >
+      <CommandAutocomplete value={value} setValue={setValue} />
+      <View style={containerClasses}>
+        {/* TODO: Add events */}
+        <IconButton
+          size="md"
+          icon="ri-calendar-event-line"
+          onPress={() => {}}
+          disabled
+        />
+        <MessagingTextInput
+          placeholder="Send a message"
+          value={value}
+          onChangeText={setValue}
+        />
+        <IconButton
+          size="md"
+          icon="ri-send-plane-2-line"
+          disabled={isButtonDisabled}
+          onPress={onSendPress}
+        />
       </View>
-    </>
+    </Walkthroughs.MessageBoxWalkthrough>
   );
 };
 
@@ -195,7 +205,7 @@ const CommandAutocomplete: React.FC<CommandAutocompleteProps> = ({
   // The list of keywords to show
   const messagingKeywords = AppConstants.messagingKeywords;
   // State for filtered keywords
-  const [keywords, setKeywords] = useState(messagingKeywords);
+  const [keywords, setKeywords] = useState([] as any);
 
   // Pull the last word typed, if it starts with an @, search & filter the keywords
   useEffect(() => {
@@ -253,7 +263,7 @@ const CommandAutocomplete: React.FC<CommandAutocompleteProps> = ({
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps="always"
     >
-      {keywords.map((keyword, i) => (
+      {keywords.map((keyword: any, i: any) => (
         <TouchableOpacity
           key={keyword.keyword + i}
           style={tw`px-4 border-b border-slate-100 py-3`}

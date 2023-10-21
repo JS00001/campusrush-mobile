@@ -76,6 +76,11 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
     // Set the current letter
     setCurrentLetter(letter);
 
+    // Check if there is more than one pnm in the list
+    if (pnms.length <= 1) {
+      return;
+    }
+
     // Get the index of the section with that letter
     const index = data.findIndex((section) => section.title === letter);
 

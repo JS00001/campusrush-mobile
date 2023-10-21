@@ -16,20 +16,23 @@ import {
   DMSans_500Medium,
   DMSans_700Bold,
 } from "@expo-google-fonts/dm-sans";
+
 import lodash from "lodash";
 import { useEffect } from "react";
 import * as ExpoSplashScreen from "expo-splash-screen";
 
-import { useAuth } from "@/providers/Auth";
 import {
   AuthStack,
   BillingStack,
   VerificationStack,
 } from "@/navigation/stack-navigator";
+import { useAuth } from "@/providers/Auth";
+import { usePreferences } from "@/providers/Preferences";
 import { TabNavigator } from "@/navigation/tab-navigator";
 
 const RootNavigator = () => {
-  const { isLoading, organization, billingData } = useAuth();
+  const { isLoading: isPreferencesLoading } = usePreferences();
+  const { isLoading: isAuthLoading, organization, billingData } = useAuth();
   const [fontsLoaded] = useFonts({
     DMSans_400Regular,
     DMSans_500Medium,
@@ -38,14 +41,16 @@ const RootNavigator = () => {
 
   // Hide the splash screen when the app is fully loaded
   useEffect(() => {
-    if (fontsLoaded && !isLoading) ExpoSplashScreen.hideAsync();
-  }, [fontsLoaded, isLoading]);
+    if (fontsLoaded && !isAuthLoading && !isPreferencesLoading) {
+      ExpoSplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, isAuthLoading]);
 
   // If the user is loading, we can't render the app
-  if (isLoading && lodash.isEmpty(organization)) return null;
+  if (isAuthLoading && lodash.isEmpty(organization)) return null;
 
   // If the fonts are not loaded or the user is loading, we can't render the app
-  if (!fontsLoaded || isLoading) return null;
+  if (!fontsLoaded || isAuthLoading) return null;
 
   // If the user is not logged in, we show the AuthStack
   if (lodash.isEmpty(organization)) return <AuthStack />;
