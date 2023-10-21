@@ -20,7 +20,7 @@ import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
 import PnmsList from "@/components/PnmsList";
 
-const PNMs = () => {
+const PNMs: React.FC = () => {
   const {
     pnms,
     isLoading,

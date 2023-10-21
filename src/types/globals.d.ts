@@ -109,6 +109,8 @@ interface Conversation {
   read: boolean;
   // The last message sent or received
   lastMessage: string;
+  // When the last message was sent or received
+  lastMessageAt: Date;
   // When the conversation was last updated
   updatedAt: Date;
   // When the conversation was created

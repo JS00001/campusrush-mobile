@@ -18,6 +18,7 @@ import {
 } from "react-native";
 import { debounce } from "lodash";
 import { useMemo, useRef, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -30,6 +31,8 @@ interface PnmsListProps {
 }
 
 const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
+  // Access navigation
+  const navigation = useNavigation();
   // Create a ref to the sectionlist so we can scroll to a specific index programatically
   const sectionListRef = useRef<SectionList>(null);
   // Whether or not the list is refreshing
@@ -143,14 +146,21 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
   };
 
   // The components for each item in teh section list
-  const ItemComponent = ({ item: pnm }: { item: PNM }) => (
-    <ListItem
-      key={pnm._id}
-      title={`${pnm.firstName} ${pnm.lastName}`}
-      subtitle={pnm.phoneNumber}
-      badge={pnm.receivedBid ? "Bid" : undefined}
-    />
-  );
+  const ItemComponent = ({ item: pnm }: { item: PNM }) => {
+    const onPress = () => {
+      (navigation.navigate as any)("PNMDetails", { pnm });
+    };
+
+    return (
+      <ListItem
+        key={pnm._id}
+        title={`${pnm.firstName} ${pnm.lastName}`}
+        subtitle={pnm.phoneNumber}
+        badge={pnm.receivedBid ? "Bid" : undefined}
+        onPress={onPress}
+      />
+    );
+  };
 
   const ListEmptyComponent = () => {
     if (loading) {

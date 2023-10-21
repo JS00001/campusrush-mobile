@@ -20,7 +20,7 @@ import Skeleton from "@/ui/Skeleton";
 interface ActionCardProps {
   title: string;
   subtitle: string;
-  icon: string;
+  icon?: string;
   pressable?: boolean;
   size?: keyof typeof sizeClasses;
   onPress?: () => void;
@@ -79,13 +79,15 @@ const ActionCard: React.FC<ActionCardProps> = ({
     >
       <View style={childContainerClasses}>
         {/* Left side icon */}
-        <View
-          style={tw.style(
-            size != "lg" && "p-2 rounded-sm bg-slate-200 self-start",
-          )}
-        >
-          <RemixIcon name={icon} size={24} color={tw.color("primary")} />
-        </View>
+        {icon && (
+          <View
+            style={tw.style(
+              size != "lg" && "p-2 rounded-sm bg-slate-200 self-start",
+            )}
+          >
+            <RemixIcon name={icon} size={24} color={tw.color("primary")} />
+          </View>
+        )}
 
         {/* Title and subtitle for size=lg */}
         <View style={tw.style(size != "lg" && "hidden", "shrink")}>

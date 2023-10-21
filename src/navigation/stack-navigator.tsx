@@ -19,6 +19,8 @@ import AdminStatisticsScreen from "@/navigation/screens/admin/Statistics";
 import AdminOrganizationsScreen from "@/navigation/screens/admin/Organizations";
 
 import PNMsScreen from "@/navigation/screens/pnms/PNMs";
+import PNMDetailsScreen from "@/navigation/screens/pnms/Details";
+import PNMUpdateDetailsScreen from "@/navigation/screens/pnms/UpdateDetails";
 
 import HomeScreen from "@/navigation/screens/home/Home";
 
@@ -169,6 +171,14 @@ export const PNMsStack = () => {
       <Stack.Screen
         name="PNMs"
         component={PNMsScreen}
+      />
+      <Stack.Screen
+        name="PNMDetails"
+        component={PNMDetailsScreen}
+      />
+      <Stack.Screen
+        name="PNMUpdateDetails"
+        component={PNMUpdateDetailsScreen}
       />
     </Stack.Navigator>
   );

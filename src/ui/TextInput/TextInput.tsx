@@ -148,7 +148,6 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
   // On initial load, animate the placeholder if there is a value
   useEffect(() => {
     if (value) {
-      setIsFocused(true);
       animatePlaceholder(-8, 14);
     }
   }, []);
