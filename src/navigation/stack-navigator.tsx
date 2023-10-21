@@ -18,7 +18,7 @@ import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
 import AdminStatisticsScreen from "@/navigation/screens/admin/Statistics";
 import AdminOrganizationsScreen from "@/navigation/screens/admin/Organizations";
 
-import PNMsScreen from "@/navigation/screens/pnms/PNMs";
+import PNMsScreen from "@/navigation/screens/pnms/Pnms";
 import PNMDetailsScreen from "@/navigation/screens/pnms/Details";
 import PNMUpdateDetailsScreen from "@/navigation/screens/pnms/UpdateDetails";
 

@@ -16,7 +16,6 @@ import {
   SectionList,
   RefreshControl,
 } from "react-native";
-import { debounce } from "lodash";
 import { useMemo, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
@@ -117,7 +116,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
   };
 
   // When the viewable items change, get the first item and set the current letter to the first letter of the first item
-  const onViewableItemsChanged = debounce((info) => {
+  const onViewableItemsChanged = (info: any) => {
     // Get the first item
     const firstItem = info.viewableItems[0];
 
@@ -129,7 +128,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
 
     // Set is scrolling to false
     setIsScrolling(false);
-  }, 100);
+  };
 
   // When the list is scrolling, set is scrolling to true
   const handleScroll = () => {

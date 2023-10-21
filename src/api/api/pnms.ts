@@ -39,7 +39,30 @@ const createPnm = (data: CreatePnmInput): Promise<CreatePnmAPIResponse> => {
   return pnmsAPIClient.post(`${PREFIX}/create`, data);
 };
 
+/**
+ * PUT /api/v1/pnms/update/:id
+ *
+ * Returns
+ * - data
+ *  - pnm
+ */
+const updatePnm = (data: UpdatePnmInput): Promise<UpdatePnmAPIResponse> => {
+  return pnmsAPIClient.put(`${PREFIX}/update/${data.id}`, data);
+};
+
+/**
+ * DELETE /api/v1/pnms/delete/:id
+ *
+ * Returns
+ * - data
+ */
+const deletePnm = (data: DeletePnmInput): Promise<DeletePnmAPIResponse> => {
+  return pnmsAPIClient.delete(`${PREFIX}/delete/${data.id}`);
+};
+
 export default {
   getPnms,
   createPnm,
+  updatePnm,
+  deletePnm,
 };

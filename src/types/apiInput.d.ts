@@ -103,3 +103,17 @@ interface CreatePnmInput {
   instagram?: string;
   snapchat?: string;
 }
+
+interface UpdatePnmInput {
+  id: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  classification?: string;
+  instagram?: string;
+  snapchat?: string;
+}
+
+interface DeletePnmInput {
+  id: string;
+}

@@ -61,6 +61,8 @@ const PNMs: React.FC = () => {
         >
           <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
         </MenuView>
+
+        <IconButton icon="ri-more-fill" style={tw`flex-grow`} />
       </View>
 
       <PnmsList loading={isLoading} pnms={pnms} onRefetch={onRefetch} />

@@ -28,6 +28,8 @@ interface APIError {
 
 type LogoutAPIResponse = APIResponse;
 
+type DeletePnmAPIResponse = APIResponse;
+
 type GetOrganizationsAPIResponse = APIResponse & {
   data: {
     data: {
@@ -209,6 +211,14 @@ type SendMessageAPIResponse = APIResponse & {
 };
 
 type CreatePnmAPIResponse = APIResponse & {
+  data: {
+    data: {
+      pnm: PNM;
+    };
+  };
+};
+
+type UpdatePnmAPIResponse = APIResponse & {
   data: {
     data: {
       pnm: PNM;
