@@ -48,7 +48,8 @@
     "react-native-svg": "13.9.0",
     "react-native-toast-message": "^2.1.6",
     "react-native-walkthrough-tooltip": "^1.5.0",
-    "twrnc": "^3.6.3"
+    "twrnc": "^3.6.3",
+    "zustand": "^4.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

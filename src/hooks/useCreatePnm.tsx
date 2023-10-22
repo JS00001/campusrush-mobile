@@ -17,30 +17,14 @@ import { useMutation } from "@tanstack/react-query";
 
 import pnmApi from "@/api/api/pnms";
 import validators from "@/lib/validators";
+import usePnmsStore from "@/state/pnms";
+import useStatisticsStore from "@/state/statistics";
 
-export interface UseCreatePnm {
-  isLoading: boolean;
-  errors: Record<string, string>;
+const useCreatePnm = () => {
+  const { addPnms } = usePnmsStore();
+  const { numPnms, recentPnms, setNumPnms, setRecentPnms } =
+    useStatisticsStore();
 
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  classification: string;
-  instagram?: string;
-  snapchat?: string;
-
-  handleSubmission: () => Promise<void>;
-  validateFields: (fields: (keyof CreatePnmInput)[]) => boolean;
-
-  setFirstName: (firstName: string) => void;
-  setLastName: (lastName: string) => void;
-  setPhoneNumber: (phoneNumber: string) => void;
-  setClassification: (classification: string) => void;
-  setInstagram: (instagram: string) => void;
-  setSnapchat: (snapchat: string) => void;
-}
-
-const useCreatePnm = (): UseCreatePnm => {
   const mutation = useMutation({
     mutationFn: (input: CreatePnmInput) => {
       return pnmApi.createPnm(input);
@@ -83,6 +67,15 @@ const useCreatePnm = (): UseCreatePnm => {
       // If there was an error, there is no response
       // This is to prevent the code below from running
       if (!response) return;
+
+      // Add the pnm to the store
+      addPnms([response.data.data.pnm]);
+
+      // Update the number of pnms
+      setNumPnms(numPnms + 1);
+
+      // Update the recent pnms to remove the last one and add the new one
+      setRecentPnms([response.data.data.pnm, ...recentPnms.slice(0, -1)]);
 
       // Clear all of the fields and errors
       form.resetForm();

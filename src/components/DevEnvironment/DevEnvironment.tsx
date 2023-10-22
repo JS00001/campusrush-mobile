@@ -26,13 +26,7 @@ import AppConstants from "@/lib/constants";
 import SegmentedControl from "@/ui/SegmentedControl";
 import { usePreferences } from "@/providers/Preferences";
 
-interface DevEnvironmentProviderProps {
-  children: React.ReactNode;
-}
-
-const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
-  children,
-}) => {
+const DevEnvironment: React.FC = ({}) => {
   const { updatePreferences } = usePreferences();
   // Use data from auth provider
   const { signOut, organization, billingData } = useAuth();
@@ -70,7 +64,6 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
 
   return (
     <>
-      {children}
       <BottomSheetModal
         ref={bottomSheetModalRef}
         index={0}
@@ -279,4 +272,4 @@ const listenForShake = (shakeAction: () => void) => {
   return subscription;
 };
 
-export default DevEnvironmentProvider;
+export default DevEnvironment;

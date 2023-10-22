@@ -14,11 +14,9 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 
-import {
-  ConversationStatus,
-  useConversations,
-} from "@/providers/Conversations";
 import messagingApi from "@/api/api/messaging";
+import useConversations from "@/hooks/useConversations";
+import { ConversationStatus } from "@/state/conversations";
 
 const useMessageSender = (_pnms: PNM[]) => {
   // Create a navigation state so we can navigate back to the conversations screen
@@ -28,7 +26,7 @@ const useMessageSender = (_pnms: PNM[]) => {
   const [pnms, setPnms] = useState(_pnms);
 
   // Use the conversations hook to add conversations to the state variable
-  const { addConversations, setStatus } = useConversations();
+  const { setStatus, addConversations } = useConversations();
 
   // Create a mutation to send a message
   const mutation = useMutation({

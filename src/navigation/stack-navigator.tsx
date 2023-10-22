@@ -50,7 +50,6 @@ import UpdateSecurityScreen from "@/navigation/screens/settings/organization/Upd
 import UpdateOrganizationScreen from "@/navigation/screens/settings/organization/UpdateOrganization";
 
 import RegistrationProvider from "@/providers/Registration";
-import ConversationsProvider from "@/providers/Conversations";
 
 export const Stack = createNativeStackNavigator();
 
@@ -213,22 +212,20 @@ export const AddStack = () => {
  */
 export const MessagesStack = () => {
   return (
-    <ConversationsProvider>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen
-          name="Messages"
-          component={MessagesScreen}
-        />
-        <Stack.Screen
-          name="NewMessage"
-          component={NewMessageScreen}
-        />
-        <Stack.Screen
-          name="Chat"
-          component={ChatScreen}
-        />
-      </Stack.Navigator>
-    </ConversationsProvider>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name="Messages"
+        component={MessagesScreen}
+      />
+      <Stack.Screen
+        name="NewMessage"
+        component={NewMessageScreen}
+      />
+      <Stack.Screen
+        name="Chat"
+        component={ChatScreen}
+      />
+    </Stack.Navigator>
   );
 };
 

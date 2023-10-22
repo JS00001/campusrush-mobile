@@ -15,7 +15,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
 import messagingApi from "@/api/api/messaging";
-import { useConversations } from "@/providers/Conversations";
+import useConversations from "@/hooks/useConversations";
 
 const useMessages = (pnmId: string) => {
   // Get access token so that we can cache the query

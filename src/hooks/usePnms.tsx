@@ -16,6 +16,7 @@ import { MenuAction } from "@react-native-menu/menu";
 
 import pnmsApi from "@/api/api/pnms";
 import { useAuth } from "@/providers/Auth";
+import usePnmsStore from "@/state/pnms";
 
 export enum PNMFilter {
   NoFilter = "NO_FILTER",
@@ -32,7 +33,7 @@ const usePnms = () => {
   const { accessToken } = useAuth();
 
   // Create a state variable to store the filtered PNMs and the PNMs
-  const [pnms, setPnms] = useState<PNM[]>([]);
+  const { pnms, setPnms } = usePnmsStore();
   const [filteredPnms, setFilteredPnms] = useState<PNM[]>([]);
 
   // All filtering options

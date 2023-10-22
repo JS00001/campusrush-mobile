@@ -25,10 +25,10 @@ import AxiosIntercepter from "@/providers/Axios";
 import PurchasesProvider from "@/providers/Purchases";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
+import DevEnvironment from "@/components/DevEnvironment";
 import BottomSheetProvider from "@/providers/BottomSheet";
 import PreferencesProvider from "@/providers/Preferences";
 import NotificationsProvider from "@/providers/Notifications";
-import DevEnvironmentProvider from "@/providers/DevEnvironment";
 
 // Prevent native splash screen from autohiding
 // when app/component is mounted
@@ -49,12 +49,11 @@ const App = () => {
                 <NotificationsProvider>
                   <GestureHandlerRootView style={{ flex: 1 }}>
                     <BottomSheetModalProvider>
-                      <DevEnvironmentProvider>
-                        <BottomSheetProvider>
-                          <RootNavigator />
-                          <Toast config={toastConfig} />
-                        </BottomSheetProvider>
-                      </DevEnvironmentProvider>
+                      <BottomSheetProvider>
+                        <DevEnvironment />
+                        <RootNavigator />
+                        <Toast config={toastConfig} />
+                      </BottomSheetProvider>
                     </BottomSheetModalProvider>
                   </GestureHandlerRootView>
                 </NotificationsProvider>

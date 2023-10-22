@@ -15,11 +15,6 @@ import { MenuView } from "@react-native-menu/menu";
 import { ActivityIndicator, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import {
-  ConversationStatus,
-  useConversations,
-} from "@/providers/Conversations";
-
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import TextInput from "@/ui/TextInput";
@@ -27,7 +22,9 @@ import StatusIcon from "@/ui/StatusIcon";
 import IconButton from "@/ui/IconButton";
 import ActionButton from "@/ui/ActionButton";
 import Conversations from "@/components/Conversations";
+import useConversations from "@/hooks/useConversations";
 import { useBottomSheets } from "@/providers/BottomSheet";
+import { ConversationStatus } from "@/state/conversations";
 
 interface MessagesProps {
   navigation: NativeStackNavigationProp<any>;
