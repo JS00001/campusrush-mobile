@@ -10,14 +10,26 @@
  * Do not distribute
  */
 
-import { useAuth } from "@/providers/Auth";
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
+import { useAuth } from "@/providers/Auth";
+import useStatisticsStore from "@/state/statistics";
 import organizationApi from "@/api/api/organization";
 
 const useStatistics = () => {
   // Get access token so that we can cache the query
   const { accessToken } = useAuth();
+
+  // Get the statistics store
+  const {
+    numPnms,
+    numBids,
+    recentPnms,
+    setNumBids,
+    setRecentPnms,
+    setNumPnms,
+  } = useStatisticsStore();
 
   // Create a query to get the organization statistics
   const query = useQuery({
@@ -29,9 +41,14 @@ const useStatistics = () => {
   });
 
   // Extract the data from the query
-  const numPnms = query.data?.data?.data.numPnms || 0;
-  const numBids = query.data?.data?.data.numPnmsWithBid || 0;
-  const recentPnms = query.data?.data?.data.recentPnms || [];
+  useEffect(() => {
+    // If there is valid response data, set the statistics in the store
+    if (query.data?.data?.data) {
+      setNumPnms(query.data?.data?.data.numPnms || 0);
+      setNumBids(query.data?.data?.data.numPnmsWithBid || 0);
+      setRecentPnms(query.data?.data?.data.recentPnms || []);
+    }
+  }, [query.data?.data?.data]);
 
   return {
     ...query,

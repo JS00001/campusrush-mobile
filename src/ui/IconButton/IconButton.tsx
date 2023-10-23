@@ -50,14 +50,14 @@ const IconButton: React.FC<IconButtonProps> = ({
   style,
   ...props
 }) => {
+  const iconColor = disabled ? tw.color("slate-300") : tw.color("primary");
+
   // Styling
   const containerClasses = tw.style(
     // Base styles
     "rounded-full bg-slate-100 ",
     // Size styles
     sizeClasses[size].container,
-    // Disabled styles
-    disabled && "opacity-30",
     // Custom styles
     style,
   );
@@ -69,11 +69,7 @@ const IconButton: React.FC<IconButtonProps> = ({
       disabled={disabled}
       style={containerClasses}
     >
-      <RemixIcon
-        name={icon}
-        size={sizeClasses[size].icon}
-        color={tw.color("primary")}
-      />
+      <RemixIcon name={icon} size={sizeClasses[size].icon} color={iconColor} />
     </TouchableOpacity>
   );
 };

@@ -20,6 +20,8 @@ import tw from "@/lib/tailwind";
 interface PrivacyPolicyProps {
   innerRef: React.RefObject<any>;
   handleCloseModalPress: () => void;
+  handleSnapToIndex: (index: number) => void;
+  handleSnapToPosition: (position: string) => void;
 }
 
 const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({

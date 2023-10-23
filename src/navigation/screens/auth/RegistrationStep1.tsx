@@ -48,7 +48,7 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
   };
 
   return (
-    <Layout gap={18} hasTermsAndConditions>
+    <Layout gap={18} hasTermsAndConditions keyboardAvoiding>
       <Layout.Header
         hasBackButton
         title="Register"

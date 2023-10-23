@@ -12,7 +12,7 @@
 
 const timeAgo = (date: Date | string): string => {
   const seconds = Math.floor((+new Date() - +new Date(date)) / 1000);
-  if (seconds < 29) return 'Just now';
+  if (seconds < 29) return "Just now";
 
   const intervals = {
     yr: 31536000,
@@ -37,6 +37,16 @@ const timeAgo = (date: Date | string): string => {
   return date.toLocaleString();
 };
 
+const toString = (date: Date | string): string => {
+  // Convert to Month Name Day, Year
+  return new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
 export default {
   timeAgo,
+  toString,
 };

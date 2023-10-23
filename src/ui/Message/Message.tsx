@@ -18,20 +18,26 @@ import tw from "@/lib/tailwind";
 interface MessageProps {
   content: string;
   sent: boolean;
+  date?: string;
   createdAt?: string;
 }
 
-const Message: React.FC<MessageProps> = ({ content, sent, createdAt }) => {
+const Message: React.FC<MessageProps> = ({
+  content,
+  sent,
+  date,
+  createdAt,
+}) => {
   // Convert the createdAt string to a Date object
-  const date = new Date(createdAt ?? "");
+  const createdDate = new Date(createdAt ?? "");
   // Extract just the time from the Date object
-  const time = date.toLocaleTimeString([], {
+  const time = createdDate.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
   });
 
   // Style the message bubble for a sent message
-  const sentMessageClasses = tw.style("bg-blue-800 self-end max-w-4/5");
+  const sentMessageClasses = tw.style("bg-blue-600 self-end max-w-4/5");
   // Style the message text for a sent message
   const sentTextClasses = tw.style("text-white");
 
@@ -59,13 +65,27 @@ const Message: React.FC<MessageProps> = ({ content, sent, createdAt }) => {
   // The styling for the message timestamp, based on whether the message was sent or received
   const timestampClasses = tw.style(
     // Shared styles
-    "text-gray-500 -mt-2",
+    "text-gray-500 mt-1",
     // Conditional styles
     sent ? "self-end" : "self-start",
   );
 
+  const dateClasses = tw.style(
+    // Shared styles
+    "text-gray-500  my-4",
+    // Conditional styles
+    "self-center",
+  );
+
   return (
-    <>
+    <View>
+      {/* Date if provided */}
+      {date === undefined ? null : (
+        <Text variant="subtext" style={dateClasses}>
+          {date}
+        </Text>
+      )}
+
       {/* Message bubble and content */}
       <View style={messageClasses}>
         <Text style={textClasses}>{content}</Text>
@@ -77,7 +97,7 @@ const Message: React.FC<MessageProps> = ({ content, sent, createdAt }) => {
           {time}
         </Text>
       )}
-    </>
+    </View>
   );
 };
 

@@ -13,6 +13,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
+import ChatHeader from "@/components/ChatHeader";
 import MessageBox from "@/components/MessageBox";
 import useMessageSender from "@/hooks/messaging/useMessageSender";
 
@@ -32,7 +33,9 @@ const NewMessage: React.FC<NewMessageProps> = ({ route }) => {
   return (
     <>
       <Layout scrollable gap={8}>
-        <Layout.ChatHeader pnms={pnms} onPnmRemove={onPnmRemove} />
+        <Layout.CustomHeader>
+          <ChatHeader pnms={pnms} onPnmRemove={onPnmRemove} />
+        </Layout.CustomHeader>
 
         <Layout.Footer keyboardAvoiding>
           <MessageBox onSend={sendMessage} />

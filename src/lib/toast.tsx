@@ -18,17 +18,17 @@ const toastConfig = {
   success: (props: any) => (
     <BaseToast
       {...props}
-      style={tw`border-l-green-400 bg-slate-600 border border-slate-500`}
-      text1Style={tw`text-white text-xs font-medium`}
-      text2Style={tw`text-white text-sm`}
+      style={tw`bg-white rounded-full border-l-green-400 shadow-sm`}
+      text1Style={tw`text-black text-sm font-medium`}
+      text2Style={tw`text-black text-sm`}
     />
   ),
   error: (props: any) => (
     <BaseToast
       {...props}
-      style={tw`border-l-red-400 bg-slate-600 border border-slate-500`}
-      text1Style={tw`text-white text-xs font-medium`}
-      text2Style={tw`text-white text-sm`}
+      style={tw`bg-white rounded-full border-l-red-500  shadow-sm`}
+      text1Style={tw`text-black text-sm font-medium`}
+      text2Style={tw`text-black text-sm`}
     />
   ),
 };

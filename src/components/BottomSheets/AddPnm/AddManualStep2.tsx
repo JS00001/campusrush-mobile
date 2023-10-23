@@ -1,0 +1,106 @@
+/*
+ * Created on Mon Oct 16 2023
+ *
+ * This software is the proprietary property of CampusRush.
+ * All rights reserved. Unauthorized copying, modification, or distribution
+ * of this software, in whole or in part, is strictly prohibited.
+ * For licensing information contact CampusRush.
+ *
+ * Copyright (c) 2023 CampusRush
+ * Do not distribute
+ */
+
+import tw from "@/lib/tailwind";
+import { View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+import { AddPnmScreens } from "./types";
+
+import Text from "@/ui/Text";
+import Button from "@/ui/Button";
+import TextInput from "@/ui/TextInput";
+import ButtonGroup from "@/ui/ButtonGroup";
+import type { UseCreatePnm } from "@/hooks/useCreatePnm";
+
+/**
+ * The props for this screen extend the values of the "useCreatePnm" hook
+ * This is because all of the values from the hook are passed from the parent
+ * component, and the parent component is the one that is responsible for
+ * handling the state of the forms.
+ */
+interface AddManualStep2ScreenProps extends UseCreatePnm {
+  handleCloseModalPress: () => void;
+  setScreen: (screen: AddPnmScreens) => void;
+  handleSnapToPosition: (position: string) => void;
+}
+
+const AddManualStep2: React.FC<AddManualStep2ScreenProps> = ({
+  setScreen,
+  handleSnapToPosition,
+  handleCloseModalPress,
+  ...props
+}) => {
+  // When the back button is pressed, return to the previous step
+  const onBackPress = () => {
+    setScreen(AddPnmScreens.AddManualStep1);
+  };
+
+  // When the next button is pressed, make sure the fields are valid
+  // and then go to the next step
+  const onNextPress = () => {
+    const isValid = props.validateFields([
+      "firstName",
+      "lastName",
+      "phoneNumber",
+    ]);
+
+    if (!isValid) return;
+
+    setScreen(AddPnmScreens.AddManualStep3);
+  };
+
+  // When a text input is focused (keyboard is opened), snap to the top
+  // so that the user can see the inputs fully
+  const onFocus = () => {
+    handleSnapToPosition("85%");
+  };
+
+  return (
+    <KeyboardAwareScrollView
+      style={tw`p-6`}
+      contentContainerStyle={tw`gap-y-4 flex-1`}
+    >
+      <View style={tw`mb-2`}>
+        <Text variant="title">Social Media</Text>
+        <Text variant="body">Enter the PNM's known social media</Text>
+      </View>
+
+      <TextInput
+        placeholder="Instagram"
+        value={props.instagram}
+        onFocus={onFocus}
+        onChangeText={props.setInstagram}
+        error={props.errors?.instagram}
+      />
+
+      <TextInput
+        placeholder="Snapchat"
+        value={props.snapchat}
+        onFocus={onFocus}
+        onChangeText={props.setSnapchat}
+        error={props.errors?.snapchat}
+      />
+
+      <ButtonGroup>
+        <Button size="sm" color="gray" onPress={onBackPress}>
+          Go Back
+        </Button>
+        <Button size="sm" onPress={onNextPress}>
+          Next
+        </Button>
+      </ButtonGroup>
+    </KeyboardAwareScrollView>
+  );
+};
+
+export default AddManualStep2;

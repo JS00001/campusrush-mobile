@@ -1,5 +1,5 @@
 /*
- * Created on Sun Sep 10 2023
+ * Created on Tue Oct 17 2023
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,11 +10,11 @@
  * Do not distribute
  */
 
-import { useMemo } from "react";
 import Toast from "react-native-toast-message";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { ScrollView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Pressable, ScrollView, View } from "react-native";
+
+import { NewMessageScreens } from "./types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -22,20 +22,23 @@ import ActionCard from "@/ui/ActionCard";
 import useContacts from "@/hooks/messaging/useContacts";
 
 interface NewMessageProps {
-  innerRef: React.RefObject<any>;
   handleCloseModalPress: () => void;
+  setScreen: (screen: NewMessageScreens) => void;
 }
 
 const NewMessage: React.FC<NewMessageProps> = ({
-  innerRef,
   handleCloseModalPress,
+  setScreen,
 }) => {
-  // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["65%"], []);
   // Navigation hook to navigate to new message screen
   const navigation = useNavigation();
   // Custom hook to get contacts
-  const { isLoading, refetch, uncontactedPnms, allPnms } = useContacts();
+  const { isLoading, uncontactedPnms, allPnms } = useContacts();
+
+  // When the user presses the direct message button
+  const onMessagePress = () => {
+    setScreen(NewMessageScreens.DirectMessage);
+  };
 
   // When the user presses the message all button
   const onMessageAllPress = () => {
@@ -83,58 +86,34 @@ const NewMessage: React.FC<NewMessageProps> = ({
     });
   };
 
-  // When the bottom sheet modal is open
-  const onBottomSheetOpen = (index: number) => {
-    // If the bottom sheet modal is open
-    if (index === 0) {
-      // Refetch the contacts
-      refetch();
-    }
-  };
-
   return (
-    <BottomSheetModal
-      ref={innerRef}
-      index={0}
-      snapPoints={snapPoints}
-      // On open callback
-      onChange={onBottomSheetOpen}
-      backdropComponent={() => (
-        <Pressable
-          style={tw`h-full w-full absolute bg-black opacity-20`}
-          onPress={handleCloseModalPress}
-        />
-      )}
-    >
-      <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-4`}>
-        <View>
-          <Text variant="title">New Message</Text>
-          <Text variant="body" style={tw`text-slate-600`}>
-            Start a new message with potential members
-          </Text>
-        </View>
-        <ActionCard
-          title="Message All"
-          subtitle="Send a message to all PNMs"
-          icon="ri-chat-voice-fill"
-          loading={isLoading}
-          onPress={onMessageAllPress}
-        />
-        <ActionCard
-          title="Direct Message"
-          subtitle="Start a message with a single user"
-          icon="ri-chat-private-fill"
-          loading={isLoading}
-        />
-        <ActionCard
-          title="Message New Members"
-          subtitle="Send a message to all PNMs you have not contacted"
-          icon="ri-chat-history-fill"
-          loading={isLoading}
-          onPress={onMessageNewMembersPress}
-        />
-      </ScrollView>
-    </BottomSheetModal>
+    <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-4`}>
+      <View>
+        <Text variant="title">New Message</Text>
+        <Text variant="body">Start a new message with potential members</Text>
+      </View>
+      <ActionCard
+        title="Message All"
+        subtitle="Send a message to all PNMs"
+        icon="ri-chat-voice-fill"
+        loading={isLoading}
+        onPress={onMessageAllPress}
+      />
+      <ActionCard
+        title="Direct Message"
+        subtitle="Start a message with a single user"
+        icon="ri-chat-private-fill"
+        loading={isLoading}
+        onPress={onMessagePress}
+      />
+      <ActionCard
+        title="Message New Members"
+        subtitle="Send a message to all PNMs you have not contacted"
+        icon="ri-chat-history-fill"
+        loading={isLoading}
+        onPress={onMessageNewMembersPress}
+      />
+    </ScrollView>
   );
 };
 

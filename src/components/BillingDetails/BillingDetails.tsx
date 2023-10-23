@@ -31,6 +31,7 @@ const BillingDetails: React.FC<BillingDetailsProps> = ({ activeProducts }) => {
     <View style={tw`w-full`}>
       {activeProducts.map((product) => (
         <SelectionCard
+          key={product.title}
           pressable={false}
           title={product.title}
           subtitle={product.subtitle}
@@ -38,13 +39,13 @@ const BillingDetails: React.FC<BillingDetailsProps> = ({ activeProducts }) => {
         >
           {product.perks.length > 0 &&
             product.perks.map((perk) => (
-              <View style={tw`flex-row gap-2`}>
+              <View key={perk} style={tw`flex-row gap-2`}>
                 <RemixIcon
                   name="ri-check-line"
                   color={tw.color("primary")}
                   size={20}
                 />
-                <Text style={tw`text-slate-500`}>{perk}</Text>
+                <Text>{perk}</Text>
               </View>
             ))}
         </SelectionCard>

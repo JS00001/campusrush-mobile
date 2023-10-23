@@ -16,85 +16,85 @@ const validateRegistration = (
   schools: string[],
 ) => {
   const errors = {
-    name: '',
-    school: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    firstName: '',
-    lastName: '',
+    name: "",
+    school: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    firstName: "",
+    lastName: "",
   };
 
   if (!input.name) {
-    errors.name = 'Organization is required';
+    errors.name = "Organization is required";
   }
 
   if (!input.school) {
-    errors.school = 'School is required';
+    errors.school = "School is required";
   }
 
   if (!input.email) {
-    errors.email = 'Email is required';
+    errors.email = "Email is required";
   }
 
   if (!input.password) {
-    errors.password = 'Password is required';
+    errors.password = "Password is required";
   }
 
   if (!input.confirmPassword) {
-    errors.confirmPassword = 'Confirm password is required';
+    errors.confirmPassword = "Confirm password is required";
   }
 
   if (input.password !== input.confirmPassword) {
     if (!errors.password && !errors.confirmPassword) {
-      errors.password = 'Passwords do not match';
-      errors.confirmPassword = 'Passwords do not match';
+      errors.password = "Passwords do not match";
+      errors.confirmPassword = "Passwords do not match";
     }
   }
 
   if (!input.firstName) {
-    errors.firstName = 'First name is required';
+    errors.firstName = "First name is required";
   }
 
   if (!input.lastName) {
-    errors.lastName = 'Last name is required';
+    errors.lastName = "Last name is required";
   }
 
   // Validate email is a valid email
   const emailRegex = /\S+@\S+\.\S+/;
   if (!emailRegex.test(input.email)) {
-    if (!errors.email) errors.email = 'Invalid email address';
+    if (!errors.email) errors.email = "Invalid email address";
   }
 
   // Validate password is at least 6 characters
   if (input.password.length < 6) {
-    if (!errors.password) errors.password = 'Password too short';
+    if (!errors.password) errors.password = "Password too short";
   }
 
   // Validate name only has letters
   const nameRegex = /^[a-zA-Z]+$/;
 
   if (!nameRegex.test(input.firstName)) {
-    if (!errors.firstName) errors.firstName = 'Invalid first name';
+    if (!errors.firstName) errors.firstName = "Invalid first name";
   }
 
   if (!nameRegex.test(input.lastName)) {
-    if (!errors.lastName) errors.lastName = 'Invalid last name';
+    if (!errors.lastName) errors.lastName = "Invalid last name";
   }
 
   // Validate organization name is a valid organization name
   if (!organizations.includes(input.name)) {
-    if (!errors.name) errors.name = 'Invalid organization';
+    if (!errors.name) errors.name = "Invalid organization";
   }
 
   // Validate school name is a valid school name
   if (!schools.includes(input.school)) {
-    if (!errors.school) errors.school = 'Invalid school name';
+    if (!errors.school) errors.school = "Invalid school name";
   }
 
   // Check if all errors are empty
   // If so, return an empty object
-  const allErrors = Object.values(errors).filter((error) => error !== '');
+  const allErrors = Object.values(errors).filter((error) => error !== "");
 
   if (allErrors.length === 0) {
     return {} as RegisterAsOrganizationInput;
@@ -105,28 +105,28 @@ const validateRegistration = (
 
 const validateLogin = (input: LoginAsOrganizationInput) => {
   const errors = {
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   };
 
   if (!input.email) {
-    errors.email = 'Email is required';
+    errors.email = "Email is required";
   }
 
   if (!input.password) {
-    errors.password = 'Password is required';
+    errors.password = "Password is required";
   }
 
   // Validate email is a valid email
   const emailRegex = /\S+@\S+\.\S+/;
 
   if (!emailRegex.test(input.email)) {
-    if (!errors.email) errors.email = 'Invalid email address';
+    if (!errors.email) errors.email = "Invalid email address";
   }
 
   // Check if all errors are empty
   // If so, return an empty object
-  const allErrors = Object.values(errors).filter((error) => error !== '');
+  const allErrors = Object.values(errors).filter((error) => error !== "");
 
   if (allErrors.length === 0) {
     return {} as LoginAsOrganizationInput;
@@ -137,61 +137,155 @@ const validateLogin = (input: LoginAsOrganizationInput) => {
 
 const validateSettings = (input: UpdateOrganizationInput) => {
   const errors = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    currentPassword: '',
-    newPassword: '',
-    confirmNewPassword: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    currentPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
   };
 
   if (!input.currentPassword) {
-    errors.currentPassword = 'Current password is required';
+    errors.currentPassword = "Current password is required";
   }
 
   if (!input.newPassword) {
-    errors.newPassword = 'Password is required';
+    errors.newPassword = "Password is required";
   }
 
   if (!input.confirmNewPassword) {
-    errors.confirmNewPassword = 'Password is required';
+    errors.confirmNewPassword = "Password is required";
   }
 
   if (input.newPassword !== input.confirmNewPassword) {
     if (!errors.newPassword && !errors.confirmNewPassword) {
-      errors.newPassword = 'Passwords do not match';
-      errors.confirmNewPassword = 'Passwords do not match';
+      errors.newPassword = "Passwords do not match";
+      errors.confirmNewPassword = "Passwords do not match";
     }
   }
 
   const nameRegex = /^[a-zA-Z]+$/;
 
   if (input.firstName && !nameRegex.test(input.firstName)) {
-    if (!errors.firstName) errors.firstName = 'Invalid first name';
+    if (!errors.firstName) errors.firstName = "Invalid first name";
   }
 
   if (input.lastName && !nameRegex.test(input.lastName)) {
-    if (!errors.lastName) errors.lastName = 'Invalid last name';
+    if (!errors.lastName) errors.lastName = "Invalid last name";
   }
 
   // Validate email is a valid email
   const emailRegex = /\S+@\S+\.\S+/;
 
   if (input.email && !emailRegex.test(input.email)) {
-    if (!errors.email) errors.email = 'Invalid email address';
+    if (!errors.email) errors.email = "Invalid email address";
   }
 
   // Validate password is at least 6 characters
   if (input.newPassword && input.newPassword.length < 6) {
-    if (!errors.newPassword) errors.newPassword = 'Password too short';
+    if (!errors.newPassword) errors.newPassword = "Password too short";
   }
 
   // Check if all errors are empty
   // If so, return an empty object
-  const allErrors = Object.values(errors).filter((error) => error !== '');
+  const allErrors = Object.values(errors).filter((error) => error !== "");
 
   if (allErrors.length === 0) {
     return {} as UpdateOrganizationInput;
+  }
+
+  return errors;
+};
+
+const validateCreatePnm = (input: CreatePnmInput) => {
+  const errors = {
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    classification: "",
+    instagram: "",
+    snapchat: "",
+  };
+
+  if (!input.firstName) {
+    errors.firstName = "First name is required";
+  }
+
+  if (!input.lastName) {
+    errors.lastName = "Last name is required";
+  }
+
+  if (!input.phoneNumber) {
+    errors.phoneNumber = "Phone number is required";
+  }
+
+  if (!input.classification) {
+    errors.classification = "Classification is required";
+  }
+
+  // Check names to only use letters
+  const nameRegex = /^[a-zA-Z]+$/;
+
+  if (input.firstName && !nameRegex.test(input.firstName)) {
+    if (!errors.firstName) errors.firstName = "Invalid first name";
+  }
+
+  if (input.lastName && !nameRegex.test(input.lastName)) {
+    if (!errors.lastName) errors.lastName = "Invalid last name";
+  }
+
+  // Ensure phone number is a valid phone number
+  const phoneNumberRegex = /^\d{10}$/;
+
+  if (input.phoneNumber && !phoneNumberRegex.test(input.phoneNumber)) {
+    if (!errors.phoneNumber) errors.phoneNumber = "Invalid phone number";
+  }
+
+  // Check if all errors are empty
+  // If so, return an empty object
+  const allErrors = Object.values(errors).filter((error) => error !== "");
+
+  if (allErrors.length === 0) {
+    return {} as CreatePnmInput;
+  }
+
+  return errors;
+};
+
+const validateUpdatePnm = (input: UpdatePnmInput) => {
+  const errors = {
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    classification: "",
+    instagram: "",
+    snapchat: "",
+  };
+
+  // Check names to only use letters
+  const nameRegex = /^[a-zA-Z]+$/;
+
+  if (input.firstName && !nameRegex.test(input.firstName)) {
+    if (!errors.firstName) errors.firstName = "Invalid first name";
+  }
+
+  if (input.lastName && !nameRegex.test(input.lastName)) {
+    if (!errors.lastName) errors.lastName = "Invalid last name";
+  }
+
+  // Ensure phone number is a valid phone number
+  const phoneNumberRegex = /^\d{10}$/;
+
+  if (input.phoneNumber && !phoneNumberRegex.test(input.phoneNumber)) {
+    if (!errors.phoneNumber) errors.phoneNumber = "Invalid phone number";
+  }
+
+  // Check if all errors are empty
+  // If so, return an empty object
+  const allErrors = Object.values(errors).filter((error) => error !== "");
+
+  if (allErrors.length === 0) {
+    return {} as UpdatePnmInput;
   }
 
   return errors;
@@ -201,4 +295,6 @@ export default {
   validateLogin,
   validateRegistration,
   validateSettings,
+  validateCreatePnm,
+  validateUpdatePnm,
 };

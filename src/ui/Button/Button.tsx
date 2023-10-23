@@ -10,12 +10,12 @@
  * Do not distribute
  */
 
-import Icon from "react-native-remix-icon";
 import {
   ActivityIndicator,
   TouchableOpacityProps,
   TouchableOpacity,
 } from "react-native";
+import Icon from "react-native-remix-icon";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -84,6 +84,20 @@ const colorClasses = {
     icon: {
       default: "text-primary",
       disabled: "text-slate-200",
+    },
+  },
+  gray: {
+    container: {
+      default: tw.style("bg-slate-100"),
+      disabled: tw.style("bg-slate-50"),
+    },
+    text: {
+      default: tw.style("text-primary"),
+      disabled: tw.style("text-slate-400"),
+    },
+    icon: {
+      default: "text-primary",
+      disabled: "text-slate-400",
     },
   },
 };

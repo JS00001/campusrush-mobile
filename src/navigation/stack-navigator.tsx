@@ -18,7 +18,9 @@ import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
 import AdminStatisticsScreen from "@/navigation/screens/admin/Statistics";
 import AdminOrganizationsScreen from "@/navigation/screens/admin/Organizations";
 
-import PNMsScreen from "@/navigation/screens/pnms/PNMs";
+import PNMsScreen from "@/navigation/screens/pnms/Pnms";
+import PNMDetailsScreen from "@/navigation/screens/pnms/Details";
+import PNMUpdateDetailsScreen from "@/navigation/screens/pnms/UpdateDetails";
 
 import HomeScreen from "@/navigation/screens/home/Home";
 
@@ -48,7 +50,6 @@ import UpdateSecurityScreen from "@/navigation/screens/settings/organization/Upd
 import UpdateOrganizationScreen from "@/navigation/screens/settings/organization/UpdateOrganization";
 
 import RegistrationProvider from "@/providers/Registration";
-import ConversationsProvider from "@/providers/Conversations";
 
 export const Stack = createNativeStackNavigator();
 
@@ -170,6 +171,14 @@ export const PNMsStack = () => {
         name="PNMs"
         component={PNMsScreen}
       />
+      <Stack.Screen
+        name="PNMDetails"
+        component={PNMDetailsScreen}
+      />
+      <Stack.Screen
+        name="PNMUpdateDetails"
+        component={PNMUpdateDetailsScreen}
+      />
     </Stack.Navigator>
   );
 };
@@ -203,22 +212,20 @@ export const AddStack = () => {
  */
 export const MessagesStack = () => {
   return (
-    <ConversationsProvider>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen
-          name="Messages"
-          component={MessagesScreen}
-        />
-        <Stack.Screen
-          name="NewMessage"
-          component={NewMessageScreen}
-        />
-        <Stack.Screen
-          name="Chat"
-          component={ChatScreen}
-        />
-      </Stack.Navigator>
-    </ConversationsProvider>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name="Messages"
+        component={MessagesScreen}
+      />
+      <Stack.Screen
+        name="NewMessage"
+        component={NewMessageScreen}
+      />
+      <Stack.Screen
+        name="Chat"
+        component={ChatScreen}
+      />
+    </Stack.Navigator>
   );
 };
 

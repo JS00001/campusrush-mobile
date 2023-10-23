@@ -14,15 +14,21 @@ import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface RecentPnmsProps {
   pnms: PNM[];
   loading?: boolean;
+  onPress?: (pnm: PNM) => void;
 }
 
-const RecentPnms: React.FC<RecentPnmsProps> = ({ pnms, loading }) => {
+const RecentPnms: React.FC<RecentPnmsProps> = ({ pnms, loading, onPress }) => {
   return (
-    <View style={tw`gap-y-4 w-full`}>
+    <ScrollView
+      style={tw`w-full`}
+      contentContainerStyle={tw`gap-y-4`}
+      showsVerticalScrollIndicator={false}
+    >
       {/* If loading, return some placeholder skeletons */}
       {loading &&
         new Array(5)
@@ -34,12 +40,12 @@ const RecentPnms: React.FC<RecentPnmsProps> = ({ pnms, loading }) => {
       {pnms.map((pnm, i) => (
         <ListItem
           key={i}
-          pressable={false}
           title={`${pnm.firstName} ${pnm.lastName}`}
           subtitle={pnm.phoneNumber}
+          onPress={() => onPress?.(pnm)}
         />
       ))}
-    </View>
+    </ScrollView>
   );
 };
 

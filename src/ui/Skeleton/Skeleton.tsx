@@ -10,8 +10,8 @@
  * Do not distribute
  */
 
-import { Animated, Easing } from "react-native";
 import { useRef, useEffect } from "react";
+import { Animated, Easing } from "react-native";
 
 import tw from "@/lib/tailwind";
 

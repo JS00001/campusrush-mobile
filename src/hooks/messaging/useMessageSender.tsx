@@ -14,11 +14,9 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 
-import {
-  ConversationStatus,
-  useConversations,
-} from "@/providers/Conversations";
 import messagingApi from "@/api/api/messaging";
+import useConversations from "@/hooks/useConversations";
+import { ConversationStatus } from "@/state/conversations";
 
 const useMessageSender = (_pnms: PNM[]) => {
   // Create a navigation state so we can navigate back to the conversations screen
@@ -28,7 +26,7 @@ const useMessageSender = (_pnms: PNM[]) => {
   const [pnms, setPnms] = useState(_pnms);
 
   // Use the conversations hook to add conversations to the state variable
-  const { addConversations, setStatus } = useConversations();
+  const { setStatus, addConversations } = useConversations();
 
   // Create a mutation to send a message
   const mutation = useMutation({
@@ -46,9 +44,6 @@ const useMessageSender = (_pnms: PNM[]) => {
   };
 
   const sendMessage = async (content: string) => {
-    // Set the conversation status to "sending"
-    setStatus(ConversationStatus.sending);
-
     // Create an input object to send to the mutation
     let input: SendMessageInput = {
       message: content,
@@ -56,8 +51,12 @@ const useMessageSender = (_pnms: PNM[]) => {
     };
 
     // If the message was sent to multiple PNMs, navigate to the messages screen
+    // and set the conversation status to "sending"
     if (input.pnms.length > 1) {
+      // Navigate to the messages screen
       (navigation.navigate as any)("Messages");
+      // Set the conversation status to "sending"
+      setStatus(ConversationStatus.Sending);
     }
 
     // Attempt to send the message
@@ -67,7 +66,7 @@ const useMessageSender = (_pnms: PNM[]) => {
       response = await mutation.mutateAsync(input);
     } catch (error) {
       // TODO: Handle error, add a "failed" state to all messages or smth
-      setStatus(ConversationStatus.failed);
+      setStatus(ConversationStatus.Failed);
       return;
     }
 
@@ -76,11 +75,16 @@ const useMessageSender = (_pnms: PNM[]) => {
 
     // Add the conversations to the conversations state
     addConversations(conversations);
-    // Set the conversation status to "sent"
-    setStatus(ConversationStatus.sent);
+
+    // If the message was sent to multiple PNMs, set the conversation status to "sent"
+    if (input.pnms.length > 1) {
+      setStatus(ConversationStatus.Sent);
+      return;
+    }
   };
 
   return {
+    ...mutation,
     pnms,
     sendMessage,
     onPnmRemove,

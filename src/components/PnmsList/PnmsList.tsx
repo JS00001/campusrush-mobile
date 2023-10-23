@@ -16,8 +16,8 @@ import {
   SectionList,
   RefreshControl,
 } from "react-native";
-import { debounce } from "lodash";
 import { useMemo, useRef, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -30,6 +30,8 @@ interface PnmsListProps {
 }
 
 const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
+  // Access navigation
+  const navigation = useNavigation();
   // Create a ref to the sectionlist so we can scroll to a specific index programatically
   const sectionListRef = useRef<SectionList>(null);
   // Whether or not the list is refreshing
@@ -76,6 +78,11 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
     // Set the current letter
     setCurrentLetter(letter);
 
+    // Check if there is more than one pnm in the list
+    if (pnms.length <= 1) {
+      return;
+    }
+
     // Get the index of the section with that letter
     const index = data.findIndex((section) => section.title === letter);
 
@@ -109,7 +116,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
   };
 
   // When the viewable items change, get the first item and set the current letter to the first letter of the first item
-  const onViewableItemsChanged = debounce((info) => {
+  const onViewableItemsChanged = (info: any) => {
     // Get the first item
     const firstItem = info.viewableItems[0];
 
@@ -121,7 +128,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
 
     // Set is scrolling to false
     setIsScrolling(false);
-  }, 100);
+  };
 
   // When the list is scrolling, set is scrolling to true
   const handleScroll = () => {
@@ -138,14 +145,21 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
   };
 
   // The components for each item in teh section list
-  const ItemComponent = ({ item: pnm }: { item: PNM }) => (
-    <ListItem
-      key={pnm._id}
-      title={`${pnm.firstName} ${pnm.lastName}`}
-      subtitle={pnm.phoneNumber}
-      badge={pnm.receivedBid ? "Bid" : undefined}
-    />
-  );
+  const ItemComponent = ({ item: pnm }: { item: PNM }) => {
+    const onPress = () => {
+      (navigation.navigate as any)("PNMDetails", { pnmId: pnm._id });
+    };
+
+    return (
+      <ListItem
+        key={pnm._id}
+        title={`${pnm.firstName} ${pnm.lastName}`}
+        subtitle={pnm.phoneNumber}
+        badge={pnm.receivedBid ? "Bid" : undefined}
+        onPress={onPress}
+      />
+    );
+  };
 
   const ListEmptyComponent = () => {
     if (loading) {
@@ -157,12 +171,10 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
     } else {
       return (
         <>
-          <Text variant="title" style={tw`text-center mt-16 text-primary`}>
+          <Text variant="title" style={tw`text-center mt-16`}>
             No PNMs found
           </Text>
-          <Text style={tw`text-slate-600`}>
-            Try changing your filters or refreshing the page
-          </Text>
+          <Text>Try changing your filters or refreshing the page</Text>
         </>
       );
     }
@@ -188,9 +200,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
         }}
         // Create a header for each letter
         renderSectionHeader={({ section: { title } }) => (
-          <Text style={tw`text-slate-400 bg-white w-full font-medium`}>
-            {title}
-          </Text>
+          <Text style={tw`bg-white w-full font-medium`}>{title}</Text>
         )}
         refreshControl={
           <RefreshControl refreshing={isRefetching} onRefresh={onRefresh} />

@@ -28,6 +28,8 @@ interface APIError {
 
 type LogoutAPIResponse = APIResponse;
 
+type DeletePnmAPIResponse = APIResponse;
+
 type GetOrganizationsAPIResponse = APIResponse & {
   data: {
     data: {
@@ -192,8 +194,9 @@ type GetConversationsAPIResponse = APIResponse & {
 type GetContactsAPIResponse = APIResponse & {
   data: {
     data: {
-      uncontacted: PNM[];
       all: PNM[];
+      suggested: PNM[];
+      uncontacted: PNM[];
     };
   };
 };
@@ -203,6 +206,22 @@ type SendMessageAPIResponse = APIResponse & {
     data: {
       conversations: Conversation[];
       messages: Message[];
+    };
+  };
+};
+
+type CreatePnmAPIResponse = APIResponse & {
+  data: {
+    data: {
+      pnm: PNM;
+    };
+  };
+};
+
+type UpdatePnmAPIResponse = APIResponse & {
+  data: {
+    data: {
+      pnm: PNM;
     };
   };
 };

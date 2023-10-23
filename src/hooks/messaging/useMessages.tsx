@@ -10,17 +10,20 @@
  * Do not distribute
  */
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
 import messagingApi from "@/api/api/messaging";
-import { useConversations } from "@/providers/Conversations";
+import useConversations from "@/hooks/useConversations";
 
 const useMessages = (pnmId: string) => {
   // Get access token so that we can cache the query
   const { accessToken } = useAuth();
+  // Get the setConversationAsRead function from the conversations provider
   const { setConversationAsRead } = useConversations();
+  // Create a state to store the messages
+  const [messages, setMessages] = useState<Message[]>([]);
 
   // Create a query to get the organizations messages
   const query = useInfiniteQuery({
@@ -41,20 +44,45 @@ const useMessages = (pnmId: string) => {
     },
   });
 
-  // Set the conversation as read only when the query data changes
-  // This ensures the conversation actually has messages to read
   useEffect(() => {
+    // If a query succeded, set the conversation as read
     if (query.data) {
       setConversationAsRead(pnmId);
     }
   }, [query.data]);
 
-  // Combine the messages from all pages
-  const messages = query.data?.pages.flatMap((page) => page.data.data.messages);
+  useEffect(() => {
+    // If the query has data, set the messages state
+    if (query.data) {
+      // Convert the data into a readable format
+      const messagesData = query.data.pages.flatMap(
+        (page) => page.data.data.messages,
+      );
+      // Set the conversations state
+      setMessages(messagesData);
+    }
+  }, [query.data, query.data?.pages]);
+
+  const addMessage = (content: string) => {
+    // Create a message object
+    const message: Message = {
+      _id: "temp",
+      organization: "temp",
+      pnm: pnmId,
+      content,
+      sent: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    // Add the message to the messages state
+    setMessages((messages) => [message, ...messages]);
+  };
 
   return {
     ...query,
     messages,
+    addMessage,
   };
 };
 

@@ -20,6 +20,8 @@ import tw from "@/lib/tailwind";
 interface TermsAndConditionsProps {
   innerRef: React.RefObject<any>;
   handleCloseModalPress: () => void;
+  handleSnapToIndex: (index: number) => void;
+  handleSnapToPosition: (position: string) => void;
 }
 
 const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({

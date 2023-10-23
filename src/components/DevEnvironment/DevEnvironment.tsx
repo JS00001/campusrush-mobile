@@ -22,16 +22,12 @@ import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import { useAuth } from "@/providers/Auth";
-import SegmentedControl from "@/ui/SegmentedControl";
 import AppConstants from "@/lib/constants";
+import SegmentedControl from "@/ui/SegmentedControl";
+import { usePreferences } from "@/providers/Preferences";
 
-interface DevEnvironmentProviderProps {
-  children: React.ReactNode;
-}
-
-const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
-  children,
-}) => {
+const DevEnvironment: React.FC = ({}) => {
+  const { updatePreferences } = usePreferences();
   // Use data from auth provider
   const { signOut, organization, billingData } = useAuth();
   // The active index of the segmented control
@@ -68,7 +64,6 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
 
   return (
     <>
-      {children}
       <BottomSheetModal
         ref={bottomSheetModalRef}
         index={0}
@@ -107,10 +102,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
           <>
             <Layout gap={20} scrollable>
               <View style={tw`w-full gap-y-2`}>
-                <Text
-                  style={tw`w-full text-gray-500 font-medium`}
-                  variant="body"
-                >
+                <Text style={tw`w-full font-medium`} variant="body">
                   Current Subscription?
                 </Text>
 
@@ -124,10 +116,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text
-                  style={tw`w-full text-gray-500 font-medium`}
-                  variant="body"
-                >
+                <Text style={tw`w-full font-medium`} variant="body">
                   Auth Overrides
                 </Text>
                 <Button
@@ -142,10 +131,24 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text
-                  style={tw`w-full text-gray-500 font-medium`}
-                  variant="body"
+                <Text style={tw`w-full font-medium`} variant="body">
+                  Preferences Overrides
+                </Text>
+                <Button
+                  iconLeft="ri-settings-3-line"
+                  onPress={() => {
+                    updatePreferences({
+                      ...AppConstants.preferences,
+                    });
+                    handleCloseModalPress();
+                  }}
                 >
+                  Reset All Preferences
+                </Button>
+              </View>
+
+              <View style={tw`w-full gap-y-2`}>
+                <Text style={tw`w-full font-medium`} variant="body">
                   Subscription Overrides
                 </Text>
                 <Button
@@ -176,7 +179,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
           <>
             <Layout gap={20} scrollable contentContainerStyle={tw`items-start`}>
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw` text-gray-500 font-medium`} variant="body">
+                <Text style={tw`font-medium`} variant="body">
                   App Version
                 </Text>
                 <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
@@ -185,7 +188,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`text-gray-500 font-medium`} variant="body">
+                <Text style={tw`font-medium`} variant="body">
                   Current Organization
                 </Text>
                 <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
@@ -196,10 +199,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text
-                  style={tw`w-full text-gray-500 font-medium`}
-                  variant="body"
-                >
+                <Text style={tw`w-full font-medium`} variant="body">
                   Current Subscription
                 </Text>
 
@@ -219,7 +219,7 @@ const DevEnvironmentProvider: React.FC<DevEnvironmentProviderProps> = ({
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`text-gray-500 font-medium`} variant="body">
+                <Text style={tw`font-medium`} variant="body">
                   RevenueCat Entitlement Information
                 </Text>
                 <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
@@ -272,4 +272,4 @@ const listenForShake = (shakeAction: () => void) => {
   return subscription;
 };
 
-export default DevEnvironmentProvider;
+export default DevEnvironment;

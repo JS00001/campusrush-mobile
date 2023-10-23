@@ -98,12 +98,10 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
     } else {
       return (
         <>
-          <Text variant="title" style={tw`text-center mt-16 text-primary`}>
+          <Text variant="title" style={tw`text-center mt-16`}>
             No Organizations found
           </Text>
-          <Text style={tw`text-slate-600`}>
-            This will update when organizations sign up
-          </Text>
+          <Text>This will update when organizations sign up</Text>
         </>
       );
     }
@@ -118,9 +116,7 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
         renderItem={ItemComponent}
         ListEmptyComponent={ListEmptyComponent}
         renderSectionHeader={({ section: { title } }) => (
-          <Text style={tw`text-slate-400 bg-white w-full font-medium`}>
-            {title}
-          </Text>
+          <Text style={tw`bg-white w-full font-medium`}>{title}</Text>
         )}
       />
     </View>

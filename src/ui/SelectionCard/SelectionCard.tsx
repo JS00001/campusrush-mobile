@@ -100,11 +100,7 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
       )}
 
       {/* Description */}
-      {description && (
-        <Text variant="text" style={tw`text-slate-500`}>
-          {description}
-        </Text>
-      )}
+      {description && <Text>{description}</Text>}
 
       {/* Subtitle */}
       {subtitle && (
