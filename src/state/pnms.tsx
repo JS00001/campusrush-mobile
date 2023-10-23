@@ -10,22 +10,31 @@
  * Do not distribute
  */
 
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface PnmsState {
   pnms: PNM[];
 
+  getPnm: (id: string) => PNM;
   addPnms: (pnm: PNM[]) => void;
   updatePnm: (pnm: PNM) => void;
   deletePnm: (pnm: PNM) => void;
   setPnms: (pnms: PNM[]) => void;
 }
 
-const usePnmsStore = create<PnmsState>((set) => ({
+const usePnmsStore = create<PnmsState>()((set) => ({
   /**
    * The list of PNMs to be stored in the store
    */
   pnms: [],
+  /**
+   * Gets a PNM from the store by id
+   */
+  getPnm: (id) => {
+    const state: PnmsState = usePnmsStore.getState();
+
+    return state.pnms.find((p) => p._id === id) as PNM;
+  },
   /**
    * Adds a list of PNMs to the store
    */

@@ -16,6 +16,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import date from "@/lib/date";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
+import usePnmsStore from "@/state/pnms";
 import ActionCard from "@/ui/ActionCard";
 import ChatHeader from "@/components/ChatHeader";
 
@@ -26,14 +27,16 @@ interface PnmDetailsProps {
 
 const PnmDetails: React.FC<PnmDetailsProps> = ({ navigation, route }) => {
   // The PNM to get details for
-  const pnm = route.params.pnm as PNM;
+  const pnmId = route.params.pnmId as string;
+  // Get the PNM from the store
+  const pnm = usePnmsStore((state) => state.getPnm(pnmId));
 
   // When an item is pressed, navigate to the update details screen
   const onCardPress = (field: keyof PNM) => {
     return () =>
       // Navigate to the update details screen with the pnm and field to update
       (navigation.navigate as any)("PNMUpdateDetails", {
-        pnm,
+        pnmId: pnm?._id,
         field,
       });
   };
@@ -41,6 +44,7 @@ const PnmDetails: React.FC<PnmDetailsProps> = ({ navigation, route }) => {
   // If there is no pnm, go back as we cannot display details
   if (!pnm) {
     navigation.goBack();
+    return <View />;
   }
 
   return (

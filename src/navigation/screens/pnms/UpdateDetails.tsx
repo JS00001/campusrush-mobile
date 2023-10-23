@@ -10,13 +10,13 @@
  * Do not distribute
  */
 
-import { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import ChatHeader from "@/components/ChatHeader";
+import useUpdatePnm from "@/hooks/useUpdatePnm";
 
 interface UpdatePnmDetailsProps {
   navigation: NativeStackNavigationProp<any>;
@@ -28,21 +28,25 @@ const UpdatePnmDetails: React.FC<UpdatePnmDetailsProps> = ({
   route,
 }) => {
   // The PNM to update
-  const pnm = route.params.pnm as PNM;
+  const pnmId = route.params.pnmId as string;
   // The field of the pnm that we are updating
   const field = route.params.field as keyof PNM;
-  // The value of the field
-  const [value, setValue] = useState<string>((pnm[field] as string) || "");
+  // Get the business logic for updating the PNM
+  const { isLoading, pnm, value, setValue, errors, handleSubmission } =
+    useUpdatePnm(pnmId, field);
 
   // Whether or not the changes can be saved (has the value changed)
   const isButtonDisabled = value === pnm[field];
+
   // The placeholder for the text input is the field properly capitalized and spaced (they are camel cased in the PNM type)
   const placeholder = field
     .replace(/([A-Z])/g, " $1")
     .replace(/^./, (str) => str.toUpperCase());
 
   // When the button is pressed, update the pnm
-  const onPress = () => {};
+  const onPress = () => {
+    handleSubmission();
+  };
 
   // If there is no pnm or field, go back as we cannot update details
   if (!pnm || !field) {
@@ -57,12 +61,14 @@ const UpdatePnmDetails: React.FC<UpdatePnmDetailsProps> = ({
 
       <TextInput
         value={value}
+        error={errors.value}
         onChangeText={setValue}
-        // convert field to capitalized string
         placeholder={placeholder}
       />
 
-      <Button disabled={isButtonDisabled}>Save Changes</Button>
+      <Button disabled={isButtonDisabled} onPress={onPress} loading={isLoading}>
+        Save Changes
+      </Button>
     </Layout>
   );
 };

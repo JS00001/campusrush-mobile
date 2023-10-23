@@ -10,7 +10,6 @@
  * Do not distribute
  */
 
-import { AxiosError } from "axios";
 import { useFormik } from "formik";
 import Toast from "react-native-toast-message";
 import { useMutation } from "@tanstack/react-query";
@@ -18,6 +17,7 @@ import { useMutation } from "@tanstack/react-query";
 import validators from "@/lib/validators";
 import { useAuth } from "@/providers/Auth";
 import organizationApi from "@/api/api/organization";
+import errors from "@/lib/errors";
 
 const useSettings = () => {
   const { organization, updateOrganization } = useAuth();
@@ -29,7 +29,7 @@ const useSettings = () => {
     },
   });
 
-  // Create a form
+  // The form to store TextInput data and its submission function
   const form = useFormik({
     initialValues: {
       firstName: organization?.firstName || "",
@@ -40,62 +40,46 @@ const useSettings = () => {
       confirmNewPassword: "",
     },
     onSubmit: async (values) => {
-      let response;
-
-      try {
-        // Attempt to update the organization
-        response = await mutation.mutateAsync(values);
-      } catch (error) {
-        // If the error is a request error
-        if (error instanceof AxiosError) {
-          // Extract the error message
-          const errorMessage = error.response?.data?.error as APIError;
-
-          // If there is a field that the error applies to
-          // and the form has that field
-          if (
-            errorMessage.field &&
-            form.values.hasOwnProperty(errorMessage.field)
-          ) {
-            // Set the field error
-            form.setFieldError(errorMessage.field, errorMessage.humanMessage);
-          } else {
-            // Else show the error as a toast message
-            Toast.show({
-              type: "error",
-              text1: "Error",
-              text2: errorMessage.humanMessage,
-            });
-          }
-        }
-      }
-
-      // If there was an error, there is no response
-      // This is to prevent the code below from running
-      if (!response) return;
-
-      // Get the updated organization from the response
-      let updatedOrganization = response?.data.data.organization;
-
-      // Update the organization in the auth context
-      if (updatedOrganization) {
-        updateOrganization(updatedOrganization);
-      }
-
-      // Clear the password fields
-      form.setFieldValue("currentPassword", "");
-      form.setFieldValue("newPassword", "");
-      form.setFieldValue("confirmNewPassword", "");
-
-      // Show a success message
-      Toast.show({
-        type: "success",
-        text1: "Success",
-        text2: "Organization updated successfully",
-      });
+      onSubmit(values);
     },
   });
 
+  // The function to run when the form is submitted
+  const onSubmit = async (values: typeof form.values) => {
+    // The response from the server
+    let response;
+
+    try {
+      // Attempt to update the organization
+      response = await mutation.mutateAsync(values);
+    } catch (error) {
+      errors.handleApiError(error, form);
+    }
+    // If there was an error, prevent the "success" code from running
+    if (!response) return;
+
+    // Get the updated organization from the response
+    let updatedOrganization = response?.data.data.organization;
+
+    // Update the organization in the auth context
+    if (updatedOrganization) {
+      updateOrganization(updatedOrganization);
+    }
+
+    // Clear the password fields
+    form.setFieldValue("currentPassword", "");
+    form.setFieldValue("newPassword", "");
+    form.setFieldValue("confirmNewPassword", "");
+
+    // Show a success message
+    Toast.show({
+      type: "success",
+      text1: "Success",
+      text2: "Organization updated successfully",
+    });
+  };
+
+  // The validation function, takes certain fields so we dont update all errors at once
   const validateFields = (fields: (keyof UpdateOrganizationInput)[]) => {
     // Get the errors from the validator
     // This will return ALL errors, even ones from different steps

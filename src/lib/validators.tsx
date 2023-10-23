@@ -252,9 +252,49 @@ const validateCreatePnm = (input: CreatePnmInput) => {
   return errors;
 };
 
+const validateUpdatePnm = (input: UpdatePnmInput) => {
+  const errors = {
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    classification: "",
+    instagram: "",
+    snapchat: "",
+  };
+
+  // Check names to only use letters
+  const nameRegex = /^[a-zA-Z]+$/;
+
+  if (input.firstName && !nameRegex.test(input.firstName)) {
+    if (!errors.firstName) errors.firstName = "Invalid first name";
+  }
+
+  if (input.lastName && !nameRegex.test(input.lastName)) {
+    if (!errors.lastName) errors.lastName = "Invalid last name";
+  }
+
+  // Ensure phone number is a valid phone number
+  const phoneNumberRegex = /^\d{10}$/;
+
+  if (input.phoneNumber && !phoneNumberRegex.test(input.phoneNumber)) {
+    if (!errors.phoneNumber) errors.phoneNumber = "Invalid phone number";
+  }
+
+  // Check if all errors are empty
+  // If so, return an empty object
+  const allErrors = Object.values(errors).filter((error) => error !== "");
+
+  if (allErrors.length === 0) {
+    return {} as UpdatePnmInput;
+  }
+
+  return errors;
+};
+
 export default {
   validateLogin,
   validateRegistration,
   validateSettings,
   validateCreatePnm,
+  validateUpdatePnm,
 };
