@@ -10,23 +10,28 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
 import { MenuView } from "@react-native-menu/menu";
+import { ActivityIndicator, View } from "react-native";
 
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import usePnms from "@/hooks/usePnms";
 import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
+import StatusIcon from "@/ui/StatusIcon";
+import { PnmsStatus } from "@/state/pnms";
 import PnmsList from "@/components/PnmsList";
 
 const PNMs: React.FC = () => {
   const {
     pnms,
+    status,
     isLoading,
     searchQuery,
+    otherActions,
     filterActions,
     onRefetch,
+    onOtherPress,
     onFilterPress,
     setSearchQuery,
   } = usePnms();
@@ -37,36 +42,50 @@ const PNMs: React.FC = () => {
   }PNMs`;
 
   return (
-    <Layout gap={8}>
-      <Layout.Header
-        title="PNMs"
-        subtitle="View and manage all potential new members"
-      />
+    <>
+      {status != PnmsStatus.Idle && (
+        <StatusIcon>
+          <StatusIcon.Icon>
+            {status == PnmsStatus.Loading && (
+              <ActivityIndicator size="large" color="white" />
+            )}
+          </StatusIcon.Icon>
+        </StatusIcon>
+      )}
 
-      <View style={tw`flex-row w-full gap-x-1`}>
-        <TextInput
-          autoCorrect={false}
-          icon="ri-search-line"
-          variant="alternate"
-          placeholder={searchPlaceholder}
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          containerStyle={tw`flex-shrink`}
+      <Layout gap={8}>
+        <Layout.Header
+          title="PNMs"
+          subtitle="View and manage all potential new members"
         />
 
-        <MenuView
-          title="Filter By"
-          onPressAction={onFilterPress}
-          actions={filterActions}
-        >
-          <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
-        </MenuView>
+        <View style={tw`flex-row w-full gap-x-1`}>
+          <TextInput
+            autoCorrect={false}
+            icon="ri-search-line"
+            variant="alternate"
+            placeholder={searchPlaceholder}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            containerStyle={tw`flex-shrink`}
+          />
 
-        <IconButton icon="ri-more-fill" style={tw`flex-grow`} />
-      </View>
+          <MenuView
+            title="Filter By"
+            onPressAction={onFilterPress}
+            actions={filterActions}
+          >
+            <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
+          </MenuView>
 
-      <PnmsList loading={isLoading} pnms={pnms} onRefetch={onRefetch} />
-    </Layout>
+          <MenuView actions={otherActions} onPressAction={onOtherPress}>
+            <IconButton icon="ri-more-fill" style={tw`flex-grow`} />
+          </MenuView>
+        </View>
+
+        <PnmsList loading={isLoading} pnms={pnms} onRefetch={onRefetch} />
+      </Layout>
+    </>
   );
 };
 

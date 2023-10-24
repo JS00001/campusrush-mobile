@@ -11,17 +11,23 @@
  */
 
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { MenuAction } from "@react-native-menu/menu";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import pnmsApi from "@/api/api/pnms";
 import { useAuth } from "@/providers/Auth";
-import usePnmsStore from "@/state/pnms";
+import useStatisticsStore from "@/state/statistics";
+import usePnmsStore, { PnmsStatus } from "@/state/pnms";
+import useConversationsStore from "@/state/conversations";
 
 export enum PNMFilter {
   NoFilter = "NO_FILTER",
   ReceivedBid = "RECEIVED_BID",
   NotReceivedBid = "NOT_RECEIVED_BID",
+}
+
+export enum PNMOtherOption {
+  DeleteAll = "DELETE_ALL",
 }
 
 const usePnms = () => {
@@ -35,6 +41,19 @@ const usePnms = () => {
   // Create a state variable to store the filtered PNMs and the PNMs
   const { pnms, setPnms } = usePnmsStore();
   const [filteredPnms, setFilteredPnms] = useState<PNM[]>([]);
+
+  // Store to get and update the pnms store status
+  const status = usePnmsStore((state) => state.status);
+  const setStatus = usePnmsStore((state) => state.setStatus);
+
+  // Store to remove conversations once all PNMs are deleted
+  const setConversations = useConversationsStore(
+    (state) => state.setConversations,
+  );
+
+  // Store to update home statistics once all PNMs are deleted
+  const setNumBids = useStatisticsStore((state) => state.setNumBids);
+  const setCurrentPnms = useStatisticsStore((state) => state.setNumPnms);
 
   // All filtering options
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -52,6 +71,27 @@ const usePnms = () => {
       });
     },
     keepPreviousData: true,
+  });
+
+  // Create a mutation to delete the PNMs
+  const deletionMutation = useMutation({
+    mutationFn: async () => {
+      return pnmsApi.deletePnms();
+    },
+    onSuccess: async () => {
+      // Remove all conversations
+      setConversations([]);
+
+      // Update the statistics
+      setNumBids(0);
+      setCurrentPnms(0);
+
+      // Refetch the query
+      await query.refetch();
+
+      // Set the status to idle
+      setStatus(PnmsStatus.Idle);
+    },
   });
 
   // When the query loads, set the PNMs
@@ -101,6 +141,20 @@ const usePnms = () => {
     setSelectedFilter(eventId);
   };
 
+  // Handle the other menu press event
+  const onOtherPress = (e: any) => {
+    const eventId = e.nativeEvent.event as PNMOtherOption;
+
+    switch (eventId) {
+      case PNMOtherOption.DeleteAll:
+        setStatus(PnmsStatus.Loading);
+        deletionMutation.mutate();
+        break;
+      default:
+        break;
+    }
+  };
+
   // On refetch, refresh the query
   const onRefetch = async () => {
     await query.refetch();
@@ -128,13 +182,28 @@ const usePnms = () => {
     },
   ];
 
+  // The actions for the other menu
+  const otherActions: MenuAction[] = [
+    {
+      id: PNMOtherOption.DeleteAll,
+      title: "Delete All PNMs",
+      image: "trash",
+      attributes: {
+        destructive: true,
+      },
+    },
+  ];
+
   return {
     ...query,
     pnms: filteredPnms,
+    status,
     searchQuery,
     filterActions,
+    otherActions,
     onRefetch,
     onFilterPress,
+    onOtherPress,
     setSearchQuery,
   };
 };
