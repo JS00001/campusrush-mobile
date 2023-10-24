@@ -24,6 +24,7 @@ export interface ConversationsState {
   conversations: Conversation[];
 
   setStatus: (status: ConversationStatus) => void;
+  deleteConversation: (pnmId: string) => void;
   updateConversation: (conversation: Conversation) => void;
   addConversations: (conversation: Conversation[]) => void;
   setConversations: (conversations: Conversation[]) => void;
@@ -76,6 +77,13 @@ const useConversationsStore = create<ConversationsState>()((set) => ({
   setStatus: (status) =>
     set(() => ({
       status,
+    })),
+  /**
+   * Deletes a conversation from the store
+   */
+  deleteConversation: (pnmId) =>
+    set((state) => ({
+      conversations: state.conversations.filter((c) => c.pnm._id !== pnmId),
     })),
 }));
 

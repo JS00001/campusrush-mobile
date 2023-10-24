@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { MenuView } from "@react-native-menu/menu";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView, View, ScrollView } from "react-native";
 
@@ -18,6 +19,7 @@ import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
 import IconButton from "@/ui/IconButton";
 import ProgressBar from "@/ui/ProgressBar";
+import usePnmActions from "@/hooks/usePnmActions";
 
 interface ChatHeaderProps {
   pnms: PNM[];
@@ -31,6 +33,8 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
   onPnmRemove,
 }) => {
   const navigation = useNavigation();
+
+  const { actions, onActionPress } = usePnmActions(pnms[0]);
 
   // Whether or not the chat is a single PNM
   const isSinglePnm = pnms.length === 1;
@@ -67,14 +71,16 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
           {header}
         </Text>
 
-        <IconButton
-          icon="ri-more-fill"
-          onPress={() => {}}
-          size="sm"
-          disabled={!isSinglePnm}
-          // Hide the button if it's not a single PNM
-          style={tw.style("opacity-0", isSinglePnm && "opacity-100")}
-        />
+        <MenuView actions={actions} onPressAction={onActionPress}>
+          <IconButton
+            icon="ri-more-fill"
+            onPress={() => {}}
+            size="sm"
+            disabled={!isSinglePnm}
+            // Hide the button if it's not a single PNM
+            style={tw.style("opacity-0", isSinglePnm && "opacity-100")}
+          />
+        </MenuView>
       </View>
 
       {!isSinglePnm && (
