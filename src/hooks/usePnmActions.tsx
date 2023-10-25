@@ -14,6 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 import { MenuAction } from "@react-native-menu/menu";
 import { useNavigation } from "@react-navigation/native";
 
+import Content from "@/lib/content";
 import pnmsApi from "@/api/api/pnms";
 import usePnmsStore from "@/state/pnms";
 import useModalsStore from "@/state/modals";
@@ -76,25 +77,40 @@ const usePnmActions = (pnm: PNM) => {
     const eventId = e.nativeEvent.event as PNMActions;
 
     switch (eventId) {
+      /**
+       * When the "Edit PNM" button is pressed, navigate to the PNM details
+       */
       case PNMActions.EditPnm:
-        // Navigate to the PNM details screen
         (navigation.navigate as any)("PNMsTab", {
           screen: "PNMDetails",
           params: { pnmId: pnm._id },
         });
         break;
+
+      /**
+       * When the delete button is pressed, open the confirm delete modal
+       */
       case PNMActions.DeletePnm:
-        // Open the confirm delete modal
         openModal({
           name: "CONFIRM_DELETE",
-          // When the "Confirm Delete" button is pressed, delete the PNM
-          onAction: () => {
-            deletionMutation.mutate({
-              id: pnm._id,
-            });
+          props: {
+            message: Content.confirmDeletePNM,
+            // When the "Confirm Delete" button is pressed, delete the PNM
+            onAction: () => {
+              deletionMutation.mutate({
+                id: pnm._id,
+              });
+            },
           },
         });
         break;
+
+      /**
+       * When the extend bid button is pressed, open the extend bid modal
+       */
+      case PNMActions.ExtendBid:
+        break;
+
       default:
         break;
     }

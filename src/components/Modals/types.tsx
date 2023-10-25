@@ -13,5 +13,6 @@
 export interface ModalProps {
   open: boolean;
   close: () => void;
+  message?: string;
   onAction?: () => void;
 }

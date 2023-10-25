@@ -22,6 +22,7 @@ import ErrorIcon from "@/assets/icons/Error";
 const ConfirmDeleteModal: React.FC<ModalProps> = ({
   open,
   close,
+  message,
   onAction,
 }) => {
   const onCancelPress = () => {
@@ -38,8 +39,7 @@ const ConfirmDeleteModal: React.FC<ModalProps> = ({
       <ErrorIcon />
 
       <Text variant="body" style={tw`text-center`}>
-        This content will be permanently deleted. Are you sure you want to
-        continue?
+        {message}
       </Text>
 
       <ButtonGroup>

@@ -28,8 +28,8 @@ const Modals: React.FC = () => {
         const props = {
           key,
           open: modal.open,
-          onAction: modal.onAction,
           close: () => closeModal(key),
+          ...modal.props,
         };
 
         // Get the modal's component and prepare to render it

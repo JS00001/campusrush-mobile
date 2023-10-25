@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { MenuAction } from "@react-native-menu/menu";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
+import Content from "@/lib/content";
 import pnmsApi from "@/api/api/pnms";
 import { useAuth } from "@/providers/Auth";
 import useModalsStore from "@/state/modals";
@@ -150,14 +151,19 @@ const usePnms = () => {
     const eventId = e.nativeEvent.event as PNMOtherOption;
 
     switch (eventId) {
+      /**
+       * When the delete button is pressed, open the confirm delete modal
+       */
       case PNMOtherOption.DeleteAll:
-        // Open the confirm delete modal
         openModal({
           name: "CONFIRM_DELETE",
-          // When the "Confirm Delete" button is pressed, delete the PNMs
-          onAction: () => {
-            setStatus(PnmsStatus.Loading);
-            deletionMutation.mutate();
+          props: {
+            message: Content.confirmDeleteAllPNMs,
+            // When the "Confirm Delete" button is pressed, delete the PNMs
+            onAction: () => {
+              setStatus(PnmsStatus.Loading);
+              deletionMutation.mutate();
+            },
           },
         });
         break;

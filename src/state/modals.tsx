@@ -27,7 +27,10 @@ export const ModalComponents = {
   CONFIRM_DELETE: {
     open: false,
     component: ConfirmDeleteModal,
-    onAction: () => {},
+    props: {
+      message: "Are you sure you want to delete this?",
+      onAction: () => {},
+    },
   },
 };
 
@@ -40,16 +43,17 @@ export interface ModalsState {
     [key: string]: {
       open: boolean;
       component: React.FC<any>;
-      onAction?: () => void;
+      props?: any;
     };
   };
   /**
    * Opens a modal from its name
    */
-  openModal: (input: {
-    name: keyof typeof ModalComponents;
-    onAction?: () => void;
+  openModal: <T extends keyof typeof ModalComponents>(input: {
+    name: T;
+    props: (typeof ModalComponents)[T]["props"];
   }) => void;
+
   /**
    * Closes a modal from its name
    */
@@ -64,7 +68,7 @@ const useModalsStore = create<ModalsState>()((set) => ({
   /**
    * Opens a modal
    */
-  openModal: ({ name, onAction }) => {
+  openModal: ({ name, props }) => {
     set((state) => {
       return {
         modals: {
@@ -72,7 +76,7 @@ const useModalsStore = create<ModalsState>()((set) => ({
           [name]: {
             ...state.modals[name],
             open: true,
-            onAction,
+            props,
           },
         },
       };
