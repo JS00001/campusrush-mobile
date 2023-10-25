@@ -22,6 +22,7 @@ import useConversationsStore from "@/state/conversations";
 
 export enum PNMActions {
   EditPnm = "EDIT_PNM",
+  ExtendBid = "EXTEND_BID",
   DeletePnm = "DELETE_PNM",
 }
 
@@ -105,6 +106,14 @@ const usePnmActions = (pnm: PNM) => {
       id: PNMActions.EditPnm,
       title: "Edit PNM",
       image: "square.and.pencil",
+    },
+    {
+      id: PNMActions.ExtendBid,
+      title: "Extend Bid",
+      image: "checkmark.shield",
+      attributes: {
+        disabled: true,
+      },
     },
     {
       id: PNMActions.DeletePnm,
