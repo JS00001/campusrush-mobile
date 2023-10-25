@@ -21,7 +21,7 @@ import Svg, {
 const WarningIcon = () => (
   <Svg width={56} height={56} fill="none">
     <Circle cx={28} cy={28} r={28} fill="url(#a)" />
-    <Circle cx={28} cy={28} r={18.813} fill="#EBC349" />
+    <Circle cx={28} cy={28} r={18.813} fill="#eab308" />
     <Path fill="#000" d="M28 19.469h2.87v12.757H28zM28 33.661h2.87v2.87H28z" />
     <Defs>
       <LinearGradient

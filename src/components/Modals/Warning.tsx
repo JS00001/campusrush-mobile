@@ -16,44 +16,55 @@ import ModalWrapper from "./Templates/ModalWrapper";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import WarningIcon from "@/assets/icons/Warning";
 import ButtonGroup from "@/ui/ButtonGroup";
-import ErrorIcon from "@/assets/icons/Error";
 
-export interface ConfirmDeleteModalProps extends ModalProps {}
+export interface WarningModalProps extends ModalProps {
+  buttonOneText?: string;
+  buttonTwoText?: string;
+}
 
-const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
+const WarningModal: React.FC<WarningModalProps> = ({
   open,
   close,
   message,
-  onAction,
+  buttonOneText,
+  buttonTwoText,
 }) => {
-  const onCancelPress = () => {
-    close();
-  };
+  const isButtonGroup = buttonOneText || buttonTwoText;
 
-  const onConfirmPress = () => {
+  const onPress = () => {
     close();
-    onAction?.();
   };
 
   return (
     <ModalWrapper open={open} close={close}>
-      <ErrorIcon />
+      <WarningIcon />
 
       <Text variant="body" style={tw`text-center`}>
         {message}
       </Text>
 
       <ButtonGroup>
-        <Button size="sm" color="gray" style={tw`px-2`} onPress={onCancelPress}>
-          No, Cancel
-        </Button>
-        <Button size="sm" style={tw`bg-red-500 px-2`} onPress={onConfirmPress}>
-          Yes, Delete
-        </Button>
+        {buttonOneText && (
+          <Button size="sm" style={tw`px-2`} onPress={onPress} color="gray">
+            {buttonOneText}
+          </Button>
+        )}
+
+        {buttonTwoText && (
+          <Button
+            size="sm"
+            style={tw`bg-yellow-500 px-2`}
+            onPress={onPress}
+            textStyle={tw`text-primary`}
+          >
+            {buttonTwoText}
+          </Button>
+        )}
       </ButtonGroup>
     </ModalWrapper>
   );
 };
 
-export default ConfirmDeleteModal;
+export default WarningModal;

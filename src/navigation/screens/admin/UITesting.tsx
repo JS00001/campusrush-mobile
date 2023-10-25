@@ -24,7 +24,15 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
   const { openModal } = useModalsStore();
 
   const onButtonPress = () => {
-    openModal({ name: "CONFIRM_DELETE", onAction: () => console.log("hi") });
+    openModal({
+      name: "WARNING",
+      props: {
+        message: "This is a warning",
+        buttonOneText: "Go Back",
+        buttonTwoText: "Continue",
+        onAction: () => {},
+      },
+    });
   };
 
   return (

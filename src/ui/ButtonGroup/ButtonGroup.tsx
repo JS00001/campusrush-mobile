@@ -24,8 +24,11 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ children, style }) => {
   // Modify all the children to have "style={tw.style('flex-1')}"
   // so that they take up equal space
   children = React.Children.map(children, (child) => {
+    // Ensure is not null
+    if (!child) return;
+
     return React.cloneElement(child as any, {
-      style: tw.style("flex-1", (child as any).props.style),
+      style: tw.style("flex-1", (child as any)?.props?.style),
     });
   });
 

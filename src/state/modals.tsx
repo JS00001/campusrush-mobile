@@ -12,6 +12,10 @@
 
 import { create } from "zustand";
 
+import type { WarningModalProps } from "@/components/Modals/Warning";
+import type { ConfirmDeleteModalProps } from "@/components/Modals/ConfirmDelete";
+
+import WarningModal from "@/components/Modals/Warning";
 import ConfirmDeleteModal from "@/components/Modals/ConfirmDelete";
 
 /**
@@ -29,8 +33,19 @@ export const ModalComponents = {
     component: ConfirmDeleteModal,
     props: {
       message: "Are you sure you want to delete this?",
-      onAction: () => {},
-    },
+    } as Partial<ConfirmDeleteModalProps>,
+  },
+  /**
+   * Warning modal, just renders a warning icon and a message and a "close" button
+   */
+  WARNING: {
+    open: false,
+    component: WarningModal,
+    props: {
+      message: "This is a warning",
+      buttonOneText: "Go Back",
+      buttonTwoText: undefined as string | undefined,
+    } as Partial<WarningModalProps>,
   },
 };
 
