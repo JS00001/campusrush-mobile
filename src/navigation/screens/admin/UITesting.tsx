@@ -13,15 +13,20 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
-import ButtonGroup from "@/ui/ButtonGroup";
 import Button from "@/ui/Button";
-import tw from "@/lib/tailwind";
+import useModalsStore from "@/state/modals";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
+  const { openModal } = useModalsStore();
+
+  const onButtonPress = () => {
+    openModal({ name: "CONFIRM_DELETE", onAction: () => console.log("hi") });
+  };
+
   return (
     <Layout scrollable gap={12}>
       <Layout.Header
@@ -30,18 +35,7 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
         subtitle="Test new UI in a sandbox environment"
       />
 
-      <ButtonGroup>
-        <Button size="sm" color="gray">
-          Test1
-        </Button>
-        <Button size="sm">Test2 long</Button>
-      </ButtonGroup>
-
-      <ButtonGroup>
-        <Button size="sm">Test1</Button>
-        <Button size="sm">Test2</Button>
-        <Button size="sm">Test3</Button>
-      </ButtonGroup>
+      <Button onPress={onButtonPress}>Confirm Delete</Button>
     </Layout>
   );
 };

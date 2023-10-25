@@ -10,13 +10,14 @@
  * Do not distribute
  */
 
-import { MenuAction } from "@react-native-menu/menu";
 import { useMutation } from "@tanstack/react-query";
+import { MenuAction } from "@react-native-menu/menu";
+import { useNavigation } from "@react-navigation/native";
 
 import pnmsApi from "@/api/api/pnms";
 import usePnmsStore from "@/state/pnms";
+import useModalsStore from "@/state/modals";
 import useStatisticsStore from "@/state/statistics";
-import { useNavigation } from "@react-navigation/native";
 import useConversationsStore from "@/state/conversations";
 
 export enum PNMActions {
@@ -27,6 +28,9 @@ export enum PNMActions {
 const usePnmActions = (pnm: PNM) => {
   // Pull navigation hook
   const navigation = useNavigation();
+
+  // Store to open a modal, used to confirm deletion
+  const { openModal } = useModalsStore();
 
   // Store to remove a pnm from the pnms store
   const deletePnm = usePnmsStore((state) => state.deletePnm);
@@ -79,9 +83,15 @@ const usePnmActions = (pnm: PNM) => {
         });
         break;
       case PNMActions.DeletePnm:
-        // Delete the PNM
-        deletionMutation.mutate({
-          id: pnm._id,
+        // Open the confirm delete modal
+        openModal({
+          name: "CONFIRM_DELETE",
+          // When the "Confirm Delete" button is pressed, delete the PNM
+          onAction: () => {
+            deletionMutation.mutate({
+              id: pnm._id,
+            });
+          },
         });
         break;
       default:

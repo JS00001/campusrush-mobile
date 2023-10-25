@@ -16,6 +16,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 import pnmsApi from "@/api/api/pnms";
 import { useAuth } from "@/providers/Auth";
+import useModalsStore from "@/state/modals";
 import useStatisticsStore from "@/state/statistics";
 import usePnmsStore, { PnmsStatus } from "@/state/pnms";
 import useConversationsStore from "@/state/conversations";
@@ -37,6 +38,9 @@ const usePnms = () => {
 
   // Get access token so that we can cache the query
   const { accessToken } = useAuth();
+
+  // Store to open a modal, used to confirm deletion
+  const { openModal } = useModalsStore();
 
   // Create a state variable to store the filtered PNMs and the PNMs
   const { pnms, setPnms } = usePnmsStore();
@@ -147,8 +151,15 @@ const usePnms = () => {
 
     switch (eventId) {
       case PNMOtherOption.DeleteAll:
-        setStatus(PnmsStatus.Loading);
-        deletionMutation.mutate();
+        // Open the confirm delete modal
+        openModal({
+          name: "CONFIRM_DELETE",
+          // When the "Confirm Delete" button is pressed, delete the PNMs
+          onAction: () => {
+            setStatus(PnmsStatus.Loading);
+            deletionMutation.mutate();
+          },
+        });
         break;
       default:
         break;
