@@ -11,8 +11,32 @@
  */
 
 export interface ModalProps {
+  /**
+   * Whether or not the modal is open
+   */
   open: boolean;
+  /**
+   * Function to close the modal
+   */
   close: () => void;
+  /**
+   * The message to display in the modal
+   */
   message?: string;
-  onAction?: () => void;
+  /**
+   * The primary button text (colored button on the right)
+   */
+  primaryButtonText?: string;
+  /**
+   * The function to run when the primary button is pressed
+   */
+  primaryButtonAction?: () => void;
+  /**
+   * The secondary button text (Gray button on the left)
+   */
+  secondaryButtonText?: string;
+  /**
+   * The function to run when the secondary button is pressed
+   */
+  secondaryButtonAction?: () => void;
 }

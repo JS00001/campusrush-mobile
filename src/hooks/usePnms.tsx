@@ -156,11 +156,13 @@ const usePnms = () => {
        */
       case PNMOtherOption.DeleteAll:
         openModal({
-          name: "CONFIRM_DELETE",
+          name: "ERROR",
           props: {
-            message: Content.confirmDeleteAllPNMs,
-            // When the "Confirm Delete" button is pressed, delete the PNMs
-            onAction: () => {
+            message: Content.confirmDeletePNM,
+            secondaryButtonText: "No, Cancel",
+            primaryButtonText: "Yes, Delete",
+            // When the "Confirm Delete" button is pressed, delete the PNM
+            primaryButtonAction: () => {
               setStatus(PnmsStatus.Loading);
               deletionMutation.mutate();
             },

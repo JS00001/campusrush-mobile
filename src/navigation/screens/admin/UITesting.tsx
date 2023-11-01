@@ -25,12 +25,11 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
 
   const onButtonPress = () => {
     openModal({
-      name: "WARNING",
+      name: "ERROR",
       props: {
         message: "This is a warning",
-        buttonOneText: "Go Back",
-        buttonTwoText: "Continue",
-        onAction: () => {},
+        secondaryButtonText: "Go Back",
+        primaryButtonText: "Continue",
       },
     });
   };

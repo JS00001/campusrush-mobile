@@ -1,5 +1,5 @@
 /*
- * Created on Tue Oct 24, 2023
+ * Created on Wed Nov 1 2023
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -17,9 +17,9 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import ButtonGroup from "@/ui/ButtonGroup";
-import WarningIcon from "@/assets/icons/Warning";
+import SuccessIcon from "@/assets/icons/Success";
 
-const WarningModal: React.FC<ModalProps> = ({
+const SuccessModal: React.FC<ModalProps> = ({
   open,
   close,
   message,
@@ -40,7 +40,7 @@ const WarningModal: React.FC<ModalProps> = ({
 
   return (
     <ModalWrapper open={open} close={close}>
-      <WarningIcon />
+      <SuccessIcon />
 
       <Text variant="body" style={tw`text-center`}>
         {message}
@@ -61,9 +61,9 @@ const WarningModal: React.FC<ModalProps> = ({
         {primaryButtonText && (
           <Button
             size="sm"
-            style={tw`bg-yellow-500 px-2`}
+            style={tw`bg-green-500 px-2`}
             onPress={onPrimaryButtonPress}
-            textStyle={tw`text-primary`}
+            textStyle={tw`text-white`}
           >
             {primaryButtonText}
           </Button>
@@ -73,4 +73,4 @@ const WarningModal: React.FC<ModalProps> = ({
   );
 };
 
-export default WarningModal;
+export default SuccessModal;

@@ -12,11 +12,12 @@
 
 import { create } from "zustand";
 
-import type { WarningModalProps } from "@/components/Modals/Warning";
-import type { ConfirmDeleteModalProps } from "@/components/Modals/ConfirmDelete";
+import type { ModalProps } from "@/components/Modals/types";
 
 import WarningModal from "@/components/Modals/Warning";
-import ConfirmDeleteModal from "@/components/Modals/ConfirmDelete";
+import InfoModal from "@/components/Modals/Info";
+import SuccessModal from "@/components/Modals/Success";
+import ErrorModal from "@/components/Modals/Error";
 
 /**
  * All modals that can be opened
@@ -26,14 +27,32 @@ import ConfirmDeleteModal from "@/components/Modals/ConfirmDelete";
  */
 export const ModalComponents = {
   /**
-   * Confirm delete modal, renders a modal with a "Delete" and "Cancel" button
+   * Error modal, just renders an error icon and a message and a "close" button
    */
-  CONFIRM_DELETE: {
+  ERROR: {
     open: false,
-    component: ConfirmDeleteModal,
+    component: ErrorModal,
     props: {
-      message: "Are you sure you want to delete this?",
-    } as Partial<ConfirmDeleteModalProps>,
+      message: "This is an error",
+      secondaryButtonText: "Go Back",
+      secondaryButtonAction: () => undefined,
+      primaryButtonText: undefined,
+      primaryButtonAction: () => undefined,
+    } as Partial<ModalProps>,
+  },
+  /**
+   * Success modal, just renders a success icon and a message and a "close" button
+   */
+  SUCCESS: {
+    open: false,
+    component: SuccessModal,
+    props: {
+      message: "This is a success",
+      secondaryButtonText: "Go Back",
+      secondaryButtonAction: () => undefined,
+      primaryButtonText: undefined,
+      primaryButtonAction: () => undefined,
+    } as Partial<ModalProps>,
   },
   /**
    * Warning modal, just renders a warning icon and a message and a "close" button
@@ -43,9 +62,25 @@ export const ModalComponents = {
     component: WarningModal,
     props: {
       message: "This is a warning",
-      buttonOneText: "Go Back",
-      buttonTwoText: undefined as string | undefined,
-    } as Partial<WarningModalProps>,
+      secondaryButtonText: "Go Back",
+      secondaryButtonAction: () => undefined,
+      primaryButtonText: undefined,
+      primaryButtonAction: () => undefined,
+    } as Partial<ModalProps>,
+  },
+  /**
+   * Info modal, just renders an info icon and a message and a "close" button
+   */
+  INFO: {
+    open: false,
+    component: InfoModal,
+    props: {
+      message: "This is a message",
+      secondaryButtonText: "Go Back",
+      secondaryButtonAction: () => undefined,
+      primaryButtonText: undefined,
+      primaryButtonAction: () => undefined,
+    } as Partial<ModalProps>,
   },
 };
 
