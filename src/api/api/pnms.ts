@@ -60,9 +60,20 @@ const deletePnm = (data: DeletePnmInput): Promise<DeletePnmAPIResponse> => {
   return pnmsAPIClient.delete(`${PREFIX}/delete/${data.id}`);
 };
 
+/**
+ * DELETE /api/v1/pnms/delete
+ *
+ * Returns
+ * - data
+ */
+const deletePnms = (): Promise<DeletePnmsAPIResponse> => {
+  return pnmsAPIClient.delete(`${PREFIX}/delete`);
+};
+
 export default {
   getPnms,
   createPnm,
   updatePnm,
   deletePnm,
+  deletePnms,
 };

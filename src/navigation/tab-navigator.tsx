@@ -112,7 +112,7 @@ export const TabNavigator = () => {
           tabBarLabel: "Add",
           tabBarIcon: ({ color, focused }) => (
             <Icon
-              name="ri-add-fill"
+              name="ri-add-line"
               size={26}
               color={color}
             />

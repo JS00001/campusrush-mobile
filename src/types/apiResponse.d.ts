@@ -30,6 +30,8 @@ type LogoutAPIResponse = APIResponse;
 
 type DeletePnmAPIResponse = APIResponse;
 
+type DeletePnmsAPIResponse = APIResponse;
+
 type GetOrganizationsAPIResponse = APIResponse & {
   data: {
     data: {

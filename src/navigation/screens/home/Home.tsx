@@ -11,6 +11,7 @@
  */
 
 import { View } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -21,8 +22,15 @@ import RecentPnms from "@/components/RecentPnms";
 import useStatistics from "@/hooks/useStatistics";
 import HomeHeaderSvg from "@/assets/HomeHeaderSvg";
 import { useBottomSheets } from "@/providers/BottomSheet";
+import { useNavigation } from "@react-navigation/native";
 
-const Home: React.FC = () => {
+interface HomeScreenProps {
+  navigation: NativeStackNavigationProp<any>;
+}
+
+const Home: React.FC<HomeScreenProps> = ({}) => {
+  const navigation = useNavigation();
+
   // Load data from the API
   const { organization } = useAuth();
   const { handlePresentModalPress } = useBottomSheets();
@@ -31,6 +39,14 @@ const Home: React.FC = () => {
   // When the user clicks the "New PNM" CTA
   const onAddPNM = () => {
     handlePresentModalPress("ADD_PNM");
+  };
+
+  // When the user clicks on a recent PNM
+  const onRecentPnmPress = (pnm: PNM) => {
+    (navigation.navigate as any)("PNMsTab", {
+      screen: "PNMDetails",
+      params: { pnmId: pnm._id },
+    });
   };
 
   return (
@@ -80,7 +96,11 @@ const Home: React.FC = () => {
 
         {/* Recently Added PNMs */}
         <Text variant="title">Recently Added PNMs</Text>
-        <RecentPnms pnms={recentPnms} loading={isLoading} />
+        <RecentPnms
+          pnms={recentPnms}
+          loading={isLoading}
+          onPress={onRecentPnmPress}
+        />
       </Layout>
     </>
   );

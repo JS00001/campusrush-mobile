@@ -19,6 +19,7 @@ import { startNetworkLogging } from "react-native-network-logger";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import toastConfig from "@/lib/toast";
+import Modals from "@/components/Modals";
 import queryClient from "@/lib/queryClient";
 import AuthProvider from "@/providers/Auth";
 import AxiosIntercepter from "@/providers/Axios";
@@ -50,6 +51,7 @@ const App = () => {
                   <GestureHandlerRootView style={{ flex: 1 }}>
                     <BottomSheetModalProvider>
                       <BottomSheetProvider>
+                        <Modals />
                         <DevEnvironment />
                         <RootNavigator />
                         <Toast config={toastConfig} />

@@ -17,12 +17,10 @@ const AppConstants = {
    * The version of the app
    */
   version: ExpoConstants.expoConfig?.version,
-
   /**
    * The public key to initialize revenue cat
    */
   revenueCatPublicKey: ExpoConstants.expoConfig?.extra?.revenueCat?.publicKey,
-
   /**
    * The keywords to custom style in messages and their descriptions
    */
@@ -44,7 +42,6 @@ const AppConstants = {
       description: "Will be replaced with phone number of the PNM",
     },
   ],
-
   /**
    *  All locally stored user preferences with their default values
    */

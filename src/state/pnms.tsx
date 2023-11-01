@@ -12,14 +12,21 @@
 
 import { create } from "zustand";
 
+export enum PnmsStatus {
+  Idle = "IDLE",
+  Loading = "LOADING",
+}
+
 interface PnmsState {
   pnms: PNM[];
+  status: PnmsStatus;
 
   getPnm: (id: string) => PNM;
   addPnms: (pnm: PNM[]) => void;
   updatePnm: (pnm: PNM) => void;
   deletePnm: (pnm: PNM) => void;
   setPnms: (pnms: PNM[]) => void;
+  setStatus: (status: PnmsStatus) => void;
 }
 
 const usePnmsStore = create<PnmsState>()((set) => ({
@@ -27,6 +34,17 @@ const usePnmsStore = create<PnmsState>()((set) => ({
    * The list of PNMs to be stored in the store
    */
   pnms: [],
+  /**
+   * The status of the PNMs screen
+   */
+  status: PnmsStatus.Idle,
+  /**
+   * Sets the status of the PNMs screen
+   */
+  setStatus: (status) =>
+    set(() => ({
+      status,
+    })),
   /**
    * Gets a PNM from the store by id
    */

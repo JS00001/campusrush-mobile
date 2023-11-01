@@ -69,7 +69,6 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
 
     return (
       <MenuView
-        title="Organization Actions"
         actions={[
           {
             id: "copy-id",
