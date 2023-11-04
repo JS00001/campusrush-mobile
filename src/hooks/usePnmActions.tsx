@@ -208,6 +208,10 @@ const usePnmActions = (pnm: PNM) => {
   return {
     actions,
     onActionPress,
+    isLoading:
+      deletionMutation.isLoading ||
+      favoriteMutation.isLoading ||
+      unfavoriteMutation.isLoading,
   };
 };
 
