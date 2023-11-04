@@ -17,7 +17,7 @@ import Purchases, {
 import { useEffect, createContext, useContext, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import AppConstants from "@/lib/constants";
+import AppConstants from "@/constants";
 
 interface PurchasesContextProps {
   isLoading: boolean;

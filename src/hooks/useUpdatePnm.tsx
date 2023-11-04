@@ -17,7 +17,7 @@ import { useMutation } from "@tanstack/react-query";
 import errors from "@/lib/errors";
 import pnmsApi from "@/api/api/pnms";
 import usePnmsStore from "@/state/pnms";
-import validators from "@/lib/validators";
+import validators from "@/lib/validation/validators";
 import { useNavigation } from "@react-navigation/native";
 
 const useUpdatePnm = (pnmId: string, field: string) => {

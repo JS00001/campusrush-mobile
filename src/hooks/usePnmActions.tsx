@@ -14,7 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 import { MenuAction } from "@react-native-menu/menu";
 import { useNavigation } from "@react-navigation/native";
 
-import Content from "@/lib/content";
+import Content from "@/constants/content";
 import pnmsApi from "@/api/api/pnms";
 import usePnmsStore from "@/state/pnms";
 import useModalsStore from "@/state/modals";

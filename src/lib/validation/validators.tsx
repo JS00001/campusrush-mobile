@@ -10,11 +10,10 @@
  * Do not distribute
  */
 
-const validateRegistration = (
-  input: RegisterAsOrganizationInput,
-  organizations: string[],
-  schools: string[],
-) => {
+import schools from "@/constants/schools";
+import organizations from "@/constants/organizations";
+
+const validateRegistration = (input: RegisterAsOrganizationInput) => {
   const errors = {
     name: "",
     school: "",
