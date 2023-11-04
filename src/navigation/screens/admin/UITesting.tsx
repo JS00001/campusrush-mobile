@@ -15,6 +15,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import useModalsStore from "@/state/modals";
+import Toast from "react-native-toast-message";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
@@ -24,13 +25,30 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
   const { openModal } = useModalsStore();
 
   const onButtonPress = () => {
-    openModal({
-      name: "ERROR",
-      props: {
-        message: "This is a warning",
-        secondaryButtonText: "Go Back",
-        primaryButtonText: "Continue",
-      },
+    Toast.show({
+      type: "success",
+      autoHide: false,
+      text1: "Success",
+      text2: "The button was pressed",
+    });
+  };
+
+  const onErrorButtonPress = () => {
+    Toast.show({
+      type: "error",
+      autoHide: false,
+      text1: "Error",
+      text2: "The button was pressed",
+    });
+  };
+
+  const onBigMessageButtonPress = () => {
+    Toast.show({
+      type: "success",
+      autoHide: false,
+      text1: "Success",
+      text2:
+        "The button was pressed and this is a really long message that should wrap",
     });
   };
 
@@ -42,7 +60,9 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
         subtitle="Test new UI in a sandbox environment"
       />
 
-      <Button onPress={onButtonPress}>Confirm Delete</Button>
+      <Button onPress={onButtonPress}>Show Success Toast</Button>
+      <Button onPress={onErrorButtonPress}>Show Error Toast</Button>
+      <Button onPress={onBigMessageButtonPress}>Show Big Message Toast</Button>
     </Layout>
   );
 };

@@ -38,7 +38,7 @@ const useUpdatePnm = (pnmId: string, field: string) => {
   // The form to store TextInput data and its submission function
   const form = useFormik({
     initialValues: {
-      value: "",
+      value: pnm[field as keyof PNM],
     },
     onSubmit: async (values) => {
       onSubmit(values);
