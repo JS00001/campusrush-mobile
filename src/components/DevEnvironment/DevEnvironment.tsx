@@ -22,7 +22,7 @@ import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import { useAuth } from "@/providers/Auth";
-import AppConstants from "@/lib/constants";
+import AppConstants from "@/constants";
 import SegmentedControl from "@/ui/SegmentedControl";
 import { usePreferences } from "@/providers/Preferences";
 

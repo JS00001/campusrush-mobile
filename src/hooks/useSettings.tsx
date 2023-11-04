@@ -14,10 +14,11 @@ import { useFormik } from "formik";
 import Toast from "react-native-toast-message";
 import { useMutation } from "@tanstack/react-query";
 
-import validators from "@/lib/validators";
-import { useAuth } from "@/providers/Auth";
-import organizationApi from "@/api/api/organization";
 import errors from "@/lib/errors";
+import validate from "@/lib/validation";
+import { useAuth } from "@/providers/Auth";
+import validators from "@/lib/validation/validators";
+import organizationApi from "@/api/api/organization";
 
 const useSettings = () => {
   const { organization, updateOrganization } = useAuth();
@@ -80,33 +81,13 @@ const useSettings = () => {
   };
 
   // The validation function, takes certain fields so we dont update all errors at once
-  const validateFields = (fields: (keyof UpdateOrganizationInput)[]) => {
-    // Get the errors from the validator
-    // This will return ALL errors, even ones from different steps
-    const errors = validators.validateSettings(form.values) as any;
-
-    // Remove any items in the object that arent in the fields array
-    // This is to prevent errors from showing up on other steps
-    Object.keys(errors).forEach((key) => {
-      if (!fields.includes(key as any)) {
-        delete (errors as any)[key];
-      }
+  const validateFields = (fields: (keyof typeof form.values)[]) => {
+    return validate({
+      form,
+      fields,
+      values: form.values,
+      validatorFn: validators.validateSettings,
     });
-
-    // Set the field errors that apply to the provided fields
-    fields.forEach((field) => {
-      if (errors[field]) {
-        form.setFieldError(field, errors[field]);
-      } else {
-        form.setFieldError(field, "");
-      }
-    });
-
-    // Check if there are any errors with the provided fields
-    const hasErrors = !Object.values(errors).some((error) => error !== "");
-
-    // Return whether or not there are errors
-    return hasErrors;
   };
 
   return {

@@ -11,10 +11,10 @@
  */
 
 import { useFormik } from "formik";
+import Toast from "react-native-toast-message";
 
 import { useAuth } from "@/providers/Auth";
-import validators from "@/lib/validators";
-import Toast from "react-native-toast-message";
+import validators from "@/lib/validation/validators";
 
 const useLogin = () => {
   const { signIn } = useAuth();

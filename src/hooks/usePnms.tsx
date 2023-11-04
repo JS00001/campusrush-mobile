@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { MenuAction } from "@react-native-menu/menu";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import Content from "@/lib/content";
+import Content from "@/constants/content";
 import pnmsApi from "@/api/api/pnms";
 import { useAuth } from "@/providers/Auth";
 import useModalsStore from "@/state/modals";
