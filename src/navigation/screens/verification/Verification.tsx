@@ -22,12 +22,24 @@ import useVerification from "@/hooks/useVerification";
 
 const Verification = () => {
   const {
+    errors,
     isLoading,
     code,
     setCode,
+    validateFields,
     handleSubmission,
     resendVerificationEmail,
   } = useVerification();
+
+  // Handle the submission of the form
+  const onSubmit = () => {
+    // Ensure the fields are valid
+    const isValid = validateFields(["code"]);
+    // If the fields are not valid, dont submit the final request
+    if (!isValid) return;
+    // Submit the final request if the fields are valid
+    handleSubmission();
+  };
 
   return (
     <Layout scrollable gap={18}>
@@ -36,6 +48,7 @@ const Verification = () => {
         subtitle="You must have a verified email to continue"
       />
       <TextInput
+        error={errors.code}
         placeholder="Verification Code"
         value={code}
         onChangeText={setCode}
@@ -44,7 +57,7 @@ const Verification = () => {
       <Button
         loading={isLoading}
         iconRight="ri-arrow-right-line"
-        onPress={handleSubmission}
+        onPress={onSubmit}
       >
         Continue
       </Button>

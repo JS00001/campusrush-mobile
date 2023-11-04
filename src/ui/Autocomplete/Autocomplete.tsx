@@ -89,7 +89,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     // Positioning and size
     `absolute top-18 rounded-md border w-full max-h-40 py-2`,
     // Styling
-    `bg-white border-slate-400`,
+    `bg-white border-primary`,
     // Whether to show the dropdown or not
     !focused && "hidden",
   );
