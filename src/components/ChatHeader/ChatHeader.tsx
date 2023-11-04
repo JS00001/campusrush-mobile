@@ -34,7 +34,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
 }) => {
   const navigation = useNavigation();
 
-  const { actions, onActionPress } = usePnmActions(pnms[0]);
+  const { actions, onActionPress, isLoading } = usePnmActions(pnms[0]);
 
   // Whether or not the chat is a single PNM
   const isSinglePnm = pnms.length === 1;
@@ -76,6 +76,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
             icon="ri-more-fill"
             onPress={() => {}}
             size="sm"
+            loading={isLoading}
             disabled={!isSinglePnm}
             // Hide the button if it's not a single PNM
             style={tw.style("opacity-0", isSinglePnm && "opacity-100")}

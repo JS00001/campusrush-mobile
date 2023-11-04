@@ -24,8 +24,8 @@ import useConversationsStore from "@/state/conversations";
 
 export enum PNMFilter {
   NoFilter = "NO_FILTER",
-  ReceivedBid = "RECEIVED_BID",
-  NotReceivedBid = "NOT_RECEIVED_BID",
+  Starred = "STARRED",
+  NotStarred = "NOT_STARRED",
 }
 
 export enum PNMOtherOption {
@@ -57,8 +57,10 @@ const usePnms = () => {
   );
 
   // Store to update home statistics once all PNMs are deleted
-  const setNumBids = useStatisticsStore((state) => state.setNumBids);
   const setCurrentPnms = useStatisticsStore((state) => state.setNumPnms);
+  const setNumStarredPnms = useStatisticsStore(
+    (state) => state.setNumStarredPnms,
+  );
 
   // All filtering options
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -88,8 +90,8 @@ const usePnms = () => {
       setConversations([]);
 
       // Update the statistics
-      setNumBids(0);
       setCurrentPnms(0);
+      setNumStarredPnms(0);
 
       // Refetch the query
       await query.refetch();
@@ -123,13 +125,13 @@ const usePnms = () => {
 
     // Then, filter the matched PNMs based on the selected filter
     switch (selectedFilter) {
-      case PNMFilter.ReceivedBid:
-        const pnmsWithBids = matchedPnms.filter((pnm) => pnm.receivedBid);
-        setFilteredPnms(pnmsWithBids);
+      case PNMFilter.Starred:
+        const starredPnms = matchedPnms.filter((pnm) => pnm.starred);
+        setFilteredPnms(starredPnms);
         break;
-      case PNMFilter.NotReceivedBid:
-        const pnmsWithoutBid = matchedPnms.filter((pnm) => !pnm.receivedBid);
-        setFilteredPnms(pnmsWithoutBid);
+      case PNMFilter.NotStarred:
+        const notStarredPnms = matchedPnms.filter((pnm) => !pnm.starred);
+        setFilteredPnms(notStarredPnms);
         break;
       case PNMFilter.NoFilter:
         setFilteredPnms(matchedPnms);
@@ -188,16 +190,16 @@ const usePnms = () => {
       state: selectedFilter === PNMFilter.NoFilter ? "on" : "off",
     },
     {
-      id: PNMFilter.ReceivedBid,
-      title: "Received Bid",
-      image: "person.badge.plus",
-      state: selectedFilter === PNMFilter.ReceivedBid ? "on" : "off",
+      id: PNMFilter.Starred,
+      title: "Favorites",
+      image: "star",
+      state: selectedFilter === PNMFilter.Starred ? "on" : "off",
     },
     {
-      id: PNMFilter.NotReceivedBid,
-      title: "Has Not Received Bid",
-      image: "person.badge.minus",
-      state: selectedFilter === PNMFilter.NotReceivedBid ? "on" : "off",
+      id: PNMFilter.NotStarred,
+      title: "Not Favorited",
+      image: "star.slash",
+      state: selectedFilter === PNMFilter.NotStarred ? "on" : "off",
     },
   ];
 

@@ -10,17 +10,23 @@
  * Do not distribute
  */
 
+import {
+  View,
+  ActivityIndicator,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from "react-native";
 import RemixIcon from "react-native-remix-icon";
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
 import tw from "@/lib/tailwind";
 
 interface IconButtonProps extends TouchableOpacityProps {
   icon: string;
-  size?: keyof typeof sizeClasses;
-  disabled?: boolean;
-  onPress?: () => void;
   style?: any;
+  loading?: boolean;
+  disabled?: boolean;
+  size?: keyof typeof sizeClasses;
+  onPress?: () => void;
 }
 
 /**
@@ -45,32 +51,53 @@ const sizeClasses = {
 const IconButton: React.FC<IconButtonProps> = ({
   icon,
   disabled,
+  loading,
   size = "lg",
   onPress,
   style,
   ...props
 }) => {
+  disabled = disabled || loading;
+
   const iconColor = disabled ? tw.color("slate-300") : tw.color("primary");
 
   // Styling
   const containerClasses = tw.style(
     // Base styles
-    "rounded-full bg-slate-100 ",
+    "rounded-full bg-slate-100",
     // Size styles
     sizeClasses[size].container,
     // Custom styles
     style,
   );
 
+  const loadingIndicatorClasses = tw.style(
+    "absolute w-full h-full items-center justify-center z-10",
+  );
+
   return (
-    <TouchableOpacity
-      {...props}
-      onPress={onPress}
-      disabled={disabled}
-      style={containerClasses}
-    >
-      <RemixIcon name={icon} size={sizeClasses[size].icon} color={iconColor} />
-    </TouchableOpacity>
+    <View>
+      {/* Loading indicator */}
+      {loading && (
+        <View style={loadingIndicatorClasses}>
+          <ActivityIndicator size={"small"} />
+        </View>
+      )}
+
+      <TouchableOpacity
+        {...props}
+        onPress={onPress}
+        disabled={disabled}
+        style={containerClasses}
+      >
+        <RemixIcon
+          name={icon}
+          size={sizeClasses[size].icon}
+          color={iconColor}
+          style={tw.style(loading && `opacity-0`)}
+        />
+      </TouchableOpacity>
+    </View>
   );
 };
 

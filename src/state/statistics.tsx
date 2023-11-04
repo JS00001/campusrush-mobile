@@ -10,16 +10,16 @@
  * Do not distribute
  */
 
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface StatisticsState {
   numPnms: number;
-  numBids: number;
+  numStarredPnms: number;
   recentPnms: PNM[];
 
   setNumPnms: (numPnms: number) => void;
-  setNumBids: (numBids: number) => void;
   setRecentPnms: (recentPnms: PNM[]) => void;
+  setNumStarredPnms: (numStarredPnms: number) => void;
 }
 
 const useStatisticsStore = create<StatisticsState>((set) => ({
@@ -28,9 +28,9 @@ const useStatisticsStore = create<StatisticsState>((set) => ({
    */
   numPnms: 0,
   /**
-   * The number of bids in the system
+   * The number of starred PNMs in the system
    */
-  numBids: 0,
+  numStarredPnms: 0,
   /**
    * The list of recent PNMs
    */
@@ -40,9 +40,9 @@ const useStatisticsStore = create<StatisticsState>((set) => ({
    */
   setNumPnms: (numPnms) => set(() => ({ numPnms })),
   /**
-   * Sets the number of bids in the system
+   * Sets the number of starred PNMs in the system
    */
-  setNumBids: (numBids) => set(() => ({ numBids })),
+  setNumStarredPnms: (numStarredPnms) => set(() => ({ numStarredPnms })),
   /**
    * Sets the list of recent PNMs
    */
