@@ -14,7 +14,6 @@ import RemixIcon from "react-native-remix-icon";
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
 import Text from "@/ui/Text";
-import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";
 
@@ -22,26 +21,28 @@ interface ListItemProps extends TouchableOpacityProps {
   title: string;
   subtitle: string;
   pressable?: boolean;
-  badge?: string;
   loading?: boolean;
   style?: any;
+  icon?: string;
+  iconColor?: string;
   onPress?: () => void;
 }
 
 const ListItem: React.FC<ListItemProps> = ({
   title,
   subtitle,
-  badge,
   onPress,
   style,
   loading,
+  icon,
+  iconColor = "black",
   pressable = true,
   ...props
 }) => {
   // Styling
   const containerClasses = tw.style(
     // Default classes
-    "bg-slate-100 w-full py-3 px-5 rounded-md",
+    "bg-slate-100 w-full p-4 rounded-md",
     // If pressable, add justify for chevron
     "flex-row justify-between items-center",
     // Custom classes
@@ -56,35 +57,42 @@ const ListItem: React.FC<ListItemProps> = ({
       style={containerClasses}
     >
       {/* Title and subtitle */}
-      <View>
-        {/* If not loading, show content */}
-        {!loading && (
-          <Text variant="body" style={tw`text-primary`}>
-            {title}
-          </Text>
-        )}
-        {!loading && (
-          <Text variant="subtext" style={tw`text-slate-500`}>
-            {subtitle}
-          </Text>
+      <View style={tw`gap-3 items-center flex-row`}>
+        {/* Icon, if passed, show icon, else fill space */}
+        {icon ? (
+          <RemixIcon name={icon} size={14} color={tw.color(iconColor)} />
+        ) : (
+          <View style={tw`w-3.5`} />
         )}
 
-        {/* If loading, show skeleton */}
-        {loading && <Skeleton height={15} width={150} style={tw`mb-2`} />}
-        {loading && <Skeleton height={15} width={250} />}
+        <View>
+          {/* If not loading, show content */}
+          {!loading && (
+            <Text variant="body" style={tw`text-primary`}>
+              {title}
+            </Text>
+          )}
+          {!loading && (
+            <Text variant="subtext" style={tw`text-slate-500`}>
+              {subtitle}
+            </Text>
+          )}
+
+          {/* If loading, show skeleton */}
+          {loading && <Skeleton height={15} width={150} style={tw`mb-2`} />}
+          {loading && <Skeleton height={15} width={250} />}
+        </View>
       </View>
 
       {/* Chevron if pressable and Badge if passed */}
-      <View style={tw`flex-row items-center gap-x-2`}>
-        {badge && <Badge>{badge}</Badge>}
-        {pressable && (
-          <RemixIcon
-            name="ri-arrow-right-s-line"
-            size={20}
-            color={tw.color("primary")}
-          />
-        )}
-      </View>
+
+      {pressable && (
+        <RemixIcon
+          name="ri-arrow-right-s-line"
+          size={20}
+          color={tw.color("primary")}
+        />
+      )}
     </TouchableOpacity>
   );
 };

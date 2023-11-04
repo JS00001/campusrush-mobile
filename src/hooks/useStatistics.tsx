@@ -24,9 +24,9 @@ const useStatistics = () => {
   // Get the statistics store
   const {
     numPnms,
-    numBids,
+    numStarredPnms,
     recentPnms,
-    setNumBids,
+    setNumStarredPnms,
     setRecentPnms,
     setNumPnms,
   } = useStatisticsStore();
@@ -44,8 +44,8 @@ const useStatistics = () => {
   useEffect(() => {
     // If there is valid response data, set the statistics in the store
     if (query.data?.data?.data) {
-      setNumPnms(query.data?.data?.data.numPnms || 0);
-      setNumBids(query.data?.data?.data.numPnmsWithBid || 0);
+      setNumPnms(query.data?.data?.data.pnms || 0);
+      setNumStarredPnms(query.data?.data?.data.starredPnms || 0);
       setRecentPnms(query.data?.data?.data.recentPnms || []);
     }
   }, [query.data?.data?.data]);
@@ -53,7 +53,7 @@ const useStatistics = () => {
   return {
     ...query,
     numPnms,
-    numBids,
+    numStarredPnms,
     recentPnms,
   };
 };

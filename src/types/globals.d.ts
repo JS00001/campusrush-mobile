@@ -54,7 +54,7 @@ interface PNM {
   instagram: string;
   snapchat: string;
   // Other information
-  receivedBid: boolean;
+  starred: boolean;
   classification: string;
   // Timestamps
   createdAt: Date;

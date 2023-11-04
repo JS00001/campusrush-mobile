@@ -155,8 +155,9 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
         key={pnm._id}
         title={`${pnm.firstName} ${pnm.lastName}`}
         subtitle={pnm.phoneNumber}
-        badge={pnm.receivedBid ? "Bid" : undefined}
         onPress={onPress}
+        icon={pnm.starred ? "ri-star-fill" : undefined}
+        iconColor="yellow-500"
       />
     );
   };

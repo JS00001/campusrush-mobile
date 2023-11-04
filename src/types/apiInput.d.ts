@@ -112,6 +112,7 @@ interface UpdatePnmInput {
   classification?: string;
   instagram?: string;
   snapchat?: string;
+  starred?: boolean;
 }
 
 interface DeletePnmInput {

@@ -22,8 +22,8 @@ const PREFIX = '/api/v1/organization';
  *
  * Returns
  * - data
- *  - numPnms
- *  - numPnmsWithBid
+ *  - pnms
+ *  - starredPnms
  *  - recentPnms
  */
 const getOrganizationStatistics =
