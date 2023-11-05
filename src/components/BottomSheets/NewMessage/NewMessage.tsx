@@ -19,6 +19,7 @@ import { NewMessageScreens } from "./types";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ActionCard from "@/ui/ActionCard";
+import Content from "@/constants/content";
 import useContacts from "@/hooks/messaging/useContacts";
 
 interface NewMessageProps {
@@ -46,8 +47,8 @@ const NewMessage: React.FC<NewMessageProps> = ({
     if (allPnms.length === 0) {
       Toast.show({
         type: "error",
-        text1: "No PNMs",
-        text2: "You have no PNMs to message",
+        text1: Content.newMessage.noPNMs.title,
+        text2: Content.newMessage.noPNMs.message,
       });
       // and close the bottom sheet modal
       handleCloseModalPress();
@@ -69,8 +70,8 @@ const NewMessage: React.FC<NewMessageProps> = ({
     if (uncontactedPnms.length === 0) {
       Toast.show({
         type: "error",
-        text1: "No PNMs",
-        text2: "You have sent messages to all PNMs",
+        text1: Content.newMessage.noUncontactedPNMs.title,
+        text2: Content.newMessage.noUncontactedPNMs.message,
       });
       // and close the bottom sheet modal
       handleCloseModalPress();

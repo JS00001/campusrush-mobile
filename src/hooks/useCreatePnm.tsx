@@ -18,6 +18,7 @@ import errors from "@/lib/errors";
 import pnmApi from "@/api/api/pnms";
 import usePnmsStore from "@/state/pnms";
 import validate from "@/lib/validation";
+import Content from "@/constants/content";
 import useStatisticsStore from "@/state/statistics";
 import validators from "@/lib/validation/validators";
 
@@ -75,8 +76,8 @@ const useCreatePnm = () => {
     // Show a success toast
     Toast.show({
       type: "success",
-      text1: "Success",
-      text2: "Added a PNM successfully",
+      text1: Content.createPNMSuccess.title,
+      text2: Content.createPNMSuccess.message,
     });
   };
 

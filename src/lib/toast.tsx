@@ -18,7 +18,7 @@ import tw from "@/lib/tailwind";
 
 const toastContainerClasses = tw.style(
   // Sizing
-  "w-11/12 mt-2 flex-row gap-4 p-4 rounded-md",
+  "w-11/12 flex-row gap-4 p-4 rounded-md",
   // Colors
   "bg-[#2D2D2D] shadow-md",
 );
@@ -34,26 +34,67 @@ const toastText2Classes = tw.style(
 );
 
 const toastConfig = {
+  /**
+   * The successs modal, shows a green checkmark with the content
+   */
   success: (props: any) => (
     <View style={toastContainerClasses}>
       <RemixIcon name="ri-checkbox-circle-line" size={24} color="#10B981" />
       <View style={tw`flex-1`}>
-        <Text variant="body" style={toastText1Classes}>
+        <Text variant="body" style={toastText1Classes} numberOfLines={1}>
           {props.text1}
         </Text>
-        <Text style={toastText2Classes}>{props.text2}</Text>
+        <Text style={toastText2Classes} numberOfLines={2}>
+          {props.text2}
+        </Text>
       </View>
     </View>
   ),
-
+  /**
+   * The error modal, shows a red warning icon with the content
+   */
   error: (props: any) => (
     <View style={toastContainerClasses}>
       <RemixIcon name="ri-error-warning-line" size={24} color="#EF4444" />
       <View style={tw`flex-1`}>
-        <Text variant="body" style={toastText1Classes}>
+        <Text variant="body" style={toastText1Classes} numberOfLines={1}>
           {props.text1}
         </Text>
-        <Text style={toastText2Classes}>{props.text2}</Text>
+        <Text style={toastText2Classes} numberOfLines={2}>
+          {props.text2}
+        </Text>
+      </View>
+    </View>
+  ),
+  /**
+   * The warning modal, shows a yellow warning icon with the content
+   */
+  warning: (props: any) => (
+    <View style={toastContainerClasses}>
+      <RemixIcon name="ri-error-warning-line" size={24} color="#F59E0B" />
+      <View style={tw`flex-1`}>
+        <Text variant="body" style={toastText1Classes} numberOfLines={1}>
+          {props.text1}
+        </Text>
+        <Text style={toastText2Classes} numberOfLines={2}>
+          {props.text2}
+        </Text>
+      </View>
+    </View>
+  ),
+  /**
+   * The info modal, shows a blue info icon with the content
+   */
+  info: (props: any) => (
+    <View style={toastContainerClasses}>
+      <RemixIcon name="ri-information-line" size={24} color="#3B82F6" />
+      <View style={tw`flex-1`}>
+        <Text variant="body" style={toastText1Classes} numberOfLines={1}>
+          {props.text1}
+        </Text>
+        <Text style={toastText2Classes} numberOfLines={2}>
+          {props.text2}
+        </Text>
       </View>
     </View>
   ),

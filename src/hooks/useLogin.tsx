@@ -11,13 +11,21 @@
  */
 
 import { useFormik } from "formik";
-import Toast from "react-native-toast-message";
+import { useMutation } from "@tanstack/react-query";
 
+import authAPI from "@/api/auth";
+import errors from "@/lib/errors";
 import { useAuth } from "@/providers/Auth";
 import validators from "@/lib/validation/validators";
 
 const useLogin = () => {
   const { signIn } = useAuth();
+
+  const mutation = useMutation({
+    mutationFn: (input: LoginAsOrganizationInput) => {
+      return authAPI.loginAsOrganization(input);
+    },
+  });
 
   const form = useFormik({
     initialValues: {
@@ -28,27 +36,31 @@ const useLogin = () => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values: LoginAsOrganizationInput) => {
-      const error = await signIn(values);
-
-      if (error) {
-        // check if error has field property and if the field exists in the form
-        if (error.field && form.values.hasOwnProperty(error.field)) {
-          // set the error on the field
-          form.setFieldError(error.field, error.humanMessage);
-        } else {
-          Toast.show({
-            type: "error",
-            text1: "Error",
-            text2: error.humanMessage,
-          });
-        }
-      }
+      onSubmit(values);
     },
   });
 
+  // The function to run when the form is submitted
+  const onSubmit = async (values: typeof form.values) => {
+    // The response from the server
+    let response;
+
+    try {
+      // Attempt to login the organization
+      response = await mutation.mutateAsync(values);
+    } catch (error) {
+      errors.handleApiError(error, form);
+    }
+    // If there was an error, prevent the "success" code from running
+    if (!response) return;
+
+    // Login the user from the auth provider
+    signIn(response);
+  };
+
   return {
     errors: form.errors,
-    isLoading: form.isSubmitting,
+    isLoading: mutation.isLoading,
 
     email: form.values.email,
     password: form.values.password,

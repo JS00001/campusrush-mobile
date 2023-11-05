@@ -17,6 +17,7 @@ import { useMutation } from "@tanstack/react-query";
 import authAPI from "@/api/auth";
 import errors from "@/lib/errors";
 import validate from "@/lib/validation";
+import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import validators from "@/lib/validation/validators";
 
@@ -77,8 +78,8 @@ const useVerification = () => {
     // Show a success message
     Toast.show({
       type: "success",
-      text1: "Success",
-      text2: "Your organization has been verified.",
+      text1: Content.verificationSuccess.verifyOrganization.title,
+      text2: Content.verificationSuccess.verifyOrganization.message,
     });
   };
 
@@ -99,8 +100,8 @@ const useVerification = () => {
     // Show a success message
     Toast.show({
       type: "success",
-      text1: "Success",
-      text2: "Resent verification email.",
+      text1: Content.verificationSuccess.resendVerificationEmail.title,
+      text2: Content.verificationSuccess.resendVerificationEmail.message,
     });
   };
 
