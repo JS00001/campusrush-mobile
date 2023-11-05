@@ -34,7 +34,7 @@ const Home: React.FC<HomeScreenProps> = ({}) => {
   // Load data from the API
   const { organization } = useAuth();
   const { handlePresentModalPress } = useBottomSheets();
-  const { numPnms, numBids, isLoading, recentPnms } = useStatistics();
+  const { numPnms, numStarredPnms, isLoading, recentPnms } = useStatistics();
 
   // When the user clicks the "New PNM" CTA
   const onAddPNM = () => {
@@ -79,8 +79,8 @@ const Home: React.FC<HomeScreenProps> = ({}) => {
             size="md"
             loading={isLoading}
             pressable={false}
-            title={numBids?.toString()}
-            subtitle="PNMs expected to receive bids"
+            title={numStarredPnms?.toString()}
+            subtitle="PNMs saved as favorites"
             icon="ri-user-star-fill"
           />
         </View>

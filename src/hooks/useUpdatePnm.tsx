@@ -17,7 +17,8 @@ import { useMutation } from "@tanstack/react-query";
 import errors from "@/lib/errors";
 import pnmsApi from "@/api/api/pnms";
 import usePnmsStore from "@/state/pnms";
-import validators from "@/lib/validators";
+import Content from "@/constants/content";
+import validators from "@/lib/validation/validators";
 import { useNavigation } from "@react-navigation/native";
 
 const useUpdatePnm = (pnmId: string, field: string) => {
@@ -38,7 +39,7 @@ const useUpdatePnm = (pnmId: string, field: string) => {
   // The form to store TextInput data and its submission function
   const form = useFormik({
     initialValues: {
-      value: "",
+      value: pnm[field as keyof PNM],
     },
     onSubmit: async (values) => {
       onSubmit(values);
@@ -85,8 +86,8 @@ const useUpdatePnm = (pnmId: string, field: string) => {
     // Show a success message
     Toast.show({
       type: "success",
-      text1: "Success",
-      text2: "PNM updated successfully",
+      text1: Content.updatePNMSuccess.title,
+      text2: Content.updatePNMSuccess.message,
     });
 
     // Navigate back to the details screen

@@ -22,7 +22,7 @@ import { useEffect, useRef, useState } from "react";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import IconButton from "@/ui/IconButton";
-import AppConstants from "@/lib/constants";
+import AppConstants from "@/constants";
 import Walkthroughs from "@/components/Walkthroughs";
 import { usePreferences } from "@/providers/Preferences";
 import { TextInputWithNoFontScaling } from "@/ui/TextInput/TextInput";

@@ -11,14 +11,16 @@
  */
 
 import { useFormik } from "formik";
-import { AxiosError } from "axios";
 import Toast from "react-native-toast-message";
 import { useMutation } from "@tanstack/react-query";
 
+import errors from "@/lib/errors";
 import pnmApi from "@/api/api/pnms";
-import validators from "@/lib/validators";
 import usePnmsStore from "@/state/pnms";
+import validate from "@/lib/validation";
+import Content from "@/constants/content";
 import useStatisticsStore from "@/state/statistics";
+import validators from "@/lib/validation/validators";
 
 const useCreatePnm = () => {
   const { addPnms } = usePnmsStore();
@@ -41,81 +43,52 @@ const useCreatePnm = () => {
       snapchat: "",
     },
     onSubmit: async (values) => {
-      let response;
-
-      try {
-        // Try to add the pnm
-        response = await mutation.mutateAsync(values);
-      } catch (error) {
-        // If the error is an axios error
-        if (error instanceof AxiosError) {
-          // Extract the error message
-          const errorMessage = error.response?.data?.error as APIError;
-
-          // If there is a field that the error applies to
-          // and the form has that field
-          if (
-            errorMessage.field &&
-            form.values.hasOwnProperty(errorMessage.field)
-          ) {
-            // Set the field error
-            form.setFieldError(errorMessage.field, errorMessage.humanMessage);
-          }
-        }
-      }
-
-      // If there was an error, there is no response
-      // This is to prevent the code below from running
-      if (!response) return;
-
-      // Add the pnm to the store
-      addPnms([response.data.data.pnm]);
-
-      // Update the number of pnms
-      setNumPnms(numPnms + 1);
-
-      // Update the recent pnms to remove the last one and add the new one
-      setRecentPnms([response.data.data.pnm, ...recentPnms.slice(0, -1)]);
-
-      // Clear all of the fields and errors
-      form.resetForm();
-
-      // Show a success toast
-      Toast.show({
-        type: "success",
-        text1: "Success",
-        text2: "Added a PNM successfully",
-      });
+      onSubmit(values);
     },
   });
 
-  const validateFields = (fields: (keyof CreatePnmInput)[]) => {
-    // Get the errors from the validator
-    // This will return ALL errors, even ones from different steps
-    const errors = validators.validateCreatePnm(form.values) as any;
+  // The function to run when the form is submitted
+  const onSubmit = async (values: typeof form.values) => {
+    // The response from the server
+    let response;
 
-    // Remove any items in the object that arent in the fields array
-    // This is to prevent errors from showing up on other steps
-    Object.keys(errors).forEach((key) => {
-      if (!fields.includes(key as any)) {
-        delete (errors as any)[key];
-      }
+    try {
+      // Attempt to update the organization
+      response = await mutation.mutateAsync(values);
+    } catch (error) {
+      errors.handleApiError(error, form);
+    }
+    // If there was an error, prevent the "success" code from running
+    if (!response) return;
+
+    // Add the pnm to the store
+    addPnms([response.data.data.pnm]);
+
+    // Update the number of pnms
+    setNumPnms(numPnms + 1);
+
+    // Update the recent pnms to remove the last one and add the new one
+    setRecentPnms([response.data.data.pnm, ...recentPnms.slice(0, -1)]);
+
+    // Clear all of the fields and errors
+    form.resetForm();
+
+    // Show a success toast
+    Toast.show({
+      type: "success",
+      text1: Content.createPNMSuccess.title,
+      text2: Content.createPNMSuccess.message,
     });
+  };
 
-    // Set the field errors that apply to the provided fields
-    fields.forEach((field) => {
-      if (errors[field]) {
-        form.setFieldError(field, errors[field]);
-      } else {
-        form.setFieldError(field, "");
-      }
+  // The validation function, takes certain fields so we dont update all errors at once
+  const validateFields = (fields: (keyof typeof form.values)[]) => {
+    return validate({
+      form,
+      fields,
+      values: form.values,
+      validatorFn: validators.validateCreatePnm,
     });
-
-    // Check if there are any errors with the provided fields
-    const hasErrors = !Object.values(errors).some((error) => error !== "");
-
-    // Return whether or not there are errors
-    return hasErrors;
   };
 
   return {

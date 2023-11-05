@@ -14,7 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 import { MenuAction } from "@react-native-menu/menu";
 import { useNavigation } from "@react-navigation/native";
 
-import Content from "@/lib/content";
+import Content from "@/constants/content";
 import pnmsApi from "@/api/api/pnms";
 import usePnmsStore from "@/state/pnms";
 import useModalsStore from "@/state/modals";
@@ -23,7 +23,8 @@ import useConversationsStore from "@/state/conversations";
 
 export enum PNMActions {
   EditPnm = "EDIT_PNM",
-  ExtendBid = "EXTEND_BID",
+  Favorite = "FAVORITE",
+  Unfavorite = "UNFAVORITE",
   DeletePnm = "DELETE_PNM",
 }
 
@@ -37,16 +38,22 @@ const usePnmActions = (pnm: PNM) => {
   // Store to remove a pnm from the pnms store
   const deletePnm = usePnmsStore((state) => state.deletePnm);
 
+  // Store to update a pnm in the pnms store
+  const updatePnm = usePnmsStore((state) => state.updatePnm);
+
   // Store to remove a conversation from the conversations store
   const deleteConversation = useConversationsStore(
     (state) => state.deleteConversation,
   );
 
   // Store to update home statistics once all PNMs are deleted
-  const numBids = useStatisticsStore((state) => state.numBids);
+
   const numPnms = useStatisticsStore((state) => state.numPnms);
-  const setNumBids = useStatisticsStore((state) => state.setNumBids);
   const setCurrentPnms = useStatisticsStore((state) => state.setNumPnms);
+  const numStarredPnms = useStatisticsStore((state) => state.numStarredPnms);
+  const setNumStarredPnms = useStatisticsStore(
+    (state) => state.setNumStarredPnms,
+  );
 
   // Create a mutation to delete the PNM
   const deletionMutation = useMutation({
@@ -65,10 +72,44 @@ const usePnmActions = (pnm: PNM) => {
       // Update the statistics
       setCurrentPnms(numPnms - 1);
 
-      // Check if the PNM has a bid
-      if (pnm.receivedBid) {
-        setNumBids(numBids - 1);
+      // Check if the PNM is favorited
+      if (pnm.starred) {
+        setNumStarredPnms(numStarredPnms - 1);
       }
+    },
+  });
+
+  // Create a mutation to mark the PNM as favorited
+  const favoriteMutation = useMutation({
+    mutationFn: async (input: UpdatePnmInput) => {
+      return pnmsApi.updatePnm(input);
+    },
+    onSuccess: async () => {
+      // Update the PNM in the store
+      updatePnm({
+        ...pnm,
+        starred: true,
+      });
+
+      // Update the statistics
+      setNumStarredPnms(numStarredPnms + 1);
+    },
+  });
+
+  // Create a mutation to mark the PNM as unfavorited
+  const unfavoriteMutation = useMutation({
+    mutationFn: async (input: UpdatePnmInput) => {
+      return pnmsApi.updatePnm(input);
+    },
+    onSuccess: async () => {
+      // Update the PNM in the store
+      updatePnm({
+        ...pnm,
+        starred: false,
+      });
+
+      // Update the statistics
+      setNumStarredPnms(numStarredPnms - 1);
     },
   });
 
@@ -86,7 +127,6 @@ const usePnmActions = (pnm: PNM) => {
           params: { pnmId: pnm._id },
         });
         break;
-
       /**
        * When the delete button is pressed, open the confirm delete modal
        */
@@ -106,13 +146,27 @@ const usePnmActions = (pnm: PNM) => {
           },
         });
         break;
-
       /**
-       * When the extend bid button is pressed, open the extend bid modal
+       * When the favorite button is pressed, favorite the PNM
        */
-      case PNMActions.ExtendBid:
+      case PNMActions.Favorite:
+        favoriteMutation.mutate({
+          id: pnm._id,
+          starred: true,
+        });
         break;
-
+      /**
+       * When the unfavorite button is pressed, unfavorite the PNM
+       */
+      case PNMActions.Unfavorite:
+        unfavoriteMutation.mutate({
+          id: pnm._id,
+          starred: false,
+        });
+        break;
+      /**
+       * If the event id is not recognized, do nothing
+       */
       default:
         break;
     }
@@ -126,11 +180,19 @@ const usePnmActions = (pnm: PNM) => {
       image: "square.and.pencil",
     },
     {
-      id: PNMActions.ExtendBid,
-      title: "Extend Bid",
-      image: "checkmark.shield",
+      id: PNMActions.Favorite,
+      title: "Favorite",
+      image: "star",
       attributes: {
-        disabled: true,
+        hidden: pnm.starred,
+      },
+    },
+    {
+      id: PNMActions.Unfavorite,
+      title: "Unfavorite",
+      image: "star.slash",
+      attributes: {
+        hidden: !pnm.starred,
       },
     },
     {
@@ -146,6 +208,10 @@ const usePnmActions = (pnm: PNM) => {
   return {
     actions,
     onActionPress,
+    isLoading:
+      deletionMutation.isLoading ||
+      favoriteMutation.isLoading ||
+      unfavoriteMutation.isLoading,
   };
 };
 

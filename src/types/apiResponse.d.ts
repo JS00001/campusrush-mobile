@@ -120,8 +120,8 @@ type UpdateOrganizationAPIResponse = APIResponse & {
 type GetOrganizationStatisticsAPIResponse = APIResponse & {
   data: {
     data: {
-      numPnms: number;
-      numPnmsWithBid: number;
+      pnms: number;
+      starredPnms: number;
       recentPnms: PNM[];
     };
   };

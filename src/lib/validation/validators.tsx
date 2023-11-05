@@ -10,11 +10,10 @@
  * Do not distribute
  */
 
-const validateRegistration = (
-  input: RegisterAsOrganizationInput,
-  organizations: string[],
-  schools: string[],
-) => {
+import schools from "@/constants/schools";
+import organizations from "@/constants/organizations";
+
+const validateRegistration = (input: RegisterAsOrganizationInput) => {
   const errors = {
     name: "",
     school: "",
@@ -291,10 +290,38 @@ const validateUpdatePnm = (input: UpdatePnmInput) => {
   return errors;
 };
 
+const validateVerifyOrganization = (input: VerifyOrganizationInput) => {
+  const errors = {
+    code: "",
+  };
+
+  if (!input.code) {
+    errors.code = "Code is required";
+  }
+
+  // Make sure code is 6 characters and only numbers
+  const codeRegex = /^\d{6}$/;
+
+  if (input.code && !codeRegex.test(input.code)) {
+    if (!errors.code) errors.code = "Invalid code";
+  }
+
+  // Check if all errors are empty
+  // If so, return an empty object
+  const allErrors = Object.values(errors).filter((error) => error !== "");
+
+  if (allErrors.length === 0) {
+    return {} as VerifyOrganizationInput;
+  }
+
+  return errors;
+};
+
 export default {
   validateLogin,
   validateRegistration,
   validateSettings,
   validateCreatePnm,
   validateUpdatePnm,
+  validateVerifyOrganization,
 };

@@ -17,6 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import messagingApi from "@/api/api/messaging";
 import useConversations from "@/hooks/useConversations";
 import { ConversationStatus } from "@/state/conversations";
+import errors from "@/lib/errors";
 
 const useMessageSender = (_pnms: PNM[]) => {
   // Create a navigation state so we can navigate back to the conversations screen
@@ -65,10 +66,12 @@ const useMessageSender = (_pnms: PNM[]) => {
     try {
       response = await mutation.mutateAsync(input);
     } catch (error) {
-      // TODO: Handle error, add a "failed" state to all messages or smth
+      errors.handleApiError(error);
       setStatus(ConversationStatus.Failed);
-      return;
     }
+
+    // If there was an error, prevent the "success" code from running
+    if (!response) return;
 
     // Destrucure the conversations from the response
     let conversations = response.data.data.conversations;

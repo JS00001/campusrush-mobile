@@ -15,6 +15,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import useModalsStore from "@/state/modals";
+import Toast from "react-native-toast-message";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
@@ -24,13 +25,44 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
   const { openModal } = useModalsStore();
 
   const onButtonPress = () => {
-    openModal({
-      name: "ERROR",
-      props: {
-        message: "This is a warning",
-        secondaryButtonText: "Go Back",
-        primaryButtonText: "Continue",
-      },
+    Toast.show({
+      type: "success",
+      text1: "Success",
+      text2: "The button was pressed",
+    });
+  };
+
+  const onErrorButtonPress = () => {
+    Toast.show({
+      type: "error",
+      text1: "Error",
+      text2: "The button was pressed",
+    });
+  };
+
+  const onWarningButtonPress = () => {
+    Toast.show({
+      type: "warning",
+      text1: "Warning",
+      text2: "The button was pressed",
+    });
+  };
+
+  const onInfoButtonPress = () => {
+    Toast.show({
+      type: "info",
+      text1: "Info",
+      text2: "The button was pressed",
+    });
+  };
+
+  const onBigMessageButtonPress = () => {
+    Toast.show({
+      type: "success",
+      text1:
+        "Success wraps as well and is a really long message that cant be seen",
+      text2:
+        "The button was pressed and this is a really long message that should wrap. There is a lot of text here and it should wrap to the next line. This is a really long message that should wrap. There is a lot of text here and it should wrap to the next line. This is a really long message that should wrap. There is a lot of text here and it should wrap to the next line.",
     });
   };
 
@@ -42,7 +74,11 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
         subtitle="Test new UI in a sandbox environment"
       />
 
-      <Button onPress={onButtonPress}>Confirm Delete</Button>
+      <Button onPress={onButtonPress}>Show Success Toast</Button>
+      <Button onPress={onErrorButtonPress}>Show Error Toast</Button>
+      <Button onPress={onWarningButtonPress}>Show Warning Toast</Button>
+      <Button onPress={onInfoButtonPress}>Show Info Toast</Button>
+      <Button onPress={onBigMessageButtonPress}>Show Big Message Toast</Button>
     </Layout>
   );
 };
