@@ -27,7 +27,6 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
   const onButtonPress = () => {
     Toast.show({
       type: "success",
-      autoHide: false,
       text1: "Success",
       text2: "The button was pressed",
     });
@@ -36,8 +35,23 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
   const onErrorButtonPress = () => {
     Toast.show({
       type: "error",
-      autoHide: false,
       text1: "Error",
+      text2: "The button was pressed",
+    });
+  };
+
+  const onWarningButtonPress = () => {
+    Toast.show({
+      type: "warning",
+      text1: "Warning",
+      text2: "The button was pressed",
+    });
+  };
+
+  const onInfoButtonPress = () => {
+    Toast.show({
+      type: "info",
+      text1: "Info",
       text2: "The button was pressed",
     });
   };
@@ -45,10 +59,10 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
   const onBigMessageButtonPress = () => {
     Toast.show({
       type: "success",
-      autoHide: false,
-      text1: "Success",
+      text1:
+        "Success wraps as well and is a really long message that cant be seen",
       text2:
-        "The button was pressed and this is a really long message that should wrap",
+        "The button was pressed and this is a really long message that should wrap. There is a lot of text here and it should wrap to the next line. This is a really long message that should wrap. There is a lot of text here and it should wrap to the next line. This is a really long message that should wrap. There is a lot of text here and it should wrap to the next line.",
     });
   };
 
@@ -62,6 +76,8 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
 
       <Button onPress={onButtonPress}>Show Success Toast</Button>
       <Button onPress={onErrorButtonPress}>Show Error Toast</Button>
+      <Button onPress={onWarningButtonPress}>Show Warning Toast</Button>
+      <Button onPress={onInfoButtonPress}>Show Info Toast</Button>
       <Button onPress={onBigMessageButtonPress}>Show Big Message Toast</Button>
     </Layout>
   );

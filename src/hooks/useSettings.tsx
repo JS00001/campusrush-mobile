@@ -16,6 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import errors from "@/lib/errors";
 import validate from "@/lib/validation";
+import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import validators from "@/lib/validation/validators";
 import organizationApi from "@/api/api/organization";
@@ -75,8 +76,8 @@ const useSettings = () => {
     // Show a success message
     Toast.show({
       type: "success",
-      text1: "Success",
-      text2: "Organization updated successfully",
+      text1: Content.updateOrganizationSuccess.title,
+      text2: Content.updateOrganizationSuccess.message,
     });
   };
 

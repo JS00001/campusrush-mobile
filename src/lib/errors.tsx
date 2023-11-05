@@ -13,6 +13,8 @@
 import { AxiosError } from "axios";
 import Toast from "react-native-toast-message";
 
+import Content from "@/constants/content";
+
 const handleApiError = (error: any, form?: any) => {
   if (error instanceof AxiosError) {
     // Extract the error message
@@ -27,7 +29,7 @@ const handleApiError = (error: any, form?: any) => {
       // Else show the error as a toast message
       Toast.show({
         type: "error",
-        text1: "Error",
+        text1: Content.errorTitle,
         text2: errorMessage.humanMessage,
       });
     }

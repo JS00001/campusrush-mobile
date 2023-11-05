@@ -18,6 +18,7 @@ import axios, {
 import { useEffect } from "react";
 import Toast from "react-native-toast-message";
 
+import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import { BASE_URL } from "@/api/constants";
 
@@ -77,8 +78,8 @@ const AxiosIntercepter: React.FC<{ children?: React.ReactNode }> = ({
       if (error.response?.status == 429) {
         Toast.show({
           type: "error",
-          text1: "Too many requests",
-          text2: "Please try again later",
+          text1: Content.rateLimitError.title,
+          text2: Content.rateLimitError.message,
         });
 
         return Promise.reject(error);

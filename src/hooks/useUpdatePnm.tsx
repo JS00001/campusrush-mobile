@@ -17,6 +17,7 @@ import { useMutation } from "@tanstack/react-query";
 import errors from "@/lib/errors";
 import pnmsApi from "@/api/api/pnms";
 import usePnmsStore from "@/state/pnms";
+import Content from "@/constants/content";
 import validators from "@/lib/validation/validators";
 import { useNavigation } from "@react-navigation/native";
 
@@ -85,8 +86,8 @@ const useUpdatePnm = (pnmId: string, field: string) => {
     // Show a success message
     Toast.show({
       type: "success",
-      text1: "Success",
-      text2: "PNM updated successfully",
+      text1: Content.updatePNMSuccess.title,
+      text2: Content.updatePNMSuccess.message,
     });
 
     // Navigate back to the details screen
