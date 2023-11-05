@@ -41,6 +41,12 @@ interface Organization {
   // NOTIFICATIONS
   // The expo push tokens associated with the organization
   notificationsEnabled: boolean;
+
+  // TIMESTAMP INFORMATION
+  // When the organization was created
+  createdAt: Date;
+  // When the organization was last updated
+  updatedAt: Date;
 }
 interface PNM {
   _id: string;

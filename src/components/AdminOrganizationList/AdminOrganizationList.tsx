@@ -15,6 +15,7 @@ import { SectionList, View } from "react-native";
 import { MenuView } from "@react-native-menu/menu";
 
 import Text from "@/ui/Text";
+import date from "@/lib/date";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
 
@@ -65,7 +66,16 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
 
   // The components for each item in teh section list
   const ItemComponent = ({ item: organization }: { item: Organization }) => {
-    const subtitle = `School: ${organization.school}\nEmail: ${organization.email}\nVerified: ${organization.verified}\nNum Pnms: ${organization.pnms.length}`;
+    const subtitle = [
+      `School: ${organization.school}`,
+      `Email: ${organization.email}`,
+      `Num Pnms: ${organization.pnms.length}`,
+      `Verified: ${organization.verified}`,
+      `Entitlements: ${organization.entitlements.join(", ") || "None"}`,
+      `Notifications Enabled: ${organization.notificationsEnabled}`,
+      `Created On: ${date.toString(organization.createdAt)}`,
+      `Updated On: ${date.toString(organization.updatedAt)}`,
+    ].join("\n");
 
     return (
       <MenuView
@@ -107,18 +117,17 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
   };
 
   return (
-    <View>
-      <SectionList
-        sections={data}
-        contentContainerStyle={tw`gap-y-2`}
-        showsVerticalScrollIndicator={false}
-        renderItem={ItemComponent}
-        ListEmptyComponent={ListEmptyComponent}
-        renderSectionHeader={({ section: { title } }) => (
-          <Text style={tw`bg-white w-full font-medium`}>{title}</Text>
-        )}
-      />
-    </View>
+    <SectionList
+      sections={data}
+      style={tw`w-full`}
+      contentContainerStyle={tw`gap-y-2 pb-6`}
+      showsVerticalScrollIndicator={false}
+      renderItem={ItemComponent}
+      ListEmptyComponent={ListEmptyComponent}
+      renderSectionHeader={({ section: { title } }) => (
+        <Text style={tw`bg-white w-full font-medium`}>{title}</Text>
+      )}
+    />
   );
 };
 
