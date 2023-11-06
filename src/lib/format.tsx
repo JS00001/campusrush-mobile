@@ -14,6 +14,9 @@ export const formatPhoneNumber = (phoneNumber: string) => {
   // Phone number should be in the format of +11234567890 and should convert to (123) 456-7890
   let formattedPhoneNumber = phoneNumber;
 
+  // If no phone number, return empty string
+  if (!phoneNumber) return "";
+
   if (phoneNumber.length === 12) {
     formattedPhoneNumber = `(${phoneNumber.substring(
       2,

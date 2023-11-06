@@ -38,6 +38,14 @@ interface Organization {
   // The revenuecat entitlements associated with the organization (basic, pro)
   entitlements: string[];
 
+  // MESSAGING
+  // The phone number associated with the organization
+  phoneNumber: string;
+  // The phone numbers id
+  phoneNumberId: string;
+  // When the phone number was created
+  phoneNumberCreatedAt: Date;
+
   // NOTIFICATIONS
   // The expo push tokens associated with the organization
   notificationsEnabled: boolean;

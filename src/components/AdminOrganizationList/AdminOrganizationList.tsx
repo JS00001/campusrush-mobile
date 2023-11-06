@@ -11,13 +11,15 @@
  */
 
 import { useMemo } from "react";
-import { SectionList, View } from "react-native";
+import * as Clipboard from "expo-clipboard";
+import { SectionList } from "react-native";
 import { MenuView } from "@react-native-menu/menu";
 
 import Text from "@/ui/Text";
 import date from "@/lib/date";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
+import { formatPhoneNumber } from "@/lib/format";
 
 interface AdminOrganizationListProps {
   organizations: Organization[];
@@ -75,17 +77,29 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
       `Notifications Enabled: ${organization.notificationsEnabled}`,
       `Created On: ${date.toString(organization.createdAt)}`,
       `Updated On: ${date.toString(organization.updatedAt)}`,
+      `-----------------------`,
+      `Phone Number: ${formatPhoneNumber(organization.phoneNumber) || "None"}`,
+      `Phone Number ID: ${organization.phoneNumberId || "None"}`,
+      `Phone Number Created On: ${
+        date.toString(organization.phoneNumberCreatedAt) || "None"
+      }`,
     ].join("\n");
+
+    const onCopyId = () => {
+      // Copy the organization ID to the clipboard
+      Clipboard.setStringAsync(organization._id);
+    };
 
     return (
       <MenuView
         actions={[
           {
             id: "copy-id",
-            title: "Copy ID",
+            title: "Copy Organization ID",
           },
         ]}
         shouldOpenOnLongPress
+        onPressAction={onCopyId}
       >
         <ListItem
           pressable={false}
