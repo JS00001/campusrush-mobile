@@ -22,6 +22,7 @@ import { useNavigation } from "@react-navigation/native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
+import { formatPhoneNumber } from "@/lib/format";
 
 interface PnmsListProps {
   pnms: PNM[];
@@ -154,7 +155,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
       <ListItem
         key={pnm._id}
         title={`${pnm.firstName} ${pnm.lastName}`}
-        subtitle={pnm.phoneNumber}
+        subtitle={formatPhoneNumber(pnm.phoneNumber)}
         onPress={onPress}
         icon={pnm.starred ? "ri-star-fill" : undefined}
         iconColor="yellow-500"

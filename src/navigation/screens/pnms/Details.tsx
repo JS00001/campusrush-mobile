@@ -19,6 +19,7 @@ import Layout from "@/ui/Layout";
 import usePnmsStore from "@/state/pnms";
 import ActionCard from "@/ui/ActionCard";
 import ChatHeader from "@/components/ChatHeader";
+import { formatPhoneNumber } from "@/lib/format";
 
 interface PnmDetailsProps {
   navigation: NativeStackNavigationProp<any>;
@@ -66,7 +67,7 @@ const PnmDetails: React.FC<PnmDetailsProps> = ({ navigation, route }) => {
       />
       <ActionCard
         title="Phone Number"
-        subtitle={pnm.phoneNumber || "N/A"}
+        subtitle={formatPhoneNumber(pnm.phoneNumber) || "N/A"}
         onPress={onCardPress("phoneNumber")}
       />
       <ActionCard

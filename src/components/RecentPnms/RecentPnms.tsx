@@ -10,11 +10,11 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
-import { ScrollView } from "react-native-gesture-handler";
+import { formatPhoneNumber } from "@/lib/format";
 
 interface RecentPnmsProps {
   pnms: PNM[];
@@ -41,7 +41,7 @@ const RecentPnms: React.FC<RecentPnmsProps> = ({ pnms, loading, onPress }) => {
         <ListItem
           key={i}
           title={`${pnm.firstName} ${pnm.lastName}`}
-          subtitle={pnm.phoneNumber}
+          subtitle={formatPhoneNumber(pnm.phoneNumber)}
           onPress={() => onPress?.(pnm)}
         />
       ))}
