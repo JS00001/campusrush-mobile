@@ -58,6 +58,11 @@ const useConversations = () => {
     },
   });
 
+  // When the hook first loads, set the status to idle
+  useEffect(() => {
+    setStatus(ConversationStatus.Idle);
+  }, []);
+
   // When the query loads, set the conversations
   useEffect(() => {
     if (query.data) {

@@ -15,6 +15,7 @@ import { DeviceMotion } from "expo-sensors";
 import { View, Pressable } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import NetworkLogger from "react-native-network-logger";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import Text from "@/ui/Text";
@@ -25,6 +26,7 @@ import { useAuth } from "@/providers/Auth";
 import AppConstants from "@/constants";
 import SegmentedControl from "@/ui/SegmentedControl";
 import { usePreferences } from "@/providers/Preferences";
+import { formatJSON } from "@/lib/format";
 
 const DevEnvironment: React.FC = ({}) => {
   const { updatePreferences } = usePreferences();
@@ -34,6 +36,8 @@ const DevEnvironment: React.FC = ({}) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   // Ref to the bottom sheet modal so we can programmatically open it
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  // Create state for all the data from async storage
+  const [asyncStorageData, setAsyncStorageData] = useState<any>({});
 
   // Memoized snap points (When the bottom sheet modal is open)
   const snapPoints = useMemo(() => ["75%"], []);
@@ -48,6 +52,15 @@ const DevEnvironment: React.FC = ({}) => {
     bottomSheetModalRef.current?.dismiss();
   }, []);
 
+  // Fetch all async storage data
+  const fetchAsyncStorageData = async () => {
+    const keys = await AsyncStorage.getAllKeys();
+    const values = await AsyncStorage.multiGet(keys);
+    const data = lodash.fromPairs(values);
+
+    setAsyncStorageData(data);
+  };
+
   // Listen for shake gesture if we are in development mode
   useEffect(() => {
     // Ensure we are in development mode
@@ -60,6 +73,10 @@ const DevEnvironment: React.FC = ({}) => {
       // Remove the listener when the component unmounts
       return () => subscription.remove();
     }
+  }, []);
+
+  useEffect(() => {
+    fetchAsyncStorageData();
   }, []);
 
   return (
@@ -78,7 +95,7 @@ const DevEnvironment: React.FC = ({}) => {
       >
         <View style={tw`w-full px-4 py-2`}>
           <SegmentedControl
-            values={["Network", "Overrides", "Debug Info"]}
+            values={["Network", "Overrides", "Debug Info", "Storage"]}
             selectedIndex={activeIndex}
             onChange={(event) => {
               setActiveIndex(event.nativeEvent.selectedSegmentIndex);
@@ -230,6 +247,40 @@ const DevEnvironment: React.FC = ({}) => {
                     )}
                   </Text>
                 </View>
+              </View>
+            </Layout>
+          </>
+        )}
+
+        {/* Storage information */}
+        {activeIndex === 3 && (
+          <>
+            <Layout
+              gap={20}
+              scrollable
+              contentContainerStyle={tw`items-start pb-12`}
+            >
+              <View style={tw`w-full gap-y-2`}>
+                <Button
+                  onPress={() => {
+                    fetchAsyncStorageData();
+                  }}
+                >
+                  Refresh Data
+                </Button>
+                <Text style={tw`font-medium`} variant="body">
+                  Async Storage items
+                </Text>
+                {Object.keys(asyncStorageData).map((key) => (
+                  <View
+                    key={key}
+                    style={tw`bg-slate-100 p-2 rounded-md w-full`}
+                  >
+                    <Text>
+                      {key}: {formatJSON(asyncStorageData[key])}
+                    </Text>
+                  </View>
+                ))}
               </View>
             </Layout>
           </>

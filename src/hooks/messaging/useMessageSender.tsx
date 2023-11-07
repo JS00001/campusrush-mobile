@@ -14,10 +14,10 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 
+import errors from "@/lib/errors";
 import messagingApi from "@/api/api/messaging";
 import useConversations from "@/hooks/useConversations";
 import { ConversationStatus } from "@/state/conversations";
-import errors from "@/lib/errors";
 
 const useMessageSender = (_pnms: PNM[]) => {
   // Create a navigation state so we can navigate back to the conversations screen

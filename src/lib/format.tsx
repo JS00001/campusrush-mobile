@@ -26,3 +26,15 @@ export const formatPhoneNumber = (phoneNumber: string) => {
 
   return formattedPhoneNumber;
 };
+
+export const formatJSON = (string: string) => {
+  // Check if string is valid JSON
+  try {
+    JSON.parse(string);
+  } catch (e) {
+    return string;
+  }
+
+  // If valid JSON, return formatted JSON
+  return JSON.stringify(JSON.parse(string), null, 2);
+};
