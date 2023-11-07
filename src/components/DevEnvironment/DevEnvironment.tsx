@@ -13,6 +13,7 @@
 import lodash from "lodash";
 import { DeviceMotion } from "expo-sensors";
 import { View, Pressable } from "react-native";
+import { MenuView } from "@react-native-menu/menu";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import NetworkLogger from "react-native-network-logger";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -22,11 +23,11 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
-import { useAuth } from "@/providers/Auth";
 import AppConstants from "@/constants";
+import { formatJSON } from "@/lib/format";
+import { useAuth } from "@/providers/Auth";
 import SegmentedControl from "@/ui/SegmentedControl";
 import { usePreferences } from "@/providers/Preferences";
-import { formatJSON } from "@/lib/format";
 
 const DevEnvironment: React.FC = ({}) => {
   const { updatePreferences } = usePreferences();
@@ -117,7 +118,7 @@ const DevEnvironment: React.FC = ({}) => {
         {/* Overrides */}
         {activeIndex === 1 && (
           <>
-            <Layout gap={20} scrollable>
+            <Layout gap={20} scrollable contentContainerStyle={tw`pb-12`}>
               <View style={tw`w-full gap-y-2`}>
                 <Text style={tw`w-full font-medium`} variant="body">
                   Current Subscription?
@@ -272,14 +273,30 @@ const DevEnvironment: React.FC = ({}) => {
                   Async Storage items
                 </Text>
                 {Object.keys(asyncStorageData).map((key) => (
-                  <View
+                  <MenuView
                     key={key}
-                    style={tw`bg-slate-100 p-2 rounded-md w-full`}
+                    actions={[
+                      {
+                        title: "Delete From Storage",
+                        id: "delete",
+                        image: "trash",
+                        attributes: {
+                          destructive: true,
+                        },
+                      },
+                    ]}
+                    onPressAction={() => {
+                      AsyncStorage.removeItem(key);
+                      fetchAsyncStorageData();
+                    }}
+                    shouldOpenOnLongPress
                   >
-                    <Text>
-                      {key}: {formatJSON(asyncStorageData[key])}
-                    </Text>
-                  </View>
+                    <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
+                      <Text>
+                        {key}: {formatJSON(asyncStorageData[key])}
+                      </Text>
+                    </View>
+                  </MenuView>
                 ))}
               </View>
             </Layout>

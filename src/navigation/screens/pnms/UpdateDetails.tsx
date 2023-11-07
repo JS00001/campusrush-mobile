@@ -60,7 +60,7 @@ const UpdatePnmDetails: React.FC<UpdatePnmDetailsProps> = ({
       </Layout.CustomHeader>
 
       <TextInput
-        value={value}
+        value={value as string}
         error={errors.value}
         onChangeText={setValue}
         placeholder={placeholder}

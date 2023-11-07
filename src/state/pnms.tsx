@@ -83,7 +83,15 @@ const usePnmsStore = create<PnmsState>()(
        */
       updatePnm: (pnm) =>
         set((state) => ({
-          pnms: state.pnms.map((p) => (p._id === pnm._id ? pnm : p)),
+          pnms: state.pnms.map((p) => {
+            if (p._id === pnm._id) {
+              return {
+                ...p,
+                ...pnm,
+              };
+            }
+            return p;
+          }),
         })),
       /**
        * Deletes a PNM from the store if its id exists
