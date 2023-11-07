@@ -20,18 +20,18 @@ const usePurchase = () => {
   const { refetchBillingData } = useAuth();
 
   // Import data from the Purchases provider
-  const { offeringIDs, offerings, isLoading, purchasePackage } = usePurchases();
+  const { offering, isLoading, purchasePackage } = usePurchases();
 
-  // Index of the currently selected offering
-  const [offeringID, setOfferingID] = useState<number>(0);
   // Index of the currently selected package
   const [packageID, setPackageID] = useState<number>(0);
 
   // Whether a purchase is loading or not
   const [isPurchaseLoading, setIsPurchaseLoading] = useState<boolean>(false);
 
-  // List of all packages in the currently selected offering
-  const packages = offerings?.[offeringID]?.availablePackages;
+  // List of all packages in the currently selected offering, sorted by price low to high
+  const packages = offering?.availablePackages.sort(
+    (a, b) => a.product.price - b.product.price,
+  );
   // Currently selected package
   const selectedPackage = packages?.[packageID];
   // Currently selected product
@@ -55,6 +55,9 @@ const usePurchase = () => {
   const completePurchase = async () => {
     // Set purchase loading to true
     setIsPurchaseLoading(true);
+    // Make sure a package is selected
+    if (!selectedPackage) return;
+
     // Complete purchase
     await purchasePackage(selectedPackage);
 
@@ -70,12 +73,9 @@ const usePurchase = () => {
     buttonCTA,
     selectedProduct,
     selectedPackage,
-    offeringIDs,
     packages,
     packageID,
     setPackageID,
-    offeringID,
-    setOfferingID,
     completePurchase,
   };
 };

@@ -15,52 +15,43 @@ import { usePurchases } from "@/providers/Purchases";
 
 const useBilling = () => {
   const { billingData } = useAuth();
-  const { offerings } = usePurchases();
+  const { offering } = usePurchases();
 
   // Fetches the productIdentifiers of all active entitlements
   const activeEntitlements = Object.keys(billingData.entitlements.active).map(
     (key) => billingData.entitlements.active[key].productIdentifier,
   );
 
-  // Create an array of products that are in the active entitlements
-  // For each offering that is available...
-  const activeProducts = offerings
-    .map((offering) => {
-      // Check if the offering has any packages that are in the active entitlements
-      // This is a "hack" to get the product information for the active entitlements
-      const availablePackages = offering.availablePackages.filter((pkg) =>
-        activeEntitlements.includes(pkg.product.identifier),
-      );
+  // Check if the offering has any packages that are in the active entitlements
+  // This is a "hack" to get the product information for the active entitlements
+  const availablePackages = offering?.availablePackages.filter((pkg) =>
+    activeEntitlements.includes(pkg.product.identifier),
+  );
 
-      // For each package/product that the user DOES have access/entitlement to...
-      const formattedAvailablePackages = availablePackages.map((pkg) => {
-        // Find the entitlements "key" that has a productIdentifier matching the current package/product
-        const entitlementKey = Object.keys(
-          billingData.entitlements.active,
-        ).find((key) => {
-          return (
-            billingData.entitlements.active[key].productIdentifier ===
-            pkg.product.identifier
-          );
-        });
+  // For each package/product that the user DOES have access/entitlement to...
+  const formattedAvailablePackages = availablePackages?.map((pkg) => {
+    // Find the entitlements "key" that has a productIdentifier matching the current package/product
+    const entitlementKey = Object.keys(billingData.entitlements.active).find(
+      (key) => {
+        return (
+          billingData.entitlements.active[key].productIdentifier ===
+          pkg.product.identifier
+        );
+      },
+    );
 
-        // If there is an entitlement key, then the user has access to the product
-        // populate the entitlement
-        const entitlement = entitlementKey
-          ? billingData.entitlements.active[entitlementKey]
-          : (null as any);
+    // If there is an entitlement key, then the user has access to the product
+    // populate the entitlement
+    const entitlement = entitlementKey
+      ? billingData.entitlements.active[entitlementKey]
+      : (null as any);
 
-        // Return both the product itself and the entitlement data for every active product/package
-        return {
-          product: pkg.product,
-          entitlement: entitlement,
-        };
-      });
-
-      // Return an array of all the products that the user has access to
-      return formattedAvailablePackages;
-    })
-    .flat();
+    // Return both the product itself and the entitlement data for every active product/package
+    return {
+      product: pkg.product,
+      entitlement: entitlement,
+    };
+  });
 
   // The URL to redirect to for billing management
   const managementURL = billingData.managementURL;
@@ -72,7 +63,7 @@ const useBilling = () => {
   //   subtitle: "Product Price",
   //   perks: ["Perk 1", "Perk 2", "Perk 3"]
   // }
-  const activeProductsFormatted = activeProducts.map((product) => {
+  const activeProductsFormatted = formattedAvailablePackages?.map((product) => {
     // Whether or not a product is a subscription
     const _isSubscription = product?.product.productCategory === "SUBSCRIPTION";
     // Whether or not the subscription is pending cancellation
