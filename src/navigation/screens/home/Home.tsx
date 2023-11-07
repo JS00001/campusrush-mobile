@@ -45,7 +45,9 @@ const Home: React.FC<HomeScreenProps> = ({}) => {
   const onRecentPnmPress = (pnm: PNM) => {
     (navigation.navigate as any)("PNMsTab", {
       screen: "PNMDetails",
-      params: { pnmId: pnm._id },
+      params: {
+        pnmId: pnm._id,
+      },
     });
   };
 

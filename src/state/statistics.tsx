@@ -19,6 +19,7 @@ interface StatisticsState {
   numStarredPnms: number;
   recentPnms: PNM[];
 
+  clearStatistics: () => void;
   setNumPnms: (numPnms: number) => void;
   setRecentPnms: (recentPnms: PNM[]) => void;
   setNumStarredPnms: (numStarredPnms: number) => void;
@@ -51,6 +52,15 @@ const useStatisticsStore = create<StatisticsState>()(
        * Sets the list of recent PNMs
        */
       setRecentPnms: (recentPnms) => set(() => ({ recentPnms })),
+      /**
+       * Clears the statistics
+       */
+      clearStatistics: () =>
+        set(() => ({
+          numPnms: 0,
+          numStarredPnms: 0,
+          recentPnms: [],
+        })),
     }),
     {
       name: "statistics",

@@ -166,7 +166,10 @@ export const HomeStack = () => {
  */
 export const PNMsStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="PNMs"
+    >
       <Stack.Screen
         name="PNMs"
         component={PNMsScreen}

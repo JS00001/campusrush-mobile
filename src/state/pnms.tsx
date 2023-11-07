@@ -24,6 +24,7 @@ interface PnmsState {
   pnms: PNM[];
   status: PnmsStatus;
 
+  clearPnms: () => void;
   getPnm: (id: string) => PNM;
   addPnms: (pnm: PNM[]) => void;
   updatePnm: (pnm: PNM) => void;
@@ -99,6 +100,14 @@ const usePnmsStore = create<PnmsState>()(
       deletePnm: (pnm) =>
         set((state) => ({
           pnms: state.pnms.filter((p) => p._id !== pnm._id),
+        })),
+      /**
+       * Clears the PNMs from the store
+       */
+      clearPnms: () =>
+        set(() => ({
+          pnms: [],
+          status: PnmsStatus.Idle,
         })),
     }),
     {
