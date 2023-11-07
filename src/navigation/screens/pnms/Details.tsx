@@ -20,6 +20,7 @@ import usePnmsStore from "@/state/pnms";
 import ActionCard from "@/ui/ActionCard";
 import ChatHeader from "@/components/ChatHeader";
 import { formatPhoneNumber } from "@/lib/format";
+import { useEffect } from "react";
 
 interface PnmDetailsProps {
   navigation: NativeStackNavigationProp<any>;
@@ -28,9 +29,20 @@ interface PnmDetailsProps {
 
 const PnmDetails: React.FC<PnmDetailsProps> = ({ navigation, route }) => {
   // The PNM to get details for
-  const pnmId = route.params.pnmId as string;
+  const paramPnm = route.params.pnm as PNM;
+
+  // If there is no stored PNM, add the pnm to the store
+  const addPnm = usePnmsStore((state) => state.addPnms);
+
   // Get the PNM from the store
-  const pnm = usePnmsStore((state) => state.getPnm(pnmId));
+  const storedPnm = usePnmsStore((state) => state.getPnm(paramPnm._id));
+
+  const pnm = storedPnm || paramPnm;
+
+  // Run the addPnm function on mount
+  useEffect(() => {
+    addPnm([paramPnm]);
+  }, []);
 
   // When an item is pressed, navigate to the update details screen
   const onCardPress = (field: keyof PNM) => {
@@ -41,12 +53,6 @@ const PnmDetails: React.FC<PnmDetailsProps> = ({ navigation, route }) => {
         field,
       });
   };
-
-  // If there is no pnm, go back as we cannot display details
-  if (!pnm) {
-    navigation.goBack();
-    return <View />;
-  }
 
   return (
     <Layout scrollable gap={8} contentContainerStyle={tw`pb-6`}>

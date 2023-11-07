@@ -131,7 +131,7 @@ const usePnmActions = (pnm: PNM) => {
         (navigation.navigate as any)("PNMsTab", {
           screen: "PNMDetails",
           initial: false,
-          params: { pnmId: pnm._id },
+          params: { pnm },
         });
         break;
       /**

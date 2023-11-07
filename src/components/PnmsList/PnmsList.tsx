@@ -148,7 +148,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
   // The components for each item in teh section list
   const ItemComponent = ({ item: pnm }: { item: PNM }) => {
     const onPress = () => {
-      (navigation.navigate as any)("PNMDetails", { pnmId: pnm._id });
+      (navigation.navigate as any)("PNMDetails", { pnm });
     };
 
     return (

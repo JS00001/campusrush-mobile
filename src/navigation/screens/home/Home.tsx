@@ -45,7 +45,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
       screen: "PNMDetails",
       initial: false,
       params: {
-        pnmId: pnm._id,
+        pnm,
       },
     });
   };
