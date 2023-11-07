@@ -130,6 +130,7 @@ const usePnmActions = (pnm: PNM) => {
       case PNMActions.EditPnm:
         (navigation.navigate as any)("PNMsTab", {
           screen: "PNMDetails",
+          initial: false,
           params: { pnmId: pnm._id },
         });
         break;

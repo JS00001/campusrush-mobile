@@ -45,7 +45,9 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
     : `New Message (${pnms.length} PNMs)`;
 
   // When the back arrow is pressed, go back to the previous screen
-  const onBackArrowPress = () => navigation.goBack();
+  const onBackArrowPress = () => {
+    navigation.goBack();
+  };
 
   // Styling
   const safeAreaStyles = tw.style(
