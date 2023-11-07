@@ -15,7 +15,6 @@ import Button from "@/ui/Button";
 
 import usePurchase from "@/hooks/usePurchase";
 import ProductCard from "@/components/ProductCard";
-import SegmentedControl from "@/ui/SegmentedControl";
 
 const Billing = () => {
   const {
@@ -23,17 +22,10 @@ const Billing = () => {
     isPurchaseLoading,
     buttonCTA,
     packages,
-    offeringIDs,
-    offeringID,
     packageID,
-    setOfferingID,
     setPackageID,
     completePurchase,
   } = usePurchase();
-
-  const onSegmentedControlChange = (event: any) => {
-    setOfferingID(event.nativeEvent.selectedSegmentIndex);
-  };
 
   const onButtonPress = () => {
     completePurchase();
@@ -44,13 +36,8 @@ const Billing = () => {
   return (
     <Layout scrollable gap={18} hasTermsAndConditions>
       <Layout.Header title="Billing" subtitle="Select a plan to get started" />
-      <SegmentedControl
-        values={offeringIDs}
-        selectedIndex={offeringID}
-        onChange={onSegmentedControlChange}
-      />
 
-      {packages.map(({ product }, i) => (
+      {packages?.map(({ product }, i) => (
         <ProductCard
           key={i}
           product={product}

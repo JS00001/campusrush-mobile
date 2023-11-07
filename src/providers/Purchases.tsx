@@ -21,8 +21,7 @@ import AppConstants from "@/constants";
 
 interface PurchasesContextProps {
   isLoading: boolean;
-  offeringIDs: string[];
-  offerings: PurchasesOffering[];
+  offering?: PurchasesOffering;
 
   purchasePackage: (pkg: PurchasesPackage) => Promise<void>;
 }
@@ -36,10 +35,8 @@ const PurchasesProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   // Whether or not the offerings are loading
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  // A list of all the available offering IDs
-  const [offeringIDs, setOfferingIDs] = useState<string[]>([]);
-  // A list of all the available offerings
-  const [offerings, setOfferings] = useState<PurchasesOffering[]>([]);
+  // A list of all the current offering
+  const [offering, setOffering] = useState<PurchasesOffering>();
 
   // Fetch all products/offerings/packages on initial app load only
   useEffect(() => {
@@ -53,30 +50,12 @@ const PurchasesProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       // Get all offerings from RevenueCat
-      const RCOfferings = (await Purchases.getOfferings()).all;
-      // Get all packages with metadata that have a key of "available" and a value of true
-      const RCCurrentOfferingIDs = Object.keys(RCOfferings).filter(
-        (key) => RCOfferings[key].metadata.available,
-      );
-      // Return the same PackageOffering object but only with the packages that are available
-      const RCCurrentOfferings = RCCurrentOfferingIDs.map(
-        (key) => RCOfferings[key],
-      );
+      const RCCurrentOffering = (await Purchases.getOfferings()).current;
 
-      // Sort the packages by price (lowest to highest)
-      RCCurrentOfferings.forEach((offering) => {
-        offering.availablePackages.sort(
-          (a, b) => a.product.price - b.product.price,
-        );
-      });
-
-      // If there are any offerings, set the state
-      if (RCCurrentOfferings.length > 0) {
-        // Set the offering IDs to be used in the Billing screen
-        // These are the options on the segmented control
-        setOfferingIDs(RCCurrentOfferingIDs);
+      // If there is a current offering...
+      if (RCCurrentOffering) {
         // Set the offerings to be used in the Billing screen
-        setOfferings(RCCurrentOfferings);
+        setOffering(RCCurrentOffering);
       }
 
       // Set the loading state to false
@@ -95,9 +74,7 @@ const PurchasesProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <PurchasesContext.Provider
-      value={{ isLoading, offeringIDs, offerings, purchasePackage }}
-    >
+    <PurchasesContext.Provider value={{ isLoading, offering, purchasePackage }}>
       {children}
     </PurchasesContext.Provider>
   );
