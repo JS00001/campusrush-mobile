@@ -19,18 +19,6 @@ const authAPIClient = axios.create({
 });
 
 /**
- * GET /auth/v1/organizations/list
- *
- * Returns
- * - data
- *  - organizations
- *  - schools
- */
-const getOrganizations = (): Promise<GetOrganizationsAPIResponse> => {
-  return authAPIClient.get('/organizations/list');
-};
-
-/**
  * GET /auth/v1/organization
  *
  * Returns
@@ -181,7 +169,6 @@ const logout = (data: LogoutInput): Promise<LogoutAPIResponse> => {
 };
 
 export default {
-  getOrganizations,
   getOrganization,
 
   loginAsOrganization,
