@@ -14,6 +14,7 @@ import { View } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Copyable from "../Copyable";
 
 interface MessageProps {
   content: string;
@@ -87,9 +88,11 @@ const Message: React.FC<MessageProps> = ({
       )}
 
       {/* Message bubble and content */}
-      <View style={messageClasses}>
-        <Text style={textClasses}>{content}</Text>
-      </View>
+      <Copyable title="Copy Message" copyText={content}>
+        <View style={messageClasses}>
+          <Text style={textClasses}>{content}</Text>
+        </View>
+      </Copyable>
 
       {/* Message timestamp if provided */}
       {createdAt === undefined ? null : (
