@@ -44,6 +44,7 @@ import RegistrationStep3Screen from "@/navigation/screens/auth/RegistrationStep3
 
 import SettingsScreen from "@/navigation/screens/settings/Settings";
 import UpdateBillingScreen from "@/navigation/screens/settings/UpdateBilling";
+import ContactDetailsScreen from "@/navigation/screens/settings/ContactDetails";
 import UpdateNotificationsScreen from "@/navigation/screens/settings/UpdateNotifications";
 import UpdateGeneralScreen from "@/navigation/screens/settings/organization/UpdateGeneral";
 import UpdateSecurityScreen from "@/navigation/screens/settings/organization/UpdateSecurity";
@@ -244,6 +245,10 @@ export const SettingsStack = () => {
       <Stack.Screen
         name="Settings"
         component={SettingsScreen}
+      />
+      <Stack.Screen
+        name="ContactDetails"
+        component={ContactDetailsScreen}
       />
       <Stack.Screen
         name="UpdateBilling"
