@@ -49,7 +49,7 @@ const usePurchase = () => {
   const buttonCTA = _isSubscription
     ? _hasTrialPeriod
       ? `Start your ${_trialLength} free trial\nthen ${selectedProduct?.priceString} / mo`
-      : `Purchase for ${selectedProduct?.priceString} / mo`
+      : `Subscribe for ${selectedProduct?.priceString} / mo`
     : `Purchase for ${selectedProduct?.priceString}`;
 
   const completePurchase = async () => {

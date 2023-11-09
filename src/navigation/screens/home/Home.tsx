@@ -22,7 +22,6 @@ import RecentPnms from "@/components/RecentPnms";
 import useStatistics from "@/hooks/useStatistics";
 import HomeHeaderSvg from "@/assets/HomeHeaderSvg";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import { useNavigation } from "@react-navigation/native";
 
 interface HomeScreenProps {
   navigation: NativeStackNavigationProp<any>;

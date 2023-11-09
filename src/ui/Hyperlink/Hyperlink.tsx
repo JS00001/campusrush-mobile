@@ -17,6 +17,7 @@ import tw from "@/lib/tailwind";
 
 interface HyperlinkProps extends TouchableOpacityProps {
   color?: keyof typeof colorClasses;
+  style?: any;
   children: React.ReactNode;
 }
 
@@ -32,6 +33,7 @@ const colorClasses = {
 const Hyperlink: React.FC<HyperlinkProps> = ({
   color = "dark",
   children,
+  style,
   ...props
 }) => {
   // Styling
@@ -40,6 +42,8 @@ const Hyperlink: React.FC<HyperlinkProps> = ({
     "underline font-semibold",
     // The proper color class is selected based on the color prop
     colorClasses[color],
+    // The provided style prop is applied
+    style,
   );
 
   return (

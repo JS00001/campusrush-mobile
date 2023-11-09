@@ -186,7 +186,7 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, hasBackButton }) => {
 
       {/* Content */}
       <View style={tw`px-6 py-8 z-10`}>
-        <SafeAreaView style={tw`h-44 flex-col justify-between`}>
+        <SafeAreaView style={tw`h-36 flex-col justify-between`}>
           {hasBackButton && (
             <TouchableOpacity
               onPress={onBackPress}

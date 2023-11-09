@@ -15,6 +15,7 @@ import About from "./About";
 import AddPnm from "./AddPnm";
 import NewMessage from "./NewMessage";
 import PrivacyPolicy from "./PrivacyPolicy";
+import PlanComparison from "./PlanComparison";
 import TermsAndConditions from "./TermsAndConditions";
 
 export default {
@@ -23,5 +24,6 @@ export default {
   AddPnm,
   NewMessage,
   PrivacyPolicy,
+  PlanComparison,
   TermsAndConditions,
 };

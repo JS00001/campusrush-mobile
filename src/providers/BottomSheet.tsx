@@ -34,6 +34,10 @@ const BottomSheets = [
     name: "PRIVACY_POLICY",
     component: BottomSheetComponents.PrivacyPolicy,
   },
+  {
+    name: "PLAN_COMPARISON",
+    component: BottomSheetComponents.PlanComparison,
+  },
 ];
 
 interface BottomSheetContextProps {
