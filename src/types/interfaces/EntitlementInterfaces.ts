@@ -19,6 +19,8 @@ export type ProductPerkIds =
   | 'mass_message_cooldown'
   | 'custom_phone_number'
   | 'favorite_pnm'
+  | 'pnm_statistics'
+  | 'unlimited_individual_messages'
   | 'mass_message'
   | 'mass_message_uncontacted'
   | 'mass_message_favorites'
