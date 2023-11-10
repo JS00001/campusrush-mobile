@@ -12,10 +12,17 @@
 
 import { useAuth } from "@/providers/Auth";
 import { usePurchases } from "@/providers/Purchases";
+import useEntitlementsStore from "@/state/entitlements";
+
+import type { ProductId } from "@/types/interfaces/EntitlementInterfaces";
 
 const useBilling = () => {
   const { billingData } = useAuth();
   const { offering } = usePurchases();
+
+  // Pull the entitlement details from the store
+  // prettier-ignore
+  const entitlementDetails = useEntitlementsStore((state) => state.entitlementDetails);
 
   // Fetches the productIdentifiers of all active entitlements
   const activeEntitlements = Object.keys(billingData.entitlements.active).map(
@@ -95,13 +102,11 @@ const useBilling = () => {
       `${product?.product.priceString} ${_isSubscription ? "/ mo" : ""}` ??
       "No price";
 
-    // TODO: Add perks
-    const perks: string[] = [
-      "This is Perk 1",
-      "This is Perk 2",
-      "This is Perk 3",
-      "This is Perk 4",
-    ];
+    // Get the id of the product
+    const id = product?.product.identifier as ProductId;
+
+    // Get the perks from the entitlement details
+    const perks = entitlementDetails?.products[id]?.FEATURED_PERKS || [];
 
     return {
       title,

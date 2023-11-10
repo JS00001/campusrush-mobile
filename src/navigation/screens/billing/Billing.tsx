@@ -34,7 +34,7 @@ const Billing = () => {
   if (areOfferingsLoading) return null;
 
   return (
-    <Layout scrollable gap={18} hasTermsAndConditions>
+    <Layout scrollable gap={18}>
       <Layout.Header title="Billing" subtitle="Select a plan to get started" />
 
       {packages?.map(({ product }, i) => (

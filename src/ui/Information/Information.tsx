@@ -20,6 +20,7 @@ import Tooltip from "@/ui/Tooltip";
 interface InformationProps {
   tooltip: string;
   size?: keyof typeof sizes;
+  style?: any;
 }
 
 /**
@@ -43,7 +44,11 @@ const sizes = {
   },
 };
 
-const Information: React.FC<InformationProps> = ({ tooltip, size = "md" }) => {
+const Information: React.FC<InformationProps> = ({
+  tooltip,
+  size = "md",
+  style,
+}) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
   // When the user presses the touch area, toggle the tooltip
@@ -60,7 +65,12 @@ const Information: React.FC<InformationProps> = ({ tooltip, size = "md" }) => {
   );
 
   return (
-    <Tooltip text={tooltip} isVisible={isTooltipVisible} onClose={handlePress}>
+    <Tooltip
+      text={tooltip}
+      isVisible={isTooltipVisible}
+      onClose={handlePress}
+      parentWrapperStyle={style}
+    >
       <View style={tw`relative`}>
         <RemixIcon
           name="ri-information-line"

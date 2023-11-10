@@ -48,7 +48,7 @@ const useStatistics = () => {
       setNumStarredPnms(query.data?.data?.data.starredPnms || 0);
       setRecentPnms(query.data?.data?.data.recentPnms || []);
     }
-  }, [query.data?.data?.data]);
+  }, [query.data]);
 
   return {
     ...query,

@@ -235,3 +235,9 @@ type GetPnmAPIResponse = APIResponse & {
     };
   };
 };
+
+type GetEntitlementsAPIResponse = APIResponse & {
+  data: {
+    data: EntitlementDetails;
+  };
+};

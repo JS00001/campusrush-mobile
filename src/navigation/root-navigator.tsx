@@ -29,22 +29,30 @@ import {
 import { useAuth } from "@/providers/Auth";
 import { usePreferences } from "@/providers/Preferences";
 import { TabNavigator } from "@/navigation/tab-navigator";
+import { useEntitlements } from "@/providers/Entitlements";
 
 const RootNavigator = () => {
-  const { isLoading: isPreferencesLoading } = usePreferences();
-  const { isLoading: isAuthLoading, organization, billingData } = useAuth();
   const [fontsLoaded] = useFonts({
     DMSans_400Regular,
     DMSans_500Medium,
     DMSans_700Bold,
   });
 
+  const { isLoading: isPreferencesLoading } = usePreferences();
+  const { isLoading: isEntitlementsLoading } = useEntitlements();
+  const { isLoading: isAuthLoading, organization, billingData } = useAuth();
+
   // Hide the splash screen when the app is fully loaded
   useEffect(() => {
-    if (fontsLoaded && !isAuthLoading && !isPreferencesLoading) {
+    if (
+      fontsLoaded &&
+      !isAuthLoading &&
+      !isPreferencesLoading &&
+      !isEntitlementsLoading
+    ) {
       ExpoSplashScreen.hideAsync();
     }
-  }, [fontsLoaded, isAuthLoading]);
+  }, [fontsLoaded, isAuthLoading, isPreferencesLoading, isEntitlementsLoading]);
 
   // If the user is loading, we can't render the app
   if (isAuthLoading && lodash.isEmpty(organization)) return null;

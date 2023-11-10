@@ -11,10 +11,11 @@
  */
 
 import { View } from "react-native";
-import RemixIcon from "react-native-remix-icon";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Button from "@/ui/Button";
+import ProductPerk from "@/components/ProductPerk";
+import { useBottomSheets } from "@/providers/BottomSheet";
 import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 
 interface BillingDetailsProps {
@@ -22,11 +23,23 @@ interface BillingDetailsProps {
     title: string;
     subtitle: string;
     description: string;
-    perks: string[];
+    perks: {
+      name: string;
+      description: string;
+      active: boolean;
+    }[];
   }[];
 }
 
 const BillingDetails: React.FC<BillingDetailsProps> = ({ activeProducts }) => {
+  // The bottom sheet provider to open the compare plans modal
+  const { handlePresentModalPress } = useBottomSheets();
+
+  // When the compare plans button is pressed, open the compare plans modal
+  const onComparePlansPress = () => {
+    handlePresentModalPress("PLAN_COMPARISON");
+  };
+
   return (
     <View style={tw`w-full`}>
       {activeProducts.map((product) => (
@@ -39,15 +52,17 @@ const BillingDetails: React.FC<BillingDetailsProps> = ({ activeProducts }) => {
         >
           {product.perks.length > 0 &&
             product.perks.map((perk) => (
-              <View key={perk} style={tw`flex-row gap-2`}>
-                <RemixIcon
-                  name="ri-check-line"
-                  color={tw.color("primary")}
-                  size={20}
-                />
-                <Text>{perk}</Text>
-              </View>
+              <ProductPerk key={perk.name} {...perk} />
             ))}
+
+          <Button
+            size="sm"
+            color="light"
+            style={tw`mt-2`}
+            onPress={onComparePlansPress}
+          >
+            Compare Plans
+          </Button>
         </SelectionCard>
       ))}
     </View>
