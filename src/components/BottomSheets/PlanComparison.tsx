@@ -131,6 +131,10 @@ const FeatureRow: React.FC<FeatureRowProps> = ({
   const containerClasses = tw.style(
     `w-full p-4 flex-1 flex-row items-center`,
     index % 2 === 0 ? `bg-white` : "bg-slate-100",
+    // Add a border bottom to all rows, add a border top to the header row
+    feature.header
+      ? `border-t border-b border-slate-200`
+      : `border-b border-slate-200`,
   );
 
   // The text variant for the feature name, if its the table header, use body, otherwise use text
