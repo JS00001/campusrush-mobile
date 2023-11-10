@@ -14,7 +14,9 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
+import schools from "@/constants/schools";
 import Autocomplete from "@/ui/Autocomplete";
+import organizations from "@/constants/organizations";
 import { useRegistration } from "@/providers/Registration";
 
 interface RegistrationProps {
@@ -30,8 +32,6 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
     // Form values
     name,
     school,
-    schools,
-    organizations,
     // Form Methods
     setName,
     setSchool,

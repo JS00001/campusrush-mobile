@@ -118,3 +118,7 @@ interface UpdatePnmInput {
 interface DeletePnmInput {
   id: string;
 }
+
+interface GetPnmInput {
+  id: string;
+}

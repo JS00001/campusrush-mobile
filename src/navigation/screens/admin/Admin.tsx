@@ -17,6 +17,7 @@ import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import ActionCard from "@/ui/ActionCard";
 import useAdmin from "@/hooks/useAdmin";
+import Information from "@/ui/Information";
 
 interface AdminProps {
   navigation: NativeStackNavigationProp<any>;

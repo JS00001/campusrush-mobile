@@ -11,6 +11,9 @@
  */
 
 import { create } from "zustand";
+import { PersistStorage, persist } from "zustand/middleware";
+
+import customAsyncStorage from "@/lib/asyncStorage";
 
 export enum PnmsStatus {
   Idle = "IDLE",
@@ -21,6 +24,7 @@ interface PnmsState {
   pnms: PNM[];
   status: PnmsStatus;
 
+  clearPnms: () => void;
   getPnm: (id: string) => PNM;
   addPnms: (pnm: PNM[]) => void;
   updatePnm: (pnm: PNM) => void;
@@ -29,64 +33,88 @@ interface PnmsState {
   setStatus: (status: PnmsStatus) => void;
 }
 
-const usePnmsStore = create<PnmsState>()((set) => ({
-  /**
-   * The list of PNMs to be stored in the store
-   */
-  pnms: [],
-  /**
-   * The status of the PNMs screen
-   */
-  status: PnmsStatus.Idle,
-  /**
-   * Sets the status of the PNMs screen
-   */
-  setStatus: (status) =>
-    set(() => ({
-      status,
-    })),
-  /**
-   * Gets a PNM from the store by id
-   */
-  getPnm: (id) => {
-    const state: PnmsState = usePnmsStore.getState();
+const usePnmsStore = create<PnmsState>()(
+  persist(
+    (set) => ({
+      /**
+       * The list of PNMs to be stored in the store
+       */
+      pnms: [],
+      /**
+       * The status of the PNMs screen
+       */
+      status: PnmsStatus.Idle,
+      /**
+       * Sets the status of the PNMs screen
+       */
+      setStatus: (status) =>
+        set(() => ({
+          status,
+        })),
+      /**
+       * Gets a PNM from the store by id
+       */
+      getPnm: (id) => {
+        const state: PnmsState = usePnmsStore.getState();
 
-    return state.pnms.find((p) => p._id === id) as PNM;
-  },
-  /**
-   * Adds a list of PNMs to the store
-   */
-  addPnms: (pnms) =>
-    set((state) => {
-      const newPnms = pnms.filter(
-        (p) => !state.pnms.find((p2) => p2._id === p._id),
-      );
+        return state.pnms.find((p) => p._id === id) as PNM;
+      },
+      /**
+       * Adds a list of PNMs to the store
+       */
+      addPnms: (pnms) =>
+        set((state) => {
+          const newPnms = pnms.filter(
+            (p) => !state.pnms.find((p2) => p2._id === p._id),
+          );
 
-      return {
-        pnms: [...state.pnms, ...newPnms],
-      };
+          return {
+            pnms: [...state.pnms, ...newPnms],
+          };
+        }),
+      /**
+       * Sets the list of PNMs in the store
+       */
+      setPnms: (pnms) =>
+        set(() => ({
+          pnms,
+        })),
+      /**
+       * Updates a PNM in the store if its id exists
+       */
+      updatePnm: (pnm) =>
+        set((state) => ({
+          pnms: state.pnms.map((p) => {
+            if (p._id === pnm._id) {
+              return {
+                ...p,
+                ...pnm,
+              };
+            }
+            return p;
+          }),
+        })),
+      /**
+       * Deletes a PNM from the store if its id exists
+       */
+      deletePnm: (pnm) =>
+        set((state) => ({
+          pnms: state.pnms.filter((p) => p._id !== pnm._id),
+        })),
+      /**
+       * Clears the PNMs from the store
+       */
+      clearPnms: () =>
+        set(() => ({
+          pnms: [],
+          status: PnmsStatus.Idle,
+        })),
     }),
-  /**
-   * Sets the list of PNMs in the store
-   */
-  setPnms: (pnms) =>
-    set(() => ({
-      pnms,
-    })),
-  /**
-   * Updates a PNM in the store if its id exists
-   */
-  updatePnm: (pnm) =>
-    set((state) => ({
-      pnms: state.pnms.map((p) => (p._id === pnm._id ? pnm : p)),
-    })),
-  /**
-   * Deletes a PNM from the store if its id exists
-   */
-  deletePnm: (pnm) =>
-    set((state) => ({
-      pnms: state.pnms.filter((p) => p._id !== pnm._id),
-    })),
-}));
+    {
+      name: "PNMs",
+      storage: customAsyncStorage as PersistStorage<PnmsState>,
+    },
+  ),
+);
 
 export default usePnmsStore;

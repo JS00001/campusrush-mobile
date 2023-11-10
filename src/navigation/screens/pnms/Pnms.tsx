@@ -12,6 +12,7 @@
 
 import { MenuView } from "@react-native-menu/menu";
 import { ActivityIndicator, View } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
@@ -22,7 +23,12 @@ import StatusIcon from "@/ui/StatusIcon";
 import { PnmsStatus } from "@/state/pnms";
 import PnmsList from "@/components/PnmsList";
 
-const PNMs: React.FC = () => {
+interface PNMScreenProps {
+  navigation: NativeStackNavigationProp<any>;
+  route: any;
+}
+
+const PNMs: React.FC<PNMScreenProps> = ({ navigation, route }) => {
   const {
     pnms,
     status,

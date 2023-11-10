@@ -14,8 +14,10 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
+import Information from "@/ui/Information";
 import useModalsStore from "@/state/modals";
 import Toast from "react-native-toast-message";
+import Tooltip from "@/ui/Tooltip";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
@@ -75,10 +77,13 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
       />
 
       <Button onPress={onButtonPress}>Show Success Toast</Button>
+
       <Button onPress={onErrorButtonPress}>Show Error Toast</Button>
       <Button onPress={onWarningButtonPress}>Show Warning Toast</Button>
       <Button onPress={onInfoButtonPress}>Show Info Toast</Button>
       <Button onPress={onBigMessageButtonPress}>Show Big Message Toast</Button>
+
+      <Information tooltip="This is a tooltip" size="sm" />
     </Layout>
   );
 };

@@ -10,43 +10,63 @@
  * Do not distribute
  */
 
+import customAsyncStorage from "@/lib/asyncStorage";
 import { create } from "zustand";
+import { PersistStorage, persist } from "zustand/middleware";
 
 interface StatisticsState {
   numPnms: number;
   numStarredPnms: number;
   recentPnms: PNM[];
 
+  clearStatistics: () => void;
   setNumPnms: (numPnms: number) => void;
   setRecentPnms: (recentPnms: PNM[]) => void;
   setNumStarredPnms: (numStarredPnms: number) => void;
 }
 
-const useStatisticsStore = create<StatisticsState>((set) => ({
-  /**
-   * The number of PNMs in the system
-   */
-  numPnms: 0,
-  /**
-   * The number of starred PNMs in the system
-   */
-  numStarredPnms: 0,
-  /**
-   * The list of recent PNMs
-   */
-  recentPnms: [],
-  /**
-   * Sets the number of PNMs in the system
-   */
-  setNumPnms: (numPnms) => set(() => ({ numPnms })),
-  /**
-   * Sets the number of starred PNMs in the system
-   */
-  setNumStarredPnms: (numStarredPnms) => set(() => ({ numStarredPnms })),
-  /**
-   * Sets the list of recent PNMs
-   */
-  setRecentPnms: (recentPnms) => set(() => ({ recentPnms })),
-}));
+const useStatisticsStore = create<StatisticsState>()(
+  persist(
+    (set) => ({
+      /**
+       * The number of PNMs in the system
+       */
+      numPnms: 0,
+      /**
+       * The number of starred PNMs in the system
+       */
+      numStarredPnms: 0,
+      /**
+       * The list of recent PNMs
+       */
+      recentPnms: [],
+      /**
+       * Sets the number of PNMs in the system
+       */
+      setNumPnms: (numPnms) => set(() => ({ numPnms })),
+      /**
+       * Sets the number of starred PNMs in the system
+       */
+      setNumStarredPnms: (numStarredPnms) => set(() => ({ numStarredPnms })),
+      /**
+       * Sets the list of recent PNMs
+       */
+      setRecentPnms: (recentPnms) => set(() => ({ recentPnms })),
+      /**
+       * Clears the statistics
+       */
+      clearStatistics: () =>
+        set(() => ({
+          numPnms: 0,
+          numStarredPnms: 0,
+          recentPnms: [],
+        })),
+    }),
+    {
+      name: "statistics",
+      storage: customAsyncStorage as PersistStorage<StatisticsState>,
+    },
+  ),
+);
 
 export default useStatisticsStore;

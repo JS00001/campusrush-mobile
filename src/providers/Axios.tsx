@@ -21,6 +21,7 @@ import Toast from "react-native-toast-message";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import { BASE_URL } from "@/api/constants";
+import useModalsStore from "@/state/modals";
 
 interface AxiosConfig extends InternalAxiosRequestConfig {
   retryCount?: number;
@@ -38,6 +39,9 @@ const AxiosIntercepter: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
   const { accessToken, clearUserData, refetchBillingData } = useAuth();
+
+  // Store to open a modal, used to show modals to upgrade
+  const { openModal } = useModalsStore();
 
   useEffect(() => {
     // Add an access token to the request headers
@@ -85,8 +89,10 @@ const AxiosIntercepter: React.FC<{ children?: React.ReactNode }> = ({
         return Promise.reject(error);
       }
 
-      // If the error is an unauthorized error, try to refresh the access token
+      // Intercept errors and handle common ones
       const responseData: any = error.response?.data;
+
+      // If the error is an unauthorized error, try to refresh the access token
       if (responseData.error?.message == "EXPIRED_TOKEN") {
         if (!error.config) {
           return Promise.reject(error);
@@ -104,13 +110,29 @@ const AxiosIntercepter: React.FC<{ children?: React.ReactNode }> = ({
         return await axiosClient.request(config);
       }
 
+      // If the user is not logged in, clear the user data
       if (responseData.error?.message == "UNAUTHORIZED") {
         clearUserData();
         return Promise.reject(error);
       }
 
-      if (responseData.error?.message == "MISSING_ENTITLEMENT") {
+      // If the user has NO entitlements, they should not be able to use the app
+      if (responseData.error?.message == "NO_ENTITLEMENTS") {
         refetchBillingData();
+        return Promise.reject(error);
+      }
+
+      // If the user is missing an entitlement, it means they need to upgrade their subscription to use a feature
+      if (responseData.error?.message == "MISSING_ENTITLEMENT") {
+        openModal({
+          name: "WARNING",
+          props: {
+            message: Content.missingEntitlementError.message,
+            primaryButtonText: Content.missingEntitlementError.primaryButton,
+            secondaryButtonText:
+              Content.missingEntitlementError.secondaryButton,
+          },
+        });
         return Promise.reject(error);
       }
 

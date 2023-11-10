@@ -29,6 +29,7 @@ import NavigationProvider from "@/providers/Navigation";
 import DevEnvironment from "@/components/DevEnvironment";
 import BottomSheetProvider from "@/providers/BottomSheet";
 import PreferencesProvider from "@/providers/Preferences";
+import EntitlementsProvider from "@/providers/Entitlements";
 import NotificationsProvider from "@/providers/Notifications";
 
 // Prevent native splash screen from autohiding
@@ -51,10 +52,12 @@ const App = () => {
                   <GestureHandlerRootView style={{ flex: 1 }}>
                     <BottomSheetModalProvider>
                       <BottomSheetProvider>
-                        <Modals />
-                        <DevEnvironment />
-                        <RootNavigator />
-                        <Toast config={toastConfig} />
+                        <EntitlementsProvider>
+                          <Modals />
+                          <DevEnvironment />
+                          <RootNavigator />
+                          <Toast config={toastConfig} />
+                        </EntitlementsProvider>
                       </BottomSheetProvider>
                     </BottomSheetModalProvider>
                   </GestureHandlerRootView>

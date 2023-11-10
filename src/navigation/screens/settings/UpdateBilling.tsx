@@ -35,7 +35,7 @@ const UpdateBilling = () => {
         subtitle="Manage your current plan"
       />
       {/* All plans/perks that the user has purchased/subscribed to */}
-      <BillingDetails activeProducts={activeProducts} />
+      <BillingDetails activeProducts={activeProducts || []} />
 
       {/* Button to manage billing */}
       <Button onPress={onManageBilling}>Manage Subscription</Button>

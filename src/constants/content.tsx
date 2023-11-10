@@ -91,6 +91,15 @@ const Content = {
     title: "Too Many Requests",
     message: "Please try again later",
   },
+  /**
+   * The missing entitlement error message
+   */
+  missingEntitlementError: {
+    message:
+      "This feature is not available in your current plan. Upgrade to unlock all features.",
+    primaryButton: "Upgrade",
+    secondaryButton: "No Thanks",
+  },
 };
 
 export default Content;

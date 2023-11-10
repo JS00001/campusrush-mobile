@@ -38,6 +38,13 @@ const timeAgo = (date: Date | string): string => {
 };
 
 const toString = (date: Date | string): string => {
+  if (!date) return "";
+
+  // Check to ensure the date can be parsed
+  if (isNaN(new Date(date).getTime())) {
+    return "";
+  }
+
   // Convert to Month Name Day, Year
   return new Date(date).toLocaleDateString("en-US", {
     year: "numeric",

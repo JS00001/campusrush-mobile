@@ -24,10 +24,6 @@ interface RegistrationContextProps extends RegisterAsOrganizationInput {
   isLoading: boolean;
   errors: Record<string, string>;
 
-  // Data Items
-  schools: string[];
-  organizations: string[];
-
   // Form Methods
   handleSubmission: () => void;
   validateFields: (fields: (keyof RegisterAsOrganizationInput)[]) => boolean;
@@ -50,20 +46,6 @@ const RegistrationProvider: React.FC<{ children?: React.ReactNode }> = ({
 }) => {
   // We need to access the auth context to get the signUp method and loading state
   const { signUp, isLoading } = useAuth();
-
-  // Get the schools and organizations from the API
-  // This will only run once and be cached
-  const query = useQuery({
-    queryKey: ["getOrganizations"],
-    queryFn: () => {
-      return authAPI.getOrganizations();
-    },
-  });
-
-  // Dont allow for an undefined organizations array
-  const organizations = query?.data?.data?.data.organizations || [];
-  // Dont allow for an undefined schools array
-  const schools = query?.data?.data?.data.schools || [];
 
   // The form to store registration values a cross all 3 steps
   const form = useFormik({
@@ -98,11 +80,8 @@ const RegistrationProvider: React.FC<{ children?: React.ReactNode }> = ({
       value={{
         // Status Items
         errors: form.errors,
-        isLoading: form.isSubmitting || isLoading || query.isLoading,
+        isLoading: form.isSubmitting || isLoading,
 
-        // Data Items
-        schools,
-        organizations,
         ...form.values,
 
         // Form Methods

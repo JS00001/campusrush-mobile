@@ -29,6 +29,12 @@ export enum PNMActions {
 }
 
 const usePnmActions = (pnm: PNM) => {
+  // Check if the PNM is in the store
+  const storedPnm = usePnmsStore((state) => state.getPnm(pnm._id));
+
+  // If there is a pnm in the store, use that instead
+  pnm = storedPnm || pnm;
+
   // Pull navigation hook
   const navigation = useNavigation();
 
@@ -124,7 +130,8 @@ const usePnmActions = (pnm: PNM) => {
       case PNMActions.EditPnm:
         (navigation.navigate as any)("PNMsTab", {
           screen: "PNMDetails",
-          params: { pnmId: pnm._id },
+          initial: false,
+          params: { pnm },
         });
         break;
       /**

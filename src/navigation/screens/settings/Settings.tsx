@@ -48,6 +48,10 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
     navigation.navigate("UpdateOrganization");
   };
 
+  const onContactDetailsPress = () => {
+    navigation.navigate("ContactDetails");
+  };
+
   const onBillingPress = () => {
     navigation.navigate("UpdateBilling");
   };
@@ -65,6 +69,13 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
         subtitle="Manage your organization"
         icon="ri-building-2-fill"
         onPress={onOrganizationPress}
+      />
+
+      <ActionCard
+        title="Your Contact Information"
+        subtitle="View your contact information"
+        icon="ri-phone-fill"
+        onPress={onContactDetailsPress}
       />
 
       <ActionCard

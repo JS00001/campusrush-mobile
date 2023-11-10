@@ -11,12 +11,14 @@
  */
 
 import { useMemo } from "react";
-import { SectionList, View } from "react-native";
-import { MenuView } from "@react-native-menu/menu";
+import { SectionList } from "react-native";
 
 import Text from "@/ui/Text";
+import date from "@/lib/date";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
+import Copyable from "@/ui/Copyable";
+import { formatPhoneNumber } from "@/lib/format";
 
 interface AdminOrganizationListProps {
   organizations: Organization[];
@@ -65,25 +67,32 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
 
   // The components for each item in teh section list
   const ItemComponent = ({ item: organization }: { item: Organization }) => {
-    const subtitle = `School: ${organization.school}\nEmail: ${organization.email}\nVerified: ${organization.verified}\nNum Pnms: ${organization.pnms.length}`;
+    const subtitle = [
+      `School: ${organization.school}`,
+      `Email: ${organization.email}`,
+      `Num Pnms: ${organization.pnms.length}`,
+      `Verified: ${organization.verified}`,
+      `Entitlements: ${organization.entitlements.join(", ") || "None"}`,
+      `Notifications Enabled: ${organization.notificationsEnabled}`,
+      `Created On: ${date.toString(organization.createdAt)}`,
+      `Updated On: ${date.toString(organization.updatedAt)}`,
+      `-----------------------`,
+      `Phone Number: ${formatPhoneNumber(organization.phoneNumber) || "None"}`,
+      `Phone Number ID: ${organization.phoneNumberId || "None"}`,
+      `Phone Number Created On: ${
+        date.toString(organization.phoneNumberCreatedAt) || "None"
+      }`,
+    ].join("\n");
 
     return (
-      <MenuView
-        actions={[
-          {
-            id: "copy-id",
-            title: "Copy ID",
-          },
-        ]}
-        shouldOpenOnLongPress
-      >
+      <Copyable title="Copy Organization ID" copyText={organization._id}>
         <ListItem
           pressable={false}
           key={organization._id}
           title={organization.name}
           subtitle={subtitle}
         />
-      </MenuView>
+      </Copyable>
     );
   };
 
@@ -107,18 +116,17 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
   };
 
   return (
-    <View>
-      <SectionList
-        sections={data}
-        contentContainerStyle={tw`gap-y-2`}
-        showsVerticalScrollIndicator={false}
-        renderItem={ItemComponent}
-        ListEmptyComponent={ListEmptyComponent}
-        renderSectionHeader={({ section: { title } }) => (
-          <Text style={tw`bg-white w-full font-medium`}>{title}</Text>
-        )}
-      />
-    </View>
+    <SectionList
+      sections={data}
+      style={tw`w-full`}
+      contentContainerStyle={tw`gap-y-2 pb-6`}
+      showsVerticalScrollIndicator={false}
+      renderItem={ItemComponent}
+      ListEmptyComponent={ListEmptyComponent}
+      renderSectionHeader={({ section: { title } }) => (
+        <Text style={tw`bg-white w-full font-medium`}>{title}</Text>
+      )}
+    />
   );
 };
 

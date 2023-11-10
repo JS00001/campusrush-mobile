@@ -8,31 +8,31 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Check for PRODUCTION_EXPO_TOKEN
-        run: |
-          if [ -z "${{ secrets.PRODUCTION_EXPO_TOKEN }}" ]; then
-            echo "You must provide an PRODUCTION_EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
-            exit 1
-          fi
+      # - name: Check for PRODUCTION_EXPO_TOKEN
+      #   run: |
+      #     if [ -z "${{ secrets.PRODUCTION_EXPO_TOKEN }}" ]; then
+      #       echo "You must provide an PRODUCTION_EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
+      #       exit 1
+      #     fi
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
+      # - name: Setup Node
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 18.x
 
-      - name: Setup EAS
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          token: ${{ secrets.PRODUCTION_EXPO_TOKEN }}
+      # - name: Setup EAS
+      #   uses: expo/expo-github-action@v8
+      #   with:
+      #     eas-version: latest
+      #     token: ${{ secrets.PRODUCTION_EXPO_TOKEN }}
 
-      - name: Install dependencies
-        run: yarn install
+      # - name: Install dependencies
+      #   run: yarn install
 
-      - name: Publish update
-        run: eas update --auto
+      # - name: Publish update
+      #   run: eas update --auto
 
-        # Report status to slack channel via webhook
+      # Report status to slack channel via webhook
       - name: ✅ Report Status
         if: always()
         uses: ravsamhq/notify-slack-action@v1

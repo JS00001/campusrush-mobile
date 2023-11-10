@@ -11,6 +11,9 @@
  */
 
 import { create } from "zustand";
+import { PersistStorage, persist } from "zustand/middleware";
+
+import customAsyncStorage from "@/lib/asyncStorage";
 
 export enum ConversationStatus {
   Idle = "IDLE",
@@ -23,6 +26,7 @@ export interface ConversationsState {
   status: ConversationStatus;
   conversations: Conversation[];
 
+  clearConversations: () => void;
   setStatus: (status: ConversationStatus) => void;
   deleteConversation: (pnmId: string) => void;
   updateConversation: (conversation: Conversation) => void;
@@ -30,61 +34,78 @@ export interface ConversationsState {
   setConversations: (conversations: Conversation[]) => void;
 }
 
-const useConversationsStore = create<ConversationsState>()((set) => ({
-  /**
-   * The status of the conversations
-   */
-  status: ConversationStatus.Idle,
-  /**
-   * The list of conversations to be stored in the store
-   */
-  conversations: [],
-  /**
-   * Updates a conversation in the store if its id exists
-   */
-  updateConversation: (conversation) =>
-    set((state) => ({
-      conversations: state.conversations.map((c) =>
-        c._id === conversation._id ? conversation : c,
-      ),
-    })),
-  /**
-   * Adds a list of conversations to the store
-   */
-  addConversations: (conversations) =>
-    set((state) => {
-      const previousConversations = state.conversations;
+const useConversationsStore = create<ConversationsState>()(
+  persist(
+    (set) => ({
+      /**
+       * The status of the conversations
+       */
+      status: ConversationStatus.Idle,
+      /**
+       * The list of conversations to be stored in the store
+       */
+      conversations: [],
+      /**
+       * Updates a conversation in the store if its id exists
+       */
+      updateConversation: (conversation) =>
+        set((state) => ({
+          conversations: state.conversations.map((c) =>
+            c._id === conversation._id ? conversation : c,
+          ),
+        })),
+      /**
+       * Adds a list of conversations to the store
+       */
+      addConversations: (conversations) =>
+        set((state) => {
+          const previousConversations = state.conversations;
 
-      const filteredConversations = previousConversations.filter(
-        (conversation) =>
-          !conversations.find((c) => c._id === conversation._id),
-      );
+          const filteredConversations = previousConversations.filter(
+            (conversation) =>
+              !conversations.find((c) => c._id === conversation._id),
+          );
 
-      return {
-        conversations: [...conversations, ...filteredConversations],
-      };
+          return {
+            conversations: [...conversations, ...filteredConversations],
+          };
+        }),
+      /**
+       * Sets the list of conversations in the store
+       */
+      setConversations: (conversations) =>
+        set(() => ({
+          conversations,
+        })),
+      /**
+       * Sets the status of the conversations
+       */
+      setStatus: (status) =>
+        set(() => ({
+          status,
+        })),
+      /**
+       * Deletes a conversation from the store
+       */
+      deleteConversation: (pnmId) =>
+        set((state) => ({
+          conversations: state.conversations.filter((c) => c.pnm._id !== pnmId),
+        })),
+
+      /**
+       * Clears the conversations from the store
+       */
+      clearConversations: () =>
+        set(() => ({
+          conversations: [],
+          status: ConversationStatus.Idle,
+        })),
     }),
-  /**
-   * Sets the list of conversations in the store
-   */
-  setConversations: (conversations) =>
-    set(() => ({
-      conversations,
-    })),
-  /**
-   * Sets the status of the conversations
-   */
-  setStatus: (status) =>
-    set(() => ({
-      status,
-    })),
-  /**
-   * Deletes a conversation from the store
-   */
-  deleteConversation: (pnmId) =>
-    set((state) => ({
-      conversations: state.conversations.filter((c) => c.pnm._id !== pnmId),
-    })),
-}));
+    {
+      name: "conversations",
+      storage: customAsyncStorage as PersistStorage<ConversationsState>,
+    },
+  ),
+);
 
 export default useConversationsStore;

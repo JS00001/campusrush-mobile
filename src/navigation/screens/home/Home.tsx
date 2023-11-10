@@ -22,15 +22,12 @@ import RecentPnms from "@/components/RecentPnms";
 import useStatistics from "@/hooks/useStatistics";
 import HomeHeaderSvg from "@/assets/HomeHeaderSvg";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import { useNavigation } from "@react-navigation/native";
 
 interface HomeScreenProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
-const Home: React.FC<HomeScreenProps> = ({}) => {
-  const navigation = useNavigation();
-
+const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
   // Load data from the API
   const { organization } = useAuth();
   const { handlePresentModalPress } = useBottomSheets();
@@ -43,9 +40,12 @@ const Home: React.FC<HomeScreenProps> = ({}) => {
 
   // When the user clicks on a recent PNM
   const onRecentPnmPress = (pnm: PNM) => {
-    (navigation.navigate as any)("PNMsTab", {
+    navigation.navigate("PNMsTab", {
       screen: "PNMDetails",
-      params: { pnmId: pnm._id },
+      initial: false,
+      params: {
+        pnm,
+      },
     });
   };
 
