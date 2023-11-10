@@ -10,14 +10,11 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
-import RemixIcon from "react-native-remix-icon";
 import { PurchasesStoreProduct } from "react-native-purchases";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
-import Information from "@/ui/Information";
+import ProductPerk from "@/components/ProductPerk";
 import useEntitlementsStore from "@/state/entitlements";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import SelectionCard from "@/ui/SelectionCard/SelectionCard";
@@ -94,35 +91,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
         Compare Plans
       </Button>
     </SelectionCard>
-  );
-};
-
-interface ProductPerkProps {
-  active: boolean;
-  name: string;
-  description: string;
-}
-
-const ProductPerk: React.FC<ProductPerkProps> = ({
-  active,
-  name,
-  description,
-}) => {
-  return (
-    <View style={tw`flex-row items-center justify-between gap-2 mt-1`}>
-      {/* The perk and checkmark icon */}
-      <View style={tw`flex-row gap-2 shrink`}>
-        <RemixIcon
-          name="ri-checkbox-circle-line"
-          color={tw.color("green-500")}
-          size={20}
-        />
-        <Text style={tw`shrink`}>{name}</Text>
-      </View>
-
-      {/* The information to show more information */}
-      <Information tooltip={description} size="sm" />
-    </View>
   );
 };
 

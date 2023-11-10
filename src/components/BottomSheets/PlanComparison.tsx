@@ -35,7 +35,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
   handleCloseModalPress,
 }) => {
   // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["95%"], []);
+  const snapPoints = useMemo(() => ["90%"], []);
 
   // Import the product data
   const entitlementDetails = useEntitlementsStore(
