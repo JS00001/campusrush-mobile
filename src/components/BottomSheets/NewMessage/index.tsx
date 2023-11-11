@@ -35,7 +35,7 @@ const NewMessageRoot: React.FC<NewMessageProps> = ({
   // Custom hook to get contacts
   const { refetch } = useContacts();
   // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["65%", "80%", "95%"], []);
+  const snapPoints = useMemo(() => ["70%", "80%", "95%"], []);
   // State to keep track of which screen the user is on
   const [_screen, _setScreen] = useState<NewMessageScreens>(
     NewMessageScreens.NewMessage,
@@ -66,7 +66,7 @@ const NewMessageRoot: React.FC<NewMessageProps> = ({
   // Create a list of all of the screens
   const ScreensList: ScreensList = {
     [NewMessageScreens.NewMessage]: {
-      position: "65%",
+      position: "70%",
       component: (
         <NewMessage
           setScreen={setScreen}

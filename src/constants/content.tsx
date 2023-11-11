@@ -43,6 +43,13 @@ const Content = {
       title: "No Uncontacted PNMs",
       message: "You have messaged all current PNMs",
     },
+    /**
+     * The error message to show when the user tries to message all favorited PNMs but there are no favorited PNMs
+     */
+    noFavoritedPNMs: {
+      title: "No Favorited PNMs",
+      message: "You have not favorited any PNMs",
+    },
   },
   /**
    * The verification success messages

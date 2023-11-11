@@ -39,6 +39,7 @@ const useContacts = () => {
   });
 
   // Extract the data from the query
+  const favoritedPnms = query.data?.data?.data?.favorited ?? [];
   const suggestedPnms = query.data?.data?.data?.suggested ?? [];
   const uncontactedPnms = query.data?.data?.data?.uncontacted ?? [];
 
@@ -79,6 +80,7 @@ const useContacts = () => {
     allPnms,
     searchQuery,
     filteredPnms,
+    favoritedPnms,
     uncontactedPnms,
     directMessageHeader,
     setSearchQuery,

@@ -197,6 +197,7 @@ type GetContactsAPIResponse = APIResponse & {
   data: {
     data: {
       all: PNM[];
+      favorited: PNM[];
       suggested: PNM[];
       uncontacted: PNM[];
     };

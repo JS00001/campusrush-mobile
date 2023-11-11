@@ -39,7 +39,7 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
   const { ...values } = useCreatePnm();
 
   // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["55%", "65%", "75%", "95%"], []);
+  const snapPoints = useMemo(() => ["45%", "50%", "65%", "80%", "90%"], []);
 
   // The current screen that is visible
   const [_screen, _setScreen] = useState<AddPnmScreens>(AddPnmScreens.AddPnm);
@@ -64,7 +64,7 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
   // that need them, and then render the proper screen based on the current screen
   const ScreensList: ScreensList = {
     [AddPnmScreens.AddPnm]: {
-      position: "55%",
+      position: "45%",
       component: (
         <AddPnm
           setScreen={setScreen}

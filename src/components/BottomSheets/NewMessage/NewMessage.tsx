@@ -34,7 +34,7 @@ const NewMessage: React.FC<NewMessageProps> = ({
   // Navigation hook to navigate to new message screen
   const navigation = useNavigation();
   // Custom hook to get contacts
-  const { isLoading, uncontactedPnms, allPnms } = useContacts();
+  const { isLoading, uncontactedPnms, allPnms, favoritedPnms } = useContacts();
 
   // When the user presses the direct message button
   const onMessagePress = () => {
@@ -61,6 +61,29 @@ const NewMessage: React.FC<NewMessageProps> = ({
     // and pass the PNMs to the new message screen
     (navigation.navigate as any)("NewMessage", {
       pnms: allPnms,
+    });
+  };
+
+  // When the user presses the message favorite PNMs button
+  const onMessageFavoritePress = () => {
+    // If there are no favorited PNMs, show an error toast
+    if (favoritedPnms.length === 0) {
+      Toast.show({
+        type: "error",
+        text1: Content.newMessage.noFavoritedPNMs.title,
+        text2: Content.newMessage.noFavoritedPNMs.message,
+      });
+      // and close the bottom sheet modal
+      handleCloseModalPress();
+      return;
+    }
+
+    // Otherwise, close the bottom sheet modal
+    handleCloseModalPress();
+
+    // and pass the PNMs to the new message screen
+    (navigation.navigate as any)("NewMessage", {
+      pnms: favoritedPnms,
     });
   };
 
@@ -93,6 +116,14 @@ const NewMessage: React.FC<NewMessageProps> = ({
         <Text variant="title">New Message</Text>
         <Text variant="body">Start a new message with potential members</Text>
       </View>
+
+      <ActionCard
+        title="Direct Message"
+        subtitle="Send a message to a PNM"
+        icon="ri-chat-private-fill"
+        loading={isLoading}
+        onPress={onMessagePress}
+      />
       <ActionCard
         title="Message All"
         subtitle="Send a message to all PNMs"
@@ -101,18 +132,18 @@ const NewMessage: React.FC<NewMessageProps> = ({
         onPress={onMessageAllPress}
       />
       <ActionCard
-        title="Direct Message"
-        subtitle="Start a message with a single user"
-        icon="ri-chat-private-fill"
-        loading={isLoading}
-        onPress={onMessagePress}
-      />
-      <ActionCard
-        title="Message New Members"
+        title="Message New PNMS"
         subtitle="Send a message to all PNMs you have not contacted"
         icon="ri-chat-history-fill"
         loading={isLoading}
         onPress={onMessageNewMembersPress}
+      />
+      <ActionCard
+        title="Message Favorite PNMS"
+        subtitle="Send a message to all PNMs you have favorited"
+        icon="ri-star-fill"
+        loading={isLoading}
+        onPress={onMessageFavoritePress}
       />
     </ScrollView>
   );
