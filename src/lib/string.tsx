@@ -10,6 +10,9 @@
  * Do not distribute
  */
 
+/**
+ * Format a phone number to be in the format of (123) 456-7890
+ */
 export const formatPhoneNumber = (phoneNumber: string) => {
   // Phone number should be in the format of +11234567890 and should convert to (123) 456-7890
   let formattedPhoneNumber = phoneNumber;
@@ -27,6 +30,10 @@ export const formatPhoneNumber = (phoneNumber: string) => {
   return formattedPhoneNumber;
 };
 
+/**
+ * Ensure a string is a valid JSON string and pretty prints it
+ * if it is valid JSON
+ */
 export const formatJSON = (string: string) => {
   // Check if string is valid JSON
   try {

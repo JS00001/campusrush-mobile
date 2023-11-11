@@ -18,6 +18,7 @@ import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import Hyperlink from "@/ui/Hyperlink";
+import { useAuth } from "@/providers/Auth";
 import useVerification from "@/hooks/useVerification";
 
 const Verification = () => {
@@ -30,6 +31,8 @@ const Verification = () => {
     handleSubmission,
     resendVerificationEmail,
   } = useVerification();
+
+  const { organization, signOut } = useAuth();
 
   // Handle the submission of the form
   const onSubmit = () => {
@@ -45,7 +48,7 @@ const Verification = () => {
     <Layout scrollable gap={18}>
       <Layout.Header
         title="Verification"
-        subtitle="You must have a verified email to continue"
+        subtitle={`We have sent a verification code sent to ${organization?.email}. Enter it below.`}
       />
       <TextInput
         error={errors.code}
@@ -62,11 +65,20 @@ const Verification = () => {
         Continue
       </Button>
 
-      <View style={tw`flex-row justify-center`}>
-        <Text style={tw`text-center`}>Didn't receive a code?&nbsp;</Text>
-        <Hyperlink color="dark" onPress={resendVerificationEmail}>
-          Resend
-        </Hyperlink>
+      <View style={tw`gap-y-2`}>
+        <View style={tw`flex-row justify-center`}>
+          <Text style={tw`text-center`}>Incorrect email address?&nbsp;</Text>
+          <Hyperlink color="dark" onPress={signOut}>
+            Sign out
+          </Hyperlink>
+        </View>
+
+        <View style={tw`flex-row justify-center`}>
+          <Text style={tw`text-center`}>Didn't receive a code?&nbsp;</Text>
+          <Hyperlink color="dark" onPress={resendVerificationEmail}>
+            Resend
+          </Hyperlink>
+        </View>
       </View>
     </Layout>
   );

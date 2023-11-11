@@ -24,7 +24,7 @@ import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import AppConstants from "@/constants";
-import { formatJSON } from "@/lib/format";
+import { formatJSON } from "@/lib/string";
 import { useAuth } from "@/providers/Auth";
 import SegmentedControl from "@/ui/SegmentedControl";
 import { usePreferences } from "@/providers/Preferences";
