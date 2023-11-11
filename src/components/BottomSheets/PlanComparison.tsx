@@ -12,13 +12,15 @@
 
 import { useMemo } from "react";
 import RemixIcon from "react-native-remix-icon";
+import { ScrollView, View } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { Pressable, ScrollView, View } from "react-native";
 
 import type {
   ProductId,
   ProductPerkIds,
 } from "@/types/interfaces/EntitlementInterfaces";
+
+import BottomSheetBackdrop from "./Components/BottomSheetBackdrop";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -30,10 +32,7 @@ interface PlanComparisonProps {
   handleCloseModalPress: () => void;
 }
 
-const PlanComparison: React.FC<PlanComparisonProps> = ({
-  innerRef,
-  handleCloseModalPress,
-}) => {
+const PlanComparison: React.FC<PlanComparisonProps> = ({ innerRef }) => {
   // Memoized snap points (When the bottom sheet modal is open)
   const snapPoints = useMemo(() => ["90%"], []);
 
@@ -55,12 +54,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
       ref={innerRef}
       index={0}
       snapPoints={snapPoints}
-      backdropComponent={() => (
-        <Pressable
-          style={tw`h-full w-full absolute bg-black opacity-20`}
-          onPress={handleCloseModalPress}
-        />
-      )}
+      backdropComponent={BottomSheetBackdrop}
     >
       <ScrollView contentContainerStyle={tw`gap-y-2 items-center pb-12`}>
         <View style={tw`items-center gap-y-2 p-6`}>

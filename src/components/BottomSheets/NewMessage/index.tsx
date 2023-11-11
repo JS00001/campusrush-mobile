@@ -10,13 +10,12 @@
  * Do not distribute
  */
 
-import { Pressable } from "react-native";
 import { useMemo, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import { NewMessageScreens, ScreensList } from "./types";
+import BottomSheetBackdrop from "../Components/BottomSheetBackdrop";
 
-import tw from "@/lib/tailwind";
 import useContacts from "@/hooks/messaging/useContacts";
 import NewMessage from "@/components/BottomSheets/NewMessage/NewMessage";
 import DirectMessage from "@/components/BottomSheets/NewMessage/DirectMessage";
@@ -59,8 +58,10 @@ const NewMessageRoot: React.FC<NewMessageProps> = ({
   const setScreen = (screen: NewMessageScreens) => {
     // Set the screen
     _setScreen(screen);
-    // and then snap to the new position
-    handleSnapToPosition(ScreensList[screen].position);
+    // and then snap to the new position if its not the first screen\
+    if (screen !== NewMessageScreens.NewMessage) {
+      handleSnapToPosition(ScreensList[screen].position);
+    }
   };
 
   // Create a list of all of the screens
@@ -95,12 +96,7 @@ const NewMessageRoot: React.FC<NewMessageProps> = ({
       index={0}
       snapPoints={snapPoints}
       onChange={onBottomSheetChange}
-      backdropComponent={() => (
-        <Pressable
-          style={tw`h-full w-full absolute bg-black opacity-20`}
-          onPress={handleCloseModalPress}
-        />
-      )}
+      backdropComponent={BottomSheetBackdrop}
     >
       {ScreenComponent}
     </BottomSheetModal>
