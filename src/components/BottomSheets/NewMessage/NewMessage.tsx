@@ -41,14 +41,17 @@ const NewMessage: React.FC<NewMessageProps> = ({
     setScreen(NewMessageScreens.DirectMessage);
   };
 
-  // When the user presses the message all button
-  const onMessageAllPress = () => {
+  // Handle the user pressing any mass message button
+  const handleMassMessage = (
+    pnms: PNM[],
+    errorMessage: { title: string; message: string },
+  ) => {
     // If there are no PNMs, show an error toast
-    if (allPnms.length === 0) {
+    if (pnms.length === 0) {
       Toast.show({
         type: "error",
-        text1: Content.newMessage.noPNMs.title,
-        text2: Content.newMessage.noPNMs.message,
+        text1: errorMessage.title,
+        text2: errorMessage.message,
       });
       // and close the bottom sheet modal
       handleCloseModalPress();
@@ -58,56 +61,31 @@ const NewMessage: React.FC<NewMessageProps> = ({
     // Otherwise, close the bottom sheet modal
     handleCloseModalPress();
 
+    // If there is only one PNM, open the chat rather than the new message screen
+    if (pnms.length === 1) {
+      (navigation.navigate as any)("Chat", {
+        pnm: pnms[0],
+      });
+
+      return;
+    }
+
     // and pass the PNMs to the new message screen
     (navigation.navigate as any)("NewMessage", {
-      pnms: allPnms,
+      pnms,
     });
   };
 
-  // When the user presses the message favorite PNMs button
+  const onMessageAllPress = () => {
+    handleMassMessage(allPnms, Content.newMessage.noPNMs);
+  };
+
   const onMessageFavoritePress = () => {
-    // If there are no favorited PNMs, show an error toast
-    if (favoritedPnms.length === 0) {
-      Toast.show({
-        type: "error",
-        text1: Content.newMessage.noFavoritedPNMs.title,
-        text2: Content.newMessage.noFavoritedPNMs.message,
-      });
-      // and close the bottom sheet modal
-      handleCloseModalPress();
-      return;
-    }
-
-    // Otherwise, close the bottom sheet modal
-    handleCloseModalPress();
-
-    // and pass the PNMs to the new message screen
-    (navigation.navigate as any)("NewMessage", {
-      pnms: favoritedPnms,
-    });
+    handleMassMessage(favoritedPnms, Content.newMessage.noFavoritedPNMs);
   };
 
-  // When the user presses the message new members button
   const onMessageNewMembersPress = () => {
-    // If there are no uncontacted PNMs, show an error toast
-    if (uncontactedPnms.length === 0) {
-      Toast.show({
-        type: "error",
-        text1: Content.newMessage.noUncontactedPNMs.title,
-        text2: Content.newMessage.noUncontactedPNMs.message,
-      });
-      // and close the bottom sheet modal
-      handleCloseModalPress();
-      return;
-    }
-
-    // Otherwise, close the bottom sheet modal
-    handleCloseModalPress();
-
-    // and pass the PNMs to the new message screen
-    (navigation.navigate as any)("NewMessage", {
-      pnms: uncontactedPnms,
-    });
+    handleMassMessage(uncontactedPnms, Content.newMessage.noUncontactedPNMs);
   };
 
   return (
