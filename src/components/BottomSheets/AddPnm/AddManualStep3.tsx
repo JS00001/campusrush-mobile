@@ -11,6 +11,7 @@
  */
 
 import tw from "@/lib/tailwind";
+import { useEffect } from "react";
 import { View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -21,7 +22,6 @@ import Button from "@/ui/Button";
 import ListItem from "@/ui/ListItem";
 import ButtonGroup from "@/ui/ButtonGroup";
 import type { UseCreatePnm } from "@/hooks/useCreatePnm";
-import { useEffect } from "react";
 
 /**
  * The props for this screen extend the values of the "useCreatePnm" hook

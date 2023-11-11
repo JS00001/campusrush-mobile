@@ -131,7 +131,7 @@ const MessagingTextInput: React.FC<MessagingTextInputProps> = ({
         formattedWords.push(
           <Text
             key={word + index}
-            style={tw.style(" text-white font-medium bg-blue-600")}
+            style={tw.style(" text-blue-600 font-semibold text-base ")}
           >
             {word}
           </Text>,

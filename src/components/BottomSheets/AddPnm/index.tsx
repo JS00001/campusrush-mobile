@@ -95,7 +95,7 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
       ),
     },
     [AddPnmScreens.AddManualStep3]: {
-      position: "80%",
+      position: "90%",
       component: (
         <AddManualStep3
           {...values}
