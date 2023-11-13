@@ -69,6 +69,15 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
       {} as Record<string, { title: string; data: PNM[] }>,
     );
 
+    // Sort the object by the key, in alphabetical order
+    Object.keys(reduction)
+      .sort()
+      .forEach((key) => {
+        const value = reduction[key];
+        delete reduction[key];
+        reduction[key] = value;
+      });
+
     // Convert the object to an array and return it
     return Object.values(reduction);
   }, [pnms]);
