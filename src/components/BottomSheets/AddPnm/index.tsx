@@ -10,13 +10,12 @@
  * Do not distribute
  */
 
-import { Pressable } from "react-native";
 import { useMemo, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import { AddPnmScreens, ScreensList } from "./types";
+import BottomSheetBackdrop from "../Components/BottomSheetBackdrop";
 
-import tw from "@/lib/tailwind";
 import useCreatePnm from "@/hooks/useCreatePnm";
 import AddPnm from "@/components/BottomSheets/AddPnm/AddPnm";
 import AddQrCodeStep from "@/components/BottomSheets/AddPnm/AddQrCode";
@@ -39,7 +38,7 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
   const { ...values } = useCreatePnm();
 
   // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["55%", "65%", "75%", "95%"], []);
+  const snapPoints = useMemo(() => ["45%", "50%", "65%", "80%", "90%"], []);
 
   // The current screen that is visible
   const [_screen, _setScreen] = useState<AddPnmScreens>(AddPnmScreens.AddPnm);
@@ -57,14 +56,16 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
     // Set the screen
     _setScreen(screen);
     // and then snap to the new position
-    handleSnapToPosition(ScreensList[screen].position);
+    if (screen !== AddPnmScreens.AddPnm) {
+      handleSnapToPosition(ScreensList[screen].position);
+    }
   };
 
   // Create a list of all of the screens, pass the values of the hook to the screens
   // that need them, and then render the proper screen based on the current screen
   const ScreensList: ScreensList = {
     [AddPnmScreens.AddPnm]: {
-      position: "55%",
+      position: "45%",
       component: (
         <AddPnm
           setScreen={setScreen}
@@ -95,7 +96,7 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
       ),
     },
     [AddPnmScreens.AddManualStep3]: {
-      position: "80%",
+      position: "90%",
       component: (
         <AddManualStep3
           {...values}
@@ -124,12 +125,7 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
       index={0}
       snapPoints={snapPoints}
       onChange={onBottomSheetChange}
-      backdropComponent={() => (
-        <Pressable
-          style={tw`h-full w-full absolute bg-black opacity-20`}
-          onPress={handleCloseModalPress}
-        />
-      )}
+      backdropComponent={BottomSheetBackdrop}
     >
       {ScreenComponent}
     </BottomSheetModal>

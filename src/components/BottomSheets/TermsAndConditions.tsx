@@ -11,8 +11,10 @@
  */
 
 import { useMemo } from "react";
-import { Pressable, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+
+import BottomSheetBackdrop from "./Components/BottomSheetBackdrop";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -26,7 +28,6 @@ interface TermsAndConditionsProps {
 
 const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
   innerRef,
-  handleCloseModalPress,
 }) => {
   // Memoized snap points (When the bottom sheet modal is open)
   const snapPoints = useMemo(() => ["75%"], []);
@@ -36,12 +37,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
       ref={innerRef}
       index={0}
       snapPoints={snapPoints}
-      backdropComponent={() => (
-        <Pressable
-          style={tw`h-full w-full absolute bg-black opacity-20`}
-          onPress={handleCloseModalPress}
-        />
-      )}
+      backdropComponent={BottomSheetBackdrop}
     >
       <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-2`}>
         <Text>Terms and Conditions</Text>

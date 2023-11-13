@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
@@ -22,13 +23,22 @@ interface NewMessageProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
-const NewMessage: React.FC<NewMessageProps> = ({ route }) => {
+const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
   // Define the pnms from the route params
   const routePnms = route.params.pnms;
 
   // Import the functions needed to send messages and manage the PNMS that messages
   // are being sent to
   const { pnms, sendMessage, onPnmRemove } = useMessageSender(routePnms);
+
+  useEffect(() => {
+    // If the pnms length falls to one, replace the current screen with the chat one.
+    if (pnms.length === 1) {
+      navigation.replace("Chat", {
+        pnm: pnms[0],
+      });
+    }
+  }, [pnms.length]);
 
   return (
     <>

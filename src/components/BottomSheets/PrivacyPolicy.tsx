@@ -11,8 +11,10 @@
  */
 
 import { useMemo } from "react";
-import { Pressable, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+
+import BottomSheetBackdrop from "./Components/BottomSheetBackdrop";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -24,10 +26,7 @@ interface PrivacyPolicyProps {
   handleSnapToPosition: (position: string) => void;
 }
 
-const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({
-  innerRef,
-  handleCloseModalPress,
-}) => {
+const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ innerRef }) => {
   // Memoized snap points (When the bottom sheet modal is open)
   const snapPoints = useMemo(() => ["75%"], []);
 
@@ -36,12 +35,7 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({
       ref={innerRef}
       index={0}
       snapPoints={snapPoints}
-      backdropComponent={() => (
-        <Pressable
-          style={tw`h-full w-full absolute bg-black opacity-20`}
-          onPress={handleCloseModalPress}
-        />
-      )}
+      backdropComponent={BottomSheetBackdrop}
     >
       <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-2`}>
         <Text>Privacy Policy</Text>

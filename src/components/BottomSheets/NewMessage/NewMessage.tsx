@@ -34,21 +34,24 @@ const NewMessage: React.FC<NewMessageProps> = ({
   // Navigation hook to navigate to new message screen
   const navigation = useNavigation();
   // Custom hook to get contacts
-  const { isLoading, uncontactedPnms, allPnms } = useContacts();
+  const { isLoading, uncontactedPnms, allPnms, favoritedPnms } = useContacts();
 
   // When the user presses the direct message button
   const onMessagePress = () => {
     setScreen(NewMessageScreens.DirectMessage);
   };
 
-  // When the user presses the message all button
-  const onMessageAllPress = () => {
+  // Handle the user pressing any mass message button
+  const handleMassMessage = (
+    pnms: PNM[],
+    errorMessage: { title: string; message: string },
+  ) => {
     // If there are no PNMs, show an error toast
-    if (allPnms.length === 0) {
+    if (pnms.length === 0) {
       Toast.show({
         type: "error",
-        text1: Content.newMessage.noPNMs.title,
-        text2: Content.newMessage.noPNMs.message,
+        text1: errorMessage.title,
+        text2: errorMessage.message,
       });
       // and close the bottom sheet modal
       handleCloseModalPress();
@@ -58,33 +61,31 @@ const NewMessage: React.FC<NewMessageProps> = ({
     // Otherwise, close the bottom sheet modal
     handleCloseModalPress();
 
+    // If there is only one PNM, open the chat rather than the new message screen
+    if (pnms.length === 1) {
+      (navigation.navigate as any)("Chat", {
+        pnm: pnms[0],
+      });
+
+      return;
+    }
+
     // and pass the PNMs to the new message screen
     (navigation.navigate as any)("NewMessage", {
-      pnms: allPnms,
+      pnms,
     });
   };
 
-  // When the user presses the message new members button
+  const onMessageAllPress = () => {
+    handleMassMessage(allPnms, Content.newMessage.noPNMs);
+  };
+
+  const onMessageFavoritePress = () => {
+    handleMassMessage(favoritedPnms, Content.newMessage.noFavoritedPNMs);
+  };
+
   const onMessageNewMembersPress = () => {
-    // If there are no uncontacted PNMs, show an error toast
-    if (uncontactedPnms.length === 0) {
-      Toast.show({
-        type: "error",
-        text1: Content.newMessage.noUncontactedPNMs.title,
-        text2: Content.newMessage.noUncontactedPNMs.message,
-      });
-      // and close the bottom sheet modal
-      handleCloseModalPress();
-      return;
-    }
-
-    // Otherwise, close the bottom sheet modal
-    handleCloseModalPress();
-
-    // and pass the PNMs to the new message screen
-    (navigation.navigate as any)("NewMessage", {
-      pnms: uncontactedPnms,
-    });
+    handleMassMessage(uncontactedPnms, Content.newMessage.noUncontactedPNMs);
   };
 
   return (
@@ -93,6 +94,14 @@ const NewMessage: React.FC<NewMessageProps> = ({
         <Text variant="title">New Message</Text>
         <Text variant="body">Start a new message with potential members</Text>
       </View>
+
+      <ActionCard
+        title="Direct Message"
+        subtitle="Send a message to a PNM"
+        icon="ri-chat-private-fill"
+        loading={isLoading}
+        onPress={onMessagePress}
+      />
       <ActionCard
         title="Message All"
         subtitle="Send a message to all PNMs"
@@ -101,18 +110,18 @@ const NewMessage: React.FC<NewMessageProps> = ({
         onPress={onMessageAllPress}
       />
       <ActionCard
-        title="Direct Message"
-        subtitle="Start a message with a single user"
-        icon="ri-chat-private-fill"
-        loading={isLoading}
-        onPress={onMessagePress}
-      />
-      <ActionCard
-        title="Message New Members"
+        title="Message New PNMS"
         subtitle="Send a message to all PNMs you have not contacted"
         icon="ri-chat-history-fill"
         loading={isLoading}
         onPress={onMessageNewMembersPress}
+      />
+      <ActionCard
+        title="Message Favorite PNMS"
+        subtitle="Send a message to all PNMs you have favorited"
+        icon="ri-star-fill"
+        loading={isLoading}
+        onPress={onMessageFavoritePress}
       />
     </ScrollView>
   );

@@ -10,13 +10,12 @@
  * Do not distribute
  */
 
-import { Pressable } from "react-native";
 import { useMemo, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import { NewMessageScreens, ScreensList } from "./types";
+import BottomSheetBackdrop from "../Components/BottomSheetBackdrop";
 
-import tw from "@/lib/tailwind";
 import useContacts from "@/hooks/messaging/useContacts";
 import NewMessage from "@/components/BottomSheets/NewMessage/NewMessage";
 import DirectMessage from "@/components/BottomSheets/NewMessage/DirectMessage";
@@ -35,7 +34,7 @@ const NewMessageRoot: React.FC<NewMessageProps> = ({
   // Custom hook to get contacts
   const { refetch } = useContacts();
   // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["65%", "80%", "95%"], []);
+  const snapPoints = useMemo(() => ["70%", "80%", "95%"], []);
   // State to keep track of which screen the user is on
   const [_screen, _setScreen] = useState<NewMessageScreens>(
     NewMessageScreens.NewMessage,
@@ -59,14 +58,16 @@ const NewMessageRoot: React.FC<NewMessageProps> = ({
   const setScreen = (screen: NewMessageScreens) => {
     // Set the screen
     _setScreen(screen);
-    // and then snap to the new position
-    handleSnapToPosition(ScreensList[screen].position);
+    // and then snap to the new position if its not the first screen\
+    if (screen !== NewMessageScreens.NewMessage) {
+      handleSnapToPosition(ScreensList[screen].position);
+    }
   };
 
   // Create a list of all of the screens
   const ScreensList: ScreensList = {
     [NewMessageScreens.NewMessage]: {
-      position: "65%",
+      position: "70%",
       component: (
         <NewMessage
           setScreen={setScreen}
@@ -95,12 +96,7 @@ const NewMessageRoot: React.FC<NewMessageProps> = ({
       index={0}
       snapPoints={snapPoints}
       onChange={onBottomSheetChange}
-      backdropComponent={() => (
-        <Pressable
-          style={tw`h-full w-full absolute bg-black opacity-20`}
-          onPress={handleCloseModalPress}
-        />
-      )}
+      backdropComponent={BottomSheetBackdrop}
     >
       {ScreenComponent}
     </BottomSheetModal>

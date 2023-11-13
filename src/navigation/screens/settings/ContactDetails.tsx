@@ -31,7 +31,7 @@ import Copyable from "@/ui/Copyable";
 import ListItem from "@/ui/ListItem";
 import { useAuth } from "@/providers/Auth";
 import Information from "@/ui/Information";
-import { formatPhoneNumber } from "@/lib/format";
+import { formatPhoneNumber } from "@/lib/string";
 
 const ContactDetails = () => {
   const { organization } = useAuth();
