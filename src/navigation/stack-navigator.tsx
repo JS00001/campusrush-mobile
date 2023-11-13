@@ -216,7 +216,9 @@ export const AddStack = () => {
  */
 export const MessagesStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{ headerShown: false, animationTypeForReplace: "pop" }}
+    >
       <Stack.Screen
         name="Messages"
         component={MessagesScreen}

@@ -18,7 +18,7 @@ import date from "@/lib/date";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
 import Copyable from "@/ui/Copyable";
-import { formatPhoneNumber } from "@/lib/format";
+import { formatPhoneNumber } from "@/lib/string";
 
 interface AdminOrganizationListProps {
   organizations: Organization[];

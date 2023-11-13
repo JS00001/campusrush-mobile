@@ -52,14 +52,17 @@ const usePnmActions = (pnm: PNM) => {
     (state) => state.deleteConversation,
   );
 
-  // Store to update home statistics once all PNMs are deleted
-
-  const numPnms = useStatisticsStore((state) => state.numPnms);
-  const setCurrentPnms = useStatisticsStore((state) => state.setNumPnms);
-  const numStarredPnms = useStatisticsStore((state) => state.numStarredPnms);
-  const setNumStarredPnms = useStatisticsStore(
-    (state) => state.setNumStarredPnms,
+  // Store to update home statistics
+  const decrementNumStarredPnms = useStatisticsStore(
+    (state) => state.decrementNumStarredPnms,
   );
+  const decrementNumPnms = useStatisticsStore(
+    (state) => state.decrementNumPnms,
+  );
+  const incrementNumStarredPnms = useStatisticsStore(
+    (state) => state.incrementNumStarredPnms,
+  );
+  const removeRecentPnm = useStatisticsStore((state) => state.removeRecentPnm);
 
   // Create a mutation to delete the PNM
   const deletionMutation = useMutation({
@@ -72,15 +75,18 @@ const usePnmActions = (pnm: PNM) => {
       // Remove the PNM from the store
       deletePnm(pnm);
 
+      // Remove the PNM from recent PNMs
+      removeRecentPnm(pnm);
+
       // Remove the conversation from the store
       deleteConversation(pnm._id);
 
       // Update the statistics
-      setCurrentPnms(numPnms - 1);
+      decrementNumPnms();
 
       // Check if the PNM is favorited
       if (pnm.starred) {
-        setNumStarredPnms(numStarredPnms - 1);
+        decrementNumStarredPnms();
       }
     },
   });
@@ -98,7 +104,7 @@ const usePnmActions = (pnm: PNM) => {
       });
 
       // Update the statistics
-      setNumStarredPnms(numStarredPnms + 1);
+      incrementNumStarredPnms();
     },
   });
 
@@ -115,7 +121,7 @@ const usePnmActions = (pnm: PNM) => {
       });
 
       // Update the statistics
-      setNumStarredPnms(numStarredPnms - 1);
+      decrementNumStarredPnms();
     },
   });
 

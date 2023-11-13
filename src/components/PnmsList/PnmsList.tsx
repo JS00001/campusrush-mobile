@@ -22,7 +22,7 @@ import { useNavigation } from "@react-navigation/native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
-import { formatPhoneNumber } from "@/lib/format";
+import { formatPhoneNumber } from "@/lib/string";
 
 interface PnmsListProps {
   pnms: PNM[];
@@ -69,8 +69,10 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
       {} as Record<string, { title: string; data: PNM[] }>,
     );
 
-    // Convert the object to an array and return it
-    return Object.values(reduction);
+    // Ensure the objects are in order based on their title (alphabetical order)
+    return Object.values(reduction).sort((a, b) =>
+      a.title.localeCompare(b.title),
+    );
   }, [pnms]);
 
   // When the current letter changes, scroll to the section with that letter
@@ -176,7 +178,9 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
           <Text variant="title" style={tw`text-center mt-16`}>
             No PNMs found
           </Text>
-          <Text>Try changing your filters or refreshing the page</Text>
+          <Text style={tw`text-center`}>
+            Try changing your filters or refreshing the page
+          </Text>
         </>
       );
     }
@@ -210,10 +214,16 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
       />
 
       {/* The alphabet list to sort contacts */}
-      <AlphabetList
-        currentLetter={currentLetter}
-        setCurrentLetter={onLetterChange}
-      />
+
+      {
+        // If there are any pnms, show the alphabet list
+        pnms.length >= 1 && (
+          <AlphabetList
+            currentLetter={currentLetter}
+            setCurrentLetter={onLetterChange}
+          />
+        )
+      }
     </View>
   );
 };

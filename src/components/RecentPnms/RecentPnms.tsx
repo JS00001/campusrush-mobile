@@ -14,7 +14,7 @@ import { ScrollView } from "react-native-gesture-handler";
 
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
-import { formatPhoneNumber } from "@/lib/format";
+import { formatPhoneNumber } from "@/lib/string";
 
 interface RecentPnmsProps {
   pnms: PNM[];

@@ -51,14 +51,8 @@ const AddPnm: React.FC<AddPnmProps> = ({
         onPress={onAddPnmManuallyPress}
       />
       <ActionCard
-        title="Add PNM from Contacts"
-        subtitle="Add a PNM from your contacts"
-        icon="ri-contacts-fill"
-        onPress={() => console.log("Add PNM from Contacts")}
-      />
-      <ActionCard
-        title="Display QR Code"
-        subtitle="Have a PNM scan a QR code"
+        title="Share QR Code"
+        subtitle="Share a QR code with a PNM"
         icon="ri-qr-code-fill"
         onPress={onAddPnmQrCodePress}
       />

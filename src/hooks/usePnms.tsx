@@ -58,6 +58,7 @@ const usePnms = () => {
 
   // Store to update home statistics once all PNMs are deleted
   const setCurrentPnms = useStatisticsStore((state) => state.setNumPnms);
+  const setRecentPnms = useStatisticsStore((state) => state.setRecentPnms);
   const setNumStarredPnms = useStatisticsStore(
     (state) => state.setNumStarredPnms,
   );
@@ -90,6 +91,7 @@ const usePnms = () => {
       setConversations([]);
 
       // Update the statistics
+      setRecentPnms([]);
       setCurrentPnms(0);
       setNumStarredPnms(0);
 

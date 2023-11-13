@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { useEffect } from "react";
 import { View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -19,8 +20,7 @@ import Layout from "@/ui/Layout";
 import usePnmsStore from "@/state/pnms";
 import ActionCard from "@/ui/ActionCard";
 import ChatHeader from "@/components/ChatHeader";
-import { formatPhoneNumber } from "@/lib/format";
-import { useEffect } from "react";
+import { formatPhoneNumber } from "@/lib/string";
 
 interface PnmDetailsProps {
   navigation: NativeStackNavigationProp<any>;

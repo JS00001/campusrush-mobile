@@ -22,7 +22,29 @@ import Content from "@/constants/content";
 import useStatisticsStore from "@/state/statistics";
 import validators from "@/lib/validation/validators";
 
-const useCreatePnm = () => {
+export interface UseCreatePnm {
+  isLoading: boolean;
+  errors: Record<string, string>;
+
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  classification: string;
+  instagram?: string;
+  snapchat?: string;
+
+  handleSubmission: () => void;
+  validateFields: (fields: (keyof CreatePnmInput)[]) => boolean;
+
+  setFirstName: (firstName: string) => void;
+  setLastName: (lastName: string) => void;
+  setPhoneNumber: (phoneNumber: string) => void;
+  setClassification: (classification: string) => void;
+  setInstagram: (instagram: string) => void;
+  setSnapchat: (snapchat: string) => void;
+}
+
+const useCreatePnm = (): UseCreatePnm => {
   const { addPnms } = usePnmsStore();
   const { numPnms, recentPnms, setNumPnms, setRecentPnms } =
     useStatisticsStore();

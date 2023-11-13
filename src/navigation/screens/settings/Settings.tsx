@@ -61,7 +61,7 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
   };
 
   return (
-    <Layout scrollable gap={12}>
+    <Layout scrollable gap={12} contentContainerStyle={tw`pb-6`}>
       <Layout.Header title="Settings" subtitle="Manage your organization" />
 
       <ActionCard
