@@ -23,6 +23,12 @@ interface StatisticsState {
   setNumPnms: (numPnms: number) => void;
   setRecentPnms: (recentPnms: PNM[]) => void;
   setNumStarredPnms: (numStarredPnms: number) => void;
+  incrementNumPnms: () => void;
+  incrementNumStarredPnms: () => void;
+  decrementNumPnms: () => void;
+  decrementNumStarredPnms: () => void;
+  addRecentPnm: (pnm: PNM) => void;
+  removeRecentPnm: (pnm: PNM) => void;
 }
 
 const useStatisticsStore = create<StatisticsState>()(
@@ -60,6 +66,36 @@ const useStatisticsStore = create<StatisticsState>()(
           numPnms: 0,
           numStarredPnms: 0,
           recentPnms: [],
+        })),
+      /**
+       * Increments the number of PNMs in the system
+       */
+      incrementNumPnms: () => set((state) => ({ numPnms: state.numPnms + 1 })),
+      /**
+       * Increments the number of starred PNMs in the system
+       */
+      incrementNumStarredPnms: () =>
+        set((state) => ({ numStarredPnms: state.numStarredPnms + 1 })),
+      /**
+       * Decrements the number of PNMs in the system
+       */
+      decrementNumPnms: () => set((state) => ({ numPnms: state.numPnms - 1 })),
+      /**
+       * Decrements the number of starred PNMs in the system
+       */
+      decrementNumStarredPnms: () =>
+        set((state) => ({ numStarredPnms: state.numStarredPnms - 1 })),
+      /**
+       * Adds a PNM to the list of recent PNMs
+       */
+      addRecentPnm: (pnm) =>
+        set((state) => ({ recentPnms: [pnm, ...state.recentPnms] })),
+      /**
+       * Removes a PNM from the list of recent PNMs
+       */
+      removeRecentPnm: (pnm) =>
+        set((state) => ({
+          recentPnms: state.recentPnms.filter((p) => p._id !== pnm._id),
         })),
     }),
     {
