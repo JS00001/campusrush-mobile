@@ -14,8 +14,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
+import Dropdown from "@/ui/Dropdown";
 import schools from "@/constants/schools";
-import Autocomplete from "@/ui/Autocomplete";
 import organizations from "@/constants/organizations";
 import { useRegistration } from "@/providers/Registration";
 
@@ -54,20 +54,21 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
         title="Register"
         subtitle="Please provide your organizations information"
       />
-
-      <Autocomplete
+      <Dropdown
+        searchable
         placeholder="School Name"
         options={schools}
         value={school}
-        onChangeText={setSchool}
+        onValueChange={setSchool}
         error={errors.school}
       />
 
-      <Autocomplete
+      <Dropdown
+        searchable
         placeholder="Organization Name"
         options={organizations}
         value={name}
-        onChangeText={setName}
+        onValueChange={setName}
         error={errors.name}
       />
 

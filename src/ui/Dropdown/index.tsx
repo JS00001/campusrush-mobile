@@ -1,5 +1,5 @@
 /*
- * Created on Tue Aug 15 2023
+ * Created on Sat Nov 11 2023
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,6 +10,6 @@
  * Do not distribute
  */
 
-import Autocomplete from "./Autocomplete";
+import Dropdown from "./Dropdown";
 
-export default Autocomplete;
+export default Dropdown;
