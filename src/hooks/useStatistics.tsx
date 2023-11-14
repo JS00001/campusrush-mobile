@@ -24,11 +24,12 @@ const useStatistics = () => {
   // Get the statistics store
   const {
     numPnms,
-    numStarredPnms,
     recentPnms,
-    setNumStarredPnms,
-    setRecentPnms,
+    numStarredPnms,
+
     setNumPnms,
+    setRecentPnms,
+    setNumStarredPnms,
   } = useStatisticsStore();
 
   // Create a query to get the organization statistics

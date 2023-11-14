@@ -16,6 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import errors from "@/lib/errors";
 import messagingApi from "@/api/api/messaging";
+import useContactsStore from "@/state/contacts";
 import useConversations from "@/hooks/useConversations";
 import { ConversationStatus } from "@/state/conversations";
 
@@ -28,6 +29,9 @@ const useMessageSender = (_pnms: PNM[]) => {
 
   // Use the conversations hook to add conversations to the state variable
   const { setStatus, addConversations } = useConversations();
+
+  // Remove the pnms from the "uncontacted" list
+  const removeContactsFrom = useContactsStore((s) => s.removeContactsFrom);
 
   // Create a mutation to send a message
   const mutation = useMutation({
@@ -75,6 +79,9 @@ const useMessageSender = (_pnms: PNM[]) => {
 
     // Destrucure the conversations from the response
     let conversations = response.data.data.conversations;
+
+    // Remove all of the pnms from the "uncontacted" list
+    removeContactsFrom("uncontactedPnms", pnms);
 
     // Add the conversations to the conversations state
     addConversations(conversations);

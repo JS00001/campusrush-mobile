@@ -15,17 +15,24 @@ import { useQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
 import messagingApi from "@/api/api/messaging";
+import useContactsStore from "@/state/contacts";
 
 const useContacts = () => {
   // Get access token so that we can cache the query
   const { accessToken } = useAuth();
 
   // Create a state variable to store the filtered PNMs and the PNMs
-  const [allPnms, setAllPnms] = useState<PNM[]>([]);
   const [filteredPnms, setFilteredPnms] = useState<PNM[]>([]);
 
   // The string to search for
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const allPnms = useContactsStore((s) => s.allPnms);
+  const uncontactedPnms = useContactsStore((s) => s.uncontactedPnms);
+  const suggestedPnms = useContactsStore((s) => s.suggestedPnms);
+  const starredPnms = useContactsStore((s) => s.starredPnms);
+
+  const setContacts = useContactsStore((s) => s.setContacts);
 
   // Create a query to get the organization statistics
   const query = useQuery({
@@ -38,16 +45,17 @@ const useContacts = () => {
     },
   });
 
-  // Extract the data from the query
-  const favoritedPnms = query.data?.data?.data?.favorited ?? [];
-  const suggestedPnms = query.data?.data?.data?.suggested ?? [];
-  const uncontactedPnms = query.data?.data?.data?.uncontacted ?? [];
-
   useEffect(() => {
     if (query.data) {
-      const formattedPnms = query.data.data.data.all;
+      const resAllPnms = query.data.data.data.all;
+      const resStarredPnms = query.data.data.data.favorited;
+      const resSuggestedPnms = query.data.data.data.suggested;
+      const resUncontactedPnms = query.data.data.data.uncontacted;
 
-      setAllPnms(formattedPnms);
+      setContacts("allPnms", resAllPnms);
+      setContacts("uncontactedPnms", resUncontactedPnms);
+      setContacts("suggestedPnms", resSuggestedPnms);
+      setContacts("starredPnms", resStarredPnms);
     }
   }, [query.data]);
 
@@ -80,10 +88,10 @@ const useContacts = () => {
     allPnms,
     searchQuery,
     filteredPnms,
-    favoritedPnms,
+    setSearchQuery,
     uncontactedPnms,
     directMessageHeader,
-    setSearchQuery,
+    favoritedPnms: starredPnms,
   };
 };
 
