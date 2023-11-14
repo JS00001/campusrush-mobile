@@ -86,13 +86,13 @@ export const TabNavigator = () => {
           tabBarIcon: ({ color, focused }) =>
             focused ? (
               <Icon
-                name="ri-file-list-2-fill"
+                name="ri-contacts-book-2-fill"
                 size={26}
                 color={color}
               />
             ) : (
               <Icon
-                name="ri-file-list-2-line"
+                name="ri-contacts-book-2-line"
                 size={26}
                 color={color}
               />

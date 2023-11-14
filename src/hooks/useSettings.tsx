@@ -40,6 +40,7 @@ const useSettings = () => {
       currentPassword: "",
       newPassword: "",
       confirmNewPassword: "",
+      linkSharingEnabled: organization?.linkSharingEnabled || false,
     },
     onSubmit: async (values) => {
       onSubmit(values);
@@ -116,6 +117,10 @@ const useSettings = () => {
     },
     setCurrentPassword: (password: string) => {
       form.setFieldValue("currentPassword", password);
+    },
+    setLinkSharingEnabled: (linkSharingEnabled: boolean) => {
+      form.setFieldValue("linkSharingEnabled", linkSharingEnabled);
+      form.handleSubmit();
     },
     handleSubmission: () => {
       form.handleSubmit();

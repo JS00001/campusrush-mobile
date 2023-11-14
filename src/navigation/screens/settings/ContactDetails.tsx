@@ -32,47 +32,86 @@ import ListItem from "@/ui/ListItem";
 import { useAuth } from "@/providers/Auth";
 import Information from "@/ui/Information";
 import { formatPhoneNumber } from "@/lib/string";
+import SelectionCard from "@/ui/SelectionCard/SelectionCard";
+import useSettings from "@/hooks/useSettings";
+import CopyItem from "@/ui/CopyItem";
+import { WEB_URL } from "@/api/constants";
 
 const ContactDetails = () => {
   const { organization } = useAuth();
 
+  const { isLoading, linkSharingEnabled, setLinkSharingEnabled } =
+    useSettings();
+
+  const onLinkSharingEnabledPress = () => {
+    setLinkSharingEnabled(true);
+  };
+
+  const onLinkSharingDisabledPress = () => {
+    setLinkSharingEnabled(false);
+  };
+
+  const linkSharingEnabledSubtitle = linkSharingEnabled
+    ? "Currently Enabled"
+    : "Click to enable link sharing";
+
+  const linkSharingDisabledSubtitle = !linkSharingEnabled
+    ? "Currently Disabled"
+    : "Click to disable link sharing";
+
   return (
-    <Layout gap={12} scrollable contentContainerStyle={tw`items-start`}>
+    <Layout gap={8} scrollable contentContainerStyle={tw`items-start pb-6`}>
       <Layout.Header
         hasBackButton
-        title="Contact Details"
-        subtitle="We have provisioned your account with the following information."
+        title="Contact Sharing"
+        subtitle="Share your contact information with PNMs"
       />
 
-      <View style={tw`flex-row items-center gap-x-2`}>
-        <Information tooltip="Your account has been assigned a unique phone number. This is the number PNM's will use to contact you." />
-        <Text variant="title">Phone Information</Text>
+      <View>
+        <Text variant="title">Link Sharing</Text>
+        <Text variant="body">
+          Send a link to PNMs that they can use to add themselves or friends to
+          your recruitment list.
+        </Text>
       </View>
 
-      <Copyable title="Copy Phone Number" copyText={organization?.phoneNumber}>
-        <ListItem
-          pressable={false}
-          title="Phone Number"
-          subtitle={formatPhoneNumber(organization?.phoneNumber)}
-        />
-      </Copyable>
-
-      <Copyable
-        title="Copy Phone Number ID"
-        copyText={organization?.phoneNumberId}
-      >
-        <ListItem
-          pressable={false}
-          title="Phone Number ID"
-          subtitle={organization?.phoneNumberId}
-        />
-      </Copyable>
-
-      <ListItem
-        pressable={false}
-        title="Phone Number Registered On"
-        subtitle={date.toString(organization.phoneNumberCreatedAt)}
+      <CopyItem
+        label="Link Sharing URL"
+        value={`${WEB_URL}/${organization.linkSharingCode}`}
       />
+
+      <View style={tw`gap-2 w-full`}>
+        <SelectionCard
+          loading={isLoading}
+          selected={linkSharingEnabled}
+          title="Enable Link Sharing"
+          description="Enable link sharing to allow PNMs to manually add themselves to your recruitment list via the link below."
+          subtitle={linkSharingEnabledSubtitle}
+          onPress={onLinkSharingEnabledPress}
+        />
+        <SelectionCard
+          loading={isLoading}
+          selected={!linkSharingEnabled}
+          title="Disable Link Sharing"
+          description="Disable link sharing to prevent PNMs from manually adding themselves to your recruitment list."
+          subtitle={linkSharingDisabledSubtitle}
+          onPress={onLinkSharingDisabledPress}
+        />
+      </View>
+
+      <View style={tw`mt-2`}>
+        <Text variant="title">Phone Information</Text>
+        <Text variant="body">
+          We have assigned you a phone number that PNMs can use to contact you.
+        </Text>
+      </View>
+
+      <CopyItem
+        label="Phone Number"
+        value={formatPhoneNumber(organization?.phoneNumber)}
+      />
+
+      <CopyItem label="Phone Number ID" value={organization?.phoneNumberId} />
     </Layout>
   );
 };

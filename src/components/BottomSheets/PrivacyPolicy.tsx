@@ -88,7 +88,9 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ innerRef }) => {
               Privacy Policy
             </Text>
 
-            <View style={tw`items-center w-full bg-white p-4 rounded-xl`}>
+            <View
+              style={tw`items-center w-full bg-white p-4 rounded-xl shadow-sm`}
+            >
               <Text variant="body">{query.data?.content}</Text>
             </View>
           </>

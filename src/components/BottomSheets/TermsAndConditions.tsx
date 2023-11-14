@@ -90,7 +90,9 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
               Terms and Conditions
             </Text>
 
-            <View style={tw`items-center w-full bg-white p-4 rounded-xl`}>
+            <View
+              style={tw`items-center w-full bg-white p-4 rounded-xl shadow-sm`}
+            >
               <Text variant="body">{query.data?.content}</Text>
             </View>
           </>

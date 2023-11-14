@@ -19,5 +19,14 @@ export const PRODUCTION_URL = 'https://api.campusrush.app';
 // The URL for content
 export const CONTENT_URL = 'https://content.campusrush.app';
 
+// The URL for the web app
+export const STAGING_WEB_URL = 'https://greek-web.in-staging.space/external';
+
+// The URL for the web app
+export const PRODUCTION_WEB_URL = 'https://campusrush.app/external';
+
 // Which API URL should be used, staging for development, production for release
 export const BASE_URL = __DEV__ ? STAGING_URL : PRODUCTION_URL;
+
+// Which web URL should be used, staging for development, production for release
+export const WEB_URL = __DEV__ ? STAGING_WEB_URL : PRODUCTION_WEB_URL;

@@ -18,6 +18,7 @@ import Information from "@/ui/Information";
 import useModalsStore from "@/state/modals";
 import Toast from "react-native-toast-message";
 import Tooltip from "@/ui/Tooltip";
+import CopyItem from "@/ui/CopyItem";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
@@ -74,6 +75,11 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
         hasBackButton
         title="UI Testing"
         subtitle="Test new UI in a sandbox environment"
+      />
+
+      <CopyItem
+        label="Website"
+        value="https://jacksenyitko.com/this/is/long/and/longer"
       />
 
       <Button onPress={onButtonPress}>Show Success Toast</Button>
