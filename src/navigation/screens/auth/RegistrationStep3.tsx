@@ -14,6 +14,7 @@ import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import useRegistration from "@/hooks/useRegistration";
+import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep3: React.FC = () => {
   // Import the context from the RegistrationProvider
@@ -38,7 +39,7 @@ const RegistrationStep3: React.FC = () => {
   };
 
   return (
-    <Layout scrollable keyboardAvoiding gap={18} hasTermsAndConditions>
+    <Layout scrollable keyboardAvoiding gap={18}>
       <Layout.Header
         hasBackButton
         title="Register"
@@ -66,6 +67,8 @@ const RegistrationStep3: React.FC = () => {
       >
         Complete Registration
       </Button>
+
+      <TermsAndConditions />
     </Layout>
   );
 };

@@ -16,5 +16,8 @@ export const STAGING_URL = 'https://greek-api.in-staging.space';
 // The URL of the API for production
 export const PRODUCTION_URL = 'https://api.campusrush.app';
 
+// The URL for content
+export const CONTENT_URL = 'https://content.campusrush.app';
+
 // Which API URL should be used, staging for development, production for release
 export const BASE_URL = __DEV__ ? STAGING_URL : PRODUCTION_URL;

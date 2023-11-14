@@ -18,6 +18,7 @@ import Dropdown from "@/ui/Dropdown";
 import schools from "@/constants/schools";
 import organizations from "@/constants/organizations";
 import useRegistration from "@/hooks/useRegistration";
+import TermsAndConditions from "@/components/TermsAndConditions";
 
 interface RegistrationProps {
   navigation: NativeStackNavigationProp<any>;
@@ -38,7 +39,7 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
   };
 
   return (
-    <Layout gap={18} hasTermsAndConditions keyboardAvoiding>
+    <Layout gap={18} keyboardAvoiding>
       <Layout.Header
         hasBackButton
         title="Register"
@@ -69,6 +70,8 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
       >
         Continue
       </Button>
+
+      <TermsAndConditions />
     </Layout>
   );
 };

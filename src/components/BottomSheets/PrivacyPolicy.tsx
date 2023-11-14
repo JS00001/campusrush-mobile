@@ -10,14 +10,20 @@
  * Do not distribute
  */
 
-import { useMemo } from "react";
-import { ScrollView } from "react-native";
+import { View } from "react-native";
+import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import BottomSheetBackdrop from "./Components/BottomSheetBackdrop";
 
 import Text from "@/ui/Text";
+import date from "@/lib/date";
+import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
+import Layout from "@/ui/Layout";
+import Skeleton from "@/ui/Skeleton";
+import contentApi from "@/api/content";
 
 interface PrivacyPolicyProps {
   innerRef: React.RefObject<any>;
@@ -27,20 +33,90 @@ interface PrivacyPolicyProps {
 }
 
 const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ innerRef }) => {
-  // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["75%"], []);
+  const snapPoints = useMemo(() => ["90%"], []);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Create a query to get the organization statistics
+  const query = useQuery({
+    queryKey: ["PrivacyPolicy"],
+    enabled: isModalOpen,
+    queryFn: async () => {
+      return contentApi.getTermsOfService();
+    },
+  });
+
+  // When the bottom sheet modal is open
+  const onBottomSheetChange = (index: number) => {
+    if (index === 0) {
+      setIsModalOpen(true);
+      return;
+    }
+
+    setIsModalOpen(false);
+  };
+
+  // The last updated date
+  const lastUpdated = useMemo(() => {
+    const queryDate =
+      query.data?.updatedAt || query.data?.createdAt || new Date();
+
+    return date.timeAgo(queryDate);
+  }, [query.data?.updatedAt]);
 
   return (
     <BottomSheetModal
       ref={innerRef}
       index={0}
+      onChange={onBottomSheetChange}
       snapPoints={snapPoints}
+      style={tw`flex-1`}
+      backgroundStyle={tw`bg-slate-100`}
       backdropComponent={BottomSheetBackdrop}
     >
-      <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-2`}>
-        <Text>Privacy Policy</Text>
-      </ScrollView>
+      <Layout
+        gap={8}
+        scrollable
+        style={tw`bg-slate-100`}
+        contentContainerStyle={tw`pb-6 items-start bg-slate-100`}
+      >
+        {query.isLoading && <PrivacyPolicySkeleton />}
+
+        {query.isFetched && !query.isLoading && (
+          <>
+            <Badge size="md">Last Updated: {lastUpdated}</Badge>
+            <Text variant="header" style={tw`text-primary mb-4`}>
+              Privacy Policy
+            </Text>
+
+            <View style={tw`items-center w-full bg-white p-4 rounded-xl`}>
+              <Text variant="body">{query.data?.content}</Text>
+            </View>
+          </>
+        )}
+      </Layout>
     </BottomSheetModal>
+  );
+};
+
+/**
+ * The loading component for the bottom sheet
+ */
+const PrivacyPolicySkeleton: React.FC = () => {
+  const array = useMemo(() => Array.from({ length: 25 }), []);
+
+  return (
+    <>
+      <Badge size="md">Loading...</Badge>
+      <Text variant="header" style={tw`text-primary mb-4`}>
+        Privacy Policy
+      </Text>
+
+      <View style={tw`items-center w-full bg-white p-4 rounded-xl`}>
+        {array.map((_, index) => (
+          <Skeleton key={index} style={tw`mb-2`} />
+        ))}
+      </View>
+    </>
   );
 };
 

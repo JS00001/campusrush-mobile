@@ -15,6 +15,7 @@ import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import useRegistration from "@/hooks/useRegistration";
+import TermsAndConditions from "@/components/TermsAndConditions";
 
 interface RegistrationProps {
   navigation: NativeStackNavigationProp<any>;
@@ -47,7 +48,7 @@ const RegistrationStep2: React.FC<RegistrationProps> = ({ navigation }) => {
   };
 
   return (
-    <Layout scrollable keyboardAvoiding gap={18} hasTermsAndConditions>
+    <Layout scrollable keyboardAvoiding gap={18}>
       <Layout.Header
         hasBackButton
         title="Register"
@@ -79,6 +80,8 @@ const RegistrationStep2: React.FC<RegistrationProps> = ({ navigation }) => {
       >
         Continue
       </Button>
+
+      <TermsAndConditions />
     </Layout>
   );
 };
