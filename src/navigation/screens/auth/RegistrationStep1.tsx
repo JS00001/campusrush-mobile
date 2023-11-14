@@ -17,25 +17,15 @@ import Button from "@/ui/Button";
 import Dropdown from "@/ui/Dropdown";
 import schools from "@/constants/schools";
 import organizations from "@/constants/organizations";
-import { useRegistration } from "@/providers/Registration";
+import useRegistration from "@/hooks/useRegistration";
 
 interface RegistrationProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
-  // Import the context from the RegistrationProvider
-  const {
-    // Status fields
-    errors,
-    validateFields,
-    // Form values
-    name,
-    school,
-    // Form Methods
-    setName,
-    setSchool,
-  } = useRegistration();
+  const { name, school, errors, isLoading, setField, validateFields } =
+    useRegistration();
 
   // Handle the submission of the form
   const onContinue = () => {
@@ -59,7 +49,7 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
         placeholder="School Name"
         options={schools}
         value={school}
-        onValueChange={setSchool}
+        onValueChange={setField.bind(null, "school")}
         error={errors.school}
       />
 
@@ -68,11 +58,15 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
         placeholder="Organization Name"
         options={organizations}
         value={name}
-        onValueChange={setName}
+        onValueChange={setField.bind(null, "name")}
         error={errors.name}
       />
 
-      <Button iconRight="ri-arrow-right-line" onPress={onContinue}>
+      <Button
+        loading={isLoading}
+        onPress={onContinue}
+        iconRight="ri-arrow-right-line"
+      >
         Continue
       </Button>
     </Layout>

@@ -10,7 +10,6 @@
  * Do not distribute
  */
 
-import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import Purchases, { CustomerInfo } from "react-native-purchases";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -33,7 +32,7 @@ interface AuthContextProps {
   refetchBillingData: () => Promise<void>;
   updateOrganization: (organization: Organization) => void;
   signIn: (response: LoginAsOrganizationAPIResponse) => Promise<void>;
-  signUp: (input: RegisterAsOrganizationInput) => Promise<void | APIError>;
+  signUp: (response: RegisterAsOrganizationAPIResponse) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
@@ -79,12 +78,6 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       return authAPI.getOrganization({
         accessToken,
       });
-    },
-  });
-
-  const registerAsOrganizationMutation = useMutation({
-    mutationFn: (input: RegisterAsOrganizationInput) => {
-      return authAPI.registerAsOrganization(input);
     },
   });
 
@@ -222,32 +215,24 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   };
 
   // Sign up as an organization
-  const signUp = async (input: RegisterAsOrganizationInput) => {
-    try {
-      // The register response/request
-      const response = await registerAsOrganizationMutation.mutateAsync(input);
-      // The new organization data
-      const organization = response.data?.data.organization;
-      // The new access token
-      const accessToken = response.data?.data.accessToken;
-      // The new refresh token
-      const refreshToken = response.data?.data.refreshToken;
+  const signUp = async (response: RegisterAsOrganizationAPIResponse) => {
+    // The new organization data
+    const organization = response.data?.data.organization;
+    // The new access token
+    const accessToken = response.data?.data.accessToken;
+    // The new refresh token
+    const refreshToken = response.data?.data.refreshToken;
 
-      // Store the refresh token in storage
-      await AsyncStorage.setItem("refreshToken", refreshToken);
+    // Store the refresh token in storage
+    await AsyncStorage.setItem("refreshToken", refreshToken);
 
-      // Update the state for all of the new data
-      setAccessToken(accessToken);
-      setRefreshToken(refreshToken);
-      setOrganization(organization);
+    // Update the state for all of the new data
+    setAccessToken(accessToken);
+    setRefreshToken(refreshToken);
+    setOrganization(organization);
 
-      // Load the new organization's billing data
-      _loadBillingData(organization);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        return error.response?.data?.error as APIError;
-      }
-    }
+    // Load the new organization's billing data
+    _loadBillingData(organization);
   };
 
   // Update the organization

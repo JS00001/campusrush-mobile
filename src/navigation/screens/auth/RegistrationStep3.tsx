@@ -13,22 +13,18 @@
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
-import { useRegistration } from "@/providers/Registration";
+import useRegistration from "@/hooks/useRegistration";
 
 const RegistrationStep3: React.FC = () => {
   // Import the context from the RegistrationProvider
   const {
-    // Status fields
     errors,
-    validateFields,
-    // Form Methods
-    handleSubmission,
-    // Form values
     password,
+    isLoading,
     confirmPassword,
-    // Form Methods
-    setPassword,
-    setConfirmPassword,
+    setField,
+    validateFields,
+    handleSubmission,
   } = useRegistration();
 
   // Handle the submission of the form
@@ -51,19 +47,23 @@ const RegistrationStep3: React.FC = () => {
       <TextInput
         placeholder="Password"
         value={password}
-        onChangeText={setPassword}
+        onChangeText={setField.bind(null, "password")}
         secureTextEntry
         error={errors.password}
       />
       <TextInput
         placeholder="Confirm Password"
         value={confirmPassword}
-        onChangeText={setConfirmPassword}
+        onChangeText={setField.bind(null, "confirmPassword")}
         secureTextEntry
         error={errors.confirmPassword}
       />
 
-      <Button iconRight="ri-arrow-right-line" onPress={onComplete}>
+      <Button
+        loading={isLoading}
+        onPress={onComplete}
+        iconRight="ri-arrow-right-line"
+      >
         Complete Registration
       </Button>
     </Layout>

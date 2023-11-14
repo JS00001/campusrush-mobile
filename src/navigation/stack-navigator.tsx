@@ -50,8 +50,6 @@ import UpdateGeneralScreen from "@/navigation/screens/settings/organization/Upda
 import UpdateSecurityScreen from "@/navigation/screens/settings/organization/UpdateSecurity";
 import UpdateOrganizationScreen from "@/navigation/screens/settings/organization/UpdateOrganization";
 
-import RegistrationProvider from "@/providers/Registration";
-
 export const Stack = createNativeStackNavigator();
 
 /**
@@ -62,40 +60,38 @@ export const Stack = createNativeStackNavigator();
  */
 export const AuthStack = () => {
   return (
-    <RegistrationProvider>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen
+        name="Landing"
+        component={LandingScreen}
+      />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+      />
+      <Stack.Screen
+        name="RegistrationStep1"
+        component={RegistrationStep1Screen}
+      />
+      <Stack.Screen
+        name="RegistrationStep2"
+        component={RegistrationStep2Screen}
+      />
+      <Stack.Screen
+        name="RegistrationStep3"
+        component={RegistrationStep3Screen}
+      />
+      {__DEV__ && (
         <Stack.Screen
-          name="Landing"
-          component={LandingScreen}
+          name="UITesting"
+          component={UITestingScreen}
         />
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-        />
-        <Stack.Screen
-          name="RegistrationStep1"
-          component={RegistrationStep1Screen}
-        />
-        <Stack.Screen
-          name="RegistrationStep2"
-          component={RegistrationStep2Screen}
-        />
-        <Stack.Screen
-          name="RegistrationStep3"
-          component={RegistrationStep3Screen}
-        />
-        {__DEV__ && (
-          <Stack.Screen
-            name="UITesting"
-            component={UITestingScreen}
-          />
-        )}
-      </Stack.Navigator>
-    </RegistrationProvider>
+      )}
+    </Stack.Navigator>
   );
 };
 
