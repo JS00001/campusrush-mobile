@@ -24,18 +24,14 @@
 import { View } from "react-native";
 
 import Text from "@/ui/Text";
-import date from "@/lib/date";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
-import Copyable from "@/ui/Copyable";
-import ListItem from "@/ui/ListItem";
-import { useAuth } from "@/providers/Auth";
-import Information from "@/ui/Information";
-import { formatPhoneNumber } from "@/lib/string";
-import SelectionCard from "@/ui/SelectionCard/SelectionCard";
-import useSettings from "@/hooks/useSettings";
 import CopyItem from "@/ui/CopyItem";
 import { WEB_URL } from "@/api/constants";
+import { useAuth } from "@/providers/Auth";
+import useSettings from "@/hooks/useSettings";
+import { formatPhoneNumber } from "@/lib/string";
+import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 
 const ContactDetails = () => {
   const { organization } = useAuth();

@@ -38,7 +38,7 @@ const Message: React.FC<MessageProps> = ({
   });
 
   // Style the message bubble for a sent message
-  const sentMessageClasses = tw.style("bg-blue-600 self-end max-w-4/5");
+  const sentMessageClasses = tw.style("bg-blue-600 self-end max-w-5/6");
   // Style the message text for a sent message
   const sentTextClasses = tw.style("text-white");
 
