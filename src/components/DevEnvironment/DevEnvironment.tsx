@@ -28,6 +28,7 @@ import { formatJSON } from "@/lib/string";
 import { useAuth } from "@/providers/Auth";
 import SegmentedControl from "@/ui/SegmentedControl";
 import { usePreferences } from "@/providers/Preferences";
+import BottomSheetBackdrop from "../BottomSheets/Components/BottomSheetBackdrop";
 
 const DevEnvironment: React.FC = ({}) => {
   const { updatePreferences } = usePreferences();
@@ -87,12 +88,7 @@ const DevEnvironment: React.FC = ({}) => {
         index={0}
         snapPoints={snapPoints}
         // Make clicking outside the bottom sheet modal dismiss it
-        backdropComponent={() => (
-          <Pressable
-            style={tw`h-full w-full absolute bg-black opacity-20`}
-            onPress={handleCloseModalPress}
-          />
-        )}
+        backdropComponent={BottomSheetBackdrop}
       >
         <View style={tw`w-full px-4 py-2`}>
           <SegmentedControl

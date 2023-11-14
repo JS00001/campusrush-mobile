@@ -60,10 +60,10 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
   // The last updated date
   const lastUpdated = useMemo(() => {
     const queryDate =
-      query.data?.updatedAt || query.data?.createdAt || new Date();
+      query.data?.date_updated || query.data?.date_created || new Date();
 
     return date.timeAgo(queryDate);
-  }, [query.data?.updatedAt]);
+  }, [query.data?.date_updated, query.data?.date_created]);
 
   return (
     <BottomSheetModal

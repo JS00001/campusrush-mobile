@@ -112,7 +112,7 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
       <View style={tw`w-full flex-row gap-3`}>
         <ActionCard
           size="sm"
-          title="Terms of Use"
+          title="Terms of Service"
           subtitle="View our terms and conditions"
           icon="ri-file-list-3-fill"
           onPress={onTermsAndConditionsPress}

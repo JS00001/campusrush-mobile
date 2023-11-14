@@ -13,13 +13,13 @@
 interface PrivacyPolicy {
   id: number;
   content: string;
-  createdAt: Date;
-  updatedAt: Date | null;
+  date_created: Date;
+  date_updated: Date | null;
 }
 
 interface TermsOfService {
   id: number;
   content: string;
-  createdAt: Date;
-  updatedAt: Date | null;
+  date_created: Date;
+  date_updated: Date | null;
 }

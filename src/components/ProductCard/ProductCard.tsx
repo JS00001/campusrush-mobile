@@ -14,6 +14,7 @@ import { PurchasesStoreProduct } from "react-native-purchases";
 
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import { useAuth } from "@/providers/Auth";
 import ProductPerk from "@/components/ProductPerk";
 import useEntitlementsStore from "@/state/entitlements";
 import { useBottomSheets } from "@/providers/BottomSheet";
@@ -33,6 +34,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onPress,
 }) => {
   // The bottom sheet provider to open the compare plans modal
+  const { billingData } = useAuth();
   const { handlePresentModalPress } = useBottomSheets();
 
   // The Product ID
@@ -44,6 +46,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
   // The length of a trial period (formatted as "3-day" or "1-week" etc.)
   // prettier-ignore
   const trialLength = `${product.introPrice?.periodNumberOfUnits}-${product.introPrice?.periodUnit.toLowerCase()}`;
+  // Whether or not the user has previously purchased a subscription
+  // prettier-ignore
+  const hasPreviousSubscription = Object.keys(billingData?.entitlements.all ?? {}).length > 0;
 
   // The title of the product (should always exist, but just in case)
   const title = product.title ?? "No title";
@@ -52,7 +57,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const subtitle = `${product.priceString} ${isSubscription ? "/ mo" : ""}` ?? "No price";
   // The description of the product (whether or not it has a trial period)
   const description = isSubscription
-    ? hasTrialPeriod
+    ? hasPreviousSubscription
+      ? "Unlock features to boost your recruitment"
+      : hasTrialPeriod
       ? `with ${trialLength} free trial`
       : "with no free trial"
     : "one-time purchase";

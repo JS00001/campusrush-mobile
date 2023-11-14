@@ -38,6 +38,7 @@ const MessageBoxWalkthrough: React.FC<MessageBoxWalkthroughProps> = ({
       content={content}
       isVisible={isVisible}
       backgroundColor="transparent"
+      allowChildInteraction={false}
       contentStyle={tw`rounded-lg p-2 bg-gray-800 w-64 items-center`}
     >
       {children}
