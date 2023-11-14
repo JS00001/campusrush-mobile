@@ -14,12 +14,11 @@ import { useMutation } from "@tanstack/react-query";
 import { MenuAction } from "@react-native-menu/menu";
 import { useNavigation } from "@react-navigation/native";
 
-import Content from "@/constants/content";
 import pnmsApi from "@/api/api/pnms";
+import useZustandStore from "@/state";
 import usePnmsStore from "@/state/pnms";
+import Content from "@/constants/content";
 import useModalsStore from "@/state/modals";
-import useStatisticsStore from "@/state/statistics";
-import useConversationsStore from "@/state/conversations";
 
 export enum PNMActions {
   EditPnm = "EDIT_PNM",
@@ -41,28 +40,8 @@ const usePnmActions = (pnm: PNM) => {
   // Store to open a modal, used to confirm deletion
   const { openModal } = useModalsStore();
 
-  // Store to remove a pnm from the pnms store
-  const deletePnm = usePnmsStore((state) => state.deletePnm);
-
-  // Store to update a pnm in the pnms store
-  const updatePnm = usePnmsStore((state) => state.updatePnm);
-
-  // Store to remove a conversation from the conversations store
-  const deleteConversation = useConversationsStore(
-    (state) => state.deleteConversation,
-  );
-
-  // Store to update home statistics
-  const decrementNumStarredPnms = useStatisticsStore(
-    (state) => state.decrementNumStarredPnms,
-  );
-  const decrementNumPnms = useStatisticsStore(
-    (state) => state.decrementNumPnms,
-  );
-  const incrementNumStarredPnms = useStatisticsStore(
-    (state) => state.incrementNumStarredPnms,
-  );
-  const removeRecentPnm = useStatisticsStore((state) => state.removeRecentPnm);
+  // Store for pnm actions
+  const { deletePnm, favoritePnm, unfavoritePnm } = useZustandStore();
 
   // Create a mutation to delete the PNM
   const deletionMutation = useMutation({
@@ -71,23 +50,8 @@ const usePnmActions = (pnm: PNM) => {
     },
     onSuccess: async () => {
       navigation.goBack();
-
       // Remove the PNM from the store
       deletePnm(pnm);
-
-      // Remove the PNM from recent PNMs
-      removeRecentPnm(pnm);
-
-      // Remove the conversation from the store
-      deleteConversation(pnm._id);
-
-      // Update the statistics
-      decrementNumPnms();
-
-      // Check if the PNM is favorited
-      if (pnm.starred) {
-        decrementNumStarredPnms();
-      }
     },
   });
 
@@ -97,14 +61,8 @@ const usePnmActions = (pnm: PNM) => {
       return pnmsApi.updatePnm(input);
     },
     onSuccess: async () => {
-      // Update the PNM in the store
-      updatePnm({
-        ...pnm,
-        starred: true,
-      });
-
-      // Update the statistics
-      incrementNumStarredPnms();
+      // Favorite the PNM in the store
+      favoritePnm(pnm);
     },
   });
 
@@ -114,14 +72,8 @@ const usePnmActions = (pnm: PNM) => {
       return pnmsApi.updatePnm(input);
     },
     onSuccess: async () => {
-      // Update the PNM in the store
-      updatePnm({
-        ...pnm,
-        starred: false,
-      });
-
-      // Update the statistics
-      decrementNumStarredPnms();
+      // Unfavorite the PNM in the store
+      unfavoritePnm(pnm);
     },
   });
 

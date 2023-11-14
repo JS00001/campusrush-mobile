@@ -14,13 +14,12 @@ import { useEffect, useState } from "react";
 import { MenuAction } from "@react-native-menu/menu";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import Content from "@/constants/content";
 import pnmsApi from "@/api/api/pnms";
+import useZustandStore from "@/state";
+import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import useModalsStore from "@/state/modals";
-import useStatisticsStore from "@/state/statistics";
 import usePnmsStore, { PnmsStatus } from "@/state/pnms";
-import useConversationsStore from "@/state/conversations";
 
 export enum PNMFilter {
   NoFilter = "NO_FILTER",
@@ -43,6 +42,9 @@ const usePnms = () => {
   // Store to open a modal, used to confirm deletion
   const { openModal } = useModalsStore();
 
+  // Store to delete all pnms
+  const { deleteAllPnms } = useZustandStore();
+
   // Create a state variable to store the filtered PNMs and the PNMs
   const { pnms, setPnms } = usePnmsStore();
   const [filteredPnms, setFilteredPnms] = useState<PNM[]>([]);
@@ -50,18 +52,6 @@ const usePnms = () => {
   // Store to get and update the pnms store status
   const status = usePnmsStore((state) => state.status);
   const setStatus = usePnmsStore((state) => state.setStatus);
-
-  // Store to remove conversations once all PNMs are deleted
-  const setConversations = useConversationsStore(
-    (state) => state.setConversations,
-  );
-
-  // Store to update home statistics once all PNMs are deleted
-  const setCurrentPnms = useStatisticsStore((state) => state.setNumPnms);
-  const setRecentPnms = useStatisticsStore((state) => state.setRecentPnms);
-  const setNumStarredPnms = useStatisticsStore(
-    (state) => state.setNumStarredPnms,
-  );
 
   // All filtering options
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -87,13 +77,8 @@ const usePnms = () => {
       return pnmsApi.deletePnms();
     },
     onSuccess: async () => {
-      // Remove all conversations
-      setConversations([]);
-
-      // Update the statistics
-      setRecentPnms([]);
-      setCurrentPnms(0);
-      setNumStarredPnms(0);
+      // Delete all the PNMs from the store
+      deleteAllPnms();
 
       // Refetch the query
       await query.refetch();

@@ -28,7 +28,6 @@ interface StatisticsState {
   decrementNumPnms: () => void;
   decrementNumStarredPnms: () => void;
   addRecentPnm: (pnm: PNM) => void;
-  removeRecentPnm: (pnm: PNM) => void;
 }
 
 const useStatisticsStore = create<StatisticsState>()(
@@ -90,13 +89,6 @@ const useStatisticsStore = create<StatisticsState>()(
        */
       addRecentPnm: (pnm) =>
         set((state) => ({ recentPnms: [pnm, ...state.recentPnms] })),
-      /**
-       * Removes a PNM from the list of recent PNMs
-       */
-      removeRecentPnm: (pnm) =>
-        set((state) => ({
-          recentPnms: state.recentPnms.filter((p) => p._id !== pnm._id),
-        })),
     }),
     {
       name: "statistics",
