@@ -10,8 +10,11 @@
  * Do not distribute
  */
 
+import { useMemo } from "react";
+import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
 import { formatPhoneNumber } from "@/lib/string";
@@ -23,6 +26,8 @@ interface RecentPnmsProps {
 }
 
 const RecentPnms: React.FC<RecentPnmsProps> = ({ pnms, loading, onPress }) => {
+  const loadingArray = useMemo(() => new Array(5).fill(0), []);
+
   return (
     <ScrollView
       style={tw`w-full`}
@@ -31,11 +36,20 @@ const RecentPnms: React.FC<RecentPnmsProps> = ({ pnms, loading, onPress }) => {
     >
       {/* If loading, return some placeholder skeletons */}
       {loading &&
-        new Array(5)
-          .fill(0)
-          .map((_, i) => (
-            <ListItem key={i} title="" subtitle="" loading pressable={false} />
-          ))}
+        loadingArray.map((_, i) => (
+          <ListItem key={i} title="" subtitle="" loading pressable={false} />
+        ))}
+
+      {pnms.length === 0 && !loading && (
+        <View>
+          <Text variant="title" style={tw`text-center mt-5`}>
+            No PNMs found
+          </Text>
+          <Text variant="body" style={tw`text-center`}>
+            Add a PNM to your chapter to get started.
+          </Text>
+        </View>
+      )}
 
       {pnms.map((pnm, i) => (
         <ListItem
