@@ -135,8 +135,9 @@ const Dropdown: React.FC<DropdownProps> = ({
         onPress={toggleExpanded}
       >
         <Text
+          numberOfLines={1}
           variant="title"
-          style={tw.style("font-medium", error && "text-red-500")}
+          style={tw.style("font-medium", error && "text-red-500", "shrink")}
         >
           {valueText}
         </Text>
