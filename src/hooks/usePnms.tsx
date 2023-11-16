@@ -32,18 +32,14 @@ export enum PNMOtherOption {
 }
 
 const usePnms = () => {
-  // The default page size for pagination
-  const PAGE = 1;
-  const PAGE_SIZE = 700;
-
   // Get access token so that we can cache the query
   const { accessToken } = useAuth();
 
   // Store to open a modal, used to confirm deletion
   const { openModal } = useModalsStore();
 
-  // Store to delete all pnms
-  const { deleteAllPnms } = useZustandStore();
+  // Store to reset the state
+  const { resetState } = useZustandStore();
 
   // Create a state variable to store the filtered PNMs and the PNMs
   const { pnms, setPnms } = usePnmsStore();
@@ -61,12 +57,9 @@ const usePnms = () => {
 
   // Create a query to get the organization statistics
   const query = useQuery({
-    queryKey: ["listPnms", PAGE, accessToken],
+    queryKey: ["listPnms", accessToken],
     queryFn: async () => {
-      return pnmsApi.getPnms({
-        page: PAGE,
-        pageSize: PAGE_SIZE,
-      });
+      return pnmsApi.getPnms();
     },
     keepPreviousData: true,
   });
@@ -77,8 +70,8 @@ const usePnms = () => {
       return pnmsApi.deletePnms();
     },
     onSuccess: async () => {
-      // Delete all the PNMs from the store
-      deleteAllPnms();
+      // Delete all the data from stores
+      await resetState();
 
       // Refetch the query
       await query.refetch();

@@ -16,9 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useEffect, useState, useContext } from "react";
 
 import authAPI from "@/api/auth";
-import usePnmsStore from "@/state/pnms";
-import useStatisticsStore from "@/state/statistics";
-import useConversationsStore from "@/state/conversations";
+import useZustandStore from "@/state";
 
 interface AuthContextProps {
   isLoading: boolean;
@@ -56,13 +54,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   );
 
   // Clears all the pnms when user logs out
-  const clearPnms = usePnmsStore((state) => state.clearPnms);
-  // Clears all the statistics when user logs out
-  const clearStatistics = useStatisticsStore((state) => state.clearStatistics);
-  // Clears all the conversations when user logs out
-  const clearConversations = useConversationsStore(
-    (state) => state.clearConversations,
-  );
+  const { resetState } = useZustandStore();
 
   // Declare all AuthAPI mutations
   const refreshAccessTokenMutation = useMutation({
@@ -262,9 +254,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     setRefreshToken("");
 
     // Clear all of the user data from the store
-    clearPnms();
-    clearStatistics();
-    clearConversations();
+    await resetState();
   };
 
   return (

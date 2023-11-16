@@ -12,25 +12,26 @@
 
 import usePnmsStore from "./pnms";
 import useContactsStore from "./contacts";
+import useMessagesStore from "./messages";
 import useStatisticsStore from "./statistics";
 import useConversationsStore from "./conversations";
 
 const useZustandStore = () => {
   // PNMs store
   const _pnms = usePnmsStore((s) => s.pnms);
-  const _clearPnms = usePnmsStore((s) => s.clearPnms);
   const _getPnm = usePnmsStore((s) => s.getPnm);
   const _addPnms = usePnmsStore((s) => s.addPnms);
   const _updatePnm = usePnmsStore((s) => s.updatePnm);
   const _deletePnm = usePnmsStore((s) => s.deletePnm);
   const _setPnms = usePnmsStore((s) => s.setPnms);
   const _setStatus = usePnmsStore((s) => s.setStatus);
+  const _resetPnmsState = usePnmsStore((s) => s.resetState);
 
   // Statistics store
   const _numPnms = useStatisticsStore((s) => s.numPnms);
   const _numStarredPnms = useStatisticsStore((s) => s.numStarredPnms);
   const _recentPnms = useStatisticsStore((s) => s.recentPnms);
-  const _clearStatistics = useStatisticsStore((s) => s.clearStatistics);
+  const _resetStatisticsState = useStatisticsStore((s) => s.resetState);
   const _setNumPnms = useStatisticsStore((s) => s.setNumPnms);
   const _setRecentPnms = useStatisticsStore((s) => s.setRecentPnms);
   const _setNumStarredPnms = useStatisticsStore((s) => s.setNumStarredPnms);
@@ -45,7 +46,7 @@ const useZustandStore = () => {
   const _conversations = useConversationsStore((s) => s.conversations);
   const _addConversations = useConversationsStore((s) => s.addConversations);
   // prettier-ignore
-  const _clearConversations = useConversationsStore((s) => s.clearConversations);
+  const _resetConversationsState = useConversationsStore((s) => s.resetState);
   // prettier-ignore
   const _deleteConversation = useConversationsStore((s) => s.deleteConversation);
   // prettier-ignore
@@ -56,10 +57,14 @@ const useZustandStore = () => {
   const _starredPnms = useContactsStore((s) => s.starredPnms);
   const _suggestedPnms = useContactsStore((s) => s.suggestedPnms);
   const _uncontactedPnms = useContactsStore((s) => s.uncontactedPnms);
-  const _clearContacts = useContactsStore((s) => s.clearContacts);
+  const _resetContactsState = useContactsStore((s) => s.resetState);
   const _setContacts = useContactsStore((s) => s.setContacts);
   const _addContactTo = useContactsStore((s) => s.addContactTo);
   const _removeContactFrom = useContactsStore((s) => s.removeContactFrom);
+
+  // Messaging store
+  const _clearMessages = useMessagesStore((s) => s.clearMessages);
+  const _resetMessagesState = useMessagesStore((s) => s.resetState);
 
   /**
    * Add a new PNM
@@ -137,17 +142,19 @@ const useZustandStore = () => {
   };
 
   /**
-   * Delete all PNMs
+   * Reset all cached stores
    */
-  const deleteAllPnms = async () => {
+  const resetState = async () => {
+    // Update the PNMs store
+    _resetPnmsState();
     // Remove all of the conversations from the conversations store
-    _clearConversations();
-    // Clear all recent PNMs in the statistics store
-    _setRecentPnms([]);
+    _resetConversationsState();
     // Update the statistics store
-    _clearStatistics();
+    _resetStatisticsState();
     // Update the contacts store
-    _clearContacts();
+    _resetContactsState();
+    // Update the messages store
+    _resetMessagesState();
   };
 
   return {
@@ -155,7 +162,7 @@ const useZustandStore = () => {
     deletePnm,
     favoritePnm,
     unfavoritePnm,
-    deleteAllPnms,
+    resetState,
   };
 };
 

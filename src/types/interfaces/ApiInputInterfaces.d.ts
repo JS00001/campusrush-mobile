@@ -66,11 +66,6 @@ interface UpdateOrganizationInput {
   notificationsEnabled?: boolean;
 }
 
-interface GetPnmsInput {
-  page: number;
-  pageSize: number;
-}
-
 interface GetAdminOrganizationInput {
   id: string;
 }

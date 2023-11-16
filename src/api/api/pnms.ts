@@ -24,8 +24,8 @@ const PREFIX = '/api/v1/pnms';
  * - data
  *  - pnms
  */
-const getPnms = (data: GetPnmsInput): Promise<GetPnmsAPIResponse> => {
-  return pnmsAPIClient.get(`${PREFIX}/list`, { params: data });
+const getPnms = (): Promise<GetPnmsAPIResponse> => {
+  return pnmsAPIClient.get(`${PREFIX}/list`);
 };
 
 /**

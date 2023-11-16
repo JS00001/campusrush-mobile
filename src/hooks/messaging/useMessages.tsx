@@ -15,6 +15,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
 import messagingApi from "@/api/api/messaging";
+import useMessagesStore from "@/state/messages";
 import useConversations from "@/hooks/useConversations";
 
 const useMessages = (pnmId: string) => {
@@ -22,8 +23,12 @@ const useMessages = (pnmId: string) => {
   const { accessToken } = useAuth();
   // Get the setConversationAsRead function from the conversations provider
   const { setConversationAsRead } = useConversations();
+
+  const messages = useMessagesStore((state) => state.messages[pnmId]);
+  const addMessages = useMessagesStore((state) => state.addMessages);
+
   // Create a state to store the messages
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [allMessages, setAllMessages] = useState<Message[]>(messages || []);
 
   // Create a query to get the organizations messages
   const query = useInfiniteQuery({
@@ -31,14 +36,14 @@ const useMessages = (pnmId: string) => {
     queryKey: ["messaging", accessToken, pnmId],
     queryFn: async ({ pageParam = 0 }) => {
       return messagingApi.getMessages({
-        limit: 50,
+        limit: 20,
         offset: pageParam,
         pnmId: pnmId || "",
       });
     },
     getNextPageParam: (lastPage) => {
       // If there are no more messages, return undefined
-      if (lastPage.data.data.messages.length < 50) return undefined;
+      if (lastPage.data.data.messages.length < 20) return undefined;
       // Otherwise, return the next offset
       return lastPage.data.data.nextOffset;
     },
@@ -58,8 +63,11 @@ const useMessages = (pnmId: string) => {
       const messagesData = query.data.pages.flatMap(
         (page) => page.data.data.messages,
       );
+
       // Set the conversations state
-      setMessages(messagesData);
+      setAllMessages(messagesData);
+      // Add the messages to the messages store
+      addMessages(messagesData);
     }
   }, [query.data, query.data?.pages]);
 
@@ -76,12 +84,14 @@ const useMessages = (pnmId: string) => {
     };
 
     // Add the message to the messages state
-    setMessages((messages) => [message, ...messages]);
+    setAllMessages((messages) => [message, ...messages]);
+    // Add the message to the messages store
+    addMessages([message]);
   };
 
   return {
     ...query,
-    messages,
+    messages: allMessages,
     addMessage,
   };
 };

@@ -25,7 +25,7 @@ const useRegistration = () => {
 
   const storeFields = useRegistrationStore((state) => state.fields);
   const setStoreField = useRegistrationStore((state) => state.setField);
-  const clearFields = useRegistrationStore((state) => state.clearFields);
+  const resetState = useRegistrationStore((state) => state.resetState);
 
   const verifyEmailMutation = useMutation({
     mutationFn: (input: CheckEmailExistsInput) => {
@@ -108,7 +108,7 @@ const useRegistration = () => {
     if (!response) return;
 
     // Clear the fields
-    clearFields();
+    resetState();
 
     // Login the user from the auth provider
     signUp(response);
