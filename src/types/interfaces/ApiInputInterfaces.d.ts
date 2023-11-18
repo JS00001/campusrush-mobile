@@ -79,10 +79,13 @@ interface DowngradeOrganizationInput {
   id: string;
 }
 
-interface GetMessagesInput {
-  limit: number;
+interface GetConversationInput {
   offset: number;
   pnmId: string;
+}
+
+interface GetConversationsInput {
+  offset: number;
 }
 
 interface SendMessageInput {

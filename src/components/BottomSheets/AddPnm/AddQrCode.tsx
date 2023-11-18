@@ -10,29 +10,48 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
+import QRCode from "react-native-qrcode-svg";
 
 import { AddPnmScreens } from "./types";
 
 import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
+import Layout from "@/ui/Layout";
+import CopyItem from "@/ui/CopyItem";
+import { WEB_URL } from "@/api/constants";
+import { useAuth } from "@/providers/Auth";
 
 interface AddQrCodeScreenProps {
   handleCloseModalPress: () => void;
   setScreen: (screen: AddPnmScreens) => void;
 }
 
-const AddQrCodeStep: React.FC<AddQrCodeScreenProps> = ({
-  setScreen,
-  handleCloseModalPress,
-}) => {
+const AddQrCodeStep: React.FC<AddQrCodeScreenProps> = ({}) => {
+  const { organization } = useAuth();
+
+  const linkSharingCode = `${WEB_URL}/${organization.linkSharingCode}`;
+
   return (
-    <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-4`}>
-      <View>
+    <Layout scrollable gap={16}>
+      <View style={tw`w-full`}>
         <Text variant="title">Display QR Code</Text>
-        <Text variant="body">Have a PNM scan a QR code</Text>
+        <Text variant="body">Have a PNM scan the QR code</Text>
       </View>
-    </ScrollView>
+
+      <View style={tw`bg-slate-100 rounded-md p-12 w-full items-center`}>
+        <QRCode
+          size={232}
+          value={linkSharingCode}
+          color={tw.color("primary")}
+          backgroundColor="transparent"
+        />
+      </View>
+
+      <Text variant="title">Or</Text>
+
+      <CopyItem label="Link Sharing URL" value={linkSharingCode} />
+    </Layout>
   );
 };
 

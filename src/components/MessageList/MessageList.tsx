@@ -50,6 +50,7 @@ const MessageList: React.FC<MessageListProps> = ({
       onEndReachedThreshold={0.75}
       onStartReachedThreshold={0.75}
       showsVerticalScrollIndicator={false}
+      enableAutoscrollToTop
     />
   );
 };

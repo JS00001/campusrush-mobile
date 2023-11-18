@@ -10,33 +10,31 @@
  * Do not distribute
  */
 
-import { useState } from "react";
-import { FlatList } from "react-native";
-
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
 import Conversation from "@/ui/Conversation";
+import InfiniteScroll from "@/ui/InfiniteScroll";
+import useConversations from "@/hooks/useConversations";
 
 interface ConversationsProps {
   loading: boolean;
   conversations: Conversation[];
-  onRefetch?: () => Promise<void>;
 }
 
 const Conversations: React.FC<ConversationsProps> = ({
   loading,
   conversations,
-  onRefetch,
 }) => {
-  // Whether or not the list is refreshing
-  const [isRefetching, setIsRefetching] = useState(false);
+  const { refetch, fetchNextPage } = useConversations();
 
   // On refresh, set is refetching to true and call the on refetch prop
   const onRefresh = async () => {
-    setIsRefetching(true);
-    await onRefetch?.();
-    setIsRefetching(false);
+    await refetch();
+  };
+
+  const onEndReached = async () => {
+    await fetchNextPage();
   };
 
   // The components for each item in the list view
@@ -67,15 +65,14 @@ const Conversations: React.FC<ConversationsProps> = ({
   };
 
   return (
-    <FlatList
-      style={tw`w-full`}
+    <InfiniteScroll
       contentContainerStyle={tw`gap-y-2 pb-6`}
       showsVerticalScrollIndicator={false}
       data={conversations}
+      onRefresh={onRefresh}
+      onEndReached={onEndReached}
       renderItem={ItemComponent}
       ListEmptyComponent={ListEmptyComponent}
-      onRefresh={onRefresh}
-      refreshing={isRefetching}
     />
   );
 };

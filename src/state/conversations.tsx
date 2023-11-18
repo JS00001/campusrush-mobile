@@ -34,6 +34,7 @@ export interface ConversationsState {
   resetState: () => void;
 
   setStatus: (status: ConversationStatus) => void;
+
   deleteConversation: (pnmId: string) => void;
   updateConversation: (conversation: Conversation) => void;
   addConversations: (conversation: Conversation[]) => void;
@@ -47,6 +48,7 @@ const useConversationsStore = create<ConversationsState>()(
        * The default state of the store
        */
       ...defaultState,
+
       /**
        * Updates a conversation in the store if its id exists
        */

@@ -18,18 +18,18 @@ const messagingAPIClient = axiosClient;
 const PREFIX = '/api/v1/messaging';
 
 /**
- * GET /api/v1/messaging/messages/:pnmId
+ * GET /api/v1/messaging/conversation/:pnmId
  *
  * Returns
  * - data
  *  - messages
  */
-const getMessages = (
-  data: GetMessagesInput,
-): Promise<GetMessagesAPIResponse> => {
+const getConversation = (
+  data: GetConversationInput,
+): Promise<GetConversationAPIResponse> => {
   const { pnmId, ...rest } = data;
 
-  return messagingAPIClient.get(`${PREFIX}/messages/${pnmId}`, {
+  return messagingAPIClient.get(`${PREFIX}/conversation/${pnmId}`, {
     params: rest,
   });
 };
@@ -41,8 +41,16 @@ const getMessages = (
  * - data
  *  - conversations
  */
-const getConversations = (): Promise<GetConversationsAPIResponse> => {
-  return messagingAPIClient.get(`${PREFIX}/conversations`);
+const getConversations = (
+  data: GetConversationsInput,
+): Promise<GetConversationsAPIResponse> => {
+  const { offset } = data;
+
+  return messagingAPIClient.get(`${PREFIX}/conversations`, {
+    params: {
+      offset,
+    },
+  });
 };
 
 /**
@@ -71,7 +79,7 @@ const sendMessage = (
 };
 
 export default {
-  getMessages,
+  getConversation,
   getConversations,
   getContacts,
   sendMessage,

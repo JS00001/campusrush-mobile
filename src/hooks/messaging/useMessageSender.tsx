@@ -17,7 +17,6 @@ import { useNavigation } from "@react-navigation/native";
 import errors from "@/lib/errors";
 import messagingApi from "@/api/api/messaging";
 import useContactsStore from "@/state/contacts";
-import useMessagesStore from "@/state/messages";
 import useConversations from "@/hooks/useConversations";
 import { ConversationStatus } from "@/state/conversations";
 
@@ -33,9 +32,6 @@ const useMessageSender = (_pnms: PNM[]) => {
 
   // Remove the pnms from the "uncontacted" list
   const removeContactsFrom = useContactsStore((s) => s.removeContactsFrom);
-
-  // Add to messages
-  const addMessages = useMessagesStore((s) => s.addMessages);
 
   // Create a mutation to send a message
   const mutation = useMutation({
@@ -89,9 +85,6 @@ const useMessageSender = (_pnms: PNM[]) => {
 
     // Add the conversations to the conversations state
     addConversations(conversations);
-
-    // Add the messages to the messages state
-    addMessages(response.data.data.messages);
 
     // If the message was sent to multiple PNMs, set the conversation status to "sent"
     if (input.pnms.length > 1) {
