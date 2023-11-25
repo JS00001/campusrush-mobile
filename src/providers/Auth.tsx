@@ -17,6 +17,7 @@ import { createContext, useEffect, useState, useContext } from "react";
 
 import authAPI from "@/api/auth";
 import useZustandStore from "@/state";
+import { useWebsocket } from "@/providers/Websocket";
 
 interface AuthContextProps {
   isLoading: boolean;
@@ -55,6 +56,9 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
 
   // Clears all the pnms when user logs out
   const { resetState } = useZustandStore();
+
+  // Import the websocket data
+  const websocket = useWebsocket();
 
   // Declare all AuthAPI mutations
   const refreshAccessTokenMutation = useMutation({
@@ -135,6 +139,8 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       setOrganization(organization);
       // Load the organization's billing data from revenue cat
       _loadBillingData(organization);
+      // Connect to the websocket
+      websocket.connect(accessToken);
     } catch (error) {
       // If the request or access token is invalid, set the loading state to false
       setOrganization({} as Organization);
@@ -204,6 +210,8 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
 
     // Load the new organization's billing data
     _loadBillingData(organization);
+    // Connect to the websocket
+    websocket.connect(accessToken);
   };
 
   // Sign up as an organization
@@ -225,6 +233,8 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
 
     // Load the new organization's billing data
     _loadBillingData(organization);
+    // Connect to the websocket
+    websocket.connect(accessToken);
   };
 
   // Update the organization
@@ -255,6 +265,9 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
 
     // Clear all of the user data from the store
     await resetState();
+
+    // Disconnect from the websocket
+    websocket.disconnect();
   };
 
   return (

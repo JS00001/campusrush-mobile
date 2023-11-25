@@ -23,6 +23,7 @@ import Modals from "@/components/Modals";
 import queryClient from "@/lib/queryClient";
 import AuthProvider from "@/providers/Auth";
 import AxiosIntercepter from "@/providers/Axios";
+import WebsocketProvider from "@/providers/Websocket";
 import PurchasesProvider from "@/providers/Purchases";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
@@ -44,28 +45,30 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <PurchasesProvider>
-        <AuthProvider>
-          <AxiosIntercepter>
-            <PreferencesProvider>
-              <NavigationProvider>
-                <NotificationsProvider>
-                  <GestureHandlerRootView style={{ flex: 1 }}>
-                    <BottomSheetModalProvider>
-                      <BottomSheetProvider>
-                        <EntitlementsProvider>
-                          <Modals />
-                          <DevEnvironment />
-                          <RootNavigator />
-                          <Toast config={toastConfig} />
-                        </EntitlementsProvider>
-                      </BottomSheetProvider>
-                    </BottomSheetModalProvider>
-                  </GestureHandlerRootView>
-                </NotificationsProvider>
-              </NavigationProvider>
-            </PreferencesProvider>
-          </AxiosIntercepter>
-        </AuthProvider>
+        <WebsocketProvider>
+          <AuthProvider>
+            <AxiosIntercepter>
+              <PreferencesProvider>
+                <NavigationProvider>
+                  <NotificationsProvider>
+                    <GestureHandlerRootView style={{ flex: 1 }}>
+                      <BottomSheetModalProvider>
+                        <BottomSheetProvider>
+                          <EntitlementsProvider>
+                            <Modals />
+                            <DevEnvironment />
+                            <RootNavigator />
+                            <Toast config={toastConfig} />
+                          </EntitlementsProvider>
+                        </BottomSheetProvider>
+                      </BottomSheetModalProvider>
+                    </GestureHandlerRootView>
+                  </NotificationsProvider>
+                </NavigationProvider>
+              </PreferencesProvider>
+            </AxiosIntercepter>
+          </AuthProvider>
+        </WebsocketProvider>
       </PurchasesProvider>
     </QueryClientProvider>
   );

@@ -45,3 +45,18 @@ export const formatJSON = (string: string) => {
   // If valid JSON, return formatted JSON
   return JSON.stringify(JSON.parse(string), null, 2);
 };
+
+/**
+ * Ensure a string is a valid JSON string and can be parsed
+ */
+export const isJSON = (string: string) => {
+  let parsedJSON;
+
+  try {
+    parsedJSON = JSON.parse(string);
+  } catch (e) {
+    return { isValid: false };
+  }
+
+  return { isValid: true, parsedJSON };
+};

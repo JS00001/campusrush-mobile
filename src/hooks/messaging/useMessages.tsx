@@ -38,6 +38,7 @@ const useMessages = (pnmId: string) => {
   const query = useInfiniteQuery({
     // Use access token as the query key so response is cached on a per-user basis
     queryKey: ["messaging", accessToken, pnmId],
+
     queryFn: async ({ pageParam = 0 }) => {
       return messagingApi.getConversation({
         offset: pageParam,
