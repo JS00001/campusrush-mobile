@@ -176,10 +176,10 @@ type DowngradeOrganizationAPIResponse = APIResponse & {
   };
 };
 
-type GetMessagesAPIResponse = APIResponse & {
+type GetConversationAPIResponse = APIResponse & {
   data: {
     data: {
-      messages: Message[];
+      conversation: Conversation;
       nextOffset: number;
     };
   };
@@ -189,6 +189,7 @@ type GetConversationsAPIResponse = APIResponse & {
   data: {
     data: {
       conversations: Conversation[];
+      nextOffset: number;
     };
   };
 };

@@ -20,11 +20,17 @@ export enum PnmsStatus {
   Loading = "LOADING",
 }
 
+const defaultState = {
+  pnms: [],
+  status: PnmsStatus.Idle,
+};
+
 interface PnmsState {
   pnms: PNM[];
   status: PnmsStatus;
 
-  clearPnms: () => void;
+  resetState: () => void;
+
   getPnm: (id: string) => PNM;
   addPnms: (pnm: PNM[]) => void;
   updatePnm: (pnm: PNM) => void;
@@ -37,13 +43,9 @@ const usePnmsStore = create<PnmsState>()(
   persist(
     (set) => ({
       /**
-       * The list of PNMs to be stored in the store
+       * The default state of the store
        */
-      pnms: [],
-      /**
-       * The status of the PNMs screen
-       */
-      status: PnmsStatus.Idle,
+      ...defaultState,
       /**
        * Sets the status of the PNMs screen
        */
@@ -102,13 +104,9 @@ const usePnmsStore = create<PnmsState>()(
           pnms: state.pnms.filter((p) => p._id !== pnm._id),
         })),
       /**
-       * Clears the PNMs from the store
+       * Resets the state to the default state
        */
-      clearPnms: () =>
-        set(() => ({
-          pnms: [],
-          status: PnmsStatus.Idle,
-        })),
+      resetState: () => set(() => defaultState),
     }),
     {
       name: "PNMs",

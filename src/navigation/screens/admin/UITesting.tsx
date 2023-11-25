@@ -18,78 +18,61 @@ import Information from "@/ui/Information";
 import useModalsStore from "@/state/modals";
 import Toast from "react-native-toast-message";
 import Tooltip from "@/ui/Tooltip";
+import Text from "@/ui/Text";
 import CopyItem from "@/ui/CopyItem";
+import InfiniteScroll from "@/ui/InfiniteScroll";
+import { useState } from "react";
+import { View } from "react-native";
+import tw from "@/lib/tailwind";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
-  const { openModal } = useModalsStore();
+  const initialData = new Array(20).fill(0).map((_, i) => `Item ${i + 1}`);
 
-  const onButtonPress = () => {
-    Toast.show({
-      type: "success",
-      text1: "Success",
-      text2: "The button was pressed",
-    });
-  };
+  const [data, setData] = useState(initialData);
 
-  const onErrorButtonPress = () => {
-    Toast.show({
-      type: "error",
-      text1: "Error",
-      text2: "The button was pressed",
-    });
-  };
+  const onEndReached = async () => {
+    return new Promise<void>(async (resolve) => {
+      // wait 2 second before running the code
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
-  const onWarningButtonPress = () => {
-    Toast.show({
-      type: "warning",
-      text1: "Warning",
-      text2: "The button was pressed",
-    });
-  };
+      // Get the last number in the data array
+      const lastNumber = parseInt(data[data.length - 1].split(" ")[1]);
 
-  const onInfoButtonPress = () => {
-    Toast.show({
-      type: "info",
-      text1: "Info",
-      text2: "The button was pressed",
-    });
-  };
+      // Create a new array of 20 items
+      const newData = new Array(20)
+        .fill(0)
+        .map((_, i) => `Item ${lastNumber + i + 1}`);
 
-  const onBigMessageButtonPress = () => {
-    Toast.show({
-      type: "success",
-      text1:
-        "Success wraps as well and is a really long message that cant be seen",
-      text2:
-        "The button was pressed and this is a really long message that should wrap. There is a lot of text here and it should wrap to the next line. This is a really long message that should wrap. There is a lot of text here and it should wrap to the next line. This is a really long message that should wrap. There is a lot of text here and it should wrap to the next line.",
+      // Add the new data to the existing data
+      setData((prevData) => [...prevData, ...newData]);
+
+      // Resolve the promise
+      resolve();
     });
   };
 
   return (
-    <Layout scrollable gap={12}>
+    <Layout gap={12}>
       <Layout.Header
         hasBackButton
         title="UI Testing"
         subtitle="Test new UI in a sandbox environment"
       />
 
-      <CopyItem
-        label="Website"
-        value="https://jacksenyitko.com/this/is/long/and/longer"
+      <InfiniteScroll
+        onRefresh={async () => {}}
+        data={data}
+        renderItem={({ item }) => (
+          <View style={tw`bg-red-500 w-full p-5 mb-2`}>
+            <Text style={tw`text-white`}>{item}</Text>
+          </View>
+        )}
+        onEndReached={onEndReached}
       />
-
-      <Button onPress={onButtonPress}>Show Success Toast</Button>
-
-      <Button onPress={onErrorButtonPress}>Show Error Toast</Button>
-      <Button onPress={onWarningButtonPress}>Show Warning Toast</Button>
-      <Button onPress={onInfoButtonPress}>Show Info Toast</Button>
-      <Button onPress={onBigMessageButtonPress}>Show Big Message Toast</Button>
-
-      <Information tooltip="This is a tooltip" size="sm" />
     </Layout>
   );
 };

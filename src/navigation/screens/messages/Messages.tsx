@@ -38,7 +38,6 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
     searchQuery,
     filterActions,
     conversations,
-    refetch,
     onFilterPress,
     setSearchQuery,
   } = useConversations();
@@ -102,11 +101,7 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
         </View>
 
         {/* The conversations that exist */}
-        <Conversations
-          loading={isLoading}
-          onRefetch={refetch}
-          conversations={conversations}
-        />
+        <Conversations loading={isLoading} conversations={conversations} />
       </Layout>
     </>
   );

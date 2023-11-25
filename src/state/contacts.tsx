@@ -15,6 +15,13 @@ import { PersistStorage, persist } from "zustand/middleware";
 
 import customAsyncStorage from "@/lib/asyncStorage";
 
+const defaultState = {
+  allPnms: [],
+  starredPnms: [],
+  suggestedPnms: [],
+  uncontactedPnms: [],
+};
+
 type ContactType =
   | "allPnms"
   | "starredPnms"
@@ -27,7 +34,7 @@ interface ContactsState {
   suggestedPnms: PNM[];
   uncontactedPnms: PNM[];
 
-  clearContacts: () => void;
+  resetState: () => void;
 
   setContacts(field: ContactType, pnms: PNM[]): void;
   addContactTo(field: ContactType, pnm: PNM): void;
@@ -39,32 +46,11 @@ interface ContactsState {
 const useContactsStore = create<ContactsState>()(
   persist(
     (set) => ({
+      ...defaultState,
       /**
-       * The list of all PNMs
+       * Resets the state to the default state
        */
-      allPnms: [],
-      /**
-       * The list of starred PNMs
-       */
-      starredPnms: [],
-      /**
-       * The list of suggested PNMs
-       */
-      suggestedPnms: [],
-      /**
-       * The list of uncontacted PNMs
-       */
-      uncontactedPnms: [],
-      /**
-       * Clears all the contacts
-       */
-      clearContacts: () =>
-        set((state) => ({
-          allPnms: [],
-          starredPnms: [],
-          suggestedPnms: [],
-          uncontactedPnms: [],
-        })),
+      resetState: () => set(() => defaultState),
       /**
        * Adds a PNM to a field
        */

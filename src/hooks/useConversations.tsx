@@ -11,7 +11,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { MenuAction } from "@react-native-menu/menu";
 
 import { useAuth } from "@/providers/Auth";
@@ -50,11 +50,19 @@ const useConversations = () => {
   );
 
   // The query to get conversations
-  const query = useQuery({
+  const query = useInfiniteQuery({
     // Use access token as the query key so response is cached on a per-user basis
     queryKey: ["conversations", accessToken],
-    queryFn: async () => {
-      return await messagingApi.getConversations();
+    queryFn: async ({ pageParam = 0 }) => {
+      return await messagingApi.getConversations({
+        offset: pageParam,
+      });
+    },
+    getNextPageParam: (lastPage) => {
+      // If there are no more messages, return undefined
+      if (lastPage.data.data.conversations.length < 20) return undefined;
+      // Otherwise, return the next offset
+      return lastPage.data.data.nextOffset;
     },
   });
 
@@ -66,7 +74,10 @@ const useConversations = () => {
   // When the query loads, set the conversations
   useEffect(() => {
     if (query.data) {
-      const formattedConversations = query.data.data.data.conversations;
+      // Combine all the pages into one array
+      const formattedConversations = query.data.pages.flatMap(
+        (page) => page.data.data.conversations,
+      );
 
       setConversations(formattedConversations);
     }
@@ -88,12 +99,7 @@ const useConversations = () => {
       const pnmFullName = `${conversation.pnm.firstName} ${conversation.pnm.lastName}`;
 
       // Return true if the full name or phone number includes the search query
-      return (
-        conversation.lastMessage
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        pnmFullName.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      return pnmFullName.toLowerCase().includes(searchQuery.toLowerCase());
     });
 
     // Then, filter the matched Conversations based on the selected filter
@@ -102,6 +108,7 @@ const useConversations = () => {
         const unreadConversations = matchedConversations.filter(
           (conversation) => !conversation.read,
         );
+
         setFilteredConversations(unreadConversations);
         break;
       case ConversationFilter.NoFilter:
@@ -114,8 +121,8 @@ const useConversations = () => {
 
   // Method to set a conversation as read
   const setConversationAsRead = (pnmId: string) => {
+    // Find the conversation with the given pnm id
     conversations.map((conversation) => {
-      // If the conversation is the one being read, set it as read
       if (conversation.pnm._id === pnmId) {
         updateConversation({
           ...conversation,
@@ -130,11 +137,6 @@ const useConversations = () => {
     const eventId = e.nativeEvent.event as ConversationFilter;
 
     setSelectedFilter(eventId);
-  };
-
-  // Method to refetch the query
-  const refetch = async () => {
-    await query.refetch();
   };
 
   // The actions for the filter menu
@@ -154,14 +156,13 @@ const useConversations = () => {
   ];
 
   return {
+    ...query,
+
     status,
     searchQuery,
     filterActions,
-
-    isLoading: query.isLoading,
     conversations: filteredConversations,
 
-    refetch,
     setStatus,
     addConversations,
     onFilterPress,

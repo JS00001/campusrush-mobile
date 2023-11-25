@@ -66,11 +66,6 @@ interface UpdateOrganizationInput {
   notificationsEnabled?: boolean;
 }
 
-interface GetPnmsInput {
-  page: number;
-  pageSize: number;
-}
-
 interface GetAdminOrganizationInput {
   id: string;
 }
@@ -84,10 +79,13 @@ interface DowngradeOrganizationInput {
   id: string;
 }
 
-interface GetMessagesInput {
-  limit: number;
+interface GetConversationInput {
   offset: number;
   pnmId: string;
+}
+
+interface GetConversationsInput {
+  offset: number;
 }
 
 interface SendMessageInput {
