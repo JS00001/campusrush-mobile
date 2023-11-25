@@ -12,20 +12,23 @@
 
 import { create } from "zustand";
 
-const initialFormFields = {
-  name: "",
-  school: "",
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
+const defaultState = {
+  fields: {
+    name: "",
+    school: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  },
 };
 
 interface RegistrationState {
-  fields: typeof initialFormFields;
+  fields: (typeof defaultState)["fields"];
 
-  clearFields: () => void;
+  resetState: () => void;
+
   setField: (field: keyof RegistrationState["fields"], value: string) => void;
 }
 
@@ -33,18 +36,11 @@ const useRegistrationStore = create<RegistrationState>()((set) => ({
   /**
    * The fields for the registration form
    */
-  fields: {
-    ...initialFormFields,
-  },
+  ...defaultState,
   /**
-   * Clear the registration fields
+   * Resets the state to its default values
    */
-  clearFields: () =>
-    set({
-      fields: {
-        ...initialFormFields,
-      },
-    }),
+  resetState: () => set(() => defaultState),
   /**
    * Set a field in the registration form
    */

@@ -14,12 +14,19 @@ import customAsyncStorage from "@/lib/asyncStorage";
 import { create } from "zustand";
 import { PersistStorage, persist } from "zustand/middleware";
 
+const defaultState = {
+  numPnms: 0,
+  numStarredPnms: 0,
+  recentPnms: [],
+};
+
 interface StatisticsState {
   numPnms: number;
   numStarredPnms: number;
   recentPnms: PNM[];
 
-  clearStatistics: () => void;
+  resetState: () => void;
+
   setNumPnms: (numPnms: number) => void;
   setRecentPnms: (recentPnms: PNM[]) => void;
   setNumStarredPnms: (numStarredPnms: number) => void;
@@ -34,17 +41,9 @@ const useStatisticsStore = create<StatisticsState>()(
   persist(
     (set) => ({
       /**
-       * The number of PNMs in the system
+       * The default state of the store
        */
-      numPnms: 0,
-      /**
-       * The number of starred PNMs in the system
-       */
-      numStarredPnms: 0,
-      /**
-       * The list of recent PNMs
-       */
-      recentPnms: [],
+      ...defaultState,
       /**
        * Sets the number of PNMs in the system
        */
@@ -58,14 +57,9 @@ const useStatisticsStore = create<StatisticsState>()(
        */
       setRecentPnms: (recentPnms) => set(() => ({ recentPnms })),
       /**
-       * Clears the statistics
+       * Resets the state to the default state
        */
-      clearStatistics: () =>
-        set(() => ({
-          numPnms: 0,
-          numStarredPnms: 0,
-          recentPnms: [],
-        })),
+      resetState: () => set(() => defaultState),
       /**
        * Increments the number of PNMs in the system
        */

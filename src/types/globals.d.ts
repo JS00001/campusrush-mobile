@@ -125,10 +125,10 @@ interface Conversation {
   };
   // Whether the conversation is read or unread
   read: boolean;
-  // The last message sent or received
-  lastMessage: string;
+  // Messages
+  messages: Message[];
   // When the last message was sent or received
-  lastMessageAt: Date;
+  lastMessageSentAt: Date;
   // When the conversation was last updated
   updatedAt: Date;
   // When the conversation was created

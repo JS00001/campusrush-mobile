@@ -41,7 +41,7 @@ const usePurchase = () => {
   const _isSubscription = selectedProduct?.productCategory === "SUBSCRIPTION";
   // **PRIVATE VAR** Whether or not the user has previously purchased a subscription
   const _hasPreviousSubscription =
-    Object.keys(billingData?.entitlements.all ?? {}).length > 0;
+    Object.keys(billingData?.entitlements?.all ?? {}).length > 0;
   // **PRIVATE VAR** Whether or not a product has a trial period (free trial)
   const _hasTrialPeriod =
     !_hasPreviousSubscription && selectedProduct?.introPrice !== null;

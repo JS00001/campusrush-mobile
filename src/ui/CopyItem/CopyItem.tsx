@@ -12,6 +12,7 @@
 
 import * as Haptics from "expo-haptics";
 import * as Clipboard from "expo-clipboard";
+import Toast from "react-native-toast-message";
 import RemixIcon from "react-native-remix-icon";
 import { View, TouchableOpacity } from "react-native";
 
@@ -37,6 +38,13 @@ const CopyItem: React.FC<CopyItemProps> = ({ value, label }) => {
   const onCopyPress = () => {
     Haptics.selectionAsync();
     Clipboard.setStringAsync(value);
+
+    Toast.show({
+      type: "success",
+      text1: `${label} copied to clipboard`,
+      text2: value,
+      visibilityTime: 1000,
+    });
   };
 
   return (

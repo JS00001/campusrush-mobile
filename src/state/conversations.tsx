@@ -22,12 +22,19 @@ export enum ConversationStatus {
   Failed = "FAILED",
 }
 
+const defaultState = {
+  conversations: [],
+  status: ConversationStatus.Idle,
+};
+
 export interface ConversationsState {
   status: ConversationStatus;
   conversations: Conversation[];
 
-  clearConversations: () => void;
+  resetState: () => void;
+
   setStatus: (status: ConversationStatus) => void;
+
   deleteConversation: (pnmId: string) => void;
   updateConversation: (conversation: Conversation) => void;
   addConversations: (conversation: Conversation[]) => void;
@@ -38,13 +45,10 @@ const useConversationsStore = create<ConversationsState>()(
   persist(
     (set) => ({
       /**
-       * The status of the conversations
+       * The default state of the store
        */
-      status: ConversationStatus.Idle,
-      /**
-       * The list of conversations to be stored in the store
-       */
-      conversations: [],
+      ...defaultState,
+
       /**
        * Updates a conversation in the store if its id exists
        */
@@ -91,15 +95,10 @@ const useConversationsStore = create<ConversationsState>()(
         set((state) => ({
           conversations: state.conversations.filter((c) => c.pnm._id !== pnmId),
         })),
-
       /**
-       * Clears the conversations from the store
+       * Resets the state to the default state
        */
-      clearConversations: () =>
-        set(() => ({
-          conversations: [],
-          status: ConversationStatus.Idle,
-        })),
+      resetState: () => set(() => defaultState),
     }),
     {
       name: "conversations",

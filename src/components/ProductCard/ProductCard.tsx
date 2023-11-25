@@ -48,7 +48,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const trialLength = `${product.introPrice?.periodNumberOfUnits}-${product.introPrice?.periodUnit.toLowerCase()}`;
   // Whether or not the user has previously purchased a subscription
   // prettier-ignore
-  const hasPreviousSubscription = Object.keys(billingData?.entitlements.all ?? {}).length > 0;
+  const hasPreviousSubscription = Object.keys(billingData?.entitlements?.all ?? {}).length > 0;
 
   // The title of the product (should always exist, but just in case)
   const title = product.title ?? "No title";
