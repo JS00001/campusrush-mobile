@@ -16,17 +16,27 @@ export const STAGING_URL = 'https://greek-api.in-staging.space';
 // The URL of the API for production
 export const PRODUCTION_URL = 'https://api.campusrush.app';
 
-// The URL for content
-export const CONTENT_URL = 'https://content.campusrush.app';
-
-// The URL for the web app
+// The URL for the web app for development
 export const STAGING_WEB_URL = 'https://greek-web.in-staging.space/external';
 
-// The URL for the web app
+// The URL for the web app for production
 export const PRODUCTION_WEB_URL = 'https://campusrush.app/external';
+
+// The URL for the websocket for development
+export const STAGING_WEBSOCKET_URL = 'wss://greek-api.in-staging.space';
+
+// The URL for the websocket for production
+export const PRODUCTION_WEBSOCKET_URL = 'wss://api.campusrush.app';
+
+// The URL for content
+export const CONTENT_URL = 'https://content.campusrush.app';
 
 // Which API URL should be used, staging for development, production for release
 export const BASE_URL = __DEV__ ? STAGING_URL : PRODUCTION_URL;
 
 // Which web URL should be used, staging for development, production for release
 export const WEB_URL = __DEV__ ? STAGING_WEB_URL : PRODUCTION_WEB_URL;
+
+// Which websocket URL should be used, staging for development, production for release
+// prettier-ignore
+export const WEBSOCKET_URL = __DEV__ ? STAGING_WEBSOCKET_URL : PRODUCTION_WEBSOCKET_URL;
