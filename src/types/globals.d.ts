@@ -127,6 +127,8 @@ interface Conversation {
   read: boolean;
   // Messages
   messages: Message[];
+  // The last message sent or received
+  lastMessage: string;
   // When the last message was sent or received
   lastMessageSentAt: Date;
   // When the conversation was last updated

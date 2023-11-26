@@ -62,7 +62,7 @@ const Conversation: React.FC<ConversationProps> = ({ conversation }) => {
           </Text>
 
           <Text variant="subtext" style={tw`text-slate-500`} numberOfLines={1}>
-            {conversation.messages[0].content}
+            {conversation.lastMessage}
           </Text>
         </View>
       </View>
