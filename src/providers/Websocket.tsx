@@ -10,14 +10,19 @@
  * Do not distribute
  */
 
+import Toast from "react-native-toast-message";
 import { createContext, useContext, useState } from "react";
 
-import { WEBSOCKET_URL } from "@/api/constants";
 import { isJSON } from "@/lib/string";
-import Toast from "react-native-toast-message";
+import { WEBSOCKET_URL } from "@/api/constants";
 import useConversationsStore from "@/state/conversations";
 
 interface WebsocketContextProps {
+  data: {
+    connected: boolean;
+    messages: string[];
+  };
+
   disconnect: () => void;
   connect: (accessToken: string) => void;
 }
@@ -29,9 +34,11 @@ const WebsocketContext = createContext<WebsocketContextProps>(
 const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  // Create state to store the websocket
+  // Create state to store the websocket and messages
   const [ws, setWs] = useState<WebSocket | null>(null);
+  const [messages, setMessages] = useState<string[]>([]);
 
+  // Get the addConversations function from the conversations store
   const addConversations = useConversationsStore((s) => s.addConversations);
 
   /**
@@ -72,6 +79,9 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
       // Ensure that the parsedData matches with SocketMessage
       const payload = parsedJSON as SocketMessage;
 
+      // Add the message to the messages state
+      setMessages((messages) => [data, ...messages]);
+
       switch (payload.type) {
         case "NEW_MESSAGE":
           const conversation = payload.data.conversation as Conversation;
@@ -103,6 +113,11 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <WebsocketContext.Provider
       value={{
+        data: {
+          connected: ws?.readyState === WebSocket.OPEN,
+          messages,
+        },
+
         connect,
         disconnect,
       }}
