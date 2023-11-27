@@ -33,6 +33,13 @@ const handleApiError = (error: any, form?: any) => {
         text2: errorMessage.humanMessage,
       });
     }
+  } else {
+    // Show a toast with the error message
+    Toast.show({
+      type: "error",
+      text1: "An error occurred",
+      text2: error.message,
+    });
   }
 };
 
