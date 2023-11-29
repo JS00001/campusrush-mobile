@@ -11,29 +11,22 @@
  */
 
 import usePnmsStore from "./pnms";
-import useContactsStore from "./messaging/contacts";
 import useStatisticsStore from "./statistics";
+import useContactsStore from "./messaging/contacts";
+import useMessagesStore from "./messaging/messages";
 import useConversationsStore from "./messaging/conversations";
 
 const useZustandStore = () => {
   // PNMs store
-  const _pnms = usePnmsStore((s) => s.pnms);
-  const _getPnm = usePnmsStore((s) => s.getPnm);
   const _addPnms = usePnmsStore((s) => s.addPnms);
   const _updatePnm = usePnmsStore((s) => s.updatePnm);
   const _deletePnm = usePnmsStore((s) => s.deletePnm);
-  const _setPnms = usePnmsStore((s) => s.setPnms);
-  const _setStatus = usePnmsStore((s) => s.setStatus);
   const _resetPnmsState = usePnmsStore((s) => s.resetState);
 
   // Statistics store
-  const _numPnms = useStatisticsStore((s) => s.numPnms);
-  const _numStarredPnms = useStatisticsStore((s) => s.numStarredPnms);
   const _recentPnms = useStatisticsStore((s) => s.recentPnms);
   const _resetStatisticsState = useStatisticsStore((s) => s.resetState);
-  const _setNumPnms = useStatisticsStore((s) => s.setNumPnms);
   const _setRecentPnms = useStatisticsStore((s) => s.setRecentPnms);
-  const _setNumStarredPnms = useStatisticsStore((s) => s.setNumStarredPnms);
   const _incrementNumPnms = useStatisticsStore((s) => s.incrementNumPnms);
   // prettier-ignore
   const _incrementNumStarredPnms = useStatisticsStore( (s) => s.incrementNumStarredPnms);
@@ -42,24 +35,18 @@ const useZustandStore = () => {
   const _decrementNumStarredPnms = useStatisticsStore((s) => s.decrementNumStarredPnms);
 
   // Conversations store
-  const _conversations = useConversationsStore((s) => s.conversations);
-  const _addConversations = useConversationsStore((s) => s.addConversations);
   // prettier-ignore
   const _resetConversationsState = useConversationsStore((s) => s.resetState);
   // prettier-ignore
   const _deleteConversation = useConversationsStore((s) => s.deleteConversation);
-  // prettier-ignore
-  const _updateConversation = useConversationsStore((s) => s.updateConversation);
 
   // Contacts store
-  const _allPnms = useContactsStore((s) => s.allPnms);
-  const _starredPnms = useContactsStore((s) => s.starredPnms);
-  const _suggestedPnms = useContactsStore((s) => s.suggestedPnms);
-  const _uncontactedPnms = useContactsStore((s) => s.uncontactedPnms);
   const _resetContactsState = useContactsStore((s) => s.resetState);
-  const _setContacts = useContactsStore((s) => s.setContacts);
   const _addContactTo = useContactsStore((s) => s.addContactTo);
   const _removeContactFrom = useContactsStore((s) => s.removeContactFrom);
+
+  // Messages store
+  const _resetMessagesState = useMessagesStore((s) => s.resetState);
 
   /**
    * Add a new PNM
@@ -92,11 +79,11 @@ const useZustandStore = () => {
     // Decrement the number of PNMs in the statistics store
     _decrementNumPnms();
     // Remove the pnm from the suggested PNMs in the contacts store (if it exists)
-    _removeContactFrom("suggestedPnms", pnm);
+    _removeContactFrom("suggestedPnms", pnm._id);
     // Remove the pnm from the all PNMs in the contacts store (if it exists)
-    _removeContactFrom("allPnms", pnm);
+    _removeContactFrom("allPnms", pnm._id);
     // Remove the pnm from the uncontacted PNMs in the contacts store (if it exists)
-    _removeContactFrom("uncontactedPnms", pnm);
+    _removeContactFrom("uncontactedPnms", pnm._id);
 
     // Check if the PNM is favorited
     if (pnm.starred) {
@@ -133,7 +120,7 @@ const useZustandStore = () => {
     // Decrement the number of starred PNMs in the statistics store
     _decrementNumStarredPnms();
     // Remove the pnm from the starred PNMs in the contacts store
-    _removeContactFrom("starredPnms", pnm);
+    _removeContactFrom("starredPnms", pnm._id);
   };
 
   /**
@@ -148,6 +135,8 @@ const useZustandStore = () => {
     _resetStatisticsState();
     // Update the contacts store
     _resetContactsState();
+    // Update the messages store
+    _resetMessagesState();
   };
 
   return {
