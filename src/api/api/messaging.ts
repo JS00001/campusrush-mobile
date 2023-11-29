@@ -22,11 +22,10 @@ const PREFIX = '/api/v1/messaging';
  *
  * Returns
  * - data
- *  - messages
+ *  - conversation
  */
-const getConversation = (
-  data: GetConversationInput,
-): Promise<GetConversationAPIResponse> => {
+// prettier-ignore
+const getConversation = (data: GetConversationInput): Promise<GetConversationAPIResponse> => {
   const { pnmId, ...rest } = data;
 
   return messagingAPIClient.get(`${PREFIX}/conversation/${pnmId}`, {
@@ -41,9 +40,8 @@ const getConversation = (
  * - data
  *  - conversations
  */
-const getConversations = (
-  data: GetConversationsInput,
-): Promise<GetConversationsAPIResponse> => {
+// prettier-ignore
+const getConversations = (data: GetConversationsInput): Promise<GetConversationsAPIResponse> => {
   const { offset } = data;
 
   return messagingAPIClient.get(`${PREFIX}/conversations`, {
@@ -72,9 +70,8 @@ const getContacts = (): Promise<GetContactsAPIResponse> => {
  * - data
  *  - conversations
  */
-const sendMessage = (
-  data: SendMessageInput,
-): Promise<SendMessageAPIResponse> => {
+// prettier-ignore
+const sendMessage = (data: SendMessageInput): Promise<SendMessageAPIResponse> => {
   return messagingAPIClient.post(`${PREFIX}/send`, data);
 };
 

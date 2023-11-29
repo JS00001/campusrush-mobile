@@ -186,6 +186,14 @@ type GetConversationAPIResponse = APIResponse & {
   };
 };
 
+type FocusConversationAPIResponse = APIResponse & {
+  data: {
+    data: {
+      conversation: Conversation;
+    };
+  };
+};
+
 type GetConversationsAPIResponse = APIResponse & {
   data: {
     data: {

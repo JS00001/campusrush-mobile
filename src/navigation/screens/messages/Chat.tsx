@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
@@ -17,6 +18,7 @@ import ChatHeader from "@/components/ChatHeader";
 import MessageBox from "@/components/MessageBox";
 import MessageList from "@/components/MessageList";
 import useConversation from "@/hooks/messaging/useConversation";
+import { useWebsocket } from "@/providers/Websocket";
 
 interface ChatProps {
   route: any;
@@ -27,8 +29,11 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
   // Get the pnm from the route params
   const pnm = route.params.pnm;
 
-  const { isLoading, messages, fetchNextPage, sendMessage, refetch } =
-    useConversation(pnm._id);
+  const { onConversationOpen, onConversationClose } = useWebsocket();
+
+  const { isLoading, messages, fetchNextPage, sendMessage } = useConversation(
+    pnm._id,
+  );
 
   // Ensure that the pnm is defined, otherwise go back
   if (!pnm) navigation.goBack();
@@ -38,11 +43,18 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
     await fetchNextPage();
   };
 
-  const onStartReached = async () => {};
-
+  // Send a message
   const onSend = async (text: string) => {
     await sendMessage(text);
   };
+
+  // When the component mounts, open the conversation
+  useEffect(() => {
+    onConversationOpen(pnm._id);
+    return () => {
+      onConversationClose();
+    };
+  }, []);
 
   return (
     <>
@@ -54,7 +66,7 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
         <MessageList
           messages={messages}
           onEndReached={onEndReached}
-          onStartReached={onStartReached}
+          onStartReached={async () => {}}
         />
 
         <Layout.Footer keyboardAvoiding>

@@ -84,6 +84,10 @@ interface GetConversationInput {
   pnmId: string;
 }
 
+interface FocusConversationInput {
+  pnmId: string;
+}
+
 interface GetConversationsInput {
   offset: number;
 }
