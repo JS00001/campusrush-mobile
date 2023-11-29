@@ -42,7 +42,6 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
 
   const onSend = async (text: string) => {
     await sendMessage(text);
-    await refetch();
   };
 
   return (

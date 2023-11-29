@@ -25,6 +25,7 @@ const useConversation = (pnmId: string) => {
   const messages = useMessagesStore((s) => s.getMessages(pnmId));
   const addMessage = useMessagesStore((s) => s.addMessage);
   const setMessages = useMessagesStore((s) => s.setMessages);
+  const replaceMessage = useMessagesStore((s) => s.replaceMessage);
 
   const removeContactFrom = useContactsStore((s) => s.removeContactFrom);
 
@@ -63,10 +64,10 @@ const useConversation = (pnmId: string) => {
 
   // If the query has data, set the messages state
   useEffect(() => {
-    if (messagesQuery.data) {
+    if (messagesQuery.data?.pages) {
       handleQueryData(messagesQuery.data.pages);
     }
-  }, [messagesQuery.data]);
+  }, [messagesQuery.data?.pages]);
 
   const handleQueryData = (data: GetConversationAPIResponse[]) => {
     if (data) {
@@ -108,12 +109,20 @@ const useConversation = (pnmId: string) => {
     try {
       const response = await sendMessageMutation.mutateAsync(payload);
       const conversations = response.data.data.conversations;
+      const messages = response.data.data.messages;
 
       if (conversations.length === 0) {
         throw new Error("No conversations were created");
       }
 
+      if (messages.length === 0) {
+        throw new Error("No messages were created");
+      }
+
       addConversations(conversations);
+      // We need to replace the temp message, otherwise we cant add a new message
+      // because the "temp" id will already exist
+      replaceMessage(pnmId, "temp", messages[0]);
       removeContactFrom("uncontactedPnms", pnmId);
     } catch (error) {
       console.log(error);

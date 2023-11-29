@@ -41,6 +41,8 @@ const DevEnvironment: React.FC = ({}) => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   // Create state for all the data from async storage
   const [asyncStorageData, setAsyncStorageData] = useState<any>({});
+  // Create state for async storage size
+  const [asyncStorageSize, setAsyncStorageSize] = useState<string>("");
 
   // Memoized snap points (When the bottom sheet modal is open)
   const snapPoints = useMemo(() => ["75%"], []);
@@ -63,6 +65,20 @@ const DevEnvironment: React.FC = ({}) => {
 
     setAsyncStorageData(data);
   };
+
+  useEffect(() => {
+    const bytes = JSON.stringify(asyncStorageData).length;
+
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+
+    if (bytes === 0) return setAsyncStorageSize("0 Bytes");
+
+    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString());
+
+    const result = Math.round(bytes / Math.pow(1024, i)) + " " + sizes[i];
+
+    setAsyncStorageSize(result);
+  }, [asyncStorageData]);
 
   // Get the websocket data from the websocket provider
   const { data } = useWebsocket();
@@ -269,6 +285,13 @@ const DevEnvironment: React.FC = ({}) => {
                 >
                   Refresh Data
                 </Button>
+
+                <Text style={tw`font-medium`} variant="body">
+                  Async Storage Size
+                </Text>
+                <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
+                  <Text>{asyncStorageSize}</Text>
+                </View>
                 <Text style={tw`font-medium`} variant="body">
                   Async Storage items
                 </Text>

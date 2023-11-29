@@ -17,9 +17,9 @@ import { useNavigation } from "@react-navigation/native";
 import errors from "@/lib/errors";
 import messagingApi from "@/api/api/messaging";
 import useContactsStore from "@/state/messaging/contacts";
+import useMessagesStore from "@/state/messaging/messages";
 import useConversationsStore from "@/state/messaging/conversations";
 import { ConversationStatus } from "@/state/messaging/conversations";
-
 const useMassMessager = (pnms: PNM[]) => {
   const navigation = useNavigation();
 
@@ -29,6 +29,8 @@ const useMassMessager = (pnms: PNM[]) => {
   const setStatus = useConversationsStore((s) => s.setStatus);
   const addConversations = useConversationsStore((s) => s.addConversations);
   const removeContactsFrom = useContactsStore((s) => s.removeContactsFrom);
+
+  const addMessages = useMessagesStore((s) => s.addMessage);
 
   const sendMessageMutation = useMutation({
     mutationFn: (input: SendMessageInput) => {
@@ -56,9 +58,14 @@ const useMassMessager = (pnms: PNM[]) => {
     try {
       const response = await sendMessageMutation.mutateAsync(payload);
       const conversations = response.data.data.conversations;
+      const messages = response.data.data.messages;
 
       if (conversations.length === 0) {
         throw new Error("No conversations were created");
+      }
+
+      if (messages.length === 0) {
+        throw new Error("No messages were created");
       }
 
       // Reverse the order of the conversations to be in chronological order
@@ -67,6 +74,10 @@ const useMassMessager = (pnms: PNM[]) => {
       addConversations(conversations);
       setStatus(ConversationStatus.Sent);
       removeContactsFrom("uncontactedPnms", payload.pnms);
+
+      messages.forEach((message) => {
+        addMessages(message.pnm, message);
+      });
     } catch (error) {
       errors.handleApiError(error);
       setStatus(ConversationStatus.Failed);
