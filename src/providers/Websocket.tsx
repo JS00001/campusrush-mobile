@@ -15,7 +15,8 @@ import { createContext, useContext, useState } from "react";
 
 import { isJSON } from "@/lib/string";
 import { WEBSOCKET_URL } from "@/api/constants";
-import useConversationsStore from "@/state/conversations";
+import useMessagesStore from "@/state/messaging/messages";
+import useConversationsStore from "@/state/messaging/conversations";
 
 interface WebsocketContextProps {
   data: {
@@ -40,6 +41,9 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Get the addConversations function from the conversations store
   const addConversations = useConversationsStore((s) => s.addConversations);
+
+  // Get the addConversations function from the messages store
+  const addMessage = useMessagesStore((s) => s.addMessage);
 
   /**
    * Connects to the websocket with the given access token
@@ -85,7 +89,15 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
       switch (payload.type) {
         case "NEW_MESSAGE":
           const conversation = payload.data.conversation as Conversation;
+
+          if (!conversation) return;
+
+          const pnmId = conversation.pnm._id;
+
+          if (!pnmId) return;
+
           addConversations([conversation]);
+          addMessage(pnmId, conversation.messages[0] || {});
           break;
       }
 

@@ -16,9 +16,9 @@ import { useNavigation } from "@react-navigation/native";
 
 import errors from "@/lib/errors";
 import messagingApi from "@/api/api/messaging";
-import useContactsStore from "@/state/contacts";
-import useConversationsStore from "@/state/conversations";
-import { ConversationStatus } from "@/state/conversations";
+import useContactsStore from "@/state/messaging/contacts";
+import useConversationsStore from "@/state/messaging/conversations";
+import { ConversationStatus } from "@/state/messaging/conversations";
 
 const useMassMessager = (pnms: PNM[]) => {
   const navigation = useNavigation();
@@ -29,9 +29,6 @@ const useMassMessager = (pnms: PNM[]) => {
   const setStatus = useConversationsStore((s) => s.setStatus);
   const addConversations = useConversationsStore((s) => s.addConversations);
   const removeContactsFrom = useContactsStore((s) => s.removeContactsFrom);
-
-  // We only allow the removal of PNMs if there are more than 2, otherwise its not a mass message
-  const allowPnmRemoval = filteredPnms.length > 2;
 
   const sendMessageMutation = useMutation({
     mutationFn: (input: SendMessageInput) => {
@@ -64,9 +61,12 @@ const useMassMessager = (pnms: PNM[]) => {
         throw new Error("No conversations were created");
       }
 
-      setStatus(ConversationStatus.Sent);
+      // Reverse the order of the conversations to be in chronological order
+      conversations.reverse();
+
       addConversations(conversations);
-      removeContactsFrom("uncontactedPnms", pnms);
+      setStatus(ConversationStatus.Sent);
+      removeContactsFrom("uncontactedPnms", payload.pnms);
     } catch (error) {
       errors.handleApiError(error);
       setStatus(ConversationStatus.Failed);
@@ -75,7 +75,6 @@ const useMassMessager = (pnms: PNM[]) => {
 
   return {
     ...sendMessageMutation,
-    allowPnmRemoval,
     pnms: filteredPnms,
     removePnm,
     sendMessage,

@@ -11,6 +11,7 @@
  */
 
 interface Organization {
+  _id: string;
   // IDENTIFYING INFORMATION
   // Organizations name (IE: Alpha Phi)
   name: string;

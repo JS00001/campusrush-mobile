@@ -285,8 +285,8 @@ const DevEnvironment: React.FC = ({}) => {
                         },
                       },
                     ]}
-                    onPressAction={() => {
-                      AsyncStorage.removeItem(key);
+                    onPressAction={async () => {
+                      await AsyncStorage.removeItem(key);
                       fetchAsyncStorageData();
                     }}
                     shouldOpenOnLongPress

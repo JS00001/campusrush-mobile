@@ -35,6 +35,7 @@ export interface ConversationsState {
 
   setStatus: (status: ConversationStatus) => void;
 
+  getConversation: (pnmId: string) => Conversation | undefined;
   deleteConversation: (pnmId: string) => void;
   updateConversation: (conversation: Conversation) => void;
   addConversations: (conversation: Conversation[]) => void;
@@ -43,12 +44,18 @@ export interface ConversationsState {
 
 const useConversationsStore = create<ConversationsState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       /**
        * The default state of the store
        */
       ...defaultState,
 
+      /**
+       * Gets the conversation with the given pnmId
+       */
+      getConversation: (pnmId) => {
+        return get().conversations.find((c) => c.pnm._id === pnmId);
+      },
       /**
        * Updates a conversation in the store if its id exists
        */

@@ -28,16 +28,17 @@ import { usePreferences } from "@/providers/Preferences";
 import { TextInputWithNoFontScaling } from "@/ui/TextInput/TextInput";
 
 interface MessageBoxProps {
+  disableSend?: boolean;
   onSend: (message: string) => void;
 }
 
-const MessageBox: React.FC<MessageBoxProps> = ({ onSend }) => {
+const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
   // The message value that is to be sent
   const [value, setValue] = useState<string>("");
   // The preferences
   const { messagingTooltipSeen, updatePreferences } = usePreferences();
   // Whether or not the send button should be disabled (if there is no message)
-  const isButtonDisabled = value.length === 0;
+  const isButtonDisabled = value.length === 0 || disableSend;
 
   // When the send button is pressed, send the message
   const onSendPress = () => {

@@ -11,9 +11,9 @@
  */
 
 import usePnmsStore from "./pnms";
-import useContactsStore from "./contacts";
+import useContactsStore from "./messaging/contacts";
 import useStatisticsStore from "./statistics";
-import useConversationsStore from "./conversations";
+import useConversationsStore from "./messaging/conversations";
 
 const useZustandStore = () => {
   // PNMs store

@@ -94,7 +94,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
         >
           {pnms.map((pnm, index) => {
             const onPnmRemovePress = () => {
-              if (onPnmRemove) {
+              if (onPnmRemove && pnms.length > 2) {
                 onPnmRemove(pnm);
               }
             };
@@ -103,7 +103,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
               <Badge
                 key={index}
                 size="md"
-                removable
+                removable={pnms.length > 2}
                 onRemove={onPnmRemovePress}
               >
                 {pnm.firstName + " " + pnm.lastName}
