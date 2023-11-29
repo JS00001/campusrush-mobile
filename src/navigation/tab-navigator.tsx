@@ -25,6 +25,7 @@ import {
 import tw from "@/lib/tailwind";
 import { useAuth } from "@/providers/Auth";
 import { useBottomSheets } from "@/providers/BottomSheet";
+import useConversationsStore from "@/state/messaging/conversations";
 
 export const Tab = createBottomTabNavigator();
 
@@ -37,6 +38,10 @@ export const Tab = createBottomTabNavigator();
 export const TabNavigator = () => {
   const { organization } = useAuth();
   const { handlePresentModalPress } = useBottomSheets();
+
+  const hasUnreadConversation = useConversationsStore(
+    (s) => s.conversations.filter((c) => !c.read).length > 0,
+  );
 
   const onAddTabPress = () => {
     handlePresentModalPress("ADD_PNM");
@@ -124,6 +129,16 @@ export const TabNavigator = () => {
         component={MessagesStack}
         options={{
           tabBarLabel: "Messages",
+          tabBarBadge: hasUnreadConversation ? "" : undefined,
+          tabBarBadgeStyle: {
+            top: 4,
+            minWidth: 10,
+            maxHeight: 10,
+            borderRadius: 5,
+            fontSize: 10,
+            lineHeight: 13,
+            alignSelf: undefined,
+          },
           tabBarIcon: ({ color, focused }) =>
             focused ? (
               <Icon

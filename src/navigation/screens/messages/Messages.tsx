@@ -24,7 +24,7 @@ import ActionButton from "@/ui/ActionButton";
 import Conversations from "@/components/Conversations";
 import useConversations from "@/hooks/useConversations";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import { ConversationStatus } from "@/state/conversations";
+import { ConversationStatus } from "@/state/messaging/conversations";
 
 interface MessagesProps {
   navigation: NativeStackNavigationProp<any>;

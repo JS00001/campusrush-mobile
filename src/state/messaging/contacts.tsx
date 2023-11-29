@@ -39,8 +39,8 @@ interface ContactsState {
   setContacts(field: ContactType, pnms: PNM[]): void;
   addContactTo(field: ContactType, pnm: PNM): void;
   addContactsTo(field: ContactType, pnms: PNM[]): void;
-  removeContactFrom(field: ContactType, pnm: PNM): void;
-  removeContactsFrom(field: ContactType, pnms: PNM[]): void;
+  removeContactFrom(field: ContactType, pnmId: string): void;
+  removeContactsFrom(field: ContactType, pnmsIds: string[]): void;
 }
 
 const useContactsStore = create<ContactsState>()(
@@ -68,18 +68,16 @@ const useContactsStore = create<ContactsState>()(
       /**
        * Removes a PNM from a field
        */
-      removeContactFrom: (field, pnm) =>
+      removeContactFrom: (field, pnmId) =>
         set((state) => ({
-          [field]: state[field].filter((p) => p._id !== pnm._id),
+          [field]: state[field].filter((p) => p._id !== pnmId),
         })),
       /**
        * Removes a list of PNMs from a field
        */
-      removeContactsFrom: (field, pnms) =>
+      removeContactsFrom: (field, pnmsIds) =>
         set((state) => ({
-          [field]: state[field].filter(
-            (p) => !pnms.some((pnm) => pnm._id === p._id),
-          ),
+          [field]: state[field].filter((p) => !pnmsIds.includes(p._id)),
         })),
       /**
        * Sets the PNMs in a field

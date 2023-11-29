@@ -10,13 +10,12 @@
  * Do not distribute
  */
 
-import { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
 import ChatHeader from "@/components/ChatHeader";
 import MessageBox from "@/components/MessageBox";
-import useMessageSender from "@/hooks/messaging/useMessageSender";
+import useMassMessager from "@/hooks/messaging/useMassMessager";
 
 interface NewMessageProps {
   route: any;
@@ -27,24 +26,13 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
   // Define the pnms from the route params
   const routePnms = route.params.pnms;
 
-  // Import the functions needed to send messages and manage the PNMS that messages
-  // are being sent to
-  const { pnms, sendMessage, onPnmRemove } = useMessageSender(routePnms);
-
-  useEffect(() => {
-    // If the pnms length falls to one, replace the current screen with the chat one.
-    if (pnms.length === 1) {
-      navigation.replace("Chat", {
-        pnm: pnms[0],
-      });
-    }
-  }, [pnms.length]);
+  const { pnms, sendMessage, removePnm } = useMassMessager(routePnms);
 
   return (
     <>
       <Layout scrollable gap={8}>
         <Layout.CustomHeader>
-          <ChatHeader pnms={pnms} onPnmRemove={onPnmRemove} />
+          <ChatHeader pnms={pnms} onPnmRemove={removePnm} />
         </Layout.CustomHeader>
 
         <Layout.Footer keyboardAvoiding>
