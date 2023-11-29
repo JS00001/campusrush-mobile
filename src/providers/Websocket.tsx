@@ -39,75 +39,58 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [messages, setMessages] = useState<string[]>([]);
 
+  // Get the addMessage function from the messages store
+  const addMessage = useMessagesStore((s) => s.addMessage);
+
   // Get the addConversations function from the conversations store
   const addConversations = useConversationsStore((s) => s.addConversations);
-
-  // Get the addConversations function from the messages store
-  const addMessage = useMessagesStore((s) => s.addMessage);
 
   /**
    * Connects to the websocket with the given access token
    * @param accessToken The access token to connect with
    */
   const connect = (accessToken: string) => {
-    // If there is an existing websocket, close it
-    if (ws) ws.close();
+    let reconnectAttempts = 0;
+
+    // If there is an existing websocket that is OPEN, return
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      console.info("[WEBSOCKET] Already connected to %s", WEBSOCKET_URL);
+      return;
+    }
+
+    // If there is a websocket that is not open but exists, close it
+    if (ws) {
+      ws.close();
+    }
 
     // Create a new websocket with the access token as the header
     const newWs = new WebSocket(WEBSOCKET_URL, accessToken);
 
+    // When an error occurs, call onError to handle it
+    newWs.onerror = onError;
+
+    // When a message is received, call onMessage to handle it
+    newWs.onmessage = onMessage;
+
+    // When the websocket is opened, set the websocket and reset the reconnectAttempts
     newWs.onopen = () => {
       console.info("[WEBSOCKET] Connected to %s", WEBSOCKET_URL);
       setWs(newWs);
+      reconnectAttempts = 0;
     };
 
-    newWs.onclose = () => {
+    // When the websocket is closed, check the reason and code
+    newWs.onclose = (event) => {
       console.info("[WEBSOCKET] Disconnected from %s", WEBSOCKET_URL);
+
+      const { code, reason } = event;
+
+      if (code !== 1000 && reason !== "CLIENT_CLOSE") {
+        reconnect(accessToken, reconnectAttempts);
+        return;
+      }
+
       setWs(null);
-    };
-
-    newWs.onerror = (error) => {
-      console.log("Websocket error", error);
-    };
-
-    newWs.onmessage = (message) => {
-      // Get the data from the message
-      const data = message.data;
-
-      // Ensure that the data is a valid JSON string
-      const { isValid, parsedJSON } = isJSON(data);
-
-      // If the data is not a valid JSON string, return
-      if (!isValid) return;
-
-      // Ensure that the parsedData matches with SocketMessage
-      const payload = parsedJSON as SocketMessage;
-
-      // Add the message to the messages state
-      setMessages((messages) => [data, ...messages]);
-
-      switch (payload.type) {
-        case "NEW_MESSAGE":
-          const conversation = payload.data.conversation as Conversation;
-
-          if (!conversation) return;
-
-          const pnmId = conversation.pnm._id;
-
-          if (!pnmId) return;
-
-          addConversations([conversation]);
-          addMessage(pnmId, conversation.messages[0] || {});
-          break;
-      }
-
-      if (payload.notification) {
-        Toast.show({
-          type: "info",
-          text1: payload.notification.title,
-          text2: payload.notification.body,
-        });
-      }
     };
   };
 
@@ -116,10 +99,77 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
    */
   const disconnect = () => {
     // If there is an existing websocket, close it
-    if (ws) ws.close();
+    if (ws) {
+      ws.close(1000, "CLIENT_CLOSE");
+    }
+  };
 
-    // Set the websocket to null
-    setWs(null);
+  /**
+   * Reconnection
+   */
+  const reconnect = (accessToken: string, reconnectAttempts: number) => {
+    if (reconnectAttempts > 5) {
+      console.info(
+        "[WEBSOCKET] Failed to connect to %s after 5 attempts",
+        WEBSOCKET_URL,
+      );
+      return;
+    }
+
+    setTimeout(() => {
+      connect(accessToken);
+      reconnectAttempts++;
+    }, 2000);
+  };
+
+  /**
+   * Manage websocket.onmessage
+   */
+  const onMessage = (message: MessageEvent<any>) => {
+    // Get the data from the message
+    const data = message.data;
+
+    // Ensure that the data is a valid JSON string
+    const { isValid, parsedJSON } = isJSON(data);
+
+    // If the data is not a valid JSON string, return
+    if (!isValid) return;
+
+    // Ensure that the parsedData matches with SocketMessage
+    const payload = parsedJSON as SocketMessage;
+
+    // Add the message to the messages state
+    setMessages((messages) => [data, ...messages]);
+
+    switch (payload.type) {
+      case "NEW_MESSAGE":
+        const conversation = payload.data.conversation as Conversation;
+
+        if (!conversation) return;
+
+        const pnmId = conversation.pnm._id;
+
+        if (!pnmId) return;
+
+        addConversations([conversation]);
+        addMessage(pnmId, conversation.messages[0] || {});
+        break;
+    }
+
+    if (payload.notification) {
+      Toast.show({
+        type: "info",
+        text1: payload.notification.title,
+        text2: payload.notification.body,
+      });
+    }
+  };
+
+  /**
+   * Manage websocket.onerror
+   */
+  const onError = (event: Event) => {
+    console.log("Websocket error", event);
   };
 
   return (

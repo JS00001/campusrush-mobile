@@ -78,7 +78,6 @@ const useMessagesStore = create<MessagesState>((set, get) => ({
    * Adds a message to the store
    */
   addMessage: (pnmId, message) => {
-    console.log("Adding message");
     set((prev) => {
       const prevMessages = prev.messages[pnmId] || [];
 
