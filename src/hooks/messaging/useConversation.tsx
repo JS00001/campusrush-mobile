@@ -73,18 +73,30 @@ const useConversation = (pnmId: string) => {
     if (data) {
       const firstConversation = data[0].data.data.conversation;
 
-      if (data.length === 1) {
-        // Ensure there is a first conversation
-        if (firstConversation) addConversations([firstConversation]);
-      }
-
+      // Flatten the data to get the messages, and filter out any null messages
       const messagesData = data.flatMap((page) => {
         const messages = page.data.data.conversation?.messages || [];
         const filteredMessages = messages.filter(Boolean);
         return filteredMessages;
       });
 
-      setMessages(pnmId, messagesData);
+      // Check if the messagesData is behind (has less messages than the state)
+      // If it is, we dont want to set the state to the new data, this is because the
+      // "messagesData" is using the cached data, not the new data
+      const messagesState = messages || [];
+      const messagesDataLength = messagesData.length;
+      const messagesStateLength = messagesState.length;
+
+      const isBehind = messagesDataLength < messagesStateLength;
+
+      if (data.length === 1) {
+        // Ensure there is a first conversation
+        if (firstConversation && !isBehind) {
+          addConversations([firstConversation]);
+        }
+      }
+
+      if (!isBehind) setMessages(pnmId, messagesData);
     }
   };
 
