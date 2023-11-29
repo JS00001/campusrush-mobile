@@ -139,14 +139,14 @@ const FeatureRow: React.FC<FeatureRowProps> = ({
     true: (
       <RemixIcon
         name="ri-checkbox-circle-line"
-        size={24}
+        size={20}
         color={tw.color(`green-500`)}
       />
     ),
     false: (
       <RemixIcon
         name="ri-close-circle-line"
-        size={24}
+        size={20}
         color={tw.color(`slate-400`)}
       />
     ),
