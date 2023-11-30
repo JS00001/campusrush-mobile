@@ -75,6 +75,7 @@ const useCreatePnm = (): UseCreatePnm => {
       // Attempt to update the organization
       response = await mutation.mutateAsync(values);
     } catch (error) {
+      form.resetForm();
       errors.handleApiError(error, form);
     }
     // If there was an error, prevent the "success" code from running

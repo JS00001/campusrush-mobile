@@ -21,6 +21,7 @@ import { useWebsocket } from "@/providers/Websocket";
 
 interface AuthContextProps {
   isLoading: boolean;
+  isPro: boolean;
   accessToken: string | null;
   refreshToken: string | null;
   organization: Organization;
@@ -278,6 +279,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
         refreshToken,
         organization,
         billingData,
+        isPro: organization.entitlements?.includes("pro") ?? false,
 
         refetchBillingData,
 

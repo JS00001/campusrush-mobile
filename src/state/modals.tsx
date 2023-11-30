@@ -14,10 +14,11 @@ import { create } from "zustand";
 
 import type { ModalProps } from "@/components/Modals/types";
 
-import WarningModal from "@/components/Modals/Warning";
 import InfoModal from "@/components/Modals/Info";
-import SuccessModal from "@/components/Modals/Success";
 import ErrorModal from "@/components/Modals/Error";
+import WarningModal from "@/components/Modals/Warning";
+import UpgradeModal from "@/components/Modals/Upgrade";
+import SuccessModal from "@/components/Modals/Success";
 
 /**
  * All modals that can be opened
@@ -82,6 +83,20 @@ export const ModalComponents = {
       primaryButtonAction: () => undefined,
     } as Partial<ModalProps>,
   },
+  /**
+   * Upgrade modal, just renders an upgrade icon and a message and a "close" button
+   */
+  UPGRADE: {
+    open: false,
+    component: UpgradeModal,
+    props: {
+      message: "This is an upgrade",
+      secondaryButtonText: "No Thanks",
+      secondaryButtonAction: () => undefined,
+      primaryButtonText: undefined,
+      primaryButtonAction: () => undefined,
+    } as Partial<ModalProps>,
+  },
 };
 
 export interface ModalsState {
@@ -126,7 +141,10 @@ const useModalsStore = create<ModalsState>()((set) => ({
           [name]: {
             ...state.modals[name],
             open: true,
-            props,
+            props: {
+              ...state.modals[name].props,
+              ...props,
+            },
           },
         },
       };
