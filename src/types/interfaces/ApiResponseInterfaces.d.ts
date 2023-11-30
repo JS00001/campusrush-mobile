@@ -215,11 +215,20 @@ type GetContactsAPIResponse = APIResponse & {
   };
 };
 
-type SendMessageAPIResponse = APIResponse & {
+type SendMassMessageAPIResponse = APIResponse & {
   data: {
     data: {
       conversations: Conversation[];
       messages: Message[];
+    };
+  };
+};
+
+type SendDirectMessageAPIResponse = APIResponse & {
+  data: {
+    data: {
+      conversation: Conversation;
+      message: Message;
     };
   };
 };

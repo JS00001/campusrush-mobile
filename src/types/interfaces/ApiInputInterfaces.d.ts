@@ -92,8 +92,13 @@ interface GetConversationsInput {
   offset: number;
 }
 
-interface SendMessageInput {
+interface SendMassMessageInput {
   pnms: string[];
+  message: string;
+}
+
+interface SendDirectMessageInput {
+  pnm: string;
   message: string;
 }
 

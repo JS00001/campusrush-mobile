@@ -85,7 +85,10 @@ const useConversations = () => {
 
   // If a message has been sent, remove the status after 2 seconds
   useEffect(() => {
-    if (status === ConversationStatus.Sent) {
+    if (
+      status === ConversationStatus.Sent ||
+      status === ConversationStatus.Failed
+    ) {
       setTimeout(() => {
         setStatus(ConversationStatus.Idle);
       }, 2000);
@@ -118,19 +121,6 @@ const useConversations = () => {
         break;
     }
   }, [searchQuery, selectedFilter, conversations]);
-
-  // Method to set a conversation as read
-  const setConversationAsRead = (pnmId: string) => {
-    // Find the conversation with the given pnm id
-    conversations.map((conversation) => {
-      if (conversation.pnm._id === pnmId) {
-        updateConversation({
-          ...conversation,
-          read: true,
-        });
-      }
-    });
-  };
 
   // Handle the filter press event
   const onFilterPress = (e: any) => {
@@ -167,7 +157,6 @@ const useConversations = () => {
     addConversations,
     onFilterPress,
     setSearchQuery,
-    setConversationAsRead,
   };
 };
 

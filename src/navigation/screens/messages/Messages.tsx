@@ -62,9 +62,15 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
             {status == ConversationStatus.Sent && (
               <RemixIcon name="ri-check-line" size={36} color="white" />
             )}
+            {status == ConversationStatus.Failed && (
+              <RemixIcon name="ri-close-line" size={36} color="white" />
+            )}
           </StatusIcon.Icon>
           {status == ConversationStatus.Sent && (
             <StatusIcon.Text>Sent!</StatusIcon.Text>
+          )}
+          {status == ConversationStatus.Failed && (
+            <StatusIcon.Text>Failed to send</StatusIcon.Text>
           )}
         </StatusIcon>
       )}

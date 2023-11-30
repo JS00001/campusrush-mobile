@@ -52,8 +52,8 @@ const useConversation = (pnmId: string) => {
   });
 
   const sendMessageMutation = useMutation({
-    mutationFn: (input: SendMessageInput) => {
-      return messagingApi.sendMessage(input);
+    mutationFn: (input: SendDirectMessageInput) => {
+      return messagingApi.sendDirectMessage(input);
     },
   });
 
@@ -101,9 +101,9 @@ const useConversation = (pnmId: string) => {
   };
 
   const sendMessage = async (content: string) => {
-    const payload: SendMessageInput = {
+    const payload: SendDirectMessageInput = {
       message: content,
-      pnms: [pnmId],
+      pnm: pnmId,
     };
 
     const message: Message = {
@@ -120,21 +120,17 @@ const useConversation = (pnmId: string) => {
 
     try {
       const response = await sendMessageMutation.mutateAsync(payload);
-      const conversations = response.data.data.conversations;
-      const messages = response.data.data.messages;
+      const conversation = response.data.data.conversation;
+      const message = response.data.data.message;
 
-      if (conversations.length === 0) {
-        throw new Error("No conversations were created");
+      if (!conversation || !message) {
+        throw new Error("No conversation or message was created");
       }
 
-      if (messages.length === 0) {
-        throw new Error("No messages were created");
-      }
-
-      addConversations(conversations);
+      addConversations([conversation]);
       // We need to replace the temp message, otherwise we cant add a new message
       // because the "temp" id will already exist
-      replaceMessage(pnmId, "temp", messages[0]);
+      replaceMessage(pnmId, "temp", message);
       removeContactFrom("uncontactedPnms", pnmId);
     } catch (error) {
       console.log(error);

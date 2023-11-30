@@ -64,20 +64,35 @@ const getContacts = (): Promise<GetContactsAPIResponse> => {
 };
 
 /**
- * POST /api/v1/messaging/send
+ * POST /api/v1/messaging/send/mass
  *
  * Returns
  * - data
  *  - conversations
+ *  - messages
  */
 // prettier-ignore
-const sendMessage = (data: SendMessageInput): Promise<SendMessageAPIResponse> => {
-  return messagingAPIClient.post(`${PREFIX}/send`, data);
+const sendMassMessage = (data: SendMassMessageInput): Promise<SendMassMessageAPIResponse> => {
+  return messagingAPIClient.post(`${PREFIX}/send/mass`, data);
+};
+
+/**
+ * POST /api/v1/messaging/send/direct
+ *
+ * Returns
+ * - data
+ *  - conversation
+ *  - message
+ */
+// prettier-ignore
+const sendDirectMessage = (data: SendDirectMessageInput): Promise<SendDirectMessageAPIResponse> => {
+  return messagingAPIClient.post(`${PREFIX}/send/direct`, data);
 };
 
 export default {
   getConversation,
   getConversations,
   getContacts,
-  sendMessage,
+  sendMassMessage,
+  sendDirectMessage,
 };

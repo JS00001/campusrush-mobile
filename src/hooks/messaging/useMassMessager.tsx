@@ -33,8 +33,8 @@ const useMassMessager = (pnms: PNM[]) => {
   const addMessages = useMessagesStore((s) => s.addMessage);
 
   const sendMessageMutation = useMutation({
-    mutationFn: (input: SendMessageInput) => {
-      return messagingApi.sendMessage(input);
+    mutationFn: (input: SendMassMessageInput) => {
+      return messagingApi.sendMassMessage(input);
     },
   });
 
@@ -47,7 +47,7 @@ const useMassMessager = (pnms: PNM[]) => {
 
   // Send a message to the PNMs in the list
   const sendMessage = async (content: string) => {
-    const payload: SendMessageInput = {
+    const payload: SendMassMessageInput = {
       message: content,
       pnms: filteredPnms.map((pnm) => pnm._id),
     };
