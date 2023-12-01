@@ -33,6 +33,9 @@ export default {
     revenueCat: {
       publicKey: 'appl_cjerjYwfjLIGoYMsbLhqPxeeqwp',
     },
+    sentry: {
+      dsn: 'https://e67ab04c64431925a12476788c0e22a9@o4506311638843392.ingest.sentry.io/4506317292175360',
+    },
   },
   updates: {
     url: 'https://u.expo.dev/9e0d874e-cc30-4dca-ae7e-9609b121b1ae',
@@ -42,6 +45,7 @@ export default {
   },
   owner: 'js00001',
   plugins: [
+    'sentry-expo',
     [
       'expo-sensors',
       {
@@ -49,4 +53,15 @@ export default {
       },
     ],
   ],
+  hooks: {
+    postPublish: [
+      {
+        file: 'sentry-expo/upload-sourcemaps',
+        config: {
+          organization: 'campusrush',
+          project: 'campusrush-mobile',
+        },
+      },
+    ],
+  },
 };

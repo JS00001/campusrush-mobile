@@ -62,7 +62,7 @@ const useCreatePnm = (): UseCreatePnm => {
       snapchat: "",
     },
     onSubmit: async (values) => {
-      onSubmit(values);
+      await onSubmit(values);
     },
   });
 

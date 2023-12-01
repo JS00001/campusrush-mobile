@@ -25,16 +25,23 @@ const UpgradeModal: React.FC<ModalProps> = ({
   open,
   close,
   message,
+  primaryButtonAction,
+  primaryButtonText,
   secondaryButtonText,
   secondaryButtonAction,
 }) => {
   const navigation = useNavigation();
 
   const onPrimaryButtonPress = () => {
-    (navigation.navigate as any)("SettingsTab", {
-      screen: "UpdateBilling",
-      initial: false,
-    });
+    if (!primaryButtonAction) {
+      (navigation.navigate as any)("SettingsTab", {
+        screen: "UpdateBilling",
+        initial: false,
+      });
+    } else {
+      primaryButtonAction();
+    }
+
     close();
   };
 
@@ -48,7 +55,7 @@ const UpgradeModal: React.FC<ModalProps> = ({
       <UpgradeIcon />
 
       <View style={tw`w-full items-center`}>
-        <Text variant="title">Upgrade to Access</Text>
+        <Text variant="title">Upgrade for More!</Text>
 
         <Text variant="body" style={tw`text-center`}>
           {message}
@@ -67,14 +74,16 @@ const UpgradeModal: React.FC<ModalProps> = ({
           </Button>
         )}
 
-        <Button
-          size="sm"
-          style={tw`bg-primary px-2`}
-          onPress={onPrimaryButtonPress}
-          textStyle={tw`text-white`}
-        >
-          Upgrade
-        </Button>
+        {primaryButtonText && (
+          <Button
+            size="sm"
+            style={tw`bg-primary px-2`}
+            onPress={onPrimaryButtonPress}
+            textStyle={tw`text-white`}
+          >
+            {primaryButtonText}
+          </Button>
+        )}
       </ButtonGroup>
     </ModalWrapper>
   );

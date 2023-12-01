@@ -133,7 +133,36 @@ const AxiosIntercepter: React.FC<{ children?: React.ReactNode }> = ({
               Content.missingEntitlementError.secondaryButton,
           },
         });
-        return Promise.reject(error);
+
+        return;
+      }
+
+      // If the has reached a limit on their entitlements, they need to upgrade their subscription
+      // prettier-ignore
+      if (responseData.error?.message == "UPGRADABLE_ENTITLEMENT_LIMIT_REACHED") {
+        openModal({
+          name: "UPGRADE",
+          props: {
+            message: responseData.error?.humanMessage || "",
+          }
+        })
+
+        return;
+      }
+
+      // If the user has reached the maximum limit on their entitlements, and there is no upgrade available, they cant upgrade
+      // prettier-ignore
+      if (responseData.error?.message == "MAXIMUM_ENTITLEMENT_LIMIT_REACHED") {
+        openModal({
+          name: "WARNING",
+          props: {
+            message: responseData.error?.humanMessage || "",
+            primaryButtonText: "Go Back",
+            primaryButtonAction: () => undefined,
+          },
+        })
+
+        return;
       }
 
       return Promise.reject(error);

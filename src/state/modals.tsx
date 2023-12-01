@@ -92,9 +92,9 @@ export const ModalComponents = {
     props: {
       message: "This is an upgrade",
       secondaryButtonText: "No Thanks",
-      secondaryButtonAction: () => undefined,
-      primaryButtonText: undefined,
-      primaryButtonAction: () => undefined,
+      secondaryButtonAction: undefined,
+      primaryButtonText: "Upgrade",
+      primaryButtonAction: undefined,
     } as Partial<ModalProps>,
   },
 };

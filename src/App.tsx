@@ -27,6 +27,7 @@ import WebsocketProvider from "@/providers/Websocket";
 import PurchasesProvider from "@/providers/Purchases";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
+import SentryProvider from "@/providers/external/Sentry";
 import DevEnvironment from "@/components/DevEnvironment";
 import BottomSheetProvider from "@/providers/BottomSheet";
 import PreferencesProvider from "@/providers/Preferences";
@@ -43,34 +44,36 @@ if (__DEV__) startNetworkLogging();
 
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <PurchasesProvider>
-        <WebsocketProvider>
-          <AuthProvider>
-            <AxiosIntercepter>
-              <PreferencesProvider>
-                <NavigationProvider>
-                  <NotificationsProvider>
-                    <GestureHandlerRootView style={{ flex: 1 }}>
-                      <BottomSheetModalProvider>
-                        <BottomSheetProvider>
-                          <EntitlementsProvider>
-                            <Modals />
-                            <DevEnvironment />
-                            <RootNavigator />
-                            <Toast config={toastConfig} />
-                          </EntitlementsProvider>
-                        </BottomSheetProvider>
-                      </BottomSheetModalProvider>
-                    </GestureHandlerRootView>
-                  </NotificationsProvider>
-                </NavigationProvider>
-              </PreferencesProvider>
-            </AxiosIntercepter>
-          </AuthProvider>
-        </WebsocketProvider>
-      </PurchasesProvider>
-    </QueryClientProvider>
+    <SentryProvider>
+      <QueryClientProvider client={queryClient}>
+        <PurchasesProvider>
+          <WebsocketProvider>
+            <AuthProvider>
+              <AxiosIntercepter>
+                <PreferencesProvider>
+                  <NavigationProvider>
+                    <NotificationsProvider>
+                      <GestureHandlerRootView style={{ flex: 1 }}>
+                        <BottomSheetModalProvider>
+                          <BottomSheetProvider>
+                            <EntitlementsProvider>
+                              <Modals />
+                              <DevEnvironment />
+                              <RootNavigator />
+                              <Toast config={toastConfig} />
+                            </EntitlementsProvider>
+                          </BottomSheetProvider>
+                        </BottomSheetModalProvider>
+                      </GestureHandlerRootView>
+                    </NotificationsProvider>
+                  </NavigationProvider>
+                </PreferencesProvider>
+              </AxiosIntercepter>
+            </AuthProvider>
+          </WebsocketProvider>
+        </PurchasesProvider>
+      </QueryClientProvider>
+    </SentryProvider>
   );
 };
 

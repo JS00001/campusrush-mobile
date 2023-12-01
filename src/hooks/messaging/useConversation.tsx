@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import Sentry from "sentry-expo";
 import { useEffect } from "react";
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 
@@ -133,7 +134,7 @@ const useConversation = (pnmId: string) => {
       replaceMessage(pnmId, "temp", message);
       removeContactFrom("uncontactedPnms", pnmId);
     } catch (error) {
-      console.log(error);
+      Sentry.Native.captureException(error);
     }
   };
 
