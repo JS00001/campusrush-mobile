@@ -17,6 +17,9 @@ import { AddPnmScreens } from "./types";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ActionCard from "@/ui/ActionCard";
+import Content from "@/constants/content";
+import { useAuth } from "@/providers/Auth";
+import useModalsStore from "@/state/modals";
 
 interface AddPnmProps {
   handleCloseModalPress: () => void;
@@ -27,12 +30,27 @@ const AddPnm: React.FC<AddPnmProps> = ({
   setScreen,
   handleCloseModalPress,
 }) => {
+  const { isPro } = useAuth();
+  const { openModal } = useModalsStore();
+
   const onAddPnmManuallyPress = () => {
     setScreen(AddPnmScreens.AddManualStep1);
   };
 
   const onAddPnmQrCodePress = () => {
-    setScreen(AddPnmScreens.AddQrCode);
+    if (isPro) {
+      setScreen(AddPnmScreens.AddQrCode);
+      return;
+    }
+
+    openModal({
+      name: "UPGRADE",
+      props: {
+        message: Content.addPNM.shareQRCodeUpgrade,
+      },
+    });
+
+    handleCloseModalPress();
   };
 
   return (
@@ -51,7 +69,8 @@ const AddPnm: React.FC<AddPnmProps> = ({
         onPress={onAddPnmManuallyPress}
       />
       <ActionCard
-        title="Share QR Code"
+        enforceProPlan
+        title="Share QR Code or Link"
         subtitle="Share a QR code with a PNM"
         icon="ri-qr-code-fill"
         onPress={onAddPnmQrCodePress}

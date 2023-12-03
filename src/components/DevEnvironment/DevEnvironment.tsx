@@ -11,8 +11,8 @@
  */
 
 import lodash from "lodash";
+import { View } from "react-native";
 import { DeviceMotion } from "expo-sensors";
-import { View, Pressable } from "react-native";
 import { MenuView } from "@react-native-menu/menu";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import NetworkLogger from "react-native-network-logger";
@@ -28,6 +28,8 @@ import { formatJSON } from "@/lib/string";
 import { useAuth } from "@/providers/Auth";
 import SegmentedControl from "@/ui/SegmentedControl";
 import { usePreferences } from "@/providers/Preferences";
+import BottomSheetBackdrop from "../BottomSheets/Components/BottomSheetBackdrop";
+import { useWebsocket } from "@/providers/Websocket";
 
 const DevEnvironment: React.FC = ({}) => {
   const { updatePreferences } = usePreferences();
@@ -39,6 +41,8 @@ const DevEnvironment: React.FC = ({}) => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   // Create state for all the data from async storage
   const [asyncStorageData, setAsyncStorageData] = useState<any>({});
+  // Create state for async storage size
+  const [asyncStorageSize, setAsyncStorageSize] = useState<string>("");
 
   // Memoized snap points (When the bottom sheet modal is open)
   const snapPoints = useMemo(() => ["75%"], []);
@@ -61,6 +65,23 @@ const DevEnvironment: React.FC = ({}) => {
 
     setAsyncStorageData(data);
   };
+
+  useEffect(() => {
+    const bytes = JSON.stringify(asyncStorageData).length;
+
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+
+    if (bytes === 0) return setAsyncStorageSize("0 Bytes");
+
+    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString());
+
+    const result = Math.round(bytes / Math.pow(1024, i)) + " " + sizes[i];
+
+    setAsyncStorageSize(result);
+  }, [asyncStorageData]);
+
+  // Get the websocket data from the websocket provider
+  const { data } = useWebsocket();
 
   // Listen for shake gesture if we are in development mode
   useEffect(() => {
@@ -87,16 +108,11 @@ const DevEnvironment: React.FC = ({}) => {
         index={0}
         snapPoints={snapPoints}
         // Make clicking outside the bottom sheet modal dismiss it
-        backdropComponent={() => (
-          <Pressable
-            style={tw`h-full w-full absolute bg-black opacity-20`}
-            onPress={handleCloseModalPress}
-          />
-        )}
+        backdropComponent={BottomSheetBackdrop}
       >
         <View style={tw`w-full px-4 py-2`}>
           <SegmentedControl
-            values={["Network", "Overrides", "Debug Info", "Storage"]}
+            values={["Net ", "Ovrd", "Debug", "Store", "Ws"]}
             selectedIndex={activeIndex}
             onChange={(event) => {
               setActiveIndex(event.nativeEvent.selectedSegmentIndex);
@@ -210,7 +226,7 @@ const DevEnvironment: React.FC = ({}) => {
                   Current Organization
                 </Text>
                 <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
-                  <Text>
+                  <Text style={tw`text-black text-[10px] leading-3`}>
                     {JSON.stringify(organization, null, 2).slice(1, -1)}
                   </Text>
                 </View>
@@ -241,7 +257,7 @@ const DevEnvironment: React.FC = ({}) => {
                   RevenueCat Entitlement Information
                 </Text>
                 <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
-                  <Text>
+                  <Text style={tw`text-black text-[10px] leading-3`}>
                     {JSON.stringify(billingData?.entitlements, null, 2).slice(
                       1,
                       -1,
@@ -269,6 +285,13 @@ const DevEnvironment: React.FC = ({}) => {
                 >
                   Refresh Data
                 </Button>
+
+                <Text style={tw`font-medium`} variant="body">
+                  Async Storage Size
+                </Text>
+                <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
+                  <Text>{asyncStorageSize}</Text>
+                </View>
                 <Text style={tw`font-medium`} variant="body">
                   Async Storage items
                 </Text>
@@ -285,18 +308,56 @@ const DevEnvironment: React.FC = ({}) => {
                         },
                       },
                     ]}
-                    onPressAction={() => {
-                      AsyncStorage.removeItem(key);
+                    onPressAction={async () => {
+                      await AsyncStorage.removeItem(key);
                       fetchAsyncStorageData();
                     }}
                     shouldOpenOnLongPress
                   >
                     <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
-                      <Text>
+                      <Text style={tw`text-black text-[10px] leading-3`}>
                         {key}: {formatJSON(asyncStorageData[key])}
                       </Text>
                     </View>
                   </MenuView>
+                ))}
+              </View>
+            </Layout>
+          </>
+        )}
+
+        {/* Websocket information */}
+        {activeIndex === 4 && (
+          <>
+            <Layout gap={20} scrollable contentContainerStyle={tw`pb-12`}>
+              <View style={tw`w-full gap-y-2`}>
+                <Text style={tw`w-full font-medium`} variant="body">
+                  Websocket Connection
+                </Text>
+
+                <View style={tw`bg-slate-100 p-3 rounded-md w-full`}>
+                  {!data.connected ? (
+                    <Text style={tw`text-red-500`}>Not connected</Text>
+                  ) : (
+                    <Text style={tw`text-green-500`}>Connected</Text>
+                  )}
+                </View>
+              </View>
+
+              <View style={tw`w-full gap-y-2`}>
+                <Text style={tw`w-full font-medium`} variant="body">
+                  Messages
+                </Text>
+
+                {data.messages.map((message, index) => (
+                  <View
+                    key={index}
+                    style={tw`bg-slate-100 p-2 rounded-md w-full`}
+                  >
+                    <Text style={tw`text-black text-[10px] leading-3`}>
+                      {formatJSON(message)}
+                    </Text>
+                  </View>
                 ))}
               </View>
             </Layout>

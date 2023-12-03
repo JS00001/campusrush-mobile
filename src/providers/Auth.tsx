@@ -10,19 +10,18 @@
  * Do not distribute
  */
 
-import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import Purchases, { CustomerInfo } from "react-native-purchases";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useEffect, useState, useContext } from "react";
 
 import authAPI from "@/api/auth";
-import usePnmsStore from "@/state/pnms";
-import useStatisticsStore from "@/state/statistics";
-import useConversationsStore from "@/state/conversations";
+import useZustandStore from "@/state";
+import { useWebsocket } from "@/providers/Websocket";
 
 interface AuthContextProps {
   isLoading: boolean;
+  isPro: boolean;
   accessToken: string | null;
   refreshToken: string | null;
   organization: Organization;
@@ -33,7 +32,7 @@ interface AuthContextProps {
   refetchBillingData: () => Promise<void>;
   updateOrganization: (organization: Organization) => void;
   signIn: (response: LoginAsOrganizationAPIResponse) => Promise<void>;
-  signUp: (input: RegisterAsOrganizationInput) => Promise<void | APIError>;
+  signUp: (response: RegisterAsOrganizationAPIResponse) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
@@ -57,13 +56,10 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   );
 
   // Clears all the pnms when user logs out
-  const clearPnms = usePnmsStore((state) => state.clearPnms);
-  // Clears all the statistics when user logs out
-  const clearStatistics = useStatisticsStore((state) => state.clearStatistics);
-  // Clears all the conversations when user logs out
-  const clearConversations = useConversationsStore(
-    (state) => state.clearConversations,
-  );
+  const { resetState } = useZustandStore();
+
+  // Import the websocket data
+  const websocket = useWebsocket();
 
   // Declare all AuthAPI mutations
   const refreshAccessTokenMutation = useMutation({
@@ -79,12 +75,6 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       return authAPI.getOrganization({
         accessToken,
       });
-    },
-  });
-
-  const registerAsOrganizationMutation = useMutation({
-    mutationFn: (input: RegisterAsOrganizationInput) => {
-      return authAPI.registerAsOrganization(input);
     },
   });
 
@@ -150,6 +140,8 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       setOrganization(organization);
       // Load the organization's billing data from revenue cat
       _loadBillingData(organization);
+      // Connect to the websocket
+      websocket.connect(accessToken);
     } catch (error) {
       // If the request or access token is invalid, set the loading state to false
       setOrganization({} as Organization);
@@ -219,35 +211,31 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
 
     // Load the new organization's billing data
     _loadBillingData(organization);
+    // Connect to the websocket
+    websocket.connect(accessToken);
   };
 
   // Sign up as an organization
-  const signUp = async (input: RegisterAsOrganizationInput) => {
-    try {
-      // The register response/request
-      const response = await registerAsOrganizationMutation.mutateAsync(input);
-      // The new organization data
-      const organization = response.data?.data.organization;
-      // The new access token
-      const accessToken = response.data?.data.accessToken;
-      // The new refresh token
-      const refreshToken = response.data?.data.refreshToken;
+  const signUp = async (response: RegisterAsOrganizationAPIResponse) => {
+    // The new organization data
+    const organization = response.data?.data.organization;
+    // The new access token
+    const accessToken = response.data?.data.accessToken;
+    // The new refresh token
+    const refreshToken = response.data?.data.refreshToken;
 
-      // Store the refresh token in storage
-      await AsyncStorage.setItem("refreshToken", refreshToken);
+    // Store the refresh token in storage
+    await AsyncStorage.setItem("refreshToken", refreshToken);
 
-      // Update the state for all of the new data
-      setAccessToken(accessToken);
-      setRefreshToken(refreshToken);
-      setOrganization(organization);
+    // Update the state for all of the new data
+    setAccessToken(accessToken);
+    setRefreshToken(refreshToken);
+    setOrganization(organization);
 
-      // Load the new organization's billing data
-      _loadBillingData(organization);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        return error.response?.data?.error as APIError;
-      }
-    }
+    // Load the new organization's billing data
+    _loadBillingData(organization);
+    // Connect to the websocket
+    websocket.connect(accessToken);
   };
 
   // Update the organization
@@ -277,9 +265,10 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     setRefreshToken("");
 
     // Clear all of the user data from the store
-    clearPnms();
-    clearStatistics();
-    clearConversations();
+    await resetState();
+
+    // Disconnect from the websocket
+    websocket.disconnect();
   };
 
   return (
@@ -290,6 +279,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
         refreshToken,
         organization,
         billingData,
+        isPro: organization.entitlements?.includes("pro") ?? false,
 
         refetchBillingData,
 

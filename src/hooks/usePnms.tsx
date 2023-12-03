@@ -14,13 +14,12 @@ import { useEffect, useState } from "react";
 import { MenuAction } from "@react-native-menu/menu";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import Content from "@/constants/content";
 import pnmsApi from "@/api/api/pnms";
+import useZustandStore from "@/state";
+import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import useModalsStore from "@/state/modals";
-import useStatisticsStore from "@/state/statistics";
 import usePnmsStore, { PnmsStatus } from "@/state/pnms";
-import useConversationsStore from "@/state/conversations";
 
 export enum PNMFilter {
   NoFilter = "NO_FILTER",
@@ -33,15 +32,14 @@ export enum PNMOtherOption {
 }
 
 const usePnms = () => {
-  // The default page size for pagination
-  const PAGE = 1;
-  const PAGE_SIZE = 700;
-
   // Get access token so that we can cache the query
   const { accessToken } = useAuth();
 
   // Store to open a modal, used to confirm deletion
   const { openModal } = useModalsStore();
+
+  // Store to reset the state
+  const { resetState } = useZustandStore();
 
   // Create a state variable to store the filtered PNMs and the PNMs
   const { pnms, setPnms } = usePnmsStore();
@@ -51,18 +49,6 @@ const usePnms = () => {
   const status = usePnmsStore((state) => state.status);
   const setStatus = usePnmsStore((state) => state.setStatus);
 
-  // Store to remove conversations once all PNMs are deleted
-  const setConversations = useConversationsStore(
-    (state) => state.setConversations,
-  );
-
-  // Store to update home statistics once all PNMs are deleted
-  const setCurrentPnms = useStatisticsStore((state) => state.setNumPnms);
-  const setRecentPnms = useStatisticsStore((state) => state.setRecentPnms);
-  const setNumStarredPnms = useStatisticsStore(
-    (state) => state.setNumStarredPnms,
-  );
-
   // All filtering options
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedFilter, setSelectedFilter] = useState<PNMFilter>(
@@ -71,12 +57,9 @@ const usePnms = () => {
 
   // Create a query to get the organization statistics
   const query = useQuery({
-    queryKey: ["listPnms", PAGE, accessToken],
+    queryKey: ["listPnms", accessToken],
     queryFn: async () => {
-      return pnmsApi.getPnms({
-        page: PAGE,
-        pageSize: PAGE_SIZE,
-      });
+      return pnmsApi.getPnms();
     },
     keepPreviousData: true,
   });
@@ -87,13 +70,8 @@ const usePnms = () => {
       return pnmsApi.deletePnms();
     },
     onSuccess: async () => {
-      // Remove all conversations
-      setConversations([]);
-
-      // Update the statistics
-      setRecentPnms([]);
-      setCurrentPnms(0);
-      setNumStarredPnms(0);
+      // Delete all the data from stores
+      await resetState();
 
       // Refetch the query
       await query.refetch();
@@ -162,7 +140,7 @@ const usePnms = () => {
         openModal({
           name: "ERROR",
           props: {
-            message: Content.confirmDeletePNM,
+            message: Content.confirmDeleteAllPNMs,
             secondaryButtonText: "No, Cancel",
             primaryButtonText: "Yes, Delete",
             // When the "Confirm Delete" button is pressed, delete the PNM

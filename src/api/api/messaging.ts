@@ -18,18 +18,17 @@ const messagingAPIClient = axiosClient;
 const PREFIX = '/api/v1/messaging';
 
 /**
- * GET /api/v1/messaging/messages/:pnmId
+ * GET /api/v1/messaging/conversation/:pnmId
  *
  * Returns
  * - data
- *  - messages
+ *  - conversation
  */
-const getMessages = (
-  data: GetMessagesInput,
-): Promise<GetMessagesAPIResponse> => {
+// prettier-ignore
+const getConversation = (data: GetConversationInput): Promise<GetConversationAPIResponse> => {
   const { pnmId, ...rest } = data;
 
-  return messagingAPIClient.get(`${PREFIX}/messages/${pnmId}`, {
+  return messagingAPIClient.get(`${PREFIX}/conversation/${pnmId}`, {
     params: rest,
   });
 };
@@ -41,8 +40,15 @@ const getMessages = (
  * - data
  *  - conversations
  */
-const getConversations = (): Promise<GetConversationsAPIResponse> => {
-  return messagingAPIClient.get(`${PREFIX}/conversations`);
+// prettier-ignore
+const getConversations = (data: GetConversationsInput): Promise<GetConversationsAPIResponse> => {
+  const { offset } = data;
+
+  return messagingAPIClient.get(`${PREFIX}/conversations`, {
+    params: {
+      offset,
+    },
+  });
 };
 
 /**
@@ -58,21 +64,35 @@ const getContacts = (): Promise<GetContactsAPIResponse> => {
 };
 
 /**
- * POST /api/v1/messaging/send
+ * POST /api/v1/messaging/send/mass
  *
  * Returns
  * - data
  *  - conversations
+ *  - messages
  */
-const sendMessage = (
-  data: SendMessageInput,
-): Promise<SendMessageAPIResponse> => {
-  return messagingAPIClient.post(`${PREFIX}/send`, data);
+// prettier-ignore
+const sendMassMessage = (data: SendMassMessageInput): Promise<SendMassMessageAPIResponse> => {
+  return messagingAPIClient.post(`${PREFIX}/send/mass`, data);
+};
+
+/**
+ * POST /api/v1/messaging/send/direct
+ *
+ * Returns
+ * - data
+ *  - conversation
+ *  - message
+ */
+// prettier-ignore
+const sendDirectMessage = (data: SendDirectMessageInput): Promise<SendDirectMessageAPIResponse> => {
+  return messagingAPIClient.post(`${PREFIX}/send/direct`, data);
 };
 
 export default {
-  getMessages,
+  getConversation,
   getConversations,
   getContacts,
-  sendMessage,
+  sendMassMessage,
+  sendDirectMessage,
 };

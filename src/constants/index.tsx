@@ -22,6 +22,10 @@ const AppConstants = {
    */
   revenueCatPublicKey: ExpoConstants.expoConfig?.extra?.revenueCat?.publicKey,
   /**
+   * The DSN to initialize sentry
+   */
+  sentryDsn: ExpoConstants.expoConfig?.extra?.sentry?.dsn,
+  /**
    * The keywords to custom style in messages and their descriptions
    */
   messagingKeywords: [

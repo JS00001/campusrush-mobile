@@ -10,14 +10,15 @@
  * Do not distribute
  */
 
+import { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
 import ChatHeader from "@/components/ChatHeader";
 import MessageBox from "@/components/MessageBox";
 import MessageList from "@/components/MessageList";
-import useMessages from "@/hooks/messaging/useMessages";
-import useMessageSender from "@/hooks/messaging/useMessageSender";
+import useConversation from "@/hooks/messaging/useConversation";
+import { useWebsocket } from "@/providers/Websocket";
 
 interface ChatProps {
   route: any;
@@ -28,10 +29,11 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
   // Get the pnm from the route params
   const pnm = route.params.pnm;
 
-  // Get the method to send a message
-  const { sendMessage, isLoading } = useMessageSender([pnm]);
-  // Get the messages from the pnm, and the methods to update them
-  const { messages, fetchNextPage, refetch, addMessage } = useMessages(pnm._id);
+  const { onConversationOpen, onConversationClose } = useWebsocket();
+
+  const { isLoading, messages, fetchNextPage, sendMessage } = useConversation(
+    pnm._id,
+  );
 
   // Ensure that the pnm is defined, otherwise go back
   if (!pnm) navigation.goBack();
@@ -41,13 +43,18 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
     await fetchNextPage();
   };
 
-  const onStartReached = async () => {};
-
+  // Send a message
   const onSend = async (text: string) => {
-    addMessage(text);
     await sendMessage(text);
-    await refetch();
   };
+
+  // When the component mounts, open the conversation
+  useEffect(() => {
+    onConversationOpen(pnm._id);
+    return () => {
+      onConversationClose();
+    };
+  }, []);
 
   return (
     <>
@@ -59,11 +66,11 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
         <MessageList
           messages={messages}
           onEndReached={onEndReached}
-          onStartReached={onStartReached}
+          onStartReached={async () => {}}
         />
 
         <Layout.Footer keyboardAvoiding>
-          <MessageBox onSend={onSend} />
+          <MessageBox onSend={onSend} disableSend={isLoading} />
         </Layout.Footer>
       </Layout>
     </>

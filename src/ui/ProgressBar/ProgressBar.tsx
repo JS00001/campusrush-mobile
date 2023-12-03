@@ -54,7 +54,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ loading }) => {
   );
 
   const progressStyle = tw.style(
-    "h-full w-36 bg-blue-800 overflow-hidden absolute",
+    "h-full w-24 bg-blue-800 overflow-hidden absolute",
     {
       left: position.interpolate({
         inputRange: [0, 1],

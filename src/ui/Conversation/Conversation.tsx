@@ -70,7 +70,7 @@ const Conversation: React.FC<ConversationProps> = ({ conversation }) => {
       {/* Timestamp */}
       <View style={tw`h-full `}>
         <Text style={tw`text-slate-400`} variant="subtext">
-          {date.timeAgo(conversation.lastMessageAt)}
+          {date.timeAgo(conversation.lastMessageSentAt)}
         </Text>
       </View>
     </TouchableOpacity>

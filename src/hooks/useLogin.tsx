@@ -32,9 +32,9 @@ const useLogin = () => {
       email: "",
       password: "",
     },
-    validate: validators.validateLogin,
     validateOnBlur: false,
     validateOnChange: false,
+    validate: validators.validateLogin,
     onSubmit: async (values: LoginAsOrganizationInput) => {
       onSubmit(values);
     },

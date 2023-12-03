@@ -8,29 +8,42 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # - name: Check for PRODUCTION_EXPO_TOKEN
-      #   run: |
-      #     if [ -z "${{ secrets.PRODUCTION_EXPO_TOKEN }}" ]; then
-      #       echo "You must provide an PRODUCTION_EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
-      #       exit 1
-      #     fi
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
 
-      # - name: Setup Node
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 18.x
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: yarn
 
-      # - name: Setup EAS
-      #   uses: expo/expo-github-action@v8
-      #   with:
-      #     eas-version: latest
-      #     token: ${{ secrets.PRODUCTION_EXPO_TOKEN }}
+      # Check whether app.config.js "version" is updated from last commit/build AND the package.json "version" is updated from last commit/build
+      - name: Ensure version update
+        run: |
+          if [[ $(git diff HEAD^ HEAD app.config.js | grep -c '"version"') -eq 0 ]]; then
+            echo "app.config.js version not updated"
+            exit 1
+          fi
 
-      # - name: Install dependencies
-      #   run: yarn install
+          if [[ $(git diff HEAD^ HEAD package.json | grep -c '"version"') -eq 0 ]]; then
+            echo "package.json version not updated"
+            exit 1
+          fi
 
-      # - name: Publish update
-      #   run: eas update --auto
+      - name: 🏗 Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.PRODUCTION_EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: yarn install
+
+      - name: 🚀 Build app
+        run: eas build --non-interactive --platform ios
+
+      - name: 🚀 Publish app
+        run: eas submit --non-interactive --platform ios --latest
 
       # Report status to slack channel via webhook
       - name: ✅ Report Status

@@ -11,13 +11,13 @@
  */
 
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { MenuAction } from "@react-native-menu/menu";
 
 import { useAuth } from "@/providers/Auth";
 import messagingApi from "@/api/api/messaging";
-import useConversationsStore from "@/state/conversations";
-import { ConversationStatus } from "@/state/conversations";
+import useConversationsStore from "@/state/messaging/conversations";
+import { ConversationStatus } from "@/state/messaging/conversations";
 
 export enum ConversationFilter {
   NoFilter = "NO_FILTER",
@@ -50,11 +50,19 @@ const useConversations = () => {
   );
 
   // The query to get conversations
-  const query = useQuery({
+  const query = useInfiniteQuery({
     // Use access token as the query key so response is cached on a per-user basis
     queryKey: ["conversations", accessToken],
-    queryFn: async () => {
-      return await messagingApi.getConversations();
+    queryFn: async ({ pageParam = 0 }) => {
+      return await messagingApi.getConversations({
+        offset: pageParam,
+      });
+    },
+    getNextPageParam: (lastPage) => {
+      // If there are no more messages, return undefined
+      if (lastPage.data.data.conversations.length < 20) return undefined;
+      // Otherwise, return the next offset
+      return lastPage.data.data.nextOffset;
     },
   });
 
@@ -66,7 +74,10 @@ const useConversations = () => {
   // When the query loads, set the conversations
   useEffect(() => {
     if (query.data) {
-      const formattedConversations = query.data.data.data.conversations;
+      // Combine all the pages into one array
+      const formattedConversations = query.data.pages.flatMap(
+        (page) => page.data.data.conversations,
+      );
 
       setConversations(formattedConversations);
     }
@@ -74,7 +85,10 @@ const useConversations = () => {
 
   // If a message has been sent, remove the status after 2 seconds
   useEffect(() => {
-    if (status === ConversationStatus.Sent) {
+    if (
+      status === ConversationStatus.Sent ||
+      status === ConversationStatus.Failed
+    ) {
       setTimeout(() => {
         setStatus(ConversationStatus.Idle);
       }, 2000);
@@ -88,12 +102,7 @@ const useConversations = () => {
       const pnmFullName = `${conversation.pnm.firstName} ${conversation.pnm.lastName}`;
 
       // Return true if the full name or phone number includes the search query
-      return (
-        conversation.lastMessage
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        pnmFullName.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      return pnmFullName.toLowerCase().includes(searchQuery.toLowerCase());
     });
 
     // Then, filter the matched Conversations based on the selected filter
@@ -102,6 +111,7 @@ const useConversations = () => {
         const unreadConversations = matchedConversations.filter(
           (conversation) => !conversation.read,
         );
+
         setFilteredConversations(unreadConversations);
         break;
       case ConversationFilter.NoFilter:
@@ -112,29 +122,11 @@ const useConversations = () => {
     }
   }, [searchQuery, selectedFilter, conversations]);
 
-  // Method to set a conversation as read
-  const setConversationAsRead = (pnmId: string) => {
-    conversations.map((conversation) => {
-      // If the conversation is the one being read, set it as read
-      if (conversation.pnm._id === pnmId) {
-        updateConversation({
-          ...conversation,
-          read: true,
-        });
-      }
-    });
-  };
-
   // Handle the filter press event
   const onFilterPress = (e: any) => {
     const eventId = e.nativeEvent.event as ConversationFilter;
 
     setSelectedFilter(eventId);
-  };
-
-  // Method to refetch the query
-  const refetch = async () => {
-    await query.refetch();
   };
 
   // The actions for the filter menu
@@ -154,19 +146,17 @@ const useConversations = () => {
   ];
 
   return {
+    ...query,
+
     status,
     searchQuery,
     filterActions,
-
-    isLoading: query.isLoading,
     conversations: filteredConversations,
 
-    refetch,
     setStatus,
     addConversations,
     onFilterPress,
     setSearchQuery,
-    setConversationAsRead,
   };
 };
 

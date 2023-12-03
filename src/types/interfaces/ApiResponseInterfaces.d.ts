@@ -176,11 +176,20 @@ type DowngradeOrganizationAPIResponse = APIResponse & {
   };
 };
 
-type GetMessagesAPIResponse = APIResponse & {
+type GetConversationAPIResponse = APIResponse & {
   data: {
     data: {
-      messages: Message[];
+      conversation: Conversation | null;
       nextOffset: number;
+      hasNextPage: boolean;
+    };
+  };
+};
+
+type FocusConversationAPIResponse = APIResponse & {
+  data: {
+    data: {
+      conversation: Conversation;
     };
   };
 };
@@ -189,6 +198,8 @@ type GetConversationsAPIResponse = APIResponse & {
   data: {
     data: {
       conversations: Conversation[];
+      nextOffset: number;
+      hasNextPage: boolean;
     };
   };
 };
@@ -204,11 +215,20 @@ type GetContactsAPIResponse = APIResponse & {
   };
 };
 
-type SendMessageAPIResponse = APIResponse & {
+type SendMassMessageAPIResponse = APIResponse & {
   data: {
     data: {
       conversations: Conversation[];
       messages: Message[];
+    };
+  };
+};
+
+type SendDirectMessageAPIResponse = APIResponse & {
+  data: {
+    data: {
+      conversation: Conversation;
+      message: Message;
     };
   };
 };

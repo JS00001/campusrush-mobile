@@ -16,6 +16,7 @@ import { TouchableOpacity, View } from "react-native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";
+import { useAuth } from "@/providers/Auth";
 
 interface ActionCardProps {
   title: string;
@@ -23,9 +24,11 @@ interface ActionCardProps {
   icon?: string;
   pressable?: boolean;
   size?: keyof typeof sizeClasses;
-  onPress?: () => void;
+  disabled?: boolean;
   style?: any;
   loading?: boolean;
+  enforceProPlan?: boolean;
+  onPress?: () => void;
 }
 
 const sizeClasses = {
@@ -53,12 +56,24 @@ const ActionCard: React.FC<ActionCardProps> = ({
   pressable = true,
   onPress,
   style,
+  disabled,
+  enforceProPlan,
   loading,
 }) => {
+  const { isPro } = useAuth();
+
+  const iconColor = enforceProPlan
+    ? isPro
+      ? tw.color("primary")
+      : tw.color("yellow-500")
+    : tw.color("primary");
+
   // Styling
   const containerClasses = tw.style(
     // Common classes
     "rounded-md bg-slate-100",
+    // Disabled styling
+    disabled && "opacity-50",
     // The size of the card
     sizeClasses[size].container,
     // Custom styles
@@ -75,7 +90,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
     <TouchableOpacity
       style={containerClasses}
       onPress={onPress}
-      disabled={!pressable}
+      disabled={!pressable || disabled || loading}
     >
       <View style={childContainerClasses}>
         {/* Left side icon */}
@@ -83,9 +98,18 @@ const ActionCard: React.FC<ActionCardProps> = ({
           <View
             style={tw.style(
               size != "lg" && "p-2 rounded-sm bg-slate-200 self-start",
+              size == "lg" && "items-center",
             )}
           >
-            <RemixIcon name={icon} size={24} color={tw.color("primary")} />
+            <RemixIcon name={icon} size={24} color={iconColor} />
+
+            {enforceProPlan && !isPro && (
+              <Text
+                style={tw`text-yellow-500 font-semibold text-[10px] leading-3`}
+              >
+                PRO
+              </Text>
+            )}
           </View>
         )}
 

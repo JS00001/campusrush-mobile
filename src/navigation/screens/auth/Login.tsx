@@ -15,6 +15,7 @@ import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 
 import useLogin from "@/hooks/useLogin";
+import TermsAndConditions from "@/components/TermsAndConditions";
 
 const Login = () => {
   const {
@@ -28,7 +29,7 @@ const Login = () => {
   } = useLogin();
 
   return (
-    <Layout scrollable keyboardAvoiding gap={18} hasTermsAndConditions>
+    <Layout scrollable keyboardAvoiding gap={18}>
       <Layout.Header
         hasBackButton
         title="Login"
@@ -54,6 +55,8 @@ const Login = () => {
       >
         Continue
       </Button>
+
+      <TermsAndConditions />
     </Layout>
   );
 };

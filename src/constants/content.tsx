@@ -50,6 +50,26 @@ const Content = {
       title: "No Favorited PNMs",
       message: "You have not favorited any PNMs",
     },
+    /**
+     * The modal content when trying to message favorited PNMs without the Pro plan
+     */
+    favoritedPNMsUpgrade:
+      "This feature is exclusive to the Pro plan. Upgrade to access messaging all favorited PNMs and more.",
+    /**
+     * The modal content when trying to message all uncontaced PNMs without the Pro plan
+     */
+    uncontactedPNMsUpgrade:
+      "This feature is exclusive to the Pro plan. Upgrade to access messaging all uncontacted PNMs and more.",
+  },
+  /**
+   * The messages when adding a new PNM
+   */
+  addPNM: {
+    /**
+     * The modal content when trying to access QR code sharing without the Pro plan
+     */
+    shareQRCodeUpgrade:
+      "This feature is exclusive to the Pro plan. Upgrade to access QR code sharing and more.",
   },
   /**
    * The verification success messages

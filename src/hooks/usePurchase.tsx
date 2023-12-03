@@ -17,7 +17,7 @@ import { usePurchases } from "@/providers/Purchases";
 
 const usePurchase = () => {
   // Import refetch billing data from auth provider
-  const { refetchBillingData } = useAuth();
+  const { refetchBillingData, billingData } = useAuth();
 
   // Import data from the Purchases provider
   const { offering, isLoading, purchasePackage } = usePurchases();
@@ -39,8 +39,12 @@ const usePurchase = () => {
 
   // **PRIVATE VAR** Whether or not a product is a subscription
   const _isSubscription = selectedProduct?.productCategory === "SUBSCRIPTION";
+  // **PRIVATE VAR** Whether or not the user has previously purchased a subscription
+  const _hasPreviousSubscription =
+    Object.keys(billingData?.entitlements?.all ?? {}).length > 0;
   // **PRIVATE VAR** Whether or not a product has a trial period (free trial)
-  const _hasTrialPeriod = selectedProduct?.introPrice !== null;
+  const _hasTrialPeriod =
+    !_hasPreviousSubscription && selectedProduct?.introPrice !== null;
   // **PRIVATE VAR** The length of a trial period (formatted as "3-day" or "1-week" etc.)
   // prettier-ignore
   const _trialLength = `${selectedProduct?.introPrice?.periodNumberOfUnits}-${selectedProduct?.introPrice?.periodUnit.toLowerCase()}`;

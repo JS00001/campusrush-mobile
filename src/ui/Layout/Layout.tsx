@@ -26,14 +26,11 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import HeaderSvg from "@/assets/HeaderSvg";
-import TermsAndConditions from "@/components/TermsAndConditions";
 
 interface LayoutProps extends ViewProps {
   children?: React.ReactNode;
-  color?: "light" | "dark";
   contentContainerStyle?: any;
   gap?: number;
-  hasTermsAndConditions?: boolean;
   keyboardAvoiding?: boolean;
   scrollable?: boolean;
   style?: any;
@@ -49,9 +46,7 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
   style,
   children,
   contentContainerStyle,
-  hasTermsAndConditions,
   gap = 24,
-  color = "dark",
   scrollable = false,
   keyboardAvoiding = false,
 }) => {
@@ -114,7 +109,6 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
         contentContainerStyle={contentContainerStyles}
       >
         {LayoutChildren}
-        {hasTermsAndConditions && <TermsAndConditions color={color} />}
       </KeyboardAwareScrollView>
     ),
     ScrollView: (
@@ -124,7 +118,6 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
         contentContainerStyle={contentContainerStyles}
       >
         {LayoutChildren}
-        {hasTermsAndConditions && <TermsAndConditions color={color} />}
       </ScrollView>
     ),
     KeyboardAvoidingView: (
@@ -134,14 +127,10 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
         // contentContainerStyle={contentContainerStyle}
       >
         {LayoutChildren}
-        {hasTermsAndConditions && <TermsAndConditions color={color} />}
       </KeyboardAvoidingView>
     ),
     View: (
-      <View style={[contentContainerStyles, tw`flex-1`]}>
-        {LayoutChildren}
-        {hasTermsAndConditions && <TermsAndConditions color={color} />}
-      </View>
+      <View style={[contentContainerStyles, tw`flex-1`]}>{LayoutChildren}</View>
     ),
   }[ContentContainerIdentifier];
 

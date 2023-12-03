@@ -11,8 +11,8 @@
  */
 
 interface Organization {
-  // IDENTIFYING INFORMATION
   _id: string;
+  // IDENTIFYING INFORMATION
   // Organizations name (IE: Alpha Phi)
   name: string;
   // Organization owner first name
@@ -32,12 +32,6 @@ interface Organization {
   // The role of the organization (admin is equal to system admin/developer)
   role: 'user' | 'admin';
 
-  // BILLING
-  // The revenuecat customer id, randomly generated when the organization is created
-  customerId: string;
-  // The revenuecat entitlements associated with the organization (basic, pro)
-  entitlements: string[];
-
   // MESSAGING
   // The phone number associated with the organization
   phoneNumber: string;
@@ -46,11 +40,22 @@ interface Organization {
   // When the phone number was created
   phoneNumberCreatedAt: Date;
 
+  // BILLING
+  // The revenuecat customer id, randomly generated when the organization is created
+  customerId: string;
+  // The revenuecat entitlements associated with the organization (basic, pro)
+  entitlements: string[];
+
   // NOTIFICATIONS
   // The expo push tokens associated with the organization
   notificationsEnabled: boolean;
 
-  // TIMESTAMP INFORMATION
+  // LINK SHARING
+  // Whether the organization has link sharing enabled
+  linkSharingEnabled: boolean;
+  // The link sharing code
+  linkSharingCode: string;
+
   // When the organization was created
   createdAt: Date;
   // When the organization was last updated
@@ -121,10 +126,12 @@ interface Conversation {
   };
   // Whether the conversation is read or unread
   read: boolean;
+  // Messages
+  messages: Message[];
   // The last message sent or received
   lastMessage: string;
   // When the last message was sent or received
-  lastMessageAt: Date;
+  lastMessageSentAt: Date;
   // When the conversation was last updated
   updatedAt: Date;
   // When the conversation was created

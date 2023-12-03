@@ -72,17 +72,10 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
       />
 
       <ActionCard
-        title="Your Contact Information"
-        subtitle="View your contact information"
-        icon="ri-phone-fill"
+        title="Contact Sharing"
+        subtitle="Manage your contact sharing"
+        icon="ri-contacts-book-2-fill"
         onPress={onContactDetailsPress}
-      />
-
-      <ActionCard
-        title="Billing"
-        subtitle="Manage your billing"
-        icon="ri-bank-card-2-fill"
-        onPress={onBillingPress}
       />
 
       <ActionCard
@@ -90,6 +83,13 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
         subtitle="Manage your notifications"
         icon="ri-notification-2-fill"
         onPress={onNotificationsPress}
+      />
+
+      <ActionCard
+        title="Billing"
+        subtitle="Manage your billing"
+        icon="ri-bank-card-2-fill"
+        onPress={onBillingPress}
       />
 
       <View style={tw`w-full flex-row gap-3`}>
@@ -112,7 +112,7 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
       <View style={tw`w-full flex-row gap-3`}>
         <ActionCard
           size="sm"
-          title="Terms of Use"
+          title="Terms of Service"
           subtitle="View our terms and conditions"
           icon="ri-file-list-3-fill"
           onPress={onTermsAndConditionsPress}

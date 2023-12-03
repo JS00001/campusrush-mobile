@@ -14,39 +14,41 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
-import { useRegistration } from "@/providers/Registration";
+import useRegistration from "@/hooks/useRegistration";
+import TermsAndConditions from "@/components/TermsAndConditions";
 
 interface RegistrationProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const RegistrationStep2: React.FC<RegistrationProps> = ({ navigation }) => {
-  // Import the context from the RegistrationProvider
   const {
-    // Status fields
-    errors,
-    validateFields,
-    // Form values
     email,
     firstName,
     lastName,
-    // Form Methods
-    setEmail,
-    setFirstName,
-    setLastName,
+    errors,
+    isLoading,
+    setField,
+    validateEmail,
+    validateFields,
   } = useRegistration();
 
   // Handle the submission of the form
-  const onContinue = () => {
+  const onContinue = async () => {
     // Ensure the fields are valid
     const isValid = validateFields(["email", "firstName", "lastName"]);
     // If the fields are not valid, dont navigate to the next screen
     if (!isValid) return;
+    // Validate the email
+    const isValidEmail = await validateEmail(email);
+    // If the email is not valid, dont navigate to the next screen
+    if (!isValidEmail) return;
     // Navigate to the next screen if the fields are valid
     navigation.navigate("RegistrationStep3");
   };
+
   return (
-    <Layout scrollable keyboardAvoiding gap={18} hasTermsAndConditions>
+    <Layout scrollable keyboardAvoiding gap={18}>
       <Layout.Header
         hasBackButton
         title="Register"
@@ -55,25 +57,31 @@ const RegistrationStep2: React.FC<RegistrationProps> = ({ navigation }) => {
       <TextInput
         placeholder="Email"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={setField.bind(null, "email")}
         error={errors.email}
       />
       <TextInput
         placeholder="First Name"
         value={firstName}
-        onChangeText={setFirstName}
+        onChangeText={setField.bind(null, "firstName")}
         error={errors.firstName}
       />
       <TextInput
         placeholder="Last Name"
         value={lastName}
-        onChangeText={setLastName}
+        onChangeText={setField.bind(null, "lastName")}
         error={errors.lastName}
       />
 
-      <Button iconRight="ri-arrow-right-line" onPress={onContinue}>
+      <Button
+        loading={isLoading}
+        onPress={onContinue}
+        iconRight="ri-arrow-right-line"
+      >
         Continue
       </Button>
+
+      <TermsAndConditions />
     </Layout>
   );
 };

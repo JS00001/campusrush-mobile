@@ -21,6 +21,8 @@ import tw from "@/lib/tailwind";
 import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
 import useContacts from "@/hooks/messaging/useContacts";
+import { useAuth } from "@/providers/Auth";
+import useModalsStore from "@/state/modals";
 
 interface NewMessageProps {
   handleCloseModalPress: () => void;
@@ -31,6 +33,8 @@ const NewMessage: React.FC<NewMessageProps> = ({
   handleCloseModalPress,
   setScreen,
 }) => {
+  const { isPro } = useAuth();
+  const openModal = useModalsStore((state) => state.openModal);
   // Navigation hook to navigate to new message screen
   const navigation = useNavigation();
   // Custom hook to get contacts
@@ -81,11 +85,35 @@ const NewMessage: React.FC<NewMessageProps> = ({
   };
 
   const onMessageFavoritePress = () => {
-    handleMassMessage(favoritedPnms, Content.newMessage.noFavoritedPNMs);
+    if (isPro) {
+      handleMassMessage(favoritedPnms, Content.newMessage.noFavoritedPNMs);
+      return;
+    }
+
+    openModal({
+      name: "UPGRADE",
+      props: {
+        message: Content.newMessage.favoritedPNMsUpgrade,
+      },
+    });
+
+    handleCloseModalPress();
   };
 
   const onMessageNewMembersPress = () => {
-    handleMassMessage(uncontactedPnms, Content.newMessage.noUncontactedPNMs);
+    if (isPro) {
+      handleMassMessage(uncontactedPnms, Content.newMessage.noUncontactedPNMs);
+      return;
+    }
+
+    openModal({
+      name: "UPGRADE",
+      props: {
+        message: Content.newMessage.uncontactedPNMsUpgrade,
+      },
+    });
+
+    handleCloseModalPress();
   };
 
   return (
@@ -110,6 +138,7 @@ const NewMessage: React.FC<NewMessageProps> = ({
         onPress={onMessageAllPress}
       />
       <ActionCard
+        enforceProPlan
         title="Message New PNMS"
         subtitle="Send a message to all PNMs you have not contacted"
         icon="ri-chat-history-fill"
@@ -117,6 +146,7 @@ const NewMessage: React.FC<NewMessageProps> = ({
         onPress={onMessageNewMembersPress}
       />
       <ActionCard
+        enforceProPlan
         title="Message Favorite PNMS"
         subtitle="Send a message to all PNMs you have favorited"
         icon="ri-star-fill"

@@ -14,6 +14,7 @@ import Purchases, {
   PurchasesOffering,
   PurchasesPackage,
 } from "react-native-purchases";
+import * as Sentry from "sentry-expo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, createContext, useContext, useState } from "react";
 
@@ -69,7 +70,7 @@ const PurchasesProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       await Purchases.purchasePackage(pkg);
     } catch (error) {
-      console.log(error);
+      Sentry.Native.captureException(error);
     }
   };
 

@@ -24,7 +24,7 @@ import ActionButton from "@/ui/ActionButton";
 import Conversations from "@/components/Conversations";
 import useConversations from "@/hooks/useConversations";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import { ConversationStatus } from "@/state/conversations";
+import { ConversationStatus } from "@/state/messaging/conversations";
 
 interface MessagesProps {
   navigation: NativeStackNavigationProp<any>;
@@ -38,7 +38,6 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
     searchQuery,
     filterActions,
     conversations,
-    refetch,
     onFilterPress,
     setSearchQuery,
   } = useConversations();
@@ -63,9 +62,15 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
             {status == ConversationStatus.Sent && (
               <RemixIcon name="ri-check-line" size={36} color="white" />
             )}
+            {status == ConversationStatus.Failed && (
+              <RemixIcon name="ri-close-line" size={36} color="white" />
+            )}
           </StatusIcon.Icon>
           {status == ConversationStatus.Sent && (
             <StatusIcon.Text>Sent!</StatusIcon.Text>
+          )}
+          {status == ConversationStatus.Failed && (
+            <StatusIcon.Text>Failed to send</StatusIcon.Text>
           )}
         </StatusIcon>
       )}
@@ -102,11 +107,7 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
         </View>
 
         {/* The conversations that exist */}
-        <Conversations
-          loading={isLoading}
-          onRefetch={refetch}
-          conversations={conversations}
-        />
+        <Conversations loading={isLoading} conversations={conversations} />
       </Layout>
     </>
   );

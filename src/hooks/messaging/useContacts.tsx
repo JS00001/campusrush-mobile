@@ -1,5 +1,5 @@
 /*
- * Created on Wed Oct 4 2023
+ * Created on Mon Nov 27 2023
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -15,74 +15,87 @@ import { useQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
 import messagingApi from "@/api/api/messaging";
+import useContactsStore from "@/state/messaging/contacts";
 
 const useContacts = () => {
-  // Get access token so that we can cache the query
   const { accessToken } = useAuth();
 
-  // Create a state variable to store the filtered PNMs and the PNMs
-  const [allPnms, setAllPnms] = useState<PNM[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [filteredPnms, setFilteredPnms] = useState<PNM[]>([]);
 
-  // The string to search for
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  // Accessing state management functions from local stores
+  const allPnms = useContactsStore((s) => s.allPnms);
+  const suggestedPnms = useContactsStore((s) => s.suggestedPnms);
+  const starredPnms = useContactsStore((s) => s.starredPnms);
+  const uncontactedPnms = useContactsStore((s) => s.uncontactedPnms);
+  const setContacts = useContactsStore((s) => s.setContacts);
 
-  // Create a query to get the organization statistics
-  const query = useQuery({
-    // Use access token as the query key so response is cached on a per-user basis
-    queryKey: ["contacts", accessToken],
+  const contactsQuery = useQuery({
     // This is so we can call the query when the bottom sheet is opened
     enabled: false,
+    queryKey: ["contacts", accessToken],
     queryFn: async () => {
       return messagingApi.getContacts();
     },
   });
 
-  // Extract the data from the query
-  const favoritedPnms = query.data?.data?.data?.favorited ?? [];
-  const suggestedPnms = query.data?.data?.data?.suggested ?? [];
-  const uncontactedPnms = query.data?.data?.data?.uncontacted ?? [];
-
+  // When the query data is updated, update the state
   useEffect(() => {
-    if (query.data) {
-      const formattedPnms = query.data.data.data.all;
-
-      setAllPnms(formattedPnms);
+    if (contactsQuery.data) {
+      handleQueryData(contactsQuery.data);
     }
-  }, [query.data]);
+  }, [contactsQuery.data]);
 
-  // Filter the PNMs based on the search query
+  // Update the filtered PNMs when the search query is updated
   useEffect(() => {
-    if (searchQuery === "") {
+    updateFilteredPnms();
+  }, [searchQuery]);
+
+  const handleQueryData = (data: GetContactsAPIResponse) => {
+    if (data) {
+      const { all, favorited, suggested, uncontacted } = data.data.data;
+
+      setContacts("allPnms", all);
+      setContacts("starredPnms", favorited);
+      setContacts("suggestedPnms", suggested);
+      setContacts("uncontactedPnms", uncontacted);
+    }
+  };
+
+  const updateFilteredPnms = () => {
+    if (!searchQuery) {
       setFilteredPnms(suggestedPnms);
-    } else {
-      const matchedPnms = allPnms.filter((pnm) => {
-        const fullName = `${pnm.firstName} ${pnm.lastName}`;
-
-        // Return true if the full name or phone number includes the search query
-        return (
-          fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          pnm.phoneNumber.includes(searchQuery)
-        );
-      });
-
-      setFilteredPnms(matchedPnms);
+      return;
     }
-  }, [searchQuery, allPnms]);
 
-  // Show a list of suggested PNMs if the search query is empty
-  // else show a list of filtered PNMs from all PNMs
-  const directMessageHeader =
-    searchQuery === "" ? "Suggested Contacts" : "Results";
+    // Check if the search query matches the PNM's full name or phone number
+    const filtered = suggestedPnms.filter((pnm) => {
+      const fullName = `${pnm.firstName} ${pnm.lastName}`;
+
+      const matchesFullName = fullName
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+
+      const matchesPhoneNumber = pnm.phoneNumber
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+
+      return matchesFullName || matchesPhoneNumber;
+    });
+
+    setFilteredPnms(filtered);
+  };
+
+  const directMessageHeader = !searchQuery ? "Suggested Contacts" : "Results";
 
   return {
-    ...query,
+    ...contactsQuery,
     allPnms,
     searchQuery,
     filteredPnms,
-    favoritedPnms,
     uncontactedPnms,
     directMessageHeader,
+    favoritedPnms: starredPnms,
     setSearchQuery,
   };
 };
