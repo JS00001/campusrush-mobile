@@ -17,9 +17,11 @@
   },
   "submit": {
     "production": {
-      "appleId": "senyitkojack@gmail.com",
-      "ascAppId": "6462791621",
-      "appleTeamId": "95C9DZ2DM4"
+      "ios": {
+        "appleId": "senyitkojack@gmail.com",
+        "ascAppId": "6462791621",
+        "appleTeamId": "95C9DZ2DM4"
+      }
     }
   }
 }
