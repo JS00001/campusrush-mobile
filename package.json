@@ -1,6 +1,6 @@
 {
   "name": "campusrush-mobile",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "src/App.tsx",
   "license": "All Rights Reserved",
   "scripts": {
