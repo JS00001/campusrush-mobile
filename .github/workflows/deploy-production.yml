@@ -20,12 +20,12 @@ jobs:
       # Check whether app.config.js "version" is updated from last commit/build AND the package.json "version" is updated from last commit/build
       - name: Ensure version update
         run: |
-          if [[ $(git diff HEAD^ HEAD app.config.js | grep -c '"version"') -eq 0 ]]; then
+          if [[ $(git diff HEAD^ ..HEAD app.config.js | grep -c '"version"') -eq 0 ]]; then
             echo "app.config.js version not updated"
             exit 1
           fi
 
-          if [[ $(git diff HEAD^ HEAD package.json | grep -c '"version"') -eq 0 ]]; then
+          if [[ $(git diff HEAD^ ..HEAD package.json | grep -c '"version"') -eq 0 ]]; then
             echo "package.json version not updated"
             exit 1
           fi
