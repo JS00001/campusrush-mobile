@@ -15,7 +15,7 @@ import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
 import Conversation from "@/ui/Conversation";
 import InfiniteScroll from "@/ui/InfiniteScroll";
-import useConversations from "@/hooks/useConversations";
+import useConversations from "@/hooks/messaging/useConversations";
 
 interface ConversationsProps {
   loading: boolean;

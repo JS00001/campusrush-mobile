@@ -41,7 +41,7 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ innerRef }) => {
     queryKey: ["PrivacyPolicy"],
     enabled: isModalOpen,
     queryFn: async () => {
-      return contentApi.getTermsOfService();
+      return contentApi.getPrivacyPolicy();
     },
   });
 
@@ -91,7 +91,23 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ innerRef }) => {
             <View
               style={tw`items-center w-full bg-white p-4 rounded-xl shadow-sm`}
             >
-              <Text variant="body">{query.data?.content}</Text>
+              <Text variant="body">
+                {query.data?.content.split("**").map((item, index) =>
+                  index % 2 === 0 ? (
+                    <Text key={index} variant="body">
+                      {item}
+                    </Text>
+                  ) : (
+                    <Text
+                      key={index}
+                      variant="body"
+                      style={tw`text-primary font-bold`}
+                    >
+                      {item}
+                    </Text>
+                  ),
+                )}
+              </Text>
             </View>
           </>
         )}

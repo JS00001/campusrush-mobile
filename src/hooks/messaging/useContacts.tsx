@@ -25,14 +25,13 @@ const useContacts = () => {
 
   // Accessing state management functions from local stores
   const allPnms = useContactsStore((s) => s.allPnms);
-  const suggestedPnms = useContactsStore((s) => s.suggestedPnms);
   const starredPnms = useContactsStore((s) => s.starredPnms);
+  const suggestedPnms = useContactsStore((s) => s.suggestedPnms);
   const uncontactedPnms = useContactsStore((s) => s.uncontactedPnms);
+
   const setContacts = useContactsStore((s) => s.setContacts);
 
   const contactsQuery = useQuery({
-    // This is so we can call the query when the bottom sheet is opened
-    enabled: false,
     queryKey: ["contacts", accessToken],
     queryFn: async () => {
       return messagingApi.getContacts();

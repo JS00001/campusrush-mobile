@@ -16,7 +16,6 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { NewMessageScreens, ScreensList } from "./types";
 import BottomSheetBackdrop from "../Components/BottomSheetBackdrop";
 
-import useContacts from "@/hooks/messaging/useContacts";
 import NewMessage from "@/components/BottomSheets/NewMessage/NewMessage";
 import DirectMessage from "@/components/BottomSheets/NewMessage/DirectMessage";
 
@@ -31,8 +30,6 @@ const NewMessageRoot: React.FC<NewMessageProps> = ({
   handleCloseModalPress,
   handleSnapToPosition,
 }) => {
-  // Custom hook to get contacts
-  const { refetch } = useContacts();
   // Memoized snap points (When the bottom sheet modal is open)
   const snapPoints = useMemo(() => ["70%", "80%", "95%"], []);
   // State to keep track of which screen the user is on
@@ -42,13 +39,8 @@ const NewMessageRoot: React.FC<NewMessageProps> = ({
 
   // When the bottom sheet modal is open
   const onBottomSheetChange = (index: number) => {
-    // If the bottom sheet modal is open
-    if (index >= 0) {
-      // Refetch the contacts
-      refetch();
-    }
     // // If the bottom sheet modal is closed
-    else {
+    if (index === -1) {
       // Reset the screen
       setScreen(NewMessageScreens.NewMessage);
     }
