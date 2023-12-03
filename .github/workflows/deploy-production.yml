@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  deploy-production:
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup repo
@@ -22,7 +22,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Ensure version is updated
+      - name: 🏗 Ensure version is updated
         run: |
           if [ "${{ steps.check.outputs.changed }}" = "false" ]; then
             echo "No version change detected. Exiting..."
