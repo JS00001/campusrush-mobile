@@ -16,6 +16,10 @@
     "production": {}
   },
   "submit": {
-    "production": {}
+    "production": {
+      "appleId": "senyitkojack@gmail.com",
+      "ascAppId": "6462791621",
+      "appleTeamId": "95C9DZ2DM4"
+    }
   }
 }
