@@ -10,6 +10,8 @@
  * Do not distribute
  */
 
+import AppConstants from '@/constants';
+
 // The URL of the API for development
 export const STAGING_URL = 'https://greek-api.in-staging.space';
 
@@ -32,11 +34,13 @@ export const PRODUCTION_WEBSOCKET_URL = 'wss://api.campusrush.app';
 export const CONTENT_URL = 'https://content.campusrush.app';
 
 // Which API URL should be used, staging for development, production for release
-export const BASE_URL = __DEV__ ? STAGING_URL : PRODUCTION_URL;
+// prettier-ignore
+export const BASE_URL = AppConstants.isProduction ? PRODUCTION_URL : STAGING_URL;
 
 // Which web URL should be used, staging for development, production for release
-export const WEB_URL = __DEV__ ? STAGING_WEB_URL : PRODUCTION_WEB_URL;
+// prettier-ignore
+export const WEB_URL = AppConstants.isProduction ? PRODUCTION_WEB_URL : STAGING_WEB_URL;
 
 // Which websocket URL should be used, staging for development, production for release
 // prettier-ignore
-export const WEBSOCKET_URL = __DEV__ ? STAGING_WEBSOCKET_URL : PRODUCTION_WEBSOCKET_URL;
+export const WEBSOCKET_URL = AppConstants.isProduction ? PRODUCTION_WEBSOCKET_URL : STAGING_WEBSOCKET_URL;
