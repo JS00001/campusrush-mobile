@@ -18,6 +18,10 @@ const AppConstants = {
    */
   version: ExpoConstants.expoConfig?.version,
   /**
+   * The build number of the app
+   */
+  buildNumber: ExpoConstants.expoConfig?.extra?.buildNumber,
+  /**
    * The public key to initialize revenue cat
    */
   revenueCatPublicKey: ExpoConstants.expoConfig?.extra?.revenueCat?.publicKey,

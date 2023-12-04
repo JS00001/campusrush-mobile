@@ -262,3 +262,11 @@ type GetEntitlementsAPIResponse = APIResponse & {
     data: EntitlementDetails;
   };
 };
+
+type GetVersionAPIResponse = APIResponse & {
+  data: {
+    data: {
+      version: string;
+    };
+  };
+};

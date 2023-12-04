@@ -13,9 +13,11 @@
 import { View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
+import AppConstants from "@/constants";
 import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
@@ -155,6 +157,10 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
       <Button size="sm" style={tw`w-full bg-primary`} onPress={signOut}>
         Sign Out of {organization.name}
       </Button>
+
+      <Text variant="subtext" style={tw`text-slate-600`}>
+        App Version: {AppConstants.version}
+      </Text>
     </Layout>
   );
 };

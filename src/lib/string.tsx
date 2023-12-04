@@ -60,3 +60,26 @@ export const isJSON = (string: string) => {
 
   return { isValid: true, parsedJSON };
 };
+
+/**
+ * Take a version like "1.0.0" and convert it to "010000"
+ */
+export const stringifyVersion = (version: string) => {
+  const parts = version.split(".");
+
+  const paddedParts = parts.map((part, index) => {
+    if (index === 0) {
+      while (part.length < 2) {
+        part = "0" + part;
+      }
+    } else {
+      while (part.length < 2) {
+        part = part + "0";
+      }
+    }
+
+    return part;
+  });
+
+  return paddedParts.join("");
+};
