@@ -17,7 +17,9 @@ import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import ActionCard from "@/ui/ActionCard";
+import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
+import useModalsStore from "@/state/modals";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface SettingsProps {
@@ -25,8 +27,9 @@ interface SettingsProps {
 }
 
 const Settings: React.FC<SettingsProps> = ({ navigation }) => {
-  const { organization, signOut } = useAuth();
+  const { organization, signOut, isPro } = useAuth();
   const { handlePresentModalPress } = useBottomSheets();
+  const openModal = useModalsStore((state) => state.openModal);
 
   const onHelpPress = () => {
     handlePresentModalPress("HELP");
@@ -48,8 +51,8 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
     navigation.navigate("UpdateOrganization");
   };
 
-  const onContactDetailsPress = () => {
-    navigation.navigate("ContactDetails");
+  const onPhoneNumberPress = () => {
+    navigation.navigate("PhoneNumber");
   };
 
   const onBillingPress = () => {
@@ -58,6 +61,20 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
 
   const onNotificationsPress = () => {
     navigation.navigate("UpdateNotifications");
+  };
+
+  const onLinkSharingPress = () => {
+    if (isPro) {
+      navigation.navigate("LinkSharing");
+      return;
+    }
+
+    openModal({
+      name: "UPGRADE",
+      props: {
+        message: Content.addPNM.shareQRCodeUpgrade,
+      },
+    });
   };
 
   return (
@@ -72,17 +89,25 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
       />
 
       <ActionCard
-        title="Contact Sharing"
-        subtitle="Manage your contact sharing"
-        icon="ri-contacts-book-2-fill"
-        onPress={onContactDetailsPress}
-      />
-
-      <ActionCard
         title="Notifications"
         subtitle="Manage your notifications"
         icon="ri-notification-2-fill"
         onPress={onNotificationsPress}
+      />
+
+      <ActionCard
+        title="Phone Number"
+        subtitle="Your custom phone number "
+        icon="ri-phone-fill"
+        onPress={onPhoneNumberPress}
+      />
+
+      <ActionCard
+        enforceProPlan
+        title="Link Sharing"
+        subtitle="Manage your link sharing"
+        icon="ri-share-fill"
+        onPress={onLinkSharingPress}
       />
 
       <ActionCard
@@ -112,17 +137,17 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
       <View style={tw`w-full flex-row gap-3`}>
         <ActionCard
           size="sm"
+          icon="ri-file-list-3-fill"
           title="Terms of Service"
           subtitle="View our terms and conditions"
-          icon="ri-file-list-3-fill"
           onPress={onTermsAndConditionsPress}
         />
 
         <ActionCard
           size="sm"
+          icon="ri-shield-user-fill"
           title="Privacy Policy"
           subtitle="View our privacy policy"
-          icon="ri-file-list-3-fill"
           onPress={onPrivacyPolicyPress}
         />
       </View>

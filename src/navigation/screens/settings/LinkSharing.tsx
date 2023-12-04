@@ -30,7 +30,6 @@ import CopyItem from "@/ui/CopyItem";
 import { WEB_URL } from "@/api/constants";
 import { useAuth } from "@/providers/Auth";
 import useSettings from "@/hooks/useSettings";
-import { formatPhoneNumber } from "@/lib/string";
 import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 
 const ContactDetails = () => {
@@ -56,18 +55,18 @@ const ContactDetails = () => {
     : "Click to disable link sharing";
 
   return (
-    <Layout gap={8} scrollable contentContainerStyle={tw`items-start pb-6`}>
+    <Layout gap={16} scrollable contentContainerStyle={tw`items-start`}>
       <Layout.Header
         hasBackButton
-        title="Contact Sharing"
-        subtitle="Share your contact information with PNMs"
+        title="Link Sharing"
+        subtitle="Manage your link sharing settings."
       />
 
       <View>
-        <Text variant="title">Link Sharing</Text>
+        <Text variant="title">Your Link Sharing URL</Text>
         <Text variant="body">
-          Send a link to PNMs that they can use to add themselves or friends to
-          your recruitment list.
+          Send this link to PNMs to allow them to add themselves to your
+          recruitment list.
         </Text>
       </View>
 
@@ -75,6 +74,8 @@ const ContactDetails = () => {
         label="Link Sharing URL"
         value={`${WEB_URL}/${organization.linkSharingCode}`}
       />
+
+      <Text variant="title">Manage Your Link Sharing</Text>
 
       <View style={tw`gap-2 w-full`}>
         <SelectionCard
@@ -94,20 +95,6 @@ const ContactDetails = () => {
           onPress={onLinkSharingDisabledPress}
         />
       </View>
-
-      <View style={tw`mt-2`}>
-        <Text variant="title">Phone Information</Text>
-        <Text variant="body">
-          We have assigned you a phone number that PNMs can use to contact you.
-        </Text>
-      </View>
-
-      <CopyItem
-        label="Phone Number"
-        value={formatPhoneNumber(organization?.phoneNumber)}
-      />
-
-      <CopyItem label="Phone Number ID" value={organization?.phoneNumberId} />
     </Layout>
   );
 };
