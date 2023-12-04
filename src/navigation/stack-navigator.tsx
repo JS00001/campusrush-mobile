@@ -43,8 +43,9 @@ import RegistrationStep2Screen from "@/navigation/screens/auth/RegistrationStep2
 import RegistrationStep3Screen from "@/navigation/screens/auth/RegistrationStep3";
 
 import SettingsScreen from "@/navigation/screens/settings/Settings";
+import PhoneNumber from "@/navigation/screens/settings/PhoneNumber";
+import LinkSharingScreen from "@/navigation/screens/settings/LinkSharing";
 import UpdateBillingScreen from "@/navigation/screens/settings/UpdateBilling";
-import ContactDetailsScreen from "@/navigation/screens/settings/ContactDetails";
 import UpdateNotificationsScreen from "@/navigation/screens/settings/UpdateNotifications";
 import UpdateGeneralScreen from "@/navigation/screens/settings/organization/UpdateGeneral";
 import UpdateSecurityScreen from "@/navigation/screens/settings/organization/UpdateSecurity";
@@ -245,8 +246,12 @@ export const SettingsStack = () => {
         component={SettingsScreen}
       />
       <Stack.Screen
-        name="ContactDetails"
-        component={ContactDetailsScreen}
+        name="LinkSharing"
+        component={LinkSharingScreen}
+      />
+      <Stack.Screen
+        name="PhoneNumber"
+        component={PhoneNumber}
       />
       <Stack.Screen
         name="UpdateBilling"

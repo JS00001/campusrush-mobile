@@ -10,13 +10,22 @@
  * Do not distribute
  */
 
+import RNTestFlight from "react-native-test-flight";
 import ExpoConstants from "expo-constants";
 
 const AppConstants = {
   /**
+   * Whether or not we are in a production environment
+   */
+  isProduction: !__DEV__ && !RNTestFlight.isTestFlight,
+  /**
    * The version of the app
    */
   version: ExpoConstants.expoConfig?.version,
+  /**
+   * The build number of the app
+   */
+  buildNumber: ExpoConstants.expoConfig?.extra?.buildNumber,
   /**
    * The public key to initialize revenue cat
    */

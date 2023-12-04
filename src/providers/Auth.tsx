@@ -256,6 +256,9 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
 
   // Clear all user data
   const clearUserData = async () => {
+    // Clear all of the user data from the store
+    await resetState();
+
     // Clear the refresh token from storage
     await AsyncStorage.removeItem("refreshToken");
 
@@ -263,9 +266,6 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     setOrganization({} as Organization);
     setAccessToken("");
     setRefreshToken("");
-
-    // Clear all of the user data from the store
-    await resetState();
 
     // Disconnect from the websocket
     websocket.disconnect();

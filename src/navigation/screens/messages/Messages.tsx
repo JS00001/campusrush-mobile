@@ -22,7 +22,7 @@ import StatusIcon from "@/ui/StatusIcon";
 import IconButton from "@/ui/IconButton";
 import ActionButton from "@/ui/ActionButton";
 import Conversations from "@/components/Conversations";
-import useConversations from "@/hooks/useConversations";
+import useConversations from "@/hooks/messaging/useConversations";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import { ConversationStatus } from "@/state/messaging/conversations";
 

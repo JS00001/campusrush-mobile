@@ -30,6 +30,7 @@ import { useAuth } from "@/providers/Auth";
 import { usePreferences } from "@/providers/Preferences";
 import { TabNavigator } from "@/navigation/tab-navigator";
 import { useEntitlements } from "@/providers/Entitlements";
+import useVersioning from "@/hooks/useVersioning";
 
 const RootNavigator = () => {
   const [fontsLoaded] = useFonts({
@@ -38,21 +39,44 @@ const RootNavigator = () => {
     DMSans_700Bold,
   });
 
+  const {
+    isValidVersion,
+    forceUpdateAlert,
+    isLoading: isVersioningLoading,
+  } = useVersioning();
+
   const { isLoading: isPreferencesLoading } = usePreferences();
   const { isLoading: isEntitlementsLoading } = useEntitlements();
   const { isLoading: isAuthLoading, organization, billingData } = useAuth();
 
+  const shouldHideSplashScreen = () =>
+    fontsLoaded &&
+    !isAuthLoading &&
+    !isPreferencesLoading &&
+    !isEntitlementsLoading &&
+    isValidVersion &&
+    !isVersioningLoading;
+
   // Hide the splash screen when the app is fully loaded
   useEffect(() => {
-    if (
-      fontsLoaded &&
-      !isAuthLoading &&
-      !isPreferencesLoading &&
-      !isEntitlementsLoading
-    ) {
+    if (shouldHideSplashScreen()) {
       ExpoSplashScreen.hideAsync();
     }
-  }, [fontsLoaded, isAuthLoading, isPreferencesLoading, isEntitlementsLoading]);
+  }, [
+    fontsLoaded,
+    isAuthLoading,
+    isPreferencesLoading,
+    isEntitlementsLoading,
+    isValidVersion,
+    isVersioningLoading,
+  ]);
+
+  // If the user is not on the latest version, we show an alert
+  useEffect(() => {
+    if (!isValidVersion && !isVersioningLoading) {
+      forceUpdateAlert();
+    }
+  }, [isValidVersion, isVersioningLoading]);
 
   // If the user is loading, we can't render the app
   if (isAuthLoading && lodash.isEmpty(organization)) return null;

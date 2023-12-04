@@ -69,7 +69,7 @@ const Content = {
      * The modal content when trying to access QR code sharing without the Pro plan
      */
     shareQRCodeUpgrade:
-      "This feature is exclusive to the Pro plan. Upgrade to access QR code sharing and more.",
+      "This feature is exclusive to the Pro plan. Upgrade to access Link/QR code sharing and more.",
   },
   /**
    * The verification success messages

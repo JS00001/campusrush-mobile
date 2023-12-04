@@ -65,23 +65,23 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
         <Text variant="title" style={tw`text-white`}>
           Organization Statistics
         </Text>
+
         <View style={tw`w-full flex-row gap-5`}>
           <ActionCard
             size="md"
-            loading={isLoading}
             pressable={false}
+            icon="ri-user-fill"
             title={numPnms?.toString()}
             subtitle="Current PNMs registered to rush"
-            icon="ri-user-fill"
+            loading={isLoading && !numPnms}
           />
-
           <ActionCard
             size="md"
-            loading={isLoading}
             pressable={false}
+            icon="ri-user-star-fill"
             title={numStarredPnms?.toString()}
             subtitle="PNMs saved as favorites"
-            icon="ri-user-star-fill"
+            loading={isLoading && !numStarredPnms}
           />
         </View>
 
@@ -98,7 +98,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
         <Text variant="title">Recently Added PNMs</Text>
         <RecentPnms
           pnms={recentPnms}
-          loading={isLoading}
+          loading={isLoading && !recentPnms}
           onPress={onRecentPnmPress}
         />
       </Layout>
