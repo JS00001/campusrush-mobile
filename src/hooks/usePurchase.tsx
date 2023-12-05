@@ -13,14 +13,14 @@
 import { useState } from "react";
 
 import { useAuth } from "@/providers/Auth";
-import { usePurchases } from "@/providers/Purchases";
+import { useIAPs } from "@/providers/IAP";
 
 const usePurchase = () => {
   // Import refetch billing data from auth provider
-  const { refetchBillingData, billingData } = useAuth();
+  const { customerData } = useAuth();
 
   // Import data from the Purchases provider
-  const { offering, isLoading, purchasePackage } = usePurchases();
+  const { offering, isLoading, purchasePackage, restorePurchases } = useIAPs();
 
   // Index of the currently selected package
   const [packageID, setPackageID] = useState<number>(0);
@@ -41,7 +41,7 @@ const usePurchase = () => {
   const _isSubscription = selectedProduct?.productCategory === "SUBSCRIPTION";
   // **PRIVATE VAR** Whether or not the user has previously purchased a subscription
   const _hasPreviousSubscription =
-    Object.keys(billingData?.entitlements?.all ?? {}).length > 0;
+    Object.keys(customerData?.entitlements?.all ?? {}).length > 0;
   // **PRIVATE VAR** Whether or not a product has a trial period (free trial)
   const _hasTrialPeriod =
     !_hasPreviousSubscription && selectedProduct?.introPrice !== null;
@@ -65,11 +65,12 @@ const usePurchase = () => {
     // Complete purchase
     await purchasePackage(selectedPackage);
 
-    // Refetch billing data
-    await refetchBillingData();
+    // Set the organizations
     // Set purchase loading to false
     setIsPurchaseLoading(false);
   };
+
+  console.log(JSON.stringify(packages, null, 2));
 
   return {
     areOfferingsLoading: isLoading,
@@ -81,6 +82,7 @@ const usePurchase = () => {
     packageID,
     setPackageID,
     completePurchase,
+    restorePurchases,
   };
 };
 

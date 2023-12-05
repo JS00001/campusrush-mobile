@@ -20,16 +20,15 @@ import useZustandStore from "@/state";
 import { useWebsocket } from "@/providers/Websocket";
 
 interface AuthContextProps {
-  isLoading: boolean;
   isPro: boolean;
+  isLoading: boolean;
   accessToken: string | null;
   refreshToken: string | null;
   organization: Organization;
-  billingData: CustomerInfo;
+  customerData: CustomerInfo;
 
   signOut: () => void;
   clearUserData: () => void;
-  refetchBillingData: () => Promise<void>;
   updateOrganization: (organization: Organization) => void;
   signIn: (response: LoginAsOrganizationAPIResponse) => Promise<void>;
   signUp: (response: RegisterAsOrganizationAPIResponse) => Promise<void>;
@@ -51,7 +50,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     {} as Organization,
   );
   // The current organization's billing data
-  const [billingData, setBillingData] = useState<CustomerInfo>(
+  const [customerData, setcustomerData] = useState<CustomerInfo>(
     {} as CustomerInfo,
   );
 
@@ -92,6 +91,10 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   useEffect(() => {
     _loadRefreshToken();
   }, []);
+
+  Purchases.addCustomerInfoUpdateListener((customerInfo) => {
+    setcustomerData(customerInfo);
+  });
 
   // Load the refresh token from storage (if it exists)
   const _loadRefreshToken = async () => {
@@ -139,7 +142,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       // Set the organization in state
       setOrganization(organization);
       // Load the organization's billing data from revenue cat
-      _loadBillingData(organization);
+      _loadCustomerData(organization);
       // Connect to the websocket
       websocket.connect(accessToken);
     } catch (error) {
@@ -150,7 +153,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   };
 
   // Load the currently logged in organization's billing data
-  const _loadBillingData = async (organization: Organization) => {
+  const _loadCustomerData = async (organization: Organization) => {
     try {
       // Login the user with revenue cat
       await Purchases.logIn(organization.customerId);
@@ -159,37 +162,16 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       await AsyncStorage.setItem("customerId", organization.customerId);
 
       // Get the organization's billing data
-      const billingData = await Purchases.getCustomerInfo();
+      const customerData = await Purchases.getCustomerInfo();
+
       // Set the billing data in state
-      setBillingData(billingData);
+      setcustomerData(customerData);
     } catch (error) {
-      setBillingData({} as CustomerInfo);
+      setcustomerData({} as CustomerInfo);
     }
 
     // Finally, set the loading state to false
     setIsLoading(false);
-  };
-
-  /**
-   * Public APIs
-   */
-  // Refetch billing data
-  const refetchBillingData = async () => {
-    try {
-      // Login the user with revenue cat
-      await Purchases.logIn(organization.customerId);
-
-      // Set the customer Id in local storage
-      await AsyncStorage.setItem("customerId", organization.customerId);
-
-      // Get the organization's billing data
-      const billingData = await Purchases.getCustomerInfo();
-
-      // Set the billing data in state
-      setBillingData(billingData);
-    } catch (error) {
-      setBillingData({} as CustomerInfo);
-    }
   };
 
   // Sign in as an organization
@@ -210,7 +192,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     setOrganization(organization);
 
     // Load the new organization's billing data
-    _loadBillingData(organization);
+    _loadCustomerData(organization);
     // Connect to the websocket
     websocket.connect(accessToken);
   };
@@ -233,7 +215,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     setOrganization(organization);
 
     // Load the new organization's billing data
-    _loadBillingData(organization);
+    _loadCustomerData(organization);
     // Connect to the websocket
     websocket.connect(accessToken);
   };
@@ -278,11 +260,8 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
         accessToken,
         refreshToken,
         organization,
-        billingData,
-        isPro: organization.entitlements?.includes("pro") ?? false,
-
-        refetchBillingData,
-
+        customerData,
+        isPro: organization.entitlements?.includes("pro") || false,
         signOut,
         signIn,
         signUp,

@@ -34,7 +34,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onPress,
 }) => {
   // The bottom sheet provider to open the compare plans modal
-  const { billingData } = useAuth();
+  const { customerData } = useAuth();
   const { handlePresentModalPress } = useBottomSheets();
 
   // The Product ID
@@ -48,10 +48,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const trialLength = `${product.introPrice?.periodNumberOfUnits}-${product.introPrice?.periodUnit.toLowerCase()}`;
   // Whether or not the user has previously purchased a subscription
   // prettier-ignore
-  const hasPreviousSubscription = Object.keys(billingData?.entitlements?.all ?? {}).length > 0;
+  const hasPreviousSubscription = Object.keys(customerData?.entitlements?.all ?? {}).length > 0;
 
   // The title of the product (should always exist, but just in case)
-  const title = product.title ?? "No title";
+  const title = product.title || "No title";
   // The subtitle (price) of the product (should always exist, but just in case)
   // prettier-ignore
   const subtitle = `${product.priceString} ${isSubscription ? "/ mo" : ""}` ?? "No price";

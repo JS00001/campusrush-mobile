@@ -34,7 +34,7 @@ import { useWebsocket } from "@/providers/Websocket";
 const DevEnvironment: React.FC = ({}) => {
   const { updatePreferences } = usePreferences();
   // Use data from auth provider
-  const { signOut, organization, billingData } = useAuth();
+  const { signOut, organization, customerData } = useAuth();
   // The active index of the segmented control
   const [activeIndex, setActiveIndex] = useState<number>(0);
   // Ref to the bottom sheet modal so we can programmatically open it
@@ -141,7 +141,7 @@ const DevEnvironment: React.FC = ({}) => {
                 </Text>
 
                 <View style={tw`bg-slate-100 p-3 rounded-md w-full`}>
-                  {lodash.isEmpty(billingData?.entitlements?.active) ? (
+                  {lodash.isEmpty(customerData?.entitlements?.active) ? (
                     <Text style={tw`text-red-700`}>No active subscription</Text>
                   ) : (
                     <Text style={tw`text-green-700`}>Subscription active</Text>
@@ -238,12 +238,12 @@ const DevEnvironment: React.FC = ({}) => {
                 </Text>
 
                 <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
-                  {lodash.isEmpty(billingData?.entitlements?.active) ? (
+                  {lodash.isEmpty(customerData?.entitlements?.active) ? (
                     <Text>No active subscription</Text>
                   ) : (
                     <Text>
                       {JSON.stringify(
-                        billingData?.entitlements?.active,
+                        customerData?.entitlements?.active,
                         null,
                         2,
                       ).slice(1, -1)}
@@ -258,7 +258,7 @@ const DevEnvironment: React.FC = ({}) => {
                 </Text>
                 <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
                   <Text style={tw`text-black text-[10px] leading-3`}>
-                    {JSON.stringify(billingData?.entitlements, null, 2).slice(
+                    {JSON.stringify(customerData?.entitlements, null, 2).slice(
                       1,
                       -1,
                     )}
