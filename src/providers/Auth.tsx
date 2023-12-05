@@ -253,15 +253,20 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     websocket.disconnect();
   };
 
+  const isPro =
+    Object.keys(customerData?.entitlements?.active || {}).includes("pro") ||
+    false;
+
   return (
     <AuthContext.Provider
       value={{
+        isPro,
         isLoading,
         accessToken,
         refreshToken,
         organization,
         customerData,
-        isPro: organization.entitlements?.includes("pro") || false,
+
         signOut,
         signIn,
         signUp,

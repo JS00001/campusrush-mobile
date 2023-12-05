@@ -23,6 +23,7 @@ import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import useModalsStore from "@/state/modals";
 import { useBottomSheets } from "@/providers/BottomSheet";
+import useDeleteOrganization from "@/hooks/useDeleteOrganization";
 
 interface SettingsProps {
   navigation: NativeStackNavigationProp<any>;
@@ -31,6 +32,8 @@ interface SettingsProps {
 const Settings: React.FC<SettingsProps> = ({ navigation }) => {
   const { organization, signOut, isPro } = useAuth();
   const { handlePresentModalPress } = useBottomSheets();
+  const { onDeleteOrganization, isLoading } = useDeleteOrganization();
+
   const openModal = useModalsStore((state) => state.openModal);
 
   const onHelpPress = () => {
@@ -63,6 +66,19 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
 
   const onNotificationsPress = () => {
     navigation.navigate("UpdateNotifications");
+  };
+
+  const onDeleteAccountPress = () => {
+    openModal({
+      name: "ERROR",
+      props: {
+        message:
+          "Are you sure you want to delete your account? There is no way to recover it once deleted.",
+        secondaryButtonText: "No, Cancel",
+        primaryButtonText: "Yes, Delete",
+        primaryButtonAction: onDeleteOrganization,
+      },
+    });
   };
 
   const onLinkSharingPress = () => {
@@ -137,8 +153,19 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
         />
       </View>
 
-      <Button size="sm" style={tw`w-full bg-primary`} onPress={signOut}>
+      <Button size="sm" style={tw`w-full`} onPress={signOut}>
         Sign Out of {organization.name}
+      </Button>
+
+      <Button
+        size="sm"
+        color="gray"
+        style={tw`w-full`}
+        loading={isLoading}
+        textStyle={tw`text-red-500 font-medium`}
+        onPress={onDeleteAccountPress}
+      >
+        Delete Account
       </Button>
 
       <Text variant="subtext" style={tw`text-slate-600`}>
