@@ -270,3 +270,11 @@ type GetVersionAPIResponse = APIResponse & {
     };
   };
 };
+
+type DeleteOrganizationAPIResponse = APIResponse & {
+  data: {
+    data: {
+      success: boolean;
+    };
+  };
+};

@@ -16,9 +16,10 @@ import Button from "@/ui/Button";
 import Layout from "@/ui/Layout";
 import useBilling from "@/hooks/useBilling";
 import BillingDetails from "@/components/BillingDetails";
+import Hyperlink from "@/ui/Hyperlink";
 
 const UpdateBilling = () => {
-  const { activeProducts, managementURL } = useBilling();
+  const { activeProducts, managementURL, restorePurchases } = useBilling();
 
   // Open the URL to manage billing (typically the app store)
   const onManageBilling = () => {
@@ -39,6 +40,9 @@ const UpdateBilling = () => {
 
       {/* Button to manage billing */}
       <Button onPress={onManageBilling}>Manage Subscription</Button>
+
+      {/* Button to restore purchases */}
+      <Hyperlink onPress={restorePurchases}>Restore Purchases</Hyperlink>
     </Layout>
   );
 };

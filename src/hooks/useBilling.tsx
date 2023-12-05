@@ -18,7 +18,7 @@ import type { ProductId } from "@/types/interfaces/EntitlementInterfaces";
 
 const useBilling = () => {
   const { customerData } = useAuth();
-  const { offering } = useIAPs();
+  const { offering, restorePurchases } = useIAPs();
 
   // Pull the entitlement details from the store
   // prettier-ignore
@@ -118,6 +118,7 @@ const useBilling = () => {
 
   return {
     managementURL,
+    restorePurchases,
     activeProducts: activeProductsFormatted,
   };
 };

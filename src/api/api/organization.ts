@@ -44,7 +44,19 @@ const updateOrganization = (
   return organizationAPIClient.put(`${PREFIX}/update`, data);
 };
 
+/**
+ * DELETE /api/v1/organization/delete
+ *
+ * Returns
+ * - data
+ *   - success
+ */
+const deleteOrganization = (): Promise<DeleteOrganizationAPIResponse> => {
+  return organizationAPIClient.delete(`${PREFIX}/delete`);
+};
+
 export default {
   getOrganizationStatistics,
   updateOrganization,
+  deleteOrganization,
 };
