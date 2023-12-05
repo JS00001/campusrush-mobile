@@ -27,10 +27,10 @@ import {
   VerificationStack,
 } from "@/navigation/stack-navigator";
 import { useAuth } from "@/providers/Auth";
+import useVersioning from "@/hooks/useVersioning";
 import { usePreferences } from "@/providers/Preferences";
 import { TabNavigator } from "@/navigation/tab-navigator";
 import { useEntitlements } from "@/providers/Entitlements";
-import useVersioning from "@/hooks/useVersioning";
 
 const RootNavigator = () => {
   const [fontsLoaded] = useFonts({
@@ -47,16 +47,18 @@ const RootNavigator = () => {
 
   const { isLoading: isPreferencesLoading } = usePreferences();
   const { isLoading: isEntitlementsLoading } = useEntitlements();
-  const { isLoading: isAuthLoading, organization, billingData } = useAuth();
+  const { isLoading: isAuthLoading, organization, customerData } = useAuth();
 
-  const shouldHideSplashScreen = () =>
-    fontsLoaded &&
-    !isAuthLoading &&
-    !isPreferencesLoading &&
-    !isEntitlementsLoading &&
-    isValidVersion &&
-    !isVersioningLoading;
-
+  const shouldHideSplashScreen = () => {
+    return (
+      fontsLoaded &&
+      !isAuthLoading &&
+      !isPreferencesLoading &&
+      !isEntitlementsLoading &&
+      isValidVersion &&
+      !isVersioningLoading
+    );
+  };
   // Hide the splash screen when the app is fully loaded
   useEffect(() => {
     if (shouldHideSplashScreen()) {
@@ -91,7 +93,7 @@ const RootNavigator = () => {
   if (!organization?.verified) return <VerificationStack />;
 
   // If the user has no active entitlements, we show the BillingStack
-  if (lodash.isEmpty(billingData?.entitlements?.active))
+  if (lodash.isEmpty(customerData?.entitlements?.active))
     return <BillingStack />;
 
   // If the user is logged in and verified, we show the TabNavigator

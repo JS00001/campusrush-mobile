@@ -11,22 +11,22 @@
  */
 
 import { useAuth } from "@/providers/Auth";
-import { usePurchases } from "@/providers/Purchases";
+import { useIAPs } from "@/providers/IAP";
 import useEntitlementsStore from "@/state/entitlements";
 
 import type { ProductId } from "@/types/interfaces/EntitlementInterfaces";
 
 const useBilling = () => {
-  const { billingData } = useAuth();
-  const { offering } = usePurchases();
+  const { customerData } = useAuth();
+  const { offering } = useIAPs();
 
   // Pull the entitlement details from the store
   // prettier-ignore
   const entitlementDetails = useEntitlementsStore((state) => state.entitlementDetails);
 
   // Fetches the productIdentifiers of all active entitlements
-  const activeEntitlements = Object.keys(billingData.entitlements.active).map(
-    (key) => billingData.entitlements.active[key].productIdentifier,
+  const activeEntitlements = Object.keys(customerData.entitlements.active).map(
+    (key) => customerData.entitlements.active[key].productIdentifier,
   );
 
   // Check if the offering has any packages that are in the active entitlements
@@ -38,10 +38,10 @@ const useBilling = () => {
   // For each package/product that the user DOES have access/entitlement to...
   const formattedAvailablePackages = availablePackages?.map((pkg) => {
     // Find the entitlements "key" that has a productIdentifier matching the current package/product
-    const entitlementKey = Object.keys(billingData.entitlements.active).find(
+    const entitlementKey = Object.keys(customerData.entitlements.active).find(
       (key) => {
         return (
-          billingData.entitlements.active[key].productIdentifier ===
+          customerData.entitlements.active[key].productIdentifier ===
           pkg.product.identifier
         );
       },
@@ -50,7 +50,7 @@ const useBilling = () => {
     // If there is an entitlement key, then the user has access to the product
     // populate the entitlement
     const entitlement = entitlementKey
-      ? billingData.entitlements.active[entitlementKey]
+      ? customerData.entitlements.active[entitlementKey]
       : (null as any);
 
     // Return both the product itself and the entitlement data for every active product/package
@@ -61,7 +61,7 @@ const useBilling = () => {
   });
 
   // The URL to redirect to for billing management
-  const managementURL = billingData.managementURL;
+  const managementURL = customerData.managementURL;
 
   // Format all of the products to be properly displayed, each product in the array will be formatted as:
   // {

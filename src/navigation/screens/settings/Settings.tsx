@@ -122,23 +122,6 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
       <View style={tw`w-full flex-row gap-3`}>
         <ActionCard
           size="sm"
-          title="Help"
-          subtitle="Contact our support team now"
-          icon="ri-questionnaire-fill"
-          onPress={onHelpPress}
-        />
-
-        <ActionCard
-          size="sm"
-          title="About"
-          subtitle="View identifying app information"
-          icon="ri-information-fill"
-          onPress={onAboutPress}
-        />
-      </View>
-      <View style={tw`w-full flex-row gap-3`}>
-        <ActionCard
-          size="sm"
           icon="ri-file-list-3-fill"
           title="Terms of Service"
           subtitle="View our terms and conditions"

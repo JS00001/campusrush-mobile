@@ -23,19 +23,24 @@ import ProductCard from "@/components/ProductCard";
 
 const Billing = () => {
   const {
-    areOfferingsLoading,
-    isPurchaseLoading,
-    buttonCTA,
     packages,
+    buttonCTA,
     packageID,
+    isPurchaseLoading,
+    areOfferingsLoading,
     setPackageID,
     completePurchase,
+    restorePurchases,
   } = usePurchase();
 
   const { organization, signOut } = useAuth();
 
   const onButtonPress = () => {
     completePurchase();
+  };
+
+  const onRestorePress = () => {
+    restorePurchases();
   };
 
   if (areOfferingsLoading) return null;
@@ -62,9 +67,16 @@ const Billing = () => {
           You are currently signed in as {organization?.email}. Wrong
           account?&nbsp;
         </Text>
-        <Hyperlink color="dark" onPress={signOut}>
-          Sign out
-        </Hyperlink>
+
+        <View style={tw`justify-center items-center`}>
+          <Hyperlink color="dark" onPress={signOut}>
+            Sign out
+          </Hyperlink>
+          <Text style={tw`mx-1`}>or</Text>
+          <Hyperlink color="dark" onPress={onRestorePress}>
+            Restore purchases
+          </Hyperlink>
+        </View>
       </View>
     </Layout>
   );
