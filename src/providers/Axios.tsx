@@ -38,7 +38,7 @@ const axiosClient = axios.create({
 const AxiosIntercepter: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
-  const { accessToken, clearUserData, refetchBillingData } = useAuth();
+  const { accessToken, clearUserData } = useAuth();
 
   // Store to open a modal, used to show modals to upgrade
   const { openModal } = useModalsStore();
@@ -118,7 +118,7 @@ const AxiosIntercepter: React.FC<{ children?: React.ReactNode }> = ({
 
       // If the user has NO entitlements, they should not be able to use the app
       if (responseData.error?.message == "NO_ENTITLEMENTS") {
-        refetchBillingData();
+        // refetchBillingData();
         return Promise.reject(error);
       }
 

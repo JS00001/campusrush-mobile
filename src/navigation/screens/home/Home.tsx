@@ -55,6 +55,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
 
       <Layout
         style={tw`bg-transparent`}
+        scrollable
         contentContainerStyle={tw`items-start`}
       >
         <Text variant="header" numberOfLines={1} style={tw`text-white`}>
