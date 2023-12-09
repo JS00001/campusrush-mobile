@@ -70,8 +70,6 @@ const usePurchase = () => {
     setIsPurchaseLoading(false);
   };
 
-  console.log(JSON.stringify(packages, null, 2));
-
   return {
     areOfferingsLoading: isLoading,
     isPurchaseLoading,
