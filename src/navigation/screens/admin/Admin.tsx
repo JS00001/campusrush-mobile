@@ -24,14 +24,6 @@ interface AdminProps {
 }
 
 const Admin: React.FC<AdminProps> = ({ navigation }) => {
-  const {
-    clearSubscription,
-    forceProSubscription,
-    forceBasicSubscription,
-    upgradeOrganizationMutation,
-    downgradeOrganizationMutation,
-  } = useAdmin();
-
   const onStatisticsPress = () => {
     navigation.navigate("AdminStatistics");
   };
@@ -46,18 +38,6 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
 
   const onUITestingPress = () => {
     navigation.navigate("AdminUITesting");
-  };
-
-  const onForceBasicPress = () => {
-    forceBasicSubscription();
-  };
-
-  const onForceProPress = () => {
-    forceProSubscription();
-  };
-
-  const onClearSubscriptionPress = () => {
-    clearSubscription();
   };
 
   return (
@@ -91,31 +71,6 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
         icon="ri-layout-masonry-fill"
         onPress={onUITestingPress}
       />
-
-      <Button
-        size="sm"
-        style={tw`w-full`}
-        onPress={onForceBasicPress}
-        loading={upgradeOrganizationMutation.isLoading}
-      >
-        Force Basic Subscription
-      </Button>
-      <Button
-        size="sm"
-        style={tw`w-full`}
-        onPress={onForceProPress}
-        loading={upgradeOrganizationMutation.isLoading}
-      >
-        Force Pro Subscription
-      </Button>
-      <Button
-        size="sm"
-        style={tw`w-full`}
-        onPress={onClearSubscriptionPress}
-        loading={downgradeOrganizationMutation.isLoading}
-      >
-        Clear Current Subscription
-      </Button>
     </Layout>
   );
 };
