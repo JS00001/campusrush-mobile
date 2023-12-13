@@ -40,6 +40,10 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
     navigation.navigate("AdminUITesting");
   };
 
+  const onNetworkPress = () => {
+    navigation.navigate("AdminNetwork");
+  };
+
   return (
     <Layout scrollable gap={12}>
       <Layout.Header title="Admin" subtitle="Admin options/developer options" />
@@ -70,6 +74,13 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
         subtitle="Test new UI in a sandbox environment"
         icon="ri-layout-masonry-fill"
         onPress={onUITestingPress}
+      />
+
+      <ActionCard
+        title="Network"
+        subtitle="View network logs"
+        icon="ri-wifi-fill"
+        onPress={onNetworkPress}
       />
     </Layout>
   );
