@@ -97,9 +97,9 @@ const useBilling = () => {
         : `Renews automatically on ${_expirationDate}`
       : `One-time purchase`;
 
-    // How much the product costs, formatted as "$1.99" or "$1.99 / mo"
+    // How much the product costs, formatted as "$1.99" or "$1.99 / year"
     const subtitle =
-      `${product?.product.priceString} ${_isSubscription ? "/ mo" : ""}` ??
+      `${product?.product.priceString} ${_isSubscription ? "/ year" : ""}` ??
       "No price";
 
     // Get the id of the product

@@ -38,4 +38,7 @@ yarn-error.*
 .vscode
 .VSCodeCounter
 
+# idea
+.idea
+
 %ProgramData%

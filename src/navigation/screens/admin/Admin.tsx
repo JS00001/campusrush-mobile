@@ -24,14 +24,6 @@ interface AdminProps {
 }
 
 const Admin: React.FC<AdminProps> = ({ navigation }) => {
-  const {
-    clearSubscription,
-    forceProSubscription,
-    forceBasicSubscription,
-    upgradeOrganizationMutation,
-    downgradeOrganizationMutation,
-  } = useAdmin();
-
   const onStatisticsPress = () => {
     navigation.navigate("AdminStatistics");
   };
@@ -48,16 +40,8 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
     navigation.navigate("AdminUITesting");
   };
 
-  const onForceBasicPress = () => {
-    forceBasicSubscription();
-  };
-
-  const onForceProPress = () => {
-    forceProSubscription();
-  };
-
-  const onClearSubscriptionPress = () => {
-    clearSubscription();
+  const onNetworkPress = () => {
+    navigation.navigate("AdminNetwork");
   };
 
   return (
@@ -92,30 +76,12 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
         onPress={onUITestingPress}
       />
 
-      <Button
-        size="sm"
-        style={tw`w-full`}
-        onPress={onForceBasicPress}
-        loading={upgradeOrganizationMutation.isLoading}
-      >
-        Force Basic Subscription
-      </Button>
-      <Button
-        size="sm"
-        style={tw`w-full`}
-        onPress={onForceProPress}
-        loading={upgradeOrganizationMutation.isLoading}
-      >
-        Force Pro Subscription
-      </Button>
-      <Button
-        size="sm"
-        style={tw`w-full`}
-        onPress={onClearSubscriptionPress}
-        loading={downgradeOrganizationMutation.isLoading}
-      >
-        Clear Current Subscription
-      </Button>
+      <ActionCard
+        title="Network"
+        subtitle="View network logs"
+        icon="ri-wifi-fill"
+        onPress={onNetworkPress}
+      />
     </Layout>
   );
 };

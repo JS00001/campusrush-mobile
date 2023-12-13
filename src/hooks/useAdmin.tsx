@@ -106,6 +106,7 @@ const useAdmin = () => {
   };
 
   return {
+    refetchOrganizations: getOrganizationsQuery.refetch,
     organizations,
     statistics,
     getStatisticsQuery,

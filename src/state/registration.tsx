@@ -45,7 +45,12 @@ const useRegistrationStore = create<RegistrationState>()((set) => ({
    * Set a field in the registration form
    */
   setField: (field, value) =>
-    set((state) => ({ fields: { ...state.fields, [field]: value } })),
+    set((state) => ({
+      fields: {
+        ...state.fields,
+        [field]: value,
+      },
+    })),
 }));
 
 export default useRegistrationStore;

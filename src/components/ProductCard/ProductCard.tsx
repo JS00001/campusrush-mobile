@@ -54,7 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const title = product.title || "No title";
   // The subtitle (price) of the product (should always exist, but just in case)
   // prettier-ignore
-  const subtitle = `${product.priceString} ${isSubscription ? "/ mo" : ""}` ?? "No price";
+  const subtitle = `${product.priceString} ${isSubscription ? "/ year" : ""}` ?? "No price";
   // The description of the product (whether or not it has a trial period)
   const description = isSubscription
     ? hasPreviousSubscription

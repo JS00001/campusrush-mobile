@@ -21,7 +21,12 @@ interface OrganizationsProps {
 }
 
 const Organizations: React.FC<OrganizationsProps> = ({ navigation }) => {
-  const { organizations, getOrganizationsQuery } = useAdmin();
+  const { organizations, refetchOrganizations, getOrganizationsQuery } =
+    useAdmin();
+
+  const onRefresh = async () => {
+    await refetchOrganizations();
+  };
 
   return (
     <Layout gap={12}>
@@ -34,6 +39,7 @@ const Organizations: React.FC<OrganizationsProps> = ({ navigation }) => {
       <AdminOrganizationList
         loading={getOrganizationsQuery.isLoading}
         organizations={organizations}
+        refetchOrganizations={onRefresh}
       />
     </Layout>
   );

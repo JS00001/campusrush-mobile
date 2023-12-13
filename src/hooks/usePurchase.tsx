@@ -52,8 +52,8 @@ const usePurchase = () => {
   // CTA for the button (confirming a user's purchase)
   const buttonCTA = _isSubscription
     ? _hasTrialPeriod
-      ? `Start your ${_trialLength} free trial\nthen ${selectedProduct?.priceString} / mo`
-      : `Subscribe for ${selectedProduct?.priceString} / mo`
+      ? `Start your ${_trialLength} free trial\nthen ${selectedProduct?.priceString} / year`
+      : `Subscribe for ${selectedProduct?.priceString} / year`
     : `Purchase for ${selectedProduct?.priceString}`;
 
   const completePurchase = async () => {

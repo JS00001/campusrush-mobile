@@ -10,8 +10,8 @@
  * Do not distribute
  */
 
-import { useMemo } from "react";
-import { SectionList } from "react-native";
+import { useMemo, useState } from "react";
+import { SectionList, ActivityIndicator } from "react-native";
 
 import Text from "@/ui/Text";
 import date from "@/lib/date";
@@ -23,12 +23,16 @@ import { formatPhoneNumber } from "@/lib/string";
 interface AdminOrganizationListProps {
   organizations: Organization[];
   loading?: boolean;
+  refetchOrganizations?: () => Promise<void>;
 }
 
 const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
   organizations,
   loading,
+  refetchOrganizations,
 }) => {
+  const [refreshing, setRefreshing] = useState(false);
+
   // When organizations change, create a new list like this
   const data = useMemo(() => {
     // Reduce the organizations to an object with keys of the first letter of the name
@@ -47,11 +51,11 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
       {
         // Initialize the reduction object with two categories
         paying: {
-          title: "Paying Organizations",
+          title: "Subscribed Organizations",
           data: [],
         },
         nonPaying: {
-          title: "Non-Paying Organizations",
+          title: "Non-Subscribed Organizations",
           data: [],
         },
       },
@@ -62,21 +66,28 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
       (section) => section.data.length > 0,
     );
 
+    // Update the titles to include the number of organizations in each category
+    filtered.forEach((section) => {
+      section.title = `${section.title} (${section.data.length})`;
+    });
+
     return filtered;
   }, [organizations]);
 
   // The components for each item in teh section list
   const ItemComponent = ({ item: organization }: { item: Organization }) => {
     const subtitle = [
+      ``,
       `School: ${organization.school}`,
       `Email: ${organization.email}`,
       `Num Pnms: ${organization.pnms.length}`,
       `Verified: ${organization.verified}`,
       `Entitlements: ${organization.entitlements.join(", ") || "None"}`,
       `Notifications Enabled: ${organization.notificationsEnabled}`,
+      ``,
       `Created On: ${date.toString(organization.createdAt)}`,
       `Updated On: ${date.toString(organization.updatedAt)}`,
-      `-----------------------`,
+      ``,
       `Phone Number: ${formatPhoneNumber(organization.phoneNumber) || "None"}`,
       `Phone Number ID: ${organization.phoneNumberId || "None"}`,
       `Phone Number Created On: ${
@@ -89,7 +100,7 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
         <ListItem
           pressable={false}
           key={organization._id}
-          title={organization.name}
+          title={`${organization.name} at ${organization.school}`}
           subtitle={subtitle}
         />
       </Copyable>
@@ -126,6 +137,12 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
       renderSectionHeader={({ section: { title } }) => (
         <Text style={tw`bg-white w-full font-medium`}>{title}</Text>
       )}
+      refreshing={refreshing}
+      onRefresh={async () => {
+        setRefreshing(true);
+        await refetchOrganizations?.();
+        setRefreshing(false);
+      }}
     />
   );
 };
