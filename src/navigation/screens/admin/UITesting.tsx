@@ -24,37 +24,13 @@ import InfiniteScroll from "@/ui/InfiniteScroll";
 import { useState } from "react";
 import { View } from "react-native";
 import tw from "@/lib/tailwind";
+import DetailView from "@/ui/DetailView";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
-  const initialData = new Array(20).fill(0).map((_, i) => `Item ${i + 1}`);
-
-  const [data, setData] = useState(initialData);
-
-  const onEndReached = async () => {
-    return new Promise<void>(async (resolve) => {
-      // wait 2 second before running the code
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // Get the last number in the data array
-      const lastNumber = parseInt(data[data.length - 1].split(" ")[1]);
-
-      // Create a new array of 20 items
-      const newData = new Array(20)
-        .fill(0)
-        .map((_, i) => `Item ${lastNumber + i + 1}`);
-
-      // Add the new data to the existing data
-      setData((prevData) => [...prevData, ...newData]);
-
-      // Resolve the promise
-      resolve();
-    });
-  };
-
   return (
     <Layout gap={12}>
       <Layout.Header
@@ -63,16 +39,13 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
         subtitle="Test new UI in a sandbox environment"
       />
 
-      <InfiniteScroll
-        onRefresh={async () => {}}
-        data={data}
-        renderItem={({ item }) => (
-          <View style={tw`bg-red-500 w-full p-5 mb-2`}>
-            <Text style={tw`text-white`}>{item}</Text>
-          </View>
-        )}
-        onEndReached={onEndReached}
-      />
+      <DetailView>
+        <DetailView.Section
+          title="This is component 1 a a a a a a  a a aa "
+          content="Hello"
+        />
+        <DetailView.Section title="This is component 2" content="Hello" />
+      </DetailView>
     </Layout>
   );
 };

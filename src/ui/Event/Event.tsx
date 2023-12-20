@@ -17,12 +17,15 @@ import Text from "@/ui/Text";
 import date from "@/lib/date";
 import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface EventProps {
   event: Event;
 }
 
 const Event: React.FC<EventProps> = ({ event }) => {
+  const { handlePresentModalPress } = useBottomSheets();
+
   const startDate = new Date(event.startDate);
   const endDate = new Date(event.endDate);
 
@@ -59,8 +62,18 @@ const Event: React.FC<EventProps> = ({ event }) => {
     hasPassed && "opacity-50",
   );
 
+  const onPress = () => {
+    handlePresentModalPress("EVENT", {
+      event: event,
+    });
+  };
+
   return (
-    <TouchableOpacity style={containerClasses} disabled={hasPassed}>
+    <TouchableOpacity
+      style={containerClasses}
+      onPress={onPress}
+      disabled={hasPassed}
+    >
       <View style={tw`flex-row gap-5 flex-shrink`}>
         {/* Badge */}
         <Badge style={tw`self-start mt-1 w-18 px-1 ${badgeColor}`}>

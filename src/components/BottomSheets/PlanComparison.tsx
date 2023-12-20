@@ -55,54 +55,55 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ innerRef }) => {
       index={0}
       snapPoints={snapPoints}
       backdropComponent={BottomSheetBackdrop}
-    >
-      <ScrollView contentContainerStyle={tw`gap-y-2 items-center pb-12`}>
-        <View style={tw`items-center gap-y-2 p-6`}>
-          <Text variant="title">Plan Comparison</Text>
-          <Text variant="body" style={tw`text-center`}>
-            CampusRush offers the best recruitment experience for greek
-            organizations of all sizes.
-          </Text>
-        </View>
+      children={() => (
+        <ScrollView contentContainerStyle={tw`gap-y-2 items-center pb-12`}>
+          <View style={tw`items-center gap-y-2 p-6`}>
+            <Text variant="title">Plan Comparison</Text>
+            <Text variant="body" style={tw`text-center`}>
+              CampusRush offers the best recruitment experience for greek
+              organizations of all sizes.
+            </Text>
+          </View>
 
-        {/* The plan comparison table */}
-        <View style={tw`flex-1 w-full`}>
-          {/* The header row of the table */}
-          <FeatureRow
-            feature={{ name: "Feature", header: true }}
-            values={productDisplayNames}
-          />
+          {/* The plan comparison table */}
+          <View style={tw`flex-1 w-full`}>
+            {/* The header row of the table */}
+            <FeatureRow
+              feature={{ name: "Feature", header: true }}
+              values={productDisplayNames}
+            />
 
-          {Object.keys(entitlementDetails?.productPerks || {}).map(
-            (perkKey, i) => {
-              // The perk itself, has a name and description
-              // prettier-ignore
-              const perk = entitlementDetails?.productPerks[perkKey as ProductPerkIds];
-
-              // The values of the perk, for each product
-              // prettier-ignore
-              const values = Object.keys(entitlementDetails?.products || {}).map((productKey) => {
+            {Object.keys(entitlementDetails?.productPerks || {}).map(
+              (perkKey, i) => {
+                // The perk itself, has a name and description
                 // prettier-ignore
-                const product = entitlementDetails?.products[productKey as ProductId];
+                const perk = entitlementDetails?.productPerks[perkKey as ProductPerkIds];
+
+                // The values of the perk, for each product
                 // prettier-ignore
-                return product?.ALL_PERKS?.[perkKey as ProductPerkIds] || false;
-              });
+                const values = Object.keys(entitlementDetails?.products || {}).map((productKey) => {
+                  // prettier-ignore
+                  const product = entitlementDetails?.products[productKey as ProductId];
+                  // prettier-ignore
+                  return product?.ALL_PERKS?.[perkKey as ProductPerkIds] || false;
+                });
 
-              if (!perk) return null;
+                if (!perk) return null;
 
-              return (
-                <FeatureRow
-                  key={perkKey}
-                  index={i}
-                  feature={{ name: perk.name, description: perk.description }}
-                  values={values}
-                />
-              );
-            },
-          )}
-        </View>
-      </ScrollView>
-    </BottomSheetModal>
+                return (
+                  <FeatureRow
+                    key={perkKey}
+                    index={i}
+                    feature={{ name: perk.name, description: perk.description }}
+                    values={values}
+                  />
+                );
+              },
+            )}
+          </View>
+        </ScrollView>
+      )}
+    />
   );
 };
 

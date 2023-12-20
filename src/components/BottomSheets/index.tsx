@@ -11,6 +11,7 @@
  */
 
 import Help from "./Help";
+import Event from "./Event";
 import About from "./About";
 import AddPnm from "./AddPnm";
 import NewMessage from "./NewMessage";
@@ -21,6 +22,7 @@ import TermsAndConditions from "./TermsAndConditions";
 export default {
   Help,
   About,
+  Event,
   AddPnm,
   NewMessage,
   PrivacyPolicy,

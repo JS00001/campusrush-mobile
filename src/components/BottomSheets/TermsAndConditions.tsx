@@ -74,47 +74,48 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
       style={tw`flex-1`}
       backgroundStyle={tw`bg-slate-100`}
       backdropComponent={BottomSheetBackdrop}
-    >
-      <Layout
-        gap={8}
-        scrollable
-        style={tw`bg-slate-100`}
-        contentContainerStyle={tw`pb-6 items-start bg-slate-100`}
-      >
-        {query.isLoading && <TermsAndConditionsSkeleton />}
+      children={() => (
+        <Layout
+          gap={8}
+          scrollable
+          style={tw`bg-slate-100`}
+          contentContainerStyle={tw`pb-6 items-start bg-slate-100`}
+        >
+          {query.isLoading && <TermsAndConditionsSkeleton />}
 
-        {query.isFetched && !query.isLoading && (
-          <>
-            <Badge size="md">Last Updated: {lastUpdated}</Badge>
-            <Text variant="header" style={tw`text-primary mb-4`}>
-              Terms and Conditions
-            </Text>
-
-            <View
-              style={tw`items-center w-full bg-white p-4 rounded-xl shadow-sm`}
-            >
-              <Text variant="body">
-                {query.data?.content.split("**").map((item, index) =>
-                  index % 2 === 0 ? (
-                    <Text key={index} variant="body">
-                      {item}
-                    </Text>
-                  ) : (
-                    <Text
-                      key={index}
-                      variant="body"
-                      style={tw`text-primary font-bold`}
-                    >
-                      {item}
-                    </Text>
-                  ),
-                )}
+          {query.isFetched && !query.isLoading && (
+            <>
+              <Badge size="md">Last Updated: {lastUpdated}</Badge>
+              <Text variant="header" style={tw`text-primary mb-4`}>
+                Terms and Conditions
               </Text>
-            </View>
-          </>
-        )}
-      </Layout>
-    </BottomSheetModal>
+
+              <View
+                style={tw`items-center w-full bg-white p-4 rounded-xl shadow-sm`}
+              >
+                <Text variant="body">
+                  {query.data?.content.split("**").map((item, index) =>
+                    index % 2 === 0 ? (
+                      <Text key={index} variant="body">
+                        {item}
+                      </Text>
+                    ) : (
+                      <Text
+                        key={index}
+                        variant="body"
+                        style={tw`text-primary font-bold`}
+                      >
+                        {item}
+                      </Text>
+                    ),
+                  )}
+                </Text>
+              </View>
+            </>
+          )}
+        </Layout>
+      )}
+    />
   );
 };
 

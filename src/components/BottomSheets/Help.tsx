@@ -34,11 +34,12 @@ const Help: React.FC<HelpProps> = ({ innerRef }) => {
       index={0}
       snapPoints={snapPoints}
       backdropComponent={BottomSheetBackdrop}
-    >
-      <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-2`}>
-        <Text>Help</Text>
-      </ScrollView>
-    </BottomSheetModal>
+      children={() => (
+        <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-2`}>
+          <Text>Help</Text>
+        </ScrollView>
+      )}
+    />
   );
 };
 
