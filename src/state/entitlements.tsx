@@ -30,7 +30,7 @@ const useEntitlementsStore = create<EntitlementsState>()(
         set({ entitlementDetails }),
     }),
     {
-      name: "entitlements",
+      name: "entitlements-store",
       storage: customAsyncStorage as PersistStorage<EntitlementsState>,
     },
   ),

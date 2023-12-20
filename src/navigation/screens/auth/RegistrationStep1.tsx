@@ -17,7 +17,7 @@ import Button from "@/ui/Button";
 import Dropdown from "@/ui/Dropdown";
 import schools from "@/constants/schools";
 import organizations from "@/constants/organizations";
-import useRegistration from "@/hooks/useRegistration";
+import useRegistration from "@/hooks/auth/useRegistration";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 interface RegistrationProps {

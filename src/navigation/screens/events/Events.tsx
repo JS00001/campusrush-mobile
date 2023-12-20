@@ -10,31 +10,88 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
+import { MenuView } from "@react-native-menu/menu";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
+import Event from "@/ui/Event";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
+import TextInput from "@/ui/TextInput";
+import IconButton from "@/ui/IconButton";
 import ActionButton from "@/ui/ActionButton";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import useEventsList from "@/hooks/useEventsList";
+import InfiniteList from "@/components/InfiniteList";
 
 interface EventsProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const Events: React.FC<EventsProps> = ({ navigation }) => {
-  // Import bottom sheets hook to show the "New Message" modal
-  const { handlePresentModalPress } = useBottomSheets();
+  const {
+    events,
+    isLoading,
+    searchQuery,
+    otherActions,
+    filterActions,
+
+    refetch,
+    fetchNextPage,
+    onFilterPress,
+    onOtherPress,
+    setSearchQuery,
+  } = useEventsList();
 
   // When the new chat action button is pressed, present the new event modal
-  const onNewChatPress = () => {};
+  const onNewEventPress = () => {};
+
+  const onRefresh = async () => {
+    await refetch();
+  };
+
+  const onEndReached = async () => {
+    await fetchNextPage();
+  };
 
   return (
     <>
       {/* The floating action button in bottom right */}
-      <ActionButton icon="ri-add-line" onPress={onNewChatPress} />
+      <ActionButton icon="ri-add-line" onPress={onNewEventPress} />
 
       <Layout gap={8}>
         <Layout.Header title="Events" subtitle="Manage and share your events" />
+
+        <View style={tw`flex-row w-full gap-x-1`}>
+          <TextInput
+            autoCorrect={false}
+            icon="ri-search-line"
+            variant="alternate"
+            placeholder="Search Events"
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            containerStyle={tw`flex-shrink`}
+          />
+
+          <MenuView
+            title="Filter By"
+            onPressAction={onFilterPress}
+            actions={filterActions}
+          >
+            <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
+          </MenuView>
+
+          <MenuView actions={otherActions} onPressAction={onOtherPress}>
+            <IconButton icon="ri-more-fill" style={tw`flex-grow`} />
+          </MenuView>
+        </View>
+
+        <InfiniteList
+          loading={isLoading}
+          data={events}
+          onRefresh={onRefresh}
+          onEndReached={onEndReached}
+          renderItem={({ item: event }) => <Event event={event} />}
+        />
       </Layout>
     </>
   );

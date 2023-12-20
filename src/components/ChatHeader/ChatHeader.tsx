@@ -19,7 +19,7 @@ import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
 import IconButton from "@/ui/IconButton";
 import ProgressBar from "@/ui/ProgressBar";
-import usePnmActions from "@/hooks/usePnmActions";
+import usePnmActions from "@/hooks/pnms/usePnmActions";
 
 interface ChatHeaderProps {
   pnms: PNM[];

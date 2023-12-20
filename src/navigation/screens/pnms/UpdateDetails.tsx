@@ -16,7 +16,7 @@ import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import ChatHeader from "@/components/ChatHeader";
-import useUpdatePnm from "@/hooks/useUpdatePnm";
+import useUpdatePnm from "@/hooks/pnms/useUpdatePnm";
 
 interface UpdatePnmDetailsProps {
   navigation: NativeStackNavigationProp<any>;

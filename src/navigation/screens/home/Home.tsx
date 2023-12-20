@@ -65,13 +65,18 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
         contentContainerStyle={tw`items-start`}
       >
         <View style={tw`justify-between items-center flex-row w-full`}>
-          <Text variant="header" numberOfLines={1} style={tw`text-white`}>
+          <Text
+            variant="header"
+            numberOfLines={1}
+            style={tw`text-white shrink`}
+          >
             Welcome {organization.firstName}
           </Text>
           <IconButton
             color="white"
-            icon="ri-settings-3-line"
-            style={tw`bg-navy-100 shadow-2xl`}
+            size="md"
+            icon="ri-settings-4-fill"
+            style={tw`bg-navy-100 shadow-lg`}
             onPress={onSettingsPress}
           />
         </View>

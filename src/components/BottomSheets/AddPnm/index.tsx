@@ -16,7 +16,7 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { AddPnmScreens, ScreensList } from "./types";
 import BottomSheetBackdrop from "../Components/BottomSheetBackdrop";
 
-import useCreatePnm from "@/hooks/useCreatePnm";
+import useCreatePnm from "@/hooks/pnms/useCreatePnm";
 import AddPnm from "@/components/BottomSheets/AddPnm/AddPnm";
 import AddQrCodeStep from "@/components/BottomSheets/AddPnm/AddQrCode";
 import AddManualStep1 from "@/components/BottomSheets/AddPnm/AddManualStep1";

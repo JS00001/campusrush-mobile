@@ -34,7 +34,6 @@ const useConversations = () => {
     conversations,
     setStatus,
     setConversations,
-    updateConversation,
     addConversations,
   } = useConversationsStore();
 
@@ -59,9 +58,10 @@ const useConversations = () => {
       });
     },
     getNextPageParam: (lastPage) => {
-      // If there are no more messages, return undefined
-      if (lastPage.data.data.conversations.length < 20) return undefined;
-      // Otherwise, return the next offset
+      const hasNextPage = lastPage.data.data.hasNextPage;
+
+      if (!hasNextPage) return undefined;
+
       return lastPage.data.data.nextOffset;
     },
   });

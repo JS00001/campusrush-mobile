@@ -137,3 +137,27 @@ interface Conversation {
   // When the conversation was created
   createdAt: Date;
 }
+
+interface Event {
+  _id: string;
+  // The organization that created the event
+  organization: string;
+  // The title of the event
+  title: string;
+  // The description of the event
+  description: string;
+  // The location of the event
+  location: string;
+  // The start date of the event
+  startDate: Date;
+  // The end date of the event
+  endDate: Date;
+  // How many users have responded yes
+  yesCount: number;
+  // How many users have responded no
+  noCount: number;
+  // The timestamp of when the event was created
+  createdAt: Date;
+  // The timestamp of when the event was last updated
+  updatedAt: Date;
+}

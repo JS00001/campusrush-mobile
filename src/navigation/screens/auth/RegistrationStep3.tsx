@@ -13,7 +13,7 @@
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
-import useRegistration from "@/hooks/useRegistration";
+import useRegistration from "@/hooks/auth/useRegistration";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep3: React.FC = () => {

@@ -278,3 +278,45 @@ type DeleteOrganizationAPIResponse = APIResponse & {
     };
   };
 };
+
+type GetEventsAPIResponse = APIResponse & {
+  data: {
+    data: {
+      events: Event[];
+      nextOffset: number;
+      hasNextPage: boolean;
+    };
+  };
+};
+
+type DeleteEventsAPIResponse = APIResponse & {
+  data: {
+    data: {
+      events: Event[];
+    };
+  };
+};
+
+type CreateEventAPIResponse = APIResponse & {
+  data: {
+    data: {
+      event: Event;
+    };
+  };
+};
+
+type UpdateEventAPIResponse = APIResponse & {
+  data: {
+    data: {
+      event: Event;
+    };
+  };
+};
+
+type DeleteEventAPIResponse = APIResponse & {
+  data: {
+    data: {
+      success: boolean;
+    };
+  };
+};

@@ -1,5 +1,5 @@
 /*
- * Created on Mon Oct 9 2023
+ * Created on Wed Dec 20 2023
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,6 +10,6 @@
  * Do not distribute
  */
 
-import Conversations from "./Conversations";
+import InfiniteList from "./InfiniteList";
 
-export default Conversations;
+export default InfiniteList;

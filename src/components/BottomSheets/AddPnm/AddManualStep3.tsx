@@ -21,7 +21,7 @@ import Text from "@/ui/Text";
 import Button from "@/ui/Button";
 import ListItem from "@/ui/ListItem";
 import ButtonGroup from "@/ui/ButtonGroup";
-import type { UseCreatePnm } from "@/hooks/useCreatePnm";
+import type { UseCreatePnm } from "@/hooks/pnms/useCreatePnm";
 
 /**
  * The props for this screen extend the values of the "useCreatePnm" hook

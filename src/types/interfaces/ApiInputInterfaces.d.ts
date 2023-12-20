@@ -129,3 +129,28 @@ interface DeletePnmInput {
 interface GetPnmInput {
   id: string;
 }
+
+interface GetEventsInput {
+  offset: number;
+}
+
+interface CreateEventInput {
+  title: string;
+  description: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+}
+
+interface UpdateEventInput {
+  id: string;
+  title?: string;
+  description?: string;
+  location?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+interface DeleteEventInput {
+  id: string;
+}
