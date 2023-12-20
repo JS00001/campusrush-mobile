@@ -42,7 +42,6 @@ const Events: React.FC<EventsProps> = ({ navigation }) => {
     setSearchQuery,
   } = useEventsList();
 
-  // When the new chat action button is pressed, present the new event modal
   const onNewEventPress = () => {};
 
   const onRefresh = async () => {
@@ -52,6 +51,10 @@ const Events: React.FC<EventsProps> = ({ navigation }) => {
   const onEndReached = async () => {
     await fetchNextPage();
   };
+
+  // Define a placeholder of how many events are being searched
+  // prettier-ignore
+  const searchPlaceholder = `Search ${events.length ? `${events.length} ` : ""}Events`;
 
   return (
     <>
@@ -66,7 +69,7 @@ const Events: React.FC<EventsProps> = ({ navigation }) => {
             autoCorrect={false}
             icon="ri-search-line"
             variant="alternate"
-            placeholder="Search Events"
+            placeholder={searchPlaceholder}
             value={searchQuery}
             onChangeText={setSearchQuery}
             containerStyle={tw`flex-shrink`}
