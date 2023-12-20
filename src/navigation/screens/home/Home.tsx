@@ -17,6 +17,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import ActionCard from "@/ui/ActionCard";
+import IconButton from "@/ui/IconButton";
 import { useAuth } from "@/providers/Auth";
 import RecentPnms from "@/components/RecentPnms";
 import useStatistics from "@/hooks/useStatistics";
@@ -32,6 +33,11 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { organization } = useAuth();
   const { handlePresentModalPress } = useBottomSheets();
   const { numPnms, numStarredPnms, isLoading, recentPnms } = useStatistics();
+
+  // When the user clicks the settings icon
+  const onSettingsPress = () => {
+    navigation.navigate("Settings");
+  };
 
   // When the user clicks the "New PNM" CTA
   const onAddPNM = () => {
@@ -58,9 +64,17 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
         scrollable
         contentContainerStyle={tw`items-start`}
       >
-        <Text variant="header" numberOfLines={1} style={tw`text-white`}>
-          Welcome {organization.firstName}
-        </Text>
+        <View style={tw`justify-between items-center flex-row w-full`}>
+          <Text variant="header" numberOfLines={1} style={tw`text-white`}>
+            Welcome {organization.firstName}
+          </Text>
+          <IconButton
+            color="white"
+            icon="ri-settings-3-line"
+            style={tw`bg-navy-100 shadow-2xl`}
+            onPress={onSettingsPress}
+          />
+        </View>
 
         {/* Organization Statistics */}
         <Text variant="title" style={tw`text-white`}>

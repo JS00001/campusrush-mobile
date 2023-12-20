@@ -22,6 +22,7 @@ import tw from "@/lib/tailwind";
 
 interface IconButtonProps extends TouchableOpacityProps {
   icon: string;
+  color?: string;
   style?: any;
   loading?: boolean;
   disabled?: boolean;
@@ -52,6 +53,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   icon,
   disabled,
   loading,
+  color,
   size = "lg",
   onPress,
   style,
@@ -59,7 +61,11 @@ const IconButton: React.FC<IconButtonProps> = ({
 }) => {
   disabled = disabled || loading;
 
-  const iconColor = disabled ? tw.color("slate-300") : tw.color("primary");
+  const iconColor = disabled
+    ? tw.color("slate-300")
+    : color
+    ? color
+    : tw.color("primary");
 
   // Styling
   const containerClasses = tw.style(

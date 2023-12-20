@@ -19,7 +19,7 @@ import {
   HomeStack,
   MessagesStack,
   PNMsStack,
-  SettingsStack,
+  EventsStack,
 } from "@/navigation/stack-navigator";
 
 import tw from "@/lib/tailwind";
@@ -156,20 +156,20 @@ export const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="SettingsTab"
-        component={SettingsStack}
+        name="EventsTab"
+        component={EventsStack}
         options={{
-          tabBarLabel: "Settings",
+          tabBarLabel: "Events",
           tabBarIcon: ({ color, focused }) =>
             focused ? (
               <Icon
-                name="ri-settings-3-fill"
+                name="ri-calendar-2-fill"
                 size={26}
                 color={color}
               />
             ) : (
               <Icon
-                name="ri-settings-3-line"
+                name="ri-calendar-2-line"
                 size={26}
                 color={color}
               />

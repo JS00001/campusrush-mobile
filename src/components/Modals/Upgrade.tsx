@@ -10,6 +10,9 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import type { ModalProps } from "./types";
 import ModalWrapper from "./Templates/ModalWrapper";
 
@@ -18,8 +21,6 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import ButtonGroup from "@/ui/ButtonGroup";
 import UpgradeIcon from "@/assets/icons/Upgrade";
-import { View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 const UpgradeModal: React.FC<ModalProps> = ({
   open,
@@ -34,7 +35,7 @@ const UpgradeModal: React.FC<ModalProps> = ({
 
   const onPrimaryButtonPress = () => {
     if (!primaryButtonAction) {
-      (navigation.navigate as any)("SettingsTab", {
+      (navigation.navigate as any)("HomeTab", {
         screen: "UpdateBilling",
         initial: false,
       });

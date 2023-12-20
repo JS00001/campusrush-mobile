@@ -52,6 +52,8 @@ import UpdateGeneralScreen from "@/navigation/screens/settings/organization/Upda
 import UpdateSecurityScreen from "@/navigation/screens/settings/organization/UpdateSecurity";
 import UpdateOrganizationScreen from "@/navigation/screens/settings/organization/UpdateOrganization";
 
+import EventsScreen from "@/navigation/screens/events/Events";
+
 export const Stack = createNativeStackNavigator();
 
 /**
@@ -153,6 +155,38 @@ export const HomeStack = () => {
         name="Home"
         component={HomeScreen}
       />
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
+      />
+      <Stack.Screen
+        name="LinkSharing"
+        component={LinkSharingScreen}
+      />
+      <Stack.Screen
+        name="PhoneNumber"
+        component={PhoneNumber}
+      />
+      <Stack.Screen
+        name="UpdateBilling"
+        component={UpdateBillingScreen}
+      />
+      <Stack.Screen
+        name="UpdateOrganization"
+        component={UpdateOrganizationScreen}
+      />
+      <Stack.Screen
+        name="UpdateGeneral"
+        component={UpdateGeneralScreen}
+      />
+      <Stack.Screen
+        name="UpdateSecurity"
+        component={UpdateSecurityScreen}
+      />
+      <Stack.Screen
+        name="UpdateNotifications"
+        component={UpdateNotificationsScreen}
+      />
     </Stack.Navigator>
   );
 };
@@ -234,45 +268,17 @@ export const MessagesStack = () => {
 };
 
 /**
- * Stack Navigator App Settings Screen
+ * Stack Navigator App Events Screen
  *
  * This is the main stack navigator for the app
- * when the user is on the "Settings" tab
+ * when the user is on the "Events" tab
  */
-export const SettingsStack = () => {
+export const EventsStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
-        name="Settings"
-        component={SettingsScreen}
-      />
-      <Stack.Screen
-        name="LinkSharing"
-        component={LinkSharingScreen}
-      />
-      <Stack.Screen
-        name="PhoneNumber"
-        component={PhoneNumber}
-      />
-      <Stack.Screen
-        name="UpdateBilling"
-        component={UpdateBillingScreen}
-      />
-      <Stack.Screen
-        name="UpdateOrganization"
-        component={UpdateOrganizationScreen}
-      />
-      <Stack.Screen
-        name="UpdateGeneral"
-        component={UpdateGeneralScreen}
-      />
-      <Stack.Screen
-        name="UpdateSecurity"
-        component={UpdateSecurityScreen}
-      />
-      <Stack.Screen
-        name="UpdateNotifications"
-        component={UpdateNotificationsScreen}
+        name="Events"
+        component={EventsScreen}
       />
     </Stack.Navigator>
   );
