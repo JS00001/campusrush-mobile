@@ -11,6 +11,7 @@
  */
 
 import usePnmsStore from "./pnms";
+import useEventsStore from "./events";
 import useStatisticsStore from "./statistics";
 import useContactsStore from "./messaging/contacts";
 import useMessagesStore from "./messaging/messages";
@@ -47,6 +48,9 @@ const useZustandStore = () => {
 
   // Messages store
   const _resetMessagesState = useMessagesStore((s) => s.resetState);
+
+  // Events store
+  const _resetEventsState = useEventsStore((s) => s.resetState);
 
   /**
    * Add a new PNM
@@ -137,6 +141,8 @@ const useZustandStore = () => {
     _resetContactsState();
     // Update the messages store
     _resetMessagesState();
+    // Update the events store
+    _resetEventsState();
   };
 
   return {
