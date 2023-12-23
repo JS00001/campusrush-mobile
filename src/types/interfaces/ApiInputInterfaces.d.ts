@@ -126,10 +126,6 @@ interface DeletePnmInput {
   id: string;
 }
 
-interface GetPnmInput {
-  id: string;
-}
-
 interface GetEventsInput {
   offset: number;
 }
