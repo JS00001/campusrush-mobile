@@ -18,7 +18,7 @@ import BottomSheet from "./Components/BottomSheet";
 import BottomSheetContainer from "./Components/BottomSheetContainer";
 
 import Text from "@/ui/Text";
-import date from "@/lib/date";
+import date from "@/lib/util/date";
 import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";

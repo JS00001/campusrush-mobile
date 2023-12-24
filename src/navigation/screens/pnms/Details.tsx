@@ -14,13 +14,13 @@ import { useEffect } from "react";
 import { View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import date from "@/lib/date";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
+import date from "@/lib/util/date";
 import usePnmsStore from "@/state/pnms";
 import ActionCard from "@/ui/ActionCard";
-import ChatHeader from "@/components/ChatHeader";
-import { formatPhoneNumber } from "@/lib/string";
+import { formatPhoneNumber } from "@/lib/util/string";
+import ChatHeader from "@/components/Headers/Chat";
 
 interface PnmDetailsProps {
   navigation: NativeStackNavigationProp<any>;

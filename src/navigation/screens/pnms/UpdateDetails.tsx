@@ -15,8 +15,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
-import ChatHeader from "@/components/ChatHeader";
 import useUpdatePnm from "@/hooks/pnms/useUpdatePnm";
+import ChatHeader from "@/components/Headers/Chat";
 
 interface UpdatePnmDetailsProps {
   navigation: NativeStackNavigationProp<any>;

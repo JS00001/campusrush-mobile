@@ -13,18 +13,9 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
-import Button from "@/ui/Button";
-import Information from "@/ui/Information";
-import useModalsStore from "@/state/modals";
-import Toast from "react-native-toast-message";
-import Tooltip from "@/ui/Tooltip";
-import Text from "@/ui/Text";
-import CopyItem from "@/ui/CopyItem";
-import InfiniteScroll from "@/ui/InfiniteScroll";
-import { useState } from "react";
-import { View } from "react-native";
-import tw from "@/lib/tailwind";
+
 import DetailView from "@/ui/DetailView";
+import Header from "@/ui/Header";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
@@ -33,11 +24,9 @@ interface UITestingProps {
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
   return (
     <Layout gap={12}>
-      <Layout.Header
-        hasBackButton
-        title="UI Testing"
-        subtitle="Test new UI in a sandbox environment"
-      />
+      <Layout.CustomHeader>
+        <Header hasBackButton hasMenuButton title="Admin" />
+      </Layout.CustomHeader>
 
       <DetailView>
         <DetailView.Section

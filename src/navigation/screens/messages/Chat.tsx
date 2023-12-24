@@ -14,11 +14,11 @@ import { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
-import ChatHeader from "@/components/ChatHeader";
 import MessageBox from "@/components/MessageBox";
 import MessageList from "@/components/MessageList";
-import useConversation from "@/hooks/messaging/useConversation";
 import { useWebsocket } from "@/providers/Websocket";
+import ChatHeader from "@/components/Headers/Chat";
+import useConversation from "@/hooks/messaging/useConversation";
 
 interface ChatProps {
   route: any;

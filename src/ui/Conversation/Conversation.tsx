@@ -14,7 +14,7 @@ import { TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
-import date from "@/lib/date";
+import date from "@/lib/util/date";
 import tw from "@/lib/tailwind";
 
 interface ConversationProps {

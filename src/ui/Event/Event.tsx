@@ -14,7 +14,7 @@ import RemixIcon from "react-native-remix-icon";
 import { TouchableOpacity, View } from "react-native";
 
 import Text from "@/ui/Text";
-import date from "@/lib/date";
+import date from "@/lib/util/date";
 import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
 import { useBottomSheets } from "@/providers/BottomSheet";

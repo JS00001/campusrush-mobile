@@ -10,8 +10,8 @@
  * Do not distribute
  */
 
-import { BottomSheetModal, BottomSheetModalProps } from "@gorhom/bottom-sheet";
 import React from "react";
+import { BottomSheetModal, BottomSheetModalProps } from "@gorhom/bottom-sheet";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 
 import BottomSheetBackdrop from "./BottomSheetBackdrop";
@@ -25,9 +25,9 @@ interface BottomSheetProps extends BottomSheetModalProps {
 const BottomSheet: React.FC<BottomSheetProps> = ({ children, ...props }) => {
   return (
     <BottomSheetModal
-      ref={props.innerRef}
       enableDynamicSizing
-      backgroundStyle={tw`rounded-t-3xl`}
+      ref={props.innerRef}
+      backgroundStyle={tw`rounded-3xl`}
       handleIndicatorStyle={tw`bg-slate-500 rounded-full w-14`}
       backdropComponent={BottomSheetBackdrop}
       {...props}

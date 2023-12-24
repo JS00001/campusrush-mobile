@@ -13,8 +13,8 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
-import ChatHeader from "@/components/ChatHeader";
 import MessageBox from "@/components/MessageBox";
+import ChatHeader from "@/components/Headers/Chat";
 import useMassMessager from "@/hooks/messaging/useMassMessager";
 
 interface NewMessageProps {

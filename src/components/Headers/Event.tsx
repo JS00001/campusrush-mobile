@@ -1,5 +1,5 @@
 /*
- * Created on Sun Oct 15 2023
+ * Created on Sun Dec 24 2023
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,6 +10,10 @@
  * Do not distribute
  */
 
-import ChatHeader from "./ChatHeader";
+interface EventHeaderProps {}
 
-export default ChatHeader;
+const EventHeader: React.FC<EventHeaderProps> = () => {
+  return <></>;
+};
+
+export default EventHeader;
