@@ -11,16 +11,16 @@
  */
 
 import { useMemo } from "react";
+import { View } from "react-native";
 import RemixIcon from "react-native-remix-icon";
-import { ScrollView, View } from "react-native";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import type {
   ProductId,
   ProductPerkIds,
 } from "@/types/interfaces/EntitlementInterfaces";
 
-import BottomSheetBackdrop from "./Components/BottomSheetBackdrop";
+import BottomSheet from "./Components/BottomSheet";
+import BottomSheetContainer from "./Components/BottomSheetContainer";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -33,9 +33,6 @@ interface PlanComparisonProps {
 }
 
 const PlanComparison: React.FC<PlanComparisonProps> = ({ innerRef }) => {
-  // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["90%"], []);
-
   // Import the product data
   const entitlementDetails = useEntitlementsStore(
     (state) => state.entitlementDetails,
@@ -50,13 +47,10 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ innerRef }) => {
   }, [entitlementDetails]);
 
   return (
-    <BottomSheetModal
-      ref={innerRef}
-      index={0}
-      snapPoints={snapPoints}
-      backdropComponent={BottomSheetBackdrop}
+    <BottomSheet
+      innerRef={innerRef}
       children={() => (
-        <ScrollView contentContainerStyle={tw`gap-y-2 items-center pb-12`}>
+        <BottomSheetContainer style={tw`px-0`}>
           <View style={tw`items-center gap-y-2 p-6`}>
             <Text variant="title">Plan Comparison</Text>
             <Text variant="body" style={tw`text-center`}>
@@ -101,7 +95,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ innerRef }) => {
               },
             )}
           </View>
-        </ScrollView>
+        </BottomSheetContainer>
       )}
     />
   );

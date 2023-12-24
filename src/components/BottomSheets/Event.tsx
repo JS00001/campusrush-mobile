@@ -10,11 +10,10 @@
  * Do not distribute
  */
 
-import { useMemo } from "react";
-import { ScrollView, View } from "react-native";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { View } from "react-native";
 
-import BottomSheetBackdrop from "./Components/BottomSheetBackdrop";
+import BottomSheet from "./Components/BottomSheet";
+import BottomSheetContainer from "./Components/BottomSheetContainer";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -29,16 +28,9 @@ interface EventProps {
 }
 
 const Event: React.FC<EventProps> = ({ event, innerRef }) => {
-  // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["70%"], []);
-
   return (
-    <BottomSheetModal
-      ref={innerRef}
-      index={0}
-      snapPoints={snapPoints}
-      backdropComponent={BottomSheetBackdrop}
-      // We get the data from the passed "data"
+    <BottomSheet
+      innerRef={innerRef}
       children={(data) => {
         const event: Event = data?.data.event;
 
@@ -62,7 +54,7 @@ const Event: React.FC<EventProps> = ({ event, innerRef }) => {
         });
 
         return (
-          <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-2`}>
+          <BottomSheetContainer>
             <View style={tw`mb-2`}>
               <Text variant="title">{event.title}</Text>
               <Text variant="body">{event.description}</Text>
@@ -89,7 +81,7 @@ const Event: React.FC<EventProps> = ({ event, innerRef }) => {
               </Button>
               <Button size="sm">Share Event</Button>
             </ButtonGroup>
-          </ScrollView>
+          </BottomSheetContainer>
         );
       }}
     />

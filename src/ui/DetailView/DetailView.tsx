@@ -46,16 +46,16 @@ const DetailView: React.FC<DetailViewProps> & DetailViewComponents = ({
     DetailViewSectionChildren.map((section, index) => {
       if (DetailViewSectionChildren.length == 1) {
         return React.cloneElement(section, {
-          style: tw`rounded-lg`,
+          style: tw`rounded-xl`,
         });
       } else {
         if (index == 0) {
           return React.cloneElement(section, {
-            style: tw`rounded-t-lg`,
+            style: tw`rounded-t-xl`,
           });
         } else if (index == DetailViewSectionChildren.length - 1) {
           return React.cloneElement(section, {
-            style: tw`rounded-b-lg`,
+            style: tw`rounded-b-xl`,
           });
         } else {
           return section;

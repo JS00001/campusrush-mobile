@@ -10,14 +10,13 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
 import { useEffect } from "react";
 import { View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { AddPnmScreens } from "./types";
 
 import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import ListItem from "@/ui/ListItem";
 import ButtonGroup from "@/ui/ButtonGroup";
@@ -64,10 +63,7 @@ const AddManualStep3: React.FC<AddManualStep3ScreenProps> = ({
   useEffect(() => {}, []);
 
   return (
-    <KeyboardAwareScrollView
-      style={tw`p-6`}
-      contentContainerStyle={tw`gap-y-3 flex-1`}
-    >
+    <>
       {/* Header and subheader */}
       <View style={tw`mb-2`}>
         <Text variant="title">Finalize</Text>
@@ -102,7 +98,7 @@ const AddManualStep3: React.FC<AddManualStep3ScreenProps> = ({
           Yes, Add PNM
         </Button>
       </ButtonGroup>
-    </KeyboardAwareScrollView>
+    </>
   );
 };
 

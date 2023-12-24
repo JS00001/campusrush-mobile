@@ -11,7 +11,6 @@
  */
 
 import { View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { AddPnmScreens } from "./types";
 
@@ -66,10 +65,7 @@ const AddManualStep1: React.FC<AddManualStep1ScreenProps> = ({
   };
 
   return (
-    <KeyboardAwareScrollView
-      style={tw`p-6`}
-      contentContainerStyle={tw`gap-y-4 flex-1`}
-    >
+    <View style={tw`gap-y-4`}>
       <View style={tw`mb-2`}>
         <Text variant="title">Basic Information</Text>
         <Text variant="body">Enter the PNM's name and contact information</Text>
@@ -112,7 +108,7 @@ const AddManualStep1: React.FC<AddManualStep1ScreenProps> = ({
           Next
         </Button>
       </ButtonGroup>
-    </KeyboardAwareScrollView>
+    </View>
   );
 };
 

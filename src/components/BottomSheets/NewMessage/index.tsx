@@ -10,11 +10,12 @@
  * Do not distribute
  */
 
-import { useMemo, useState } from "react";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useState } from "react";
 
 import { NewMessageScreens, ScreensList } from "./types";
-import BottomSheetBackdrop from "../Components/BottomSheetBackdrop";
+
+import BottomSheet from "../Components/BottomSheet";
+import BottomSheetContainer from "../Components/BottomSheetContainer";
 
 import NewMessage from "@/components/BottomSheets/NewMessage/NewMessage";
 import DirectMessage from "@/components/BottomSheets/NewMessage/DirectMessage";
@@ -30,36 +31,21 @@ const NewMessageRoot: React.FC<NewMessageProps> = ({
   handleCloseModalPress,
   handleSnapToPosition,
 }) => {
-  // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["70%", "80%", "95%"], []);
   // State to keep track of which screen the user is on
-  const [_screen, _setScreen] = useState<NewMessageScreens>(
+  const [screen, setScreen] = useState<NewMessageScreens>(
     NewMessageScreens.NewMessage,
   );
 
-  // When the bottom sheet modal is open
+  // // If the bottom sheet modal is closed, reset the screen to step 1
   const onBottomSheetChange = (index: number) => {
-    // // If the bottom sheet modal is closed
     if (index === -1) {
-      // Reset the screen
       setScreen(NewMessageScreens.NewMessage);
-    }
-  };
-
-  // Method to set the screen to a new step
-  const setScreen = (screen: NewMessageScreens) => {
-    // Set the screen
-    _setScreen(screen);
-    // and then snap to the new position if its not the first screen\
-    if (screen !== NewMessageScreens.NewMessage) {
-      handleSnapToPosition(ScreensList[screen].position);
     }
   };
 
   // Create a list of all of the screens
   const ScreensList: ScreensList = {
     [NewMessageScreens.NewMessage]: {
-      position: "70%",
       component: (
         <NewMessage
           setScreen={setScreen}
@@ -68,7 +54,6 @@ const NewMessageRoot: React.FC<NewMessageProps> = ({
       ),
     },
     [NewMessageScreens.DirectMessage]: {
-      position: "80%",
       component: (
         <DirectMessage
           setScreen={setScreen}
@@ -80,18 +65,12 @@ const NewMessageRoot: React.FC<NewMessageProps> = ({
   };
 
   // Select the proper screen
-  const ScreenComponent = ScreensList[_screen].component;
+  const ScreenComponent = ScreensList[screen].component;
 
   return (
-    <BottomSheetModal
-      ref={innerRef}
-      index={0}
-      snapPoints={snapPoints}
-      onChange={onBottomSheetChange}
-      backdropComponent={BottomSheetBackdrop}
-    >
-      {ScreenComponent}
-    </BottomSheetModal>
+    <BottomSheet innerRef={innerRef} onChange={onBottomSheetChange}>
+      <BottomSheetContainer>{ScreenComponent}</BottomSheetContainer>
+    </BottomSheet>
   );
 };
 

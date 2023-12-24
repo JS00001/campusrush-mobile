@@ -10,13 +10,12 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
 import { View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { AddPnmScreens } from "./types";
 
 import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import ButtonGroup from "@/ui/ButtonGroup";
@@ -66,10 +65,7 @@ const AddManualStep2: React.FC<AddManualStep2ScreenProps> = ({
   };
 
   return (
-    <KeyboardAwareScrollView
-      style={tw`p-6`}
-      contentContainerStyle={tw`gap-y-4 flex-1`}
-    >
+    <View style={tw`gap-y-4`}>
       <View style={tw`mb-2`}>
         <Text variant="title">Social Media</Text>
         <Text variant="body">Enter the PNM's known social media</Text>
@@ -99,7 +95,7 @@ const AddManualStep2: React.FC<AddManualStep2ScreenProps> = ({
           Next
         </Button>
       </ButtonGroup>
-    </KeyboardAwareScrollView>
+    </View>
   );
 };
 

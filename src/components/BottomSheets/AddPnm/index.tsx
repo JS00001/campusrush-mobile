@@ -10,11 +10,11 @@
  * Do not distribute
  */
 
-import { useMemo, useState } from "react";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useState } from "react";
 
 import { AddPnmScreens, ScreensList } from "./types";
-import BottomSheetBackdrop from "../Components/BottomSheetBackdrop";
+import BottomSheet from "../Components/BottomSheet";
+import BottomSheetContainer from "../Components/BottomSheetContainer";
 
 import useCreatePnm from "@/hooks/pnms/useCreatePnm";
 import AddPnm from "@/components/BottomSheets/AddPnm/AddPnm";
@@ -34,14 +34,8 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
   handleCloseModalPress,
   handleSnapToPosition,
 }) => {
-  // Get the values needed to create a PNM
   const { ...values } = useCreatePnm();
-
-  // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["45%", "50%", "65%", "80%", "90%"], []);
-
-  // The current screen that is visible
-  const [_screen, _setScreen] = useState<AddPnmScreens>(AddPnmScreens.AddPnm);
+  const [screen, setScreen] = useState<AddPnmScreens>(AddPnmScreens.AddPnm);
 
   // When the bottom sheet modal is open
   const onBottomSheetChange = (index: number) => {
@@ -51,21 +45,10 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
     }
   };
 
-  // Method to set the screen to a new step
-  const setScreen = (screen: AddPnmScreens) => {
-    // Set the screen
-    _setScreen(screen);
-    // and then snap to the new position
-    if (screen !== AddPnmScreens.AddPnm) {
-      handleSnapToPosition(ScreensList[screen].position);
-    }
-  };
-
   // Create a list of all of the screens, pass the values of the hook to the screens
   // that need them, and then render the proper screen based on the current screen
   const ScreensList: ScreensList = {
     [AddPnmScreens.AddPnm]: {
-      position: "45%",
       component: (
         <AddPnm
           setScreen={setScreen}
@@ -74,7 +57,6 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
       ),
     },
     [AddPnmScreens.AddManualStep1]: {
-      position: "65%",
       component: (
         <AddManualStep1
           {...values}
@@ -85,7 +67,6 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
       ),
     },
     [AddPnmScreens.AddManualStep2]: {
-      position: "50%",
       component: (
         <AddManualStep2
           {...values}
@@ -96,7 +77,6 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
       ),
     },
     [AddPnmScreens.AddManualStep3]: {
-      position: "90%",
       component: (
         <AddManualStep3
           {...values}
@@ -106,7 +86,6 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
       ),
     },
     [AddPnmScreens.AddQrCode]: {
-      position: "80%",
       component: (
         <AddQrCodeStep
           setScreen={setScreen}
@@ -117,18 +96,12 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
   };
 
   // Select the proper screen
-  const ScreenComponent = ScreensList[_screen].component;
+  const ScreenComponent = ScreensList[screen].component;
 
   return (
-    <BottomSheetModal
-      ref={innerRef}
-      index={0}
-      snapPoints={snapPoints}
-      onChange={onBottomSheetChange}
-      backdropComponent={BottomSheetBackdrop}
-    >
-      {ScreenComponent}
-    </BottomSheetModal>
+    <BottomSheet innerRef={innerRef} onChange={onBottomSheetChange}>
+      <BottomSheetContainer>{ScreenComponent}</BottomSheetContainer>
+    </BottomSheet>
   );
 };
 
