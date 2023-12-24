@@ -57,8 +57,13 @@ const useMassMessager = (pnms: PNM[]) => {
 
     try {
       const response = await sendMessageMutation.mutateAsync(payload);
-      const conversations = response.data.data.conversations;
-      const messages = response.data.data.messages;
+
+      if (!response) {
+        return setStatus(ConversationStatus.Idle);
+      }
+
+      const conversations = response?.data.data.conversations;
+      const messages = response?.data.data.messages;
 
       if (conversations.length === 0) {
         throw new Error("No conversations were created");
@@ -80,7 +85,6 @@ const useMassMessager = (pnms: PNM[]) => {
       });
     } catch (error) {
       errors.handleApiError(error);
-      setStatus(ConversationStatus.Failed);
     }
   };
 

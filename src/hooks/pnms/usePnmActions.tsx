@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import Toast from "react-native-toast-message";
 import { useMutation } from "@tanstack/react-query";
 import { MenuAction } from "@react-native-menu/menu";
 import { useNavigation } from "@react-navigation/native";
@@ -52,6 +53,13 @@ const usePnmActions = (pnm: PNM) => {
       navigation.goBack();
       // Remove the PNM from the store
       deletePnm(pnm);
+
+      // Show a toast message
+      Toast.show({
+        type: "success",
+        text1: "Deleted PNM",
+        text2: `${pnm.firstName} ${pnm.lastName} has been deleted.`,
+      });
     },
   });
 
@@ -63,6 +71,13 @@ const usePnmActions = (pnm: PNM) => {
     onSuccess: async () => {
       // Favorite the PNM in the store
       favoritePnm(pnm);
+
+      // Show a toast message
+      Toast.show({
+        type: "success",
+        text1: "Added to Favorites",
+        text2: `${pnm.firstName} ${pnm.lastName} has been added to your favorites.`,
+      });
     },
   });
 
@@ -74,6 +89,13 @@ const usePnmActions = (pnm: PNM) => {
     onSuccess: async () => {
       // Unfavorite the PNM in the store
       unfavoritePnm(pnm);
+
+      // Show a toast message
+      Toast.show({
+        type: "success",
+        text1: "Removed from Favorites",
+        text2: `${pnm.firstName} ${pnm.lastName} has been removed from your favorites.`,
+      });
     },
   });
 
