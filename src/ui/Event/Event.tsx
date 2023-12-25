@@ -18,6 +18,7 @@ import date from "@/lib/util/date";
 import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
 import { useBottomSheets } from "@/providers/BottomSheet";
+import { formatEvent } from "@/lib/util/format";
 
 interface EventProps {
   event: Event;
@@ -26,24 +27,8 @@ interface EventProps {
 const Event: React.FC<EventProps> = ({ event }) => {
   const { handlePresentModalPress } = useBottomSheets();
 
-  const startDate = new Date(event.startDate);
-  const endDate = new Date(event.endDate);
-
-  // Extract the day like "December 3rd" from the start date
-  const day = startDate.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-
-  // Extract the time range like "3:00 PM - 5:00 PM" from the start and end dates
-  const timeRange = `${startDate.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "numeric",
-  })} - ${endDate.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "numeric",
-  })}`;
+  const formattedEvent = formatEvent(event);
+  const startDate = new Date(formattedEvent.startDate);
 
   // Get the time until the event starts
   // prettier-ignore
@@ -86,8 +71,12 @@ const Event: React.FC<EventProps> = ({ event }) => {
             {event.title}
           </Text>
 
-          <EventDetail icon="ri-calendar-line">{day}</EventDetail>
-          <EventDetail icon="ri-time-line">{timeRange}</EventDetail>
+          <EventDetail icon="ri-calendar-line">
+            {formattedEvent.day}
+          </EventDetail>
+          <EventDetail icon="ri-time-line">
+            {formattedEvent.timeString}
+          </EventDetail>
         </View>
       </View>
 

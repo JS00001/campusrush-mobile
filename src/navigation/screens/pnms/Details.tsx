@@ -48,7 +48,7 @@ const PnmDetails: React.FC<PnmDetailsProps> = ({ navigation, route }) => {
   const onCardPress = (field: keyof PNM) => {
     return () =>
       // Navigate to the update details screen with the pnm and field to update
-      (navigation.navigate as any)("PNMUpdateDetails", {
+      (navigation.navigate as any)("PNMEdit", {
         pnmId: pnm?._id,
         field,
       });

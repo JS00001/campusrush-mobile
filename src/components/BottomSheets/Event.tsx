@@ -20,38 +20,27 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import DetailView from "@/ui/DetailView";
 import ButtonGroup from "@/ui/ButtonGroup";
+import { formatEvent } from "@/lib/util/format";
+import { useNavigation } from "@react-navigation/native";
 
 interface EventProps {
-  event: Event;
   innerRef: React.RefObject<any>;
   handleCloseModalPress: () => void;
 }
 
-const Event: React.FC<EventProps> = ({ event, innerRef }) => {
+const Event: React.FC<EventProps> = ({ handleCloseModalPress, innerRef }) => {
+  const navigation = useNavigation();
+
   return (
     <BottomSheet
       innerRef={innerRef}
       children={(data) => {
-        const event: Event = data?.data.event;
+        const event = formatEvent(data?.data.event);
 
-        const startDate = new Date(event.startDate);
-        const endDate = new Date(event.endDate);
-
-        const day = startDate.toLocaleDateString("en-US", {
-          month: "long",
-          day: "numeric",
-          year: "numeric",
-        });
-
-        const startTime = startDate.toLocaleTimeString([], {
-          hour: "numeric",
-          minute: "numeric",
-        });
-
-        const endTime = endDate.toLocaleTimeString([], {
-          hour: "numeric",
-          minute: "numeric",
-        });
+        const onEditPress = () => {
+          (navigation.navigate as any)("EventDetails", { event });
+          handleCloseModalPress();
+        };
 
         return (
           <BottomSheetContainer>
@@ -61,9 +50,9 @@ const Event: React.FC<EventProps> = ({ event, innerRef }) => {
             </View>
 
             <DetailView>
-              <DetailView.Section title="Date" content={day} />
-              <DetailView.Section title="Starts at" content={startTime} />
-              <DetailView.Section title="Ends at" content={endTime} />
+              <DetailView.Section title="Date" content={event.day} />
+              <DetailView.Section title="Starts at" content={event.startTime} />
+              <DetailView.Section title="Ends at" content={event.endTime} />
               <DetailView.Section title="Location" content={event.location} />
               <DetailView.Section
                 title="# Responded Yes"
@@ -76,7 +65,7 @@ const Event: React.FC<EventProps> = ({ event, innerRef }) => {
             </DetailView>
 
             <ButtonGroup>
-              <Button size="sm" color="gray">
+              <Button size="sm" color="gray" onPress={onEditPress}>
                 Edit Event
               </Button>
               <Button size="sm">Share Event</Button>

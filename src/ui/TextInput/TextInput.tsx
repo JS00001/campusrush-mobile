@@ -169,25 +169,25 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
     error
       ? "border-red-500"
       : disabled
-      ? "border-slate-200"
-      : focused
-      ? "border-primary"
-      : "border-slate-300",
+        ? "border-slate-200"
+        : focused
+          ? "border-primary"
+          : "border-slate-300",
     // Passed in input styles
     inputStyle,
   );
 
   const labelClasses = tw.style(
     // Label Sizing and Styling
-    "absolute left-3 -z-10 bg-white px-1",
+    "absolute left-3 z-10 bg-white px-1",
     // If there is an error, make the label red
     error
       ? "text-red-500"
       : disabled
-      ? "text-slate-300"
-      : focused
-      ? "text-primary"
-      : "text-slate-400",
+        ? "text-slate-300"
+        : focused
+          ? "text-primary"
+          : "text-slate-400",
   );
 
   return (
@@ -277,8 +277,8 @@ const AlternateTextInput: React.FC<TextInputProps> = ({
     error
       ? "border-red-500"
       : disabled
-      ? "border-slate-200"
-      : "border-slate-400",
+        ? "border-slate-200"
+        : "border-slate-400",
     // Passed in input styles
     inputStyle,
   );

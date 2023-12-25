@@ -27,7 +27,7 @@ interface EventsProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
-const Events: React.FC<EventsProps> = ({ navigation }) => {
+const Events: React.FC<EventsProps> = () => {
   const {
     events,
     isLoading,
