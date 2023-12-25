@@ -23,10 +23,10 @@ export const STAGING_URL = 'https://greek-api.in-staging.space';
 export const PRODUCTION_URL = 'https://api.campusrush.app';
 
 // The URL for the web app for development
-export const STAGING_WEB_URL = 'https://greek-web.in-staging.space/sharing';
+export const STAGING_WEB_URL = 'https://campusrush.in-staging.space';
 
 // The URL for the web app for production
-export const PRODUCTION_WEB_URL = 'https://campusrush.app/external';
+export const PRODUCTION_WEB_URL = 'https://campusrush.app';
 
 // The URL for the websocket for development
 export const STAGING_WEBSOCKET_URL = 'wss://greek-api.in-staging.space';
@@ -53,4 +53,4 @@ export const WEBSOCKET_URL = AppConstants.isProduction ? PRODUCTION_WEBSOCKET_UR
  * The URLS for web routes
  */
 export const SHARING_URL = `${WEB_URL}/sharing`;
-export const EVENT_URL = `${WEB_URL}/event`;
+export const EVENT_URL = `${WEB_URL}/events`;

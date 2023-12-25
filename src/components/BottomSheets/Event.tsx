@@ -20,6 +20,8 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import DetailView from "@/ui/DetailView";
 import ButtonGroup from "@/ui/ButtonGroup";
+import useCopy from "@/hooks/util/useCopy";
+import { EVENT_URL } from "@/api/constants";
 import { formatEvent } from "@/lib/util/format";
 import { useNavigation } from "@react-navigation/native";
 
@@ -29,6 +31,7 @@ interface EventProps {
 }
 
 const Event: React.FC<EventProps> = ({ handleCloseModalPress, innerRef }) => {
+  const copy = useCopy();
   const navigation = useNavigation();
 
   return (
@@ -40,6 +43,12 @@ const Event: React.FC<EventProps> = ({ handleCloseModalPress, innerRef }) => {
         const onEditPress = () => {
           (navigation.navigate as any)("EventDetails", { event });
           handleCloseModalPress();
+        };
+
+        const eventUrl = `${EVENT_URL}/${event._id}`;
+
+        const onSharePress = () => {
+          copy(eventUrl, "Event link");
         };
 
         return (
@@ -68,7 +77,9 @@ const Event: React.FC<EventProps> = ({ handleCloseModalPress, innerRef }) => {
               <Button size="sm" color="gray" onPress={onEditPress}>
                 Edit Event
               </Button>
-              <Button size="sm">Share Event</Button>
+              <Button size="sm" onPress={onSharePress}>
+                Share Event
+              </Button>
             </ButtonGroup>
           </BottomSheetContainer>
         );

@@ -10,11 +10,10 @@
  * Do not distribute
  */
 
-import * as Haptics from "expo-haptics";
-import * as Clipboard from "expo-clipboard";
 import { MenuView } from "@react-native-menu/menu";
 
 import tw from "@/lib/tailwind";
+import useCopy from "@/hooks/util/useCopy";
 
 interface CopyableProps {
   title: string;
@@ -23,10 +22,11 @@ interface CopyableProps {
 }
 
 const Copyable: React.FC<CopyableProps> = ({ title, copyText, children }) => {
+  const copy = useCopy();
+
   // When the user presses the copy button, play a haptic feedback and copy the text to the clipboard
   const onCopyPress = () => {
-    Haptics.selectionAsync();
-    Clipboard.setStringAsync(copyText);
+    copy(copyText);
   };
 
   return (

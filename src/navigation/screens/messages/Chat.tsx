@@ -19,6 +19,8 @@ import MessageList from "@/components/MessageList";
 import { useWebsocket } from "@/providers/Websocket";
 import ChatHeader from "@/components/Headers/Chat";
 import useConversation from "@/hooks/messaging/useConversation";
+import { View } from "react-native";
+import tw from "@/lib/tailwind";
 
 interface ChatProps {
   route: any;
