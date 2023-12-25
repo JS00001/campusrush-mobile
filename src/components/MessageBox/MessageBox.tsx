@@ -11,15 +11,15 @@
  */
 
 import { useRef, useState } from "react";
-import { View, TextInput as RNTextInput, Animated, Easing } from "react-native";
+import { View, TextInput as RNTextInput } from "react-native";
 
 import TextInput from "./TextInput";
+import ExtensionPanel from "./ExtensionPanel";
 import TextSuggestions from "./TextSuggestions";
 
 import tw from "@/lib/tailwind";
 import AppConstants from "@/constants";
 import IconButton from "@/ui/IconButton";
-import KeyboardListener from "@/ui/KeyboardListener";
 import Walkthroughs from "@/components/Walkthroughs";
 import { usePreferences } from "@/providers/Preferences";
 
@@ -29,45 +29,23 @@ interface MessageBoxProps {
 }
 
 const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
-  // Component states
   const textInputRef = useRef<RNTextInput>(null);
-  const [value, setValue] = useState<string>("");
+  const extensionPanelRef = useRef<ExtensionPanelRef>(null);
 
-  // State for the events "bottom sheet"
-  const [animation] = useState(new Animated.Value(0));
+  const [value, setValue] = useState<string>("");
   const [isEventsVisible, setIsEventsVisible] = useState(false);
 
   // Providers/external states
   const { messagingTooltipSeen, updatePreferences } = usePreferences();
 
-  const animateContainer = (toValue: number, cb?: () => void) => {
-    Animated.timing(animation, {
-      toValue,
-      duration: 200,
-      useNativeDriver: false,
-      easing: Easing.linear,
-    }).start(() => {
-      cb && cb();
-    });
-  };
-
   const onEventsPress = () => {
     if (isEventsVisible) {
       textInputRef.current?.focus();
-      animateContainer(0, () => setIsEventsVisible(false));
     } else {
       textInputRef.current?.blur();
       setIsEventsVisible(true);
-      animateContainer(1);
+      extensionPanelRef.current?.animateContainer(1);
     }
-  };
-
-  const onKeyboardWillShow = () => {
-    animateContainer(0);
-  };
-
-  const onKeyboardWillHide = () => {
-    animateContainer(1);
   };
 
   // When the send button is pressed, send the message and clear the input
@@ -90,53 +68,43 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
   const isButtonDisabled = !value.length || disableSend;
 
   return (
-    <KeyboardListener
-      onKeyboardWillShow={onKeyboardWillShow}
-      onKeyboardWillHide={onKeyboardWillHide}
+    <Walkthroughs.MessageBoxWalkthrough
+      isVisible={!messagingTooltipSeen}
+      onClose={onWalkthroughClose}
     >
-      <Walkthroughs.MessageBoxWalkthrough
-        isVisible={!messagingTooltipSeen}
-        onClose={onWalkthroughClose}
-      >
-        <TextSuggestions
+      <TextSuggestions
+        value={value}
+        setValue={setValue}
+        suggestions={AppConstants.messagingKeywords}
+      />
+
+      <View style={containerClasses}>
+        <IconButton
+          size="md"
+          icon="ri-calendar-event-line"
+          onPress={onEventsPress}
+        />
+
+        <TextInput
+          passedRef={textInputRef}
+          placeholder="Send a message"
           value={value}
           setValue={setValue}
-          suggestions={AppConstants.messagingKeywords}
         />
-
-        <View style={containerClasses}>
-          <IconButton
-            size="md"
-            icon="ri-calendar-event-line"
-            onPress={onEventsPress}
-          />
-
-          <TextInput
-            passedRef={textInputRef}
-            placeholder="Send a message"
-            value={value}
-            setValue={setValue}
-          />
-          <IconButton
-            size="md"
-            icon="ri-send-plane-2-line"
-            disabled={isButtonDisabled}
-            onPress={onSendPress}
-          />
-        </View>
-
-        <Animated.View
-          style={{
-            display: isEventsVisible ? "flex" : "none",
-            height: animation.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 216],
-            }),
-            backgroundColor: "red",
-          }}
+        <IconButton
+          size="md"
+          icon="ri-send-plane-2-line"
+          disabled={isButtonDisabled}
+          onPress={onSendPress}
         />
-      </Walkthroughs.MessageBoxWalkthrough>
-    </KeyboardListener>
+      </View>
+
+      <ExtensionPanel
+        ref={extensionPanelRef}
+        visible={isEventsVisible}
+        setVisible={setIsEventsVisible}
+      />
+    </Walkthroughs.MessageBoxWalkthrough>
   );
 };
 
