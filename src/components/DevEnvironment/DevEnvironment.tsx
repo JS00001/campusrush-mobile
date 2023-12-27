@@ -140,7 +140,7 @@ const DevEnvironment: React.FC = ({}) => {
                   Current Subscription?
                 </Text>
 
-                <View style={tw`bg-slate-100 p-3 rounded-md w-full`}>
+                <View style={tw`bg-slate-100 p-3 rounded-xl w-full`}>
                   {lodash.isEmpty(customerData?.entitlements?.active) ? (
                     <Text style={tw`text-red-700`}>No active subscription</Text>
                   ) : (
@@ -216,7 +216,7 @@ const DevEnvironment: React.FC = ({}) => {
                 <Text style={tw`font-medium`} variant="body">
                   App Version
                 </Text>
-                <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
+                <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
                   <Text>{AppConstants.version}</Text>
                 </View>
               </View>
@@ -225,7 +225,7 @@ const DevEnvironment: React.FC = ({}) => {
                 <Text style={tw`font-medium`} variant="body">
                   Current Organization
                 </Text>
-                <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
+                <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
                   <Text style={tw`text-black text-[10px] leading-3`}>
                     {JSON.stringify(organization, null, 2).slice(1, -1)}
                   </Text>
@@ -237,7 +237,7 @@ const DevEnvironment: React.FC = ({}) => {
                   Current Subscription
                 </Text>
 
-                <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
+                <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
                   {lodash.isEmpty(customerData?.entitlements?.active) ? (
                     <Text>No active subscription</Text>
                   ) : (
@@ -256,7 +256,7 @@ const DevEnvironment: React.FC = ({}) => {
                 <Text style={tw`font-medium`} variant="body">
                   RevenueCat Entitlement Information
                 </Text>
-                <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
+                <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
                   <Text style={tw`text-black text-[10px] leading-3`}>
                     {JSON.stringify(customerData?.entitlements, null, 2).slice(
                       1,
@@ -289,7 +289,7 @@ const DevEnvironment: React.FC = ({}) => {
                 <Text style={tw`font-medium`} variant="body">
                   Async Storage Size
                 </Text>
-                <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
+                <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
                   <Text>{asyncStorageSize}</Text>
                 </View>
                 <Text style={tw`font-medium`} variant="body">
@@ -314,7 +314,7 @@ const DevEnvironment: React.FC = ({}) => {
                     }}
                     shouldOpenOnLongPress
                   >
-                    <View style={tw`bg-slate-100 p-2 rounded-md w-full`}>
+                    <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
                       <Text style={tw`text-black text-[10px] leading-3`}>
                         {key}: {formatJSON(asyncStorageData[key])}
                       </Text>
@@ -335,7 +335,7 @@ const DevEnvironment: React.FC = ({}) => {
                   Websocket Connection
                 </Text>
 
-                <View style={tw`bg-slate-100 p-3 rounded-md w-full`}>
+                <View style={tw`bg-slate-100 p-3 rounded-xl w-full`}>
                   {!data.connected ? (
                     <Text style={tw`text-red-500`}>Not connected</Text>
                   ) : (
@@ -352,7 +352,7 @@ const DevEnvironment: React.FC = ({}) => {
                 {data.messages.map((message, index) => (
                   <View
                     key={index}
-                    style={tw`bg-slate-100 p-2 rounded-md w-full`}
+                    style={tw`bg-slate-100 p-2 rounded-xl w-full`}
                   >
                     <Text style={tw`text-black text-[10px] leading-3`}>
                       {formatJSON(message)}

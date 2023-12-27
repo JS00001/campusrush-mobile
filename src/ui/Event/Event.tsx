@@ -30,7 +30,7 @@ const Event: React.FC<EventProps> = ({ event }) => {
   const hasPassed = date.hasPassed(formattedEvent.startDate);
 
   const containerClasses = tw.style(
-    "bg-slate-100 w-full p-4 rounded-md gap-6",
+    "bg-slate-100 w-full p-4 rounded-lg gap-6",
     "flex-row justify-between items-center",
     // Add opacity if event has passed
     hasPassed && "opacity-50",

@@ -38,7 +38,7 @@ const AddQrCodeStep: React.FC<AddQrCodeScreenProps> = ({}) => {
         <Text variant="body">Have a PNM scan the QR code</Text>
       </View>
 
-      <View style={tw`bg-slate-100 rounded-md p-12 w-full items-center`}>
+      <View style={tw`bg-slate-100 rounded-xl p-12 w-full items-center`}>
         <QRCode
           size={232}
           value={linkSharingCode}

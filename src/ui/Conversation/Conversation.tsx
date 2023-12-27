@@ -37,14 +37,14 @@ const Conversation: React.FC<ConversationProps> = ({ conversation }) => {
   // Styling
   const containerClasses = tw.style(
     // Default classes
-    "bg-slate-100 w-full p-4 rounded-md gap-6",
+    "bg-slate-100 w-full p-4 rounded-lg gap-6",
     // Add justify for timestamp
     "flex-row justify-between items-center",
   );
 
   const unreadIndicatorClasses = tw.style(
     // Default classes
-    "rounded-full bg-blue-600 p-[4px]",
+    "rounded-full shadow-sm bg-blue-800 p-[4px]",
     // If the conversation is read, hide the indicator
     conversation.read && "opacity-0",
   );

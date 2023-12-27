@@ -104,7 +104,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   // The modal content's (the list of options) classes
   const modalContentClasses = tw.style(
-    `bg-slate-100 rounded-md w-full max-h-52 py-1 gap-y-1 `,
+    `bg-slate-100 rounded-lg w-full max-h-52 py-1 gap-y-1 `,
     {
       // Offset the modal by the dropdowns position
       top: yPos + 70,

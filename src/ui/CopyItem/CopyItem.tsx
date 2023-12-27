@@ -26,7 +26,7 @@ const CopyItem: React.FC<CopyItemProps> = ({ value, label }) => {
   const copy = useCopy();
 
   const containerClasses = tw.style(
-    "flex-row items-center justify-between bg-slate-100 w-full rounded-md gap-x-2",
+    "flex-row items-center justify-between bg-slate-100 w-full rounded-lg gap-x-2",
     label && "px-4.5 pb-4.5 pt-4",
     !label && "py-2 pl-4.5 pr-2",
   );
