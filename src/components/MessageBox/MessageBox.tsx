@@ -11,13 +11,14 @@
  */
 
 import { useRef, useState } from "react";
-import { View, TextInput as RNTextInput } from "react-native";
+import { View, Keyboard, TextInput as RNTextInput } from "react-native";
 
 import TextInput from "./TextInput";
 import ExtensionPanel from "./ExtensionPanel";
 import TextSuggestions from "./TextSuggestions";
 
 import tw from "@/lib/tailwind";
+import { waitFor } from "@/lib/util";
 import AppConstants from "@/constants";
 import IconButton from "@/ui/IconButton";
 import Walkthroughs from "@/components/Walkthroughs";
@@ -35,16 +36,27 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
   const [value, setValue] = useState<string>("");
   const [isEventsVisible, setIsEventsVisible] = useState(false);
 
-  // Providers/external states
   const { messagingTooltipSeen, updatePreferences } = usePreferences();
 
-  const onEventsPress = () => {
+  const onEventsPress = async () => {
+    // If we are closing the events panel...
     if (isEventsVisible) {
-      textInputRef.current?.focus();
-    } else {
-      textInputRef.current?.blur();
-      setIsEventsVisible(true);
-      extensionPanelRef.current?.animateContainer(1);
+      extensionPanelRef.current?.closeContainer(() => {
+        textInputRef.current?.focus();
+      });
+      return;
+    }
+
+    // If we are opening the events panel...
+    else {
+      if (textInputRef.current?.isFocused()) {
+        const KEYBOARD_ANIMATION_DURATION = 250; // How long the ios keyboard takes to animate down
+
+        Keyboard.dismiss();
+        await waitFor(KEYBOARD_ANIMATION_DURATION);
+      }
+
+      extensionPanelRef.current?.openContainer();
     }
   };
 
@@ -81,8 +93,9 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
       <View style={containerClasses}>
         <IconButton
           size="md"
-          icon="ri-calendar-event-line"
+          icon={isEventsVisible ? "ri-close-line" : "ri-calendar-event-line"}
           onPress={onEventsPress}
+          color={isEventsVisible ? tw.color("red-500") : tw.color("primary")}
         />
 
         <TextInput

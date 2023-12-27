@@ -13,19 +13,38 @@
 import { Animated, Easing } from "react-native";
 import { forwardRef, useImperativeHandle, useState } from "react";
 
+import tw from "@/lib/tailwind";
 import KeyboardListener from "@/ui/KeyboardListener";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   ({ visible, setVisible }: ExtensionPanelProps, ref) => {
     const [animation] = useState(new Animated.Value(0));
 
+    useImperativeHandle(ref, () => ({
+      animateContainer,
+      openContainer,
+      closeContainer,
+    }));
+
     const animateContainer = (toValue: number, cb?: () => void) => {
       Animated.timing(animation, {
         toValue,
-        duration: 200,
+        duration: 150,
         useNativeDriver: false,
         easing: Easing.linear,
       }).start(() => {
+        cb?.();
+      });
+    };
+
+    const openContainer = (cb?: () => void) => {
+      setVisible(true);
+      animateContainer(1, cb);
+    };
+
+    const closeContainer = (cb?: () => void) => {
+      animateContainer(0, () => {
+        setVisible(false);
         cb?.();
       });
     };
@@ -40,32 +59,17 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
       animateContainer(0, () => setVisible(false));
     };
 
-    /**
-     * We must check if the panel is visible before animating it up. Without this check, if the panel
-     * is not visible, we will still set its height when they keyboard closes, causing no animation to show when
-     * we open the panel again.
-     */
-    const onKeyboardWillHide = () => {
-      if (visible) animateContainer(1);
-    };
-
-    useImperativeHandle(ref, () => ({
-      animateContainer,
-    }));
-
     return (
-      <KeyboardListener
-        onKeyboardWillShow={onKeyboardWillShow}
-        onKeyboardWillHide={onKeyboardWillHide}
-      >
-        <Animated.View
+      <KeyboardListener onKeyboardWillShow={onKeyboardWillShow}>
+        <Animated.ScrollView
           style={{
+            borderTopColor: tw.color("slate-100"),
+            borderTopWidth: 1,
             display: visible ? "flex" : "none",
             height: animation.interpolate({
               inputRange: [0, 1],
               outputRange: [0, 216],
             }),
-            backgroundColor: "green",
           }}
         />
       </KeyboardListener>

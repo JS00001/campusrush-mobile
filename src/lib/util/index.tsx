@@ -1,5 +1,5 @@
 /*
- * Created on Mon Dec 25 2023
+ * Created on Tue Dec 26 2023
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,13 +10,5 @@
  * Do not distribute
  */
 
-interface ExtensionPanelRef {
-  closeContainer: (cb?: () => void) => void;
-  openContainer: (cb?: () => void) => void;
-  animateContainer: (toValue: number, cb?: () => void) => void;
-}
-
-interface ExtensionPanelProps {
-  visible: boolean;
-  setVisible: (visible: boolean) => void;
-}
+export const waitFor = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));

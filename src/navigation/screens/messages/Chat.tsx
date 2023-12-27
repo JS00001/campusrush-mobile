@@ -21,6 +21,7 @@ import ChatHeader from "@/components/Headers/Chat";
 import useConversation from "@/hooks/messaging/useConversation";
 import { View } from "react-native";
 import tw from "@/lib/tailwind";
+import { useFocusEffect } from "@react-navigation/native";
 
 interface ChatProps {
   route: any;
@@ -53,6 +54,7 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
   // When the component mounts, open the conversation
   useEffect(() => {
     onConversationOpen(pnm._id);
+
     return () => {
       onConversationClose();
     };

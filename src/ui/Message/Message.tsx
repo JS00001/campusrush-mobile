@@ -50,7 +50,7 @@ const Message: React.FC<MessageProps> = ({
   // The styling for the message bubble, based on whether the message was sent or received
   const messageClasses = tw.style(
     // Shared styles
-    "rounded-md p-2.5",
+    "rounded-lg p-2.5",
     // Conditional styles
     sent ? sentMessageClasses : receivedMessageClasses,
   );
