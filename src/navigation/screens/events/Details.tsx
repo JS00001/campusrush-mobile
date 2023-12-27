@@ -71,7 +71,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({ navigation, route }) => {
         />
       </View>
 
-      <ActionCard pressable={false} title="Date" subtitle={event.day} />
+      <ActionCard pressable={false} title="Date" subtitle={event.dateString} />
 
       <ActionCard
         title="Location"
@@ -80,12 +80,12 @@ const EventDetails: React.FC<EventDetailsProps> = ({ navigation, route }) => {
       />
       <ActionCard
         title="Start Time"
-        subtitle={event.startTime}
+        subtitle={event.start.time}
         onPress={onCardPress("startDate")}
       />
       <ActionCard
         title="End Time"
-        subtitle={event.endTime}
+        subtitle={event.end.time}
         onPress={onCardPress("endDate")}
       />
       <ActionCard

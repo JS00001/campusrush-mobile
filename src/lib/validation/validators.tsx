@@ -165,18 +165,18 @@ const validateSettings = (input: UpdateOrganizationInput) => {
 
   const nameRegex = /^[a-zA-Z]+$/;
 
-  if (input.firstName && !nameRegex.test(input.firstName)) {
+  if (!nameRegex.test(input.firstName || "")) {
     if (!errors.firstName) errors.firstName = "Invalid first name";
   }
 
-  if (input.lastName && !nameRegex.test(input.lastName)) {
+  if (!nameRegex.test(input.lastName || "")) {
     if (!errors.lastName) errors.lastName = "Invalid last name";
   }
 
   // Validate email is a valid email
   const emailRegex = /\S+@\S+\.\S+/;
 
-  if (input.email && !emailRegex.test(input.email)) {
+  if (!emailRegex.test(input.email || "")) {
     if (!errors.email) errors.email = "Invalid email address";
   }
 

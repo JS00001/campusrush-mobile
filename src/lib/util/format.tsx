@@ -11,10 +11,19 @@
  */
 
 interface FormattedEvent extends Event {
-  day: string;
-  startTime: string;
-  endTime: string;
-  timeString: string;
+  dateString: string;
+  start: {
+    time: string;
+    month: string;
+    day: string;
+    weekday: string;
+  };
+  end: {
+    time: string;
+    month: string;
+    day: string;
+    weekday: string;
+  };
   totalResponses: number;
 }
 
@@ -22,32 +31,75 @@ export const formatEvent = (event: Event): FormattedEvent => {
   const startDate = new Date(event.startDate);
   const endDate = new Date(event.endDate);
 
-  const day = startDate.toLocaleDateString("en-US", {
+  const totalResponses = event.yesCount + event.noCount;
+
+  const dateString = startDate.toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",
   });
 
-  const startTime = startDate.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "numeric",
+  const startMonth = startDate.toLocaleDateString("en-US", {
+    month: "short",
   });
 
-  const endTime = endDate.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "numeric",
+  const endMonth = endDate.toLocaleDateString("en-US", {
+    month: "short",
   });
 
-  const timeString = `${startTime} - ${endTime}`;
+  const startDay = startDate.toLocaleDateString("en-US", {
+    day: "numeric",
+  });
 
-  const totalResponses = event.yesCount + event.noCount;
+  const endDay = endDate.toLocaleDateString("en-US", {
+    day: "numeric",
+  });
+
+  const startWeekday = startDate
+    .toLocaleDateString("en-US", {
+      weekday: "short",
+    })
+    .slice(0, 3);
+
+  const endWeekday = endDate
+    .toLocaleDateString("en-US", {
+      weekday: "short",
+    })
+    .slice(0, 3);
+
+  const startTime = startDate
+    .toLocaleTimeString([], {
+      hour: "numeric",
+      minute: "numeric",
+    })
+    .toLowerCase()
+    .replace(/\s/g, "")
+    .replace(":00", "");
+
+  const endTime = endDate
+    .toLocaleTimeString([], {
+      hour: "numeric",
+      minute: "numeric",
+    })
+    .toLowerCase()
+    .replace(/\s/g, "")
+    .replace(":00", "");
 
   return {
     ...event,
-    day,
-    startTime,
-    endTime,
-    timeString,
+    dateString,
     totalResponses,
+    start: {
+      time: startTime,
+      month: startMonth,
+      day: startDay,
+      weekday: startWeekday,
+    },
+    end: {
+      time: endTime,
+      month: endMonth,
+      day: endDay,
+      weekday: endWeekday,
+    },
   };
 };

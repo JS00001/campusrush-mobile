@@ -59,9 +59,12 @@ const Event: React.FC<EventProps> = ({ handleCloseModalPress, innerRef }) => {
             </View>
 
             <DetailView>
-              <DetailView.Section title="Date" content={event.day} />
-              <DetailView.Section title="Starts at" content={event.startTime} />
-              <DetailView.Section title="Ends at" content={event.endTime} />
+              <DetailView.Section title="Date" content={event.dateString} />
+              <DetailView.Section
+                title="Starts at"
+                content={event.start.time}
+              />
+              <DetailView.Section title="Ends at" content={event.end.time} />
               <DetailView.Section title="Location" content={event.location} />
               <DetailView.Section
                 title="# Responded Yes"

@@ -14,11 +14,10 @@ import RemixIcon from "react-native-remix-icon";
 import { TouchableOpacity, View } from "react-native";
 
 import Text from "@/ui/Text";
-import date from "@/lib/util/date";
-import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import date from "@/lib/util/date";
 import { formatEvent } from "@/lib/util/format";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface EventProps {
   event: Event;
@@ -28,20 +27,10 @@ const Event: React.FC<EventProps> = ({ event }) => {
   const { handlePresentModalPress } = useBottomSheets();
 
   const formattedEvent = formatEvent(event);
-  const startDate = new Date(formattedEvent.startDate);
+  const hasPassed = date.hasPassed(formattedEvent.startDate);
 
-  // Get the time until the event starts
-  // prettier-ignore
-  const { hasPassed, isOneDayAway, formattedDateString } = date.timeUntil(startDate);
-
-  // Make the color more visible if the event is one day away or less
-  const badgeColor = isOneDayAway ? "bg-yellow-500" : "bg-slate-400";
-
-  // Styling
   const containerClasses = tw.style(
-    // Default classes
     "bg-slate-100 w-full p-4 rounded-md gap-6",
-    // Add justify for timestamp
     "flex-row justify-between items-center",
     // Add opacity if event has passed
     hasPassed && "opacity-50",
@@ -55,36 +44,32 @@ const Event: React.FC<EventProps> = ({ event }) => {
 
   return (
     <TouchableOpacity
+      disabled={hasPassed}
       style={containerClasses}
       onPress={onPress}
-      disabled={hasPassed}
     >
       <View style={tw`flex-row gap-5 flex-shrink`}>
-        {/* Badge */}
-        <Badge style={tw`self-start mt-1 w-18 px-1 ${badgeColor}`}>
-          {formattedDateString}
-        </Badge>
+        {/* Date and Time */}
+        <EventDate
+          month={formattedEvent.start.month}
+          day={formattedEvent.start.day}
+          weekday={formattedEvent.start.weekday}
+        />
 
         {/* Information */}
-        <View style={tw`gap-y-2`}>
-          <Text variant="body" style={tw`text-primary`}>
-            {event.title}
+        <View>
+          <Text variant="title">{event.title}</Text>
+          <Text variant="text" style={tw`text-slate-500`}>
+            {formattedEvent.start.time} · {formattedEvent.location}
           </Text>
-
-          <EventDetail icon="ri-calendar-line">
-            {formattedEvent.day}
-          </EventDetail>
-          <EventDetail icon="ri-time-line">
-            {formattedEvent.timeString}
-          </EventDetail>
         </View>
       </View>
 
-      {/* Chevron */}
+      {/* Chevron (is clickable if the event has not passed) */}
       {!hasPassed && (
         <RemixIcon
-          name="ri-arrow-right-s-line"
           size={20}
+          name="ri-arrow-right-s-line"
           color={tw.color("primary")}
         />
       )}
@@ -92,18 +77,33 @@ const Event: React.FC<EventProps> = ({ event }) => {
   );
 };
 
-interface EventDetailProps {
-  icon: string;
-  children: React.ReactNode;
+interface EventDateProps {
+  month: string;
+  day: string;
+  weekday: string;
 }
 
-const EventDetail: React.FC<EventDetailProps> = ({ icon, children }) => {
+const EventDate: React.FC<EventDateProps> = ({ month, day, weekday }) => {
+  const containerClasses = tw.style(
+    "bg-white border border-slate-200 shadow-sm",
+    "pt-1 rounded-lg items-center",
+  );
+
   return (
-    <View style={tw`flex-row items-center gap-1`}>
-      <RemixIcon name={icon} size={14} color={tw.color("slate-500")} />
-      <Text variant="subtext" style={tw`text-slate-500`}>
-        {children}
+    <View style={containerClasses}>
+      <Text style={tw`text-[10px] text-slate-500 uppercase leading-4`}>
+        {month}
       </Text>
+
+      <Text variant="title" style={tw`leading-6`}>
+        {day}
+      </Text>
+
+      <View
+        style={tw`px-4.5 py-0.5 bg-slate-100 rounded-b-lg mt-0.5 border-t border-slate-200`}
+      >
+        <Text style={tw`text-[10px] text-slate-500 uppercase`}>{weekday}</Text>
+      </View>
     </View>
   );
 };

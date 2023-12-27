@@ -49,19 +49,19 @@ const UpdateGeneral: React.FC = () => {
 
       <TextInput
         placeholder="Email"
-        value={email || "N/A"}
+        value={email}
         onChangeText={setEmail}
         error={errors.email}
       />
       <TextInput
         placeholder="First Name"
-        value={firstName || "N/A"}
+        value={firstName}
         onChangeText={setFirstName}
         error={errors.firstName}
       />
       <TextInput
         placeholder="Last Name"
-        value={lastName || "N/A"}
+        value={lastName}
         onChangeText={setLastName}
         error={errors.lastName}
       />
