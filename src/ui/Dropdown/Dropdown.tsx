@@ -95,8 +95,8 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   // The dropdown button's classes
   const dropdownClasses = tw.style(
-    "flex-row justify-between items-center p-4.5 bg-slate-100 rounded-md",
-    error ? "border border-red-500" : "border border-slate-200",
+    "flex-row justify-between items-center p-4.5 bg-slate-100 rounded-xl",
+    error ? "border border-red-500" : "border border-slate-100",
   );
 
   // The modal backdrop's classes
@@ -104,7 +104,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   // The modal content's (the list of options) classes
   const modalContentClasses = tw.style(
-    `bg-slate-100 rounded-md border border-slate-200 w-full max-h-52 py-1 gap-y-1 `,
+    `bg-slate-100 rounded-md w-full max-h-52 py-1 gap-y-1 `,
     {
       // Offset the modal by the dropdowns position
       top: yPos + 70,

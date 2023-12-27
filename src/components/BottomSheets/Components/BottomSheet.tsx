@@ -11,6 +11,7 @@
  */
 
 import React from "react";
+import { Dimensions } from "react-native";
 import { BottomSheetModal, BottomSheetModalProps } from "@gorhom/bottom-sheet";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 
@@ -23,10 +24,15 @@ interface BottomSheetProps extends BottomSheetModalProps {
 }
 
 const BottomSheet: React.FC<BottomSheetProps> = ({ children, ...props }) => {
+  const MAX_HEIGHT_PERCENTAGE = 0.9;
+  const maxDynamicContentSize =
+    Dimensions.get("window").height * MAX_HEIGHT_PERCENTAGE;
+
   return (
     <BottomSheetModal
       enableDynamicSizing
       ref={props.innerRef}
+      maxDynamicContentSize={maxDynamicContentSize}
       backgroundStyle={tw`rounded-3xl`}
       handleIndicatorStyle={tw`bg-slate-500 rounded-full w-14`}
       backdropComponent={BottomSheetBackdrop}
