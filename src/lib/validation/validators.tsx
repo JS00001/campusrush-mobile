@@ -317,11 +317,62 @@ const validateVerifyOrganization = (input: VerifyOrganizationInput) => {
   return errors;
 };
 
+const validateCreateEvent = (input: CreateEventInput) => {
+  const errors = {
+    title: "",
+    description: "",
+    location: "",
+    startDate: "",
+    endDate: "",
+  };
+
+  if (!input.title) {
+    errors.title = "Title is required";
+  }
+
+  if (!input.description) {
+    errors.description = "Description is required";
+  }
+
+  if (!input.location) {
+    errors.location = "Location is required";
+  }
+
+  if (!input.startDate) {
+    errors.startDate = "Start date is required";
+  }
+
+  if (!input.endDate) {
+    errors.endDate = "End date is required";
+  }
+
+  // Validate start date is before end date
+  if (input.startDate && input.endDate) {
+    if (new Date(input.startDate) >= new Date(input.endDate)) {
+      if (!errors.startDate && !errors.endDate) {
+        errors.startDate = "Start date must be before end date";
+        errors.endDate = "End date must be after start date";
+      }
+    }
+  }
+
+  // Check if all errors are empty
+  // If so, return an empty object
+  const allErrors = Object.values(errors).filter((error) => error !== "");
+
+  if (allErrors.length === 0) {
+    return {} as CreateEventInput;
+  }
+
+  return errors;
+};
+
 export default {
   validateLogin,
   validateRegistration,
   validateSettings,
   validateCreatePnm,
   validateUpdatePnm,
+  validateCreateEvent,
   validateVerifyOrganization,
 };

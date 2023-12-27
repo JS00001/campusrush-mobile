@@ -29,8 +29,11 @@ import type { UseCreatePnm } from "@/hooks/pnms/useCreatePnm";
  * handling the state of the forms.
  */
 interface AddManualStep3ScreenProps extends UseCreatePnm {
-  handleCloseModalPress: () => void;
   setScreen: (screen: AddPnmScreens) => void;
+
+  handleCloseModalPress: () => void;
+  handleSnapToIndex: (index: number) => void;
+  handleSnapToPosition: (position: string) => void;
 }
 
 const AddManualStep3: React.FC<AddManualStep3ScreenProps> = ({

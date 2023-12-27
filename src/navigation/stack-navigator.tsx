@@ -24,10 +24,6 @@ import PNMDetailsScreen from "@/navigation/screens/pnms/Details";
 import PNMEditScreen from "@/navigation/screens/pnms/Edit";
 
 import HomeScreen from "@/navigation/screens/home/Home";
-
-import AddManual from "@/navigation/screens/add/AddManual";
-import AddQrCode from "@/navigation/screens/add/AddQrCode";
-
 import ChatScreen from "@/navigation/screens/messages/Chat";
 import MessagesScreen from "@/navigation/screens/messages/Messages";
 import NewMessageScreen from "@/navigation/screens/messages/NewMessage";
@@ -216,27 +212,6 @@ export const PNMsStack = () => {
       <Stack.Screen
         name="PNMEdit"
         component={PNMEditScreen}
-      />
-    </Stack.Navigator>
-  );
-};
-
-/**
- * Stack Navigator App Add Screen
- *
- * This is the main stack navigator for the app
- * when the user is on the "Add" tab
- */
-export const AddStack = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen
-        name="AddManual"
-        component={AddManual}
-      />
-      <Stack.Screen
-        name="AddQrCode"
-        component={AddQrCode}
       />
     </Stack.Navigator>
   );

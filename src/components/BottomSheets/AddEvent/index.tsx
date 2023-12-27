@@ -12,56 +12,50 @@
 
 import { useState } from "react";
 
-import AddPnm from "./AddPnm";
-import AddQrCodeStep from "./AddQrCode";
-import AddManualStep1 from "./AddManualStep1";
-import AddManualStep2 from "./AddManualStep2";
-import AddManualStep3 from "./AddManualStep3";
-import { AddPnmScreens, ScreensList } from "./types";
+import AddEventStep1 from "./AddEventStep1";
+import AddEventStep2 from "./AddEventStep2";
+import AddEventStep3 from "./AddEventStep3";
+import { AddEventScreens, ScreensList } from "./types";
 
 import BottomSheet from "../Components/BottomSheet";
 import BottomSheetContainer from "../Components/BottomSheetContainer";
 
-import useCreatePnm from "@/hooks/pnms/useCreatePnm";
+import useCreateEvent from "@/hooks/events/useCreateEvent";
 
-interface AddPnmProps {
+interface AddEventProps {
   innerRef: React.RefObject<any>;
+
   handleCloseModalPress: () => void;
   handleSnapToIndex: (index: number) => void;
   handleSnapToPosition: (position: string) => void;
 }
 
-const AddPnmRoot: React.FC<AddPnmProps> = ({
+const AddEventRoot: React.FC<AddEventProps> = ({
   innerRef,
+
   handleCloseModalPress,
   handleSnapToIndex,
   handleSnapToPosition,
 }) => {
-  const { ...values } = useCreatePnm();
-  const [screen, setScreen] = useState<AddPnmScreens>(AddPnmScreens.AddPnm);
+  const { ...values } = useCreateEvent();
+  const [screen, setScreen] = useState<AddEventScreens>(
+    AddEventScreens.AddEventStep1,
+  );
 
   // When the bottom sheet modal is open
   const onBottomSheetChange = (index: number) => {
     // If the bottom sheet modal is open
     if (!(index >= 0)) {
-      setScreen(AddPnmScreens.AddPnm);
+      setScreen(AddEventScreens.AddEventStep1);
     }
   };
 
   // Create a list of all of the screens, pass the values of the hook to the screens
   // that need them, and then render the proper screen based on the current screen
   const ScreensList: ScreensList = {
-    [AddPnmScreens.AddPnm]: {
+    [AddEventScreens.AddEventStep1]: {
       component: (
-        <AddPnm
-          setScreen={setScreen}
-          handleCloseModalPress={handleCloseModalPress}
-        />
-      ),
-    },
-    [AddPnmScreens.AddManualStep1]: {
-      component: (
-        <AddManualStep1
+        <AddEventStep1
           {...values}
           setScreen={setScreen}
           handleSnapToIndex={handleSnapToIndex}
@@ -70,9 +64,9 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
         />
       ),
     },
-    [AddPnmScreens.AddManualStep2]: {
+    [AddEventScreens.AddEventStep2]: {
       component: (
-        <AddManualStep2
+        <AddEventStep2
           {...values}
           setScreen={setScreen}
           handleSnapToIndex={handleSnapToIndex}
@@ -81,21 +75,13 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
         />
       ),
     },
-    [AddPnmScreens.AddManualStep3]: {
+    [AddEventScreens.AddEventStep3]: {
       component: (
-        <AddManualStep3
+        <AddEventStep3
           {...values}
           setScreen={setScreen}
           handleSnapToIndex={handleSnapToIndex}
           handleSnapToPosition={handleSnapToPosition}
-          handleCloseModalPress={handleCloseModalPress}
-        />
-      ),
-    },
-    [AddPnmScreens.AddQrCode]: {
-      component: (
-        <AddQrCodeStep
-          setScreen={setScreen}
           handleCloseModalPress={handleCloseModalPress}
         />
       ),
@@ -112,4 +98,4 @@ const AddPnmRoot: React.FC<AddPnmProps> = ({
   );
 };
 
-export default AddPnmRoot;
+export default AddEventRoot;

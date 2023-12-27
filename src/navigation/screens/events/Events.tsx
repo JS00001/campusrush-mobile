@@ -20,8 +20,9 @@ import Layout from "@/ui/Layout";
 import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
 import ActionButton from "@/ui/ActionButton";
-import useEventsList from "@/hooks/useEventsList";
 import InfiniteList from "@/components/InfiniteList";
+import useEventsList from "@/hooks/events/useEventsList";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface EventsProps {
   navigation: NativeStackNavigationProp<any>;
@@ -42,7 +43,11 @@ const Events: React.FC<EventsProps> = () => {
     setSearchQuery,
   } = useEventsList();
 
-  const onNewEventPress = () => {};
+  const { handlePresentModalPress } = useBottomSheets();
+
+  const onNewEventPress = () => {
+    handlePresentModalPress("ADD_EVENT");
+  };
 
   const onRefresh = async () => {
     await refetch();

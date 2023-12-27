@@ -38,8 +38,9 @@ const BottomSheetContainer: React.FC<BottomSheetContainerProps> = ({
 
   return (
     <BottomSheetScrollView
-      scrollEnabled={!disableScroll}
       style={_style}
+      scrollEnabled={!disableScroll}
+      keyboardShouldPersistTaps="handled"
       contentContainerStyle={_contentContainerStyle}
       {...props}
     >

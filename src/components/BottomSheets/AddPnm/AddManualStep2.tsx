@@ -19,6 +19,7 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import ButtonGroup from "@/ui/ButtonGroup";
+import KeyboardListener from "@/ui/KeyboardListener";
 import type { UseCreatePnm } from "@/hooks/pnms/useCreatePnm";
 
 /**
@@ -28,13 +29,16 @@ import type { UseCreatePnm } from "@/hooks/pnms/useCreatePnm";
  * handling the state of the forms.
  */
 interface AddManualStep2ScreenProps extends UseCreatePnm {
-  handleCloseModalPress: () => void;
   setScreen: (screen: AddPnmScreens) => void;
+
+  handleCloseModalPress: () => void;
+  handleSnapToIndex: (index: number) => void;
   handleSnapToPosition: (position: string) => void;
 }
 
 const AddManualStep2: React.FC<AddManualStep2ScreenProps> = ({
   setScreen,
+  handleSnapToIndex,
   handleSnapToPosition,
   handleCloseModalPress,
   ...props
@@ -60,42 +64,49 @@ const AddManualStep2: React.FC<AddManualStep2ScreenProps> = ({
 
   // When a text input is focused (keyboard is opened), snap to the top
   // so that the user can see the inputs fully
-  const onFocus = () => {
+  const onKeyboardWillShow = () => {
     handleSnapToPosition("85%");
   };
 
+  const onKeyboardWillHide = () => {
+    handleSnapToIndex(0);
+  };
+
   return (
-    <View style={tw`gap-y-4`}>
-      <View style={tw`mb-2`}>
-        <Text variant="title">Social Media</Text>
-        <Text variant="body">Enter the PNM's known social media</Text>
+    <KeyboardListener
+      onKeyboardWillShow={onKeyboardWillShow}
+      onKeyboardWillHide={onKeyboardWillHide}
+    >
+      <View style={tw`gap-y-4`}>
+        <View style={tw`mb-2`}>
+          <Text variant="title">Social Media</Text>
+          <Text variant="body">Enter the PNM's known social media</Text>
+        </View>
+
+        <TextInput
+          placeholder="Instagram"
+          value={props.instagram}
+          onChangeText={props.setInstagram}
+          error={props.errors?.instagram}
+        />
+
+        <TextInput
+          placeholder="Snapchat"
+          value={props.snapchat}
+          onChangeText={props.setSnapchat}
+          error={props.errors?.snapchat}
+        />
+
+        <ButtonGroup>
+          <Button size="sm" color="gray" onPress={onBackPress}>
+            Go Back
+          </Button>
+          <Button size="sm" onPress={onNextPress}>
+            Next
+          </Button>
+        </ButtonGroup>
       </View>
-
-      <TextInput
-        placeholder="Instagram"
-        value={props.instagram}
-        onFocus={onFocus}
-        onChangeText={props.setInstagram}
-        error={props.errors?.instagram}
-      />
-
-      <TextInput
-        placeholder="Snapchat"
-        value={props.snapchat}
-        onFocus={onFocus}
-        onChangeText={props.setSnapchat}
-        error={props.errors?.snapchat}
-      />
-
-      <ButtonGroup>
-        <Button size="sm" color="gray" onPress={onBackPress}>
-          Go Back
-        </Button>
-        <Button size="sm" onPress={onNextPress}>
-          Next
-        </Button>
-      </ButtonGroup>
-    </View>
+    </KeyboardListener>
   );
 };
 

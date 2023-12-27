@@ -16,10 +16,11 @@ import {
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
 } from "react-native";
+import RemixIcon from "react-native-remix-icon";
 import { useEffect, useRef, useState } from "react";
 
 import tw from "@/lib/tailwind";
-import RemixIcon from "react-native-remix-icon";
+import Text from "@/ui/Text/Text";
 
 // This is a hack to disable font scaling for all text components
 export interface TextInputWithDefaultProps extends RNTextInput {
@@ -164,7 +165,7 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
     // Input Sizing
     "border-2 px-5 py-5 rounded-xl text-lg leading-5 bg-slate-100 ",
     // Disabled text styling
-    disabled && "text-slate-400 bg-slate-50",
+    disabled && "bg-slate-50",
     // If there is a value or the input is focused, we need to add padding to the input to make it "look"
     // like the placeholder is in the input and they are both centered
     (focused || value) && "pt-7 pb-3",
@@ -182,9 +183,15 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
 
   const labelClasses = tw.style(
     // Label Sizing and Styling
-    "absolute left-4 z-10 px-1",
+    "absolute left-4 z-10 px-1 bg-slate-100",
+    disabled && "bg-slate-50",
     // If there is an error, make the label red
     error ? "text-red-500" : disabled ? "text-slate-300" : "text-slate-400",
+  );
+
+  const valueClasses = tw.style(
+    "text-lg leading-5",
+    disabled ? "text-slate-400" : "text-black",
   );
 
   return (
@@ -198,7 +205,6 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
         onChangeText={(text) => {
           onChangeText?.(text);
         }}
-        value={value}
         onFocus={() => {
           // Animate the placeholder up on focus
           setIsFocused(true);
@@ -221,7 +227,11 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
           onBlur?.();
         }}
         {...props}
-      />
+      >
+        <Text variant="body" style={valueClasses}>
+          {value}
+        </Text>
+      </TextInputWithNoFontScaling>
 
       <Animated.Text
         style={[labelClasses, { top: placeholderY, fontSize: placeholderSize }]}

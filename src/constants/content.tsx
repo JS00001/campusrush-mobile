@@ -98,6 +98,13 @@ const Content = {
     message: "Added PNM to your contacts",
   },
   /**
+   * The success message when creating an event
+   */
+  createEventSuccess: {
+    title: "Successfully Created Event",
+    message: "Your event has been created",
+  },
+  /**
    * The success message when the organization is updated
    */
   updateOrganizationSuccess: {

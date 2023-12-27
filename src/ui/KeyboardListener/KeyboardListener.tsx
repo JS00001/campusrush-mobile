@@ -11,7 +11,7 @@
  */
 
 import { useEffect } from "react";
-import { Keyboard, KeyboardEventName } from "react-native";
+import { EmitterSubscription, Keyboard, KeyboardEventName } from "react-native";
 
 const KeyboardEvents: KeyboardEventName[] = [
   "keyboardWillShow",
@@ -34,43 +34,27 @@ interface KeyboardListenerProps {
 
 const KeyboardListener: React.FC<KeyboardListenerProps> = ({
   children,
-  onKeyboardWillShow,
-  onKeyboardDidShow,
-  onKeyboardWillHide,
-  onKeyboardDidHide,
-  onKeyboardWillChangeFrame,
-  onKeyboardDidChangeFrame,
+  ...props
 }) => {
+  let listeners: EmitterSubscription[] = [];
+
   useEffect(() => {
     KeyboardEvents.forEach((event) => {
-      Keyboard.addListener(event, () => {
-        switch (event) {
-          case "keyboardWillShow":
-            onKeyboardWillShow?.();
-            break;
-          case "keyboardDidShow":
-            onKeyboardDidShow?.();
-            break;
-          case "keyboardWillHide":
-            onKeyboardWillHide?.();
-            break;
-          case "keyboardDidHide":
-            onKeyboardDidHide?.();
-            break;
-          case "keyboardWillChangeFrame":
-            onKeyboardWillChangeFrame?.();
-            break;
-          case "keyboardDidChangeFrame":
-            onKeyboardDidChangeFrame?.();
-            break;
-        }
-      });
+      // check if the event should be listened to (if there is a prop for it)
+      const onEventName = `on${event[0].toUpperCase()}${event.slice(1)}`;
+      const listenerFunction = (props as any)[onEventName];
+
+      if (listenerFunction) {
+        const listener = Keyboard.addListener(event, () => {
+          listenerFunction();
+        });
+
+        listeners.push(listener);
+      }
     });
 
     return () => {
-      KeyboardEvents.forEach((event) => {
-        Keyboard.removeAllListeners(event);
-      });
+      listeners.forEach((listener) => listener.remove());
     };
   }, []);
 

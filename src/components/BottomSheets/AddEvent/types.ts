@@ -1,5 +1,5 @@
 /*
- * Created on Thu Sep 21 2023
+ * Created on Wed Dec 27 2023
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,16 +10,10 @@
  * Do not distribute
  */
 
-import Layout from "@/ui/Layout";
+export enum AddEventScreens {
+  AddEventStep1 = 'AddEventStep1',
+  AddEventStep2 = 'AddEventStep2',
+  AddEventStep3 = 'AddEventStep3',
+}
 
-interface AddQrCodeProps {}
-
-const AddQrCode: React.FC<AddQrCodeProps> = () => {
-  return (
-    <Layout scrollable gap={12}>
-      <Layout.Header title="Add PNM" subtitle="Scan the QR code below" />
-    </Layout>
-  );
-};
-
-export default AddQrCode;
+export type ScreensList = Record<AddEventScreens, { component: JSX.Element }>;
