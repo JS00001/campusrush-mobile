@@ -68,7 +68,7 @@ const Header: React.FC<HeaderProps> = ({
           />
         </View>
 
-        <Text variant="body" style={tw`font-medium text-black`}>
+        <Text variant="title" style={tw`font-medium text-black`}>
           {title}
         </Text>
 

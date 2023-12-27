@@ -85,7 +85,7 @@ interface EventDateProps {
 
 const EventDate: React.FC<EventDateProps> = ({ month, day, weekday }) => {
   const containerClasses = tw.style(
-    "bg-white border border-slate-200 shadow-sm",
+    "bg-white border border-slate-200 shadow",
     "pt-1 rounded-lg items-center",
   );
 

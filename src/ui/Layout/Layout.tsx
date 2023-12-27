@@ -17,6 +17,7 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   TouchableOpacity,
+  Keyboard,
 } from "react-native";
 import React from "react";
 import Icon from "react-native-remix-icon";
@@ -96,10 +97,10 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
     scrollable && keyboardAvoiding
       ? "KeyboardAwareScrollView"
       : scrollable
-      ? "ScrollView"
-      : keyboardAvoiding
-      ? "KeyboardAvoidingView"
-      : "View";
+        ? "ScrollView"
+        : keyboardAvoiding
+          ? "KeyboardAvoidingView"
+          : "View";
 
   // Get the view that should host the content
   const ContentContainer = {
@@ -222,8 +223,8 @@ const Footer: React.FC<FooterProps> = ({
   const ContentContainerIdentifier = scrollable
     ? "ScrollView"
     : keyboardAvoiding
-    ? "KeyboardAvoidingView"
-    : "View";
+      ? "KeyboardAvoidingView"
+      : "View";
 
   // The options for the content container
   const ContentContainer = {
