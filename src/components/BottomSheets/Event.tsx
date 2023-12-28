@@ -49,6 +49,7 @@ const Event: React.FC<EventProps> = ({ handleCloseModalPress, innerRef }) => {
 
         const onSharePress = () => {
           copy(eventUrl, "Event link");
+          handleCloseModalPress();
         };
 
         return (

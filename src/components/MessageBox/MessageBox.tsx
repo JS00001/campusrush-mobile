@@ -93,7 +93,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
       <View style={containerClasses}>
         <IconButton
           size="md"
-          icon={isEventsVisible ? "ri-close-line" : "ri-calendar-fill"}
+          icon={isEventsVisible ? "ri-close-line" : "ri-add-fill"}
           onPress={onEventsPress}
           color={isEventsVisible ? tw.color("red-500") : tw.color("primary")}
         />

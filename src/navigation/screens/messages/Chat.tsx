@@ -16,12 +16,9 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Layout from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
 import MessageList from "@/components/MessageList";
-import { useWebsocket } from "@/providers/Websocket";
 import ChatHeader from "@/components/Headers/Chat";
+import { useWebsocket } from "@/providers/Websocket";
 import useConversation from "@/hooks/messaging/useConversation";
-import { View } from "react-native";
-import tw from "@/lib/tailwind";
-import { useFocusEffect } from "@react-navigation/native";
 
 interface ChatProps {
   route: any;
