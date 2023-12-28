@@ -13,13 +13,18 @@
 import { Animated, Easing, ScrollView } from "react-native";
 import { forwardRef, useImperativeHandle, useState } from "react";
 
+import Tabs from "@/ui/Tabs";
+import Event from "@/ui/Event";
 import tw from "@/lib/tailwind";
+import useEventsStore from "@/state/events";
 import KeyboardListener from "@/ui/KeyboardListener";
-import SegmentedControl from "@/ui/SegmentedControl";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   ({ visible, setVisible }: ExtensionPanelProps, ref) => {
+    const [activeTab, setActiveTab] = useState(0);
     const [animation] = useState(new Animated.Value(0));
+
+    const events = useEventsStore((state) => state.events);
 
     useImperativeHandle(ref, () => ({
       animateContainer,
@@ -61,8 +66,8 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
     };
 
     const containerClasses = tw.style(
-      "bg-slate-100 p-3 gap-y-2",
-      visible ? "flex" : "hidden",
+      "bg-slate-100 p-3 gap-4",
+      visible ? "" : "hidden",
       {
         height: animation.interpolate({
           inputRange: [0, 1],
@@ -74,16 +79,22 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
     return (
       <KeyboardListener onKeyboardWillShow={onKeyboardWillShow}>
         <Animated.View style={containerClasses}>
-          <SegmentedControl
-            values={["Events", "Coming Soon"]}
-            selectedIndex={0}
-            onChange={() => {}}
+          <Tabs
+            selectedIndex={activeTab}
+            options={["Events", "Photos", "Videos"]}
+            onChange={setActiveTab}
           />
 
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-          ></ScrollView>
+            style={tw`overflow-visible`}
+            contentContainerStyle={tw`gap-2`}
+          >
+            {events.map((event, index) => (
+              <Event key={index} embedded event={event} />
+            ))}
+          </ScrollView>
         </Animated.View>
       </KeyboardListener>
     );

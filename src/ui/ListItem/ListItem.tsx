@@ -65,7 +65,7 @@ const ListItem: React.FC<ListItemProps> = ({
           <View style={tw`w-3.5`} />
         )}
 
-        <View>
+        <View style={tw`shrink`}>
           {/* If not loading, show content */}
           {!loading && (
             <Text variant="body" style={tw`text-primary`}>

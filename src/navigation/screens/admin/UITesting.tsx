@@ -17,12 +17,16 @@ import Layout from "@/ui/Layout";
 import DetailView from "@/ui/DetailView";
 import Header from "@/ui/Header";
 import DateTimePicker from "@/ui/DateTimePicker";
+import Tabs from "@/ui/Tabs";
+import { useState } from "react";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
+  const [activeTab, setActiveTab] = useState(0);
+
   return (
     <Layout gap={12}>
       <Layout.CustomHeader>
@@ -44,6 +48,12 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
         value={new Date()}
         mode="time"
         error="This is an error"
+      />
+
+      <Tabs
+        selectedIndex={activeTab}
+        options={["Events", "Photos", "Videos"]}
+        onChange={setActiveTab}
       />
     </Layout>
   );

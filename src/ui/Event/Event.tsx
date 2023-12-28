@@ -21,9 +21,23 @@ import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface EventProps {
   event: Event;
+  embedded?: boolean;
+  onPress?: (event: Event) => void;
 }
 
-const Event: React.FC<EventProps> = ({ event }) => {
+const Event: React.FC<EventProps> = ({ event, embedded, onPress }) => {
+  if (embedded) {
+    return <EmbeddedEventCard event={event} onPress={onPress} />;
+  }
+
+  return <EventCard event={event} />;
+};
+
+/**
+ * The default event card in the events list. This will open a bottom sheet
+ * allowing for sharing and editing, if the onPress prop is not provided.
+ */
+const EventCard: React.FC<EventProps> = ({ event, onPress }) => {
   const { handlePresentModalPress } = useBottomSheets();
 
   const formattedEvent = formatEvent(event);
@@ -36,7 +50,12 @@ const Event: React.FC<EventProps> = ({ event }) => {
     hasPassed && "opacity-50",
   );
 
-  const onPress = () => {
+  const onEventPress = () => {
+    if (onPress) {
+      onPress(event);
+      return;
+    }
+
     handlePresentModalPress("EVENT", {
       event: event,
     });
@@ -46,7 +65,7 @@ const Event: React.FC<EventProps> = ({ event }) => {
     <TouchableOpacity
       disabled={hasPassed}
       style={containerClasses}
-      onPress={onPress}
+      onPress={onEventPress}
     >
       <View style={tw`flex-row gap-5 flex-shrink`}>
         {/* Date and Time */}
@@ -77,6 +96,58 @@ const Event: React.FC<EventProps> = ({ event }) => {
   );
 };
 
+/**
+ * The embedded event card in the event details screen. This is for sharing
+ * in chats and other places where we want to just attach the event "on press".
+ */
+const EmbeddedEventCard: React.FC<EventProps> = ({ event, onPress }) => {
+  const formattedEvent = formatEvent(event);
+  const hasPassed = date.hasPassed(formattedEvent.startDate);
+
+  const containerClasses = tw.style(
+    "bg-white border border-slate-200 shadow w-[228px] p-4 rounded-lg gap-5",
+    "flex-row items-center ",
+    // Add opacity if event has passed
+    hasPassed && "opacity-50",
+  );
+
+  const onEventPress = () => {
+    if (onPress) {
+      onPress(event);
+      return;
+    }
+  };
+
+  return (
+    <TouchableOpacity
+      disabled={hasPassed}
+      style={containerClasses}
+      onPress={onEventPress}
+    >
+      {/* Date and Time */}
+      <EventDate
+        month={formattedEvent.start.month}
+        day={formattedEvent.start.day}
+        weekday={formattedEvent.start.weekday}
+      />
+
+      {/* Information */}
+      <View style={tw`shrink`}>
+        <Text variant="body" style={tw`font-semibold text-primary`}>
+          {event.title}
+        </Text>
+        <Text variant="subtext" style={tw`text-slate-500`} numberOfLines={2}>
+          {formattedEvent.start.time} · {formattedEvent.location}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+/**
+ * The "Calendar" looking component that displays the month,
+ * day, and weekday of an event.
+ */
 interface EventDateProps {
   month: string;
   day: string;
