@@ -19,8 +19,8 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import ButtonGroup from "@/ui/ButtonGroup";
-import { UseCreateEvent } from "@/hooks/events/useCreateEvent";
 import DateTimePicker from "@/ui/DateTimePicker";
+import { UseCreateEvent } from "@/hooks/events/useCreateEvent";
 
 interface AddEventStep2Props extends UseCreateEvent {
   setScreen: (screen: AddEventScreens) => void;
@@ -84,14 +84,14 @@ const AddEventStep2: React.FC<AddEventStep2Props> = ({
       </View>
 
       <DateTimePicker
-        label="Start Date:"
+        label="Starts at:"
         mode="datetime"
         value={startDate}
         minimumDate={today}
         onChange={(event, date) => onDateTimeChange(event, "startDate", date)}
       />
       <DateTimePicker
-        label="End Date:"
+        label="Ends at:"
         mode="datetime"
         value={endDate}
         minimumDate={startDate}

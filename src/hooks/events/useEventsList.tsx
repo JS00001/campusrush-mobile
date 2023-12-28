@@ -12,11 +12,13 @@
 
 import { useEffect, useState } from "react";
 import { MenuAction } from "@react-native-menu/menu";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 
 import eventsApi from "@/api/api/events";
 import { useAuth } from "@/providers/Auth";
-import useEventsStore from "@/state/events";
+import useEventsStore, { EventsStatus } from "@/state/events";
+import useModalsStore from "@/state/modals";
+import Content from "@/constants/content";
 
 export enum EventsFilter {
   NoFilter = "NO_FILTER",
@@ -32,8 +34,14 @@ const useEvents = () => {
   // Import data from auth provider
   const { accessToken } = useAuth();
 
+  // Store to open a modal, used to confirm deletion
+  const { openModal } = useModalsStore();
+
   // Pull the events state from the store
-  const { events, setEvents } = useEventsStore();
+  const { events, setEvents, resetState } = useEventsStore();
+
+  const status = useEventsStore((state) => state.status);
+  const setStatus = useEventsStore((state) => state.setStatus);
 
   // Create a state to store filtered events
   const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
@@ -58,6 +66,22 @@ const useEvents = () => {
       if (!hasNextPage) return undefined;
 
       return lastPage.data.data.nextOffset;
+    },
+  });
+
+  // Create a mutation to delete the PNMs
+  const deletionMutation = useMutation({
+    mutationFn: async () => {
+      return eventsApi.deleteEvents();
+    },
+    onSuccess: async () => {
+      // Delete all the data from stores
+      await resetState();
+
+      // Refetch the query
+      await query.refetch();
+
+      setStatus(EventsStatus.Idle);
     },
   });
 
@@ -124,6 +148,19 @@ const useEvents = () => {
 
     switch (eventId) {
       case EventsOtherOption.DeleteAll:
+        openModal({
+          name: "ERROR",
+          props: {
+            message: Content.confirmDeleteAllEvents,
+            secondaryButtonText: "No, Cancel",
+            primaryButtonText: "Yes, Delete",
+            // When the "Confirm Delete" button is pressed, delete the PNM
+            primaryButtonAction: () => {
+              setStatus(EventsStatus.Loading);
+              deletionMutation.mutate();
+            },
+          },
+        });
         break;
       default:
         break;
@@ -167,6 +204,7 @@ const useEvents = () => {
   return {
     ...query,
 
+    status,
     searchQuery,
     filterActions,
     otherActions,

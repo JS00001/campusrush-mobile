@@ -10,16 +10,18 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
 import { MenuView } from "@react-native-menu/menu";
+import { ActivityIndicator, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Event from "@/ui/Event";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import TextInput from "@/ui/TextInput";
+import StatusIcon from "@/ui/StatusIcon";
 import IconButton from "@/ui/IconButton";
 import ActionButton from "@/ui/ActionButton";
+import { EventsStatus } from "@/state/events";
 import InfiniteList from "@/components/InfiniteList";
 import useEventsList from "@/hooks/events/useEventsList";
 import { useBottomSheets } from "@/providers/BottomSheet";
@@ -31,6 +33,7 @@ interface EventsProps {
 const Events: React.FC<EventsProps> = () => {
   const {
     events,
+    status,
     isLoading,
     searchQuery,
     otherActions,
@@ -63,6 +66,16 @@ const Events: React.FC<EventsProps> = () => {
 
   return (
     <>
+      {status != EventsStatus.Idle && (
+        <StatusIcon>
+          <StatusIcon.Icon>
+            {status == EventsStatus.Loading && (
+              <ActivityIndicator size="large" color="white" />
+            )}
+          </StatusIcon.Icon>
+        </StatusIcon>
+      )}
+
       {/* The floating action button in bottom right */}
       <ActionButton icon="ri-add-line" onPress={onNewEventPress} />
 

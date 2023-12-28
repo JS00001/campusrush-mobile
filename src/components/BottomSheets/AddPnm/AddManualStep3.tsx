@@ -63,8 +63,6 @@ const AddManualStep3: React.FC<AddManualStep3ScreenProps> = ({
     handleCloseModalPress();
   };
 
-  useEffect(() => {}, []);
-
   return (
     <>
       {/* Header and subheader */}
@@ -98,7 +96,7 @@ const AddManualStep3: React.FC<AddManualStep3ScreenProps> = ({
           No, Go Back
         </Button>
         <Button size="sm" onPress={onNextPress} loading={props.isLoading}>
-          Yes, Add PNM
+          Yes, Create
         </Button>
       </ButtonGroup>
     </>

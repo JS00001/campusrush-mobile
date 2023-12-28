@@ -26,6 +26,18 @@ const Content = {
   confirmDeleteAllPNMs:
     "All PNMs will be permanently deleted. Are you sure you want to continue?",
   /**
+   * The message to show to confirm the deletion of a single event
+   */
+  confirmDeleteEvent:
+    "This event will be permanently deleted. Are you sure you want to continue?",
+
+  /**
+   * The message to show to confirm the deletion of all events
+   */
+  confirmDeleteAllEvents:
+    "All events will be permanently deleted. Are you sure you want to continue?",
+
+  /**
    * The new message error messages
    */
   newMessage: {
