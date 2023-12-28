@@ -16,6 +16,7 @@ import Layout from "@/ui/Layout";
 
 import DetailView from "@/ui/DetailView";
 import Header from "@/ui/Header";
+import DateTimePicker from "@/ui/DateTimePicker";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
@@ -35,6 +36,15 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
         />
         <DetailView.Section title="This is component 2" content="Hello" />
       </DetailView>
+
+      <DateTimePicker label="Select Time" value={new Date()} mode="datetime" />
+
+      <DateTimePicker
+        label="Select Time"
+        value={new Date()}
+        mode="time"
+        error="This is an error"
+      />
     </Layout>
   );
 };

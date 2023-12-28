@@ -11,16 +11,16 @@
  */
 
 import { View } from "react-native";
+import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
 import { AddEventScreens } from "./types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
-import TextInput from "@/ui/TextInput";
-import KeyboardListener from "@/ui/KeyboardListener";
-import { UseCreateEvent } from "@/hooks/events/useCreateEvent";
 import ButtonGroup from "@/ui/ButtonGroup";
+import { UseCreateEvent } from "@/hooks/events/useCreateEvent";
+import DateTimePicker from "@/ui/DateTimePicker";
 
 interface AddEventStep2Props extends UseCreateEvent {
   setScreen: (screen: AddEventScreens) => void;
@@ -36,6 +36,11 @@ const AddEventStep2: React.FC<AddEventStep2Props> = ({
   handleCloseModalPress,
   ...props
 }) => {
+  const today = new Date();
+
+  const startDate = new Date(parseInt(props.startDate));
+  const endDate = new Date(parseInt(props.endDate));
+
   const onBackPress = () => {
     setScreen(AddEventScreens.AddEventStep1);
   };
@@ -50,6 +55,25 @@ const AddEventStep2: React.FC<AddEventStep2Props> = ({
     setScreen(AddEventScreens.AddEventStep3);
   };
 
+  const onDateTimeChange = (
+    event: DateTimePickerEvent,
+    field: "startDate" | "endDate",
+    date?: Date,
+  ) => {
+    const { type } = event;
+
+    if (type === "set") {
+      const time = date?.getTime();
+
+      // If the time is null, then the user dismissed the picker
+      // so we should just return
+      if (!time) return;
+
+      // Otherwise, set the start date to the time
+      props.setField(field, time.toString());
+    }
+  };
+
   return (
     <View style={tw`gap-y-4`}>
       <View style={tw`mb-2`}>
@@ -59,9 +83,20 @@ const AddEventStep2: React.FC<AddEventStep2Props> = ({
         </Text>
       </View>
 
-      <TextInput placeholder="Start Date" />
-
-      <TextInput placeholder="End Date" />
+      <DateTimePicker
+        label="Start Date:"
+        mode="datetime"
+        value={startDate}
+        minimumDate={today}
+        onChange={(event, date) => onDateTimeChange(event, "startDate", date)}
+      />
+      <DateTimePicker
+        label="End Date:"
+        mode="datetime"
+        value={endDate}
+        minimumDate={startDate}
+        onChange={(event, date) => onDateTimeChange(event, "endDate", date)}
+      />
 
       <ButtonGroup>
         <Button size="sm" color="gray" onPress={onBackPress}>

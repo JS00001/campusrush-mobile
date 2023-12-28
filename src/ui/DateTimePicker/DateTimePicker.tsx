@@ -1,0 +1,71 @@
+/*
+ * Created on Wed Dec 27 2023
+ *
+ * This software is the proprietary property of CampusRush.
+ * All rights reserved. Unauthorized copying, modification, or distribution
+ * of this software, in whole or in part, is strictly prohibited.
+ * For licensing information contact CampusRush.
+ *
+ * Copyright (c) 2023 CampusRush
+ * Do not distribute
+ */
+
+import RNDateTimePicker, {
+  IOSNativeProps,
+} from "@react-native-community/datetimepicker";
+import { View } from "react-native";
+
+import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
+
+interface DateTimePickerProps extends IOSNativeProps {
+  label: string;
+  error?: string;
+}
+
+const DateTimePicker: React.FC<DateTimePickerProps> = ({
+  label,
+  error,
+  disabled,
+  ...props
+}) => {
+  const containerClasses = tw.style(
+    "px-5 py-5 w-full flex-row items-center justify-between rounded-xl",
+    "border-2 bg-slate-100 border-slate-100",
+    disabled && "bg-slate-50 border-slate-50",
+    error && "border-red-500 ",
+  );
+
+  const labelClasses = tw.style(
+    "text-base text-slate-400 shrink",
+    disabled && "text-slate-300",
+  );
+
+  return (
+    <View style={tw`w-full`}>
+      <View style={containerClasses}>
+        <Text numberOfLines={1} style={labelClasses}>
+          {label}
+        </Text>
+
+        <View
+          style={tw.style("justify-center shrink min-w-[200px] -m-5", {
+            transform: [{ scale: 0.8 }],
+          })}
+        >
+          <RNDateTimePicker
+            accentColor={tw.color("primary")}
+            disabled={disabled}
+            {...props}
+          />
+        </View>
+      </View>
+
+      {error && (
+        <Text style={tw.style("text-sm text-red-500 mt-1")}>{error}</Text>
+      )}
+    </View>
+  );
+};
+
+export default DateTimePicker;
