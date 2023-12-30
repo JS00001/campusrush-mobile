@@ -1,11 +1,11 @@
-name: Deploy (Staging)
+name: Code Checks
 on:
   push:
     branches:
-      - staging
+      - "**" # All branches
 
 jobs:
-  staging-checks:
+  code-checks:
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup repo
