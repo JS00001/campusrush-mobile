@@ -34,6 +34,7 @@ interface LayoutProps extends ViewProps {
   gap?: number;
   keyboardAvoiding?: boolean;
   scrollable?: boolean;
+  removePadding?: boolean;
   style?: any;
 }
 
@@ -48,6 +49,7 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
   children,
   contentContainerStyle,
   gap = 24,
+  removePadding = false,
   scrollable = false,
   keyboardAvoiding = false,
 }) => {
@@ -86,6 +88,8 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
   const contentContainerStyles = tw.style(
     // Sizing and positioning
     "w-full items-center px-6 pt-6",
+    // If they remove padding, remove it
+    removePadding && "px-0 pt-0",
     // If flexGap is provided, add gap style
     gap.toString() && { gap: gap },
     // Custom styles as provided by the style prop

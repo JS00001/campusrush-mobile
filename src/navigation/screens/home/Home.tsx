@@ -60,67 +60,68 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
       <HomeHeaderSvg />
 
       <Layout
-        style={tw`bg-transparent`}
         scrollable
+        removePadding
+        style={tw`bg-transparent`}
         contentContainerStyle={tw`items-start`}
       >
-        <View style={tw`justify-between items-center flex-row w-full`}>
-          <Text
-            variant="header"
-            numberOfLines={1}
-            style={tw`text-white shrink`}
-          >
-            Welcome {organization.firstName}
+        <View style={tw`w-full items-start px-6 pt-6 gap-y-6`}>
+          <View style={tw`justify-between items-center flex-row w-full`}>
+            <Text
+              variant="header"
+              numberOfLines={1}
+              style={tw`text-white shrink`}
+            >
+              Welcome {organization.firstName}
+            </Text>
+            <IconButton
+              color="white"
+              size="md"
+              icon="ri-settings-4-fill"
+              style={tw`bg-navy-100 shadow-lg`}
+              onPress={onSettingsPress}
+            />
+          </View>
+          {/* Organization Statistics */}
+          <Text variant="title" style={tw`text-white`}>
+            Organization Statistics
           </Text>
-          <IconButton
-            color="white"
-            size="md"
-            icon="ri-settings-4-fill"
-            style={tw`bg-navy-100 shadow-lg`}
-            onPress={onSettingsPress}
+          <View style={tw`w-full flex-row gap-5`}>
+            <ActionCard
+              size="md"
+              pressable={false}
+              icon="ri-user-fill"
+              title={numPnms?.toString()}
+              subtitle="Current PNMs registered to rush"
+              loading={isLoading && !numPnms}
+            />
+            <ActionCard
+              size="md"
+              pressable={false}
+              icon="ri-user-star-fill"
+              title={numStarredPnms?.toString()}
+              subtitle="PNMs saved as favorites"
+              loading={isLoading && !numStarredPnms}
+            />
+          </View>
+          {/* Quick Links */}
+          <Text variant="title">Quick Links</Text>
+          <ActionCard
+            title="New PNM"
+            subtitle="Add a new PNM to the system"
+            icon="ri-user-add-fill"
+            onPress={onAddPNM}
+          />
+          {/* Recently Added PNMs */}
+          <Text variant="title">Recently Added PNMs</Text>
+          <RecentPnms
+            pnms={recentPnms}
+            loading={isLoading && !recentPnms}
+            onPress={onRecentPnmPress}
           />
         </View>
 
-        {/* Organization Statistics */}
-        <Text variant="title" style={tw`text-white`}>
-          Organization Statistics
-        </Text>
-
-        <View style={tw`w-full flex-row gap-5`}>
-          <ActionCard
-            size="md"
-            pressable={false}
-            icon="ri-user-fill"
-            title={numPnms?.toString()}
-            subtitle="Current PNMs registered to rush"
-            loading={isLoading && !numPnms}
-          />
-          <ActionCard
-            size="md"
-            pressable={false}
-            icon="ri-user-star-fill"
-            title={numStarredPnms?.toString()}
-            subtitle="PNMs saved as favorites"
-            loading={isLoading && !numStarredPnms}
-          />
-        </View>
-
-        {/* Quick Links */}
-        <Text variant="title">Quick Links</Text>
-        <ActionCard
-          title="New PNM"
-          subtitle="Add a new PNM to the system"
-          icon="ri-user-add-fill"
-          onPress={onAddPNM}
-        />
-
-        {/* Recently Added PNMs */}
-        <Text variant="title">Recently Added PNMs</Text>
-        <RecentPnms
-          pnms={recentPnms}
-          loading={isLoading && !recentPnms}
-          onPress={onRecentPnmPress}
-        />
+        <View style={tw`bg-white absolute h-full -z-10 w-full top-56`} />
       </Layout>
     </>
   );

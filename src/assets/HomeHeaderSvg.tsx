@@ -21,7 +21,8 @@ const HomeHeaderSvg: React.FC<HomeHeaderSvgProps> = () => {
   return (
     <View style={tw`absolute`}>
       <HeaderSvg />
-      <View style={tw`bg-white absolute h-full z-10 w-full top-68`} />
+
+      <View style={tw`bg-white absolute h-48 z-10 w-full bottom-0`} />
     </View>
   );
 };
