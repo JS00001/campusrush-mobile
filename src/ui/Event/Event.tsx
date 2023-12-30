@@ -21,23 +21,26 @@ import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface EventProps {
   event: Event;
-  embedded?: boolean;
+  type?: "card" | "attachment";
   onPress?: (event: Event) => void;
 }
 
-const Event: React.FC<EventProps> = ({ event, embedded, onPress }) => {
-  if (embedded) {
-    return <EmbeddedEventCard event={event} onPress={onPress} />;
+const Event: React.FC<EventProps> = ({ event, type, onPress }) => {
+  switch (type) {
+    case "card":
+      return <CardEvent event={event} onPress={onPress} />;
+    case "attachment":
+      return <AttachmentEvent event={event} onPress={onPress} />;
+    default:
+      return <DefaultEvent event={event} onPress={onPress} />;
   }
-
-  return <EventCard event={event} />;
 };
 
 /**
  * The default event card in the events list. This will open a bottom sheet
  * allowing for sharing and editing, if the onPress prop is not provided.
  */
-const EventCard: React.FC<EventProps> = ({ event, onPress }) => {
+const DefaultEvent: React.FC<EventProps> = ({ event, onPress }) => {
   const { handlePresentModalPress } = useBottomSheets();
 
   const formattedEvent = formatEvent(event);
@@ -97,15 +100,63 @@ const EventCard: React.FC<EventProps> = ({ event, onPress }) => {
 };
 
 /**
- * The embedded event card in the event details screen. This is for sharing
+ * The attachment event in the chat message composer.
+ */
+const AttachmentEvent: React.FC<EventProps> = ({ event, onPress }) => {
+  const formattedEvent = formatEvent(event);
+
+  const containerClasses = tw.style(
+    "p-3 gap-3 flex-row items-center w-[200px]",
+    "bg-slate-100 border border-slate-200 rounded-lg",
+  );
+
+  const onEventPress = () => {
+    if (onPress) {
+      onPress(event);
+      return;
+    }
+  };
+
+  return (
+    <View style={containerClasses}>
+      <RemixIcon
+        name="ri-calendar-2-fill"
+        size={24}
+        color={tw.color("primary")}
+      />
+
+      <View style={tw`shrink`}>
+        <Text variant="body" style={tw`text-primary`}>
+          {event.title}
+        </Text>
+
+        <Text variant="subtext" style={tw`text-slate-500`} numberOfLines={1}>
+          {formattedEvent.start.time} · {formattedEvent.location} is long
+        </Text>
+      </View>
+
+      <TouchableOpacity
+        style={tw`absolute -top-3.5 -right-3.5 rounded-full p-2`}
+        onPress={onEventPress}
+      >
+        <View style={tw`bg-slate-500 rounded-full p-0.5`}>
+          <RemixIcon name="ri-close-line" size={14} color={tw.color("white")} />
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+/**
+ * The card event in the event details screen. This is for sharing
  * in chats and other places where we want to just attach the event "on press".
  */
-const EmbeddedEventCard: React.FC<EventProps> = ({ event, onPress }) => {
+const CardEvent: React.FC<EventProps> = ({ event, onPress }) => {
   const formattedEvent = formatEvent(event);
   const hasPassed = date.hasPassed(formattedEvent.startDate);
 
   const containerClasses = tw.style(
-    "bg-white border border-slate-200 shadow w-[228px] p-4 rounded-lg gap-5",
+    "bg-slate-100 border border-slate-200 shadow w-[228px] p-4 rounded-lg gap-5",
     "flex-row items-center ",
     // Add opacity if event has passed
     hasPassed && "opacity-50",

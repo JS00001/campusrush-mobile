@@ -20,7 +20,7 @@ import useEventsStore from "@/state/events";
 import KeyboardListener from "@/ui/KeyboardListener";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
-  ({ visible, setVisible }: ExtensionPanelProps, ref) => {
+  ({ visible, setEvent, setVisible }: ExtensionPanelProps, ref) => {
     const [activeTab, setActiveTab] = useState(0);
     const [animation] = useState(new Animated.Value(0));
 
@@ -45,7 +45,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
     const animateContainer = (toValue: number, cb?: () => void) => {
       Animated.timing(animation, {
         toValue,
-        duration: 150,
+        duration: 175,
         useNativeDriver: false,
         easing: Easing.linear,
       }).start(() => {
@@ -65,13 +65,17 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
       });
     };
 
+    const onEventPress = (event: Event) => {
+      setEvent(event);
+    };
+
     const containerClasses = tw.style(
-      "bg-slate-100 p-3 gap-4",
+      "bg-white p-3 gap-4",
       visible ? "" : "hidden",
       {
         height: animation.interpolate({
           inputRange: [0, 1],
-          outputRange: [0, 216],
+          outputRange: [0, 228],
         }),
       },
     );
@@ -82,6 +86,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
           <Tabs
             selectedIndex={activeTab}
             options={["Events", "Photos", "Videos"]}
+            disabledIndexes={[1, 2]}
             onChange={setActiveTab}
           />
 
@@ -92,7 +97,12 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
             contentContainerStyle={tw`gap-2`}
           >
             {events.map((event, index) => (
-              <Event key={index} embedded event={event} />
+              <Event
+                key={index}
+                type="card"
+                event={event}
+                onPress={onEventPress}
+              />
             ))}
           </ScrollView>
         </Animated.View>

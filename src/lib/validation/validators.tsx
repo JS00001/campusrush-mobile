@@ -12,6 +12,12 @@
 
 import schools from "@/constants/schools";
 import organizations from "@/constants/organizations";
+import {
+  namesRegex,
+  emailRegex,
+  phoneRegex,
+  verificationCodeRegex,
+} from "@/constants/regex";
 
 const validateRegistration = (input: RegisterAsOrganizationInput) => {
   const errors = {
@@ -60,7 +66,6 @@ const validateRegistration = (input: RegisterAsOrganizationInput) => {
   }
 
   // Validate email is a valid email
-  const emailRegex = /\S+@\S+\.\S+/;
   if (!emailRegex.test(input.email)) {
     if (!errors.email) errors.email = "Invalid email address";
   }
@@ -70,14 +75,11 @@ const validateRegistration = (input: RegisterAsOrganizationInput) => {
     if (!errors.password) errors.password = "Password too short";
   }
 
-  // Validate name only has letters
-  const nameRegex = /^[a-zA-Z]+$/;
-
-  if (!nameRegex.test(input.firstName)) {
+  if (!namesRegex.test(input.firstName)) {
     if (!errors.firstName) errors.firstName = "Invalid first name";
   }
 
-  if (!nameRegex.test(input.lastName)) {
+  if (!namesRegex.test(input.lastName)) {
     if (!errors.lastName) errors.lastName = "Invalid last name";
   }
 
@@ -115,9 +117,6 @@ const validateLogin = (input: LoginAsOrganizationInput) => {
   if (!input.password) {
     errors.password = "Password is required";
   }
-
-  // Validate email is a valid email
-  const emailRegex = /\S+@\S+\.\S+/;
 
   if (!emailRegex.test(input.email)) {
     if (!errors.email) errors.email = "Invalid email address";
@@ -163,18 +162,13 @@ const validateSettings = (input: UpdateOrganizationInput) => {
     }
   }
 
-  const nameRegex = /^[a-zA-Z]+$/;
-
-  if (!nameRegex.test(input.firstName || "")) {
+  if (!namesRegex.test(input.firstName || "")) {
     if (!errors.firstName) errors.firstName = "Invalid first name";
   }
 
-  if (!nameRegex.test(input.lastName || "")) {
+  if (!namesRegex.test(input.lastName || "")) {
     if (!errors.lastName) errors.lastName = "Invalid last name";
   }
-
-  // Validate email is a valid email
-  const emailRegex = /\S+@\S+\.\S+/;
 
   if (!emailRegex.test(input.email || "")) {
     if (!errors.email) errors.email = "Invalid email address";
@@ -222,21 +216,15 @@ const validateCreatePnm = (input: CreatePnmInput) => {
     errors.classification = "Classification is required";
   }
 
-  // Check names to only use letters
-  const nameRegex = /^[a-zA-Z]+$/;
-
-  if (input.firstName && !nameRegex.test(input.firstName)) {
+  if (input.firstName && !namesRegex.test(input.firstName)) {
     if (!errors.firstName) errors.firstName = "Invalid first name";
   }
 
-  if (input.lastName && !nameRegex.test(input.lastName)) {
+  if (input.lastName && !namesRegex.test(input.lastName)) {
     if (!errors.lastName) errors.lastName = "Invalid last name";
   }
 
-  // Ensure phone number is a valid phone number
-  const phoneNumberRegex = /^\d{10}$/;
-
-  if (input.phoneNumber && !phoneNumberRegex.test(input.phoneNumber)) {
+  if (input.phoneNumber && !phoneRegex.test(input.phoneNumber)) {
     if (!errors.phoneNumber) errors.phoneNumber = "Invalid phone number";
   }
 
@@ -261,21 +249,15 @@ const validateUpdatePnm = (input: UpdatePnmInput) => {
     snapchat: "",
   };
 
-  // Check names to only use letters
-  const nameRegex = /^[a-zA-Z]+$/;
-
-  if (input.firstName && !nameRegex.test(input.firstName)) {
+  if (input.firstName && !namesRegex.test(input.firstName)) {
     if (!errors.firstName) errors.firstName = "Invalid first name";
   }
 
-  if (input.lastName && !nameRegex.test(input.lastName)) {
+  if (input.lastName && !namesRegex.test(input.lastName)) {
     if (!errors.lastName) errors.lastName = "Invalid last name";
   }
 
-  // Ensure phone number is a valid phone number
-  const phoneNumberRegex = /^\d{10}$/;
-
-  if (input.phoneNumber && !phoneNumberRegex.test(input.phoneNumber)) {
+  if (input.phoneNumber && !phoneRegex.test(input.phoneNumber)) {
     if (!errors.phoneNumber) errors.phoneNumber = "Invalid phone number";
   }
 
@@ -299,10 +281,7 @@ const validateVerifyOrganization = (input: VerifyOrganizationInput) => {
     errors.code = "Code is required";
   }
 
-  // Make sure code is 6 characters and only numbers
-  const codeRegex = /^\d{6}$/;
-
-  if (input.code && !codeRegex.test(input.code)) {
+  if (input.code && !verificationCodeRegex.test(input.code)) {
     if (!errors.code) errors.code = "Invalid code";
   }
 

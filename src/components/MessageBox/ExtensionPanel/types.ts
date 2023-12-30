@@ -18,5 +18,6 @@ interface ExtensionPanelRef {
 
 interface ExtensionPanelProps {
   visible: boolean;
+  setEvent: (event: any) => void;
   setVisible: (visible: boolean) => void;
 }

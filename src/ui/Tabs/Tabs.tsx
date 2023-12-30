@@ -17,6 +17,7 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 interface TabsProps {
   options: string[];
   selectedIndex: number;
+  disabledIndexes?: number[];
   style?: any;
   onChange: (index: number) => void;
 }
@@ -24,6 +25,7 @@ interface TabsProps {
 const Tabs: React.FC<TabsProps> = ({
   options,
   selectedIndex,
+  disabledIndexes,
   style,
   onChange,
 }) => {
@@ -41,6 +43,7 @@ const Tabs: React.FC<TabsProps> = ({
             key={option}
             label={option}
             selected={selectedIndex === index}
+            disabled={disabledIndexes?.includes(index)}
             onPress={() => onChange(index)}
           />
         ))}
@@ -52,13 +55,15 @@ const Tabs: React.FC<TabsProps> = ({
 interface TabProps {
   label: string;
   selected: boolean;
+  disabled?: boolean;
   onPress: () => void;
 }
 
-const Tab: React.FC<TabProps> = ({ label, selected, onPress }) => {
+const Tab: React.FC<TabProps> = ({ label, selected, disabled, onPress }) => {
   const containerClasses = tw.style(
     "rounded-full py-1.5 px-6",
-    selected ? "bg-primary" : "bg-slate-200",
+    selected ? "bg-primary" : "bg-slate-100",
+    disabled && "opacity-50",
   );
 
   const textClasses = tw.style(
@@ -66,7 +71,11 @@ const Tab: React.FC<TabProps> = ({ label, selected, onPress }) => {
   );
 
   return (
-    <TouchableOpacity style={containerClasses} onPress={onPress}>
+    <TouchableOpacity
+      style={containerClasses}
+      onPress={onPress}
+      disabled={disabled}
+    >
       <Text variant="subtext" style={textClasses}>
         {label}
       </Text>
