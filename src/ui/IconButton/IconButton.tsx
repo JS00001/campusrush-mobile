@@ -64,8 +64,8 @@ const IconButton: React.FC<IconButtonProps> = ({
   const iconColor = disabled
     ? tw.color("slate-300")
     : color
-    ? color
-    : tw.color("primary");
+      ? color
+      : tw.color("primary");
 
   // Styling
   const containerClasses = tw.style(

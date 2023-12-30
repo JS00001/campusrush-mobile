@@ -14,11 +14,6 @@ import { useMemo } from "react";
 import { View } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 
-import type {
-  ProductId,
-  ProductPerkIds,
-} from "@/types/interfaces/EntitlementInterfaces";
-
 import BottomSheet from "./Components/BottomSheet";
 import BottomSheetContainer from "./Components/BottomSheetContainer";
 

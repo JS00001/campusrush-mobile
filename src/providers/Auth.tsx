@@ -116,9 +116,8 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   const _loadAccessToken = async (refreshToken: string) => {
     try {
       // Request a new access token using the refresh token
-      const response = await refreshAccessTokenMutation.mutateAsync(
-        refreshToken,
-      );
+      const response =
+        await refreshAccessTokenMutation.mutateAsync(refreshToken);
       // The access token
       const accessToken = response.data?.data.accessToken;
       // store the access token in state

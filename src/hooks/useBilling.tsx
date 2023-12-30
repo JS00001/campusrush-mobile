@@ -14,8 +14,6 @@ import { useAuth } from "@/providers/Auth";
 import { useIAPs } from "@/providers/IAP";
 import useEntitlementsStore from "@/state/entitlements";
 
-import type { ProductId } from "@/types/interfaces/EntitlementInterfaces";
-
 const useBilling = () => {
   const { customerData } = useAuth();
   const { offering, restorePurchases } = useIAPs();

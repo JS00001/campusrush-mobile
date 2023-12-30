@@ -6,12 +6,9 @@
   "scripts": {
     "dev": "expo start --dev-client",
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
     "format:fix": "prettier --write .",
     "format:check": "prettier --check .",
-    "build:development:ios": "eas build --platform ios --profile development",
-    "build:production:ios": "eas build --platform ios --profile production"
+    "types:check": "tsc --noEmit"
   },
   "dependencies": {
     "@directus/sdk": "^13.0.1",

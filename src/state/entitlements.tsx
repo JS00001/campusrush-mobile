@@ -13,8 +13,6 @@
 import { create } from "zustand";
 import { PersistStorage, persist } from "zustand/middleware";
 
-import type { EntitlementDetails } from "@/types/interfaces/EntitlementInterfaces";
-
 import customAsyncStorage from "@/lib/asyncStorage";
 
 interface EntitlementsState {

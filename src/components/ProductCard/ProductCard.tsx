@@ -20,8 +20,6 @@ import useEntitlementsStore from "@/state/entitlements";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 
-import type { ProductId } from "@/types/interfaces/EntitlementInterfaces";
-
 interface ProductCardProps {
   product: PurchasesStoreProduct;
   selected: boolean;
@@ -60,8 +58,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
     ? hasPreviousSubscription
       ? "Unlock features to boost your recruitment"
       : hasTrialPeriod
-      ? `with ${trialLength} free trial`
-      : "with no free trial"
+        ? `with ${trialLength} free trial`
+        : "with no free trial"
     : "one-time purchase";
 
   // Pull the entitlement details from the store
