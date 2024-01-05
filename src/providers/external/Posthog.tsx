@@ -19,6 +19,8 @@ interface PosthogProviderProps {
 }
 
 const PosthogProvider: React.FC<PosthogProviderProps> = ({ children }) => {
+  if (!AppConstants.isProduction) return <>{children}</>;
+
   return (
     <PostHogProvider
       apiKey={AppConstants.posthogApiKey}
