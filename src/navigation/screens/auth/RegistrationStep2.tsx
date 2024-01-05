@@ -14,8 +14,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
-import useRegistration from "@/hooks/auth/useRegistration";
 import usePosthog from "@/hooks/usePosthog";
+import useRegistration from "@/hooks/auth/useRegistration";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 interface RegistrationProps {
