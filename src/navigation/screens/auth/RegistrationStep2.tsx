@@ -14,6 +14,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
+import usePosthog from "@/hooks/usePosthog";
 import useRegistration from "@/hooks/useRegistration";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
@@ -33,16 +34,27 @@ const RegistrationStep2: React.FC<RegistrationProps> = ({ navigation }) => {
     validateFields,
   } = useRegistration();
 
+  const posthog = usePosthog();
+
   // Handle the submission of the form
   const onContinue = async () => {
     // Ensure the fields are valid
     const isValid = validateFields(["email", "firstName", "lastName"]);
     // If the fields are not valid, dont navigate to the next screen
     if (!isValid) return;
+
     // Validate the email
     const isValidEmail = await validateEmail(email);
     // If the email is not valid, dont navigate to the next screen
     if (!isValidEmail) return;
+
+    // Capture the event in analytics
+    posthog.capture("complete_registration_step_2", {
+      email,
+      firstName,
+      lastName,
+    });
+
     // Navigate to the next screen if the fields are valid
     navigation.navigate("RegistrationStep3");
   };

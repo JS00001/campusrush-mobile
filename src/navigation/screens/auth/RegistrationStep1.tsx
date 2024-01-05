@@ -16,6 +16,7 @@ import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import Dropdown from "@/ui/Dropdown";
 import schools from "@/constants/schools";
+import usePosthog from "@/hooks/usePosthog";
 import organizations from "@/constants/organizations";
 import useRegistration from "@/hooks/useRegistration";
 import TermsAndConditions from "@/components/TermsAndConditions";
@@ -25,6 +26,7 @@ interface RegistrationProps {
 }
 
 const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
+  const posthog = usePosthog();
   const { name, school, errors, isLoading, setField, validateFields } =
     useRegistration();
 
@@ -34,6 +36,13 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
     const isValid = validateFields(["name", "school"]);
     // If the fields are not valid, dont navigate to the next screen
     if (!isValid) return;
+
+    // Capture the event in analytics
+    posthog.capture("complete_registration_step_1", {
+      school,
+      organization: name,
+    });
+
     // Navigate to the next screen if the fields are valid
     navigation.navigate("RegistrationStep2");
   };

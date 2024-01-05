@@ -9,3 +9,28 @@
  * Copyright (c) 2023 CampusRush
  * Do not distribute
  */
+
+import { PostHogProvider } from "posthog-react-native";
+
+import AppConstants from "@/constants";
+
+interface PosthogProviderProps {
+  children: React.ReactNode;
+}
+
+const PosthogProvider: React.FC<PosthogProviderProps> = ({ children }) => {
+  if (!AppConstants.isProduction) return <>{children}</>;
+
+  return (
+    <PostHogProvider
+      apiKey={AppConstants.posthogApiKey}
+      options={{
+        host: AppConstants.posthogUrl,
+      }}
+    >
+      {children}
+    </PostHogProvider>
+  );
+};
+
+export default PosthogProvider;

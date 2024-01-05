@@ -16,10 +16,12 @@ import { useMutation } from "@tanstack/react-query";
 import authAPI from "@/api/auth";
 import errors from "@/lib/errors";
 import { useAuth } from "@/providers/Auth";
+import usePosthog from "@/hooks/usePosthog";
 import validators from "@/lib/validation/validators";
 
 const useLogin = () => {
   const { signIn } = useAuth();
+  const posthog = usePosthog();
 
   const mutation = useMutation({
     mutationFn: (input: LoginAsOrganizationInput) => {
@@ -53,6 +55,11 @@ const useLogin = () => {
     }
     // If there was an error, prevent the "success" code from running
     if (!response) return;
+
+    // Capture the event in analytics
+    posthog.capture("login", {
+      email: values.email,
+    });
 
     // Login the user from the auth provider
     signIn(response);
