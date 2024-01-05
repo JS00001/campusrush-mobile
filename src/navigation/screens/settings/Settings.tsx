@@ -23,7 +23,7 @@ import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import useModalsStore from "@/state/modals";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import useDeleteOrganization from "@/hooks/useDeleteOrganization";
+import useDeleteOrganization from "@/hooks/auth/useDeleteOrganization";
 
 interface SettingsProps {
   navigation: NativeStackNavigationProp<any>;
@@ -97,7 +97,11 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
 
   return (
     <Layout scrollable gap={12} contentContainerStyle={tw`pb-6`}>
-      <Layout.Header title="Settings" subtitle="Manage your organization" />
+      <Layout.Header
+        hasBackButton
+        title="Settings"
+        subtitle="Manage your organization"
+      />
 
       <ActionCard
         title="Organization"

@@ -18,6 +18,7 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import ButtonGroup from "@/ui/ButtonGroup";
 import WarningIcon from "@/assets/icons/Warning";
+import { View } from "react-native";
 
 const WarningModal: React.FC<ModalProps> = ({
   open,
@@ -42,33 +43,33 @@ const WarningModal: React.FC<ModalProps> = ({
     <ModalWrapper open={open} close={close}>
       <WarningIcon />
 
-      <Text variant="body" style={tw`text-center`}>
+      <Text variant="body" style={tw`text-center text-primary`}>
         {message}
       </Text>
 
-      <ButtonGroup>
-        {secondaryButtonText && (
-          <Button
-            size="sm"
-            style={tw`px-2`}
-            onPress={onSecondaryButtonPress}
-            color="gray"
-          >
-            {secondaryButtonText}
-          </Button>
-        )}
-
+      <View style={tw`w-full gap-y-2`}>
         {primaryButtonText && (
           <Button
             size="sm"
-            style={tw`bg-yellow-500 px-2`}
+            style={tw`bg-yellow-500 px-2 rounded-full`}
             onPress={onPrimaryButtonPress}
-            textStyle={tw`text-primary`}
+            textStyle={tw`text-black`}
           >
             {primaryButtonText}
           </Button>
         )}
-      </ButtonGroup>
+
+        {secondaryButtonText && (
+          <Button
+            size="sm"
+            style={tw`px-2 rounded-full`}
+            onPress={onSecondaryButtonPress}
+            color="light"
+          >
+            {secondaryButtonText}
+          </Button>
+        )}
+      </View>
     </ModalWrapper>
   );
 };

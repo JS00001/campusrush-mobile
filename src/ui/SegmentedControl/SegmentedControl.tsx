@@ -30,17 +30,17 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
       values={values}
       selectedIndex={selectedIndex}
       onChange={onChange}
-      style={tw.style("w-full h-10")}
+      style={tw.style("w-full h-9")}
       tintColor={tw.color("primary")}
       fontStyle={{
-        color: tw.color("slate-600"),
+        color: tw.color("slate-500"),
         fontSize: 14,
       }}
       activeFontStyle={{
-        color: tw.color("white"),
+        color: "white",
         fontSize: 14,
       }}
-      backgroundColor={tw.color("slate-100")}
+      backgroundColor={tw.color("slate-50")}
     />
   );
 };

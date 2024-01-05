@@ -71,7 +71,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
   // Styling
   const containerClasses = tw.style(
     // Common classes
-    "rounded-md bg-slate-100 shadow-sm",
+    "rounded-lg bg-slate-100 shadow-sm",
     // Disabled styling
     disabled && "opacity-50",
     // The size of the card

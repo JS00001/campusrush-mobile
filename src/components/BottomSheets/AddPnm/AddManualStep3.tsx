@@ -10,18 +10,17 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
 import { useEffect } from "react";
 import { View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { AddPnmScreens } from "./types";
 
 import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import ListItem from "@/ui/ListItem";
 import ButtonGroup from "@/ui/ButtonGroup";
-import type { UseCreatePnm } from "@/hooks/useCreatePnm";
+import type { UseCreatePnm } from "@/hooks/pnms/useCreatePnm";
 
 /**
  * The props for this screen extend the values of the "useCreatePnm" hook
@@ -30,8 +29,11 @@ import type { UseCreatePnm } from "@/hooks/useCreatePnm";
  * handling the state of the forms.
  */
 interface AddManualStep3ScreenProps extends UseCreatePnm {
-  handleCloseModalPress: () => void;
   setScreen: (screen: AddPnmScreens) => void;
+
+  handleCloseModalPress: () => void;
+  handleSnapToIndex: (index: number) => void;
+  handleSnapToPosition: (position: string) => void;
 }
 
 const AddManualStep3: React.FC<AddManualStep3ScreenProps> = ({
@@ -61,13 +63,8 @@ const AddManualStep3: React.FC<AddManualStep3ScreenProps> = ({
     handleCloseModalPress();
   };
 
-  useEffect(() => {}, []);
-
   return (
-    <KeyboardAwareScrollView
-      style={tw`p-6`}
-      contentContainerStyle={tw`gap-y-3 flex-1`}
-    >
+    <>
       {/* Header and subheader */}
       <View style={tw`mb-2`}>
         <Text variant="title">Finalize</Text>
@@ -99,10 +96,10 @@ const AddManualStep3: React.FC<AddManualStep3ScreenProps> = ({
           No, Go Back
         </Button>
         <Button size="sm" onPress={onNextPress} loading={props.isLoading}>
-          Yes, Add PNM
+          Yes, Create
         </Button>
       </ButtonGroup>
-    </KeyboardAwareScrollView>
+    </>
   );
 };
 

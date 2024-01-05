@@ -17,10 +17,9 @@ import { AddPnmScreens } from "./types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
 import CopyItem from "@/ui/CopyItem";
-import { WEB_URL } from "@/api/constants";
 import { useAuth } from "@/providers/Auth";
+import { SHARING_URL } from "@/api/constants";
 
 interface AddQrCodeScreenProps {
   handleCloseModalPress: () => void;
@@ -30,16 +29,16 @@ interface AddQrCodeScreenProps {
 const AddQrCodeStep: React.FC<AddQrCodeScreenProps> = ({}) => {
   const { organization } = useAuth();
 
-  const linkSharingCode = `${WEB_URL}/${organization.linkSharingCode}`;
+  const linkSharingCode = `${SHARING_URL}/${organization.linkSharingCode}`;
 
   return (
-    <Layout scrollable gap={16}>
+    <>
       <View style={tw`w-full`}>
         <Text variant="title">Display QR Code</Text>
         <Text variant="body">Have a PNM scan the QR code</Text>
       </View>
 
-      <View style={tw`bg-slate-100 rounded-md p-12 w-full items-center`}>
+      <View style={tw`bg-slate-100 rounded-xl p-12 w-full items-center`}>
         <QRCode
           size={232}
           value={linkSharingCode}
@@ -48,10 +47,12 @@ const AddQrCodeStep: React.FC<AddQrCodeScreenProps> = ({}) => {
         />
       </View>
 
-      <Text variant="title">Or</Text>
+      <Text variant="title" style={tw`self-center`}>
+        Or
+      </Text>
 
       <CopyItem label="Link Sharing URL" value={linkSharingCode} />
-    </Layout>
+    </>
   );
 };
 

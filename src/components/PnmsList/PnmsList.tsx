@@ -22,7 +22,7 @@ import { useNavigation } from "@react-navigation/native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
-import { formatPhoneNumber } from "@/lib/string";
+import { formatPhoneNumber } from "@/lib/util/string";
 
 interface PnmsListProps {
   pnms: PNM[];

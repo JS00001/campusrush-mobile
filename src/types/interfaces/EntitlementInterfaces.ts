@@ -10,11 +10,11 @@
  * Do not distribute
  */
 
-export type Entitlement = 'basic' | 'pro';
+type Entitlement = 'basic' | 'pro';
 
-export type ProductId = 'basicsubscription1' | 'prosubscription1';
+type ProductId = 'basicsubscription1' | 'prosubscription1';
 
-export type ProductPerkIds =
+type ProductPerkIds =
   | 'max_pnm_count'
   | 'mass_message_cooldown'
   | 'custom_phone_number'
@@ -27,7 +27,7 @@ export type ProductPerkIds =
   | 'add_pnm_manually'
   | 'add_pnm_from_qr';
 
-export interface EntitlementDetails {
+interface EntitlementDetails {
   productPerks: {
     [key in ProductPerkIds]: {
       /**

@@ -26,6 +26,16 @@ const Content = {
   confirmDeleteAllPNMs:
     "All PNMs will be permanently deleted. Are you sure you want to continue?",
   /**
+   * The message to show to confirm the deletion of a single event
+   */
+  confirmDeleteEvent:
+    "This event will be permanently deleted. Are you sure you want to continue?",
+  /**
+   * The message to show to confirm the deletion of all events
+   */
+  confirmDeleteAllEvents:
+    "All events will be permanently deleted. Are you sure you want to continue?",
+  /**
    * The new message error messages
    */
   newMessage: {
@@ -98,6 +108,13 @@ const Content = {
     message: "Added PNM to your contacts",
   },
   /**
+   * The success message when creating an event
+   */
+  createEventSuccess: {
+    title: "Successfully Created Event",
+    message: "Your event has been created",
+  },
+  /**
    * The success message when the organization is updated
    */
   updateOrganizationSuccess: {
@@ -127,6 +144,11 @@ const Content = {
     primaryButton: "Upgrade",
     secondaryButton: "No Thanks",
   },
+  /**
+   * Event invitations
+   */
+  eventInvitation:
+    "We have an event coming up and would love to see you.\n\nEvent: {{title}}\nLocation: {{location}}\nDate: {{date}}\nTime: {{time}}\n\nPlease RSVP at {{link}}",
 };
 
 export default Content;

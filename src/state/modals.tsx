@@ -63,7 +63,7 @@ export const ModalComponents = {
     component: WarningModal,
     props: {
       message: "This is a warning",
-      secondaryButtonText: "Go Back",
+      secondaryButtonText: undefined,
       secondaryButtonAction: () => undefined,
       primaryButtonText: undefined,
       primaryButtonAction: () => undefined,

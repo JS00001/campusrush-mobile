@@ -27,9 +27,9 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import CopyItem from "@/ui/CopyItem";
-import { WEB_URL } from "@/api/constants";
 import { useAuth } from "@/providers/Auth";
 import useSettings from "@/hooks/useSettings";
+import { SHARING_URL } from "@/api/constants";
 import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 
 const ContactDetails = () => {
@@ -45,6 +45,8 @@ const ContactDetails = () => {
   const onLinkSharingDisabledPress = () => {
     setLinkSharingEnabled(false);
   };
+
+  const linkSharingCode = `${SHARING_URL}/${organization.linkSharingCode}`;
 
   const linkSharingEnabledSubtitle = linkSharingEnabled
     ? "Currently Enabled"
@@ -70,10 +72,7 @@ const ContactDetails = () => {
         </Text>
       </View>
 
-      <CopyItem
-        label="Link Sharing URL"
-        value={`${WEB_URL}/${organization.linkSharingCode}`}
-      />
+      <CopyItem label="Link Sharing URL" value={linkSharingCode} />
 
       <Text variant="title">Manage Your Link Sharing</Text>
 

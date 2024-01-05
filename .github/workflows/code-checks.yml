@@ -1,0 +1,29 @@
+name: Code Checks
+on:
+  push:
+    branches:
+      - "**" # All branches
+
+jobs:
+  code-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: yarn
+
+      - name: 🔁  Install dependencies
+        run: yarn install
+
+      # Ensure files are properly formated to prettier standards
+      - name: 🎨 Verify format using Prettier
+        run: yarn format:check
+
+      # Ensure that the typscript compiles and the types are correct
+      - name: 🏗️ Verify typescript
+        run: yarn types:check

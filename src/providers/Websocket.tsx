@@ -13,7 +13,7 @@
 import Toast from "react-native-toast-message";
 import { createContext, useContext, useState } from "react";
 
-import { isJSON } from "@/lib/string";
+import { isJSON } from "@/lib/util/string";
 import { WEBSOCKET_URL } from "@/api/constants";
 import useMessagesStore from "@/state/messaging/messages";
 import useConversationsStore from "@/state/messaging/conversations";

@@ -108,7 +108,7 @@ const useConversationsStore = create<ConversationsState>()(
       resetState: () => set(() => defaultState),
     }),
     {
-      name: "conversations",
+      name: "conversations-store",
       storage: customAsyncStorage as PersistStorage<ConversationsState>,
     },
   ),

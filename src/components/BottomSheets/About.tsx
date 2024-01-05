@@ -10,11 +10,8 @@
  * Do not distribute
  */
 
-import { useMemo } from "react";
-import { ScrollView } from "react-native";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
-
-import BottomSheetBackdrop from "./Components/BottomSheetBackdrop";
+import BottomSheet from "./Components/BottomSheet";
+import BottomSheetContainer from "./Components/BottomSheetContainer";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -25,20 +22,15 @@ interface AboutProps {
 }
 
 const About: React.FC<AboutProps> = ({ innerRef }) => {
-  // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["75%"], []);
-
   return (
-    <BottomSheetModal
-      ref={innerRef}
-      index={0}
-      snapPoints={snapPoints}
-      backdropComponent={BottomSheetBackdrop}
-    >
-      <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-2`}>
-        <Text>About</Text>
-      </ScrollView>
-    </BottomSheetModal>
+    <BottomSheet
+      innerRef={innerRef}
+      children={() => (
+        <BottomSheetContainer>
+          <Text>About</Text>
+        </BottomSheetContainer>
+      )}
+    />
   );
 };
 

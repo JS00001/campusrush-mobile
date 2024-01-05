@@ -10,8 +10,8 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
 import Toast from "react-native-toast-message";
-import { ScrollView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { NewMessageScreens } from "./types";
@@ -20,9 +20,9 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
-import useContacts from "@/hooks/messaging/useContacts";
 import { useAuth } from "@/providers/Auth";
 import useModalsStore from "@/state/modals";
+import useContacts from "@/hooks/messaging/useContacts";
 
 interface NewMessageProps {
   handleCloseModalPress: () => void;
@@ -34,10 +34,9 @@ const NewMessage: React.FC<NewMessageProps> = ({
   setScreen,
 }) => {
   const { isPro } = useAuth();
-  const openModal = useModalsStore((state) => state.openModal);
-  // Navigation hook to navigate to new message screen
   const navigation = useNavigation();
-  // Custom hook to get contacts
+
+  const openModal = useModalsStore((state) => state.openModal);
   const { isLoading, uncontactedPnms, allPnms, favoritedPnms } = useContacts();
 
   // When the user presses the direct message button
@@ -117,8 +116,8 @@ const NewMessage: React.FC<NewMessageProps> = ({
   };
 
   return (
-    <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-4`}>
-      <View>
+    <>
+      <View style={tw`pb-4`}>
         <Text variant="title">New Message</Text>
         <Text variant="body">Start a new message with potential members</Text>
       </View>
@@ -153,7 +152,7 @@ const NewMessage: React.FC<NewMessageProps> = ({
         loading={isLoading}
         onPress={onMessageFavoritePress}
       />
-    </ScrollView>
+    </>
   );
 };
 

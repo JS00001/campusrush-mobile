@@ -29,17 +29,6 @@ const getPnms = (): Promise<GetPnmsAPIResponse> => {
 };
 
 /**
- * GET /api/v1/pnms/list/:id
- *
- * Returns
- * - data
- *  - pnm
- */
-const getPnm = (data: GetPnmInput): Promise<GetPnmAPIResponse> => {
-  return pnmsAPIClient.get(`${PREFIX}/list/${data.id}`);
-};
-
-/**
  * POST /api/v1/pnms/create
  *
  * Returns
@@ -82,7 +71,6 @@ const deletePnms = (): Promise<DeletePnmsAPIResponse> => {
 };
 
 export default {
-  getPnm,
   getPnms,
   createPnm,
   updatePnm,

@@ -42,7 +42,7 @@ const ListItem: React.FC<ListItemProps> = ({
   // Styling
   const containerClasses = tw.style(
     // Default classes
-    "bg-slate-100 w-full p-4 rounded-md",
+    "bg-slate-100 w-full p-4 rounded-lg",
     // If pressable, add justify for chevron
     "flex-row justify-between items-center",
     // Custom classes
@@ -65,7 +65,7 @@ const ListItem: React.FC<ListItemProps> = ({
           <View style={tw`w-3.5`} />
         )}
 
-        <View>
+        <View style={tw`shrink`}>
           {/* If not loading, show content */}
           {!loading && (
             <Text variant="body" style={tw`text-primary`}>

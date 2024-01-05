@@ -16,10 +16,11 @@ import {
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
 } from "react-native";
+import RemixIcon from "react-native-remix-icon";
 import { useEffect, useRef, useState } from "react";
 
 import tw from "@/lib/tailwind";
-import RemixIcon from "react-native-remix-icon";
+import Text from "@/ui/Text/Text";
 
 // This is a hack to disable font scaling for all text components
 export interface TextInputWithDefaultProps extends RNTextInput {
@@ -148,7 +149,7 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
   // On initial load, animate the placeholder if there is a value
   useEffect(() => {
     if (value) {
-      animatePlaceholder(-8, 14);
+      animatePlaceholder(10, 12);
     }
   }, []);
 
@@ -162,32 +163,35 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
 
   const inputClasses = tw.style(
     // Input Sizing
-    "border p-5 rounded-md text-lg leading-5",
+    "border-2 px-5 py-5 rounded-xl text-lg leading-5 bg-slate-100 ",
     // Disabled text styling
-    disabled && "text-slate-500",
+    disabled && "bg-slate-50",
+    // If there is a value or the input is focused, we need to add padding to the input to make it "look"
+    // like the placeholder is in the input and they are both centered
+    (focused || value) && "pt-7 pb-3",
     // Error Styling
     error
       ? "border-red-500"
       : disabled
-      ? "border-slate-200"
-      : focused
-      ? "border-primary"
-      : "border-slate-300",
+        ? "border-slate-50"
+        : focused
+          ? "border-slate-200"
+          : "border-slate-100",
     // Passed in input styles
     inputStyle,
   );
 
   const labelClasses = tw.style(
     // Label Sizing and Styling
-    "absolute left-3 -z-10 bg-white px-1",
+    "absolute left-4 z-10 px-1 bg-slate-100",
+    disabled && "bg-slate-50",
     // If there is an error, make the label red
-    error
-      ? "text-red-500"
-      : disabled
-      ? "text-slate-300"
-      : focused
-      ? "text-primary"
-      : "text-slate-400",
+    error ? "text-red-500" : disabled ? "text-slate-300" : "text-slate-400",
+  );
+
+  const valueClasses = tw.style(
+    "text-lg leading-5",
+    disabled ? "text-slate-400" : "text-black",
   );
 
   return (
@@ -201,11 +205,10 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
         onChangeText={(text) => {
           onChangeText?.(text);
         }}
-        value={value}
         onFocus={() => {
           // Animate the placeholder up on focus
           setIsFocused(true);
-          animatePlaceholder(-8, 14);
+          animatePlaceholder(10, 12);
           // If there is an onFocus prop, call it
           // This allows us to pass an onFocus prop to this component,
           // while still being able to use the onFocus prop on the TextInput
@@ -224,7 +227,11 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
           onBlur?.();
         }}
         {...props}
-      />
+      >
+        <Text variant="body" style={valueClasses}>
+          {value}
+        </Text>
+      </TextInputWithNoFontScaling>
 
       <Animated.Text
         style={[labelClasses, { top: placeholderY, fontSize: placeholderSize }]}
@@ -277,8 +284,8 @@ const AlternateTextInput: React.FC<TextInputProps> = ({
     error
       ? "border-red-500"
       : disabled
-      ? "border-slate-200"
-      : "border-slate-400",
+        ? "border-slate-200"
+        : "border-slate-400",
     // Passed in input styles
     inputStyle,
   );
