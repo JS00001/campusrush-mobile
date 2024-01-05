@@ -13,11 +13,11 @@
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
+import usePosthog from "@/hooks/usePosthog";
 import useRegistration from "@/hooks/auth/useRegistration";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep3: React.FC = () => {
-  // Import the context from the RegistrationProvider
   const {
     errors,
     password,
@@ -28,12 +28,18 @@ const RegistrationStep3: React.FC = () => {
     handleSubmission,
   } = useRegistration();
 
+  const posthog = usePosthog();
+
   // Handle the submission of the form
   const onComplete = () => {
     // Ensure the fields are valid
     const isValid = validateFields(["password", "confirmPassword"]);
     // If the fields are not valid, dont submit the final request
     if (!isValid) return;
+
+    // Capture the event in analytics
+    posthog.capture("complete_registration");
+
     // Submit the final request if the fields are valid
     handleSubmission();
   };
