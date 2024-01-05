@@ -36,6 +36,10 @@ export default {
     sentry: {
       dsn: 'https://e67ab04c64431925a12476788c0e22a9@o4506311638843392.ingest.sentry.io/4506317292175360',
     },
+    posthog: {
+      apiKey: 'phc_kCcXq7raquwqhmH9wwRmhrtxnhxfyfURMXH7qDynRoq',
+      url: 'https://us.posthog.com',
+    },
   },
   updates: {
     url: 'https://u.expo.dev/9e0d874e-cc30-4dca-ae7e-9609b121b1ae',
@@ -46,6 +50,7 @@ export default {
   owner: 'js00001',
   plugins: [
     'sentry-expo',
+    'expo-localization',
     [
       'expo-sensors',
       {

@@ -31,6 +31,7 @@ import SentryProvider from "@/providers/external/Sentry";
 import DevEnvironment from "@/components/DevEnvironment";
 import BottomSheetProvider from "@/providers/BottomSheet";
 import PreferencesProvider from "@/providers/Preferences";
+import PosthogProvider from "@/providers/external/Posthog";
 import EntitlementsProvider from "@/providers/Entitlements";
 import NotificationsProvider from "@/providers/Notifications";
 
@@ -52,20 +53,22 @@ const App = () => {
               <AxiosIntercepter>
                 <PreferencesProvider>
                   <NavigationProvider>
-                    <NotificationsProvider>
-                      <GestureHandlerRootView style={{ flex: 1 }}>
-                        <BottomSheetModalProvider>
-                          <BottomSheetProvider>
-                            <EntitlementsProvider>
-                              <Modals />
-                              <DevEnvironment />
-                              <RootNavigator />
-                              <Toast config={toastConfig} />
-                            </EntitlementsProvider>
-                          </BottomSheetProvider>
-                        </BottomSheetModalProvider>
-                      </GestureHandlerRootView>
-                    </NotificationsProvider>
+                    <PosthogProvider>
+                      <NotificationsProvider>
+                        <GestureHandlerRootView style={{ flex: 1 }}>
+                          <BottomSheetModalProvider>
+                            <BottomSheetProvider>
+                              <EntitlementsProvider>
+                                <Modals />
+                                <DevEnvironment />
+                                <RootNavigator />
+                                <Toast config={toastConfig} />
+                              </EntitlementsProvider>
+                            </BottomSheetProvider>
+                          </BottomSheetModalProvider>
+                        </GestureHandlerRootView>
+                      </NotificationsProvider>
+                    </PosthogProvider>
                   </NavigationProvider>
                 </PreferencesProvider>
               </AxiosIntercepter>

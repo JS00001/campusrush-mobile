@@ -35,6 +35,14 @@ const AppConstants = {
    */
   sentryDsn: ExpoConstants.expoConfig?.extra?.sentry?.dsn,
   /**
+   * The Posthog api key
+   */
+  posthogApiKey: ExpoConstants.expoConfig?.extra?.posthog?.apiKey,
+  /**
+   * The url to the posthog instance
+   */
+  posthogUrl: ExpoConstants.expoConfig?.extra?.posthog?.url,
+  /**
    * The keywords to custom style in messages and their descriptions
    */
   messagingKeywords: [
