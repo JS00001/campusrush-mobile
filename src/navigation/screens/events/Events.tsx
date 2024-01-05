@@ -80,7 +80,11 @@ const Events: React.FC<EventsProps> = () => {
       <ActionButton icon="ri-add-line" onPress={onNewEventPress} />
 
       <Layout gap={8}>
-        <Layout.Header title="Events" subtitle="Manage and share your events" />
+        <Layout.Header
+          beta
+          title="Events"
+          subtitle="Manage and share your events"
+        />
 
         <View style={tw`flex-row w-full gap-x-1`}>
           <TextInput

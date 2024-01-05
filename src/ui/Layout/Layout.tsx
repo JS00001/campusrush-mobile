@@ -27,6 +27,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import HeaderSvg from "@/assets/HeaderSvg";
+import Badge from "../Badge";
 
 interface LayoutProps extends ViewProps {
   children?: React.ReactNode;
@@ -159,10 +160,16 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
 interface HeaderProps {
   title?: string;
   subtitle?: string;
+  beta?: boolean;
   hasBackButton?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, subtitle, hasBackButton }) => {
+const Header: React.FC<HeaderProps> = ({
+  title,
+  subtitle,
+  beta,
+  hasBackButton,
+}) => {
   // Allow the header to access navigation
   const navigation = useNavigation();
 
@@ -193,6 +200,11 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, hasBackButton }) => {
           <View style={tw`flex-1`} />
 
           <View style={tw`gap-y-3`}>
+            {beta && (
+              <Badge size="md" style={tw`bg-blue-900`}>
+                Beta
+              </Badge>
+            )}
             <Text variant="header" style={tw`text-white`}>
               {title}
             </Text>
