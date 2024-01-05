@@ -93,7 +93,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
               icon="ri-user-fill"
               title={numPnms?.toString()}
               subtitle="Current PNMs registered to rush"
-              loading={isLoading && !numPnms}
+              loading={isLoading && numPnms === undefined}
             />
             <ActionCard
               size="md"
@@ -101,7 +101,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
               icon="ri-user-star-fill"
               title={numStarredPnms?.toString()}
               subtitle="PNMs saved as favorites"
-              loading={isLoading && !numStarredPnms}
+              loading={isLoading && numStarredPnms === undefined}
             />
           </View>
           {/* Quick Links */}
