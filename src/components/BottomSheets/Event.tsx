@@ -48,7 +48,7 @@ const Event: React.FC<EventProps> = ({ handleCloseModalPress, innerRef }) => {
         const eventUrl = `${EVENT_URL}/${event._id}`;
 
         const onEditPress = () => {
-          handlePresentModalPress("EDIT_EVENT", { eventId: event._id });
+          handlePresentModalPress("UPDATE_EVENT", { eventId: event._id });
         };
 
         const onSharePress = () => {

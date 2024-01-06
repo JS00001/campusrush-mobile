@@ -32,7 +32,7 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
 
   const onPress = () => {
     console.log("pressed");
-    handlePresentModalPress("EDIT_EVENT");
+    handlePresentModalPress("UPDATE_EVENT");
   };
 
   return (
