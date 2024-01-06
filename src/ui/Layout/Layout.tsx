@@ -201,7 +201,7 @@ const Header: React.FC<HeaderProps> = ({
 
           <View style={tw`gap-y-3`}>
             {beta && (
-              <Badge size="md" style={tw`bg-blue-900`}>
+              <Badge size="md" style={tw`bg-blue-900 py-1`}>
                 Beta
               </Badge>
             )}

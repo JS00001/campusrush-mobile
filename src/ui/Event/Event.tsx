@@ -184,7 +184,11 @@ const CardEvent: React.FC<EventProps> = ({ event, onPress }) => {
 
       {/* Information */}
       <View style={tw`shrink`}>
-        <Text variant="body" style={tw`font-semibold text-primary`}>
+        <Text
+          variant="body"
+          style={tw`font-semibold text-primary`}
+          numberOfLines={1}
+        >
           {event.title}
         </Text>
         <Text variant="subtext" style={tw`text-slate-500`} numberOfLines={2}>
