@@ -19,6 +19,8 @@ import Header from "@/ui/Header";
 import DateTimePicker from "@/ui/DateTimePicker";
 import Tabs from "@/ui/Tabs";
 import { useState } from "react";
+import { useBottomSheets } from "@/providers/BottomSheet";
+import Button from "@/ui/Button";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
@@ -26,6 +28,12 @@ interface UITestingProps {
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState(0);
+  const { handlePresentModalPress } = useBottomSheets();
+
+  const onPress = () => {
+    console.log("pressed");
+    handlePresentModalPress("EDIT_EVENT");
+  };
 
   return (
     <Layout gap={12}>
@@ -55,6 +63,8 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
         options={["Events", "Photos", "Videos"]}
         onChange={setActiveTab}
       />
+
+      <Button onPress={onPress}>Bottom sheet</Button>
     </Layout>
   );
 };

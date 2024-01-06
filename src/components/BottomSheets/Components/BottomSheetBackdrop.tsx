@@ -24,7 +24,7 @@ const BottomSheetBackdrop: React.FC<BottomSheetBackdropProps> = ({
       disappearsOnIndex={-1}
       appearsOnIndex={0}
       enableTouchThrough={true}
-      opacity={0.5}
+      opacity={0.3}
     />
   );
 };

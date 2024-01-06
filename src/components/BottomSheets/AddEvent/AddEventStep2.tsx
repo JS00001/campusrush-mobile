@@ -84,14 +84,14 @@ const AddEventStep2: React.FC<AddEventStep2Props> = ({
       </View>
 
       <DateTimePicker
-        label="Starts at:"
+        label="Starts at"
         mode="datetime"
         value={startDate}
         minimumDate={today}
         onChange={(event, date) => onDateTimeChange(event, "startDate", date)}
       />
       <DateTimePicker
-        label="Ends at:"
+        label="Ends at"
         mode="datetime"
         value={endDate}
         minimumDate={startDate}

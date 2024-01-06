@@ -26,6 +26,7 @@ const BottomSheets = [
   { name: "ADD_PNM", component: BottomSheetComponents.AddPnm },
   { name: "ADD_EVENT", component: BottomSheetComponents.AddEvent },
   { name: "EVENT", component: BottomSheetComponents.Event },
+  { name: "EDIT_EVENT", component: BottomSheetComponents.EditEvent },
   { name: "HELP", component: BottomSheetComponents.Help },
   { name: "NEW_MESSAGE", component: BottomSheetComponents.NewMessage },
   {

@@ -30,14 +30,14 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
   ...props
 }) => {
   const containerClasses = tw.style(
-    "px-5 py-5 w-full flex-row items-center justify-between rounded-xl",
+    "pt-7 pb-2 w-full flex-row items-center justify-between rounded-xl h-16",
     "border-2 bg-slate-100 border-slate-100",
     disabled && "bg-slate-50 border-slate-50",
     error && "border-red-500 ",
   );
 
   const labelClasses = tw.style(
-    "text-base text-slate-400 shrink",
+    "text-xs text-slate-400 shrink absolute top-1 left-4",
     disabled && "text-slate-300",
   );
 
@@ -49,9 +49,12 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
         </Text>
 
         <View
-          style={tw.style("justify-center shrink min-w-[200px] -m-5", {
-            transform: [{ scale: 0.8 }],
-          })}
+          style={tw.style(
+            "justify-center shrink min-w-[200px] -mx-3 items-start",
+            {
+              transform: [{ scale: 0.8 }],
+            },
+          )}
         >
           <RNDateTimePicker
             accentColor={tw.color("primary")}

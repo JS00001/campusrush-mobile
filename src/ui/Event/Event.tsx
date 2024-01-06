@@ -60,7 +60,7 @@ const DefaultEvent: React.FC<EventProps> = ({ event, onPress }) => {
     }
 
     handlePresentModalPress("EVENT", {
-      event: event,
+      eventId: event._id,
     });
   };
 

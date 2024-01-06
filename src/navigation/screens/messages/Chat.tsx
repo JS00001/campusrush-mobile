@@ -13,6 +13,7 @@
 import { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
+import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
 import MessageList from "@/components/MessageList";
@@ -59,7 +60,7 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
 
   return (
     <>
-      <Layout gap={8}>
+      <Layout gap={8} contentContainerStyle={tw`p-0`}>
         <Layout.CustomHeader>
           <ChatHeader pnms={[route.params.pnm]} loading={isLoading} />
         </Layout.CustomHeader>

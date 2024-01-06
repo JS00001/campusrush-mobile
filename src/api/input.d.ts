@@ -140,11 +140,11 @@ interface CreateEventInput {
 
 interface UpdateEventInput {
   id: string;
-  title?: string;
-  description?: string;
-  location?: string;
-  startDate?: string;
-  endDate?: string;
+  title: string;
+  description: string;
+  location: string;
+  startDate: string;
+  endDate: string;
 }
 
 interface DeleteEventInput {

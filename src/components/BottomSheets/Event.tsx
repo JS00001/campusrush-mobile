@@ -22,8 +22,9 @@ import DetailView from "@/ui/DetailView";
 import ButtonGroup from "@/ui/ButtonGroup";
 import useCopy from "@/hooks/util/useCopy";
 import { EVENT_URL } from "@/api/constants";
+import useEventsStore from "@/state/events";
 import { formatEvent } from "@/lib/util/format";
-import { useNavigation } from "@react-navigation/native";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface EventProps {
   innerRef: React.RefObject<any>;
@@ -32,20 +33,23 @@ interface EventProps {
 
 const Event: React.FC<EventProps> = ({ handleCloseModalPress, innerRef }) => {
   const copy = useCopy();
-  const navigation = useNavigation();
+  const { handlePresentModalPress } = useBottomSheets();
 
   return (
     <BottomSheet
       innerRef={innerRef}
       children={(data) => {
-        const event = formatEvent(data?.data.event);
+        const eventId = data?.data.eventId;
 
-        const onEditPress = () => {
-          (navigation.navigate as any)("EventDetails", { event });
-          handleCloseModalPress();
-        };
+        const event = useEventsStore((state) =>
+          formatEvent(state.getEvent(eventId)),
+        );
 
         const eventUrl = `${EVENT_URL}/${event._id}`;
+
+        const onEditPress = () => {
+          handlePresentModalPress("EDIT_EVENT", { eventId: event._id });
+        };
 
         const onSharePress = () => {
           copy(eventUrl, "Event link");

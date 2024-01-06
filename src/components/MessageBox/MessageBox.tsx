@@ -103,7 +103,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
   };
 
   const containerClasses = tw.style(
-    "gap-2.5 px-3 py-3 border-t border-b items-start",
+    "gap-2.5 px-3 py-2 border-t border-b items-start",
     "border-slate-100 ",
   );
 

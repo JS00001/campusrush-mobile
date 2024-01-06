@@ -15,6 +15,7 @@ import Event from "./Event";
 import About from "./About";
 import AddPnm from "./AddPnm";
 import AddEvent from "./AddEvent";
+import UpdateEvent from "./UpdateEvent";
 import NewMessage from "./NewMessage";
 import PrivacyPolicy from "./PrivacyPolicy";
 import PlanComparison from "./PlanComparison";
@@ -26,6 +27,7 @@ export default {
   Event,
   AddPnm,
   AddEvent,
+  UpdateEvent,
   NewMessage,
   PrivacyPolicy,
   PlanComparison,
