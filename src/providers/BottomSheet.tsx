@@ -126,6 +126,8 @@ const BottomSheetProvider: React.FC<{ children?: React.ReactNode }> = ({
         // Create props
         const props = {
           key: sheet.name,
+          handlePresentModalPress: (name: string, props?: any) =>
+            handlePresentModalPress(name, props),
           handleCloseModalPress: () => handleCloseModalPress(sheet.name),
           handleSnapToIndex: (index: number) =>
             handleSnapToIndex(sheet.name, index),

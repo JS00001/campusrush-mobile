@@ -60,18 +60,14 @@ const AddEventStep2: React.FC<AddEventStep2Props> = ({
     field: "startDate" | "endDate",
     date?: Date,
   ) => {
-    const { type } = event;
+    const time = date?.getTime();
 
-    if (type === "set") {
-      const time = date?.getTime();
+    // If the time is null, then the user dismissed the picker
+    // so we should just return
+    if (!time) return;
 
-      // If the time is null, then the user dismissed the picker
-      // so we should just return
-      if (!time) return;
-
-      // Otherwise, set the start date to the time
-      props.setField(field, time.toString());
-    }
+    // Otherwise, set the start date to the time
+    props.setField(field, time.toString());
   };
 
   return (
@@ -88,6 +84,7 @@ const AddEventStep2: React.FC<AddEventStep2Props> = ({
         mode="datetime"
         value={startDate}
         minimumDate={today}
+        error={props.errors.startDate}
         onChange={(event, date) => onDateTimeChange(event, "startDate", date)}
       />
       <DateTimePicker
@@ -95,6 +92,7 @@ const AddEventStep2: React.FC<AddEventStep2Props> = ({
         mode="datetime"
         value={endDate}
         minimumDate={startDate}
+        error={props.errors.endDate}
         onChange={(event, date) => onDateTimeChange(event, "endDate", date)}
       />
 

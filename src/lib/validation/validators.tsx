@@ -341,9 +341,11 @@ const validateCreateEvent = (input: CreateEventInput) => {
 
   // Validate start date is before end date
   if (input.startDate && input.endDate) {
-    if (new Date(input.startDate) >= new Date(input.endDate)) {
-      if (!errors.startDate && !errors.endDate) {
-        errors.startDate = "Start date must be before end date";
+    const startDate = new Date(parseInt(input.startDate));
+    const endDate = new Date(parseInt(input.endDate));
+
+    if (startDate >= endDate) {
+      if (!errors.endDate) {
         errors.endDate = "End date must be after start date";
       }
     }

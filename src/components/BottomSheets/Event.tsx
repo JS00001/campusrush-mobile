@@ -24,18 +24,21 @@ import DetailView from "@/ui/DetailView";
 import ButtonGroup from "@/ui/ButtonGroup";
 import useCopy from "@/hooks/util/useCopy";
 import { EVENT_URL } from "@/api/constants";
-import useEventsStore from "@/state/events";
+import useEvent from "@/hooks/events/useEvent";
 import { formatEvent } from "@/lib/util/format";
-import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface EventProps {
   innerRef: React.RefObject<any>;
   handleCloseModalPress: () => void;
+  handlePresentModalPress: (name: string, props?: any) => void;
 }
 
-const Event: React.FC<EventProps> = ({ handleCloseModalPress, innerRef }) => {
+const Event: React.FC<EventProps> = ({
+  innerRef,
+  handleCloseModalPress,
+  handlePresentModalPress,
+}) => {
   const copy = useCopy();
-  const { handlePresentModalPress } = useBottomSheets();
 
   return (
     <BottomSheet
@@ -43,11 +46,15 @@ const Event: React.FC<EventProps> = ({ handleCloseModalPress, innerRef }) => {
       children={(data) => {
         const eventId = data?.data.eventId;
 
-        const event = useEventsStore((state) =>
-          formatEvent(state.getEvent(eventId)),
-        );
+        const { event: rawEvent, ...actions } = useEvent(eventId);
+        const event = formatEvent(rawEvent);
 
         const eventUrl = `${EVENT_URL}/${event._id}`;
+
+        const deleteEvent = async () => {
+          handleCloseModalPress();
+          actions.delete();
+        };
 
         const onEditPress = () => {
           handlePresentModalPress("UPDATE_EVENT", { eventId: event._id });
@@ -73,6 +80,8 @@ const Event: React.FC<EventProps> = ({ handleCloseModalPress, innerRef }) => {
                   size="md"
                   icon="ri-delete-bin-6-line"
                   color={tw.color("red-600")}
+                  onPress={deleteEvent}
+                  loading={actions.loading === "deleting"}
                 />
               </View>
             </View>

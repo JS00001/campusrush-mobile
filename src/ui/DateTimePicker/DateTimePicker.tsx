@@ -49,12 +49,9 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
         </Text>
 
         <View
-          style={tw.style(
-            "justify-center shrink min-w-[200px] -mx-3 items-start",
-            {
-              transform: [{ scale: 0.8 }],
-            },
-          )}
+          style={tw.style("-mx-28 w-full", {
+            transform: [{ scale: 0.8 }],
+          })}
         >
           <RNDateTimePicker
             accentColor={tw.color("primary")}

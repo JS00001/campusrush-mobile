@@ -23,16 +23,18 @@ import usePnm from "@/hooks/pnms/usePnm";
 import IconButton from "@/ui/IconButton";
 import DetailView from "@/ui/DetailView";
 import { formatPhoneNumber } from "@/lib/util/string";
-import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface PnmProps {
   innerRef: React.RefObject<any>;
   handleCloseModalPress: () => void;
+  handlePresentModalPress: (name: string, props?: any) => void;
 }
 
-const Pnm: React.FC<PnmProps> = ({ handleCloseModalPress, innerRef }) => {
-  const { handlePresentModalPress } = useBottomSheets();
-
+const Pnm: React.FC<PnmProps> = ({
+  innerRef,
+  handleCloseModalPress,
+  handlePresentModalPress,
+}) => {
   return (
     <BottomSheet
       innerRef={innerRef}

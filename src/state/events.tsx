@@ -72,7 +72,7 @@ const useEventsStore = create<EventsState>()(
           }
 
           return {
-            events: [...state.events, event],
+            events: [event, ...state.events],
           };
         }),
       /**

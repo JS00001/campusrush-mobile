@@ -26,8 +26,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Badge from "@/ui/Badge";
 import HeaderSvg from "@/assets/HeaderSvg";
-import Badge from "../Badge";
 
 interface LayoutProps extends ViewProps {
   children?: React.ReactNode;
