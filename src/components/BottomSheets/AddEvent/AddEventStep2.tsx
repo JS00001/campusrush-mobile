@@ -91,7 +91,7 @@ const AddEventStep2: React.FC<AddEventStep2Props> = ({
         label="Ends at"
         mode="datetime"
         value={endDate}
-        minimumDate={startDate}
+        minimumDate={today > startDate ? today : startDate}
         error={props.errors.endDate}
         onChange={(event, date) => onDateTimeChange(event, "endDate", date)}
       />

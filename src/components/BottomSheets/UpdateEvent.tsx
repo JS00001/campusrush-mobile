@@ -115,6 +115,7 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({
                 mode="datetime"
                 value={startDate}
                 minimumDate={today}
+                error={form.errors.startDate}
                 onChange={(event, date) =>
                   onDateTimeChange(event, "startDate", date)
                 }
@@ -125,6 +126,7 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({
                 mode="datetime"
                 value={endDate}
                 minimumDate={startDate}
+                error={form.errors.endDate}
                 onChange={(event, date) =>
                   onDateTimeChange(event, "endDate", date)
                 }

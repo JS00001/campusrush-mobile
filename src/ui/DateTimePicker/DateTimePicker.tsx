@@ -39,13 +39,14 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
   const labelClasses = tw.style(
     "text-xs text-slate-400 shrink absolute top-1 left-4",
     disabled && "text-slate-300",
+    error && "text-red-500",
   );
 
   return (
     <View style={tw`w-full`}>
       <View style={containerClasses}>
         <Text numberOfLines={1} style={labelClasses}>
-          {label}
+          {error || label}
         </Text>
 
         <View
@@ -60,10 +61,6 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
           />
         </View>
       </View>
-
-      {error && (
-        <Text style={tw.style("text-sm text-red-500 mt-1")}>{error}</Text>
-      )}
     </View>
   );
 };
