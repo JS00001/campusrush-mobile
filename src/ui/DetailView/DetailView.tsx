@@ -74,27 +74,31 @@ const DetailView: React.FC<DetailViewProps> & DetailViewComponents = ({
 
 interface DetailViewSectionProps {
   style?: any;
+  alternate?: boolean;
   title: string;
   content: string;
 }
 
 const DetailViewSection: React.FC<DetailViewSectionProps> = ({
   style,
+  alternate,
   title,
   content,
 }) => {
   const containerClasses = tw.style(
-    "flex-row items-center bg-slate-100 p-4",
+    "items-center bg-slate-100 p-4 ",
+    alternate && "flex-col items-start",
+    !alternate && "flex-row",
     style,
   );
 
   return (
     <View style={containerClasses}>
       <View style={tw`flex-1`}>
-        <Text>{title}</Text>
+        <Text style={tw`text-primary`}>{title}</Text>
       </View>
       <View style={tw`flex-1 items-end`}>
-        <Text style={tw`text-primary`}>{content}</Text>
+        <Text style={tw`text-slate-500`}>{content}</Text>
       </View>
     </View>
   );

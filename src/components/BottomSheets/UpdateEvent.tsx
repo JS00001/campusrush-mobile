@@ -68,6 +68,10 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({
         };
 
         const onSave = async () => {
+          const isValid = form.validateFields();
+
+          if (!isValid) return;
+
           await form.handleSubmission();
           handleCloseModalPress();
         };

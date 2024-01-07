@@ -10,16 +10,15 @@
  * Do not distribute
  */
 
+import { Keyboard } from "react-native";
 import Toast from "react-native-toast-message";
-import { useMutation } from "@tanstack/react-query";
 import { MenuAction } from "@react-native-menu/menu";
 import { useNavigation } from "@react-navigation/native";
 
-import pnmsApi from "@/api/api/pnms";
-import useZustandStore from "@/state";
-import usePnmsStore from "@/state/pnms";
+import usePnm from "@/hooks/pnms/usePnm";
 import Content from "@/constants/content";
 import useModalsStore from "@/state/modals";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 export enum PNMActions {
   EditPnm = "EDIT_PNM",
@@ -29,94 +28,30 @@ export enum PNMActions {
 }
 
 const usePnmActions = (pnm: PNM) => {
-  // Check if the PNM is in the store
-  const storedPnm = usePnmsStore((state) => state.getPnm(pnm._id));
+  const navigation = useNavigation();
+  const { openModal } = useModalsStore();
+  const { handlePresentModalPress } = useBottomSheets();
+  const { pnm: storedPnm, ...pnmActions } = usePnm(pnm._id);
 
-  // If there is a pnm in the store, use that instead
+  // If there is a pnm in the store, use that instead of the passed in pnm
   pnm = storedPnm || pnm;
 
-  // Pull navigation hook
-  const navigation = useNavigation();
-
-  // Store to open a modal, used to confirm deletion
-  const { openModal } = useModalsStore();
-
-  // Store for pnm actions
-  const { deletePnm, favoritePnm, unfavoritePnm } = useZustandStore();
-
-  // Create a mutation to delete the PNM
-  const deletionMutation = useMutation({
-    mutationFn: async (input: DeletePnmInput) => {
-      return pnmsApi.deletePnm(input);
-    },
-    onSuccess: async () => {
-      navigation.goBack();
-      // Remove the PNM from the store
-      deletePnm(pnm);
-
-      // Show a toast message
-      Toast.show({
-        type: "success",
-        text1: "Deleted PNM",
-        text2: `${pnm.firstName} ${pnm.lastName} has been deleted.`,
-      });
-    },
-  });
-
-  // Create a mutation to mark the PNM as favorited
-  const favoriteMutation = useMutation({
-    mutationFn: async (input: UpdatePnmInput) => {
-      return pnmsApi.updatePnm(input);
-    },
-    onSuccess: async () => {
-      // Favorite the PNM in the store
-      favoritePnm(pnm);
-
-      // Show a toast message
-      Toast.show({
-        type: "success",
-        text1: "Added to Favorites",
-        text2: `${pnm.firstName} ${pnm.lastName} has been added to your favorites.`,
-      });
-    },
-  });
-
-  // Create a mutation to mark the PNM as unfavorited
-  const unfavoriteMutation = useMutation({
-    mutationFn: async (input: UpdatePnmInput) => {
-      return pnmsApi.updatePnm(input);
-    },
-    onSuccess: async () => {
-      // Unfavorite the PNM in the store
-      unfavoritePnm(pnm);
-
-      // Show a toast message
-      Toast.show({
-        type: "success",
-        text1: "Removed from Favorites",
-        text2: `${pnm.firstName} ${pnm.lastName} has been removed from your favorites.`,
-      });
-    },
-  });
-
-  // Handle the other menu press event
+  /**
+   * When an action is pressed, handle the action
+   */
   const onActionPress = (e: any) => {
     const eventId = e.nativeEvent.event as PNMActions;
 
     switch (eventId) {
-      /**
-       * When the "Edit PNM" button is pressed, navigate to the PNM details
-       */
+      // Edit the PNM
       case PNMActions.EditPnm:
-        (navigation.navigate as any)("PNMsTab", {
-          screen: "PNMDetails",
-          initial: false,
-          params: { pnm },
+        Keyboard.dismiss();
+        handlePresentModalPress("UPDATE_PNM", {
+          pnmId: pnm._id,
         });
         break;
-      /**
-       * When the delete button is pressed, open the confirm delete modal
-       */
+
+      // Delete the PNM
       case PNMActions.DeletePnm:
         openModal({
           name: "ERROR",
@@ -125,41 +60,49 @@ const usePnmActions = (pnm: PNM) => {
             secondaryButtonText: "No, Cancel",
             primaryButtonText: "Yes, Delete",
             // When the "Confirm Delete" button is pressed, delete the PNM
-            primaryButtonAction: () => {
-              deletionMutation.mutate({
-                id: pnm._id,
+            primaryButtonAction: async () => {
+              await pnmActions.delete();
+
+              navigation.goBack();
+
+              Toast.show({
+                type: "success",
+                text1: "Deleted PNM",
+                text2: `${pnm.firstName} ${pnm.lastName} has been deleted.`,
               });
             },
           },
         });
         break;
-      /**
-       * When the favorite button is pressed, favorite the PNM
-       */
+
+      // Favorite the PNM
       case PNMActions.Favorite:
-        favoriteMutation.mutate({
-          id: pnm._id,
-          starred: true,
-        });
+        (async () => {
+          await pnmActions.favorite();
+
+          Toast.show({
+            type: "success",
+            text1: "Added to Favorites",
+            text2: `${pnm.firstName} ${pnm.lastName} has been added to your favorites.`,
+          });
+        })();
         break;
-      /**
-       * When the unfavorite button is pressed, unfavorite the PNM
-       */
+
+      // Unfavorite the PNM
       case PNMActions.Unfavorite:
-        unfavoriteMutation.mutate({
-          id: pnm._id,
-          starred: false,
-        });
-        break;
-      /**
-       * If the event id is not recognized, do nothing
-       */
-      default:
+        (async () => {
+          await pnmActions.favorite();
+
+          Toast.show({
+            type: "success",
+            text1: "Removed from Favorites",
+            text2: `${pnm.firstName} ${pnm.lastName} has been removed from your favorites.`,
+          });
+        })();
         break;
     }
   };
 
-  // The actions for the menu
   const actions: MenuAction[] = [
     {
       id: PNMActions.EditPnm,
@@ -195,10 +138,7 @@ const usePnmActions = (pnm: PNM) => {
   return {
     actions,
     onActionPress,
-    isLoading:
-      deletionMutation.isLoading ||
-      favoriteMutation.isLoading ||
-      unfavoriteMutation.isLoading,
+    isLoading: pnmActions.loading !== "none",
   };
 };
 

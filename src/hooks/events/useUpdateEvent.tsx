@@ -14,19 +14,12 @@ import { useFormik } from "formik";
 import { useMutation } from "@tanstack/react-query";
 
 import errors from "@/lib/errors";
+import validate from "@/lib/validation";
 import eventsApi from "@/api/api/events";
 import useEventsStore from "@/state/events";
 import validators from "@/lib/validation/validators";
 
-export interface UseUpdateEvent extends UpdateEventInput {
-  loading: boolean;
-  errors: Record<string, string>;
-
-  handleSubmission: () => void;
-  setField: (field: keyof UpdateEventInput, value: string) => void;
-}
-
-const useUpdateEvent = (eventId: string): UseUpdateEvent => {
+const useUpdateEvent = (eventId: string) => {
   const event = useEventsStore((state) => state.getEvent(eventId));
   const updateEvent = useEventsStore((state) => state.updateEvent);
 
@@ -67,17 +60,35 @@ const useUpdateEvent = (eventId: string): UseUpdateEvent => {
     updateEvent(response.data.data.event);
   };
 
+  // The validation function, takes certain fields so we dont update all errors at once
+  const validateFields = (fields?: (keyof typeof form.values)[]) => {
+    return validate({
+      form,
+      fields,
+      values: form.values,
+      validatorFn: validators.validateCreateEvent,
+    });
+  };
+
+  const handleSubmission = async () => {
+    // Check if form has been modified, dont submit if not
+    if (!form.dirty) return;
+
+    await form.submitForm();
+  };
+
+  const setField = (field: keyof typeof form.values, value: string) => {
+    form.setFieldValue(field, value);
+  };
+
   return {
     ...form.values,
     loading: mutation.isLoading,
     errors: form.errors,
 
-    setField: (field, value) => {
-      form.setFieldValue(field, value);
-    },
-    handleSubmission: async () => {
-      await form.submitForm();
-    },
+    setField,
+    validateFields,
+    handleSubmission,
   };
 };
 

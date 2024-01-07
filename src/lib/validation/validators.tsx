@@ -16,6 +16,7 @@ import {
   namesRegex,
   emailRegex,
   phoneRegex,
+  socialMediaRegex,
   verificationCodeRegex,
 } from "@/constants/regex";
 
@@ -261,12 +262,25 @@ const validateUpdatePnm = (input: UpdatePnmInput) => {
     if (!errors.phoneNumber) errors.phoneNumber = "Invalid phone number";
   }
 
+  if (input.classification && !namesRegex.test(input.classification)) {
+    if (!errors.classification)
+      errors.classification = "Invalid classification";
+  }
+
+  if (input.instagram && !socialMediaRegex.test(input.instagram)) {
+    if (!errors.instagram) errors.instagram = "Invalid username";
+  }
+
+  if (input.snapchat && !socialMediaRegex.test(input.snapchat)) {
+    if (!errors.snapchat) errors.snapchat = "Invalid username";
+  }
+
   // Check if all errors are empty
   // If so, return an empty object
   const allErrors = Object.values(errors).filter((error) => error !== "");
 
   if (allErrors.length === 0) {
-    return {} as UpdatePnmInput;
+    return {};
   }
 
   return errors;

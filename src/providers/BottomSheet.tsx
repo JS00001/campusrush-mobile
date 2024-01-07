@@ -22,6 +22,8 @@ import BottomSheetComponents from "@/components/BottomSheets";
  * Put all bottom sheets in the @/components/BottomSheets folder
  */
 const BottomSheets = [
+  { name: "PNM", component: BottomSheetComponents.Pnm },
+  { name: "UPDATE_PNM", component: BottomSheetComponents.UpdatePnm },
   { name: "ABOUT", component: BottomSheetComponents.About },
   { name: "ADD_PNM", component: BottomSheetComponents.AddPnm },
   { name: "ADD_EVENT", component: BottomSheetComponents.AddEvent },

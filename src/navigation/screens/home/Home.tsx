@@ -46,12 +46,8 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   // When the user clicks on a recent PNM
   const onRecentPnmPress = (pnm: PNM) => {
-    navigation.navigate("PNMsTab", {
-      screen: "PNMDetails",
-      initial: false,
-      params: {
-        pnm,
-      },
+    handlePresentModalPress("PNM", {
+      pnmId: pnm._id,
     });
   };
 

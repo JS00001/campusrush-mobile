@@ -17,12 +17,12 @@ import {
   RefreshControl,
 } from "react-native";
 import { useMemo, useRef, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
 import { formatPhoneNumber } from "@/lib/util/string";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface PnmsListProps {
   pnms: PNM[];
@@ -31,8 +31,7 @@ interface PnmsListProps {
 }
 
 const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
-  // Access navigation
-  const navigation = useNavigation();
+  const { handlePresentModalPress } = useBottomSheets();
   // Create a ref to the sectionlist so we can scroll to a specific index programatically
   const sectionListRef = useRef<SectionList>(null);
   // Whether or not the list is refreshing
@@ -150,7 +149,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
   // The components for each item in teh section list
   const ItemComponent = ({ item: pnm }: { item: PNM }) => {
     const onPress = () => {
-      (navigation.navigate as any)("PNMDetails", { pnm });
+      handlePresentModalPress("PNM", { pnmId: pnm._id });
     };
 
     return (
@@ -212,8 +211,6 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
           <RefreshControl refreshing={isRefetching} onRefresh={onRefresh} />
         }
       />
-
-      {/* The alphabet list to sort contacts */}
 
       {
         // If there are any pnms, show the alphabet list

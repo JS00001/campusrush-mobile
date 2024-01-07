@@ -18,6 +18,8 @@ import BottomSheetContainer from "./Components/BottomSheetContainer";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import date from "@/lib/util/date";
+import IconButton from "@/ui/IconButton";
 import DetailView from "@/ui/DetailView";
 import ButtonGroup from "@/ui/ButtonGroup";
 import useCopy from "@/hooks/util/useCopy";
@@ -58,12 +60,29 @@ const Event: React.FC<EventProps> = ({ handleCloseModalPress, innerRef }) => {
 
         return (
           <BottomSheetContainer>
-            <View style={tw`mb-2`}>
-              <Text variant="title">{event.title}</Text>
-              <Text variant="body">{event.description}</Text>
+            <View style={tw`mb-2 flex-row justify-between items-center`}>
+              <View style={tw`shrink`}>
+                <Text variant="title">{event.title}</Text>
+                <Text variant="body">
+                  Added on {date.toString(event.createdAt) || "N/A"}
+                </Text>
+              </View>
+
+              <View style={tw`flex-row gap-1`}>
+                <IconButton
+                  size="md"
+                  icon="ri-delete-bin-6-line"
+                  color={tw.color("red-600")}
+                />
+              </View>
             </View>
 
             <DetailView>
+              <DetailView.Section
+                alternate
+                title="Description"
+                content={event.description}
+              />
               <DetailView.Section title="Date" content={event.dateString} />
               <DetailView.Section
                 title="Starts at"
@@ -83,10 +102,10 @@ const Event: React.FC<EventProps> = ({ handleCloseModalPress, innerRef }) => {
 
             <ButtonGroup>
               <Button size="sm" color="gray" onPress={onEditPress}>
-                Edit Event
+                Edit
               </Button>
               <Button size="sm" onPress={onSharePress}>
-                Share Event
+                Share
               </Button>
             </ButtonGroup>
           </BottomSheetContainer>

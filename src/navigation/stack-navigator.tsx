@@ -20,8 +20,6 @@ import AdminStatisticsScreen from "@/navigation/screens/admin/Statistics";
 import AdminOrganizationsScreen from "@/navigation/screens/admin/Organizations";
 
 import PNMsScreen from "@/navigation/screens/pnms/Pnms";
-import PNMDetailsScreen from "@/navigation/screens/pnms/Details";
-import PNMEditScreen from "@/navigation/screens/pnms/Edit";
 
 import HomeScreen from "@/navigation/screens/home/Home";
 import ChatScreen from "@/navigation/screens/messages/Chat";
@@ -49,8 +47,6 @@ import UpdateSecurityScreen from "@/navigation/screens/settings/organization/Upd
 import UpdateOrganizationScreen from "@/navigation/screens/settings/organization/UpdateOrganization";
 
 import EventsScreen from "@/navigation/screens/events/Events";
-import EventEditScreen from "@/navigation/screens/events/Edit";
-import EventDetailsScreen from "@/navigation/screens/events/Details";
 
 export const Stack = createNativeStackNavigator();
 
@@ -205,14 +201,6 @@ export const PNMsStack = () => {
         name="PNMs"
         component={PNMsScreen}
       />
-      <Stack.Screen
-        name="PNMDetails"
-        component={PNMDetailsScreen}
-      />
-      <Stack.Screen
-        name="PNMEdit"
-        component={PNMEditScreen}
-      />
     </Stack.Navigator>
   );
 };
@@ -256,14 +244,6 @@ export const EventsStack = () => {
       <Stack.Screen
         name="Events"
         component={EventsScreen}
-      />
-      <Stack.Screen
-        name="EventDetails"
-        component={EventDetailsScreen}
-      />
-      <Stack.Screen
-        name="EventEdit"
-        component={EventEditScreen}
       />
     </Stack.Navigator>
   );
