@@ -17,8 +17,10 @@ import InfiniteScroll from "@/ui/InfiniteScroll";
 import DeleteSwipable from "@/ui/Swipeables/Delete";
 
 interface InfiniteListProps<T> {
-  loading: boolean;
   data: T[];
+  loading: boolean;
+
+  loadingComponent?: React.ReactElement;
 
   emptyListTitle?: string;
   emptyListSubtitle?: string;
@@ -34,6 +36,7 @@ interface InfiniteListProps<T> {
 const InfiniteList = <T,>({
   data,
   loading,
+  loadingComponent,
   elementsDeletable,
   emptyListTitle,
   emptyListSubtitle,
@@ -44,11 +47,13 @@ const InfiniteList = <T,>({
 }: InfiniteListProps<T>) => {
   const ListEmptyComponent = () => {
     if (loading) {
-      return new Array(20)
-        .fill(0)
-        .map((_, i) => (
+      return new Array(20).fill(0).map((_, i) => {
+        if (loadingComponent) return loadingComponent;
+
+        return (
           <ListItem key={i} title="" subtitle="" loading pressable={false} />
-        ));
+        );
+      });
     }
 
     return (

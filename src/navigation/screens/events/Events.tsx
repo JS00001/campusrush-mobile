@@ -23,6 +23,7 @@ import IconButton from "@/ui/IconButton";
 import ActionButton from "@/ui/ActionButton";
 import { EventsStatus } from "@/state/events";
 import InfiniteList from "@/components/InfiniteList";
+import { DefaultEventLoader } from "@/ui/Event/Loaders";
 import useEventsList from "@/hooks/events/useEventsList";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
@@ -118,6 +119,7 @@ const Events: React.FC<EventsProps> = () => {
           onRefresh={onRefresh}
           onEndReached={onEndReached}
           onDeleteElement={onDeleteEvent}
+          loadingComponent={<DefaultEventLoader />}
           emptyListTitle="No Events Found"
           emptyListSubtitle="Try changing your filters or creating a new event"
           renderItem={({ item: event }) => <Event event={event} />}

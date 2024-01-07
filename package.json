@@ -42,7 +42,6 @@
     "expo-status-bar": "~1.6.0",
     "formik": "^2.4.3",
     "lodash": "^4.17.21",
-    "moti": "^0.27.2",
     "posthog-react-native": "^2.9.2",
     "react": "18.2.0",
     "react-native": "0.72.6",

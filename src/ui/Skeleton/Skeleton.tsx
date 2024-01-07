@@ -16,21 +16,23 @@ import { Animated, Easing } from "react-native";
 import tw from "@/lib/tailwind";
 
 interface SkeletonProps {
-  width?: number | `${number}%`;
-  height?: number | `${number}%`;
   style?: any;
+  borderRadius?: number;
+  width?: number | `${number}%` | `w-${number}`;
+  height?: number | `${number}%` | `h-${number}`;
 }
 
 const Skeleton: React.FC<SkeletonProps> = ({
   width = "100%",
   height = 20,
+  borderRadius = 4,
   style,
 }) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const sharedAnimationConfig = {
-      duration: 500,
+      duration: 750,
       useNativeDriver: true,
     };
     Animated.loop(
@@ -55,8 +57,18 @@ const Skeleton: React.FC<SkeletonProps> = ({
 
   const opacity = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [1, 0.5],
+    outputRange: [1, 0.4],
   });
+
+  // use the height passed if it is a percent or number, if it is h-<number> then use the number * 4
+  if (typeof height === "string" && height.includes("h-")) {
+    height = parseInt(height.replace("h-", "")) * 4;
+  }
+
+  // use the width passed if it is a percent or number, if it is w-<number> then use the number * 4
+  if (typeof width === "string" && width.includes("w-")) {
+    width = parseInt(width.replace("w-", "")) * 4;
+  }
 
   return (
     <Animated.View
@@ -65,8 +77,8 @@ const Skeleton: React.FC<SkeletonProps> = ({
           width,
           height,
           opacity,
-          borderRadius: 8,
-          backgroundColor: tw.color("slate-200"),
+          borderRadius,
+          backgroundColor: tw.color("slate-300"),
         },
         style,
       ]}

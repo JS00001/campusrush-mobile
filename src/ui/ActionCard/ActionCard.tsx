@@ -13,9 +13,14 @@
 import RemixIcon from "react-native-remix-icon";
 import { TouchableOpacity, View } from "react-native";
 
+import {
+  ActionCardLgLoader,
+  ActionCardMdLoader,
+  ActionCardSmLoader,
+} from "./Loaders";
+
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Skeleton from "@/ui/Skeleton";
 import { useAuth } from "@/providers/Auth";
 
 interface ActionCardProps {
@@ -46,6 +51,12 @@ const sizeClasses = {
     ),
     childContainer: tw.style("flex-row items-center gap-4 flex-1"),
   },
+};
+
+const loadingComponents = {
+  sm: <ActionCardSmLoader />,
+  md: <ActionCardMdLoader />,
+  lg: <ActionCardLgLoader />,
 };
 
 const ActionCard: React.FC<ActionCardProps> = ({
@@ -86,6 +97,10 @@ const ActionCard: React.FC<ActionCardProps> = ({
     sizeClasses[size].childContainer,
   );
 
+  if (loading) {
+    return loadingComponents[size];
+  }
+
   return (
     <TouchableOpacity
       style={containerClasses}
@@ -115,35 +130,23 @@ const ActionCard: React.FC<ActionCardProps> = ({
 
         {/* Title and subtitle for size=lg */}
         <View style={tw.style(size != "lg" && "hidden", "shrink")}>
-          {/* If size is lg AND component isnt loading, show content */}
-          {!loading && <Text>{title}</Text>}
-          {!loading && (
-            <Text variant="body" style={tw`text-primary`}>
-              {subtitle}
-            </Text>
-          )}
+          <Text>{title}</Text>
 
-          {/* If size is lg AND component is loading, show skeletons */}
-          {loading && <Skeleton width={100} height={15} style={tw`mb-2`} />}
-          {loading && <Skeleton width={210} height={20} />}
+          <Text variant="body" style={tw`text-primary`}>
+            {subtitle}
+          </Text>
         </View>
 
         {/* Title and subtitle for size=sm and size=md */}
         <View style={tw.style(size == "lg" && "hidden", loading && "gap-2")}>
-          {/* If size is sm or md AND component isnt loading, show content */}
-          {!loading && (
-            <Text
-              variant={size == "md" ? "header" : "body"}
-              style={tw`text-primary`}
-            >
-              {title}
-            </Text>
-          )}
-          {!loading && <Text>{subtitle}</Text>}
+          <Text
+            variant={size == "md" ? "header" : "body"}
+            style={tw`text-primary`}
+          >
+            {title}
+          </Text>
 
-          {/* If size is sm or md AND component is loading, show skeletons */}
-          {loading && <Skeleton width={"100%"} height={40} />}
-          {loading && <Skeleton width={"100%"} height={30} />}
+          <Text>{subtitle}</Text>
         </View>
       </View>
 

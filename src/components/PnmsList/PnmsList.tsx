@@ -22,6 +22,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
 import { formatPhoneNumber } from "@/lib/util/string";
+import { ListItemLoader } from "@/ui/ListItem/Loading";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface PnmsListProps {
@@ -166,11 +167,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
 
   const ListEmptyComponent = () => {
     if (loading) {
-      return new Array(20)
-        .fill(0)
-        .map((_, i) => (
-          <ListItem key={i} title="" subtitle="" loading pressable={false} />
-        ));
+      return new Array(20).fill(0).map((_, i) => <ListItemLoader key={i} />);
     } else {
       return (
         <>

@@ -13,9 +13,10 @@
 import RemixIcon from "react-native-remix-icon";
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
+import { ListItemLoader } from "./Loading";
+
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Skeleton from "@/ui/Skeleton";
 
 interface ListItemProps extends TouchableOpacityProps {
   title: string;
@@ -49,6 +50,8 @@ const ListItem: React.FC<ListItemProps> = ({
     style,
   );
 
+  if (loading) return <ListItemLoader />;
+
   return (
     <TouchableOpacity
       {...props}
@@ -66,26 +69,17 @@ const ListItem: React.FC<ListItemProps> = ({
         )}
 
         <View style={tw`shrink`}>
-          {/* If not loading, show content */}
-          {!loading && (
-            <Text variant="body" style={tw`text-primary`}>
-              {title}
-            </Text>
-          )}
-          {!loading && (
-            <Text variant="subtext" style={tw`text-slate-500`}>
-              {subtitle}
-            </Text>
-          )}
+          <Text variant="body" style={tw`text-primary`}>
+            {title}
+          </Text>
 
-          {/* If loading, show skeleton */}
-          {loading && <Skeleton height={15} width={150} style={tw`mb-2`} />}
-          {loading && <Skeleton height={15} width={250} />}
+          <Text variant="subtext" style={tw`text-slate-500`}>
+            {subtitle}
+          </Text>
         </View>
       </View>
 
       {/* Chevron if pressable and Badge if passed */}
-
       {pressable && (
         <RemixIcon
           name="ri-arrow-right-s-line"

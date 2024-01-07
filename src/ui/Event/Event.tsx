@@ -13,6 +13,12 @@
 import RemixIcon from "react-native-remix-icon";
 import { TouchableOpacity, View } from "react-native";
 
+import {
+  CardEventLoader,
+  DefaultEventLoader,
+  AttachmentEventLoader,
+} from "./Loaders";
+
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
@@ -29,10 +35,13 @@ interface EventProps {
 const Event: React.FC<EventProps> = ({ ...props }) => {
   switch (props.type) {
     case "card":
+      if (props.loading) return <CardEventLoader />;
       return <CardEvent {...props} />;
     case "attachment":
+      if (props.loading) return <AttachmentEventLoader />;
       return <AttachmentEvent {...props} />;
     default:
+      if (props.loading) return <DefaultEventLoader />;
       return <DefaultEvent {...props} />;
   }
 };

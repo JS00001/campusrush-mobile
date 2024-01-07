@@ -14,57 +14,62 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
 
-import DetailView from "@/ui/DetailView";
 import Header from "@/ui/Header";
-import DateTimePicker from "@/ui/DateTimePicker";
-import Tabs from "@/ui/Tabs";
-import { useState } from "react";
-import { useBottomSheets } from "@/providers/BottomSheet";
-import Button from "@/ui/Button";
+
+import {
+  CardEventLoader,
+  DefaultEventLoader,
+  AttachmentEventLoader,
+} from "@/ui/Event/Loaders";
+import { View } from "react-native";
+import tw from "@/lib/tailwind";
+import { ConversationLoader } from "@/ui/Conversation/Loaders";
+import {
+  ActionCardLgLoader,
+  ActionCardMdLoader,
+  ActionCardSmLoader,
+} from "@/ui/ActionCard/Loaders";
+import { ListItemLoader } from "@/ui/ListItem/Loading";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
-  const [activeTab, setActiveTab] = useState(0);
-  const { handlePresentModalPress } = useBottomSheets();
-
-  const onPress = () => {
-    console.log("pressed");
-    handlePresentModalPress("UPDATE_EVENT");
-  };
-
   return (
     <Layout gap={12}>
       <Layout.CustomHeader>
         <Header hasBackButton hasMenuButton title="Admin" />
       </Layout.CustomHeader>
 
-      <DetailView>
-        <DetailView.Section
-          title="This is component 1 a a a a a a  a a aa "
-          content="Hello"
-        />
-        <DetailView.Section title="This is component 2" content="Hello" />
-      </DetailView>
+      {/* <View style={tw`w-full flex-row gap-5`}>
+        <ActionCardSmLoader />
+        <ActionCardSmLoader />
+      </View>
 
-      <DateTimePicker label="Select Time" value={new Date()} mode="datetime" />
+      <View style={tw`w-full flex-row gap-5`}>
+        <ActionCardMdLoader />
+        <ActionCardMdLoader />
+      </View>
 
-      <DateTimePicker
-        label="Select Time"
-        value={new Date()}
-        mode="time"
-        error="This is an error"
-      />
 
-      <Tabs
-        selectedIndex={activeTab}
-        options={["Events", "Photos", "Videos"]}
-        onChange={setActiveTab}
-      />
 
-      <Button onPress={onPress}>Bottom sheet</Button>
+      <View style={tw`h-32 w-full`}>
+        <ActionCardLgLoader />
+      </View> */}
+
+      {/* 
+      <View style={tw`h-48 w-full`}>
+        <DefaultEventLoader />
+      </View> */}
+
+      {/* <View style={tw`h-48 w-full`}>
+        <AttachmentEventLoader />
+      </View> */}
+
+      <View style={tw`h-32 w-full`}>
+        <ListItemLoader />
+      </View>
     </Layout>
   );
 };

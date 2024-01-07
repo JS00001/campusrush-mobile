@@ -24,6 +24,7 @@ import ActionButton from "@/ui/ActionButton";
 import Conversation from "@/ui/Conversation";
 import InfiniteList from "@/components/InfiniteList";
 import { useBottomSheets } from "@/providers/BottomSheet";
+import { ConversationLoader } from "@/ui/Conversation/Loaders";
 import useConversations from "@/hooks/messaging/useConversations";
 import { ConversationStatus } from "@/state/messaging/conversations";
 
@@ -120,12 +121,13 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
 
         {/* The conversations that exist */}
         <InfiniteList
-          loading={isLoading}
+          loading={true}
           data={conversations}
           onRefresh={onRefresh}
+          onEndReached={onEndReached}
+          loadingComponent={<ConversationLoader />}
           emptyListTitle="No Conversations Found"
           emptyListSubtitle="Try changing your filters or sending a new message"
-          onEndReached={onEndReached}
           renderItem={({ item: conversation }) => (
             <Conversation conversation={conversation} />
           )}
