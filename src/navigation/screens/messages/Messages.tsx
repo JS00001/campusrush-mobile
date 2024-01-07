@@ -123,6 +123,8 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
           loading={isLoading}
           data={conversations}
           onRefresh={onRefresh}
+          emptyListTitle="No Conversations Found"
+          emptyListSubtitle="Try changing your filters or sending a new message"
           onEndReached={onEndReached}
           renderItem={({ item: conversation }) => (
             <Conversation conversation={conversation} />

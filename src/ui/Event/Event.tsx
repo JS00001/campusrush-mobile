@@ -21,18 +21,19 @@ import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface EventProps {
   event: Event;
+  loading?: boolean;
   type?: "card" | "attachment";
   onPress?: (event: Event) => void;
 }
 
-const Event: React.FC<EventProps> = ({ event, type, onPress }) => {
-  switch (type) {
+const Event: React.FC<EventProps> = ({ ...props }) => {
+  switch (props.type) {
     case "card":
-      return <CardEvent event={event} onPress={onPress} />;
+      return <CardEvent {...props} />;
     case "attachment":
-      return <AttachmentEvent event={event} onPress={onPress} />;
+      return <AttachmentEvent {...props} />;
     default:
-      return <DefaultEvent event={event} onPress={onPress} />;
+      return <DefaultEvent {...props} />;
   }
 };
 

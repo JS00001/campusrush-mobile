@@ -16,15 +16,14 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 import Tabs from "@/ui/Tabs";
 import Event from "@/ui/Event";
 import tw from "@/lib/tailwind";
-import useEventsStore from "@/state/events";
 import KeyboardListener from "@/ui/KeyboardListener";
+import useEventsList from "@/hooks/events/useEventsList";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   ({ visible, setEvent, setVisible }: ExtensionPanelProps, ref) => {
+    const { events } = useEventsList();
     const [activeTab, setActiveTab] = useState(0);
     const [animation] = useState(new Animated.Value(0));
-
-    const events = useEventsStore((state) => state.events);
 
     useImperativeHandle(ref, () => ({
       animateContainer,

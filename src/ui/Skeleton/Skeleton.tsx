@@ -66,7 +66,7 @@ const Skeleton: React.FC<SkeletonProps> = ({
           height,
           opacity,
           borderRadius: 8,
-          backgroundColor: tw.color("slate-300"),
+          backgroundColor: tw.color("slate-200"),
         },
         style,
       ]}

@@ -39,7 +39,7 @@ const usePnms = () => {
   const { openModal } = useModalsStore();
 
   // Store to reset the state
-  const { resetState } = useZustandStore();
+  const { resetPnmState } = useZustandStore();
 
   // Create a state variable to store the filtered PNMs and the PNMs
   const { pnms, setPnms } = usePnmsStore();
@@ -71,7 +71,7 @@ const usePnms = () => {
     },
     onSuccess: async () => {
       // Delete all the data from stores
-      await resetState();
+      await resetPnmState();
 
       // Refetch the query
       await query.refetch();

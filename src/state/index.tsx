@@ -128,6 +128,22 @@ const useZustandStore = () => {
   };
 
   /**
+   * Reset all pnm-based stores
+   */
+  const resetPnmState = async () => {
+    // Update the PNMs store
+    _resetPnmsState();
+    // Remove all of the conversations from the conversations store
+    _resetConversationsState();
+    // Update the statistics store
+    _resetStatisticsState();
+    // Update the contacts store
+    _resetContactsState();
+    // Update the messages store
+    _resetMessagesState();
+  };
+
+  /**
    * Reset all cached stores
    */
   const resetState = async () => {
@@ -151,6 +167,7 @@ const useZustandStore = () => {
     favoritePnm,
     unfavoritePnm,
     resetState,
+    resetPnmState,
   };
 };
 

@@ -113,11 +113,13 @@ const Events: React.FC<EventsProps> = () => {
 
         <InfiniteList
           elementsDeletable
-          loading={isLoading}
           data={events}
+          loading={isLoading}
           onRefresh={onRefresh}
           onEndReached={onEndReached}
           onDeleteElement={onDeleteEvent}
+          emptyListTitle="No Events Found"
+          emptyListSubtitle="Try changing your filters or creating a new event"
           renderItem={({ item: event }) => <Event event={event} />}
         />
       </Layout>

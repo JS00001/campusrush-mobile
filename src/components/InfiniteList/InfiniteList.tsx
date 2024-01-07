@@ -19,6 +19,10 @@ import DeleteSwipable from "@/ui/Swipeables/Delete";
 interface InfiniteListProps<T> {
   loading: boolean;
   data: T[];
+
+  emptyListTitle?: string;
+  emptyListSubtitle?: string;
+
   onRefresh: () => Promise<void>;
   onEndReached: () => Promise<void>;
   renderItem: ({ item }: { item: T }) => React.ReactElement;
@@ -28,9 +32,11 @@ interface InfiniteListProps<T> {
 }
 
 const InfiniteList = <T,>({
-  loading,
   data,
+  loading,
   elementsDeletable,
+  emptyListTitle,
+  emptyListSubtitle,
   onRefresh,
   onEndReached,
   renderItem,
@@ -48,9 +54,11 @@ const InfiniteList = <T,>({
     return (
       <>
         <Text variant="title" style={tw`text-center mt-16`}>
-          No content found
+          {emptyListTitle || "No content found"}
         </Text>
-        <Text style={tw`text-center`}>Try changing your filters</Text>
+        <Text style={tw`text-center`}>
+          {emptyListSubtitle || "Try changing your filters"}
+        </Text>
       </>
     );
   };
