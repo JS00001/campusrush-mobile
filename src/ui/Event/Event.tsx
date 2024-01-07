@@ -79,9 +79,11 @@ const DefaultEvent: React.FC<EventProps> = ({ event, onPress }) => {
         />
 
         {/* Information */}
-        <View>
-          <Text variant="title">{event.title}</Text>
-          <Text variant="text" style={tw`text-slate-500`}>
+        <View style={tw`shrink`}>
+          <Text variant="title" numberOfLines={1}>
+            {event.title}
+          </Text>
+          <Text variant="text" style={tw`text-slate-500`} numberOfLines={2}>
             {formattedEvent.start.time} · {formattedEvent.location}
           </Text>
         </View>

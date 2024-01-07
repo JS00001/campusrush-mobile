@@ -44,6 +44,7 @@ const Events: React.FC<EventsProps> = () => {
     onFilterPress,
     onOtherPress,
     setSearchQuery,
+    onDeleteEvent,
   } = useEventsList();
 
   const { handlePresentModalPress } = useBottomSheets();
@@ -111,10 +112,12 @@ const Events: React.FC<EventsProps> = () => {
         </View>
 
         <InfiniteList
+          elementsDeletable
           loading={isLoading}
           data={events}
           onRefresh={onRefresh}
           onEndReached={onEndReached}
+          onDeleteElement={onDeleteEvent}
           renderItem={({ item: event }) => <Event event={event} />}
         />
       </Layout>

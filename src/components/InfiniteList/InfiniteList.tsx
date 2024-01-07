@@ -14,6 +14,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
 import InfiniteScroll from "@/ui/InfiniteScroll";
+import DeleteSwipable from "@/ui/Swipeables/Delete";
 
 interface InfiniteListProps<T> {
   loading: boolean;
@@ -21,14 +22,19 @@ interface InfiniteListProps<T> {
   onRefresh: () => Promise<void>;
   onEndReached: () => Promise<void>;
   renderItem: ({ item }: { item: T }) => React.ReactElement;
+
+  elementsDeletable?: boolean;
+  onDeleteElement?: (item: T) => void;
 }
 
 const InfiniteList = <T,>({
   loading,
   data,
+  elementsDeletable,
   onRefresh,
   onEndReached,
   renderItem,
+  onDeleteElement,
 }: InfiniteListProps<T>) => {
   const ListEmptyComponent = () => {
     if (loading) {
@@ -37,16 +43,56 @@ const InfiniteList = <T,>({
         .map((_, i) => (
           <ListItem key={i} title="" subtitle="" loading pressable={false} />
         ));
-    } else {
+    }
+
+    return (
+      <>
+        <Text variant="title" style={tw`text-center mt-16`}>
+          No content found
+        </Text>
+        <Text style={tw`text-center`}>Try changing your filters</Text>
+      </>
+    );
+  };
+
+  let rowRefs = new Map();
+
+  const renderItemWithActions = ({ item }: { item: T }) => {
+    const closeOtherSwipeables = () => {
+      [...rowRefs.entries()].forEach(([key, ref]) => {
+        if (key != item && ref) {
+          ref.close();
+        }
+      });
+    };
+
+    const handleRef = (ref: any) => {
+      if (ref && !rowRefs.get(item)) {
+        rowRefs.set(item, ref);
+      }
+    };
+
+    const onDeletePress = () => {
+      if (onDeleteElement) {
+        rowRefs.get(item).close();
+        onDeleteElement(item);
+        rowRefs.delete(item);
+      }
+    };
+
+    if (elementsDeletable) {
       return (
-        <>
-          <Text variant="title" style={tw`text-center mt-16`}>
-            No content found
-          </Text>
-          <Text style={tw`text-center`}>Try changing your filters</Text>
-        </>
+        <DeleteSwipable
+          innerRef={handleRef}
+          onDelete={onDeletePress}
+          onBegan={closeOtherSwipeables}
+        >
+          {renderItem({ item })}
+        </DeleteSwipable>
       );
     }
+
+    return renderItem({ item });
   };
 
   return (
@@ -54,7 +100,7 @@ const InfiniteList = <T,>({
       data={data}
       onRefresh={onRefresh}
       onEndReached={onEndReached}
-      renderItem={renderItem}
+      renderItem={renderItemWithActions}
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={ListEmptyComponent}
       contentContainerStyle={tw`gap-y-2 pb-6`}

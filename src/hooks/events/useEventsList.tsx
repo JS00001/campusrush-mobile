@@ -11,14 +11,16 @@
  */
 
 import { useEffect, useState } from "react";
+import Toast from "react-native-toast-message";
 import { MenuAction } from "@react-native-menu/menu";
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 
+import errors from "@/lib/errors";
 import eventsApi from "@/api/api/events";
-import { useAuth } from "@/providers/Auth";
-import useEventsStore, { EventsStatus } from "@/state/events";
-import useModalsStore from "@/state/modals";
 import Content from "@/constants/content";
+import { useAuth } from "@/providers/Auth";
+import useModalsStore from "@/state/modals";
+import useEventsStore, { EventsStatus } from "@/state/events";
 
 export enum EventsFilter {
   NoFilter = "NO_FILTER",
@@ -31,17 +33,14 @@ export enum EventsOtherOption {
 }
 
 const useEvents = () => {
-  // Import data from auth provider
   const { accessToken } = useAuth();
-
-  // Store to open a modal, used to confirm deletion
   const { openModal } = useModalsStore();
 
-  // Pull the events state from the store
   const { events, setEvents, resetState } = useEventsStore();
 
   const status = useEventsStore((state) => state.status);
   const setStatus = useEventsStore((state) => state.setStatus);
+  const deleteEvent = useEventsStore((state) => state.deleteEvent);
 
   // Create a state to store filtered events
   const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
@@ -69,19 +68,23 @@ const useEvents = () => {
     },
   });
 
-  // Create a mutation to delete the PNMs
-  const deletionMutation = useMutation({
+  // Create a mutation to delete every pnm
+  const massDeletionMutation = useMutation({
     mutationFn: async () => {
       return eventsApi.deleteEvents();
     },
     onSuccess: async () => {
-      // Delete all the data from stores
       await resetState();
 
-      // Refetch the query
       await query.refetch();
 
       setStatus(EventsStatus.Idle);
+    },
+  });
+
+  const singleDeletionMutation = useMutation({
+    mutationFn: async (input: DeleteEventInput) => {
+      return eventsApi.deleteEvent(input);
     },
   });
 
@@ -157,7 +160,7 @@ const useEvents = () => {
             // When the "Confirm Delete" button is pressed, delete the PNM
             primaryButtonAction: () => {
               setStatus(EventsStatus.Loading);
-              deletionMutation.mutate();
+              massDeletionMutation.mutate();
             },
           },
         });
@@ -165,6 +168,28 @@ const useEvents = () => {
       default:
         break;
     }
+  };
+
+  const onDeleteEvent = async (event: Event) => {
+    let response;
+
+    deleteEvent(event);
+
+    try {
+      response = await singleDeletionMutation.mutateAsync({
+        id: event._id,
+      });
+    } catch (error) {
+      errors.handleApiError(error);
+    }
+
+    if (!response) return;
+
+    Toast.show({
+      type: "success",
+      text1: "Deleted Event",
+      text2: `${event.title} has been deleted.`,
+    });
   };
 
   // The actions for the filter menu
@@ -213,6 +238,7 @@ const useEvents = () => {
     onFilterPress,
     onOtherPress,
     setSearchQuery,
+    onDeleteEvent,
   };
 };
 
