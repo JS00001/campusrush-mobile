@@ -89,7 +89,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
               icon="ri-user-fill"
               title={numPnms?.toString()}
               subtitle="Current PNMs registered to rush"
-              loading={isLoading && numPnms === undefined}
+              loading={isLoading && !numPnms}
             />
             <ActionCard
               size="md"
@@ -97,7 +97,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
               icon="ri-user-star-fill"
               title={numStarredPnms?.toString()}
               subtitle="PNMs saved as favorites"
-              loading={isLoading && numStarredPnms === undefined}
+              loading={isLoading && !numStarredPnms}
             />
           </View>
           {/* Quick Links */}
@@ -112,7 +112,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
           <Text variant="title">Recently Added PNMs</Text>
           <RecentPnms
             pnms={recentPnms}
-            loading={isLoading && !recentPnms}
+            loading={isLoading && recentPnms.length === 0}
             onPress={onRecentPnmPress}
           />
         </View>
