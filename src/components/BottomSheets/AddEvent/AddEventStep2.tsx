@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { useEffect } from "react";
 import { View } from "react-native";
 import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
@@ -40,6 +41,17 @@ const AddEventStep2: React.FC<AddEventStep2Props> = ({
 
   const startDate = new Date(parseInt(props.startDate));
   const endDate = new Date(parseInt(props.endDate));
+
+  // Make sure the start date is up to date
+  useEffect(() => {
+    const now = new Date();
+
+    props.setField("startDate", now.getTime().toString());
+
+    const hourFromNow = new Date(now.getTime() + 60 * 60 * 1000);
+
+    props.setField("endDate", hourFromNow.getTime().toString());
+  }, []);
 
   const onBackPress = () => {
     setScreen(AddEventScreens.AddEventStep1);
@@ -91,7 +103,7 @@ const AddEventStep2: React.FC<AddEventStep2Props> = ({
         label="Ends at"
         mode="datetime"
         value={endDate}
-        minimumDate={today > startDate ? today : startDate}
+        minimumDate={startDate}
         error={props.errors.endDate}
         onChange={(event, date) => onDateTimeChange(event, "endDate", date)}
       />
