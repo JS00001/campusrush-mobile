@@ -96,7 +96,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   // The dropdown button's classes
   const dropdownClasses = tw.style(
     "flex-row justify-between items-center p-4.5 bg-slate-100 rounded-xl",
-    error ? "border border-red-500" : "border border-slate-100",
+    error ? "border border-red" : "border border-slate-100",
   );
 
   // The modal backdrop's classes
@@ -137,7 +137,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         <Text
           numberOfLines={1}
           variant="title"
-          style={tw.style("font-medium", error && "text-red-500", "shrink")}
+          style={tw.style("font-medium", error && "text-red", "shrink")}
         >
           {valueText}
         </Text>
@@ -145,7 +145,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       </TouchableOpacity>
 
       {/* The error, if it exists */}
-      {error && <Text style={tw`text-red-500`}>{error}</Text>}
+      {error && <Text style={tw`text-red`}>{error}</Text>}
 
       {/* The dropdown list of options */}
       <Modal

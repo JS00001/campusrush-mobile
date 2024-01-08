@@ -64,7 +64,7 @@ const ErrorModal: React.FC<ModalProps> = ({
         {primaryButtonText && (
           <Button
             size="sm"
-            style={tw`bg-red-600 bg-opacity-90 px-2 rounded-md`}
+            style={tw`bg-red px-2 rounded-md`}
             onPress={onPrimaryButtonPress}
           >
             {primaryButtonText}

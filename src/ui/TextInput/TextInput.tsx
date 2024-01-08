@@ -171,7 +171,7 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
     (focused || value) && "pt-7 pb-3",
     // Error Styling
     error
-      ? "border-red-500"
+      ? "border-red"
       : disabled
         ? "border-slate-50"
         : focused
@@ -186,7 +186,7 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
     "absolute left-4 z-10 px-1 bg-slate-100",
     disabled && "bg-slate-50",
     // If there is an error, make the label red
-    error ? "text-red-500" : disabled ? "text-slate-300" : "text-slate-400",
+    error ? "text-red" : disabled ? "text-slate-300" : "text-slate-400",
   );
 
   const valueClasses = tw.style(
@@ -281,11 +281,7 @@ const AlternateTextInput: React.FC<TextInputProps> = ({
     // Disabled text styling
     disabled && "text-slate-500",
     // Error Styling
-    error
-      ? "border-red-500"
-      : disabled
-        ? "border-slate-200"
-        : "border-slate-400",
+    error ? "border-red" : disabled ? "border-slate-200" : "border-slate-400",
     // Passed in input styles
     inputStyle,
   );

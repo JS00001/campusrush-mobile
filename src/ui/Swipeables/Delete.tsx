@@ -61,7 +61,7 @@ interface ActionProps {
 const Action: React.FC<ActionProps> = ({ opacity, onPress }) => {
   const containerStyles = tw.style(
     "items-center justify-center h-full w-24",
-    "bg-red-600 rounded-lg",
+    "bg-red rounded-lg",
   );
 
   return (

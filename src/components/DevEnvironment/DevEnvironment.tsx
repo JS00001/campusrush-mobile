@@ -142,7 +142,7 @@ const DevEnvironment: React.FC = ({}) => {
 
                 <View style={tw`bg-slate-100 p-3 rounded-xl w-full`}>
                   {lodash.isEmpty(customerData?.entitlements?.active) ? (
-                    <Text style={tw`text-red-700`}>No active subscription</Text>
+                    <Text style={tw`text-red`}>No active subscription</Text>
                   ) : (
                     <Text style={tw`text-green-700`}>Subscription active</Text>
                   )}
@@ -337,7 +337,7 @@ const DevEnvironment: React.FC = ({}) => {
 
                 <View style={tw`bg-slate-100 p-3 rounded-xl w-full`}>
                   {!data.connected ? (
-                    <Text style={tw`text-red-500`}>Not connected</Text>
+                    <Text style={tw`text-red`}>Not connected</Text>
                   ) : (
                     <Text style={tw`text-green-500`}>Connected</Text>
                   )}

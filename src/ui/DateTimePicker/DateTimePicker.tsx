@@ -33,13 +33,13 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     "pt-7 pb-2 w-full flex-row items-center justify-between rounded-xl h-16",
     "border-2 bg-slate-100 border-slate-100",
     disabled && "bg-slate-50 border-slate-50",
-    error && "border-red-500 ",
+    error && "border-red ",
   );
 
   const labelClasses = tw.style(
     "text-xs text-slate-400 shrink absolute top-1 left-4",
     disabled && "text-slate-300",
-    error && "text-red-500",
+    error && "text-red",
   );
 
   return (

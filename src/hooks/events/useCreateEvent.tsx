@@ -44,8 +44,8 @@ const useCreateEvent = (): UseCreateEvent => {
       title: "",
       description: "",
       location: "",
-      startDate: "",
-      endDate: "",
+      startDate: new Date().getTime().toString(),
+      endDate: new Date().getTime().toString(),
     },
     onSubmit: async (values) => {
       await onSubmit(values);

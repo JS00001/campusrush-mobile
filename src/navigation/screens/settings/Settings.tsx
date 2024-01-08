@@ -166,7 +166,7 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
         color="gray"
         style={tw`w-full`}
         loading={isLoading}
-        textStyle={tw`text-red-500 font-medium`}
+        textStyle={tw`text-red font-medium`}
         onPress={onDeleteAccountPress}
       >
         Delete Account
