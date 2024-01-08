@@ -12,6 +12,7 @@
 
 import { useRef, useState } from "react";
 import { View, Keyboard, TextInput as RNTextInput } from "react-native";
+import Animated, { useSharedValue, withTiming } from "react-native-reanimated";
 
 import TextInput from "./TextInput";
 import ExtensionPanel from "./ExtensionPanel";
@@ -35,21 +36,22 @@ interface MessageBoxProps {
 }
 
 const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
-  const textInputRef = useRef<RNTextInput>(null);
-  const extensionPanelRef = useRef<ExtensionPanelRef>(null);
+  const minHeight = useSharedValue(0);
 
   const [value, setValue] = useState<string>("");
   const [event, setEvent] = useState<Event | null>(null);
   const [extensionsVisible, setExtensionsVisible] = useState<boolean>(false);
 
+  const textInputRef = useRef<RNTextInput>(null);
+  const extensionPanelRef = useRef<ExtensionPanelRef>(null);
+
   const { messagingTooltipSeen, updatePreferences } = usePreferences();
 
   const onExtensionsPress = async () => {
-    // If we are closing the extensions
+    // If we are closing the extension panel...
     if (extensionsVisible) {
-      extensionPanelRef.current?.closeContainer(() => {
-        textInputRef.current?.focus();
-      });
+      animateMessageBox(0);
+      extensionPanelRef.current?.closePanel();
       return;
     }
 
@@ -62,8 +64,19 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
         await waitFor(KEYBOARD_ANIMATION_DURATION);
       }
 
-      extensionPanelRef.current?.openContainer();
+      animateMessageBox(1, 500);
+      extensionPanelRef.current?.openPanel();
     }
+  };
+
+  const animateMessageBox = (toValue: number, duration?: number) => {
+    const BOTTOM_SHEET_HEIGHT = 240;
+
+    toValue = toValue * BOTTOM_SHEET_HEIGHT;
+
+    minHeight.value = withTiming(toValue, {
+      duration: duration || 300,
+    });
   };
 
   // When the send button is pressed, send the message and clear the input
@@ -123,7 +136,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
         suggestions={AppConstants.messagingKeywords}
       />
 
-      <View style={containerClasses}>
+      <Animated.View style={[containerClasses, { marginBottom: minHeight }]}>
         {event && (
           <Event type="attachment" event={event} onPress={removeEvent} />
         )}
@@ -132,10 +145,9 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
           <IconButton
             size="md"
             icon={extensionsVisible ? "ri-close-line" : "ri-add-fill"}
+            // prettier-ignore
+            color={ extensionsVisible ? tw.color("red-500") : tw.color("primary")}
             onPress={onExtensionsPress}
-            color={
-              extensionsVisible ? tw.color("red-500") : tw.color("primary")
-            }
           />
 
           <TextInput
@@ -151,13 +163,14 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
             onPress={onSendPress}
           />
         </View>
-      </View>
+      </Animated.View>
 
       <ExtensionPanel
         ref={extensionPanelRef}
         visible={extensionsVisible}
         setEvent={setEvent}
         setVisible={setExtensionsVisible}
+        animateMessageBox={animateMessageBox}
       />
     </Walkthroughs.MessageBoxWalkthrough>
   );

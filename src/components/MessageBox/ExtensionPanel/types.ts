@@ -11,13 +11,13 @@
  */
 
 interface ExtensionPanelRef {
-  closeContainer: (cb?: () => void) => void;
-  openContainer: (cb?: () => void) => void;
-  animateContainer: (toValue: number, cb?: () => void) => void;
+  closePanel: () => void;
+  openPanel: () => void;
 }
 
 interface ExtensionPanelProps {
   visible: boolean;
-  setEvent: (event: any) => void;
+  setEvent: (event: Event) => void;
   setVisible: (visible: boolean) => void;
+  animateMessageBox: (toValue: number, duration?: number) => void;
 }
