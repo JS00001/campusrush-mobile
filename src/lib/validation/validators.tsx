@@ -10,8 +10,6 @@
  * Do not distribute
  */
 
-import schools from "@/constants/schools";
-import organizations from "@/constants/organizations";
 import {
   namesRegex,
   emailRegex,
@@ -19,6 +17,8 @@ import {
   socialMediaRegex,
   verificationCodeRegex,
 } from "@/constants/regex";
+import schools from "@/constants/schools";
+import organizations from "@/constants/organizations";
 
 const validateRegistration = (input: RegisterAsOrganizationInput) => {
   const errors = {
