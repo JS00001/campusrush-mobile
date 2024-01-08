@@ -10,9 +10,10 @@
  * Do not distribute
  */
 
+import { ScrollView, TouchableOpacity, View } from "react-native";
+
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import { ScrollView, TouchableOpacity, View } from "react-native";
 
 interface TabsProps {
   options: string[];

@@ -10,6 +10,8 @@
  * Do not distribute
  */
 
+import { cloneElement } from "react";
+
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
@@ -48,7 +50,7 @@ const InfiniteList = <T,>({
   const ListEmptyComponent = () => {
     if (loading) {
       return new Array(20).fill(0).map((_, i) => {
-        if (loadingComponent) return loadingComponent;
+        if (loadingComponent) return cloneElement(loadingComponent, { key: i });
 
         return (
           <ListItem key={i} title="" subtitle="" loading pressable={false} />
