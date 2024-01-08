@@ -32,6 +32,14 @@ export enum EventsOtherOption {
   DeleteAll = "DELETE_ALL",
 }
 
+/**
+ * HACK-AROUND SOLUTION
+ * We use this hook in two different places. React query's caching
+ * causes the data to be shared between the two hooks, which is not good, because it will
+ * 'refetch' with a wrong cache. For example, delete an event in one hook, in the other, the
+ * last query is still cached, so it will not show up as deleted. To fix this, we pass in a cacheId
+ * to the hook, which will be used as the query key. This way, the two hooks will have different caches.
+ */
 const useEvents = (cacheId?: string) => {
   const { accessToken } = useAuth();
   const { openModal } = useModalsStore();
