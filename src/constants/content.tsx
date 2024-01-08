@@ -18,13 +18,37 @@ const Content = {
   /**
    * The message to show to confirm the deletion of a single PNM
    */
-  confirmDeletePNM:
-    "This PNM will be permanently deleted. Are you sure you want to continue?",
+  confirmDeletePNM: {
+    title: "Are you sure?",
+    subtitle: "This PNM will be permanently deleted.",
+  },
   /**
    * The message to show to confirm the deletion of all of the PNMs
    */
-  confirmDeleteAllPNMs:
-    "All PNMs will be permanently deleted. Are you sure you want to continue?",
+  confirmDeleteAllPNMs: {
+    title: "Are you sure?",
+    subtitle: "All PNMs will be permanently deleted.",
+  },
+  /**
+   * The message to show to confirm the deletion of a single event
+   */
+  confirmDeleteEvent:
+    "This event will be permanently deleted. Are you sure you want to continue?",
+  /**
+   * The message to show to confirm the deletion of all events
+   */
+  confirmDeleteAllEvents: {
+    title: "Are you sure?",
+    subtitle: "All events will be permanently deleted.",
+  },
+  /**
+   * The message to show to confirm the deletion of an account
+   */
+  confirmDeleteAccount: {
+    title: "Are you sure?",
+    subtitle:
+      "Your account will be permanently deleted with no way to recover it.",
+  },
   /**
    * The new message error messages
    */
@@ -98,6 +122,13 @@ const Content = {
     message: "Added PNM to your contacts",
   },
   /**
+   * The success message when creating an event
+   */
+  createEventSuccess: {
+    title: "Successfully Created Event",
+    message: "Your event has been created",
+  },
+  /**
    * The success message when the organization is updated
    */
   updateOrganizationSuccess: {
@@ -127,6 +158,11 @@ const Content = {
     primaryButton: "Upgrade",
     secondaryButton: "No Thanks",
   },
+  /**
+   * Event invitations
+   */
+  eventInvitation:
+    "We have an event coming up and would love to see you.\n\nEvent: {{title}}\nLocation: {{location}}\nDate: {{date}}\nTime: {{time}}\n\nPlease RSVP at {{link}}",
 };
 
 export default Content;

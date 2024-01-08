@@ -52,7 +52,7 @@ const StatusIcon: React.FC<StatusIconProps> & StatusIconComponents = ({
 
   const contentContainerClasses = tw.style(
     // All styling
-    "bg-black w-36 h-36 items-center justify-center rounded-xl bg-opacity-60 mt-36 gap-2",
+    "bg-black w-36 h-36 items-center justify-center rounded-xl bg-opacity-60 gap-2",
   );
 
   return (

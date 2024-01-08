@@ -39,7 +39,7 @@ interface TextProps extends RNTextProps {
  */
 export const variantClasses = {
   header: tw.style("text-[32px] font-DMSans_Bold"),
-  title: tw.style("text-lg font-medium text-primary"),
+  title: tw.style("text-lg font-semibold text-primary"),
   body: tw.style("text-base font-normal text-slate-600"),
   text: tw.style("text-sm font-normal text-slate-500"),
   subtext: tw.style("text-xs font-normal"),

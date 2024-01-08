@@ -23,7 +23,7 @@ import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import useModalsStore from "@/state/modals";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import useDeleteOrganization from "@/hooks/useDeleteOrganization";
+import useDeleteOrganization from "@/hooks/auth/useDeleteOrganization";
 
 interface SettingsProps {
   navigation: NativeStackNavigationProp<any>;
@@ -72,8 +72,8 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
     openModal({
       name: "ERROR",
       props: {
-        message:
-          "Are you sure you want to delete your account? There is no way to recover it once deleted.",
+        title: Content.confirmDeleteAccount.title,
+        subtitle: Content.confirmDeleteAccount.subtitle,
         secondaryButtonText: "No, Cancel",
         primaryButtonText: "Yes, Delete",
         primaryButtonAction: onDeleteOrganization,
@@ -90,14 +90,18 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
     openModal({
       name: "UPGRADE",
       props: {
-        message: Content.addPNM.shareQRCodeUpgrade,
+        subtitle: Content.addPNM.shareQRCodeUpgrade,
       },
     });
   };
 
   return (
     <Layout scrollable gap={12} contentContainerStyle={tw`pb-6`}>
-      <Layout.Header title="Settings" subtitle="Manage your organization" />
+      <Layout.Header
+        hasBackButton
+        title="Settings"
+        subtitle="Manage your organization"
+      />
 
       <ActionCard
         title="Organization"
@@ -162,7 +166,7 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
         color="gray"
         style={tw`w-full`}
         loading={isLoading}
-        textStyle={tw`text-red-500 font-medium`}
+        textStyle={tw`text-red font-medium`}
         onPress={onDeleteAccountPress}
       >
         Delete Account

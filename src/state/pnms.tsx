@@ -109,7 +109,7 @@ const usePnmsStore = create<PnmsState>()(
       resetState: () => set(() => defaultState),
     }),
     {
-      name: "PNMs",
+      name: "pnms-store",
       storage: customAsyncStorage as PersistStorage<PnmsState>,
     },
   ),

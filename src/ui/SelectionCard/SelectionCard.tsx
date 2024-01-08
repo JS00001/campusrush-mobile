@@ -57,7 +57,7 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
   // Styling
   const containerClasses = tw.style(
     // Default styling for all variants
-    "p-4 gap-y-2 rounded-md w-full",
+    "p-4 gap-y-2 rounded-lg w-full",
     // Set background color based on selected state
     selected ? "bg-white" : "bg-slate-100",
     // Set border color based on selected state

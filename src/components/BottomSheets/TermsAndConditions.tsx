@@ -13,15 +13,14 @@
 import { View } from "react-native";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
-import BottomSheetBackdrop from "./Components/BottomSheetBackdrop";
+import BottomSheet from "./Components/BottomSheet";
+import BottomSheetContainer from "./Components/BottomSheetContainer";
 
 import Text from "@/ui/Text";
-import date from "@/lib/date";
+import date from "@/lib/util/date";
 import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
 import Skeleton from "@/ui/Skeleton";
 import contentApi from "@/api/content";
 
@@ -66,55 +65,52 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
   }, [query.data?.date_updated, query.data?.date_created]);
 
   return (
-    <BottomSheetModal
-      ref={innerRef}
-      index={0}
+    <BottomSheet
+      innerRef={innerRef}
       onChange={onBottomSheetChange}
-      snapPoints={snapPoints}
-      style={tw`flex-1`}
       backgroundStyle={tw`bg-slate-100`}
-      backdropComponent={BottomSheetBackdrop}
-    >
-      <Layout
-        gap={8}
-        scrollable
-        style={tw`bg-slate-100`}
-        contentContainerStyle={tw`pb-6 items-start bg-slate-100`}
-      >
-        {query.isLoading && <TermsAndConditionsSkeleton />}
+      children={() => (
+        <BottomSheetContainer
+          style={tw`bg-slate-100`}
+          contentContainerStyle={tw`bg-slate-100`}
+        >
+          {query.isLoading && <TermsAndConditionsSkeleton />}
 
-        {query.isFetched && !query.isLoading && (
-          <>
-            <Badge size="md">Last Updated: {lastUpdated}</Badge>
-            <Text variant="header" style={tw`text-primary mb-4`}>
-              Terms and Conditions
-            </Text>
-
-            <View
-              style={tw`items-center w-full bg-white p-4 rounded-xl shadow-sm`}
-            >
-              <Text variant="body">
-                {query.data?.content.split("**").map((item, index) =>
-                  index % 2 === 0 ? (
-                    <Text key={index} variant="body">
-                      {item}
-                    </Text>
-                  ) : (
-                    <Text
-                      key={index}
-                      variant="body"
-                      style={tw`text-primary font-bold`}
-                    >
-                      {item}
-                    </Text>
-                  ),
-                )}
+          {query.isFetched && !query.isLoading && (
+            <>
+              <Badge size="md" style={tw`self-start`}>
+                Last Updated: {lastUpdated}
+              </Badge>
+              <Text variant="header" style={tw`text-primary mb-4`}>
+                Terms and Conditions
               </Text>
-            </View>
-          </>
-        )}
-      </Layout>
-    </BottomSheetModal>
+
+              <View
+                style={tw`items-center w-full bg-white p-4 rounded-xl shadow-sm`}
+              >
+                <Text variant="body">
+                  {query.data?.content.split("**").map((item, index) =>
+                    index % 2 === 0 ? (
+                      <Text key={index} variant="body">
+                        {item}
+                      </Text>
+                    ) : (
+                      <Text
+                        key={index}
+                        variant="body"
+                        style={tw`text-primary font-bold`}
+                      >
+                        {item}
+                      </Text>
+                    ),
+                  )}
+                </Text>
+              </View>
+            </>
+          )}
+        </BottomSheetContainer>
+      )}
+    />
   );
 };
 

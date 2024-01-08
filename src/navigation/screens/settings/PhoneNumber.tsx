@@ -28,7 +28,7 @@ import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import CopyItem from "@/ui/CopyItem";
 import { useAuth } from "@/providers/Auth";
-import { formatPhoneNumber } from "@/lib/string";
+import { formatPhoneNumber } from "@/lib/util/string";
 
 const PhoneNumber = () => {
   const { organization } = useAuth();

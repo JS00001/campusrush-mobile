@@ -13,66 +13,74 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
-import Button from "@/ui/Button";
-import Information from "@/ui/Information";
-import useModalsStore from "@/state/modals";
-import Toast from "react-native-toast-message";
-import Tooltip from "@/ui/Tooltip";
-import Text from "@/ui/Text";
-import CopyItem from "@/ui/CopyItem";
-import InfiniteScroll from "@/ui/InfiniteScroll";
-import { useState } from "react";
+import Header from "@/ui/Header";
 import { View } from "react-native";
 import tw from "@/lib/tailwind";
+import { useState } from "react";
+import InfiniteCarousel from "@/ui/InfiniteCarousel";
+import Text from "@/ui/Text";
+import Button from "@/ui/Button";
+import useModalsStore from "@/state/modals";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
-  const initialData = new Array(20).fill(0).map((_, i) => `Item ${i + 1}`);
+  const arrayOfTen = new Array(10).fill(0);
+  const { openModal } = useModalsStore();
 
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState([...arrayOfTen]);
 
   const onEndReached = async () => {
-    return new Promise<void>(async (resolve) => {
-      // wait 2 second before running the code
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // Get the last number in the data array
-      const lastNumber = parseInt(data[data.length - 1].split(" ")[1]);
-
-      // Create a new array of 20 items
-      const newData = new Array(20)
-        .fill(0)
-        .map((_, i) => `Item ${lastNumber + i + 1}`);
-
-      // Add the new data to the existing data
-      setData((prevData) => [...prevData, ...newData]);
-
-      // Resolve the promise
-      resolve();
-    });
+    // wait 5 seconds, then add 10 more items to the list
+    await new Promise((resolve) => setTimeout(resolve, 50000));
+    setData([...data, ...arrayOfTen]);
   };
 
   return (
-    <Layout gap={12}>
-      <Layout.Header
-        hasBackButton
-        title="UI Testing"
-        subtitle="Test new UI in a sandbox environment"
-      />
+    <Layout gap={12} contentContainerStyle={tw`pl-4 pr-0`}>
+      <Layout.CustomHeader>
+        <Header hasBackButton hasMenuButton title="Admin" />
+      </Layout.CustomHeader>
 
-      <InfiniteScroll
-        onRefresh={async () => {}}
-        data={data}
-        renderItem={({ item }) => (
-          <View style={tw`bg-red-500 w-full p-5 mb-2`}>
-            <Text style={tw`text-white`}>{item}</Text>
-          </View>
-        )}
-        onEndReached={onEndReached}
-      />
+      <Button
+        onPress={() => {
+          openModal({
+            name: "WARNING",
+            props: {
+              secondaryButtonText: "Cancel",
+              primaryButtonText: "Continue",
+            },
+          });
+        }}
+      >
+        Open Warning
+      </Button>
+
+      <Button
+        onPress={() => {
+          openModal({
+            name: "ERROR",
+            props: {
+              primaryButtonText: "Upgrade",
+            },
+          });
+        }}
+      >
+        Open Error
+      </Button>
+
+      <Button
+        onPress={() => {
+          openModal({
+            name: "UPGRADE",
+            props: {},
+          });
+        }}
+      >
+        Open Upgrade
+      </Button>
     </Layout>
   );
 };

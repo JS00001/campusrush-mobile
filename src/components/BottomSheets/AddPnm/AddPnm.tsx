@@ -10,12 +10,11 @@
  * Do not distribute
  */
 
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 
 import { AddPnmScreens } from "./types";
 
 import Text from "@/ui/Text";
-import tw from "@/lib/tailwind";
 import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
@@ -46,7 +45,7 @@ const AddPnm: React.FC<AddPnmProps> = ({
     openModal({
       name: "UPGRADE",
       props: {
-        message: Content.addPNM.shareQRCodeUpgrade,
+        subtitle: Content.addPNM.shareQRCodeUpgrade,
       },
     });
 
@@ -54,7 +53,7 @@ const AddPnm: React.FC<AddPnmProps> = ({
   };
 
   return (
-    <ScrollView style={tw`p-6`} contentContainerStyle={tw`gap-y-2`}>
+    <>
       <View>
         <Text variant="title">Add a PNM</Text>
         <Text variant="body">
@@ -75,7 +74,7 @@ const AddPnm: React.FC<AddPnmProps> = ({
         icon="ri-qr-code-fill"
         onPress={onAddPnmQrCodePress}
       />
-    </ScrollView>
+    </>
   );
 };
 

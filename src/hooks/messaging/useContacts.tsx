@@ -68,7 +68,7 @@ const useContacts = () => {
     }
 
     // Check if the search query matches the PNM's full name or phone number
-    const filtered = suggestedPnms.filter((pnm) => {
+    const filtered = allPnms.filter((pnm) => {
       const fullName = `${pnm.firstName} ${pnm.lastName}`;
 
       const matchesFullName = fullName

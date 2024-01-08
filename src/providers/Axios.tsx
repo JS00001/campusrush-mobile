@@ -127,7 +127,7 @@ const AxiosIntercepter: React.FC<{ children?: React.ReactNode }> = ({
         openModal({
           name: "WARNING",
           props: {
-            message: Content.missingEntitlementError.message,
+            title: Content.missingEntitlementError.message,
             primaryButtonText: Content.missingEntitlementError.primaryButton,
             secondaryButtonText:
               Content.missingEntitlementError.secondaryButton,
@@ -143,7 +143,7 @@ const AxiosIntercepter: React.FC<{ children?: React.ReactNode }> = ({
         openModal({
           name: "UPGRADE",
           props: {
-            message: responseData.error?.humanMessage || "",
+            subtitle: responseData.error?.humanMessage || "",
           }
         })
 
@@ -156,7 +156,8 @@ const AxiosIntercepter: React.FC<{ children?: React.ReactNode }> = ({
         openModal({
           name: "WARNING",
           props: {
-            message: responseData.error?.humanMessage || "",
+            title: 'Limit Reached',
+            subtitle: responseData.error?.humanMessage || "",
             primaryButtonText: "Go Back",
             primaryButtonAction: () => undefined,
           },

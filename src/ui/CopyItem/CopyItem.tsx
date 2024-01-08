@@ -10,14 +10,12 @@
  * Do not distribute
  */
 
-import * as Haptics from "expo-haptics";
-import * as Clipboard from "expo-clipboard";
-import Toast from "react-native-toast-message";
 import RemixIcon from "react-native-remix-icon";
 import { View, TouchableOpacity } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import useCopy from "@/hooks/util/useCopy";
 
 interface CopyItemProps {
   value: string;
@@ -25,8 +23,10 @@ interface CopyItemProps {
 }
 
 const CopyItem: React.FC<CopyItemProps> = ({ value, label }) => {
+  const copy = useCopy();
+
   const containerClasses = tw.style(
-    "flex-row items-center justify-between bg-slate-100 w-full rounded-md gap-x-2",
+    "flex-row items-center justify-between bg-slate-100 w-full rounded-lg gap-x-2",
     label && "px-4.5 pb-4.5 pt-4",
     !label && "py-2 pl-4.5 pr-2",
   );
@@ -36,15 +36,7 @@ const CopyItem: React.FC<CopyItemProps> = ({ value, label }) => {
   const valueTextVariant = label ? "subtext" : "body";
 
   const onCopyPress = () => {
-    Haptics.selectionAsync();
-    Clipboard.setStringAsync(value);
-
-    Toast.show({
-      type: "success",
-      text1: `${label} copied to clipboard`,
-      text2: value,
-      visibilityTime: 1000,
-    });
+    copy(value, label);
   };
 
   return (

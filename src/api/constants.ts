@@ -12,6 +12,10 @@
 
 import AppConstants from '@/constants';
 
+/**
+ * The base URLs for routes
+ */
+
 // The URL of the API for development
 export const STAGING_URL = 'https://greek-api.in-staging.space';
 
@@ -19,10 +23,10 @@ export const STAGING_URL = 'https://greek-api.in-staging.space';
 export const PRODUCTION_URL = 'https://api.campusrush.app';
 
 // The URL for the web app for development
-export const STAGING_WEB_URL = 'https://greek-web.in-staging.space/external';
+export const STAGING_WEB_URL = 'https://campusrush.in-staging.space';
 
 // The URL for the web app for production
-export const PRODUCTION_WEB_URL = 'https://campusrush.app/external';
+export const PRODUCTION_WEB_URL = 'https://campusrush.app';
 
 // The URL for the websocket for development
 export const STAGING_WEBSOCKET_URL = 'wss://greek-api.in-staging.space';
@@ -37,10 +41,16 @@ export const CONTENT_URL = 'https://content.campusrush.app';
 // prettier-ignore
 export const BASE_URL = AppConstants.isProduction ? PRODUCTION_URL : STAGING_URL;
 
-// Which web URL should be used, staging for development, production for release
+// Which web sharing URL should be used, staging for development, production for release
 // prettier-ignore
 export const WEB_URL = AppConstants.isProduction ? PRODUCTION_WEB_URL : STAGING_WEB_URL;
 
 // Which websocket URL should be used, staging for development, production for release
 // prettier-ignore
 export const WEBSOCKET_URL = AppConstants.isProduction ? PRODUCTION_WEBSOCKET_URL : STAGING_WEBSOCKET_URL;
+
+/**
+ * The URLS for web routes
+ */
+export const SHARING_URL = `${WEB_URL}/sharing`;
+export const EVENT_URL = `${WEB_URL}/events`;

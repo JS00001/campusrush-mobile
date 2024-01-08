@@ -21,9 +21,11 @@ import TextInput from "@/ui/TextInput";
 import StatusIcon from "@/ui/StatusIcon";
 import IconButton from "@/ui/IconButton";
 import ActionButton from "@/ui/ActionButton";
-import Conversations from "@/components/Conversations";
-import useConversations from "@/hooks/messaging/useConversations";
+import Conversation from "@/ui/Conversation";
+import InfiniteList from "@/components/InfiniteList";
 import { useBottomSheets } from "@/providers/BottomSheet";
+import { ConversationLoader } from "@/ui/Conversation/Loaders";
+import useConversations from "@/hooks/messaging/useConversations";
 import { ConversationStatus } from "@/state/messaging/conversations";
 
 interface MessagesProps {
@@ -38,6 +40,9 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
     searchQuery,
     filterActions,
     conversations,
+
+    refetch,
+    fetchNextPage,
     onFilterPress,
     setSearchQuery,
   } = useConversations();
@@ -48,6 +53,14 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
   // When the new chat action button is pressed, present the modal
   const onNewChatPress = () => {
     handlePresentModalPress("NEW_MESSAGE");
+  };
+
+  const onRefresh = async () => {
+    await refetch();
+  };
+
+  const onEndReached = async () => {
+    await fetchNextPage();
   };
 
   return (
@@ -107,7 +120,18 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
         </View>
 
         {/* The conversations that exist */}
-        <Conversations loading={isLoading} conversations={conversations} />
+        <InfiniteList
+          loading={isLoading}
+          data={conversations}
+          onRefresh={onRefresh}
+          onEndReached={onEndReached}
+          loadingComponent={<ConversationLoader />}
+          emptyListTitle="No Conversations Found"
+          emptyListSubtitle="Try changing your filters or sending a new message"
+          renderItem={({ item: conversation }) => (
+            <Conversation conversation={conversation} />
+          )}
+        />
       </Layout>
     </>
   );

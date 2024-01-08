@@ -18,7 +18,4 @@ export enum AddPnmScreens {
   AddQrCode = 'ADD_QR_CODE',
 }
 
-export type ScreensList = Record<
-  AddPnmScreens,
-  { position: string; component: JSX.Element }
->;
+export type ScreensList = Record<AddPnmScreens, { component: JSX.Element }>;

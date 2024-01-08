@@ -31,7 +31,7 @@ const MessageList: React.FC<MessageListProps> = ({
 
   return (
     <FlatList
-      style={tw`w-full -mt-6`}
+      style={tw`w-full px-4`}
       contentContainerStyle={tw`gap-y-2 `}
       data={timestampedMessages}
       inverted

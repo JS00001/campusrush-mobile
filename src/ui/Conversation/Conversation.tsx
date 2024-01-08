@@ -13,15 +13,21 @@
 import { TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+import { ConversationLoader } from "./Loaders";
+
 import Text from "@/ui/Text";
-import date from "@/lib/date";
 import tw from "@/lib/tailwind";
+import date from "@/lib/util/date";
 
 interface ConversationProps {
   conversation: Conversation;
+  loading?: boolean;
 }
 
-const Conversation: React.FC<ConversationProps> = ({ conversation }) => {
+const Conversation: React.FC<ConversationProps> = ({
+  conversation,
+  loading,
+}) => {
   // Use the navigation hook to navigate to the chat screen
   const navigation = useNavigation();
   // Get the full name of the PNM
@@ -37,17 +43,19 @@ const Conversation: React.FC<ConversationProps> = ({ conversation }) => {
   // Styling
   const containerClasses = tw.style(
     // Default classes
-    "bg-slate-100 w-full p-4 rounded-md gap-6",
+    "bg-slate-100 w-full p-4 rounded-lg gap-6",
     // Add justify for timestamp
     "flex-row justify-between items-center",
   );
 
   const unreadIndicatorClasses = tw.style(
     // Default classes
-    "rounded-full bg-blue-600 p-[4px]",
+    "rounded-full shadow-sm bg-blue-800 p-[4px]",
     // If the conversation is read, hide the indicator
     conversation.read && "opacity-0",
   );
+
+  if (loading) return <ConversationLoader />;
 
   return (
     <TouchableOpacity onPress={onPress} style={containerClasses}>

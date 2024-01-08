@@ -10,19 +10,22 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
+
 import type { ModalProps } from "./types";
 import ModalWrapper from "./Templates/ModalWrapper";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
-import ButtonGroup from "@/ui/ButtonGroup";
 import WarningIcon from "@/assets/icons/Warning";
+import ButtonGroup from "@/ui/ButtonGroup";
 
 const WarningModal: React.FC<ModalProps> = ({
   open,
   close,
-  message,
+  title,
+  subtitle,
   primaryButtonText,
   primaryButtonAction,
   secondaryButtonText,
@@ -40,11 +43,13 @@ const WarningModal: React.FC<ModalProps> = ({
 
   return (
     <ModalWrapper open={open} close={close}>
-      <WarningIcon />
+      <View style={tw`gap-y-2`}>
+        <Text variant="header">{title}</Text>
 
-      <Text variant="body" style={tw`text-center`}>
-        {message}
-      </Text>
+        <Text variant="body" style={tw`text-black`}>
+          {subtitle}
+        </Text>
+      </View>
 
       <ButtonGroup>
         {secondaryButtonText && (
@@ -61,9 +66,9 @@ const WarningModal: React.FC<ModalProps> = ({
         {primaryButtonText && (
           <Button
             size="sm"
-            style={tw`bg-yellow-500 px-2`}
+            style={tw`bg-yellow bg-opacity-90 px-2 rounded-md`}
             onPress={onPrimaryButtonPress}
-            textStyle={tw`text-primary`}
+            textStyle={tw`text-black`}
           >
             {primaryButtonText}
           </Button>

@@ -11,11 +11,8 @@
  */
 
 export enum NewMessageScreens {
-  NewMessage = 'NEW_MESSAGE',
-  DirectMessage = 'DIRECT_MESSAGE',
+  NewMessage = "NEW_MESSAGE",
+  DirectMessage = "DIRECT_MESSAGE",
 }
 
-export type ScreensList = Record<
-  NewMessageScreens,
-  { position: string; component: JSX.Element }
->;
+export type ScreensList = Record<NewMessageScreens, { component: JSX.Element }>;

@@ -29,7 +29,7 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
 }) => {
   // Styling
   const containerClasses = tw.style(
-    "bg-white pt-8 pb-6 px-6 rounded-xl shadow-xl mx-4 items-center gap-y-6",
+    "bg-white p-5 rounded-md shadow-2xl mx-2 items-start gap-6",
   );
 
   return (

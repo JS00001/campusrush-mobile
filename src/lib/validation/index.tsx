@@ -20,7 +20,7 @@ interface FormValidationResult<T> {
   /**
    * The fields to validate
    */
-  fields: (keyof T)[];
+  fields?: (keyof T)[];
   /**
    * The formik form instance
    */
@@ -39,6 +39,13 @@ const validateFields = <T,>({
 }: FormValidationResult<T>): boolean => {
   // Check if there are any errors
   const errors = validatorFn(values) as any;
+
+  // If there are no fields passed, validate all fields and return
+  if (!fields) {
+    form.setErrors(errors);
+
+    return !Object.values(errors).some((error) => error !== "");
+  }
 
   // Filter out errors that are not in the fields to validate
   Object.keys(errors).forEach((key) => {

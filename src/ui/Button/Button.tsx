@@ -120,7 +120,7 @@ const Button: React.FC<ButtonProps> = ({
   // The container classes are applied to the TouchableOpacity component
   // These classes are responsible for the background color, layout, etc.
   const containerClasses = tw.style(
-    "flex flex-row items-center justify-center rounded-lg gap-2.5",
+    "flex flex-row items-center justify-center rounded-xl gap-2.5",
     !disabled && colorClasses[color].container.default, // Set the default color if the button is not disabled
     disabled && colorClasses[color].container.disabled, // Set the disabled color if the button is disabled
     sizeClasses[size].container,

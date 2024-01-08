@@ -17,12 +17,13 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import ButtonGroup from "@/ui/ButtonGroup";
-import ErrorIcon from "@/assets/icons/Error";
+import { View } from "react-native";
 
 const ErrorModal: React.FC<ModalProps> = ({
   open,
   close,
-  message,
+  title,
+  subtitle,
   primaryButtonText,
   primaryButtonAction,
   secondaryButtonText,
@@ -40,11 +41,13 @@ const ErrorModal: React.FC<ModalProps> = ({
 
   return (
     <ModalWrapper open={open} close={close}>
-      <ErrorIcon />
+      <View style={tw`gap-y-2`}>
+        <Text variant="header">{title}</Text>
 
-      <Text variant="body" style={tw`text-center`}>
-        {message}
-      </Text>
+        <Text variant="body" style={tw`text-black`}>
+          {subtitle}
+        </Text>
+      </View>
 
       <ButtonGroup>
         {secondaryButtonText && (
@@ -61,9 +64,8 @@ const ErrorModal: React.FC<ModalProps> = ({
         {primaryButtonText && (
           <Button
             size="sm"
-            style={tw`bg-red-500 px-2`}
+            style={tw`bg-red px-2 rounded-md`}
             onPress={onPrimaryButtonPress}
-            textStyle={tw`text-white`}
           >
             {primaryButtonText}
           </Button>

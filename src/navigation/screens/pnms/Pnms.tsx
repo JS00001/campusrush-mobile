@@ -16,12 +16,12 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
-import usePnms from "@/hooks/usePnms";
 import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
 import StatusIcon from "@/ui/StatusIcon";
 import { PnmsStatus } from "@/state/pnms";
 import PnmsList from "@/components/PnmsList";
+import usePnmsList from "@/hooks/pnms/usePnmsList";
 
 interface PNMScreenProps {
   navigation: NativeStackNavigationProp<any>;
@@ -40,7 +40,7 @@ const PNMs: React.FC<PNMScreenProps> = ({ navigation, route }) => {
     onOtherPress,
     onFilterPress,
     setSearchQuery,
-  } = usePnms();
+  } = usePnmsList();
 
   // Define a placeholder of how many PNMs are being searched (if any)
   const searchPlaceholder = `Search ${

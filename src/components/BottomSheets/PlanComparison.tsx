@@ -11,16 +11,11 @@
  */
 
 import { useMemo } from "react";
+import { View } from "react-native";
 import RemixIcon from "react-native-remix-icon";
-import { ScrollView, View } from "react-native";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
-import type {
-  ProductId,
-  ProductPerkIds,
-} from "@/types/interfaces/EntitlementInterfaces";
-
-import BottomSheetBackdrop from "./Components/BottomSheetBackdrop";
+import BottomSheet from "./Components/BottomSheet";
+import BottomSheetContainer from "./Components/BottomSheetContainer";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -33,9 +28,6 @@ interface PlanComparisonProps {
 }
 
 const PlanComparison: React.FC<PlanComparisonProps> = ({ innerRef }) => {
-  // Memoized snap points (When the bottom sheet modal is open)
-  const snapPoints = useMemo(() => ["90%"], []);
-
   // Import the product data
   const entitlementDetails = useEntitlementsStore(
     (state) => state.entitlementDetails,
@@ -50,59 +42,57 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ innerRef }) => {
   }, [entitlementDetails]);
 
   return (
-    <BottomSheetModal
-      ref={innerRef}
-      index={0}
-      snapPoints={snapPoints}
-      backdropComponent={BottomSheetBackdrop}
-    >
-      <ScrollView contentContainerStyle={tw`gap-y-2 items-center pb-12`}>
-        <View style={tw`items-center gap-y-2 p-6`}>
-          <Text variant="title">Plan Comparison</Text>
-          <Text variant="body" style={tw`text-center`}>
-            CampusRush offers the best recruitment experience for greek
-            organizations of all sizes.
-          </Text>
-        </View>
+    <BottomSheet
+      innerRef={innerRef}
+      children={() => (
+        <BottomSheetContainer style={tw`px-0`}>
+          <View style={tw`items-center gap-y-2 p-6`}>
+            <Text variant="title">Plan Comparison</Text>
+            <Text variant="body" style={tw`text-center`}>
+              CampusRush offers the best recruitment experience for greek
+              organizations of all sizes.
+            </Text>
+          </View>
 
-        {/* The plan comparison table */}
-        <View style={tw`flex-1 w-full`}>
-          {/* The header row of the table */}
-          <FeatureRow
-            feature={{ name: "Feature", header: true }}
-            values={productDisplayNames}
-          />
+          {/* The plan comparison table */}
+          <View style={tw`flex-1 w-full`}>
+            {/* The header row of the table */}
+            <FeatureRow
+              feature={{ name: "Feature", header: true }}
+              values={productDisplayNames}
+            />
 
-          {Object.keys(entitlementDetails?.productPerks || {}).map(
-            (perkKey, i) => {
-              // The perk itself, has a name and description
-              // prettier-ignore
-              const perk = entitlementDetails?.productPerks[perkKey as ProductPerkIds];
-
-              // The values of the perk, for each product
-              // prettier-ignore
-              const values = Object.keys(entitlementDetails?.products || {}).map((productKey) => {
+            {Object.keys(entitlementDetails?.productPerks || {}).map(
+              (perkKey, i) => {
+                // The perk itself, has a name and description
                 // prettier-ignore
-                const product = entitlementDetails?.products[productKey as ProductId];
+                const perk = entitlementDetails?.productPerks[perkKey as ProductPerkIds];
+
+                // The values of the perk, for each product
                 // prettier-ignore
-                return product?.ALL_PERKS?.[perkKey as ProductPerkIds] || false;
-              });
+                const values = Object.keys(entitlementDetails?.products || {}).map((productKey) => {
+                  // prettier-ignore
+                  const product = entitlementDetails?.products[productKey as ProductId];
+                  // prettier-ignore
+                  return product?.ALL_PERKS?.[perkKey as ProductPerkIds] || false;
+                });
 
-              if (!perk) return null;
+                if (!perk) return null;
 
-              return (
-                <FeatureRow
-                  key={perkKey}
-                  index={i}
-                  feature={{ name: perk.name, description: perk.description }}
-                  values={values}
-                />
-              );
-            },
-          )}
-        </View>
-      </ScrollView>
-    </BottomSheetModal>
+                return (
+                  <FeatureRow
+                    key={perkKey}
+                    index={i}
+                    feature={{ name: perk.name, description: perk.description }}
+                    values={values}
+                  />
+                );
+              },
+            )}
+          </View>
+        </BottomSheetContainer>
+      )}
+    />
   );
 };
 

@@ -13,8 +13,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useContext, createContext } from "react";
 
-import type { EntitlementDetails } from "@/types/interfaces/EntitlementInterfaces";
-
 import billingApi from "@/api/billing";
 import useEntitlementsStore from "@/state/entitlements";
 

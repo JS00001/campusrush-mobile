@@ -14,11 +14,11 @@ import { useMemo, useState } from "react";
 import { SectionList, ActivityIndicator } from "react-native";
 
 import Text from "@/ui/Text";
-import date from "@/lib/date";
+import date from "@/lib/util/date";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
 import Copyable from "@/ui/Copyable";
-import { formatPhoneNumber } from "@/lib/string";
+import { formatPhoneNumber } from "@/lib/util/string";
 
 interface AdminOrganizationListProps {
   organizations: Organization[];

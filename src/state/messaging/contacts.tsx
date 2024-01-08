@@ -88,7 +88,7 @@ const useContactsStore = create<ContactsState>()(
         })),
     }),
     {
-      name: "contacts",
+      name: "contacts-store",
       storage: customAsyncStorage as PersistStorage<ContactsState>,
     },
   ),

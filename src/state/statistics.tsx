@@ -85,7 +85,7 @@ const useStatisticsStore = create<StatisticsState>()(
         set((state) => ({ recentPnms: [pnm, ...state.recentPnms] })),
     }),
     {
-      name: "statistics",
+      name: "statistics-store",
       storage: customAsyncStorage as PersistStorage<StatisticsState>,
     },
   ),

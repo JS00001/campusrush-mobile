@@ -18,7 +18,7 @@ import Dropdown from "@/ui/Dropdown";
 import schools from "@/constants/schools";
 import usePosthog from "@/hooks/usePosthog";
 import organizations from "@/constants/organizations";
-import useRegistration from "@/hooks/useRegistration";
+import useRegistration from "@/hooks/auth/useRegistration";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 interface RegistrationProps {

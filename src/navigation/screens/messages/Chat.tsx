@@ -13,12 +13,13 @@
 import { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
+import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
-import ChatHeader from "@/components/ChatHeader";
 import MessageBox from "@/components/MessageBox";
 import MessageList from "@/components/MessageList";
-import useConversation from "@/hooks/messaging/useConversation";
+import ChatHeader from "@/components/Headers/Chat";
 import { useWebsocket } from "@/providers/Websocket";
+import useConversation from "@/hooks/messaging/useConversation";
 
 interface ChatProps {
   route: any;
@@ -51,6 +52,7 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
   // When the component mounts, open the conversation
   useEffect(() => {
     onConversationOpen(pnm._id);
+
     return () => {
       onConversationClose();
     };
@@ -58,7 +60,7 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
 
   return (
     <>
-      <Layout gap={8}>
+      <Layout gap={8} contentContainerStyle={tw`p-0`}>
         <Layout.CustomHeader>
           <ChatHeader pnms={[route.params.pnm]} loading={isLoading} />
         </Layout.CustomHeader>

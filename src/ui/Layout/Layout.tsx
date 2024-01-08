@@ -17,6 +17,7 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   TouchableOpacity,
+  Keyboard,
 } from "react-native";
 import React from "react";
 import Icon from "react-native-remix-icon";
@@ -25,6 +26,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Badge from "@/ui/Badge";
 import HeaderSvg from "@/assets/HeaderSvg";
 
 interface LayoutProps extends ViewProps {
@@ -33,6 +35,7 @@ interface LayoutProps extends ViewProps {
   gap?: number;
   keyboardAvoiding?: boolean;
   scrollable?: boolean;
+  removePadding?: boolean;
   style?: any;
 }
 
@@ -47,6 +50,7 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
   children,
   contentContainerStyle,
   gap = 24,
+  removePadding = false,
   scrollable = false,
   keyboardAvoiding = false,
 }) => {
@@ -85,6 +89,8 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
   const contentContainerStyles = tw.style(
     // Sizing and positioning
     "w-full items-center px-6 pt-6",
+    // If they remove padding, remove it
+    removePadding && "px-0 pt-0",
     // If flexGap is provided, add gap style
     gap.toString() && { gap: gap },
     // Custom styles as provided by the style prop
@@ -96,10 +102,10 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
     scrollable && keyboardAvoiding
       ? "KeyboardAwareScrollView"
       : scrollable
-      ? "ScrollView"
-      : keyboardAvoiding
-      ? "KeyboardAvoidingView"
-      : "View";
+        ? "ScrollView"
+        : keyboardAvoiding
+          ? "KeyboardAvoidingView"
+          : "View";
 
   // Get the view that should host the content
   const ContentContainer = {
@@ -154,10 +160,16 @@ const Layout: React.FC<LayoutProps> & LayoutComponents = ({
 interface HeaderProps {
   title?: string;
   subtitle?: string;
+  beta?: boolean;
   hasBackButton?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, subtitle, hasBackButton }) => {
+const Header: React.FC<HeaderProps> = ({
+  title,
+  subtitle,
+  beta,
+  hasBackButton,
+}) => {
   // Allow the header to access navigation
   const navigation = useNavigation();
 
@@ -188,6 +200,11 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, hasBackButton }) => {
           <View style={tw`flex-1`} />
 
           <View style={tw`gap-y-3`}>
+            {beta && (
+              <Badge size="md" style={tw`bg-blue-900 py-1`}>
+                Beta
+              </Badge>
+            )}
             <Text variant="header" style={tw`text-white`}>
               {title}
             </Text>
@@ -222,8 +239,8 @@ const Footer: React.FC<FooterProps> = ({
   const ContentContainerIdentifier = scrollable
     ? "ScrollView"
     : keyboardAvoiding
-    ? "KeyboardAvoidingView"
-    : "View";
+      ? "KeyboardAvoidingView"
+      : "View";
 
   // The options for the content container
   const ContentContainer = {

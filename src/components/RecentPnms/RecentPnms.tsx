@@ -17,7 +17,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
-import { formatPhoneNumber } from "@/lib/string";
+import { formatPhoneNumber } from "@/lib/util/string";
+import { ListItemLoader } from "@/ui/ListItem/Loading";
 
 interface RecentPnmsProps {
   pnms: PNM[];
@@ -35,10 +36,7 @@ const RecentPnms: React.FC<RecentPnmsProps> = ({ pnms, loading, onPress }) => {
       showsVerticalScrollIndicator={false}
     >
       {/* If loading, return some placeholder skeletons */}
-      {loading &&
-        loadingArray.map((_, i) => (
-          <ListItem key={i} title="" subtitle="" loading pressable={false} />
-        ))}
+      {loading && loadingArray.map((_, i) => <ListItemLoader key={i} />)}
 
       {pnms.length === 0 && !loading && (
         <View>

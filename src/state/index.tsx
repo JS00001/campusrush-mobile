@@ -11,6 +11,7 @@
  */
 
 import usePnmsStore from "./pnms";
+import useEventsStore from "./events";
 import useStatisticsStore from "./statistics";
 import useContactsStore from "./messaging/contacts";
 import useMessagesStore from "./messaging/messages";
@@ -47,6 +48,9 @@ const useZustandStore = () => {
 
   // Messages store
   const _resetMessagesState = useMessagesStore((s) => s.resetState);
+
+  // Events store
+  const _resetEventsState = useEventsStore((s) => s.resetState);
 
   /**
    * Add a new PNM
@@ -124,6 +128,22 @@ const useZustandStore = () => {
   };
 
   /**
+   * Reset all pnm-based stores
+   */
+  const resetPnmState = async () => {
+    // Update the PNMs store
+    _resetPnmsState();
+    // Remove all of the conversations from the conversations store
+    _resetConversationsState();
+    // Update the statistics store
+    _resetStatisticsState();
+    // Update the contacts store
+    _resetContactsState();
+    // Update the messages store
+    _resetMessagesState();
+  };
+
+  /**
    * Reset all cached stores
    */
   const resetState = async () => {
@@ -137,6 +157,8 @@ const useZustandStore = () => {
     _resetContactsState();
     // Update the messages store
     _resetMessagesState();
+    // Update the events store
+    _resetEventsState();
   };
 
   return {
@@ -145,6 +167,7 @@ const useZustandStore = () => {
     favoritePnm,
     unfavoritePnm,
     resetState,
+    resetPnmState,
   };
 };
 

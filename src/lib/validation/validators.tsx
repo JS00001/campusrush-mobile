@@ -10,6 +10,13 @@
  * Do not distribute
  */
 
+import {
+  namesRegex,
+  emailRegex,
+  phoneRegex,
+  socialMediaRegex,
+  verificationCodeRegex,
+} from "@/constants/regex";
 import schools from "@/constants/schools";
 import organizations from "@/constants/organizations";
 
@@ -60,7 +67,6 @@ const validateRegistration = (input: RegisterAsOrganizationInput) => {
   }
 
   // Validate email is a valid email
-  const emailRegex = /\S+@\S+\.\S+/;
   if (!emailRegex.test(input.email)) {
     if (!errors.email) errors.email = "Invalid email address";
   }
@@ -70,14 +76,11 @@ const validateRegistration = (input: RegisterAsOrganizationInput) => {
     if (!errors.password) errors.password = "Password too short";
   }
 
-  // Validate name only has letters
-  const nameRegex = /^[a-zA-Z]+$/;
-
-  if (!nameRegex.test(input.firstName)) {
+  if (!namesRegex.test(input.firstName)) {
     if (!errors.firstName) errors.firstName = "Invalid first name";
   }
 
-  if (!nameRegex.test(input.lastName)) {
+  if (!namesRegex.test(input.lastName)) {
     if (!errors.lastName) errors.lastName = "Invalid last name";
   }
 
@@ -115,9 +118,6 @@ const validateLogin = (input: LoginAsOrganizationInput) => {
   if (!input.password) {
     errors.password = "Password is required";
   }
-
-  // Validate email is a valid email
-  const emailRegex = /\S+@\S+\.\S+/;
 
   if (!emailRegex.test(input.email)) {
     if (!errors.email) errors.email = "Invalid email address";
@@ -163,20 +163,15 @@ const validateSettings = (input: UpdateOrganizationInput) => {
     }
   }
 
-  const nameRegex = /^[a-zA-Z]+$/;
-
-  if (input.firstName && !nameRegex.test(input.firstName)) {
+  if (!namesRegex.test(input.firstName || "")) {
     if (!errors.firstName) errors.firstName = "Invalid first name";
   }
 
-  if (input.lastName && !nameRegex.test(input.lastName)) {
+  if (!namesRegex.test(input.lastName || "")) {
     if (!errors.lastName) errors.lastName = "Invalid last name";
   }
 
-  // Validate email is a valid email
-  const emailRegex = /\S+@\S+\.\S+/;
-
-  if (input.email && !emailRegex.test(input.email)) {
+  if (!emailRegex.test(input.email || "")) {
     if (!errors.email) errors.email = "Invalid email address";
   }
 
@@ -222,21 +217,15 @@ const validateCreatePnm = (input: CreatePnmInput) => {
     errors.classification = "Classification is required";
   }
 
-  // Check names to only use letters
-  const nameRegex = /^[a-zA-Z]+$/;
-
-  if (input.firstName && !nameRegex.test(input.firstName)) {
+  if (input.firstName && !namesRegex.test(input.firstName)) {
     if (!errors.firstName) errors.firstName = "Invalid first name";
   }
 
-  if (input.lastName && !nameRegex.test(input.lastName)) {
+  if (input.lastName && !namesRegex.test(input.lastName)) {
     if (!errors.lastName) errors.lastName = "Invalid last name";
   }
 
-  // Ensure phone number is a valid phone number
-  const phoneNumberRegex = /^\d{10}$/;
-
-  if (input.phoneNumber && !phoneNumberRegex.test(input.phoneNumber)) {
+  if (input.phoneNumber && !phoneRegex.test(input.phoneNumber)) {
     if (!errors.phoneNumber) errors.phoneNumber = "Invalid phone number";
   }
 
@@ -261,22 +250,29 @@ const validateUpdatePnm = (input: UpdatePnmInput) => {
     snapchat: "",
   };
 
-  // Check names to only use letters
-  const nameRegex = /^[a-zA-Z]+$/;
-
-  if (input.firstName && !nameRegex.test(input.firstName)) {
+  if (input.firstName && !namesRegex.test(input.firstName)) {
     if (!errors.firstName) errors.firstName = "Invalid first name";
   }
 
-  if (input.lastName && !nameRegex.test(input.lastName)) {
+  if (input.lastName && !namesRegex.test(input.lastName)) {
     if (!errors.lastName) errors.lastName = "Invalid last name";
   }
 
-  // Ensure phone number is a valid phone number
-  const phoneNumberRegex = /^\d{10}$/;
-
-  if (input.phoneNumber && !phoneNumberRegex.test(input.phoneNumber)) {
+  if (input.phoneNumber && !phoneRegex.test(input.phoneNumber)) {
     if (!errors.phoneNumber) errors.phoneNumber = "Invalid phone number";
+  }
+
+  if (input.classification && !namesRegex.test(input.classification)) {
+    if (!errors.classification)
+      errors.classification = "Invalid classification";
+  }
+
+  if (input.instagram && !socialMediaRegex.test(input.instagram)) {
+    if (!errors.instagram) errors.instagram = "Invalid username";
+  }
+
+  if (input.snapchat && !socialMediaRegex.test(input.snapchat)) {
+    if (!errors.snapchat) errors.snapchat = "Invalid username";
   }
 
   // Check if all errors are empty
@@ -284,7 +280,7 @@ const validateUpdatePnm = (input: UpdatePnmInput) => {
   const allErrors = Object.values(errors).filter((error) => error !== "");
 
   if (allErrors.length === 0) {
-    return {} as UpdatePnmInput;
+    return {};
   }
 
   return errors;
@@ -299,10 +295,7 @@ const validateVerifyOrganization = (input: VerifyOrganizationInput) => {
     errors.code = "Code is required";
   }
 
-  // Make sure code is 6 characters and only numbers
-  const codeRegex = /^\d{6}$/;
-
-  if (input.code && !codeRegex.test(input.code)) {
+  if (input.code && !verificationCodeRegex.test(input.code)) {
     if (!errors.code) errors.code = "Invalid code";
   }
 
@@ -317,11 +310,64 @@ const validateVerifyOrganization = (input: VerifyOrganizationInput) => {
   return errors;
 };
 
+const validateCreateEvent = (input: CreateEventInput) => {
+  const errors = {
+    title: "",
+    description: "",
+    location: "",
+    startDate: "",
+    endDate: "",
+  };
+
+  if (!input.title) {
+    errors.title = "Title is required";
+  }
+
+  if (!input.description) {
+    errors.description = "Description is required";
+  }
+
+  if (!input.location) {
+    errors.location = "Location is required";
+  }
+
+  if (!input.startDate) {
+    errors.startDate = "Start date is required";
+  }
+
+  if (!input.endDate) {
+    errors.endDate = "End date is required";
+  }
+
+  // Validate start date is before end date
+  if (input.startDate && input.endDate) {
+    const startDate = new Date(parseInt(input.startDate));
+    const endDate = new Date(parseInt(input.endDate));
+
+    if (startDate >= endDate) {
+      if (!errors.endDate) {
+        errors.endDate = "End date must be after start date";
+      }
+    }
+  }
+
+  // Check if all errors are empty
+  // If so, return an empty object
+  const allErrors = Object.values(errors).filter((error) => error !== "");
+
+  if (allErrors.length === 0) {
+    return {} as CreateEventInput;
+  }
+
+  return errors;
+};
+
 export default {
   validateLogin,
   validateRegistration,
   validateSettings,
   validateCreatePnm,
   validateUpdatePnm,
+  validateCreateEvent,
   validateVerifyOrganization,
 };

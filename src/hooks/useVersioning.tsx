@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import AppConstants from "@/constants";
 import externalApi from "@/api/api/external";
-import { stringifyVersion } from "@/lib/string";
+import { stringifyVersion } from "@/lib/util/string";
 
 const useVersioning = () => {
   const [isValidVersion, setIsValidVersion] = useState(true);
