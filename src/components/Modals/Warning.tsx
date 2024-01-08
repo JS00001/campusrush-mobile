@@ -66,7 +66,7 @@ const WarningModal: React.FC<ModalProps> = ({
         {primaryButtonText && (
           <Button
             size="sm"
-            style={tw`bg-yellow-400 px-2 rounded-md`}
+            style={tw`bg-yellow bg-opacity-90 px-2 rounded-md`}
             onPress={onPrimaryButtonPress}
             textStyle={tw`text-black`}
           >

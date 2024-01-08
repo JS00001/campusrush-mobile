@@ -160,7 +160,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
         subtitle={formatPhoneNumber(pnm.phoneNumber)}
         onPress={onPress}
         icon={pnm.starred ? "ri-star-fill" : undefined}
-        iconColor="yellow-500"
+        iconColor="yellow"
       />
     );
   };

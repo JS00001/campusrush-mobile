@@ -79,7 +79,7 @@ const Event: React.FC<EventProps> = ({
                 <IconButton
                   size="md"
                   icon="ri-delete-bin-6-line"
-                  color={tw.color("red-600")}
+                  color={tw.color("red")}
                   onPress={deleteEvent}
                   loading={actions.loading === "deleting"}
                 />

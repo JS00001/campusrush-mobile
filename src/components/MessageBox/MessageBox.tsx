@@ -150,7 +150,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
             size="md"
             icon={extensionsVisible ? "ri-close-line" : "ri-add-fill"}
             // prettier-ignore
-            color={ extensionsVisible ? tw.color("red-500") : tw.color("primary")}
+            color={ extensionsVisible ? tw.color("red") : tw.color("primary")}
             onPress={onExtensionsPress}
           />
 

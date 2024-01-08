@@ -76,7 +76,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
   const iconColor = enforceProPlan
     ? isPro
       ? tw.color("primary")
-      : tw.color("yellow-500")
+      : tw.color("yellow")
     : tw.color("primary");
 
   // Styling
@@ -119,9 +119,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
             <RemixIcon name={icon} size={24} color={iconColor} />
 
             {enforceProPlan && !isPro && (
-              <Text
-                style={tw`text-yellow-500 font-semibold text-[10px] leading-3`}
-              >
+              <Text style={tw`text-yellow font-semibold text-[10px] leading-3`}>
                 PRO
               </Text>
             )}

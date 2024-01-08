@@ -70,13 +70,13 @@ const Pnm: React.FC<PnmProps> = ({
                   loading={actions.loading === "favoriting"}
                   icon={pnm.starred ? "ri-star-fill" : "ri-star-line"}
                   // prettier-ignore
-                  color={pnm.starred ? tw.color("yellow-500") : tw.color("primary")}
+                  color={pnm.starred ? tw.color("yellow") : tw.color("primary")}
                   onPress={actions.favorite}
                 />
                 <IconButton
                   size="md"
                   icon="ri-delete-bin-6-line"
-                  color={tw.color("red-600")}
+                  color={tw.color("red")}
                   onPress={deletePnm}
                   loading={actions.loading === "deleting"}
                 />
