@@ -118,7 +118,7 @@ const InfiniteList = <T,>({
       renderItem={renderItemWithActions}
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={ListEmptyComponent}
-      contentContainerStyle={tw`gap-y-2 pb-6`}
+      contentContainerStyle={tw`gap-2 pb-6`}
     />
   );
 };

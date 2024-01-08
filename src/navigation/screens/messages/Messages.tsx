@@ -121,7 +121,7 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
 
         {/* The conversations that exist */}
         <InfiniteList
-          loading={true}
+          loading={isLoading}
           data={conversations}
           onRefresh={onRefresh}
           onEndReached={onEndReached}

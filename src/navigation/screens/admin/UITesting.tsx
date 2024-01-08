@@ -13,62 +13,46 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
-
 import Header from "@/ui/Header";
-
-import {
-  CardEventLoader,
-  DefaultEventLoader,
-  AttachmentEventLoader,
-} from "@/ui/Event/Loaders";
 import { View } from "react-native";
 import tw from "@/lib/tailwind";
-import { ConversationLoader } from "@/ui/Conversation/Loaders";
-import {
-  ActionCardLgLoader,
-  ActionCardMdLoader,
-  ActionCardSmLoader,
-} from "@/ui/ActionCard/Loaders";
-import { ListItemLoader } from "@/ui/ListItem/Loading";
+import { useState } from "react";
+import InfiniteCarousel from "@/ui/InfiniteCarousel";
+import Text from "@/ui/Text";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
+  const arrayOfTen = new Array(10).fill(0);
+
+  const [data, setData] = useState([...arrayOfTen]);
+
+  const onEndReached = async () => {
+    // wait 5 seconds, then add 10 more items to the list
+    await new Promise((resolve) => setTimeout(resolve, 50000));
+    setData([...data, ...arrayOfTen]);
+  };
+
   return (
-    <Layout gap={12}>
+    <Layout gap={12} contentContainerStyle={tw`pl-4 pr-0`}>
       <Layout.CustomHeader>
         <Header hasBackButton hasMenuButton title="Admin" />
       </Layout.CustomHeader>
 
-      {/* <View style={tw`w-full flex-row gap-5`}>
-        <ActionCardSmLoader />
-        <ActionCardSmLoader />
-      </View>
-
-      <View style={tw`w-full flex-row gap-5`}>
-        <ActionCardMdLoader />
-        <ActionCardMdLoader />
-      </View>
-
-
-
-      <View style={tw`h-32 w-full`}>
-        <ActionCardLgLoader />
-      </View> */}
-
-      {/* 
-      <View style={tw`h-48 w-full`}>
-        <DefaultEventLoader />
-      </View> */}
-
-      {/* <View style={tw`h-48 w-full`}>
-        <AttachmentEventLoader />
-      </View> */}
-
-      <View style={tw`h-32 w-full`}>
-        <ListItemLoader />
+      <View style={tw`w-full h-48 bg-purple-200`}>
+        <InfiniteCarousel
+          data={data}
+          onEndReached={onEndReached}
+          renderItem={({ item, index }) => (
+            <View
+              style={tw`w-64 h-full bg-green-500 items-center justify-center`}
+            >
+              <Text variant="header">{index + 1}</Text>
+            </View>
+          )}
+        />
       </View>
     </Layout>
   );

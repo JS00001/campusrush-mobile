@@ -64,7 +64,11 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
         await waitFor(KEYBOARD_ANIMATION_DURATION);
       }
 
-      animateMessageBox(1, 500);
+      const ANIMATION_DURATION = 200;
+
+      animateMessageBox(1, ANIMATION_DURATION);
+      await waitFor(ANIMATION_DURATION);
+
       extensionPanelRef.current?.openPanel();
     }
   };
@@ -72,9 +76,9 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
   const animateMessageBox = (toValue: number, duration?: number) => {
     const BOTTOM_SHEET_HEIGHT = 240;
 
-    toValue = toValue * BOTTOM_SHEET_HEIGHT;
+    const adjustedValue = toValue * BOTTOM_SHEET_HEIGHT;
 
-    minHeight.value = withTiming(toValue, {
+    minHeight.value = withTiming(adjustedValue, {
       duration: duration || 300,
     });
   };

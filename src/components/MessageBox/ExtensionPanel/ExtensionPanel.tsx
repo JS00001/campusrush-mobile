@@ -18,13 +18,15 @@ import Tabs from "@/ui/Tabs";
 import Event from "@/ui/Event";
 
 import tw from "@/lib/tailwind";
+import { CardEventLoader } from "@/ui/Event/Loaders";
 import KeyboardListener from "@/ui/KeyboardListener";
 import useEventsList from "@/hooks/events/useEventsList";
+import InfiniteHorizontaList from "@/components/InfiniteHorizontalList";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   ({ setVisible, setEvent, animateMessageBox }: ExtensionPanelProps, ref) => {
-    const { events } = useEventsList();
     const [activeTab, setActiveTab] = useState(0);
+    const { events, isLoading, fetchNextPage } = useEventsList();
 
     const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -52,6 +54,10 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
       setEvent(event);
     };
 
+    const onEndReached = async () => {
+      await fetchNextPage();
+    };
+
     return (
       <KeyboardListener onKeyboardWillShow={onKeyboardWillShow}>
         <BottomSheetModal
@@ -69,21 +75,17 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
               onChange={setActiveTab}
             />
 
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={tw`overflow-visible`}
-              contentContainerStyle={tw`gap-2`}
-            >
-              {events.map((event, index) => (
-                <Event
-                  key={index}
-                  type="card"
-                  event={event}
-                  onPress={onEventPress}
-                />
-              ))}
-            </ScrollView>
+            <InfiniteHorizontaList
+              data={events}
+              loading={isLoading}
+              onEndReached={onEndReached}
+              loadingComponent={<CardEventLoader />}
+              emptyListTitle="No Events Found"
+              emptyListSubtitle="Try creating a new event"
+              renderItem={({ item: event }) => (
+                <Event type="card" event={event} onPress={onEventPress} />
+              )}
+            />
           </View>
         </BottomSheetModal>
       </KeyboardListener>
