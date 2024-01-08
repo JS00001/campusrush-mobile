@@ -44,8 +44,8 @@ const EntitlementsProvider: React.FC<{ children: React.ReactNode }> = ({
   // Extract the data from the query
   useEffect(() => {
     // If there is valid response data, set the entitlements
-    if (query.data?.data?.data.data) {
-      setEntitlementDetails(query.data?.data?.data.data as EntitlementDetails);
+    if (query.data?.data?.data) {
+      setEntitlementDetails(query.data?.data?.data as EntitlementDetails);
     }
   }, [query.data]);
 

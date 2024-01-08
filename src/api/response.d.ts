@@ -150,9 +150,7 @@ type UpdatePnmAPIResponse = APIResponse<{
   pnm: PNM;
 }>;
 
-type GetEntitlementsAPIResponse = APIResponse<{
-  data: EntitlementDetails;
-}>;
+type GetEntitlementsAPIResponse = APIResponse<EntitlementDetails>;
 
 type GetVersionAPIResponse = APIResponse<{
   version: string;
