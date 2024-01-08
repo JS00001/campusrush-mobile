@@ -10,20 +10,22 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
+
 import type { ModalProps } from "./types";
 import ModalWrapper from "./Templates/ModalWrapper";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
-import ButtonGroup from "@/ui/ButtonGroup";
 import WarningIcon from "@/assets/icons/Warning";
-import { View } from "react-native";
+import ButtonGroup from "@/ui/ButtonGroup";
 
 const WarningModal: React.FC<ModalProps> = ({
   open,
   close,
-  message,
+  title,
+  subtitle,
   primaryButtonText,
   primaryButtonAction,
   secondaryButtonText,
@@ -41,35 +43,37 @@ const WarningModal: React.FC<ModalProps> = ({
 
   return (
     <ModalWrapper open={open} close={close}>
-      <WarningIcon />
+      <View style={tw`gap-y-2`}>
+        <Text variant="header">{title}</Text>
 
-      <Text variant="body" style={tw`text-center text-primary`}>
-        {message}
-      </Text>
+        <Text variant="body" style={tw`text-black`}>
+          {subtitle}
+        </Text>
+      </View>
 
-      <View style={tw`w-full gap-y-2`}>
+      <ButtonGroup>
+        {secondaryButtonText && (
+          <Button
+            size="sm"
+            style={tw`px-2`}
+            onPress={onSecondaryButtonPress}
+            color="gray"
+          >
+            {secondaryButtonText}
+          </Button>
+        )}
+
         {primaryButtonText && (
           <Button
             size="sm"
-            style={tw`bg-yellow-500 px-2 rounded-full`}
+            style={tw`bg-yellow-400 px-2 rounded-md`}
             onPress={onPrimaryButtonPress}
             textStyle={tw`text-black`}
           >
             {primaryButtonText}
           </Button>
         )}
-
-        {secondaryButtonText && (
-          <Button
-            size="sm"
-            style={tw`px-2 rounded-full`}
-            onPress={onSecondaryButtonPress}
-            color="light"
-          >
-            {secondaryButtonText}
-          </Button>
-        )}
-      </View>
+      </ButtonGroup>
     </ModalWrapper>
   );
 };

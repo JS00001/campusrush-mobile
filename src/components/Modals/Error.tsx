@@ -10,19 +10,20 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
-
 import type { ModalProps } from "./types";
 import ModalWrapper from "./Templates/ModalWrapper";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import ButtonGroup from "@/ui/ButtonGroup";
+import { View } from "react-native";
 
 const ErrorModal: React.FC<ModalProps> = ({
   open,
   close,
-  message,
+  title,
+  subtitle,
   primaryButtonText,
   primaryButtonAction,
   secondaryButtonText,
@@ -40,33 +41,36 @@ const ErrorModal: React.FC<ModalProps> = ({
 
   return (
     <ModalWrapper open={open} close={close}>
-      <Text variant="body" style={tw`text-center text-primary`}>
-        {message}
-      </Text>
+      <View style={tw`gap-y-2`}>
+        <Text variant="header">{title}</Text>
 
-      <View style={tw`w-full gap-y-2`}>
-        {primaryButtonText && (
-          <Button
-            size="sm"
-            style={tw`bg-red-600 px-2 rounded-full`}
-            onPress={onPrimaryButtonPress}
-            textStyle={tw`text-white`}
-          >
-            {primaryButtonText}
-          </Button>
-        )}
+        <Text variant="body" style={tw`text-black`}>
+          {subtitle}
+        </Text>
+      </View>
 
+      <ButtonGroup>
         {secondaryButtonText && (
           <Button
             size="sm"
-            style={tw`px-2 rounded-full`}
+            style={tw`px-2`}
             onPress={onSecondaryButtonPress}
-            color="light"
+            color="gray"
           >
             {secondaryButtonText}
           </Button>
         )}
-      </View>
+
+        {primaryButtonText && (
+          <Button
+            size="sm"
+            style={tw`bg-red-600 bg-opacity-90 px-2 rounded-md`}
+            onPress={onPrimaryButtonPress}
+          >
+            {primaryButtonText}
+          </Button>
+        )}
+      </ButtonGroup>
     </ModalWrapper>
   );
 };

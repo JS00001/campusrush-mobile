@@ -20,9 +20,13 @@ export interface ModalProps {
    */
   close: () => void;
   /**
+   * The title of the modal
+   */
+  title?: string;
+  /**
    * The message to display in the modal
    */
-  message?: string;
+  subtitle?: string;
   /**
    * The primary button text (colored button on the right)
    */

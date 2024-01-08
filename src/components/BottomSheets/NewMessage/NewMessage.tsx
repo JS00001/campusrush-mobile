@@ -92,7 +92,7 @@ const NewMessage: React.FC<NewMessageProps> = ({
     openModal({
       name: "UPGRADE",
       props: {
-        message: Content.newMessage.favoritedPNMsUpgrade,
+        subtitle: Content.newMessage.favoritedPNMsUpgrade,
       },
     });
 
@@ -108,7 +108,7 @@ const NewMessage: React.FC<NewMessageProps> = ({
     openModal({
       name: "UPGRADE",
       props: {
-        message: Content.newMessage.uncontactedPNMsUpgrade,
+        subtitle: Content.newMessage.uncontactedPNMsUpgrade,
       },
     });
 

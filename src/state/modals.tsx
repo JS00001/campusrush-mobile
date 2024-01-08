@@ -14,11 +14,9 @@ import { create } from "zustand";
 
 import type { ModalProps } from "@/components/Modals/types";
 
-import InfoModal from "@/components/Modals/Info";
 import ErrorModal from "@/components/Modals/Error";
 import WarningModal from "@/components/Modals/Warning";
 import UpgradeModal from "@/components/Modals/Upgrade";
-import SuccessModal from "@/components/Modals/Success";
 
 /**
  * All modals that can be opened
@@ -34,21 +32,8 @@ export const ModalComponents = {
     open: false,
     component: ErrorModal,
     props: {
-      message: "This is an error",
-      secondaryButtonText: "Go Back",
-      secondaryButtonAction: () => undefined,
-      primaryButtonText: undefined,
-      primaryButtonAction: () => undefined,
-    } as Partial<ModalProps>,
-  },
-  /**
-   * Success modal, just renders a success icon and a message and a "close" button
-   */
-  SUCCESS: {
-    open: false,
-    component: SuccessModal,
-    props: {
-      message: "This is a success",
+      title: "Error",
+      subtitle: "This is an error",
       secondaryButtonText: "Go Back",
       secondaryButtonAction: () => undefined,
       primaryButtonText: undefined,
@@ -62,22 +47,9 @@ export const ModalComponents = {
     open: false,
     component: WarningModal,
     props: {
-      message: "This is a warning",
+      title: "Warning",
+      subtitle: "This is a warning",
       secondaryButtonText: undefined,
-      secondaryButtonAction: () => undefined,
-      primaryButtonText: undefined,
-      primaryButtonAction: () => undefined,
-    } as Partial<ModalProps>,
-  },
-  /**
-   * Info modal, just renders an info icon and a message and a "close" button
-   */
-  INFO: {
-    open: false,
-    component: InfoModal,
-    props: {
-      message: "This is a message",
-      secondaryButtonText: "Go Back",
       secondaryButtonAction: () => undefined,
       primaryButtonText: undefined,
       primaryButtonAction: () => undefined,
@@ -90,7 +62,8 @@ export const ModalComponents = {
     open: false,
     component: UpgradeModal,
     props: {
-      message: "This is an upgrade",
+      title: "Upgrade for more",
+      subtitle: "Upgrade to get more features",
       secondaryButtonText: "No Thanks",
       secondaryButtonAction: undefined,
       primaryButtonText: "Upgrade",

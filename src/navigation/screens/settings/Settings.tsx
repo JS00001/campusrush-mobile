@@ -72,8 +72,8 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
     openModal({
       name: "ERROR",
       props: {
-        message:
-          "Are you sure you want to delete your account? There is no way to recover it once deleted.",
+        title: Content.confirmDeleteAccount.title,
+        subtitle: Content.confirmDeleteAccount.subtitle,
         secondaryButtonText: "No, Cancel",
         primaryButtonText: "Yes, Delete",
         primaryButtonAction: onDeleteOrganization,
@@ -90,7 +90,7 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
     openModal({
       name: "UPGRADE",
       props: {
-        message: Content.addPNM.shareQRCodeUpgrade,
+        subtitle: Content.addPNM.shareQRCodeUpgrade,
       },
     });
   };

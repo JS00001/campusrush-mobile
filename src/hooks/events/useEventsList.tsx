@@ -154,7 +154,8 @@ const useEvents = () => {
         openModal({
           name: "ERROR",
           props: {
-            message: Content.confirmDeleteAllEvents,
+            title: Content.confirmDeleteAllEvents.title,
+            subtitle: Content.confirmDeleteAllEvents.subtitle,
             secondaryButtonText: "No, Cancel",
             primaryButtonText: "Yes, Delete",
             // When the "Confirm Delete" button is pressed, delete the PNM

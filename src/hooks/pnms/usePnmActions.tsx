@@ -56,7 +56,8 @@ const usePnmActions = (pnm: PNM) => {
         openModal({
           name: "ERROR",
           props: {
-            message: Content.confirmDeletePNM,
+            title: Content.confirmDeletePNM.title,
+            subtitle: Content.confirmDeletePNM.subtitle,
             secondaryButtonText: "No, Cancel",
             primaryButtonText: "Yes, Delete",
             // When the "Confirm Delete" button is pressed, delete the PNM

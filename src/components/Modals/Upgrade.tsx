@@ -19,12 +19,13 @@ import ModalWrapper from "./Templates/ModalWrapper";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
-import UpgradeIcon from "@/assets/icons/Upgrade";
+import ButtonGroup from "@/ui/ButtonGroup";
 
 const UpgradeModal: React.FC<ModalProps> = ({
   open,
   close,
-  message,
+  title,
+  subtitle,
   primaryButtonAction,
   primaryButtonText,
   secondaryButtonText,
@@ -52,39 +53,36 @@ const UpgradeModal: React.FC<ModalProps> = ({
 
   return (
     <ModalWrapper open={open} close={close}>
-      <UpgradeIcon />
+      <View style={tw`gap-y-2`}>
+        <Text variant="header">{title}</Text>
 
-      <View style={tw`w-full items-center`}>
-        <Text variant="title">Upgrade for More!</Text>
-
-        <Text variant="body" style={tw`text-center`}>
-          {message}
+        <Text variant="body" style={tw`text-black`}>
+          {subtitle}
         </Text>
       </View>
 
-      <View style={tw`w-full`}>
-        {primaryButtonText && (
-          <Button
-            size="sm"
-            style={tw`bg-primary px-2 rounded-full`}
-            onPress={onPrimaryButtonPress}
-            textStyle={tw`text-white`}
-          >
-            {primaryButtonText}
-          </Button>
-        )}
-
+      <ButtonGroup>
         {secondaryButtonText && (
           <Button
             size="sm"
-            style={tw`px-2 rounded-full`}
+            color="gray"
+            style={tw`px-2`}
             onPress={onSecondaryButtonPress}
-            color="light"
           >
             {secondaryButtonText}
           </Button>
         )}
-      </View>
+
+        {primaryButtonText && (
+          <Button
+            size="sm"
+            style={tw`px-2 rounded-md`}
+            onPress={onPrimaryButtonPress}
+          >
+            {primaryButtonText}
+          </Button>
+        )}
+      </ButtonGroup>
     </ModalWrapper>
   );
 };

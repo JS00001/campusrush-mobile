@@ -19,6 +19,8 @@ import tw from "@/lib/tailwind";
 import { useState } from "react";
 import InfiniteCarousel from "@/ui/InfiniteCarousel";
 import Text from "@/ui/Text";
+import Button from "@/ui/Button";
+import useModalsStore from "@/state/modals";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
@@ -26,6 +28,7 @@ interface UITestingProps {
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
   const arrayOfTen = new Array(10).fill(0);
+  const { openModal } = useModalsStore();
 
   const [data, setData] = useState([...arrayOfTen]);
 
@@ -41,19 +44,43 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
         <Header hasBackButton hasMenuButton title="Admin" />
       </Layout.CustomHeader>
 
-      <View style={tw`w-full h-48 bg-purple-200`}>
-        <InfiniteCarousel
-          data={data}
-          onEndReached={onEndReached}
-          renderItem={({ item, index }) => (
-            <View
-              style={tw`w-64 h-full bg-green-500 items-center justify-center`}
-            >
-              <Text variant="header">{index + 1}</Text>
-            </View>
-          )}
-        />
-      </View>
+      <Button
+        onPress={() => {
+          openModal({
+            name: "WARNING",
+            props: {
+              secondaryButtonText: "Cancel",
+              primaryButtonText: "Continue",
+            },
+          });
+        }}
+      >
+        Open Warning
+      </Button>
+
+      <Button
+        onPress={() => {
+          openModal({
+            name: "ERROR",
+            props: {
+              primaryButtonText: "Upgrade",
+            },
+          });
+        }}
+      >
+        Open Error
+      </Button>
+
+      <Button
+        onPress={() => {
+          openModal({
+            name: "UPGRADE",
+            props: {},
+          });
+        }}
+      >
+        Open Upgrade
+      </Button>
     </Layout>
   );
 };

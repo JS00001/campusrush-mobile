@@ -18,13 +18,17 @@ const Content = {
   /**
    * The message to show to confirm the deletion of a single PNM
    */
-  confirmDeletePNM:
-    "This PNM will be permanently deleted. Are you sure you want to continue?",
+  confirmDeletePNM: {
+    title: "Are you sure?",
+    subtitle: "This PNM will be permanently deleted.",
+  },
   /**
    * The message to show to confirm the deletion of all of the PNMs
    */
-  confirmDeleteAllPNMs:
-    "All PNMs will be permanently deleted. Are you sure you want to continue?",
+  confirmDeleteAllPNMs: {
+    title: "Are you sure?",
+    subtitle: "All PNMs will be permanently deleted.",
+  },
   /**
    * The message to show to confirm the deletion of a single event
    */
@@ -33,8 +37,18 @@ const Content = {
   /**
    * The message to show to confirm the deletion of all events
    */
-  confirmDeleteAllEvents:
-    "All events will be permanently deleted. Are you sure you want to continue?",
+  confirmDeleteAllEvents: {
+    title: "Are you sure?",
+    subtitle: "All events will be permanently deleted.",
+  },
+  /**
+   * The message to show to confirm the deletion of an account
+   */
+  confirmDeleteAccount: {
+    title: "Are you sure?",
+    subtitle:
+      "Your account will be permanently deleted with no way to recover it.",
+  },
   /**
    * The new message error messages
    */

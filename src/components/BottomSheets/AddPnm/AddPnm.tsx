@@ -45,7 +45,7 @@ const AddPnm: React.FC<AddPnmProps> = ({
     openModal({
       name: "UPGRADE",
       props: {
-        message: Content.addPNM.shareQRCodeUpgrade,
+        subtitle: Content.addPNM.shareQRCodeUpgrade,
       },
     });
 
