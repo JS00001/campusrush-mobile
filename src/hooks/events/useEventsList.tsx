@@ -32,11 +32,13 @@ export enum EventsOtherOption {
   DeleteAll = "DELETE_ALL",
 }
 
-const useEvents = () => {
+const useEvents = (cacheId?: string) => {
   const { accessToken } = useAuth();
   const { openModal } = useModalsStore();
 
-  const { events, setEvents, resetState } = useEventsStore();
+  const events = useEventsStore((state) => state.events);
+  const setEvents = useEventsStore((state) => state.setEvents);
+  const resetState = useEventsStore((state) => state.resetState);
 
   const status = useEventsStore((state) => state.status);
   const setStatus = useEventsStore((state) => state.setStatus);
@@ -53,7 +55,7 @@ const useEvents = () => {
 
   // The query to get events
   const query = useInfiniteQuery({
-    queryKey: ["events", accessToken],
+    queryKey: ["events", accessToken, cacheId],
     queryFn: async ({ pageParam = 0 }) => {
       return await eventsApi.getEvents({
         offset: pageParam,
@@ -88,7 +90,7 @@ const useEvents = () => {
     },
   });
 
-  // When the query loads, set the conversations
+  // When the query loads, set the events
   useEffect(() => {
     if (query.data) {
       // Combine all the pages into one array

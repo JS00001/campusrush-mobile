@@ -15,7 +15,7 @@ export const eventsRegex = new RegExp(/<event:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9
 // prettier-ignore
 export const emailRegex = new RegExp(/^\S+@\S+$/);
 // prettier-ignore
-export const socialMediaRegex = new RegExp(/^(?<=^|[^\/])(@[A-Za-z0-9_.]{3,25})$/);
+export const socialMediaRegex = new RegExp(/^(?<=^|[^\/])(@?[A-Za-z0-9_.]{3,25})$/);
 
 export const phoneRegex = new RegExp(/^\+?1\d{10}$|^\d{10}$/);
 

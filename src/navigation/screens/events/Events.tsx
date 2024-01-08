@@ -46,7 +46,7 @@ const Events: React.FC<EventsProps> = () => {
     onOtherPress,
     setSearchQuery,
     onDeleteEvent,
-  } = useEventsList();
+  } = useEventsList("cache-1");
 
   const { handlePresentModalPress } = useBottomSheets();
 

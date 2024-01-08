@@ -26,7 +26,7 @@ import InfiniteHorizontaList from "@/components/InfiniteHorizontalList";
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   ({ setVisible, setEvent, animateMessageBox }: ExtensionPanelProps, ref) => {
     const [activeTab, setActiveTab] = useState(0);
-    const { events, isLoading, fetchNextPage } = useEventsList();
+    const { events, isLoading, fetchNextPage } = useEventsList("cache-2");
 
     const bottomSheetRef = useRef<BottomSheetModal>(null);
 

@@ -104,9 +104,11 @@ const useEventsStore = create<EventsState>()(
        * Deletes an event from the store if its id exists
        */
       deleteEvent: (event) =>
-        set((state) => ({
-          events: state.events.filter((e) => e._id !== event._id),
-        })),
+        set((state) => {
+          return {
+            events: state.events.filter((e) => e._id !== event._id),
+          };
+        }),
       /**
        * Resets the state to the default state
        */
