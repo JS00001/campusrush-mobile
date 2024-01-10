@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { useMemo } from "react";
 import { View } from "react-native";
 
 import BottomSheet from "./Components/BottomSheet";
@@ -41,11 +42,18 @@ const Pnm: React.FC<PnmProps> = ({
       children={(data) => {
         const pnmId = data?.data.pnmId;
 
-        const { pnm, ...actions } = usePnm(pnmId);
+        let { pnm, ...actions } = usePnm(pnmId);
+
+        // We need a cached version of the pnm to prevent the bottom sheet from
+        // crashing when the pnm is deleted (the pnm will be null or undefined)
+        const cachedPnm = useMemo(() => pnm, []);
+
+        // Set the pnm to the cached version ONLY if pnm is null or undefined
+        pnm = pnm || cachedPnm;
 
         const deletePnm = async () => {
+          await actions.delete();
           handleCloseModalPress();
-          actions.delete();
         };
 
         const onEditPress = () => {
