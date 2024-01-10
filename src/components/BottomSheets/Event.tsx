@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { useMemo } from "react";
 import { View } from "react-native";
 
 import BottomSheet from "./Components/BottomSheet";
@@ -47,13 +48,19 @@ const Event: React.FC<EventProps> = ({
         const eventId = data?.data.eventId;
 
         const { event: rawEvent, ...actions } = useEvent(eventId);
-        const event = formatEvent(rawEvent);
+
+        // We need a cached version of the event to prevent the bottom sheet from
+        // crashing when the event is deleted (the event will be null or undefined)
+        const cachedEvent = useMemo(() => rawEvent, []);
+
+        // Set the event to the cached version ONLY if event is null or undefined
+        const event = formatEvent(rawEvent || cachedEvent);
 
         const eventUrl = `${EVENT_URL}/${event._id}`;
 
         const deleteEvent = async () => {
+          await actions.delete();
           handleCloseModalPress();
-          actions.delete();
         };
 
         const onEditPress = () => {

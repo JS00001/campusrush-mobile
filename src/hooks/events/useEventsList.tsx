@@ -69,6 +69,7 @@ const useEvents = (cacheId?: string) => {
         offset: pageParam,
       });
     },
+    cacheTime: 0,
     getNextPageParam: (lastPage) => {
       const hasNextPage = lastPage.data.data.hasNextPage;
 
