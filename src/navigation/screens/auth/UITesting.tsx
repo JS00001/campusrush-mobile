@@ -23,13 +23,13 @@ interface UITestingProps {}
 // const UITesting: React.FC<UITestingProps> = () => {
 //   const form = useFormik({
 //     initialValues: {
-//       organization: "",
+//       chapter: "",
 //       school: "",
 //     },
 //     onSubmit: (values) => {},
 //   });
 
-const organizations = [
+const chapters = [
   "Acacia",
   "Alpha Chi Rho",
   "Alpha Chi Sigma",
@@ -56,10 +56,10 @@ const schools = [
 //   return (
 //     <Layout>
 //       <Autocomplete
-//         placeholder="Organization"
-//         options={organizations}
-//         value={form.values.organization}
-//         onChangeText={(text) => form.setFieldValue("organization", text)}
+//         placeholder="Chapter"
+//         options={chapters}
+//         value={form.values.chapter}
+//         onChangeText={(text) => form.setFieldValue("chapter", text)}
 //       ></Autocomplete>
 
 //       <Autocomplete
@@ -76,7 +76,7 @@ const schools = [
 const UITesting: React.FC<UITestingProps> = () => {
   const [selected, setSelected] = React.useState(0);
 
-  const [organization, setOrganization] = React.useState("");
+  const [chapter, setChapter] = React.useState("");
   const [school, setSchool] = React.useState("");
 
   return (
@@ -127,10 +127,10 @@ const UITesting: React.FC<UITestingProps> = () => {
         </View> */}
         <Dropdown
           searchable
-          placeholder="Organization"
-          options={organizations}
-          value={organization}
-          onValueChange={setOrganization}
+          placeholder="Chapter"
+          options={chapters}
+          value={chapter}
+          onValueChange={setChapter}
         />
         <Dropdown
           placeholder="School"

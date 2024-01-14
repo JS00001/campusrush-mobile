@@ -19,28 +19,28 @@ import validate from "@/lib/validation";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import validators from "@/lib/validation/validators";
-import organizationApi from "@/api/api/organization";
+import chapterApi from "@/api/api/chapter";
 
 const useSettings = () => {
-  const { organization, updateOrganization } = useAuth();
+  const { chapter, updateChapter } = useAuth();
 
-  // Create the mutation for updating the organization
+  // Create the mutation for updating the chapter
   const mutation = useMutation({
-    mutationFn: (input: UpdateOrganizationInput) => {
-      return organizationApi.updateOrganization(input);
+    mutationFn: (input: UpdateChapterInput) => {
+      return chapterApi.updateChapter(input);
     },
   });
 
   // The form to store TextInput data and its submission function
   const form = useFormik({
     initialValues: {
-      firstName: organization?.firstName || "",
-      lastName: organization?.lastName || "",
-      email: organization?.email || "",
+      firstName: chapter?.firstName || "",
+      lastName: chapter?.lastName || "",
+      email: chapter?.email || "",
       currentPassword: "",
       newPassword: "",
       confirmNewPassword: "",
-      linkSharingEnabled: organization?.linkSharingEnabled || false,
+      linkSharingEnabled: chapter?.linkSharingEnabled || false,
     },
     onSubmit: async (values) => {
       onSubmit(values);
@@ -53,7 +53,7 @@ const useSettings = () => {
     let response;
 
     try {
-      // Attempt to update the organization
+      // Attempt to update the chapter
       response = await mutation.mutateAsync(values);
     } catch (error) {
       errors.handleApiError(error, form);
@@ -61,12 +61,12 @@ const useSettings = () => {
     // If there was an error, prevent the "success" code from running
     if (!response) return;
 
-    // Get the updated organization from the response
-    let updatedOrganization = response?.data.data.organization;
+    // Get the updated chapter from the response
+    let updatedChapter = response?.data.data.chapter;
 
-    // Update the organization in the auth context
-    if (updatedOrganization) {
-      updateOrganization(updatedOrganization);
+    // Update the chapter in the auth context
+    if (updatedChapter) {
+      updateChapter(updatedChapter);
     }
 
     // Clear the password fields
@@ -77,8 +77,8 @@ const useSettings = () => {
     // Show a success message
     Toast.show({
       type: "success",
-      text1: Content.updateOrganizationSuccess.title,
-      text2: Content.updateOrganizationSuccess.message,
+      text1: Content.updateChapterSuccess.title,
+      text2: Content.updateChapterSuccess.message,
     });
   };
 

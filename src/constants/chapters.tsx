@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-const organizations = [
+const chapters = [
   "Acacia",
   "Alpha Chi Omega",
   "Alpha Chi Rho",
@@ -247,4 +247,4 @@ const organizations = [
   "Zeta Tau Alpha",
 ];
 
-export default organizations;
+export default chapters;

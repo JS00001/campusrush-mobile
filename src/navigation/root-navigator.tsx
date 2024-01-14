@@ -47,7 +47,7 @@ const RootNavigator = () => {
 
   const { isLoading: isPreferencesLoading } = usePreferences();
   const { isLoading: isEntitlementsLoading } = useEntitlements();
-  const { isLoading: isAuthLoading, organization, customerData } = useAuth();
+  const { isLoading: isAuthLoading, chapter, customerData } = useAuth();
 
   const shouldHideSplashScreen = () => {
     return (
@@ -81,16 +81,16 @@ const RootNavigator = () => {
   }, [isValidVersion, isVersioningLoading]);
 
   // If the user is loading, we can't render the app
-  if (isAuthLoading && lodash.isEmpty(organization)) return null;
+  if (isAuthLoading && lodash.isEmpty(chapter)) return null;
 
   // If the fonts are not loaded or the user is loading, we can't render the app
   if (!fontsLoaded || isAuthLoading) return null;
 
   // If the user is not logged in, we show the AuthStack
-  if (lodash.isEmpty(organization)) return <AuthStack />;
+  if (lodash.isEmpty(chapter)) return <AuthStack />;
 
   // If the user is not verified, we show the VerificationStack
-  if (!organization?.verified) return <VerificationStack />;
+  if (!chapter?.verified) return <VerificationStack />;
 
   // If the user has no active entitlements, we show the BillingStack
   if (lodash.isEmpty(customerData?.entitlements?.active))

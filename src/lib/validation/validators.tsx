@@ -18,9 +18,9 @@ import {
   verificationCodeRegex,
 } from "@/constants/regex";
 import schools from "@/constants/schools";
-import organizations from "@/constants/organizations";
+import chapters from "@/constants/chapters";
 
-const validateRegistration = (input: RegisterAsOrganizationInput) => {
+const validateRegistration = (input: RegisterAsChapterInput) => {
   const errors = {
     name: "",
     school: "",
@@ -32,7 +32,7 @@ const validateRegistration = (input: RegisterAsOrganizationInput) => {
   };
 
   if (!input.name) {
-    errors.name = "Organization is required";
+    errors.name = "Chapter is required";
   }
 
   if (!input.school) {
@@ -84,9 +84,9 @@ const validateRegistration = (input: RegisterAsOrganizationInput) => {
     if (!errors.lastName) errors.lastName = "Invalid last name";
   }
 
-  // Validate organization name is a valid organization name
-  if (!organizations.includes(input.name)) {
-    if (!errors.name) errors.name = "Invalid organization";
+  // Validate chapter name is a valid chapter name
+  if (!chapters.includes(input.name)) {
+    if (!errors.name) errors.name = "Invalid chapter";
   }
 
   // Validate school name is a valid school name
@@ -99,13 +99,13 @@ const validateRegistration = (input: RegisterAsOrganizationInput) => {
   const allErrors = Object.values(errors).filter((error) => error !== "");
 
   if (allErrors.length === 0) {
-    return {} as RegisterAsOrganizationInput;
+    return {} as RegisterAsChapterInput;
   }
 
   return errors;
 };
 
-const validateLogin = (input: LoginAsOrganizationInput) => {
+const validateLogin = (input: LoginAsChapterInput) => {
   const errors = {
     email: "",
     password: "",
@@ -128,13 +128,13 @@ const validateLogin = (input: LoginAsOrganizationInput) => {
   const allErrors = Object.values(errors).filter((error) => error !== "");
 
   if (allErrors.length === 0) {
-    return {} as LoginAsOrganizationInput;
+    return {} as LoginAsChapterInput;
   }
 
   return errors;
 };
 
-const validateSettings = (input: UpdateOrganizationInput) => {
+const validateSettings = (input: UpdateChapterInput) => {
   const errors = {
     firstName: "",
     lastName: "",
@@ -185,7 +185,7 @@ const validateSettings = (input: UpdateOrganizationInput) => {
   const allErrors = Object.values(errors).filter((error) => error !== "");
 
   if (allErrors.length === 0) {
-    return {} as UpdateOrganizationInput;
+    return {} as UpdateChapterInput;
   }
 
   return errors;
@@ -286,7 +286,7 @@ const validateUpdatePnm = (input: UpdatePnmInput) => {
   return errors;
 };
 
-const validateVerifyOrganization = (input: VerifyOrganizationInput) => {
+const validateVerifyChapter = (input: VerifyChapterInput) => {
   const errors = {
     code: "",
   };
@@ -304,7 +304,7 @@ const validateVerifyOrganization = (input: VerifyOrganizationInput) => {
   const allErrors = Object.values(errors).filter((error) => error !== "");
 
   if (allErrors.length === 0) {
-    return {} as VerifyOrganizationInput;
+    return {} as VerifyChapterInput;
   }
 
   return errors;
@@ -369,5 +369,5 @@ export default {
   validateCreatePnm,
   validateUpdatePnm,
   validateCreateEvent,
-  validateVerifyOrganization,
+  validateVerifyChapter,
 };

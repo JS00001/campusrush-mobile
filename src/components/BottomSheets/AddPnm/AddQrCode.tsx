@@ -27,9 +27,9 @@ interface AddQrCodeScreenProps {
 }
 
 const AddQrCodeStep: React.FC<AddQrCodeScreenProps> = ({}) => {
-  const { organization } = useAuth();
+  const { chapter } = useAuth();
 
-  const linkSharingCode = `${SHARING_URL}/${organization.linkSharingCode}`;
+  const linkSharingCode = `${SHARING_URL}/${chapter.linkSharingCode}`;
 
   return (
     <>

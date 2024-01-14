@@ -45,7 +45,7 @@ const UpdateNotifications = () => {
         loading={isLoading}
         selected={notificationsEnabled}
         title="Enable Notifications"
-        description="You will receive push notifications for various events to better help your organization succeed."
+        description="You will receive push notifications for various events to better help your chapter succeed."
         subtitle={enableNotificationsSubtitle}
         onPress={onNotificationsEnable}
       />

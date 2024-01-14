@@ -14,35 +14,34 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
 import useAdmin from "@/hooks/useAdmin";
-import AdminOrganizationList from "@/components/AdminOrganizationList";
+import AdminChapterList from "@/components/AdminChapterList";
 
-interface OrganizationsProps {
+interface ChaptersProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
-const Organizations: React.FC<OrganizationsProps> = ({ navigation }) => {
-  const { organizations, refetchOrganizations, getOrganizationsQuery } =
-    useAdmin();
+const Chapters: React.FC<ChaptersProps> = ({ navigation }) => {
+  const { chapters, refetchChapters, getChaptersQuery } = useAdmin();
 
   const onRefresh = async () => {
-    await refetchOrganizations();
+    await refetchChapters();
   };
 
   return (
     <Layout gap={12}>
       <Layout.Header
         hasBackButton
-        title="Organizations"
-        subtitle="View all registered organizations"
+        title="Chapters"
+        subtitle="View all registered chapters"
       />
 
-      <AdminOrganizationList
-        loading={getOrganizationsQuery.isLoading}
-        organizations={organizations}
-        refetchOrganizations={onRefresh}
+      <AdminChapterList
+        loading={getChaptersQuery.isLoading}
+        chapters={chapters}
+        refetchChapters={onRefresh}
       />
     </Layout>
   );
 };
 
-export default Organizations;
+export default Chapters;

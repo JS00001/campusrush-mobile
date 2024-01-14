@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
 import useStatisticsStore from "@/state/statistics";
-import organizationApi from "@/api/api/organization";
+import chapterApi from "@/api/api/chapter";
 
 const useStatistics = () => {
   // Get access token so that we can cache the query
@@ -32,12 +32,12 @@ const useStatistics = () => {
     setNumStarredPnms,
   } = useStatisticsStore();
 
-  // Create a query to get the organization statistics
+  // Create a query to get the chapter statistics
   const query = useQuery({
     // Use access token as the query key so response is cached on a per-user basis
     queryKey: ["statistics", accessToken],
     queryFn: async () => {
-      return organizationApi.getOrganizationStatistics();
+      return chapterApi.getChapterStatistics();
     },
   });
 

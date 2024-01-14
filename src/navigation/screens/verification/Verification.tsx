@@ -32,7 +32,7 @@ const Verification = () => {
     resendVerificationEmail,
   } = useVerification();
 
-  const { organization, signOut } = useAuth();
+  const { chapter, signOut } = useAuth();
 
   // Handle the submission of the form
   const onSubmit = () => {
@@ -48,7 +48,7 @@ const Verification = () => {
     <Layout scrollable gap={18}>
       <Layout.Header
         title="Verification"
-        subtitle={`We have sent a verification code sent to ${organization?.email}. Enter it below.`}
+        subtitle={`We have sent a verification code sent to ${chapter?.email}. Enter it below.`}
       />
       <TextInput
         error={errors.code}

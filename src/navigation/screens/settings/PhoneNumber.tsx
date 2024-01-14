@@ -31,7 +31,7 @@ import { useAuth } from "@/providers/Auth";
 import { formatPhoneNumber } from "@/lib/util/string";
 
 const PhoneNumber = () => {
-  const { organization } = useAuth();
+  const { chapter } = useAuth();
 
   return (
     <Layout gap={16} scrollable contentContainerStyle={tw`items-start pb-6`}>
@@ -51,10 +51,10 @@ const PhoneNumber = () => {
 
       <CopyItem
         label="Phone Number"
-        value={formatPhoneNumber(organization?.phoneNumber)}
+        value={formatPhoneNumber(chapter?.phoneNumber)}
       />
 
-      <CopyItem label="Phone Number ID" value={organization?.phoneNumberId} />
+      <CopyItem label="Phone Number ID" value={chapter?.phoneNumberId} />
     </Layout>
   );
 };

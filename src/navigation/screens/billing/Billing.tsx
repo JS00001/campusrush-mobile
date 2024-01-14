@@ -33,7 +33,7 @@ const Billing = () => {
     restorePurchases,
   } = usePurchase();
 
-  const { organization, signOut } = useAuth();
+  const { chapter, signOut } = useAuth();
 
   const onButtonPress = () => {
     completePurchase();
@@ -64,8 +64,7 @@ const Billing = () => {
 
       <View style={tw`justify-center -mt-2 items-center`}>
         <Text style={tw`text-center`}>
-          You are currently signed in as {organization?.email}. Wrong
-          account?&nbsp;
+          You are currently signed in as {chapter?.email}. Wrong account?&nbsp;
         </Text>
 
         <View style={tw`justify-center items-center`}>

@@ -55,7 +55,7 @@ const usePnms = () => {
     PNMFilter.NoFilter,
   );
 
-  // Create a query to get the organization statistics
+  // Create a query to get the chapter statistics
   const query = useQuery({
     queryKey: ["listPnms", accessToken],
     queryFn: async () => {

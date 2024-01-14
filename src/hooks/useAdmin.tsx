@@ -16,7 +16,7 @@ import adminApi from "@/api/api/admin";
 import { useAuth } from "@/providers/Auth";
 
 const useAdmin = () => {
-  const { organization, updateOrganization, accessToken } = useAuth();
+  const { chapter, updateChapter, accessToken } = useAuth();
 
   const getStatisticsQuery = useQuery({
     queryKey: ["getAdminStatistics", accessToken],
@@ -25,94 +25,93 @@ const useAdmin = () => {
     },
   });
 
-  const getOrganizationsQuery = useQuery({
-    queryKey: ["getAdminOrganizations", accessToken],
+  const getChaptersQuery = useQuery({
+    queryKey: ["getAdminChapters", accessToken],
     queryFn: () => {
-      return adminApi.getOrganizations();
+      return adminApi.getChapters();
     },
   });
 
-  const upgradeOrganizationMutation = useMutation({
-    mutationFn: (input: UpgradeOrganizationInput) => {
-      return adminApi.upgradeOrganization(input);
+  const upgradeChapterMutation = useMutation({
+    mutationFn: (input: UpgradeChapterInput) => {
+      return adminApi.upgradeChapter(input);
     },
   });
 
-  const downgradeOrganizationMutation = useMutation({
-    mutationFn: (input: DowngradeOrganizationInput) => {
-      return adminApi.downgradeOrganization(input);
+  const downgradeChapterMutation = useMutation({
+    mutationFn: (input: DowngradeChapterInput) => {
+      return adminApi.downgradeChapter(input);
     },
   });
 
   /**
-   * Give an organization a basic subscription (lifetime)
-   * If no id is provided, the current organization is used (admin only)
+   * Give an chapter a basic subscription (lifetime)
+   * If no id is provided, the current chapter is used (admin only)
    */
   const forceBasicSubscription = async (id?: string) => {
-    const response = await upgradeOrganizationMutation.mutateAsync({
-      id: id || organization?._id,
+    const response = await upgradeChapterMutation.mutateAsync({
+      id: id || chapter?._id,
       entitlements: ["basic"],
     });
 
-    const updatedOrganization = response.data?.data.organization;
+    const updatedChapter = response.data?.data.chapter;
 
-    if (updatedOrganization) {
-      updateOrganization(updatedOrganization);
+    if (updatedChapter) {
+      updateChapter(updatedChapter);
     }
   };
 
   /**
-   * Give an organization a pro subscription (monthly)
-   * If no id is provided, the current organization is used (admin only)
+   * Give an chapter a pro subscription (monthly)
+   * If no id is provided, the current chapter is used (admin only)
    */
   const forceProSubscription = async (id?: string) => {
-    const response = await upgradeOrganizationMutation.mutateAsync({
-      id: id || organization?._id,
+    const response = await upgradeChapterMutation.mutateAsync({
+      id: id || chapter?._id,
       entitlements: ["pro"],
     });
 
-    const updatedOrganization = response.data?.data.organization;
+    const updatedChapter = response.data?.data.chapter;
 
-    if (updatedOrganization) {
-      updateOrganization(updatedOrganization);
+    if (updatedChapter) {
+      updateChapter(updatedChapter);
     }
   };
 
   /**
-   * Give an organization a pro subscription (monthly)
-   * If no id is provided, the current organization is used (admin only)
+   * Give an chapter a pro subscription (monthly)
+   * If no id is provided, the current chapter is used (admin only)
    */
   const clearSubscription = async (id?: string) => {
-    const response = await downgradeOrganizationMutation.mutateAsync({
-      id: id || organization?._id,
+    const response = await downgradeChapterMutation.mutateAsync({
+      id: id || chapter?._id,
     });
 
-    const updatedOrganization = response.data?.data.organization;
+    const updatedChapter = response.data?.data.chapter;
 
-    if (updatedOrganization) {
-      updateOrganization(updatedOrganization);
+    if (updatedChapter) {
+      updateChapter(updatedChapter);
     }
   };
 
   // Structure data to be more usable
-  const organizations =
-    getOrganizationsQuery.data?.data?.data.organizations || [];
+  const chapters = getChaptersQuery.data?.data?.data.chapters || [];
 
   // Structure data to be more usable
   const statistics = {
-    numOrganizations: getStatisticsQuery.data?.data?.data.numOrganizations || 0,
-    numPayingOrganizations:
-      getStatisticsQuery.data?.data?.data.numPayingOrganizations || 0,
+    numChapters: getStatisticsQuery.data?.data?.data.numChapters || 0,
+    numPayingChapters:
+      getStatisticsQuery.data?.data?.data.numPayingChapters || 0,
   };
 
   return {
-    refetchOrganizations: getOrganizationsQuery.refetch,
-    organizations,
+    refetchChapters: getChaptersQuery.refetch,
+    chapters,
     statistics,
     getStatisticsQuery,
-    getOrganizationsQuery,
-    upgradeOrganizationMutation,
-    downgradeOrganizationMutation,
+    getChaptersQuery,
+    upgradeChapterMutation,
+    downgradeChapterMutation,
     forceBasicSubscription,
     forceProSubscription,
     clearSubscription,

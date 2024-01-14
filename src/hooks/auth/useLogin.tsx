@@ -24,8 +24,8 @@ const useLogin = () => {
   const posthog = usePosthog();
 
   const mutation = useMutation({
-    mutationFn: (input: LoginAsOrganizationInput) => {
-      return authAPI.loginAsOrganization(input);
+    mutationFn: (input: LoginAsChapterInput) => {
+      return authAPI.loginAsChapter(input);
     },
   });
 
@@ -37,7 +37,7 @@ const useLogin = () => {
     validateOnBlur: false,
     validateOnChange: false,
     validate: validators.validateLogin,
-    onSubmit: async (values: LoginAsOrganizationInput) => {
+    onSubmit: async (values: LoginAsChapterInput) => {
       onSubmit(values);
     },
   });
@@ -48,7 +48,7 @@ const useLogin = () => {
     let response;
 
     try {
-      // Attempt to login the organization
+      // Attempt to login the chapter
       response = await mutation.mutateAsync(values);
     } catch (error) {
       errors.handleApiError(error, form);

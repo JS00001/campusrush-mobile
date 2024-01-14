@@ -17,7 +17,7 @@ import AdminNetwork from "@/navigation/screens/admin/Network";
 import AdminBillingScreen from "@/navigation/screens/admin/Billing";
 import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
 import AdminStatisticsScreen from "@/navigation/screens/admin/Statistics";
-import AdminOrganizationsScreen from "@/navigation/screens/admin/Organizations";
+import AdminChaptersScreen from "@/navigation/screens/admin/Chapters";
 
 import PNMsScreen from "@/navigation/screens/pnms/Pnms";
 
@@ -42,9 +42,9 @@ import PhoneNumber from "@/navigation/screens/settings/PhoneNumber";
 import LinkSharingScreen from "@/navigation/screens/settings/LinkSharing";
 import UpdateBillingScreen from "@/navigation/screens/settings/UpdateBilling";
 import UpdateNotificationsScreen from "@/navigation/screens/settings/UpdateNotifications";
-import UpdateGeneralScreen from "@/navigation/screens/settings/organization/UpdateGeneral";
-import UpdateSecurityScreen from "@/navigation/screens/settings/organization/UpdateSecurity";
-import UpdateOrganizationScreen from "@/navigation/screens/settings/organization/UpdateOrganization";
+import UpdateGeneralScreen from "@/navigation/screens/settings/chapter/UpdateGeneral";
+import UpdateSecurityScreen from "@/navigation/screens/settings/chapter/UpdateSecurity";
+import UpdateChapterScreen from "@/navigation/screens/settings/chapter/UpdateChapter";
 
 import EventsScreen from "@/navigation/screens/events/Events";
 
@@ -166,8 +166,8 @@ export const HomeStack = () => {
         component={UpdateBillingScreen}
       />
       <Stack.Screen
-        name="UpdateOrganization"
-        component={UpdateOrganizationScreen}
+        name="UpdateChapter"
+        component={UpdateChapterScreen}
       />
       <Stack.Screen
         name="UpdateGeneral"
@@ -271,8 +271,8 @@ export const AdminStack = () => {
         component={AdminStatisticsScreen}
       />
       <Stack.Screen
-        name="AdminOrganizations"
-        component={AdminOrganizationsScreen}
+        name="AdminChapters"
+        component={AdminChaptersScreen}
       />
       <Stack.Screen
         name="AdminUITesting"

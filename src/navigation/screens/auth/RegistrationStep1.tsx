@@ -17,7 +17,7 @@ import Button from "@/ui/Button";
 import Dropdown from "@/ui/Dropdown";
 import schools from "@/constants/schools";
 import usePosthog from "@/hooks/usePosthog";
-import organizations from "@/constants/organizations";
+import chapters from "@/constants/chapters";
 import useRegistration from "@/hooks/auth/useRegistration";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
@@ -40,7 +40,7 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
     // Capture the event in analytics
     posthog.capture("complete_registration_step_1", {
       school,
-      organization: name,
+      chapter: name,
     });
 
     // Navigate to the next screen if the fields are valid
@@ -52,7 +52,7 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
       <Layout.Header
         hasBackButton
         title="Register"
-        subtitle="Please provide your organizations information"
+        subtitle="Please provide your chapters information"
       />
       <Dropdown
         searchable
@@ -65,8 +65,8 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
 
       <Dropdown
         searchable
-        placeholder="Organization Name"
-        options={organizations}
+        placeholder="Chapter Name"
+        options={chapters}
         value={name}
         onValueChange={setField.bind(null, "name")}
         error={errors.name}

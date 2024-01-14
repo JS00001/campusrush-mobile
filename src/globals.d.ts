@@ -10,30 +10,30 @@
  * Do not distribute
  */
 
-interface Organization {
+interface Chapter {
   _id: string;
   // IDENTIFYING INFORMATION
-  // Organizations name (IE: Alpha Phi)
+  // Chapters name (IE: Alpha Phi)
   name: string;
-  // Organization owner first name
+  // Chapter owner first name
   firstName: string;
-  // Organization owner last name
+  // Chapter owner last name
   lastName: string;
-  // Organization owner email
+  // Chapter owner email
   email: string;
-  // Organizations school (IE: University of Texas at Austin)
+  // Chapters school (IE: University of Texas at Austin)
   school: string;
-  // Whether the organizations email has been verified
+  // Whether the chapters email has been verified
   verified: boolean;
-  // All PNMs associated with the organization
+  // All PNMs associated with the chapter
   pnms: PNM[];
 
   // AUTHENTICATION
-  // The role of the organization (admin is equal to system admin/developer)
+  // The role of the chapter (admin is equal to system admin/developer)
   role: 'user' | 'admin';
 
   // MESSAGING
-  // The phone number associated with the organization
+  // The phone number associated with the chapter
   phoneNumber: string;
   // The phone numbers id
   phoneNumberId: string;
@@ -41,30 +41,30 @@ interface Organization {
   phoneNumberCreatedAt: Date;
 
   // BILLING
-  // The revenuecat customer id, randomly generated when the organization is created
+  // The revenuecat customer id, randomly generated when the chapter is created
   customerId: string;
-  // The revenuecat entitlements associated with the organization (basic, pro)
+  // The revenuecat entitlements associated with the chapter (basic, pro)
   entitlements: string[];
 
   // NOTIFICATIONS
-  // The expo push tokens associated with the organization
+  // The expo push tokens associated with the chapter
   notificationsEnabled: boolean;
 
   // LINK SHARING
-  // Whether the organization has link sharing enabled
+  // Whether the chapter has link sharing enabled
   linkSharingEnabled: boolean;
   // The link sharing code
   linkSharingCode: string;
 
-  // When the organization was created
+  // When the chapter was created
   createdAt: Date;
-  // When the organization was last updated
+  // When the chapter was last updated
   updatedAt: Date;
 }
 interface PNM {
   _id: string;
-  // Organization information
-  organization: string;
+  // Chapter information
+  chapter: string;
   // Identifying information
   firstName: string;
   lastName: string;
@@ -88,11 +88,11 @@ interface APIError {
 
 interface Message {
   _id?: string;
-  // The organization that sent or received the message
-  organization: string;
+  // The chapter that sent or received the message
+  chapter: string;
   // The PNM that sent or received the message
   pnm: string;
-  // Whether the message was sent or received by the organization
+  // Whether the message was sent or received by the chapter
   sent: boolean;
   // The message content
   content: string;
@@ -113,8 +113,8 @@ interface TimestampedMessage extends Message {
 
 interface Conversation {
   _id?: string;
-  // The organization that sent or received the message
-  organization: string;
+  // The chapter that sent or received the message
+  chapter: string;
   // The PNM that sent or received the message
   pnm: {
     // The PNM's id
@@ -140,8 +140,8 @@ interface Conversation {
 
 interface Event {
   _id: string;
-  // The organization that created the event
-  organization: string;
+  // The chapter that created the event
+  chapter: string;
   // The title of the event
   title: string;
   // The description of the event

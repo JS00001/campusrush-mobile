@@ -34,8 +34,8 @@ const useRegistration = () => {
   });
 
   const registerMutation = useMutation({
-    mutationFn: (input: RegisterAsOrganizationInput) => {
-      return authApi.registerAsOrganization(input);
+    mutationFn: (input: RegisterAsChapterInput) => {
+      return authApi.registerAsChapter(input);
     },
   });
 
@@ -98,7 +98,7 @@ const useRegistration = () => {
     let response;
 
     try {
-      // Attempt to login the organization
+      // Attempt to login the chapter
       response = await registerMutation.mutateAsync(values);
     } catch (error) {
       errors.handleApiError(error, form);

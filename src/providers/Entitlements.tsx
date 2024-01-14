@@ -27,7 +27,7 @@ const EntitlementsContext = createContext<EntitlementsContextProps>({
 const EntitlementsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  // Create a query to get the organization statistics
+  // Create a query to get the chapter statistics
   const query = useQuery({
     // The query is unauthorized and always the same so we dont need to use an access token
     queryKey: ["entitlements"],

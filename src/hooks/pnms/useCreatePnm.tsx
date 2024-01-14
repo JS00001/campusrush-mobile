@@ -72,7 +72,7 @@ const useCreatePnm = (): UseCreatePnm => {
     let response;
 
     try {
-      // Attempt to update the organization
+      // Attempt to update the chapter
       response = await mutation.mutateAsync(values);
     } catch (error) {
       form.resetForm();

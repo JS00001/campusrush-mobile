@@ -35,7 +35,7 @@ export const Tab = createBottomTabNavigator();
  * and contains five independent stack navigators
  */
 export const TabNavigator = () => {
-  const { organization } = useAuth();
+  const { chapter } = useAuth();
   const { handlePresentModalPress } = useBottomSheets();
 
   const hasUnreadConversation = useConversationsStore(
@@ -176,7 +176,7 @@ export const TabNavigator = () => {
         }}
       />
 
-      {organization.role == "admin" && (
+      {chapter.role == "admin" && (
         <Tab.Screen
           name="AdminTab"
           component={AdminStack}
