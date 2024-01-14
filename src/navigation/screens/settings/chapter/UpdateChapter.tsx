@@ -17,14 +17,12 @@ import ActionCard from "@/ui/ActionCard";
 import TextInput from "@/ui/TextInput";
 import { useAuth } from "@/providers/Auth";
 
-interface UpdateOrganizationProps {
+interface UpdateChapterProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
-const UpdateOrganization: React.FC<UpdateOrganizationProps> = ({
-  navigation,
-}) => {
-  const { organization } = useAuth();
+const UpdateChapter: React.FC<UpdateChapterProps> = ({ navigation }) => {
+  const { chapter } = useAuth();
 
   const onGeneralPress = () => {
     navigation.navigate("UpdateGeneral");
@@ -38,19 +36,19 @@ const UpdateOrganization: React.FC<UpdateOrganizationProps> = ({
     <Layout scrollable>
       <Layout.Header
         hasBackButton
-        title="Organization"
-        subtitle="Manage your organization"
+        title="Chapter"
+        subtitle="Manage your chapter"
       />
 
       <TextInput
         disabled
-        placeholder="Organization Name"
-        value={organization.name || "N/A"}
+        placeholder="Chapter Name"
+        value={chapter.name || "N/A"}
       />
       <TextInput
         disabled
         placeholder="School"
-        value={organization.school || "N/A"}
+        value={chapter.school || "N/A"}
       />
 
       <ActionCard
@@ -70,4 +68,4 @@ const UpdateOrganization: React.FC<UpdateOrganizationProps> = ({
   );
 };
 
-export default UpdateOrganization;
+export default UpdateChapter;

@@ -37,7 +37,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
   const snapPoints = useMemo(() => ["90%"], []);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Create a query to get the organization statistics
+  // Create a query to get the chapter statistics
   const query = useQuery({
     queryKey: ["TermsAndConditions"],
     enabled: isModalOpen,

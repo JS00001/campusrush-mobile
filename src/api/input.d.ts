@@ -10,12 +10,12 @@
  * Do not distribute
  */
 
-interface LoginAsOrganizationInput {
+interface LoginAsChapterInput {
   email: string;
   password: string;
 }
 
-interface RegisterAsOrganizationInput {
+interface RegisterAsChapterInput {
   name: string;
   school: string;
   firstName: string;
@@ -25,16 +25,16 @@ interface RegisterAsOrganizationInput {
   confirmPassword: string;
 }
 
-interface CheckOrganizationExistsInput {
+interface CheckChapterExistsInput {
   school: string;
-  organization: string;
+  chapter: string;
 }
 
 interface CheckEmailExistsInput {
   email: string;
 }
 
-interface VerifyOrganizationInput {
+interface VerifyChapterInput {
   accessToken?: string;
   code: string;
 }
@@ -43,7 +43,7 @@ interface ResendVerificationInput {
   accessToken?: string;
 }
 
-interface GetOrganizationInput {
+interface GetChapterInput {
   accessToken?: string;
 }
 
@@ -55,7 +55,7 @@ interface LogoutInput {
   accessToken: string;
 }
 
-interface UpdateOrganizationInput {
+interface UpdateChapterInput {
   firstName?: string;
   lastName?: string;
   email?: string;
@@ -66,16 +66,16 @@ interface UpdateOrganizationInput {
   notificationsEnabled?: boolean;
 }
 
-interface GetAdminOrganizationInput {
+interface GetAdminChapterInput {
   id: string;
 }
 
-interface UpgradeOrganizationInput {
+interface UpgradeChapterInput {
   id: string;
   entitlements: string[];
 }
 
-interface DowngradeOrganizationInput {
+interface DowngradeChapterInput {
   id: string;
 }
 

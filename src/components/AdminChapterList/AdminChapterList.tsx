@@ -20,42 +20,42 @@ import ListItem from "@/ui/ListItem";
 import Copyable from "@/ui/Copyable";
 import { formatPhoneNumber } from "@/lib/util/string";
 
-interface AdminOrganizationListProps {
-  organizations: Organization[];
+interface AdminChapterListProps {
+  chapters: Chapter[];
   loading?: boolean;
-  refetchOrganizations?: () => Promise<void>;
+  refetchChapters?: () => Promise<void>;
 }
 
-const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
-  organizations,
+const AdminChapterList: React.FC<AdminChapterListProps> = ({
+  chapters,
   loading,
-  refetchOrganizations,
+  refetchChapters,
 }) => {
   const [refreshing, setRefreshing] = useState(false);
 
-  // When organizations change, create a new list like this
+  // When chapters change, create a new list like this
   const data = useMemo(() => {
-    // Reduce the organizations to an object with keys of the first letter of the name
-    const reduction = organizations.reduce(
-      (acc, organization) => {
-        // Check if the organization has an entitlements array
-        if (organization.entitlements.length > 0) {
-          // If yes, add it to the "Paying Organizations" data array
-          (acc.paying.data as any).push(organization);
+    // Reduce the chapters to an object with keys of the first letter of the name
+    const reduction = chapters.reduce(
+      (acc, chapter) => {
+        // Check if the chapter has an entitlements array
+        if (chapter.entitlements.length > 0) {
+          // If yes, add it to the "Paying Chapters" data array
+          (acc.paying.data as any).push(chapter);
         } else {
-          // Otherwise, add it to the "Non-Paying Organizations" data array
-          (acc.nonPaying.data as any).push(organization);
+          // Otherwise, add it to the "Non-Paying Chapters" data array
+          (acc.nonPaying.data as any).push(chapter);
         }
         return acc;
       },
       {
         // Initialize the reduction object with two categories
         paying: {
-          title: "Subscribed Organizations",
+          title: "Subscribed Chapters",
           data: [],
         },
         nonPaying: {
-          title: "Non-Subscribed Organizations",
+          title: "Non-Subscribed Chapters",
           data: [],
         },
       },
@@ -66,41 +66,41 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
       (section) => section.data.length > 0,
     );
 
-    // Update the titles to include the number of organizations in each category
+    // Update the titles to include the number of chapters in each category
     filtered.forEach((section) => {
       section.title = `${section.title} (${section.data.length})`;
     });
 
     return filtered;
-  }, [organizations]);
+  }, [chapters]);
 
   // The components for each item in teh section list
-  const ItemComponent = ({ item: organization }: { item: Organization }) => {
+  const ItemComponent = ({ item: chapter }: { item: Chapter }) => {
     const subtitle = [
       ``,
-      `School: ${organization.school}`,
-      `Email: ${organization.email}`,
-      `Num Pnms: ${organization.pnms.length}`,
-      `Verified: ${organization.verified}`,
-      `Entitlements: ${organization.entitlements.join(", ") || "None"}`,
-      `Notifications Enabled: ${organization.notificationsEnabled}`,
+      `School: ${chapter.school}`,
+      `Email: ${chapter.email}`,
+      `Num Pnms: ${chapter.pnms.length}`,
+      `Verified: ${chapter.verified}`,
+      `Entitlements: ${chapter.entitlements.join(", ") || "None"}`,
+      `Notifications Enabled: ${chapter.notificationsEnabled}`,
       ``,
-      `Created On: ${date.toString(organization.createdAt)}`,
-      `Updated On: ${date.toString(organization.updatedAt)}`,
+      `Created On: ${date.toString(chapter.createdAt)}`,
+      `Updated On: ${date.toString(chapter.updatedAt)}`,
       ``,
-      `Phone Number: ${formatPhoneNumber(organization.phoneNumber) || "None"}`,
-      `Phone Number ID: ${organization.phoneNumberId || "None"}`,
+      `Phone Number: ${formatPhoneNumber(chapter.phoneNumber) || "None"}`,
+      `Phone Number ID: ${chapter.phoneNumberId || "None"}`,
       `Phone Number Created On: ${
-        date.toString(organization.phoneNumberCreatedAt) || "None"
+        date.toString(chapter.phoneNumberCreatedAt) || "None"
       }`,
     ].join("\n");
 
     return (
-      <Copyable title="Copy Organization ID" copyText={organization._id}>
+      <Copyable title="Copy Chapter ID" copyText={chapter._id}>
         <ListItem
           pressable={false}
-          key={organization._id}
-          title={`${organization.name} at ${organization.school}`}
+          key={chapter._id}
+          title={`${chapter.name} at ${chapter.school}`}
           subtitle={subtitle}
         />
       </Copyable>
@@ -118,9 +118,9 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
       return (
         <>
           <Text variant="title" style={tw`text-center mt-16`}>
-            No Organizations found
+            No Chapters found
           </Text>
-          <Text>This will update when organizations sign up</Text>
+          <Text>This will update when chapters sign up</Text>
         </>
       );
     }
@@ -140,11 +140,11 @@ const AdminOrganizationList: React.FC<AdminOrganizationListProps> = ({
       refreshing={refreshing}
       onRefresh={async () => {
         setRefreshing(true);
-        await refetchOrganizations?.();
+        await refetchChapters?.();
         setRefreshing(false);
       }}
     />
   );
 };
 
-export default AdminOrganizationList;
+export default AdminChapterList;

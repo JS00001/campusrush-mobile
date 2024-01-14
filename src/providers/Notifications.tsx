@@ -16,7 +16,7 @@ import * as RNNotifications from "expo-notifications";
 import { createContext, useContext, useEffect } from "react";
 
 import { useAuth } from "@/providers/Auth";
-import organizationApi from "@/api/api/organization";
+import chapterApi from "@/api/api/chapter";
 
 interface NotificationsContextProps {
   isLoading: boolean;
@@ -43,10 +43,10 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
   // Import data from auth provider
-  const { organization, updateOrganization, accessToken } = useAuth();
+  const { chapter, updateChapter, accessToken } = useAuth();
 
-  // Get the notification status from the organization
-  const notificationsEnabled = organization?.notificationsEnabled || false;
+  // Get the notification status from the chapter
+  const notificationsEnabled = chapter?.notificationsEnabled || false;
 
   // The message to display in the selection card
   const enableNotificationsSubtitle = notificationsEnabled
@@ -57,12 +57,12 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     ? "Currently Selected"
     : "Click to disable notifications";
 
-  // The mutation to update the organization
+  // The mutation to update the chapter
   // We will pass either the notificationPushToken or notificationsEnabled
   // depending on the function called
   const mutation = useMutation({
-    mutationFn: (input: UpdateOrganizationInput) => {
-      return organizationApi.updateOrganization(input);
+    mutationFn: (input: UpdateChapterInput) => {
+      return chapterApi.updateChapter(input);
     },
   });
 
@@ -72,7 +72,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     // Declare an async function to check the notification status
     const notificationStatus = async () => {
       // If there is no logged in user, return
-      if (lodash.isEmpty(organization)) return;
+      if (lodash.isEmpty(chapter)) return;
 
       // Check if we have permission to send notifications
       const hasPermission = await hasNotificationPermission();
@@ -122,7 +122,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   // Sets the user's notification token in the server
   const setNotificationPushToken = async () => {
     // If there is no logged in user, return
-    if (lodash.isEmpty(organization)) return;
+    if (lodash.isEmpty(chapter)) return;
 
     // Generate the notification token, we pass the project id
     // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
@@ -142,7 +142,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   // Sets the user's notification status in the server to either true or false
   const setNotificationsEnabled = async (value: boolean) => {
     // If there is no logged in user, return
-    if (lodash.isEmpty(organization)) return;
+    if (lodash.isEmpty(chapter)) return;
 
     // Check if we have permission to send notifications
     const hasPermission = await hasNotificationPermission();
@@ -184,9 +184,9 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
       },
       {
         onSuccess: ({ data }) => {
-          // Update the organization with the new notificationsEnabled
+          // Update the chapter with the new notificationsEnabled
           // from the server
-          updateOrganization(data.data.organization);
+          updateChapter(data.data.chapter);
         },
       },
     );

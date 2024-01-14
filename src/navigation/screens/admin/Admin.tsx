@@ -28,8 +28,8 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
     navigation.navigate("AdminStatistics");
   };
 
-  const onOrganizationsPress = () => {
-    navigation.navigate("AdminOrganizations");
+  const onChaptersPress = () => {
+    navigation.navigate("AdminChapters");
   };
 
   const onBillingPress = () => {
@@ -56,15 +56,15 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
       />
 
       <ActionCard
-        title="View Organizations"
-        subtitle="List all registered organizations"
+        title="View Chapters"
+        subtitle="List all registered chapters"
         icon="ri-group-fill"
-        onPress={onOrganizationsPress}
+        onPress={onChaptersPress}
       />
 
       <ActionCard
-        title="Update Organization Billing"
-        subtitle="Update an organization's billing"
+        title="Update Chapter Billing"
+        subtitle="Update an chapter's billing"
         icon="ri-bank-card-2-fill"
         onPress={onBillingPress}
       />

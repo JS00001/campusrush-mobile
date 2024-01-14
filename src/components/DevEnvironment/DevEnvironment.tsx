@@ -34,7 +34,7 @@ import { useWebsocket } from "@/providers/Websocket";
 const DevEnvironment: React.FC = ({}) => {
   const { updatePreferences } = usePreferences();
   // Use data from auth provider
-  const { signOut, organization, customerData } = useAuth();
+  const { signOut, chapter, customerData } = useAuth();
   // The active index of the segmented control
   const [activeIndex, setActiveIndex] = useState<number>(0);
   // Ref to the bottom sheet modal so we can programmatically open it
@@ -186,19 +186,19 @@ const DevEnvironment: React.FC = ({}) => {
                   Subscription Overrides
                 </Text>
                 <Button
-                  disabled={lodash.isEmpty(organization)}
+                  disabled={lodash.isEmpty(chapter)}
                   iconLeft="ri-delete-bin-line"
                 >
                   Clear Subscriptions
                 </Button>
                 <Button
-                  disabled={lodash.isEmpty(organization)}
+                  disabled={lodash.isEmpty(chapter)}
                   iconLeft="ri-vip-diamond-line"
                 >
                   Force Basic Subscription
                 </Button>
                 <Button
-                  disabled={lodash.isEmpty(organization)}
+                  disabled={lodash.isEmpty(chapter)}
                   iconLeft="ri-copper-diamond-line"
                 >
                   Force Pro Subscription
@@ -223,11 +223,11 @@ const DevEnvironment: React.FC = ({}) => {
 
               <View style={tw`w-full gap-y-2`}>
                 <Text style={tw`font-medium`} variant="body">
-                  Current Organization
+                  Current Chapter
                 </Text>
                 <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
                   <Text style={tw`text-black text-[10px] leading-3`}>
-                    {JSON.stringify(organization, null, 2).slice(1, -1)}
+                    {JSON.stringify(chapter, null, 2).slice(1, -1)}
                   </Text>
                 </View>
               </View>

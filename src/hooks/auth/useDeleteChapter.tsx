@@ -15,23 +15,23 @@ import { useMutation } from "@tanstack/react-query";
 
 import errors from "@/lib/errors";
 import { useAuth } from "@/providers/Auth";
-import organizationApi from "@/api/api/organization";
+import chapterApi from "@/api/api/chapter";
 
-const useDeleteOrganization = () => {
+const useDeleteChapter = () => {
   const { clearUserData } = useAuth();
 
   const mutation = useMutation({
     mutationFn: () => {
-      return organizationApi.deleteOrganization();
+      return chapterApi.deleteChapter();
     },
   });
 
-  const onDeleteOrganization = async () => {
+  const onDeleteChapter = async () => {
     // The response from the server
     let response;
 
     try {
-      // Attempt to login the organization
+      // Attempt to login the chapter
       response = await mutation.mutateAsync();
     } catch (error) {
       errors.handleApiError(error);
@@ -43,15 +43,15 @@ const useDeleteOrganization = () => {
 
     Toast.show({
       type: "success",
-      text1: "Organization deleted",
-      text2: "Your organization has been deleted",
+      text1: "Chapter deleted",
+      text2: "Your chapter has been deleted",
     });
   };
 
   return {
     ...mutation,
-    onDeleteOrganization,
+    onDeleteChapter,
   };
 };
 
-export default useDeleteOrganization;
+export default useDeleteChapter;

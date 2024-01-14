@@ -22,11 +22,11 @@ import { useAuth } from "@/providers/Auth";
 import validators from "@/lib/validation/validators";
 
 const useVerification = () => {
-  const { accessToken, updateOrganization } = useAuth();
+  const { accessToken, updateChapter } = useAuth();
 
-  const verifyOrganizationMutation = useMutation({
-    mutationFn: (input: VerifyOrganizationInput) => {
-      return authAPI.verifyOrganization({
+  const verifyChapterMutation = useMutation({
+    mutationFn: (input: VerifyChapterInput) => {
+      return authAPI.verifyChapter({
         ...input,
         accessToken: accessToken || "",
       });
@@ -45,7 +45,7 @@ const useVerification = () => {
     initialValues: {
       code: "",
     },
-    onSubmit: async (values: VerifyOrganizationInput) => {
+    onSubmit: async (values: VerifyChapterInput) => {
       onSubmit(values);
     },
   });
@@ -56,20 +56,20 @@ const useVerification = () => {
     let response;
 
     try {
-      // Attempt to update the organization
-      response = await verifyOrganizationMutation.mutateAsync(values);
+      // Attempt to update the chapter
+      response = await verifyChapterMutation.mutateAsync(values);
     } catch (error) {
       errors.handleApiError(error, form);
     }
     // If there was an error, prevent the "success" code from running
     if (!response) return;
 
-    // Get the updated organization from the response
-    let updatedOrganization = response?.data.data.organization;
+    // Get the updated chapter from the response
+    let updatedChapter = response?.data.data.chapter;
 
-    // Update the organization in the auth context
-    if (updatedOrganization) {
-      updateOrganization(updatedOrganization);
+    // Update the chapter in the auth context
+    if (updatedChapter) {
+      updateChapter(updatedChapter);
     }
 
     // Reset the form
@@ -78,8 +78,8 @@ const useVerification = () => {
     // Show a success message
     Toast.show({
       type: "success",
-      text1: Content.verificationSuccess.verifyOrganization.title,
-      text2: Content.verificationSuccess.verifyOrganization.message,
+      text1: Content.verificationSuccess.verifyChapter.title,
+      text2: Content.verificationSuccess.verifyChapter.message,
     });
   };
 
@@ -111,13 +111,13 @@ const useVerification = () => {
       form,
       fields,
       values: form.values,
-      validatorFn: validators.validateVerifyOrganization,
+      validatorFn: validators.validateVerifyChapter,
     });
   };
 
   return {
     isLoading:
-      verifyOrganizationMutation.isLoading ||
+      verifyChapterMutation.isLoading ||
       resendVerificationEmailMutation.isLoading,
     errors: form.errors,
     code: form.values.code,

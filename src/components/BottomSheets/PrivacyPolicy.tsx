@@ -34,7 +34,7 @@ interface PrivacyPolicyProps {
 const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ innerRef }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Create a query to get the organization statistics
+  // Create a query to get the chapter statistics
   const query = useQuery({
     queryKey: ["PrivacyPolicy"],
     enabled: isModalOpen,

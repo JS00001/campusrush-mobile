@@ -21,7 +21,7 @@ import useMessagesStore from "@/state/messaging/messages";
 import useConversationsStore from "@/state/messaging/conversations";
 
 const useConversation = (pnmId: string) => {
-  const { accessToken, organization } = useAuth();
+  const { accessToken, chapter } = useAuth();
 
   const messages = useMessagesStore((s) => s.getMessages(pnmId));
   const addMessage = useMessagesStore((s) => s.addMessage);
@@ -109,7 +109,7 @@ const useConversation = (pnmId: string) => {
 
     const message: Message = {
       _id: "temp",
-      organization: organization._id,
+      chapter: chapter._id,
       pnm: pnmId,
       content,
       sent: true,

@@ -30,7 +30,7 @@ interface HomeScreenProps {
 
 const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
   // Load data from the API
-  const { organization } = useAuth();
+  const { chapter } = useAuth();
   const { handlePresentModalPress } = useBottomSheets();
   const { numPnms, numStarredPnms, isLoading, recentPnms } = useStatistics();
 
@@ -68,7 +68,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
               numberOfLines={1}
               style={tw`text-white shrink`}
             >
-              Welcome {organization.firstName}
+              Welcome {chapter.firstName}
             </Text>
             <IconButton
               color="white"
@@ -78,9 +78,9 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
               onPress={onSettingsPress}
             />
           </View>
-          {/* Organization Statistics */}
+          {/* Chapter Statistics */}
           <Text variant="title" style={tw`text-white`}>
-            Organization Statistics
+            Chapter Statistics
           </Text>
           <View style={tw`w-full flex-row gap-5`}>
             <ActionCard

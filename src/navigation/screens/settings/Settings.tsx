@@ -23,16 +23,16 @@ import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import useModalsStore from "@/state/modals";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import useDeleteOrganization from "@/hooks/auth/useDeleteOrganization";
+import useDeleteChapter from "@/hooks/auth/useDeleteChapter";
 
 interface SettingsProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const Settings: React.FC<SettingsProps> = ({ navigation }) => {
-  const { organization, signOut, isPro } = useAuth();
+  const { chapter, signOut, isPro } = useAuth();
   const { handlePresentModalPress } = useBottomSheets();
-  const { onDeleteOrganization, isLoading } = useDeleteOrganization();
+  const { onDeleteChapter, isLoading } = useDeleteChapter();
 
   const openModal = useModalsStore((state) => state.openModal);
 
@@ -52,8 +52,8 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
     handlePresentModalPress("PRIVACY_POLICY");
   };
 
-  const onOrganizationPress = () => {
-    navigation.navigate("UpdateOrganization");
+  const onChapterPress = () => {
+    navigation.navigate("UpdateChapter");
   };
 
   const onPhoneNumberPress = () => {
@@ -76,7 +76,7 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
         subtitle: Content.confirmDeleteAccount.subtitle,
         secondaryButtonText: "No, Cancel",
         primaryButtonText: "Yes, Delete",
-        primaryButtonAction: onDeleteOrganization,
+        primaryButtonAction: onDeleteChapter,
       },
     });
   };
@@ -100,14 +100,14 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
       <Layout.Header
         hasBackButton
         title="Settings"
-        subtitle="Manage your organization"
+        subtitle="Manage your chapter"
       />
 
       <ActionCard
-        title="Organization"
-        subtitle="Manage your organization"
+        title="Chapter"
+        subtitle="Manage your chapter"
         icon="ri-building-2-fill"
-        onPress={onOrganizationPress}
+        onPress={onChapterPress}
       />
 
       <ActionCard
@@ -158,7 +158,7 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
       </View>
 
       <Button size="sm" style={tw`w-full`} onPress={signOut}>
-        Sign Out of {organization.name}
+        Sign Out of {chapter.name}
       </Button>
 
       <Button

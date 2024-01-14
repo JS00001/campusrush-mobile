@@ -22,35 +22,35 @@ const PREFIX = '/admin/v1';
  *
  * Returns
  * - data
- *   - numOrganizations
- *   - numPayingOrganizations
+ *   - numChapters
+ *   - numPayingChapters
  */
 const getStatistics = (): Promise<GetAdminStatisticsAPIResponse> => {
   return adminAPIClient.get(`${PREFIX}/statistics`);
 };
 
 /**
- * GET /admin/v1/organizations
+ * GET /admin/v1/chapters
  *
  * Returns
  * - data
- *  - organizations
+ *  - chapters
  */
-const getOrganizations = (): Promise<GetAdminOrganizationsAPIResponse> => {
-  return adminAPIClient.get(`${PREFIX}/organizations`);
+const getChapters = (): Promise<GetAdminChaptersAPIResponse> => {
+  return adminAPIClient.get(`${PREFIX}/chapters`);
 };
 
 /**
- * GET /admin/v1/organization/:id
+ * GET /admin/v1/chapter/:id
  *
  * Returns
  * - data
- *  - organization
+ *  - chapter
  */
-const getOrganization = (
-  data: GetAdminOrganizationInput,
-): Promise<GetAdminOrganizationAPIResponse> => {
-  return adminAPIClient.get(`${PREFIX}/organization/${data.id}`);
+const getChapter = (
+  data: GetAdminChapterInput,
+): Promise<GetAdminChapterAPIResponse> => {
+  return adminAPIClient.get(`${PREFIX}/chapter/${data.id}`);
 };
 
 /**
@@ -58,11 +58,11 @@ const getOrganization = (
  *
  * Returns
  * - data
- *  - organization
+ *  - chapter
  */
-const upgradeOrganization = (
-  data: UpgradeOrganizationInput,
-): Promise<UpgradeOrganizationAPIResponse> => {
+const upgradeChapter = (
+  data: UpgradeChapterInput,
+): Promise<UpgradeChapterAPIResponse> => {
   return adminAPIClient.post(`${PREFIX}/upgrade/${data.id}`, data);
 };
 
@@ -71,19 +71,19 @@ const upgradeOrganization = (
  *
  * Returns
  * - data
- *  - organization
+ *  - chapter
  */
-const downgradeOrganization = (
-  data: DowngradeOrganizationInput,
-): Promise<DowngradeOrganizationAPIResponse> => {
+const downgradeChapter = (
+  data: DowngradeChapterInput,
+): Promise<DowngradeChapterAPIResponse> => {
   return adminAPIClient.post(`${PREFIX}/downgrade/${data.id}`);
 };
 
 export default {
   getStatistics,
-  getOrganizations,
-  getOrganization,
+  getChapters,
+  getChapter,
 
-  upgradeOrganization,
-  downgradeOrganization,
+  upgradeChapter,
+  downgradeChapter,
 };

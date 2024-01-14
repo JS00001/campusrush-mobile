@@ -33,28 +33,28 @@ type DeletePnmAPIResponse = APIResponse;
 
 type DeletePnmsAPIResponse = APIResponse;
 
-type GetOrganizationsAPIResponse = APIResponse<{
-  organizations: string[];
+type GetChaptersAPIResponse = APIResponse<{
+  chapters: string[];
   schools: string[];
 }>;
 
-type LoginAsOrganizationAPIResponse = APIResponse<{
-  organization: Organization;
+type LoginAsChapterAPIResponse = APIResponse<{
+  chapter: Chapter;
   accessToken: string;
   refreshToken: string;
 }>;
 
-type RegisterAsOrganizationAPIResponse = APIResponse<{
-  organization: Organization;
+type RegisterAsChapterAPIResponse = APIResponse<{
+  chapter: Chapter;
   accessToken: string;
   refreshToken: string;
 }>;
 
-type GetOrganizationAPIResponse = APIResponse<{
-  organization: Organization;
+type GetChapterAPIResponse = APIResponse<{
+  chapter: Chapter;
 }>;
 
-type CheckOrganizationExistsAPIResponse = APIResponse<{
+type CheckChapterExistsAPIResponse = APIResponse<{
   exists: boolean;
 }>;
 
@@ -62,8 +62,8 @@ type CheckEmailExistsAPIResponse = APIResponse<{
   exists: boolean;
 }>;
 
-type VerifyOrganizationAPIResponse = APIResponse<{
-  organization: Organization;
+type VerifyChapterAPIResponse = APIResponse<{
+  chapter: Chapter;
 }>;
 
 type ResendVerificationAPIResponse = APIResponse<{
@@ -74,11 +74,11 @@ type RefreshAccessTokenAPIResponse = APIResponse<{
   accessToken: string;
 }>;
 
-type UpdateOrganizationAPIResponse = APIResponse<{
-  organization: Organization;
+type UpdateChapterAPIResponse = APIResponse<{
+  chapter: Chapter;
 }>;
 
-type GetOrganizationStatisticsAPIResponse = APIResponse<{
+type GetChapterStatisticsAPIResponse = APIResponse<{
   pnms: number;
   starredPnms: number;
   recentPnms: PNM[];
@@ -89,24 +89,24 @@ type GetPnmsAPIResponse = APIResponse<{
 }>;
 
 type GetAdminStatisticsAPIResponse = APIResponse<{
-  numOrganizations: number;
-  numPayingOrganizations: number;
+  numChapters: number;
+  numPayingChapters: number;
 }>;
 
-type GetAdminOrganizationsAPIResponse = APIResponse<{
-  organizations: Organization[];
+type GetAdminChaptersAPIResponse = APIResponse<{
+  chapters: Chapter[];
 }>;
 
-type GetAdminOrganizationAPIResponse = APIResponse<{
-  organization: Organization;
+type GetAdminChapterAPIResponse = APIResponse<{
+  chapter: Chapter;
 }>;
 
-type UpgradeOrganizationAPIResponse = APIResponse<{
-  organization: Organization;
+type UpgradeChapterAPIResponse = APIResponse<{
+  chapter: Chapter;
 }>;
 
-type DowngradeOrganizationAPIResponse = APIResponse<{
-  organization: Organization;
+type DowngradeChapterAPIResponse = APIResponse<{
+  chapter: Chapter;
 }>;
 
 type GetConversationAPIResponse = APIResponse<{
@@ -156,7 +156,7 @@ type GetVersionAPIResponse = APIResponse<{
   version: string;
 }>;
 
-type DeleteOrganizationAPIResponse = APIResponse<{
+type DeleteChapterAPIResponse = APIResponse<{
   success: boolean;
 }>;
 

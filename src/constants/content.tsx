@@ -100,11 +100,11 @@ const Content = {
    */
   verificationSuccess: {
     /**
-     * The success message when the organization is verified
+     * The success message when the chapter is verified
      */
-    verifyOrganization: {
-      title: "Successfully Verified Organization",
-      message: "Your organization has been verified",
+    verifyChapter: {
+      title: "Successfully Verified Chapter",
+      message: "Your chapter has been verified",
     },
     /**
      * The success message when the verification email is resent
@@ -129,11 +129,11 @@ const Content = {
     message: "Your event has been created",
   },
   /**
-   * The success message when the organization is updated
+   * The success message when the chapter is updated
    */
-  updateOrganizationSuccess: {
-    title: "Successfully Updated Organization",
-    message: "Your organization has been updated",
+  updateChapterSuccess: {
+    title: "Successfully Updated Chapter",
+    message: "Your chapter has been updated",
   },
   /**
    * The success message when a PNM is updated

@@ -65,7 +65,7 @@ const usePurchase = () => {
     // Complete purchase
     await purchasePackage(selectedPackage);
 
-    // Set the organizations
+    // Set the chapters
     // Set purchase loading to false
     setIsPurchaseLoading(false);
   };

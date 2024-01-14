@@ -24,7 +24,7 @@ const Billing: React.FC<BillingProps> = ({ navigation }) => {
       <Layout.Header
         hasBackButton
         title="Billing"
-        subtitle="Manage organizations billing"
+        subtitle="Manage chapters billing"
       />
     </Layout>
   );

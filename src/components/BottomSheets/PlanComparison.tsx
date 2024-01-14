@@ -50,7 +50,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ innerRef }) => {
             <Text variant="title">Plan Comparison</Text>
             <Text variant="body" style={tw`text-center`}>
               CampusRush offers the best recruitment experience for greek
-              organizations of all sizes.
+              chapters of all sizes.
             </Text>
           </View>
 

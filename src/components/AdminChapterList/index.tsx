@@ -10,6 +10,6 @@
  * Do not distribute
  */
 
-import AdminOrganizationList from "./AdminOrganizationList";
+import AdminChapterList from "./AdminChapterList";
 
-export default AdminOrganizationList;
+export default AdminChapterList;

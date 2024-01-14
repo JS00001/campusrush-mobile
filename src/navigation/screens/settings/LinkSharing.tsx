@@ -33,7 +33,7 @@ import { SHARING_URL } from "@/api/constants";
 import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 
 const ContactDetails = () => {
-  const { organization } = useAuth();
+  const { chapter } = useAuth();
 
   const { isLoading, linkSharingEnabled, setLinkSharingEnabled } =
     useSettings();
@@ -46,7 +46,7 @@ const ContactDetails = () => {
     setLinkSharingEnabled(false);
   };
 
-  const linkSharingCode = `${SHARING_URL}/${organization.linkSharingCode}`;
+  const linkSharingCode = `${SHARING_URL}/${chapter.linkSharingCode}`;
 
   const linkSharingEnabledSubtitle = linkSharingEnabled
     ? "Currently Enabled"

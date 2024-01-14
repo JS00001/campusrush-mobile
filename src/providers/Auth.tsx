@@ -24,14 +24,14 @@ interface AuthContextProps {
   isLoading: boolean;
   accessToken: string | null;
   refreshToken: string | null;
-  organization: Organization;
+  chapter: Chapter;
   customerData: CustomerInfo;
 
   signOut: () => void;
   clearUserData: () => void;
-  updateOrganization: (organization: Organization) => void;
-  signIn: (response: LoginAsOrganizationAPIResponse) => Promise<void>;
-  signUp: (response: RegisterAsOrganizationAPIResponse) => Promise<void>;
+  updateChapter: (chapter: Chapter) => void;
+  signIn: (response: LoginAsChapterAPIResponse) => Promise<void>;
+  signUp: (response: RegisterAsChapterAPIResponse) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
@@ -41,15 +41,13 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
 }) => {
   // Whether or not the app is loading
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  // The current organizations access token
+  // The current chapters access token
   const [accessToken, setAccessToken] = useState<string>("");
-  // The current organizations refresh token
+  // The current chapters refresh token
   const [refreshToken, setRefreshToken] = useState<string>("");
-  // The current organization's data
-  const [organization, setOrganization] = useState<Organization>(
-    {} as Organization,
-  );
-  // The current organization's billing data
+  // The current chapter's data
+  const [chapter, setChapter] = useState<Chapter>({} as Chapter);
+  // The current chapter's billing data
   const [customerData, setcustomerData] = useState<CustomerInfo>(
     {} as CustomerInfo,
   );
@@ -69,9 +67,9 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     },
   });
 
-  const getOrganizationMutation = useMutation({
+  const getChapterMutation = useMutation({
     mutationFn: (accessToken: string) => {
-      return authAPI.getOrganization({
+      return authAPI.getChapter({
         accessToken,
       });
     },
@@ -86,8 +84,8 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   // On initial load (ONLY ONCE)
   // Load the refresh token,
   // if refresh token, will load access token,
-  // if access token, will load organization,
-  // if organization, will load billing data
+  // if access token, will load chapter,
+  // if chapter, will load billing data
   useEffect(() => {
     _loadRefreshToken();
   }, []);
@@ -122,8 +120,8 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       const accessToken = response.data?.data.accessToken;
       // store the access token in state
       setAccessToken(accessToken);
-      // Load the organization from the access token
-      _loadOrganization(accessToken);
+      // Load the chapter from the access token
+      _loadChapter(accessToken);
     } catch (error) {
       // If the request or access token is invalid, set the loading state to false
       setAccessToken("");
@@ -131,36 +129,36 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     }
   };
 
-  // Load the currently logged in organization
-  const _loadOrganization = async (accessToken: string) => {
+  // Load the currently logged in chapter
+  const _loadChapter = async (accessToken: string) => {
     try {
-      // Get the currently logged in organization
-      const response = await getOrganizationMutation.mutateAsync(accessToken);
-      // The organization data
-      const organization = response.data?.data.organization;
-      // Set the organization in state
-      setOrganization(organization);
-      // Load the organization's billing data from revenue cat
-      _loadCustomerData(organization);
+      // Get the currently logged in chapter
+      const response = await getChapterMutation.mutateAsync(accessToken);
+      // The chapter data
+      const chapter = response.data?.data.chapter;
+      // Set the chapter in state
+      setChapter(chapter);
+      // Load the chapter's billing data from revenue cat
+      _loadCustomerData(chapter);
       // Connect to the websocket
       websocket.connect(accessToken);
     } catch (error) {
       // If the request or access token is invalid, set the loading state to false
-      setOrganization({} as Organization);
+      setChapter({} as Chapter);
       setIsLoading(false);
     }
   };
 
-  // Load the currently logged in organization's billing data
-  const _loadCustomerData = async (organization: Organization) => {
+  // Load the currently logged in chapter's billing data
+  const _loadCustomerData = async (chapter: Chapter) => {
     try {
       // Login the user with revenue cat
-      await Purchases.logIn(organization.customerId);
+      await Purchases.logIn(chapter.customerId);
 
       // Set the customer Id in local storage
-      await AsyncStorage.setItem("customerId", organization.customerId);
+      await AsyncStorage.setItem("customerId", chapter.customerId);
 
-      // Get the organization's billing data
+      // Get the chapter's billing data
       const customerData = await Purchases.getCustomerInfo();
 
       // Set the billing data in state
@@ -173,10 +171,10 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     setIsLoading(false);
   };
 
-  // Sign in as an organization
-  const signIn = async (response: LoginAsOrganizationAPIResponse) => {
-    // The new organization data
-    const organization = response.data?.data.organization;
+  // Sign in as an chapter
+  const signIn = async (response: LoginAsChapterAPIResponse) => {
+    // The new chapter data
+    const chapter = response.data?.data.chapter;
     // The new access token
     const accessToken = response.data?.data.accessToken;
     // The new refresh token
@@ -188,18 +186,18 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     // Update the state for all of the new data
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
-    setOrganization(organization);
+    setChapter(chapter);
 
-    // Load the new organization's billing data
-    _loadCustomerData(organization);
+    // Load the new chapter's billing data
+    _loadCustomerData(chapter);
     // Connect to the websocket
     websocket.connect(accessToken);
   };
 
-  // Sign up as an organization
-  const signUp = async (response: RegisterAsOrganizationAPIResponse) => {
-    // The new organization data
-    const organization = response.data?.data.organization;
+  // Sign up as an chapter
+  const signUp = async (response: RegisterAsChapterAPIResponse) => {
+    // The new chapter data
+    const chapter = response.data?.data.chapter;
     // The new access token
     const accessToken = response.data?.data.accessToken;
     // The new refresh token
@@ -211,20 +209,20 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     // Update the state for all of the new data
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
-    setOrganization(organization);
+    setChapter(chapter);
 
-    // Load the new organization's billing data
-    _loadCustomerData(organization);
+    // Load the new chapter's billing data
+    _loadCustomerData(chapter);
     // Connect to the websocket
     websocket.connect(accessToken);
   };
 
-  // Update the organization
-  const updateOrganization = (organization: Organization) => {
-    setOrganization(organization);
+  // Update the chapter
+  const updateChapter = (chapter: Chapter) => {
+    setChapter(chapter);
   };
 
-  // Sign out the organization
+  // Sign out the chapter
   const signOut = async () => {
     if (!accessToken) return;
 
@@ -244,7 +242,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     await AsyncStorage.removeItem("refreshToken");
 
     // Clear all of the user data from state
-    setOrganization({} as Organization);
+    setChapter({} as Chapter);
     setAccessToken("");
     setRefreshToken("");
 
@@ -263,7 +261,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
         isLoading,
         accessToken,
         refreshToken,
-        organization,
+        chapter,
         customerData,
 
         signOut,
@@ -271,7 +269,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
         signUp,
 
         clearUserData,
-        updateOrganization,
+        updateChapter,
       }}
     >
       {children}

@@ -19,16 +19,14 @@ const authAPIClient = axios.create({
 });
 
 /**
- * GET /auth/v1/organization
+ * GET /auth/v1/chapter
  *
  * Returns
  * - data
- *  - organization
+ *  - chapter
  */
-const getOrganization = (
-  data: GetOrganizationInput,
-): Promise<GetOrganizationAPIResponse> => {
-  return authAPIClient.get('/organization', {
+const getChapter = (data: GetChapterInput): Promise<GetChapterAPIResponse> => {
+  return authAPIClient.get('/chapter', {
     headers: {
       Authorization: `Bearer ${data.accessToken}`,
     },
@@ -36,46 +34,46 @@ const getOrganization = (
 };
 
 /**
- * POST /auth/v1/login/as/organization
+ * POST /auth/v1/login/as/chapter
  *
  * Returns
  * - data
- *  - organization
+ *  - chapter
  *  - accessToken
  *  - refreshToken
  */
-const loginAsOrganization = (
-  data: LoginAsOrganizationInput,
-): Promise<LoginAsOrganizationAPIResponse> => {
-  return authAPIClient.post('/login/as/organization', data);
+const loginAsChapter = (
+  data: LoginAsChapterInput,
+): Promise<LoginAsChapterAPIResponse> => {
+  return authAPIClient.post('/login/as/chapter', data);
 };
 
 /**
- * POST /auth/v1/register/as/organization
+ * POST /auth/v1/register/as/chapter
  *
  * Returns
  * - data
- *  - organization
+ *  - chapter
  *  - accessToken
  *  - refreshToken
  */
-const registerAsOrganization = (
-  data: RegisterAsOrganizationInput,
-): Promise<RegisterAsOrganizationAPIResponse> => {
-  return authAPIClient.post('/register/as/organization', data);
+const registerAsChapter = (
+  data: RegisterAsChapterInput,
+): Promise<RegisterAsChapterAPIResponse> => {
+  return authAPIClient.post('/register/as/chapter', data);
 };
 
 /**
- * POST /auth/v1/organizations/check
+ * POST /auth/v1/chapters/check
  *
  * Returns
  * - data
  *  - exists
  */
-const checkOrganizationExists = (
-  data: CheckOrganizationExistsInput,
-): Promise<CheckOrganizationExistsAPIResponse> => {
-  return authAPIClient.post('/organizations/check', data);
+const checkChapterExists = (
+  data: CheckChapterExistsInput,
+): Promise<CheckChapterExistsAPIResponse> => {
+  return authAPIClient.post('/chapters/check', data);
 };
 
 /**
@@ -96,11 +94,11 @@ const checkEmailExists = (
  *
  * Returns
  * - data
- *  - organization
+ *  - chapter
  */
-const verifyOrganization = (
-  data: VerifyOrganizationInput,
-): Promise<VerifyOrganizationAPIResponse> => {
+const verifyChapter = (
+  data: VerifyChapterInput,
+): Promise<VerifyChapterAPIResponse> => {
   return authAPIClient.post('/verification/verify', data, {
     headers: {
       Authorization: `Bearer ${data.accessToken}`,
@@ -169,15 +167,15 @@ const logout = (data: LogoutInput): Promise<LogoutAPIResponse> => {
 };
 
 export default {
-  getOrganization,
+  getChapter,
 
-  loginAsOrganization,
-  registerAsOrganization,
+  loginAsChapter,
+  registerAsChapter,
 
-  checkOrganizationExists,
+  checkChapterExists,
   checkEmailExists,
 
-  verifyOrganization,
+  verifyChapter,
   resendVerification,
 
   refreshAccessToken,
