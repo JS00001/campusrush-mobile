@@ -16,6 +16,9 @@ export default {
   ios: {
     supportsTablet: false,
     bundleIdentifier: 'app.campusrush',
+    config: {
+      usesNonExemptEncryption: false,
+    },
   },
   android: {
     adaptiveIcon: {
