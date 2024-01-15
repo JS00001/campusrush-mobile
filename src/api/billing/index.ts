@@ -15,7 +15,7 @@ import { axiosClient } from '@/providers/Axios';
 // Create a new axios client for this file
 const billingAPIClient = axiosClient;
 // The prefix for all routes in this file
-const PREFIX = '/billing/v1';
+const PREFIX = '/api/v1/consumer/billing';
 
 /**
  * GET /billing/v1/entitlements

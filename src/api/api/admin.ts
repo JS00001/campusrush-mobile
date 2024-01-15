@@ -15,10 +15,10 @@ import { axiosClient } from '@/providers/Axios';
 // Create a new axios client for this file
 const adminAPIClient = axiosClient;
 // Set the Prefix URL for this client
-const PREFIX = '/admin/v1';
+const PREFIX = '/api/v1/consumer/admin';
 
 /**
- * GET /admin/v1/statistics
+ * GET /api/v1/consumer/admin/statistics
  *
  * Returns
  * - data
@@ -30,7 +30,7 @@ const getStatistics = (): Promise<GetAdminStatisticsAPIResponse> => {
 };
 
 /**
- * GET /admin/v1/chapters
+ * GET /api/v1/consumer/admin/chapters
  *
  * Returns
  * - data
@@ -41,7 +41,7 @@ const getChapters = (): Promise<GetAdminChaptersAPIResponse> => {
 };
 
 /**
- * GET /admin/v1/chapter/:id
+ * GET /api/v1/consumer/admin/chapter/:id
  *
  * Returns
  * - data
@@ -54,7 +54,7 @@ const getChapter = (
 };
 
 /**
- * POST /admin/v1/upgrade/:id
+ * POST /api/v1/consumer/admin/upgrade/:id
  *
  * Returns
  * - data
@@ -67,7 +67,7 @@ const upgradeChapter = (
 };
 
 /**
- * POST /admin/v1/downgrade/:id
+ * POST /api/v1/consumer/admin/downgrade/:id
  *
  * Returns
  * - data
