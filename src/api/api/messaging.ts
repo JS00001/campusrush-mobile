@@ -15,7 +15,7 @@ import { axiosClient } from '@/providers/Axios';
 // Create a new axios client for this file
 const messagingAPIClient = axiosClient;
 // The prefix for all routes in this file
-const PREFIX = '/api/v1/messaging';
+const PREFIX = '/api/v1/consumer/messaging';
 
 /**
  * GET /api/v1/messaging/conversation/:pnmId

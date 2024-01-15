@@ -15,11 +15,11 @@ import axios from 'axios';
 import { BASE_URL } from '@/api/constants';
 
 const authAPIClient = axios.create({
-  baseURL: `${BASE_URL}/auth/v1`,
+  baseURL: `${BASE_URL}/api/v1/consumer/auth`,
 });
 
 /**
- * GET /auth/v1/chapter
+ * GET /api/v1/consumer/auth/chapter
  *
  * Returns
  * - data
@@ -34,7 +34,7 @@ const getChapter = (data: GetChapterInput): Promise<GetChapterAPIResponse> => {
 };
 
 /**
- * POST /auth/v1/login/as/chapter
+ * POST /api/v1/consumer/auth/login
  *
  * Returns
  * - data
@@ -45,11 +45,11 @@ const getChapter = (data: GetChapterInput): Promise<GetChapterAPIResponse> => {
 const loginAsChapter = (
   data: LoginAsChapterInput,
 ): Promise<LoginAsChapterAPIResponse> => {
-  return authAPIClient.post('/login/as/chapter', data);
+  return authAPIClient.post('/login', data);
 };
 
 /**
- * POST /auth/v1/register/as/chapter
+ * POST /api/v1/consumer/auth/register
  *
  * Returns
  * - data
@@ -60,11 +60,11 @@ const loginAsChapter = (
 const registerAsChapter = (
   data: RegisterAsChapterInput,
 ): Promise<RegisterAsChapterAPIResponse> => {
-  return authAPIClient.post('/register/as/chapter', data);
+  return authAPIClient.post('/register', data);
 };
 
 /**
- * POST /auth/v1/chapters/check
+ * POST /api/v1/consumer/auth/chapters/check
  *
  * Returns
  * - data
@@ -77,7 +77,7 @@ const checkChapterExists = (
 };
 
 /**
- * POST /auth/v1/emails/check
+ * POST /api/v1/consumer/auth/emails/check
  *
  * Returns
  * - data
@@ -90,7 +90,7 @@ const checkEmailExists = (
 };
 
 /**
- * POST /auth/v1/verification/verify
+ * POST /api/v1/consumer/auth/verification/verify
  *
  * Returns
  * - data
@@ -107,7 +107,7 @@ const verifyChapter = (
 };
 
 /**
- * POST /auth/v1/verification/resend
+ * POST /api/v1/consumer/auth/verification/resend
  *
  * Returns
  * - data
@@ -128,7 +128,7 @@ const resendVerification = (
 };
 
 /**
- * POST /auth/v1/refresh
+ * POST /api/v1/consumer/auth/refresh
  *
  * Returns
  * - data
@@ -149,7 +149,7 @@ const refreshAccessToken = (
 };
 
 /**
- * POST /auth/v1/logout
+ * POST /api/v1/consumer/auth/logout
  *
  * Returns
  * - data

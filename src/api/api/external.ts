@@ -15,7 +15,7 @@ import { axiosClient } from '@/providers/Axios';
 // Create a new axios client for this file
 const externalAPIClient = axiosClient;
 // The prefix for all routes in this file
-const PREFIX = '/api/v1/external';
+const PREFIX = '/api/v1/consumer/external';
 
 /**
  * GET /api/v1/external/version

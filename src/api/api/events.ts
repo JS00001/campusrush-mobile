@@ -15,7 +15,7 @@ import { axiosClient } from '@/providers/Axios';
 // Create a new axios client for this file
 const eventsAPIClient = axiosClient;
 // The prefix for all routes in this file
-const PREFIX = '/api/v1/events';
+const PREFIX = '/api/v1/consumer/events';
 
 /**
  * GET /api/v1/events/list
