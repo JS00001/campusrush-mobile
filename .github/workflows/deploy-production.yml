@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy-production:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: 🏗 Setup repo
         uses: actions/checkout@v3
@@ -39,7 +39,7 @@ jobs:
         run: yarn install
 
       - name: 🚀 Build app
-        run: eas build --non-interactive --platform ios
+        run: eas build --non-interactive --platform ios --local
 
       - name: 🚀 Publish app
         run: eas submit --non-interactive --platform ios --latest
