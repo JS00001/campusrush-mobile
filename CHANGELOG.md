@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.48
+
+#### Added
+
+#### Changed
+
+#### Removed
+
 ## 1.0.47
 
 #### Added
