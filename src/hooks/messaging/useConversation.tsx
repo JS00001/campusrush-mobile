@@ -12,8 +12,11 @@
 
 import Sentry from "sentry-expo";
 import { useEffect } from "react";
+import { AxiosError } from "axios";
+import Toast from "react-native-toast-message";
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 
+import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import messagingApi from "@/api/api/messaging";
 import useContactsStore from "@/state/messaging/contacts";
@@ -26,6 +29,7 @@ const useConversation = (pnmId: string) => {
   const messages = useMessagesStore((s) => s.getMessages(pnmId));
   const addMessage = useMessagesStore((s) => s.addMessage);
   const setMessages = useMessagesStore((s) => s.setMessages);
+  const removeMessage = useMessagesStore((s) => s.removeMessage);
   const replaceMessage = useMessagesStore((s) => s.replaceMessage);
 
   const removeContactFrom = useContactsStore((s) => s.removeContactFrom);
@@ -134,6 +138,18 @@ const useConversation = (pnmId: string) => {
       replaceMessage(pnmId, "temp", message);
       removeContactFrom("uncontactedPnms", pnmId);
     } catch (error) {
+      if (error instanceof AxiosError) {
+        removeMessage("temp");
+
+        // Extract the error message
+        const errorMessage = error.response?.data?.error as APIError;
+
+        Toast.show({
+          type: "error",
+          text1: Content.errorTitle,
+          text2: errorMessage.humanMessage,
+        });
+      }
       Sentry.Native.captureException(error);
     }
   };

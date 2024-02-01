@@ -25,8 +25,10 @@ export interface MessagesState {
 
   getMessages: (pnmId: string) => Message[] | undefined;
   addMessages: (pnmId: string, messages: Message[]) => void;
-  addMessage: (pnmId: string, message: Message) => void;
+
   setMessages: (pnmId: string, messages: Message[]) => void;
+  addMessage: (pnmId: string, message: Message) => void;
+  removeMessage: (messageId: string) => void;
   replaceMessage: (
     pnmId: string,
     prevMessageId: string,
@@ -92,6 +94,23 @@ const useMessagesStore = create<MessagesState>((set, get) => ({
           ...prev.messages,
           [pnmId]: updatedMessages,
         },
+      };
+    });
+  },
+  /**
+   * Removes a message from the store
+   */
+  removeMessage: (messageId) => {
+    set((prev) => {
+      const updatedMessages = Object.fromEntries(
+        Object.entries(prev.messages).map(([pnmId, messages]) => [
+          pnmId,
+          messages.filter((m) => m._id !== messageId),
+        ]),
+      );
+
+      return {
+        messages: updatedMessages,
       };
     });
   },

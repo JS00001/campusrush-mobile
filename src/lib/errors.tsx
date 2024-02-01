@@ -37,7 +37,7 @@ const handleApiError = (error: any, form?: any) => {
     // Show a toast with the error message
     Toast.show({
       type: "error",
-      text1: "An error occurred",
+      text1: Content.errorTitle,
       text2: error.message,
     });
   }

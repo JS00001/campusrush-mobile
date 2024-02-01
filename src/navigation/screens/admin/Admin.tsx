@@ -64,7 +64,7 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
 
       <ActionCard
         title="Update Chapter Billing"
-        subtitle="Update an chapter's billing"
+        subtitle="Update a chapter's billing"
         icon="ri-bank-card-2-fill"
         onPress={onBillingPress}
       />
