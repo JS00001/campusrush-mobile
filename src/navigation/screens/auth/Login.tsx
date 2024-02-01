@@ -33,7 +33,7 @@ const Login = () => {
       <Layout.Header
         hasBackButton
         title="Login"
-        subtitle="Login as an chapter"
+        subtitle="Login as a chapter"
       />
       <TextInput
         placeholder="Email"
