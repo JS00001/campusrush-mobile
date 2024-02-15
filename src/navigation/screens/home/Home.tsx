@@ -19,6 +19,7 @@ import Layout from "@/ui/Layout";
 import ActionCard from "@/ui/ActionCard";
 import IconButton from "@/ui/IconButton";
 import { useAuth } from "@/providers/Auth";
+import usePnms from "@/hooks/pnms/usePnmsList";
 import RecentPnms from "@/components/RecentPnms";
 import useStatistics from "@/hooks/useStatistics";
 import HomeHeaderSvg from "@/assets/HomeHeaderSvg";
@@ -30,7 +31,9 @@ interface HomeScreenProps {
 
 const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
   // Load data from the API
+  usePnms();
   const { chapter } = useAuth();
+
   const { handlePresentModalPress } = useBottomSheets();
   const { numPnms, numStarredPnms, isLoading, recentPnms } = useStatistics();
 
