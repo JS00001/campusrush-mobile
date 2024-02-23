@@ -10,8 +10,6 @@
  * Do not distribute
  */
 
-import { AxiosResponse } from 'axios';
-
 namespace API {
   /**
    * The type of error that can be returned from the API
@@ -74,5 +72,5 @@ namespace API {
   /**
    * The response returned from the API
    */
-  type Response<T> = AxiosResponse<SuccessResponse<T> | ErrorResponse>;
+  type Response<T> = SuccessResponse<T> | ErrorResponse;
 }

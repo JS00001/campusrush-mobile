@@ -10,12 +10,17 @@
  * Do not distribute
  */
 
-export * from './requests/admin';
-export * from './requests/auth';
-export * from './requests/billing';
-export * from './requests/chapter';
-export * from './requests/content';
-export * from './requests/events';
-export * from './requests/external';
-export * from './requests/messaging';
-export * from './requests/pnms';
+import { useQuery } from "@tanstack/react-query";
+
+import { getAdminChapters } from "@/apiv2";
+import { useAuth } from "@/providers/Auth";
+
+export const useGetAdminChapters = () => {
+  const { accessToken } = useAuth();
+
+  return useQuery(["adminChapters", accessToken], {
+    queryFn: async () => {
+      return getAdminChapters();
+    },
+  });
+};
