@@ -12,7 +12,7 @@
 
 import axios from 'axios';
 
-import { BASE_URL } from '@/api/constants';
+import { BASE_URL } from '@/apiv1/constants';
 
 const authAPIClient = axios.create({
   baseURL: `${BASE_URL}/api/v1/consumer/auth`,

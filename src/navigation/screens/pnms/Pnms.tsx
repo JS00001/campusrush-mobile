@@ -21,7 +21,7 @@ import IconButton from "@/ui/IconButton";
 import StatusIcon from "@/ui/StatusIcon";
 import { PnmsStatus } from "@/state/pnms";
 import PnmsList from "@/components/PnmsList";
-import usePnmsList from "@/hooks/pnms/usePnmsList";
+import usePnmsList from "@/hooksv1/pnms/usePnmsList";
 
 interface PNMScreenProps {
   navigation: NativeStackNavigationProp<any>;

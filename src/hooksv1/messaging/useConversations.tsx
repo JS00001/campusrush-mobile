@@ -15,7 +15,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { MenuAction } from "@react-native-menu/menu";
 
 import { useAuth } from "@/providers/Auth";
-import messagingApi from "@/api/api/messaging";
+import messagingApi from "@/apiv1/api/messaging";
 import useConversationsStore from "@/state/messaging/conversations";
 import { ConversationStatus } from "@/state/messaging/conversations";
 

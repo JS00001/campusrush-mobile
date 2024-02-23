@@ -22,7 +22,7 @@ import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import useModalsStore from "@/state/modals";
-import useContacts from "@/hooks/messaging/useContacts";
+import useContacts from "@/hooksv1/messaging/useContacts";
 
 interface NewMessageProps {
   handleCloseModalPress: () => void;

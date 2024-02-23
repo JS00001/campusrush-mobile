@@ -19,7 +19,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import CopyItem from "@/ui/CopyItem";
 import { useAuth } from "@/providers/Auth";
-import { SHARING_URL } from "@/api/constants";
+import { SHARING_URL } from "@/apiv1/constants";
 
 interface AddQrCodeScreenProps {
   handleCloseModalPress: () => void;

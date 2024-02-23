@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { axiosClient } from '@/providers/Axios2';
+import { axiosClient } from '@/providers/Axios';
 
 const PREFIX = '/api/v1/consumer/events';
 

@@ -15,7 +15,7 @@ import Toast from "react-native-toast-message";
 import { MenuAction } from "@react-native-menu/menu";
 import { useNavigation } from "@react-navigation/native";
 
-import usePnm from "@/hooks/pnms/usePnm";
+import usePnm from "@/hooksv1/pnms/usePnm";
 import Content from "@/constants/content";
 import useModalsStore from "@/state/modals";
 import { useBottomSheets } from "@/providers/BottomSheet";

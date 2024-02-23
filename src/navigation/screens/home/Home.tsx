@@ -19,9 +19,9 @@ import Layout from "@/ui/Layout";
 import ActionCard from "@/ui/ActionCard";
 import IconButton from "@/ui/IconButton";
 import { useAuth } from "@/providers/Auth";
-import usePnms from "@/hooks/pnms/usePnmsList";
+import usePnms from "@/hooksv1/pnms/usePnmsList";
 import RecentPnms from "@/components/RecentPnms";
-import useStatistics from "@/hooks/useStatistics";
+import useStatistics from "@/hooksv1/useStatistics";
 import HomeHeaderSvg from "@/assets/HomeHeaderSvg";
 import { useBottomSheets } from "@/providers/BottomSheet";
 

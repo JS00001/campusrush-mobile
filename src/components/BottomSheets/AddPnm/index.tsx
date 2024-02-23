@@ -22,7 +22,7 @@ import { AddPnmScreens, ScreensList } from "./types";
 import BottomSheet from "../Components/BottomSheet";
 import BottomSheetContainer from "../Components/BottomSheetContainer";
 
-import useCreatePnm from "@/hooks/pnms/useCreatePnm";
+import useCreatePnm from "@/hooksv1/pnms/useCreatePnm";
 
 interface AddPnmProps {
   innerRef: React.RefObject<any>;

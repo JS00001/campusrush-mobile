@@ -20,7 +20,7 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import ListItem from "@/ui/ListItem";
 import ButtonGroup from "@/ui/ButtonGroup";
-import type { UseCreatePnm } from "@/hooks/pnms/useCreatePnm";
+import type { UseCreatePnm } from "@/hooksv1/pnms/useCreatePnm";
 
 /**
  * The props for this screen extend the values of the "useCreatePnm" hook

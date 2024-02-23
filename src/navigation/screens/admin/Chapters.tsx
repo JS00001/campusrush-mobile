@@ -13,7 +13,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Layout from "@/ui/Layout";
-import useAdmin from "@/hooks/useAdmin";
+import useAdmin from "@/hooksv1/useAdmin";
 import AdminChapterList from "@/components/AdminChapterList";
 
 interface ChaptersProps {

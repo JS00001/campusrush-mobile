@@ -13,7 +13,7 @@
 import 'react-native-url-polyfill/auto';
 import { createDirectus, rest, readSingleton } from '@directus/sdk';
 
-import { CONTENT_URL } from '@/api/constants';
+import { CONTENT_URL } from '@/apiv1/constants';
 
 const client = createDirectus(CONTENT_URL).with(rest());
 

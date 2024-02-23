@@ -15,7 +15,7 @@ import Toast from "react-native-toast-message";
 import { useMutation } from "@tanstack/react-query";
 
 import errors from "@/lib/errors";
-import pnmApi from "@/api/api/pnms";
+import pnmApi from "@/apiv1/api/pnms";
 import useZustandStore from "@/state";
 import validate from "@/lib/validation";
 import Content from "@/constants/content";

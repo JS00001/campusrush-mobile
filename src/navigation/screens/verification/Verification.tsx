@@ -19,7 +19,7 @@ import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import Hyperlink from "@/ui/Hyperlink";
 import { useAuth } from "@/providers/Auth";
-import useVerification from "@/hooks/useVerification";
+import useVerification from "@/hooksv1/useVerification";
 
 const Verification = () => {
   const {

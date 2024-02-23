@@ -20,7 +20,7 @@ import Toast from "react-native-toast-message";
 
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
-import { BASE_URL } from "@/api/constants";
+import { BASE_URL } from "@/apiv1/constants";
 import useModalsStore from "@/state/modals";
 
 interface AxiosConfig extends InternalAxiosRequestConfig {

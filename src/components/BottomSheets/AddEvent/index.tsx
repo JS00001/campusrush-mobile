@@ -20,7 +20,7 @@ import { AddEventScreens, ScreensList } from "./types";
 import BottomSheet from "../Components/BottomSheet";
 import BottomSheetContainer from "../Components/BottomSheetContainer";
 
-import useCreateEvent from "@/hooks/events/useCreateEvent";
+import useCreateEvent from "@/hooksv1/events/useCreateEvent";
 
 interface AddEventProps {
   innerRef: React.RefObject<any>;

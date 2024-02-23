@@ -15,7 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import errors from "@/lib/errors";
 import { useAuth } from "@/providers/Auth";
-import chapterApi from "@/api/api/chapter";
+import chapterApi from "@/apiv1/api/chapter";
 
 const useDeleteChapter = () => {
   const { clearUserData } = useAuth();

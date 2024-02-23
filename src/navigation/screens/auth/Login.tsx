@@ -14,7 +14,7 @@ import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 
-import useLogin from "@/hooks/auth/useLogin";
+import useLogin from "@/hooksv1/auth/useLogin";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const Login = () => {

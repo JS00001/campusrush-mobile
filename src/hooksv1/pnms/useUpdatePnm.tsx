@@ -14,7 +14,7 @@ import { useFormik } from "formik";
 import { useMutation } from "@tanstack/react-query";
 
 import errors from "@/lib/errors";
-import pnmsApi from "@/api/api/pnms";
+import pnmsApi from "@/apiv1/api/pnms";
 import validate from "@/lib/validation";
 import validators from "@/lib/validation/validators";
 import usePnmsStore from "@/state/pnms";

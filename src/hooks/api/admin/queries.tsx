@@ -12,7 +12,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getAdminChapters } from "@/apiv2";
+import { getAdminChapters } from "src/api";
 import { useAuth } from "@/providers/Auth";
 
 export const useGetAdminChapters = () => {

@@ -19,7 +19,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import TextInput from "@/ui/TextInput";
 import RecentPnms from "@/components/RecentPnms";
-import useContacts from "@/hooks/messaging/useContacts";
+import useContacts from "@/hooksv1/messaging/useContacts";
 
 interface DirectMessageProps {
   handleCloseModalPress?: () => void;

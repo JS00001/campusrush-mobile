@@ -13,7 +13,7 @@
 import { useFormik } from "formik";
 import { useMutation } from "@tanstack/react-query";
 
-import authApi from "@/api/auth";
+import authApi from "@/apiv1/auth";
 import errors from "@/lib/errors";
 import validate from "@/lib/validation";
 import { useAuth } from "@/providers/Auth";

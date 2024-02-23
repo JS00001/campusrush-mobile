@@ -15,7 +15,7 @@ import { ScrollView } from "react-native";
 import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
 import Header from "@/ui/Header";
-import usePnmActions from "@/hooks/pnms/usePnmActions";
+import usePnmActions from "@/hooksv1/pnms/usePnmActions";
 
 interface ChatHeaderProps {
   pnms: PNM[];

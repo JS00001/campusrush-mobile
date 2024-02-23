@@ -15,7 +15,7 @@ import Purchases, { CustomerInfo } from "react-native-purchases";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useEffect, useState, useContext } from "react";
 
-import authAPI from "@/api/auth";
+import authAPI from "@/apiv1/auth";
 import useZustandStore from "@/state";
 import { useWebsocket } from "@/providers/Websocket";
 

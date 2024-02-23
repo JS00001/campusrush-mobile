@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
-import messagingApi from "@/api/api/messaging";
+import messagingApi from "@/apiv1/api/messaging";
 import useContactsStore from "@/state/messaging/contacts";
 
 const useContacts = () => {

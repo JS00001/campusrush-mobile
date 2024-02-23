@@ -15,7 +15,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Layout from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
 import ChatHeader from "@/components/Headers/Chat";
-import useMassMessager from "@/hooks/messaging/useMassMessager";
+import useMassMessager from "@/hooksv1/messaging/useMassMessager";
 
 interface NewMessageProps {
   route: any;

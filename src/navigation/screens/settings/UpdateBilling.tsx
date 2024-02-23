@@ -14,7 +14,7 @@ import { Linking } from "react-native";
 
 import Button from "@/ui/Button";
 import Layout from "@/ui/Layout";
-import useBilling from "@/hooks/useBilling";
+import useBilling from "@/hooksv1/useBilling";
 import BillingDetails from "@/components/BillingDetails";
 import Hyperlink from "@/ui/Hyperlink";
 

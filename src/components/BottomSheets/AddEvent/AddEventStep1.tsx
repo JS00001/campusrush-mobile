@@ -19,7 +19,7 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import KeyboardListener from "@/ui/KeyboardListener";
-import { UseCreateEvent } from "@/hooks/events/useCreateEvent";
+import { UseCreateEvent } from "@/hooksv1/events/useCreateEvent";
 
 interface AddEventStep1Props extends UseCreateEvent {
   setScreen: (screen: AddEventScreens) => void;

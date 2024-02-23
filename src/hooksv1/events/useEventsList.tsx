@@ -16,7 +16,7 @@ import { MenuAction } from "@react-native-menu/menu";
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 
 import errors from "@/lib/errors";
-import eventsApi from "@/api/api/events";
+import eventsApi from "@/apiv1/api/events";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import useModalsStore from "@/state/modals";

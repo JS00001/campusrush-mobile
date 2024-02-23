@@ -22,7 +22,7 @@ import TextInput from "@/ui/TextInput";
 import StatusIcon from "@/ui/StatusIcon";
 import DateTimePicker from "@/ui/DateTimePicker";
 import FormHeader from "@/components/Headers/Form";
-import useUpdateEvent from "@/hooks/events/useUpdateEvent";
+import useUpdateEvent from "@/hooksv1/events/useUpdateEvent";
 
 interface UpdateEventProps {
   innerRef: React.RefObject<any>;

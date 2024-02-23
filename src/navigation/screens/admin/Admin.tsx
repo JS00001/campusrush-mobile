@@ -16,9 +16,9 @@ import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import ActionCard from "@/ui/ActionCard";
-import useAdmin from "@/hooks/useAdmin";
+import useAdmin from "@/hooksv1/useAdmin";
 import Information from "@/ui/Information";
-import FetchInterceptor from "@/providers/Axios2";
+import FetchInterceptor from "@/providers/Axios";
 import { useEffect } from "react";
 
 interface AdminProps {

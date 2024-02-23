@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { axiosClient } from '@/providers/Axios';
+import { axiosClient } from '@/providers/Axiosv1';
 
 // Create a new axios client for this file
 const adminAPIClient = axiosClient;

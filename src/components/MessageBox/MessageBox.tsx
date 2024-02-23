@@ -24,7 +24,7 @@ import { waitFor } from "@/lib/util";
 import AppConstants from "@/constants";
 import IconButton from "@/ui/IconButton";
 import Content from "@/constants/content";
-import { EVENT_URL } from "@/api/constants";
+import { EVENT_URL } from "@/apiv1/constants";
 import { eventsRegex } from "@/constants/regex";
 import { formatEvent } from "@/lib/util/format";
 import Walkthroughs from "@/components/Walkthroughs";

@@ -13,7 +13,7 @@
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
-import useSettings from "@/hooks/useSettings";
+import useSettings from "@/hooksv1/useSettings";
 
 const UpdateGeneral: React.FC = () => {
   const {

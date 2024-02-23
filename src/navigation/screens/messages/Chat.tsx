@@ -19,7 +19,7 @@ import MessageBox from "@/components/MessageBox";
 import MessageList from "@/components/MessageList";
 import ChatHeader from "@/components/Headers/Chat";
 import { useWebsocket } from "@/providers/Websocket";
-import useConversation from "@/hooks/messaging/useConversation";
+import useConversation from "@/hooksv1/messaging/useConversation";
 
 interface ChatProps {
   route: any;

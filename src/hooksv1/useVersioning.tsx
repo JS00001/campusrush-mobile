@@ -14,7 +14,7 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import AppConstants from "@/constants";
-import externalApi from "@/api/api/external";
+import externalApi from "@/apiv1/api/external";
 import { stringifyVersion } from "@/lib/util/string";
 
 const useVersioning = () => {

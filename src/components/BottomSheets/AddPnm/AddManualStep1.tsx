@@ -20,7 +20,7 @@ import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import ButtonGroup from "@/ui/ButtonGroup";
 import KeyboardListener from "@/ui/KeyboardListener";
-import type { UseCreatePnm } from "@/hooks/pnms/useCreatePnm";
+import type { UseCreatePnm } from "@/hooksv1/pnms/useCreatePnm";
 
 /**
  * The props for this screen extend the values of the "useCreatePnm" hook

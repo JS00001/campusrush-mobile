@@ -25,7 +25,7 @@ import Conversation from "@/ui/Conversation";
 import InfiniteList from "@/components/InfiniteList";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import { ConversationLoader } from "@/ui/Conversation/Loaders";
-import useConversations from "@/hooks/messaging/useConversations";
+import useConversations from "@/hooksv1/messaging/useConversations";
 import { ConversationStatus } from "@/state/messaging/conversations";
 
 interface MessagesProps {

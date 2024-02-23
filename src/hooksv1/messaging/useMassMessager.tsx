@@ -15,7 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 
 import errors from "@/lib/errors";
-import messagingApi from "@/api/api/messaging";
+import messagingApi from "@/apiv1/api/messaging";
 import useContactsStore from "@/state/messaging/contacts";
 import useMessagesStore from "@/state/messaging/messages";
 import useConversationsStore from "@/state/messaging/conversations";

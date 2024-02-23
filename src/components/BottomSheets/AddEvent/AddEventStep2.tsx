@@ -21,7 +21,7 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import ButtonGroup from "@/ui/ButtonGroup";
 import DateTimePicker from "@/ui/DateTimePicker";
-import { UseCreateEvent } from "@/hooks/events/useCreateEvent";
+import { UseCreateEvent } from "@/hooksv1/events/useCreateEvent";
 
 interface AddEventStep2Props extends UseCreateEvent {
   setScreen: (screen: AddEventScreens) => void;

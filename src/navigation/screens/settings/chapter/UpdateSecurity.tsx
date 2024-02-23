@@ -13,7 +13,7 @@
 import Button from "@/ui/Button";
 import Layout from "@/ui/Layout";
 import TextInput from "@/ui/TextInput";
-import useSettings from "@/hooks/useSettings";
+import useSettings from "@/hooksv1/useSettings";
 
 const UpdateSecurity: React.FC = () => {
   const {

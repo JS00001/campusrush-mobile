@@ -18,7 +18,7 @@ import errors from "@/lib/errors";
 import validate from "@/lib/validation";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
-import chapterApi from "@/api/api/chapter";
+import chapterApi from "@/apiv1/api/chapter";
 import validators from "@/lib/validation/validators";
 
 const useSettings = () => {

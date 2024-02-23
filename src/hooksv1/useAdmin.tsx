@@ -12,7 +12,7 @@
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import adminApi from "@/api/api/admin";
+import adminApi from "@/apiv1/api/admin";
 import { useAuth } from "@/providers/Auth";
 
 const useAdmin = () => {

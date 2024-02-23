@@ -13,10 +13,10 @@
 import { useFormik } from "formik";
 import { useMutation } from "@tanstack/react-query";
 
-import authAPI from "@/api/auth";
+import authAPI from "@/apiv1/auth";
 import errors from "@/lib/errors";
 import { useAuth } from "@/providers/Auth";
-import usePosthog from "@/hooks/usePosthog";
+import usePosthog from "@/hooksv1/usePosthog";
 import validators from "@/lib/validation/validators";
 
 const useLogin = () => {

@@ -28,8 +28,8 @@ import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import CopyItem from "@/ui/CopyItem";
 import { useAuth } from "@/providers/Auth";
-import useSettings from "@/hooks/useSettings";
-import { SHARING_URL } from "@/api/constants";
+import useSettings from "@/hooksv1/useSettings";
+import { SHARING_URL } from "@/apiv1/constants";
 import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 
 const ContactDetails = () => {

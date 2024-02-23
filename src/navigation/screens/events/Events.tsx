@@ -24,7 +24,7 @@ import ActionButton from "@/ui/ActionButton";
 import { EventsStatus } from "@/state/events";
 import InfiniteList from "@/components/InfiniteList";
 import { DefaultEventLoader } from "@/ui/Event/Loaders";
-import useEventsList from "@/hooks/events/useEventsList";
+import useEventsList from "@/hooksv1/events/useEventsList";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface EventsProps {

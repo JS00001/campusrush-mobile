@@ -20,7 +20,7 @@ import Layout from "@/ui/Layout";
 import TextInput from "@/ui/TextInput";
 import StatusIcon from "@/ui/StatusIcon";
 import FormHeader from "@/components/Headers/Form";
-import useUpdatePnm from "@/hooks/pnms/useUpdatePnm";
+import useUpdatePnm from "@/hooksv1/pnms/useUpdatePnm";
 
 interface UpdatePnmProps {
   innerRef: React.RefObject<any>;

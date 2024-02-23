@@ -23,7 +23,7 @@ import Modals from "@/components/Modals";
 import queryClient from "@/lib/queryClient";
 import AuthProvider from "@/providers/Auth";
 import PurchasesProvider from "@/providers/IAP";
-import AxiosIntercepter from "@/providers/Axios";
+import AxiosIntercepter from "@/providers/Axiosv1";
 import WebsocketProvider from "@/providers/Websocket";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";

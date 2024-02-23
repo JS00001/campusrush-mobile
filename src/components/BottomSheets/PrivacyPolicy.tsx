@@ -22,7 +22,7 @@ import date from "@/lib/util/date";
 import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";
-import contentApi from "@/api/content";
+import contentApi from "@/apiv1/content";
 
 interface PrivacyPolicyProps {
   innerRef: React.RefObject<any>;

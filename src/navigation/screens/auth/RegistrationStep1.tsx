@@ -16,9 +16,9 @@ import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import Dropdown from "@/ui/Dropdown";
 import schools from "@/constants/schools";
-import usePosthog from "@/hooks/usePosthog";
+import usePosthog from "@/hooksv1/usePosthog";
 import chapters from "@/constants/chapters";
-import useRegistration from "@/hooks/auth/useRegistration";
+import useRegistration from "@/hooksv1/auth/useRegistration";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 interface RegistrationProps {

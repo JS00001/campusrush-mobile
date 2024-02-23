@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
 import useStatisticsStore from "@/state/statistics";
-import chapterApi from "@/api/api/chapter";
+import chapterApi from "@/apiv1/api/chapter";
 
 const useStatistics = () => {
   // Get access token so that we can cache the query

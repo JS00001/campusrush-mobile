@@ -27,7 +27,7 @@ import {
   VerificationStack,
 } from "@/navigation/stack-navigator";
 import { useAuth } from "@/providers/Auth";
-import useVersioning from "@/hooks/useVersioning";
+import useVersioning from "@/hooksv1/useVersioning";
 import { usePreferences } from "@/providers/Preferences";
 import { TabNavigator } from "@/navigation/tab-navigator";
 import { useEntitlements } from "@/providers/Entitlements";

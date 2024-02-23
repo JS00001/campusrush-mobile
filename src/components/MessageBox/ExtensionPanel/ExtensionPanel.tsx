@@ -20,7 +20,7 @@ import Event from "@/ui/Event";
 import tw from "@/lib/tailwind";
 import { CardEventLoader } from "@/ui/Event/Loaders";
 import KeyboardListener from "@/ui/KeyboardListener";
-import useEventsList from "@/hooks/events/useEventsList";
+import useEventsList from "@/hooksv1/events/useEventsList";
 import InfiniteHorizontaList from "@/components/InfiniteHorizontalList";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(

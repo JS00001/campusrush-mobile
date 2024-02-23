@@ -16,7 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import errors from "@/lib/errors";
 import validate from "@/lib/validation";
-import eventsApi from "@/api/api/events";
+import eventsApi from "@/apiv1/api/events";
 import Content from "@/constants/content";
 import useEventsStore from "@/state/events";
 import validators from "@/lib/validation/validators";

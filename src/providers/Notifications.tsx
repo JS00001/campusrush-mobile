@@ -16,7 +16,7 @@ import * as RNNotifications from "expo-notifications";
 import { createContext, useContext, useEffect } from "react";
 
 import { useAuth } from "@/providers/Auth";
-import chapterApi from "@/api/api/chapter";
+import chapterApi from "@/apiv1/api/chapter";
 
 interface NotificationsContextProps {
   isLoading: boolean;

@@ -14,7 +14,7 @@ import { useFormik } from "formik";
 import Toast from "react-native-toast-message";
 import { useMutation } from "@tanstack/react-query";
 
-import authAPI from "@/api/auth";
+import authAPI from "@/apiv1/auth";
 import errors from "@/lib/errors";
 import validate from "@/lib/validation";
 import Content from "@/constants/content";

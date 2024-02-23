@@ -14,7 +14,7 @@ import { View } from "react-native";
 import { AddEventScreens } from "./types";
 
 import Text from "@/ui/Text";
-import { UseCreateEvent } from "@/hooks/events/useCreateEvent";
+import { UseCreateEvent } from "@/hooksv1/events/useCreateEvent";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
 import ButtonGroup from "@/ui/ButtonGroup";

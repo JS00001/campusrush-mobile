@@ -20,7 +20,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import date from "@/lib/util/date";
-import usePnm from "@/hooks/pnms/usePnm";
+import usePnm from "@/hooksv1/pnms/usePnm";
 import IconButton from "@/ui/IconButton";
 import DetailView from "@/ui/DetailView";
 import { formatPhoneNumber } from "@/lib/util/string";

@@ -13,7 +13,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useContext, createContext } from "react";
 
-import billingApi from "@/api/billing";
+import billingApi from "@/apiv1/billing";
 import useEntitlementsStore from "@/state/entitlements";
 
 interface EntitlementsContextProps {
