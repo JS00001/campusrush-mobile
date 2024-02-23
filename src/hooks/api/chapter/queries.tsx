@@ -13,7 +13,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
-import { getChapterStatistics } from "src/api";
+import { getChapterStatistics } from "@/api";
 
 export const useGetChapterStatistics = () => {
   const { accessToken } = useAuth();

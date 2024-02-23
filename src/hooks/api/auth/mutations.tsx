@@ -20,7 +20,7 @@ import {
   resendVerification,
   refresh,
   logout,
-} from "src/api";
+} from "@/api";
 
 import { useAuth } from "@/providers/Auth";
 

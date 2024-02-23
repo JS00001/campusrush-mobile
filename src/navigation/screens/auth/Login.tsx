@@ -11,23 +11,9 @@
  */
 
 import Layout from "@/ui/Layout";
-import Button from "@/ui/Button";
-import TextInput from "@/ui/TextInput";
+import Login from "@/views/login";
 
-import useLogin from "@/hooksv1/auth/useLogin";
-import TermsAndConditions from "@/components/TermsAndConditions";
-
-const Login = () => {
-  const {
-    errors,
-    isLoading,
-    email,
-    password,
-    setEmail,
-    setPassword,
-    handleSubmission,
-  } = useLogin();
-
+const LoginScreen = () => {
   return (
     <Layout scrollable keyboardAvoiding gap={18}>
       <Layout.Header
@@ -35,30 +21,10 @@ const Login = () => {
         title="Login"
         subtitle="Login as a chapter"
       />
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        error={errors.email}
-      />
-      <TextInput
-        secureTextEntry
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        error={errors.password}
-      />
-      <Button
-        loading={isLoading}
-        iconRight="ri-arrow-right-line"
-        onPress={handleSubmission}
-      >
-        Continue
-      </Button>
 
-      <TermsAndConditions />
+      <Login />
     </Layout>
   );
 };
 
-export default Login;
+export default LoginScreen;

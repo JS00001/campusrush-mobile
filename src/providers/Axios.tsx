@@ -124,6 +124,17 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
         return;
       }
 
+      /** ANY STATUS CODE - If there is NO 'field' key, we need to display the error in a toast */
+      if (!data.field) {
+        Toast.show({
+          type: "error",
+          text1: "An error occurred",
+          text2: data.humanMessage,
+        });
+
+        return;
+      }
+
       return Promise.reject(error);
     };
 

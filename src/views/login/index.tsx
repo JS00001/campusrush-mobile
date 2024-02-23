@@ -10,17 +10,6 @@
  * Do not distribute
  */
 
-import { useQuery } from "@tanstack/react-query";
+import Login from "./Login";
 
-import { getAdminChapters } from "@/api";
-import { useAuth } from "@/providers/Auth";
-
-export const useGetAdminChapters = () => {
-  const { accessToken } = useAuth();
-
-  return useQuery(["adminChapters", accessToken], {
-    queryFn: async () => {
-      return getAdminChapters();
-    },
-  });
-};
+export default Login;

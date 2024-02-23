@@ -30,7 +30,7 @@ interface AuthContextProps {
   signOut: () => void;
   clearUserData: () => void;
   updateChapter: (chapter: Chapter) => void;
-  signIn: (response: LoginAsChapterAPIResponse) => Promise<void>;
+  signIn: (response: LoginResponse) => Promise<void>;
   signUp: (response: RegisterAsChapterAPIResponse) => Promise<void>;
 }
 
@@ -172,13 +172,15 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   };
 
   // Sign in as an chapter
-  const signIn = async (response: LoginAsChapterAPIResponse) => {
+  const signIn = async (response: LoginResponse) => {
+    if ("error" in response) return;
+
     // The new chapter data
-    const chapter = response.data?.data.chapter;
+    const chapter = response.data.chapter;
     // The new access token
-    const accessToken = response.data?.data.accessToken;
+    const accessToken = response.data.accessToken;
     // The new refresh token
-    const refreshToken = response.data?.data.refreshToken;
+    const refreshToken = response.data.refreshToken;
 
     // Store the refresh token in storage
     await AsyncStorage.setItem("refreshToken", refreshToken);

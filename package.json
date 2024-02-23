@@ -63,6 +63,7 @@
     "react-native-walkthrough-tooltip": "^1.5.0",
     "sentry-expo": "~7.1.0",
     "twrnc": "^3.6.3",
+    "zod": "^3.22.4",
     "zustand": "^4.4.4"
   },
   "devDependencies": {

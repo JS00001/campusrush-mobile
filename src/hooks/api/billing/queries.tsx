@@ -12,7 +12,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getEntitlements } from "src/api";
+import { getEntitlements } from "@/api";
 import { useAuth } from "@/providers/Auth";
 
 export const useGetEntitlements = () => {
