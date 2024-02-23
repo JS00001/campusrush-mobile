@@ -10,6 +10,26 @@
  * Do not distribute
  */
 
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
-export const usePlaceholderQuery = () => {};
+import { getEvents } from "@/api";
+import { useAuth } from "@/providers/Auth";
+
+export const useGetEvents = () => {
+  const { accessToken } = useAuth();
+
+  return useInfiniteQuery(["events", accessToken], {
+    queryFn: ({ pageParam = 0 }) => {
+      return getEvents({ offset: pageParam });
+    },
+    getNextPageParam: (lastPage) => {
+      if ("error" in lastPage) return undefined;
+
+      const hasNextPage = lastPage.data.hasNextPage;
+
+      if (!hasNextPage) return undefined;
+
+      return lastPage.data.nextOffset;
+    },
+  });
+};

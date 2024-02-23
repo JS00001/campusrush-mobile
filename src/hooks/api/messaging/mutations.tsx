@@ -12,4 +12,20 @@
 
 import { useMutation } from "@tanstack/react-query";
 
-export const usePlaceholder = () => {};
+import { sendMassMessage, sendDirectMessage } from "@/api";
+
+export const useSendMassMessage = () => {
+  return useMutation({
+    mutationFn: (data: SendMassMessageRequest) => {
+      return sendMassMessage(data);
+    },
+  });
+};
+
+export const useSendDirectMessage = () => {
+  return useMutation({
+    mutationFn: (data: SendDirectMessageRequest) => {
+      return sendDirectMessage(data);
+    },
+  });
+};

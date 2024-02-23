@@ -10,6 +10,56 @@
  * Do not distribute
  */
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 
-export const usePlaceholderQuery = () => {};
+import { useAuth } from "@/providers/Auth";
+import { getContacts, getConversation, getConversations } from "@/api";
+
+export const useGetContacts = () => {
+  const { accessToken } = useAuth();
+
+  return useQuery(["contacts", accessToken], {
+    queryFn: () => {
+      return getContacts();
+    },
+  });
+};
+
+export const useGetConversation = (pnmId: string) => {
+  const { accessToken } = useAuth();
+
+  return useInfiniteQuery({
+    queryKey: ["conversation", accessToken, pnmId],
+    queryFn: ({ pageParam = 0 }) => {
+      return getConversation({ offset: pageParam, pnmId });
+    },
+    getNextPageParam: (lastPage) => {
+      if ("error" in lastPage) return undefined;
+
+      const hasNextPage = lastPage.data.hasNextPage;
+
+      if (!hasNextPage) return undefined;
+
+      return lastPage.data.nextOffset;
+    },
+  });
+};
+
+export const useGetConversations = () => {
+  const { accessToken } = useAuth();
+
+  return useInfiniteQuery(["conversations", accessToken], {
+    queryFn: ({ pageParam = 0 }) => {
+      return getConversations({ offset: pageParam });
+    },
+    getNextPageParam: (lastPage) => {
+      if ("error" in lastPage) return undefined;
+
+      const hasNextPage = lastPage.data.hasNextPage;
+
+      if (!hasNextPage) return undefined;
+
+      return lastPage.data.nextOffset;
+    },
+  });
+};

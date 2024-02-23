@@ -12,4 +12,15 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-export const usePlaceholderQuery = () => {};
+import { getPnms } from "@/api";
+import { useAuth } from "@/providers/Auth";
+
+export const useGetPnms = () => {
+  const { accessToken } = useAuth();
+
+  return useQuery(["pnms", accessToken], {
+    queryFn: () => {
+      return getPnms();
+    },
+  });
+};

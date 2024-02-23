@@ -12,4 +12,12 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-export const usePlaceholderQuery = () => {};
+import { getVersion } from "@/api";
+
+export const useGetVersion = () => {
+  return useQuery(["version"], {
+    queryFn: () => {
+      return getVersion();
+    },
+  });
+};

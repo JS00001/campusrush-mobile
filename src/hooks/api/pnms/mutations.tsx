@@ -12,4 +12,36 @@
 
 import { useMutation } from "@tanstack/react-query";
 
-export const usePlaceholder = () => {};
+import { createPnm, deletePnm, deletePnms, updatePnm } from "@/api";
+
+export const useDeletePnms = () => {
+  return useMutation({
+    mutationFn: () => {
+      return deletePnms();
+    },
+  });
+};
+
+export const useCreatePnm = () => {
+  return useMutation({
+    mutationFn: (data: CreatePnmRequest) => {
+      return createPnm(data);
+    },
+  });
+};
+
+export const useUpdatePnm = () => {
+  return useMutation({
+    mutationFn: (data: UpdatePnmRequest) => {
+      return updatePnm(data);
+    },
+  });
+};
+
+export const useDeletePnm = () => {
+  return useMutation({
+    mutationFn: (data: DeletePnmRequest) => {
+      return deletePnm(data);
+    },
+  });
+};

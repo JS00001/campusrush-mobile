@@ -11,5 +11,20 @@
  */
 
 import { useQuery } from "@tanstack/react-query";
+import { getPrivacyPolicy, getTermsOfService } from "@/api";
 
-export const usePlaceholderQuery = () => {};
+export const useGetTermsOfService = () => {
+  return useQuery(["termsOfService"], {
+    queryFn: () => {
+      return getTermsOfService();
+    },
+  });
+};
+
+export const useGetPrivacyPolicy = () => {
+  return useQuery(["privacyPolicy"], {
+    queryFn: () => {
+      return getPrivacyPolicy();
+    },
+  });
+};

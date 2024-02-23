@@ -12,6 +12,20 @@
 
 import { useMutation } from "@tanstack/react-query";
 
-export const useUpdateChapter = () => {};
+import { updateChapter, deleteChapter } from "@/api";
 
-export const useDeleteChapter = () => {};
+export const useUpdateChapter = () => {
+  return useMutation({
+    mutationFn: (data: UpdateChapterRequest) => {
+      return updateChapter(data);
+    },
+  });
+};
+
+export const useDeleteChapter = () => {
+  return useMutation({
+    mutationFn: () => {
+      return deleteChapter();
+    },
+  });
+};
