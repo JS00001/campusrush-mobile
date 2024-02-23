@@ -18,8 +18,8 @@ import errors from "@/lib/errors";
 import validate from "@/lib/validation";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
-import validators from "@/lib/validation/validators";
 import chapterApi from "@/api/api/chapter";
+import validators from "@/lib/validation/validators";
 
 const useSettings = () => {
   const { chapter, updateChapter } = useAuth();
@@ -49,27 +49,27 @@ const useSettings = () => {
 
   // The function to run when the form is submitted
   const onSubmit = async (values: typeof form.values) => {
-    // The response from the server
     let response;
 
+    // Remove all empty fields from the values, prevents empty strings from being sent to the server
+    values = Object.fromEntries(
+      Object.entries(values).filter(([_, value]) => value !== ""),
+    ) as typeof form.values;
+
     try {
-      // Attempt to update the chapter
       response = await mutation.mutateAsync(values);
     } catch (error) {
       errors.handleApiError(error, form);
     }
-    // If there was an error, prevent the "success" code from running
+
     if (!response) return;
 
-    // Get the updated chapter from the response
     let updatedChapter = response?.data.data.chapter;
 
-    // Update the chapter in the auth context
     if (updatedChapter) {
       updateChapter(updatedChapter);
     }
 
-    // Clear the password fields
     form.setFieldValue("currentPassword", "");
     form.setFieldValue("newPassword", "");
     form.setFieldValue("confirmNewPassword", "");

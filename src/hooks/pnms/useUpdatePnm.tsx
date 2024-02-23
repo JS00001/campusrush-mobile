@@ -50,6 +50,10 @@ const useUpdatePnm = (pnmId: string) => {
   const onSubmit = async (values: typeof form.values) => {
     let response;
 
+    values = Object.fromEntries(
+      Object.entries(values).filter(([_, value]) => value !== ""),
+    ) as typeof form.values;
+
     try {
       response = await mutation.mutateAsync(values);
     } catch (error) {
