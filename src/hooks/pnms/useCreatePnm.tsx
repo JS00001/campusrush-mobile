@@ -71,6 +71,11 @@ const useCreatePnm = (): UseCreatePnm => {
     // The response from the server
     let response;
 
+    // Remove all empty fields from the values, prevents empty strings from being sent to the server
+    values = Object.fromEntries(
+      Object.entries(values).filter(([_, value]) => value !== ""),
+    ) as typeof form.values;
+
     try {
       // Attempt to update the chapter
       response = await mutation.mutateAsync(values);
