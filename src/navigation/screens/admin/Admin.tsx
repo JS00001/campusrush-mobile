@@ -18,6 +18,8 @@ import Button from "@/ui/Button";
 import ActionCard from "@/ui/ActionCard";
 import useAdmin from "@/hooks/useAdmin";
 import Information from "@/ui/Information";
+import FetchInterceptor from "@/providers/Axios2";
+import { useEffect } from "react";
 
 interface AdminProps {
   navigation: NativeStackNavigationProp<any>;

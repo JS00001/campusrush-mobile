@@ -10,14 +10,27 @@
  * Do not distribute
  */
 
-import RNTestFlight from "react-native-test-flight";
-import ExpoConstants from "expo-constants";
+import ExpoConstants from 'expo-constants';
+import RNTestFlight from 'react-native-test-flight';
+
+// Whether or not we are in a production environment
+const isProduction = !__DEV__ && !RNTestFlight.isTestFlight;
+
+// Staging URLs
+export const STAGING_URL = 'https://greek-api.in-staging.space';
+export const STAGING_WEB_URL = 'https://campusrush.in-staging.space';
+export const STAGING_WEBSOCKET_URL = 'wss://greek-api.in-staging.space';
+
+// Production URLs
+export const PRODUCTION_WEB_URL = 'https://campusrush.app';
+export const PRODUCTION_URL = 'https://api.campusrush.app';
+export const PRODUCTION_WEBSOCKET_URL = 'wss://api.campusrush.app';
 
 const AppConstants = {
   /**
    * Whether or not we are in a production environment
    */
-  isProduction: !__DEV__ && !RNTestFlight.isTestFlight,
+  isProduction,
   /**
    * The version of the app
    */
@@ -43,24 +56,40 @@ const AppConstants = {
    */
   posthogUrl: ExpoConstants.expoConfig?.extra?.posthog?.url,
   /**
+   * The API url for the backend
+   */
+  apiUrl: isProduction ? PRODUCTION_URL : STAGING_URL,
+  /**
+   * The website url
+   */
+  webUrl: isProduction ? PRODUCTION_WEB_URL : STAGING_WEB_URL,
+  /**
+   * The websocket url for the backend
+   */
+  websocketUrl: isProduction ? PRODUCTION_WEBSOCKET_URL : STAGING_WEBSOCKET_URL,
+  /**
+   * The CMS/content url
+   */
+  contentUrl: 'https://content.campusrush.app',
+  /**
    * The keywords to custom style in messages and their descriptions
    */
   messagingKeywords: [
     {
-      keyword: "@firstname",
-      description: "Will be replaced with first name of the PNM",
+      keyword: '@firstname',
+      description: 'Will be replaced with first name of the PNM',
     },
     {
-      keyword: "@lastname",
-      description: "Will be replaced with last name of the PNM",
+      keyword: '@lastname',
+      description: 'Will be replaced with last name of the PNM',
     },
     {
-      keyword: "@fullname",
-      description: "Will be replaced with full name of the PNM",
+      keyword: '@fullname',
+      description: 'Will be replaced with full name of the PNM',
     },
     {
-      keyword: "@phonenumber",
-      description: "Will be replaced with phone number of the PNM",
+      keyword: '@phonenumber',
+      description: 'Will be replaced with phone number of the PNM',
     },
   ],
   /**

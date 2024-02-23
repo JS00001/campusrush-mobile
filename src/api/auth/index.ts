@@ -64,19 +64,6 @@ const registerAsChapter = (
 };
 
 /**
- * POST /api/v1/consumer/auth/chapters/check
- *
- * Returns
- * - data
- *  - exists
- */
-const checkChapterExists = (
-  data: CheckChapterExistsInput,
-): Promise<CheckChapterExistsAPIResponse> => {
-  return authAPIClient.post('/chapters/check', data);
-};
-
-/**
  * POST /api/v1/consumer/auth/emails/check
  *
  * Returns
@@ -172,7 +159,6 @@ export default {
   loginAsChapter,
   registerAsChapter,
 
-  checkChapterExists,
   checkEmailExists,
 
   verifyChapter,
