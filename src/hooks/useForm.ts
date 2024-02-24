@@ -13,14 +13,12 @@
 import { z } from 'zod';
 import { useState } from 'react';
 
-interface IUseForm<TResponse, TRequest> {
+interface IUseForm {
   /** The zod-ready validation schema for the request (will be passed to zod.object) */
   validators: Record<string, any>;
 }
 
-const useForm = <TResponse = any, TRequest = any>({
-  validators,
-}: IUseForm<TResponse, TRequest>) => {
+const useForm = ({ validators }: IUseForm) => {
   /**
    * Create types for the fields and state so that it
    * auto-completes the fields and their values when typing (based on the validators object)
@@ -38,14 +36,14 @@ const useForm = <TResponse = any, TRequest = any>({
     Object.keys(validators).map((key) => [key, { value: '', error: '' }]),
   ) as TState;
 
-  const [internalState, setInternalState] = useState(initialState);
+  const [state, setState] = useState(initialState);
 
   /**
    * Take the internal state and transform it into a state that can be used
    * for data submission and validators: {key: key, key2: key2, etc: etc}
    */
   const transformedState = Object.fromEntries(
-    Object.entries(internalState).map(([key, value]) => [key, value.value]),
+    Object.entries(state).map(([key, value]) => [key, value.value]),
   );
 
   /**
@@ -53,7 +51,7 @@ const useForm = <TResponse = any, TRequest = any>({
    * controlled version of the normal setState function in React
    */
   const setValue = (key: TFields, value: string) => {
-    setInternalState((prev) => ({
+    setState((prev) => ({
       ...prev,
       [key]: {
         value,
@@ -67,7 +65,7 @@ const useForm = <TResponse = any, TRequest = any>({
    * controlled version of the normal setState function in React
    */
   const setError = (key: TFields, error: string) => {
-    setInternalState((prev) => ({
+    setState((prev) => ({
       ...prev,
       [key]: {
         value: prev[key].value,
@@ -101,7 +99,7 @@ const useForm = <TResponse = any, TRequest = any>({
   };
 
   return {
-    state: internalState,
+    state,
     setValue,
     setError,
     validateState,

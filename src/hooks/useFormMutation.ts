@@ -58,14 +58,14 @@ const useFormMutation = <TResponse = any, TRequest = any>({
   ) as TState;
 
   const [loading, setLoading] = useState(false);
-  const [internalState, setInternalState] = useState(initialState);
+  const [state, setState] = useState(initialState);
 
   /**
    * Take the internal state and transform it into a state that can be used
    * for data submission and validators: {key: key, key2: key2, etc: etc}
    */
   const transformedState = Object.fromEntries(
-    Object.entries(internalState).map(([key, value]) => [key, value.value]),
+    Object.entries(state).map(([key, value]) => [key, value.value]),
   );
 
   /**
@@ -73,11 +73,11 @@ const useFormMutation = <TResponse = any, TRequest = any>({
    * controlled version of the normal setState function in React
    */
   const setValue = (key: TFields, value: string) => {
-    setInternalState((prev) => ({
+    setState((prev) => ({
       ...prev,
       [key]: {
         value,
-        error: '',
+        error: '', // Clear the error when the value is changed
       },
     }));
   };
@@ -87,7 +87,7 @@ const useFormMutation = <TResponse = any, TRequest = any>({
    * controlled version of the normal setState function in React
    */
   const setError = (key: TFields, error: string) => {
-    setInternalState((prev) => ({
+    setState((prev) => ({
       ...prev,
       [key]: {
         value: prev[key].value,
@@ -97,8 +97,8 @@ const useFormMutation = <TResponse = any, TRequest = any>({
   };
 
   /**
-   * Sets the error fields in the state. Can be used to check
-   * the state before submission. **Note**: This function will automatically
+   * Checks whether form is valid & sets the error fields in the state. Can be used
+   * to check the state before submission. **Note**: This function will automatically
    * run when the form is submitted
    */
   const validateState = () => {
@@ -151,7 +151,7 @@ const useFormMutation = <TResponse = any, TRequest = any>({
       if (err instanceof AxiosError) {
         const error = (err.response?.data as API.ErrorResponse).error;
         const errorField = error.field as TFields; // We can assume the field will be defined, because we catch all errors with no field in the Axios Provider
-        const isFieldInState = Object.keys(internalState).includes(errorField);
+        const isFieldInState = Object.keys(state).includes(errorField);
 
         if (!isFieldInState) {
           Toast.show({
@@ -180,8 +180,8 @@ const useFormMutation = <TResponse = any, TRequest = any>({
   };
 
   return {
+    state,
     loading,
-    state: internalState,
     setValue,
     setError,
     validateState,
