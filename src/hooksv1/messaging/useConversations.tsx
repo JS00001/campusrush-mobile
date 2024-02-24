@@ -16,8 +16,8 @@ import { MenuAction } from "@react-native-menu/menu";
 
 import { useAuth } from "@/providers/Auth";
 import messagingApi from "@/apiv1/api/messaging";
-import useConversationsStore from "@/state/messaging/conversations";
-import { ConversationStatus } from "@/state/messaging/conversations";
+import useConversationsStore from "@/statev1/messaging/conversations";
+import { ConversationStatus } from "@/statev1/messaging/conversations";
 
 export enum ConversationFilter {
   NoFilter = "NO_FILTER",

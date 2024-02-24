@@ -18,7 +18,7 @@ import Text from "@/ui/Text";
 import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
-import useModalsStore from "@/state/modals";
+import useModalsStore from "@/statev1/modals";
 
 interface AddPnmProps {
   handleCloseModalPress: () => void;

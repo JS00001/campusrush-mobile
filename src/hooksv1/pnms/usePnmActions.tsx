@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import usePnm from "@/hooksv1/pnms/usePnm";
 import Content from "@/constants/content";
-import useModalsStore from "@/state/modals";
+import useModalsStore from "@/statev1/modals";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
 export enum PNMActions {

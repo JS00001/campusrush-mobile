@@ -20,7 +20,7 @@ import BottomSheetContainer from "./Components/BottomSheetContainer";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Information from "@/ui/Information";
-import useEntitlementsStore from "@/state/entitlements";
+import useEntitlementsStore from "@/statev1/entitlements";
 
 interface PlanComparisonProps {
   innerRef: React.RefObject<any>;

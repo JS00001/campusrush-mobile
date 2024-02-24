@@ -14,7 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import errors from "@/lib/errors";
 import eventsApi from "@/apiv1/api/events";
-import useEventsStore from "@/state/events";
+import useEventsStore from "@/statev1/events";
 
 interface UseEvent {
   event: Event;

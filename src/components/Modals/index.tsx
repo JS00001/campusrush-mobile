@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import useModalsStore from "@/state/modals";
+import useModalsStore from "@/statev1/modals";
 
 const Modals: React.FC = () => {
   // Get all of the available modals from the store

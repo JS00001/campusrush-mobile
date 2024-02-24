@@ -19,9 +19,9 @@ import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import messagingApi from "@/apiv1/api/messaging";
-import useContactsStore from "@/state/messaging/contacts";
-import useMessagesStore from "@/state/messaging/messages";
-import useConversationsStore from "@/state/messaging/conversations";
+import useContactsStore from "@/statev1/messaging/contacts";
+import useMessagesStore from "@/statev1/messaging/messages";
+import useConversationsStore from "@/statev1/messaging/conversations";
 
 const useConversation = (pnmId: string) => {
   const { accessToken, chapter } = useAuth();

@@ -15,8 +15,8 @@ import { createContext, useContext, useState } from "react";
 
 import { isJSON } from "@/lib/util/string";
 import { WEBSOCKET_URL } from "@/apiv1/constants";
-import useMessagesStore from "@/state/messaging/messages";
-import useConversationsStore from "@/state/messaging/conversations";
+import useMessagesStore from "@/statev1/messaging/messages";
+import useConversationsStore from "@/statev1/messaging/conversations";
 import SocketInput from "@/lib/socketInput";
 
 interface WebsocketContextProps {

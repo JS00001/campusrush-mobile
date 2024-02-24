@@ -20,7 +20,7 @@ import { useState } from "react";
 import InfiniteCarousel from "@/ui/InfiniteCarousel";
 import Text from "@/ui/Text";
 import Button from "@/ui/Button";
-import useModalsStore from "@/state/modals";
+import useModalsStore from "@/statev1/modals";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;

@@ -18,7 +18,7 @@ import { useAuth } from "@/providers/Auth";
 import { useRegister } from "@/hooks/api/auth";
 import validators from "@/constants/validators";
 import useFormMutation from "@/hooks/useFormMutation";
-import useRegistrationStore from "@/state/registration";
+import useRegistrationStore from "@/statev1/registration";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep3 = () => {

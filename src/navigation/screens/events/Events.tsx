@@ -21,7 +21,7 @@ import TextInput from "@/ui/TextInput";
 import StatusIcon from "@/ui/StatusIcon";
 import IconButton from "@/ui/IconButton";
 import ActionButton from "@/ui/ActionButton";
-import { EventsStatus } from "@/state/events";
+import { EventsStatus } from "@/statev1/events";
 import InfiniteList from "@/components/InfiniteList";
 import { DefaultEventLoader } from "@/ui/Event/Loaders";
 import useEventsList from "@/hooksv1/events/useEventsList";

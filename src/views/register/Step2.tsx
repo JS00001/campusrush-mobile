@@ -17,7 +17,7 @@ import TextInput from "@/ui/TextInput";
 import validators from "@/constants/validators";
 import { useCheckEmail } from "@/hooks/api/auth";
 import useFormMutation from "@/hooks/useFormMutation";
-import useRegistrationStore from "@/state/registration";
+import useRegistrationStore from "@/statev1/registration";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep2 = () => {

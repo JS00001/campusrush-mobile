@@ -16,7 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 import errors from "@/lib/errors";
 import validate from "@/lib/validation";
 import eventsApi from "@/apiv1/api/events";
-import useEventsStore from "@/state/events";
+import useEventsStore from "@/statev1/events";
 import validators from "@/lib/validation/validators";
 
 const useUpdateEvent = (eventId: string) => {

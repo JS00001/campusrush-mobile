@@ -19,7 +19,7 @@ import Layout from "@/ui/Layout";
 import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
 import StatusIcon from "@/ui/StatusIcon";
-import { PnmsStatus } from "@/state/pnms";
+import { PnmsStatus } from "@/statev1/pnms";
 import PnmsList from "@/components/PnmsList";
 import usePnmsList from "@/hooksv1/pnms/usePnmsList";
 

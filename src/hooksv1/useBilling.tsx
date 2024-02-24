@@ -12,7 +12,7 @@
 
 import { useAuth } from "@/providers/Auth";
 import { useIAPs } from "@/providers/IAP";
-import useEntitlementsStore from "@/state/entitlements";
+import useEntitlementsStore from "@/statev1/entitlements";
 
 const useBilling = () => {
   const { customerData } = useAuth();

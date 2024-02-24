@@ -26,7 +26,7 @@ import InfiniteList from "@/components/InfiniteList";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import { ConversationLoader } from "@/ui/Conversation/Loaders";
 import useConversations from "@/hooksv1/messaging/useConversations";
-import { ConversationStatus } from "@/state/messaging/conversations";
+import { ConversationStatus } from "@/statev1/messaging/conversations";
 
 interface MessagesProps {
   navigation: NativeStackNavigationProp<any>;

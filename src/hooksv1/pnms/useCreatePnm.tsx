@@ -16,7 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import errors from "@/lib/errors";
 import pnmApi from "@/apiv1/api/pnms";
-import useZustandStore from "@/state";
+import useZustandStore from "src/statev1";
 import validate from "@/lib/validation";
 import Content from "@/constants/content";
 import validators from "@/lib/validation/validators";

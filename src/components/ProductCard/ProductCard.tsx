@@ -16,7 +16,7 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import { useAuth } from "@/providers/Auth";
 import ProductPerk from "@/components/ProductPerk";
-import useEntitlementsStore from "@/state/entitlements";
+import useEntitlementsStore from "@/statev1/entitlements";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 

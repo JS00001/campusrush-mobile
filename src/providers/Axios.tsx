@@ -16,7 +16,7 @@ import Toast from "react-native-toast-message";
 import AppConstants from "@/constants";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
-import useModalsStore from "@/state/modals";
+import useModalsStore from "@/statev1/modals";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 interface AxiosInterceptorProps {

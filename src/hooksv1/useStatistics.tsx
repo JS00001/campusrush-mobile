@@ -14,7 +14,7 @@ import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
-import useStatisticsStore from "@/state/statistics";
+import useStatisticsStore from "@/statev1/statistics";
 import chapterApi from "@/apiv1/api/chapter";
 
 const useStatistics = () => {

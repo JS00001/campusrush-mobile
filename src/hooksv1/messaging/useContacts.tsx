@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
 import messagingApi from "@/apiv1/api/messaging";
-import useContactsStore from "@/state/messaging/contacts";
+import useContactsStore from "@/statev1/messaging/contacts";
 
 const useContacts = () => {
   const { accessToken } = useAuth();

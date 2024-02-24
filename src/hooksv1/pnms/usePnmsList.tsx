@@ -15,11 +15,11 @@ import { MenuAction } from "@react-native-menu/menu";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import pnmsApi from "@/apiv1/api/pnms";
-import useZustandStore from "@/state";
+import useZustandStore from "src/statev1";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
-import useModalsStore from "@/state/modals";
-import usePnmsStore, { PnmsStatus } from "@/state/pnms";
+import useModalsStore from "@/statev1/modals";
+import usePnmsStore, { PnmsStatus } from "@/statev1/pnms";
 
 export enum PNMFilter {
   NoFilter = "NO_FILTER",

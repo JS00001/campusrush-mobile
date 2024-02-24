@@ -21,7 +21,7 @@ import Toast from "react-native-toast-message";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import { BASE_URL } from "@/apiv1/constants";
-import useModalsStore from "@/state/modals";
+import useModalsStore from "@/statev1/modals";
 
 interface AxiosConfig extends InternalAxiosRequestConfig {
   retryCount?: number;

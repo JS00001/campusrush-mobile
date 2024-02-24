@@ -24,7 +24,7 @@ import {
 import tw from "@/lib/tailwind";
 import { useAuth } from "@/providers/Auth";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import useConversationsStore from "@/state/messaging/conversations";
+import useConversationsStore from "@/statev1/messaging/conversations";
 
 export const Tab = createBottomTabNavigator();
 

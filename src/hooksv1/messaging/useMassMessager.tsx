@@ -16,10 +16,10 @@ import { useNavigation } from "@react-navigation/native";
 
 import errors from "@/lib/errors";
 import messagingApi from "@/apiv1/api/messaging";
-import useContactsStore from "@/state/messaging/contacts";
-import useMessagesStore from "@/state/messaging/messages";
-import useConversationsStore from "@/state/messaging/conversations";
-import { ConversationStatus } from "@/state/messaging/conversations";
+import useContactsStore from "@/statev1/messaging/contacts";
+import useMessagesStore from "@/statev1/messaging/messages";
+import useConversationsStore from "@/statev1/messaging/conversations";
+import { ConversationStatus } from "@/statev1/messaging/conversations";
 const useMassMessager = (pnms: PNM[]) => {
   const navigation = useNavigation();
 

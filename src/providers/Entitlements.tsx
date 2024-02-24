@@ -14,7 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useContext, createContext } from "react";
 
 import billingApi from "@/apiv1/billing";
-import useEntitlementsStore from "@/state/entitlements";
+import useEntitlementsStore from "@/statev1/entitlements";
 
 interface EntitlementsContextProps {
   isLoading: boolean;

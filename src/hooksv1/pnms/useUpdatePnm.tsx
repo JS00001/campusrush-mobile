@@ -17,7 +17,7 @@ import errors from "@/lib/errors";
 import pnmsApi from "@/apiv1/api/pnms";
 import validate from "@/lib/validation";
 import validators from "@/lib/validation/validators";
-import usePnmsStore from "@/state/pnms";
+import usePnmsStore from "@/statev1/pnms";
 
 const useUpdatePnm = (pnmId: string) => {
   const pnm = usePnmsStore((state) => state.getPnm(pnmId));

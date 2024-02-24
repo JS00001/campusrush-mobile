@@ -19,8 +19,8 @@ import errors from "@/lib/errors";
 import eventsApi from "@/apiv1/api/events";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
-import useModalsStore from "@/state/modals";
-import useEventsStore, { EventsStatus } from "@/state/events";
+import useModalsStore from "@/statev1/modals";
+import useEventsStore, { EventsStatus } from "@/statev1/events";
 
 export enum EventsFilter {
   NoFilter = "NO_FILTER",

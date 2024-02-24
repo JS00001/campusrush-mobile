@@ -21,7 +21,7 @@ import AppConstants from "@/constants";
 import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
-import useModalsStore from "@/state/modals";
+import useModalsStore from "@/statev1/modals";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import useDeleteChapter from "@/hooksv1/auth/useDeleteChapter";
 

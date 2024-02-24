@@ -16,7 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import Button from "@/ui/Button";
 import Dropdown from "@/ui/Dropdown";
 import useForm from "@/hooks/useForm";
-import useRegistrationStore from "@/state/registration";
+import useRegistrationStore from "@/statev1/registration";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 import schools from "@/constants/schools";
