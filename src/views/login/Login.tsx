@@ -27,7 +27,7 @@ const Login = () => {
     password: validators.password,
   };
 
-  const { state, loading, setValue, handleSubmission } = useApiCall({
+  const form = useApiCall({
     mutation,
     validators: formValidators,
     onSuccess: (data) => signIn(data),
@@ -37,21 +37,21 @@ const Login = () => {
     <>
       <TextInput
         placeholder="Email"
-        error={state.email.error}
-        value={state.email.value}
-        onChangeText={(value) => setValue("email", value)}
+        error={form.state.email.error}
+        value={form.state.email.value}
+        onChangeText={form.setValue.bind(null, "email")}
       />
       <TextInput
         secureTextEntry
         placeholder="Password"
-        error={state.password.error}
-        value={state.password.value}
-        onChangeText={(value) => setValue("password", value)}
+        error={form.state.password.error}
+        value={form.state.password.value}
+        onChangeText={form.setValue.bind(null, "password")}
       />
       <Button
-        loading={loading}
+        loading={form.loading}
         iconRight="ri-arrow-right-line"
-        onPress={handleSubmission}
+        onPress={form.handleSubmission}
       >
         Continue
       </Button>

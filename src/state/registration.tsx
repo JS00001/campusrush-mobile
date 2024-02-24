@@ -14,13 +14,13 @@ import { create } from "zustand";
 
 const defaultState = {
   fields: {
-    name: "",
-    school: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    name: undefined,
+    school: undefined,
+    firstName: undefined,
+    lastName: undefined,
+    email: undefined,
+    password: undefined,
+    confirmPassword: undefined,
   },
 };
 
@@ -29,7 +29,10 @@ interface RegistrationState {
 
   resetState: () => void;
 
-  setField: (field: keyof RegistrationState["fields"], value: string) => void;
+  setField: (
+    field: keyof RegistrationState["fields"],
+    value: string | undefined,
+  ) => void;
 }
 
 const useRegistrationStore = create<RegistrationState>()((set) => ({

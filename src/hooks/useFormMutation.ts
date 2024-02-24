@@ -29,13 +29,17 @@ interface IUseFormMutation<TResponse, TRequest> {
   validators: Record<string, any>;
 
   /** The callback to be executed on success */
-  onSuccess: (data: API.Response<TResponse>) => Promise<void>;
+  onSuccess: (data: API.SuccessResponse<TResponse>) => Promise<void>;
+
+  /** The initial values for a form (optional) */
+  initialValues?: Record<string, string | undefined>;
 }
 
 const useFormMutation = <TResponse = any, TRequest = any>({
   mutation,
   validators,
   onSuccess,
+  initialValues,
 }: IUseFormMutation<TResponse, TRequest>) => {
   /**
    * Create types for the fields and state so that it
@@ -53,7 +57,7 @@ const useFormMutation = <TResponse = any, TRequest = any>({
   const initialState = Object.fromEntries(
     Object.keys(validators).map((key) => [
       key,
-      { value: undefined, error: '' },
+      { value: initialValues ? initialValues[key] : undefined, error: '' },
     ]),
   ) as TState;
 
@@ -143,6 +147,10 @@ const useFormMutation = <TResponse = any, TRequest = any>({
      */
     try {
       const res = await mutation.mutateAsync(transformedState as TRequest);
+
+      if ('error' in res) {
+        throw res;
+      }
 
       await onSuccess(res);
 

@@ -10,43 +10,10 @@
  * Do not distribute
  */
 
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
 import Layout from "@/ui/Layout";
-import Button from "@/ui/Button";
-import Dropdown from "@/ui/Dropdown";
-import schools from "@/constants/schools";
-import usePosthog from "@/hooksv1/usePosthog";
-import chapters from "@/constants/chapters";
-import useRegistration from "@/hooksv1/auth/useRegistration";
-import TermsAndConditions from "@/components/TermsAndConditions";
+import RegistrationStep1 from "@/views/register/Step1";
 
-interface RegistrationProps {
-  navigation: NativeStackNavigationProp<any>;
-}
-
-const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
-  const posthog = usePosthog();
-  const { name, school, errors, isLoading, setField, validateFields } =
-    useRegistration();
-
-  // Handle the submission of the form
-  const onContinue = () => {
-    // Ensure the fields are valid
-    const isValid = validateFields(["name", "school"]);
-    // If the fields are not valid, dont navigate to the next screen
-    if (!isValid) return;
-
-    // Capture the event in analytics
-    posthog.capture("complete_registration_step_1", {
-      school,
-      chapter: name,
-    });
-
-    // Navigate to the next screen if the fields are valid
-    navigation.navigate("RegistrationStep2");
-  };
-
+const RegistrationStep1Screen = () => {
   return (
     <Layout gap={18} keyboardAvoiding>
       <Layout.Header
@@ -54,35 +21,10 @@ const RegistrationStep1: React.FC<RegistrationProps> = ({ navigation }) => {
         title="Register"
         subtitle="Please provide your chapters information"
       />
-      <Dropdown
-        searchable
-        placeholder="School Name"
-        options={schools}
-        value={school}
-        onValueChange={setField.bind(null, "school")}
-        error={errors.school}
-      />
 
-      <Dropdown
-        searchable
-        placeholder="Chapter Name"
-        options={chapters}
-        value={name}
-        onValueChange={setField.bind(null, "name")}
-        error={errors.name}
-      />
-
-      <Button
-        loading={isLoading}
-        onPress={onContinue}
-        iconRight="ri-arrow-right-line"
-      >
-        Continue
-      </Button>
-
-      <TermsAndConditions />
+      <RegistrationStep1 />
     </Layout>
   );
 };
 
-export default RegistrationStep1;
+export default RegistrationStep1Screen;

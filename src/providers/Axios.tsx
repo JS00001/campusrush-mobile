@@ -23,7 +23,7 @@ interface AxiosInterceptorProps {
   children?: React.ReactNode;
 }
 
-export const axiosClient = axios.create({
+const axiosClient = axios.create({
   baseURL: AppConstants.apiUrl,
 });
 
@@ -156,9 +156,11 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
       axiosClient.interceptors.response.eject(responseInterceptors);
       axiosClient.interceptors.request.eject(requestInterceptors);
     };
-  }, []);
+  }, [accessToken]);
 
   return children;
 };
+
+export { axiosClient };
 
 export default AxiosInterceptor;

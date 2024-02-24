@@ -16,9 +16,12 @@ import { useState } from 'react';
 interface IUseForm {
   /** The zod-ready validation schema for the request (will be passed to zod.object) */
   validators: Record<string, any>;
+
+  /** The initial values for a form (optional) */
+  initialValues?: Record<string, string | undefined>;
 }
 
-const useForm = ({ validators }: IUseForm) => {
+const useForm = ({ validators, initialValues }: IUseForm) => {
   /**
    * Create types for the fields and state so that it
    * auto-completes the fields and their values when typing (based on the validators object)
@@ -27,13 +30,19 @@ const useForm = ({ validators }: IUseForm) => {
 
   type TState = {
     [K in TFields]: {
-      value: string;
+      value: string | undefined;
       error: string;
     };
   };
 
   const initialState = Object.fromEntries(
-    Object.keys(validators).map((key) => [key, { value: '', error: '' }]),
+    Object.keys(validators).map((key) => [
+      key,
+      {
+        value: initialValues ? initialValues[key] : undefined,
+        error: '',
+      },
+    ]),
   ) as TState;
 
   const [state, setState] = useState(initialState);
