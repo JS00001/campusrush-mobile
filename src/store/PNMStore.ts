@@ -9,3 +9,115 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { create } from 'zustand';
+import { PersistStorage, persist } from 'zustand/middleware';
+
+import customAsyncStorage from '@/lib/asyncStorage';
+import { useGetPnms } from '@/hooks/api/pnms';
+import { useEffect } from 'react';
+
+interface IPnmStore {
+  pnms: PNM[];
+
+  clear: () => void;
+  setPnms: (pnms: PNM[]) => void;
+  getPnm: (id: string) => PNM | undefined;
+  addPnm: (pnm: PNM) => void;
+  updatePnm: (pnm: PNM) => void;
+  deletePnm: (id: string) => void;
+}
+
+const useStore = create<IPnmStore>()(
+  persist(
+    (set, get) => {
+      /**
+       * Initial state of the store
+       */
+      const initialState = {
+        pnms: [],
+      };
+      /**
+       * Clears the store
+       */
+      const clear = () => {
+        return set(initialState);
+      };
+
+      /**
+       * Set the PNMs in the store
+       */
+      const setPnms = (pnms: PNM[]) => {
+        return set({ pnms });
+      };
+
+      /**
+       * Get a PNM by ID
+       */
+      const getPnm = (id: string) => {
+        const pnm = get().pnms.find((pnm) => pnm._id === id);
+
+        return pnm;
+      };
+
+      /**
+       * Add a PNM to the store (if it's id doesn't exist)
+       */
+      const addPnm = (pnm: PNM) => {
+        const pnmExists = get().pnms.some((p) => p._id === pnm._id);
+
+        if (pnmExists) return;
+
+        return set({ pnms: [...get().pnms, pnm] });
+      };
+
+      /**
+       * Update a PNM in the store
+       */
+      const updatePnm = (pnm: PNM) => {
+        const pnms = get().pnms.map((p) => (p._id === pnm._id ? pnm : p));
+
+        return set({ pnms });
+      };
+
+      /**
+       * Delete a PNM from the store
+       */
+      const deletePnm = (id: string) => {
+        const pnms = get().pnms.filter((p) => p._id !== id);
+
+        return set({ pnms });
+      };
+
+      return {
+        ...initialState,
+        clear,
+        setPnms,
+        getPnm,
+        addPnm,
+        updatePnm,
+        deletePnm,
+      };
+    },
+    {
+      name: 'pnm-store',
+      storage: customAsyncStorage as PersistStorage<IPnmStore>,
+    },
+  ),
+);
+
+export const usePnmStore = () => {
+  const store = useStore();
+  const query = useGetPnms();
+
+  useEffect(() => {
+    if (!query.data || 'error' in query.data) return;
+
+    store.setPnms(query.data.data.pnms);
+  }, [query.data]);
+
+  return {
+    ...query,
+    ...store,
+  };
+};

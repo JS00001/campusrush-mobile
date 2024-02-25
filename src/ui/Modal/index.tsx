@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-export * from './ModalStore';
-export * from './PnmStore';
-export * from './RegistrationStore';
-export * from './StatisticsStore';
+import Modal from "./Modal";
+
+export * from "./Modal";
+export default Modal;

@@ -12,12 +12,13 @@
 
 import { useEffect } from "react";
 import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 import AppConstants from "@/constants";
+import { useModalStore } from "@/store";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
-import useModalsStore from "@/statev1/modals";
-import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 interface AxiosInterceptorProps {
   children?: React.ReactNode;
@@ -28,7 +29,8 @@ const axiosClient = axios.create({
 });
 
 const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
-  const { openModal } = useModalsStore();
+  const navigation = useNavigation();
+  const { openModal } = useModalStore();
   const { accessToken, clearUserData } = useAuth();
 
   useEffect(() => {
@@ -90,36 +92,35 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
 
       /** 403 - MISSING_ENTITLEMENT */
       if (data.message === "MISSING_ENTITLEMENT") {
-        openModal({
-          name: "WARNING",
-          props: {
-            title: Content.missingEntitlementError.message,
-            primaryButtonText: Content.missingEntitlementError.primaryButton,
-            secondaryButtonText:
-              Content.missingEntitlementError.secondaryButton,
-          },
+        openModal("warning", {
+          title: Content.missingEntitlementError.message,
+          primaryActionLabel: Content.missingEntitlementError.primaryButton,
+          secondaryActionLabel: Content.missingEntitlementError.secondaryButton,
         });
         return;
       }
 
       /** 403 - UPGRADABLE_ENTITLEMENT_LIMIT_REACHED */
       if (data.message === "UPGRADABLE_ENTITLEMENT_LIMIT_REACHED") {
-        openModal({
-          name: "UPGRADE",
-          props: { subtitle: data.humanMessage },
+        openModal("info", {
+          title: "Upgrade for more",
+          subtitle: data.humanMessage,
+          primaryActionLabel: "Upgrade",
+          onPrimaryAction: () =>
+            (navigation.navigate as any)("HomeTab", {
+              screen: "UpdateBilling",
+              initial: false,
+            }),
         });
         return;
       }
 
       /** 403 - MAXIMUM_ENTITLEMENT_LIMIT_REACHED */
       if (data.message === "MAXIMUM_ENTITLEMENT_LIMIT_REACHED") {
-        openModal({
-          name: "WARNING",
-          props: {
-            title: "Limit Reached",
-            subtitle: data.humanMessage,
-            primaryButtonText: "Go Back",
-          },
+        openModal("warning", {
+          title: "Limit Reached",
+          subtitle: data.humanMessage,
+          primaryActionLabel: "Go Back",
         });
         return;
       }

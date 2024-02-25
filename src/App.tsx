@@ -19,7 +19,8 @@ import { startNetworkLogging } from "react-native-network-logger";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import toastConfig from "@/lib/toast";
-import Modals from "@/components/Modals";
+import Modals from "@/providers/Modal";
+import ModalsV1 from "@/components/Modalsv1";
 import queryClient from "@/lib/queryClient";
 import AuthProvider from "@/providers/Auth";
 import PurchasesProvider from "@/providers/IAP";
@@ -51,10 +52,10 @@ const App = () => {
         <PurchasesProvider>
           <WebsocketProvider>
             <AuthProvider>
-              <AxiosIntercepter>
-                <AxiosV1Intercepter>
-                  <PreferencesProvider>
-                    <NavigationProvider>
+              <NavigationProvider>
+                <AxiosIntercepter>
+                  <AxiosV1Intercepter>
+                    <PreferencesProvider>
                       <PosthogProvider>
                         <NotificationsProvider>
                           <GestureHandlerRootView style={{ flex: 1 }}>
@@ -62,6 +63,7 @@ const App = () => {
                               <BottomSheetProvider>
                                 <EntitlementsProvider>
                                   <Modals />
+                                  <ModalsV1 />
                                   <DevEnvironment />
                                   <RootNavigator />
                                   <Toast config={toastConfig} />
@@ -71,10 +73,10 @@ const App = () => {
                           </GestureHandlerRootView>
                         </NotificationsProvider>
                       </PosthogProvider>
-                    </NavigationProvider>
-                  </PreferencesProvider>
-                </AxiosV1Intercepter>
-              </AxiosIntercepter>
+                    </PreferencesProvider>
+                  </AxiosV1Intercepter>
+                </AxiosIntercepter>
+              </NavigationProvider>
             </AuthProvider>
           </WebsocketProvider>
         </PurchasesProvider>

@@ -83,7 +83,7 @@ export const useStatisticsStore = () => {
   }, [query.data]);
 
   return {
+    ...query,
     ...store,
-    isLoading: query.isLoading,
   };
 };

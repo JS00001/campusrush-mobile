@@ -12,11 +12,11 @@
 
 import { create } from "zustand";
 
-import type { ModalProps } from "@/components/Modals/types";
+import type { ModalProps } from "@/components/Modalsv1/types";
 
-import ErrorModal from "@/components/Modals/Error";
-import WarningModal from "@/components/Modals/Warning";
-import UpgradeModal from "@/components/Modals/Upgrade";
+import ErrorModal from "@/components/Modalsv1/Error";
+import WarningModal from "@/components/Modalsv1/Warning";
+import UpgradeModal from "@/components/Modalsv1/Upgrade";
 
 /**
  * All modals that can be opened
