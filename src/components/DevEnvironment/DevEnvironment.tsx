@@ -28,7 +28,7 @@ import { formatJSON } from "@/lib/util/string";
 import { useAuth } from "@/providers/Auth";
 import SegmentedControl from "@/ui/SegmentedControl";
 import { usePreferences } from "@/providers/Preferences";
-import BottomSheetBackdrop from "../BottomSheets/Components/BottomSheetBackdrop";
+import BottomSheetBackdrop from "@/components/BottomSheetsv1/Components/BottomSheetBackdrop";
 import { useWebsocket } from "@/providers/Websocket";
 
 const DevEnvironment: React.FC = ({}) => {

@@ -57,8 +57,8 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
       subtitle: "An error occurred",
       primaryActionLabel: "Retry",
       secondaryActionLabel: "Go Back",
-      onPrimaryAction: () => console.log("Retry"),
-      onSecondaryAction: () => console.log("Go Back"),
+      onPrimaryAction: async () => console.log("Retry"),
+      onSecondaryAction: async () => console.log("Go Back"),
     });
   };
 
@@ -68,8 +68,8 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
       subtitle: "An info message",
       primaryActionLabel: "Continue",
       secondaryActionLabel: "Go Back",
-      onPrimaryAction: () => console.log("Continue"),
-      onSecondaryAction: () => console.log("Go Back"),
+      onPrimaryAction: async () => console.log("Continue"),
+      onSecondaryAction: async () => console.log("Go Back"),
     });
   };
 
@@ -79,8 +79,8 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
       subtitle: "A warning message",
       primaryActionLabel: "Continue",
       secondaryActionLabel: "Go Back",
-      onPrimaryAction: () => console.log("Continue"),
-      onSecondaryAction: () => console.log("Go Back"),
+      onPrimaryAction: async () => console.log("Continue"),
+      onSecondaryAction: async () => console.log("Go Back"),
     });
   };
 

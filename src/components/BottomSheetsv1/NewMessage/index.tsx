@@ -17,8 +17,8 @@ import { NewMessageScreens, ScreensList } from "./types";
 import BottomSheet from "../Components/BottomSheet";
 import BottomSheetContainer from "../Components/BottomSheetContainer";
 
-import NewMessage from "@/components/BottomSheets/NewMessage/NewMessage";
-import DirectMessage from "@/components/BottomSheets/NewMessage/DirectMessage";
+import NewMessage from "@/components/BottomSheetsv1/NewMessage/NewMessage";
+import DirectMessage from "@/components/BottomSheetsv1/NewMessage/DirectMessage";
 
 interface NewMessageProps {
   innerRef: React.RefObject<any>;

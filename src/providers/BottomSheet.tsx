@@ -13,7 +13,7 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { createContext, useCallback, useContext, useRef } from "react";
 
-import BottomSheetComponents from "@/components/BottomSheets";
+import BottomSheetComponents from "@/components/BottomSheetsv1";
 
 /**
  * All bottom sheets that can be opened
