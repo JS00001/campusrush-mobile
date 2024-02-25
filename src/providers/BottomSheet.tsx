@@ -22,12 +22,9 @@ import BottomSheetComponents from "@/components/BottomSheets";
  * Put all bottom sheets in the @/components/BottomSheets folder
  */
 const BottomSheets = [
-  { name: "UPDATE_PNM", component: BottomSheetComponents.UpdatePnmSheet },
+  { name: "CREATE_PNM", component: BottomSheetComponents.CreatePnmSheet },
+
   { name: "PNM", component: BottomSheetComponents.PnmSheet },
-  {
-    name: "TERMS_OF_SERVICE",
-    component: BottomSheetComponents.TermsOfServiceSheet,
-  },
   {
     name: "PLAN_COMPARISON",
     component: BottomSheetComponents.PlanComparisonSheet,
@@ -36,6 +33,11 @@ const BottomSheets = [
     name: "PRIVACY_POLICY",
     component: BottomSheetComponents.PrivacyPolicySheet,
   },
+  {
+    name: "TERMS_OF_SERVICE",
+    component: BottomSheetComponents.TermsOfServiceSheet,
+  },
+  { name: "UPDATE_PNM", component: BottomSheetComponents.UpdatePnmSheet },
 ];
 
 interface BottomSheetContextProps {

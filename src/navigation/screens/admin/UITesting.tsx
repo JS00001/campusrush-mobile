@@ -22,6 +22,7 @@ import Text from "@/ui/Text";
 import Button from "@/ui/Button";
 import useModalsStore from "@/statev1/modals";
 import { useModalStore } from "@/store";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
@@ -29,6 +30,7 @@ interface UITestingProps {
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
   const { openModal } = useModalStore();
+  const { openBottomSheet } = useBottomSheets();
 
   const openErrorModal = () => {
     openModal("error", {
@@ -84,6 +86,10 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
     });
   };
 
+  const onCreatePnmPress = () => {
+    openBottomSheet("CREATE_PNM");
+  };
+
   return (
     <Layout gap={12} contentContainerStyle={tw`pl-4 pr-0`}>
       <Layout.CustomHeader>
@@ -102,6 +108,8 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
       <Button onPress={openWarningWithActionsModal}>
         Open Warning Modal with Actions
       </Button>
+
+      <Button onPress={onCreatePnmPress}>Open Create PNM Sheet</Button>
     </Layout>
   );
 };

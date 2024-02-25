@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import CreatePnmSheet from "./CreatePnm";
 import PnmSheet from "./Pnm";
 import UpdatePnmSheet from "./UpdatePnm";
 import PlanComparisonSheet from "./PlanComparison";
@@ -17,6 +18,7 @@ import PrivacyPolicySheet from "./PrivacyPolicy";
 import TermsOfServiceSheet from "./TermsOfService";
 
 export default {
+  CreatePnmSheet,
   PnmSheet,
   UpdatePnmSheet,
   PlanComparisonSheet,

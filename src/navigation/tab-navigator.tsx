@@ -23,7 +23,7 @@ import {
 
 import tw from "@/lib/tailwind";
 import { useAuth } from "@/providers/Auth";
-import { useBottomSheets } from "@/providers/BottomSheetv1";
+import { useBottomSheets } from "@/providers/BottomSheet";
 import useConversationsStore from "@/statev1/messaging/conversations";
 
 export const Tab = createBottomTabNavigator();
@@ -43,7 +43,7 @@ export const TabNavigator = () => {
   );
 
   const onAddTabPress = () => {
-    openBottomSheet("ADD_PNM");
+    openBottomSheet("CREATE_PNM");
   };
 
   return (

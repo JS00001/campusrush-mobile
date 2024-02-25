@@ -14,7 +14,6 @@ import Help from "./Help";
 import Event from "./Event";
 import About from "./About";
 
-import AddPnm from "./AddPnm";
 import AddEvent from "./AddEvent";
 import UpdatePnm from "./UpdatePnm";
 import NewMessage from "./NewMessage";
@@ -24,7 +23,6 @@ export default {
   Help,
   About,
   Event,
-  AddPnm,
   AddEvent,
   UpdatePnm,
   UpdateEvent,

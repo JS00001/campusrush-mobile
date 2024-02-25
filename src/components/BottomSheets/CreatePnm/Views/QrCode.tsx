@@ -1,35 +1,30 @@
 /*
- * Created on Mon Oct 16 2023
+ * Created on Sun Feb 25 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
  * of this software, in whole or in part, is strictly prohibited.
  * For licensing information contact CampusRush.
  *
- * Copyright (c) 2023 CampusRush
+ * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
 
 import { View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 
-import { AddPnmScreens } from "./types";
+import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import CopyItem from "@/ui/CopyItem";
+import AppConstants from "@/constants";
 import { useAuth } from "@/providers/Auth";
-import { SHARING_URL } from "@/apiv1/constants";
 
-interface AddQrCodeScreenProps {
-  handleCloseModalPress: () => void;
-  setScreen: (screen: AddPnmScreens) => void;
-}
-
-const AddQrCodeStep: React.FC<AddQrCodeScreenProps> = ({}) => {
+const QrCode: React.FC<UseSheetFlowProps> = () => {
   const { chapter } = useAuth();
 
-  const linkSharingCode = `${SHARING_URL}/${chapter.linkSharingCode}`;
+  const linkSharingCode = `${AppConstants.sharingUrl}/${chapter.linkSharingCode}`;
 
   return (
     <>
@@ -56,4 +51,4 @@ const AddQrCodeStep: React.FC<AddQrCodeScreenProps> = ({}) => {
   );
 };
 
-export default AddQrCodeStep;
+export default QrCode;

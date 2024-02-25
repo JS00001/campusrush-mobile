@@ -33,7 +33,7 @@ const HomeView = () => {
   };
 
   const onAddPNM = () => {
-    openBottomSheet("ADD_PNM");
+    openBottomSheet("CREATE_PNM");
   };
 
   const onRecentPnmPress = (pnm: PNM) => {

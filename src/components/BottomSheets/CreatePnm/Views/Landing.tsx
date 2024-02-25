@@ -1,55 +1,43 @@
 /*
- * Created on Mon Oct 16 2023
+ * Created on Sun Feb 25 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
  * of this software, in whole or in part, is strictly prohibited.
  * For licensing information contact CampusRush.
  *
- * Copyright (c) 2023 CampusRush
+ * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
 
 import { View } from "react-native";
 
-import { AddPnmScreens } from "./types";
+import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import Text from "@/ui/Text";
+import { useModalStore } from "@/store";
 import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
-import useModalsStore from "@/statev1/modals";
 
-interface AddPnmProps {
-  handleCloseModalPress: () => void;
-  setScreen: (screen: AddPnmScreens) => void;
-}
-
-const AddPnm: React.FC<AddPnmProps> = ({
-  setScreen,
-  handleCloseModalPress,
+const Landing: React.FC<UseSheetFlowProps> = ({
+  nextView,
+  setView,
+  handleClose,
 }) => {
   const { isPro } = useAuth();
-  const { openModal } = useModalsStore();
+  const { openModal } = useModalStore();
 
-  const onAddPnmManuallyPress = () => {
-    setScreen(AddPnmScreens.AddManualStep1);
-  };
-
-  const onAddPnmQrCodePress = () => {
+  const onQrCodePress = () => {
     if (isPro) {
-      setScreen(AddPnmScreens.AddQrCode);
+      setView(4);
       return;
     }
 
-    openModal({
-      name: "UPGRADE",
-      props: {
-        subtitle: Content.addPNM.shareQRCodeUpgrade,
-      },
+    handleClose();
+    openModal("info", {
+      subtitle: Content.addPNM.shareQRCodeUpgrade,
     });
-
-    handleCloseModalPress();
   };
 
   return (
@@ -65,17 +53,17 @@ const AddPnm: React.FC<AddPnmProps> = ({
         title="Add PNM Manually"
         subtitle="Add a PNMs info manually"
         icon="ri-user-voice-fill"
-        onPress={onAddPnmManuallyPress}
+        onPress={nextView}
       />
       <ActionCard
         enforceProPlan
         title="Share QR Code or Link"
         subtitle="Share a QR code with a PNM"
         icon="ri-qr-code-fill"
-        onPress={onAddPnmQrCodePress}
+        onPress={onQrCodePress}
       />
     </>
   );
 };
 
-export default AddPnm;
+export default Landing;

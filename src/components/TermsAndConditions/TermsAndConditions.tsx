@@ -25,7 +25,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ color }) => {
   const { openBottomSheet } = useBottomSheets();
 
   const onTermsOfServicePress = () => {
-    openBottomSheet("TERMS_OF_SERVICE ");
+    openBottomSheet("TERMS_OF_SERVICE");
   };
 
   const onPrivacyPolicyPress = () => {
