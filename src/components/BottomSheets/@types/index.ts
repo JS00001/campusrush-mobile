@@ -10,7 +10,12 @@
  * Do not distribute
  */
 
-import FormSheet from "./FormSheet";
-import BottomSheet from "./BottomSheet";
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-export { FormSheet, BottomSheet };
+export interface BottomSheetProps {
+  innerRef: React.RefObject<BottomSheetModal>;
+  handleClose: () => void;
+  handleSnapToIndex: (index: number) => void;
+  handleSnapToPosition: (position: string) => void;
+  openBottomSheet: (name: string, props?: any) => void;
+}

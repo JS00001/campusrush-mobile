@@ -14,7 +14,7 @@ import { create } from 'zustand';
 import { PersistStorage, persist } from 'zustand/middleware';
 
 import customAsyncStorage from '@/lib/asyncStorage';
-import { useGetPnms } from '@/hooks/api/pnms';
+import { useGetPnm, useGetPnms } from '@/hooks/api/pnms';
 import { useEffect } from 'react';
 
 interface IPnmStore {
@@ -117,6 +117,24 @@ export const usePnmStore = () => {
   }, [query.data]);
 
   return {
+    ...query,
+    ...store,
+  };
+};
+
+export const usePnm = (id: string) => {
+  const store = useStore();
+  const query = useGetPnm(id);
+  const pnm = store.getPnm(id);
+
+  useEffect(() => {
+    if (!query.data || 'error' in query.data) return;
+
+    store.updatePnm(query.data.data.pnm);
+  }, [query.data]);
+
+  return {
+    pnm,
     ...query,
     ...store,
   };

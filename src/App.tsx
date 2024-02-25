@@ -31,6 +31,7 @@ import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
 import SentryProvider from "@/providers/external/Sentry";
 import DevEnvironment from "@/components/DevEnvironment";
+import BottomSheetV1Provider from "@/providers/BottomSheetv1";
 import BottomSheetProvider from "@/providers/BottomSheet";
 import PreferencesProvider from "@/providers/Preferences";
 import PosthogProvider from "@/providers/external/Posthog";
@@ -60,15 +61,17 @@ const App = () => {
                         <NotificationsProvider>
                           <GestureHandlerRootView style={{ flex: 1 }}>
                             <BottomSheetModalProvider>
-                              <BottomSheetProvider>
-                                <EntitlementsProvider>
-                                  <Modals />
-                                  <ModalsV1 />
-                                  <DevEnvironment />
-                                  <RootNavigator />
-                                  <Toast config={toastConfig} />
-                                </EntitlementsProvider>
-                              </BottomSheetProvider>
+                              <BottomSheetV1Provider>
+                                <BottomSheetProvider>
+                                  <EntitlementsProvider>
+                                    <Modals />
+                                    <ModalsV1 />
+                                    <DevEnvironment />
+                                    <RootNavigator />
+                                    <Toast config={toastConfig} />
+                                  </EntitlementsProvider>
+                                </BottomSheetProvider>
+                              </BottomSheetV1Provider>
                             </BottomSheetModalProvider>
                           </GestureHandlerRootView>
                         </NotificationsProvider>

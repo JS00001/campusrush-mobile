@@ -21,8 +21,8 @@ const BottomSheetBackdrop: React.FC<BottomSheetBackdropProps> = ({
   return (
     <RNBottomSheetBackdrop
       {...props}
-      disappearsOnIndex={-1}
       appearsOnIndex={0}
+      disappearsOnIndex={-1}
       enableTouchThrough={true}
       opacity={0.5}
     />

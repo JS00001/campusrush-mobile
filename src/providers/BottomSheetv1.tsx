@@ -1,19 +1,19 @@
 /*
- * Created on Sun Feb 25 2024
+ * Created on Sun Sep 10 2023
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
  * of this software, in whole or in part, is strictly prohibited.
  * For licensing information contact CampusRush.
  *
- * Copyright (c) 2024 CampusRush
+ * Copyright (c) 2023 CampusRush
  * Do not distribute
  */
 
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { createContext, useCallback, useContext, useRef } from "react";
 
-import BottomSheetComponents from "@/components/BottomSheets";
+import BottomSheetComponents from "@/components/BottomSheetsv1";
 
 /**
  * All bottom sheets that can be opened
@@ -22,7 +22,26 @@ import BottomSheetComponents from "@/components/BottomSheets";
  * Put all bottom sheets in the @/components/BottomSheets folder
  */
 const BottomSheets = [
-  { name: "PNM", component: BottomSheetComponents.PnmSheet },
+  { name: "UPDATE_PNM", component: BottomSheetComponents.UpdatePnm },
+  { name: "ABOUT", component: BottomSheetComponents.About },
+  { name: "ADD_PNM", component: BottomSheetComponents.AddPnm },
+  { name: "ADD_EVENT", component: BottomSheetComponents.AddEvent },
+  { name: "EVENT", component: BottomSheetComponents.Event },
+  { name: "UPDATE_EVENT", component: BottomSheetComponents.UpdateEvent },
+  { name: "HELP", component: BottomSheetComponents.Help },
+  { name: "NEW_MESSAGE", component: BottomSheetComponents.NewMessage },
+  {
+    name: "TERMS_AND_CONDITIONS",
+    component: BottomSheetComponents.TermsAndConditions,
+  },
+  {
+    name: "PRIVACY_POLICY",
+    component: BottomSheetComponents.PrivacyPolicy,
+  },
+  {
+    name: "PLAN_COMPARISON",
+    component: BottomSheetComponents.PlanComparison,
+  },
 ];
 
 interface BottomSheetContextProps {
@@ -108,7 +127,7 @@ const BottomSheetProvider: React.FC<{ children?: React.ReactNode }> = ({
           key: sheet.name,
           openBottomSheet: (name: string, props?: any) =>
             openBottomSheet(name, props),
-          handleClose: () => handleCloseModalPress(sheet.name),
+          handleCloseModalPress: () => handleCloseModalPress(sheet.name),
           handleSnapToIndex: (index: number) =>
             handleSnapToIndex(sheet.name, index),
           handleSnapToPosition: (position: string) =>

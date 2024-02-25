@@ -51,6 +51,18 @@ export const createPnm = async (data: CreatePnmRequest) => {
 };
 
 /**
+ * Request:     GET /api/v1/consumer/pnms/get/:id
+ * Description: Get a PNM
+ */
+export const getPnm = async (data: GetPnmRequest) => {
+  const url = `${PREFIX}/get/${data.id}`;
+
+  const { data: responseData } = await axiosClient.get(url);
+
+  return responseData as GetPnmResponse;
+};
+
+/**
  * Request:     PUT /api/v1/consumer/pnms/update/:id
  * Description: Update a PNM
  */

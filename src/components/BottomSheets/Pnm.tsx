@@ -1,5 +1,5 @@
 /*
- * Created on Sat Jan 06 2024
+ * Created on Sun Feb 25 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,55 +10,73 @@
  * Do not distribute
  */
 
-import { useMemo } from "react";
 import { View } from "react-native";
+import { useEffect, useState } from "react";
 
-import BottomSheet from "./Components/BottomSheet";
-import BottomSheetContainer from "./Components/BottomSheetContainer";
+import { BottomSheetProps } from "./@types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import { usePnm } from "@/store";
 import date from "@/lib/util/date";
-import usePnm from "@/hooksv1/pnms/usePnm";
 import IconButton from "@/ui/IconButton";
 import DetailView from "@/ui/DetailView";
+import { BottomSheet } from "@/ui/BottomSheet";
 import { formatPhoneNumber } from "@/lib/util/string";
+import BottomSheetContainer from "@/ui/BottomSheet/Container";
+import { useDeletePnm, useUpdatePnm } from "@/hooks/api/pnms";
 
-interface PnmProps {
-  innerRef: React.RefObject<any>;
-  handleCloseModalPress: () => void;
-  openBottomSheet: (name: string, props?: any) => void;
-}
-
-const Pnm: React.FC<PnmProps> = ({
+const PnmSheet: React.FC<BottomSheetProps> = ({
   innerRef,
-  handleCloseModalPress,
+  handleClose,
   openBottomSheet,
 }) => {
   return (
     <BottomSheet
       innerRef={innerRef}
       children={(data) => {
-        const pnmId = data?.data.pnmId;
+        const pnmId = data?.data.pnmId as string;
 
-        let { pnm, ...actions } = usePnm(pnmId);
+        const store = usePnm(pnmId);
+        const deleteMutation = useDeletePnm();
+        const updateMutation = useUpdatePnm();
 
-        // We need a cached version of the pnm to prevent the bottom sheet from
-        // crashing when the pnm is deleted (the pnm will be null or undefined)
-        const cachedPnm = useMemo(() => pnm, []);
+        /**
+         * We need to use state here as a 'cache', because when the pnm is deleted,
+         * the store value becomes undefined, and we need to keep the pnm data so
+         * the app doesnt crash before the bottom sheet is closed.
+         */
+        const [pnm, setPnm] = useState(store.pnm);
 
-        // Set the pnm to the cached version ONLY if pnm is null or undefined
-        pnm = pnm || cachedPnm;
+        useEffect(() => {
+          if (store.pnm) setPnm(store.pnm);
+        }, [store.pnm]);
 
-        const deletePnm = async () => {
-          await actions.delete();
-          handleCloseModalPress();
+        const onFavorite = async (starred: boolean) => {
+          const res = await updateMutation.mutateAsync({ id: pnmId, starred });
+
+          if ("error" in res) return;
+
+          store.updatePnm(res.data.pnm);
+        };
+
+        const onDelete = async () => {
+          const res = await deleteMutation.mutateAsync({ id: pnmId });
+
+          if ("error" in res) return;
+
+          store.deletePnm(pnmId);
+          handleClose();
         };
 
         const onEditPress = () => {
-          openBottomSheet("UPDATE_PNM", { pnmId: pnm._id });
+          openBottomSheet("UPDATE_PNM", { pnmId });
         };
+
+        if (!pnm) {
+          return <Text>Loading...</Text>;
+        }
 
         return (
           <BottomSheetContainer>
@@ -68,25 +86,24 @@ const Pnm: React.FC<PnmProps> = ({
                   {pnm.firstName} {pnm.lastName}
                 </Text>
                 <Text variant="body">
-                  Added on {date.toString(pnm.createdAt) || "N/A"}
+                  Added on {date.toString(pnm.createdAt)}
                 </Text>
               </View>
 
               <View style={tw`flex-row gap-1`}>
                 <IconButton
                   size="md"
-                  loading={actions.loading === "favoriting"}
+                  loading={updateMutation.isLoading}
                   icon={pnm.starred ? "ri-star-fill" : "ri-star-line"}
-                  // prettier-ignore
                   color={pnm.starred ? tw.color("yellow") : tw.color("primary")}
-                  onPress={actions.favorite}
+                  onPress={() => onFavorite(!pnm.starred)}
                 />
                 <IconButton
                   size="md"
+                  loading={deleteMutation.isLoading}
                   icon="ri-delete-bin-6-line"
                   color={tw.color("red")}
-                  onPress={deletePnm}
-                  loading={actions.loading === "deleting"}
+                  onPress={onDelete}
                 />
               </View>
             </View>
@@ -116,8 +133,8 @@ const Pnm: React.FC<PnmProps> = ({
           </BottomSheetContainer>
         );
       }}
-    />
+    ></BottomSheet>
   );
 };
 
-export default Pnm;
+export default PnmSheet;

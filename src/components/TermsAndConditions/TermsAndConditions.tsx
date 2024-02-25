@@ -15,7 +15,7 @@ import { View } from "react-native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Hyperlink from "@/ui/Hyperlink";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheets } from "@/providers/BottomSheetv1";
 
 interface TermsAndConditionsProps {
   color?: "dark" | "light";

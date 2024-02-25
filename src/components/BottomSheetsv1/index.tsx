@@ -10,7 +10,6 @@
  * Do not distribute
  */
 
-import Pnm from "./Pnm";
 import Help from "./Help";
 import Event from "./Event";
 import About from "./About";
@@ -25,7 +24,6 @@ import PlanComparison from "./PlanComparison";
 import TermsAndConditions from "./TermsAndConditions";
 
 export default {
-  Pnm,
   Help,
   About,
   Event,

@@ -278,3 +278,10 @@ type DeleteEventResponse = API.Response<{
    */
   success: boolean;
 }>;
+
+type GetPnmResponse = API.Response<{
+  /**
+   * Potential new member (PNM) information
+   */
+  pnm: PNM;
+}>;

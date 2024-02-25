@@ -291,3 +291,10 @@ interface DeleteEventRequest {
    */
   id: string;
 }
+
+interface GetPnmRequest {
+  /**
+   * The ID of the potential new member (PNM) to be retrieved
+   */
+  id: string;
+}

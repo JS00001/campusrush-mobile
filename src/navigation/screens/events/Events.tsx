@@ -25,7 +25,7 @@ import { EventsStatus } from "@/statev1/events";
 import InfiniteList from "@/components/InfiniteList";
 import { DefaultEventLoader } from "@/ui/Event/Loaders";
 import useEventsList from "@/hooksv1/events/useEventsList";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheets } from "@/providers/BottomSheetv1";
 
 interface EventsProps {
   navigation: NativeStackNavigationProp<any>;

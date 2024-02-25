@@ -23,7 +23,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 import { formatEvent } from "@/lib/util/format";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheets } from "@/providers/BottomSheetv1";
 
 interface EventProps {
   event: Event;

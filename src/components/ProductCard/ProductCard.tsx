@@ -17,7 +17,7 @@ import Button from "@/ui/Button";
 import { useAuth } from "@/providers/Auth";
 import ProductPerk from "@/components/ProductPerk";
 import useEntitlementsStore from "@/statev1/entitlements";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheets } from "@/providers/BottomSheetv1";
 import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 
 interface ProductCardProps {

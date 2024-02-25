@@ -22,7 +22,7 @@ import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import useModalsStore from "@/statev1/modals";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheets } from "@/providers/BottomSheetv1";
 import useDeleteChapter from "@/hooksv1/auth/useDeleteChapter";
 
 interface SettingsProps {

@@ -11,16 +11,16 @@
  */
 
 import { View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ActionCard from "@/ui/ActionCard";
 import IconButton from "@/ui/IconButton";
 import { useAuth } from "@/providers/Auth";
+import { useStatisticsStore } from "@/store";
 import RecentPnms from "@/components/RecentPnms";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import { useStatisticsStore } from "@/store";
-import { useNavigation } from "@react-navigation/native";
 
 const HomeView = () => {
   const { chapter } = useAuth();

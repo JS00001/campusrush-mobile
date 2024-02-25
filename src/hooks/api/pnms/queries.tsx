@@ -12,7 +12,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getPnms } from "@/api";
+import { getPnms, getPnm } from "@/api";
 import { useAuth } from "@/providers/Auth";
 
 export const useGetPnms = () => {
@@ -21,6 +21,16 @@ export const useGetPnms = () => {
   return useQuery(["pnms", accessToken], {
     queryFn: () => {
       return getPnms();
+    },
+  });
+};
+
+export const useGetPnm = (id: string) => {
+  const { accessToken } = useAuth();
+
+  return useQuery(["pnm", id, accessToken], {
+    queryFn: () => {
+      return getPnm({ id });
     },
   });
 };

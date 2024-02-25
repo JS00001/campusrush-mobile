@@ -10,7 +10,8 @@
  * Do not distribute
  */
 
-import FormSheet from "./FormSheet";
-import BottomSheet from "./BottomSheet";
+import PnmSheet from "./Pnm";
 
-export { FormSheet, BottomSheet };
+export default {
+  PnmSheet,
+};
