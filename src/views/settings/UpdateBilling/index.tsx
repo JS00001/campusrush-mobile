@@ -10,16 +10,6 @@
  * Do not distribute
  */
 
-import PnmSheet from "./Pnm";
-import UpdatePnmSheet from "./UpdatePnm";
-import PlanComparisonSheet from "./PlanComparison";
-import PrivacyPolicySheet from "./PrivacyPolicy";
-import TermsOfServiceSheet from "./TermsOfService";
+import UpdateBillingView from "./UpdateBilling";
 
-export default {
-  PnmSheet,
-  UpdatePnmSheet,
-  PlanComparisonSheet,
-  PrivacyPolicySheet,
-  TermsOfServiceSheet,
-};
+export default UpdateBillingView;

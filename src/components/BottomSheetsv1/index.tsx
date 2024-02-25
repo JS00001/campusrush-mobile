@@ -19,7 +19,6 @@ import AddEvent from "./AddEvent";
 import UpdatePnm from "./UpdatePnm";
 import NewMessage from "./NewMessage";
 import UpdateEvent from "./UpdateEvent";
-import PlanComparison from "./PlanComparison";
 
 export default {
   Help,
@@ -30,5 +29,4 @@ export default {
   UpdatePnm,
   UpdateEvent,
   NewMessage,
-  PlanComparison,
 };

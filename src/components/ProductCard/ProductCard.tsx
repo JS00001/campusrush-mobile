@@ -15,9 +15,9 @@ import { PurchasesStoreProduct } from "react-native-purchases";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import { useAuth } from "@/providers/Auth";
+import { useEntitlementStore } from "@/store";
 import ProductPerk from "@/components/ProductPerk";
-import useEntitlementsStore from "@/statev1/entitlements";
-import { useBottomSheets } from "@/providers/BottomSheetv1";
+import { useBottomSheets } from "@/providers/BottomSheet";
 import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 
 interface ProductCardProps {
@@ -64,10 +64,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   // Pull the entitlement details from the store
   // prettier-ignore
-  const entitlementDetails = useEntitlementsStore((state) => state.entitlementDetails);
+  const entitlements = useEntitlementStore((s) => s.entitlements);
 
   // Get the perks from the entitlement details
-  const productPerks = entitlementDetails?.products[id]?.FEATURED_PERKS || [];
+  const productPerks = entitlements?.products[id]?.FEATURED_PERKS || [];
 
   // When the compare plans button is pressed, open the compare plans modal
   const onComparePlansPress = () => {

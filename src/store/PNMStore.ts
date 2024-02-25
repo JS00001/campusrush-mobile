@@ -11,11 +11,11 @@
  */
 
 import { create } from 'zustand';
+import { useEffect } from 'react';
 import { PersistStorage, persist } from 'zustand/middleware';
 
 import customAsyncStorage from '@/lib/asyncStorage';
 import { useGetPnm, useGetPnms } from '@/hooks/api/pnms';
-import { useEffect } from 'react';
 
 interface IPnmStore {
   pnms: PNM[];

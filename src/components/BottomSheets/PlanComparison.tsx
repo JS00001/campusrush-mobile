@@ -1,12 +1,12 @@
 /*
- * Created on Sun Sep 10 2023
+ * Created on Sun Feb 25 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
  * of this software, in whole or in part, is strictly prohibited.
  * For licensing information contact CampusRush.
  *
- * Copyright (c) 2023 CampusRush
+ * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
 
@@ -14,32 +14,29 @@ import { useMemo } from "react";
 import { View } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 
-import BottomSheet from "./Components/BottomSheet";
-import BottomSheetContainer from "./Components/BottomSheetContainer";
+import type { BottomSheetProps } from "./@types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Information from "@/ui/Information";
-import useEntitlementsStore from "@/statev1/entitlements";
+import { useEntitlementStore } from "@/store";
+import { BottomSheet } from "@/ui/BottomSheet";
+import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
-interface PlanComparisonProps {
-  innerRef: React.RefObject<any>;
-  handleCloseModalPress: () => void;
-}
+const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
+  const entitlements = useEntitlementStore((state) => state.entitlements);
 
-const PlanComparison: React.FC<PlanComparisonProps> = ({ innerRef }) => {
-  // Import the product data
-  const entitlementDetails = useEntitlementsStore(
-    (state) => state.entitlementDetails,
-  );
+  const packageDisplayNames = useMemo(() => {
+    const products = entitlements?.products;
 
-  // Get the product display names
-  const productDisplayNames = useMemo(() => {
-    const { products } = entitlementDetails || {};
-    // Return the product display names
-    // prettier-ignore
-    return Object.values(products || {}).map((product) => product?.DISPLAY_NAME);
-  }, [entitlementDetails]);
+    if (!products) return [];
+
+    const displayNames = Object.values(products).map(
+      (product) => product.DISPLAY_NAME,
+    );
+
+    return displayNames;
+  }, [entitlements]);
 
   return (
     <BottomSheet
@@ -54,41 +51,34 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ innerRef }) => {
             </Text>
           </View>
 
-          {/* The plan comparison table */}
           <View style={tw`flex-1 w-full`}>
             {/* The header row of the table */}
             <FeatureRow
               feature={{ name: "Feature", header: true }}
-              values={productDisplayNames}
+              values={packageDisplayNames}
             />
 
-            {Object.keys(entitlementDetails?.productPerks || {}).map(
-              (perkKey, i) => {
-                // The perk itself, has a name and description
-                // prettier-ignore
-                const perk = entitlementDetails?.productPerks[perkKey as ProductPerkIds];
+            {Object.keys(entitlements?.productPerks || {}).map((perkKey, i) => {
+              // prettier-ignore
+              const perk = entitlements?.productPerks[perkKey as ProductPerkIds];
 
-                // The values of the perk, for each product
-                // prettier-ignore
-                const values = Object.keys(entitlementDetails?.products || {}).map((productKey) => {
-                  // prettier-ignore
-                  const product = entitlementDetails?.products[productKey as ProductId];
-                  // prettier-ignore
+              // prettier-ignore
+              const values = Object.keys(entitlements?.products || {}).map((productKey) => {
+                  const product = entitlements?.products[productKey as ProductId];
                   return product?.ALL_PERKS?.[perkKey as ProductPerkIds] || false;
                 });
 
-                if (!perk) return null;
+              if (!perk) return null;
 
-                return (
-                  <FeatureRow
-                    key={perkKey}
-                    index={i}
-                    feature={{ name: perk.name, description: perk.description }}
-                    values={values}
-                  />
-                );
-              },
-            )}
+              return (
+                <FeatureRow
+                  key={perkKey}
+                  index={i}
+                  feature={{ name: perk.name, description: perk.description }}
+                  values={values}
+                />
+              );
+            })}
           </View>
         </BottomSheetContainer>
       )}
@@ -111,20 +101,19 @@ const FeatureRow: React.FC<FeatureRowProps> = ({
   values,
   index = 1,
 }) => {
-  // Styling for the container
+  const isEvenRow = index % 2 === 0;
+
   const containerClasses = tw.style(
     `w-full p-4 flex-1 flex-row items-center`,
-    index % 2 === 0 ? `bg-white` : "bg-slate-100",
+    isEvenRow ? `bg-white` : "bg-slate-100",
     // Add a border bottom to all rows, add a border top to the header row
     feature.header
       ? `border-t border-b border-slate-200`
       : `border-b border-slate-200`,
   );
 
-  // The text variant for the feature name, if its the table header, use body, otherwise use text
   const featureNameTextVariant = feature.header ? "body" : "text";
 
-  // Whether to show a check or an x for the boolean values
   const booleanComponents = {
     true: (
       <RemixIcon
@@ -181,4 +170,4 @@ const FeatureRow: React.FC<FeatureRowProps> = ({
   );
 };
 
-export default PlanComparison;
+export default PlanComparisonSheet;

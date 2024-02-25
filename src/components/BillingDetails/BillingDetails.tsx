@@ -15,7 +15,7 @@ import { View } from "react-native";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import ProductPerk from "@/components/ProductPerk";
-import { useBottomSheets } from "@/providers/BottomSheetv1";
+import { useBottomSheets } from "@/providers/BottomSheet";
 import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 
 interface BillingDetailsProps {

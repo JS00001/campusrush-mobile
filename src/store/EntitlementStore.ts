@@ -9,3 +9,42 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { create } from 'zustand';
+import { PersistStorage, persist } from 'zustand/middleware';
+
+import customAsyncStorage from '@/lib/asyncStorage';
+
+interface IEntitlementStore {
+  entitlements?: EntitlementDetails;
+  setEntitlements: (entitlements: EntitlementDetails) => void;
+}
+
+export const useEntitlementStore = create<IEntitlementStore>()(
+  persist(
+    (set) => {
+      /**
+       * The initial state of the store
+       */
+      const initialState = {
+        entitlements: undefined,
+      };
+
+      /**
+       * Set the entitlements in the store
+       */
+      const setEntitlements = (entitlements: EntitlementDetails) => {
+        return set({ entitlements });
+      };
+
+      return {
+        ...initialState,
+        setEntitlements,
+      };
+    },
+    {
+      name: 'entitlement-store',
+      storage: customAsyncStorage as PersistStorage<IEntitlementStore>,
+    },
+  ),
+);

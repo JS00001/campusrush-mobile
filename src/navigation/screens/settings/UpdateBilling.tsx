@@ -10,24 +10,10 @@
  * Do not distribute
  */
 
-import { Linking } from "react-native";
-
-import Button from "@/ui/Button";
 import Layout from "@/ui/Layout";
-import useBilling from "@/hooksv1/useBilling";
-import BillingDetails from "@/components/BillingDetails";
-import Hyperlink from "@/ui/Hyperlink";
+import UpdateBillingView from "@/views/settings/UpdateBilling";
 
-const UpdateBilling = () => {
-  const { activeProducts, managementURL, restorePurchases } = useBilling();
-
-  // Open the URL to manage billing (typically the app store)
-  const onManageBilling = () => {
-    if (managementURL) {
-      Linking.openURL(managementURL);
-    }
-  };
-
+const UpdateBillingScreen = () => {
   return (
     <Layout scrollable>
       <Layout.Header
@@ -35,16 +21,9 @@ const UpdateBilling = () => {
         title="Billing"
         subtitle="Manage your current plan"
       />
-      {/* All plans/perks that the user has purchased/subscribed to */}
-      <BillingDetails activeProducts={activeProducts || []} />
-
-      {/* Button to manage billing */}
-      <Button onPress={onManageBilling}>Manage Subscription</Button>
-
-      {/* Button to restore purchases */}
-      <Hyperlink onPress={restorePurchases}>Restore Purchases</Hyperlink>
+      <UpdateBillingView />
     </Layout>
   );
 };
 
-export default UpdateBilling;
+export default UpdateBillingScreen;

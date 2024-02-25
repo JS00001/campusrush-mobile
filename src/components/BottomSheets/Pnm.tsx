@@ -59,6 +59,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
           if ("error" in res) return;
 
           store.updatePnm(res.data.pnm);
+          store.refetch();
         };
 
         const onDelete = async () => {
@@ -74,6 +75,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
           openBottomSheet("UPDATE_PNM", { pnmId });
         };
 
+        // TODO: Add proper loading state
         if (!pnm) {
           return <Text>Loading...</Text>;
         }

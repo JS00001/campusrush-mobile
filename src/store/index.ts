@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+export * from './EntitlementStore';
 export * from './ModalStore';
 export * from './PnmStore';
 export * from './RegistrationStore';

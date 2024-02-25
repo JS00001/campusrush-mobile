@@ -30,10 +30,6 @@ const BottomSheets = [
   { name: "UPDATE_EVENT", component: BottomSheetComponents.UpdateEvent },
   { name: "HELP", component: BottomSheetComponents.Help },
   { name: "NEW_MESSAGE", component: BottomSheetComponents.NewMessage },
-  {
-    name: "PLAN_COMPARISON",
-    component: BottomSheetComponents.PlanComparison,
-  },
 ];
 
 interface BottomSheetContextProps {

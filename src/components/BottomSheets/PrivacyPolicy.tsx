@@ -13,7 +13,7 @@
 import { useMemo } from "react";
 import { View } from "react-native";
 
-import { BottomSheetProps } from "./@types";
+import type { BottomSheetProps } from "./@types";
 
 import Text from "@/ui/Text";
 import Badge from "@/ui/Badge";
