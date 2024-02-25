@@ -32,7 +32,7 @@ interface PnmsListProps {
 }
 
 const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
-  const { handlePresentModalPress } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheets();
   // Create a ref to the sectionlist so we can scroll to a specific index programatically
   const sectionListRef = useRef<SectionList>(null);
   // Whether or not the list is refreshing
@@ -150,7 +150,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
   // The components for each item in teh section list
   const ItemComponent = ({ item: pnm }: { item: PNM }) => {
     const onPress = () => {
-      handlePresentModalPress("PNM", { pnmId: pnm._id });
+      openBottomSheet("PNM", { pnmId: pnm._id });
     };
 
     return (

@@ -30,7 +30,7 @@ export enum PNMActions {
 const usePnmActions = (pnm: PNM) => {
   const navigation = useNavigation();
   const { openModal } = useModalsStore();
-  const { handlePresentModalPress } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheets();
   const { pnm: storedPnm, ...pnmActions } = usePnm(pnm._id);
 
   // If there is a pnm in the store, use that instead of the passed in pnm
@@ -46,7 +46,7 @@ const usePnmActions = (pnm: PNM) => {
       // Edit the PNM
       case PNMActions.EditPnm:
         Keyboard.dismiss();
-        handlePresentModalPress("UPDATE_PNM", {
+        openBottomSheet("UPDATE_PNM", {
           pnmId: pnm._id,
         });
         break;

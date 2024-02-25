@@ -46,7 +46,7 @@ const BottomSheets = [
 ];
 
 interface BottomSheetContextProps {
-  handlePresentModalPress: (
+  openBottomSheet: (
     name: (typeof BottomSheets)[number]["name"],
     props?: any,
   ) => void;
@@ -72,7 +72,7 @@ const BottomSheetProvider: React.FC<{ children?: React.ReactNode }> = ({
   // Create a ref to the bottom sheet modal so we can programmatically open it
   const bottomSheetModalRef = useRef<BottomSheetModal[]>([]);
 
-  const handlePresentModalPress = useCallback(
+  const openBottomSheet = useCallback(
     (name: (typeof BottomSheets)[number]["name"], props?: any) => {
       // Find the index of the bottom sheet we want to open
       const index = BottomSheets.findIndex((sheet) => sheet.name === name);
@@ -117,7 +117,7 @@ const BottomSheetProvider: React.FC<{ children?: React.ReactNode }> = ({
       value={{
         handleSnapToIndex,
         handleSnapToPosition,
-        handlePresentModalPress,
+        openBottomSheet,
         handleCloseModalPress,
       }}
     >
@@ -126,8 +126,8 @@ const BottomSheetProvider: React.FC<{ children?: React.ReactNode }> = ({
         // Create props
         const props = {
           key: sheet.name,
-          handlePresentModalPress: (name: string, props?: any) =>
-            handlePresentModalPress(name, props),
+          openBottomSheet: (name: string, props?: any) =>
+            openBottomSheet(name, props),
           handleCloseModalPress: () => handleCloseModalPress(sheet.name),
           handleSnapToIndex: (index: number) =>
             handleSnapToIndex(sheet.name, index),

@@ -36,14 +36,14 @@ export const Tab = createBottomTabNavigator();
  */
 export const TabNavigator = () => {
   const { chapter } = useAuth();
-  const { handlePresentModalPress } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheets();
 
   const hasUnreadConversation = useConversationsStore(
     (s) => s.conversations.filter((c) => !c.read).length > 0,
   );
 
   const onAddTabPress = () => {
-    handlePresentModalPress("ADD_PNM");
+    openBottomSheet("ADD_PNM");
   };
 
   return (

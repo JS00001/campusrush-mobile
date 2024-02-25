@@ -48,10 +48,10 @@ const Events: React.FC<EventsProps> = () => {
     onDeleteEvent,
   } = useEventsList("cache-1");
 
-  const { handlePresentModalPress } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheets();
 
   const onNewEventPress = () => {
-    handlePresentModalPress("ADD_EVENT");
+    openBottomSheet("ADD_EVENT");
   };
 
   const onRefresh = async () => {

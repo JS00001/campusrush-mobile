@@ -48,11 +48,11 @@ const Messages: React.FC<MessagesProps> = ({ navigation }) => {
   } = useConversations();
 
   // Import bottom sheets hook to show the "New Message" modal
-  const { handlePresentModalPress } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheets();
 
   // When the new chat action button is pressed, present the modal
   const onNewChatPress = () => {
-    handlePresentModalPress("NEW_MESSAGE");
+    openBottomSheet("NEW_MESSAGE");
   };
 
   const onRefresh = async () => {

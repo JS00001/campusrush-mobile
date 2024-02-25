@@ -28,13 +28,13 @@ import { formatPhoneNumber } from "@/lib/util/string";
 interface PnmProps {
   innerRef: React.RefObject<any>;
   handleCloseModalPress: () => void;
-  handlePresentModalPress: (name: string, props?: any) => void;
+  openBottomSheet: (name: string, props?: any) => void;
 }
 
 const Pnm: React.FC<PnmProps> = ({
   innerRef,
   handleCloseModalPress,
-  handlePresentModalPress,
+  openBottomSheet,
 }) => {
   return (
     <BottomSheet
@@ -57,7 +57,7 @@ const Pnm: React.FC<PnmProps> = ({
         };
 
         const onEditPress = () => {
-          handlePresentModalPress("UPDATE_PNM", { pnmId: pnm._id });
+          openBottomSheet("UPDATE_PNM", { pnmId: pnm._id });
         };
 
         return (

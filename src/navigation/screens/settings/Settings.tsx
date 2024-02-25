@@ -31,25 +31,25 @@ interface SettingsProps {
 
 const Settings: React.FC<SettingsProps> = ({ navigation }) => {
   const { chapter, signOut, isPro } = useAuth();
-  const { handlePresentModalPress } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheets();
   const { onDeleteChapter, isLoading } = useDeleteChapter();
 
   const openModal = useModalsStore((state) => state.openModal);
 
   const onHelpPress = () => {
-    handlePresentModalPress("HELP");
+    openBottomSheet("HELP");
   };
 
   const onAboutPress = () => {
-    handlePresentModalPress("ABOUT");
+    openBottomSheet("ABOUT");
   };
 
   const onTermsAndConditionsPress = () => {
-    handlePresentModalPress("TERMS_AND_CONDITIONS");
+    openBottomSheet("TERMS_AND_CONDITIONS");
   };
 
   const onPrivacyPolicyPress = () => {
-    handlePresentModalPress("PRIVACY_POLICY");
+    openBottomSheet("PRIVACY_POLICY");
   };
 
   const onChapterPress = () => {

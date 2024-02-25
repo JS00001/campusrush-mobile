@@ -26,18 +26,18 @@ const HomeView = () => {
   const { chapter } = useAuth();
   const navigation = useNavigation();
   const store = useStatisticsStore();
-  const { handlePresentModalPress } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheets();
 
   const onSettingsPress = () => {
     (navigation.navigate as any)("Settings");
   };
 
   const onAddPNM = () => {
-    handlePresentModalPress("ADD_PNM");
+    openBottomSheet("ADD_PNM");
   };
 
   const onRecentPnmPress = (pnm: PNM) => {
-    handlePresentModalPress("PNM", {
+    openBottomSheet("PNM", {
       pnmId: pnm._id,
     });
   };

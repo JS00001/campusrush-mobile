@@ -22,14 +22,14 @@ interface TermsAndConditionsProps {
 }
 
 const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ color }) => {
-  const { handlePresentModalPress } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheets();
 
   const onTermsAndConditionsPress = () => {
-    handlePresentModalPress("TERMS_AND_CONDITIONS");
+    openBottomSheet("TERMS_AND_CONDITIONS");
   };
 
   const onPrivacyPolicyPress = () => {
-    handlePresentModalPress("PRIVACY_POLICY");
+    openBottomSheet("PRIVACY_POLICY");
   };
 
   return (

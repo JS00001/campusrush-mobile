@@ -33,11 +33,11 @@ interface BillingDetailsProps {
 
 const BillingDetails: React.FC<BillingDetailsProps> = ({ activeProducts }) => {
   // The bottom sheet provider to open the compare plans modal
-  const { handlePresentModalPress } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheets();
 
   // When the compare plans button is pressed, open the compare plans modal
   const onComparePlansPress = () => {
-    handlePresentModalPress("PLAN_COMPARISON");
+    openBottomSheet("PLAN_COMPARISON");
   };
 
   return (

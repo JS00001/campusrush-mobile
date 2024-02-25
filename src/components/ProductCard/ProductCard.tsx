@@ -33,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   // The bottom sheet provider to open the compare plans modal
   const { customerData } = useAuth();
-  const { handlePresentModalPress } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheets();
 
   // The Product ID
   const id = product.identifier as ProductId;
@@ -71,7 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   // When the compare plans button is pressed, open the compare plans modal
   const onComparePlansPress = () => {
-    handlePresentModalPress("PLAN_COMPARISON");
+    openBottomSheet("PLAN_COMPARISON");
   };
 
   return (

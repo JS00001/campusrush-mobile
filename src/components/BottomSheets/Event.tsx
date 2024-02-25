@@ -31,13 +31,13 @@ import { formatEvent } from "@/lib/util/format";
 interface EventProps {
   innerRef: React.RefObject<any>;
   handleCloseModalPress: () => void;
-  handlePresentModalPress: (name: string, props?: any) => void;
+  openBottomSheet: (name: string, props?: any) => void;
 }
 
 const Event: React.FC<EventProps> = ({
   innerRef,
   handleCloseModalPress,
-  handlePresentModalPress,
+  openBottomSheet,
 }) => {
   const copy = useCopy();
 
@@ -64,7 +64,7 @@ const Event: React.FC<EventProps> = ({
         };
 
         const onEditPress = () => {
-          handlePresentModalPress("UPDATE_EVENT", { eventId: event._id });
+          openBottomSheet("UPDATE_EVENT", { eventId: event._id });
         };
 
         const onSharePress = () => {
