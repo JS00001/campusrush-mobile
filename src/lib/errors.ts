@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+// TODO: DELETE THIS once we dont need error handling
 import { AxiosError } from "axios";
 import Toast from "react-native-toast-message";
 

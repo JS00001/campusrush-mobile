@@ -9,6 +9,7 @@
  * Copyright (c) 2023 CampusRush
  * Do not distribute
  */
+// TODO: Delete this entire folder, we have new zod validators
 
 import {
   namesRegex,

@@ -10,9 +10,12 @@
  * Do not distribute
  */
 
+/**
+ * Convert a date to a string in the format "time ago"
+ */
 const timeAgo = (date: Date | string): string => {
   const seconds = Math.floor((+new Date() - +new Date(date)) / 1000);
-  if (seconds < 29) return "Just now";
+  if (seconds < 29) return 'Just now';
 
   const intervals = {
     yr: 31536000,
@@ -37,22 +40,28 @@ const timeAgo = (date: Date | string): string => {
   return date.toLocaleString();
 };
 
+/**
+ * Convert a date to a string in the format Month Name Day, Year
+ */
 const toString = (date: Date | string): string => {
-  if (!date) return "";
+  if (!date) return '';
 
   // Check to ensure the date can be parsed
   if (isNaN(new Date(date).getTime())) {
-    return "";
+    return '';
   }
 
   // Convert to Month Name Day, Year
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 };
 
+/**
+ * Check whether the date has passed
+ */
 const hasPassed = (date: Date | string) => {
   return new Date(date) < new Date();
 };
