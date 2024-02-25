@@ -24,7 +24,7 @@ import { useAuth } from "@/providers/Auth";
 import useFormMutation from "@/hooks/useFormMutation";
 import { useResendVerification, useVerifyEmail } from "@/hooks/api/auth";
 
-const Verification = () => {
+const VerificationView = () => {
   const { signOut, updateChapter } = useAuth();
   const verifyEmailMutation = useVerifyEmail();
   const resendVerificationMutation = useResendVerification();
@@ -93,4 +93,4 @@ const Verification = () => {
   );
 };
 
-export default Verification;
+export default VerificationView;

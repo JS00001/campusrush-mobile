@@ -15,16 +15,16 @@ import { z } from "zod";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import { useAuth } from "@/providers/Auth";
+import { useRegistrationStore } from "@/store";
 import { useRegister } from "@/hooks/api/auth";
 import validators from "@/constants/validators";
 import useFormMutation from "@/hooks/useFormMutation";
-import useRegistrationStore from "@/statev1/registration";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
-const RegistrationStep3 = () => {
+const RegistrationStep3View = () => {
   const { signUp } = useAuth();
   const mutation = useRegister();
-  const { fields, resetState } = useRegistrationStore();
+  const store = useRegistrationStore();
 
   const formValidators = {
     name: z.any(),
@@ -39,10 +39,18 @@ const RegistrationStep3 = () => {
   const form = useFormMutation({
     mutation,
     validators: formValidators,
-    initialValues: { ...fields },
+    initialValues: {
+      name: store.name,
+      school: store.school,
+      email: store.email,
+      firstName: store.firstName,
+      lastName: store.lastName,
+      password: store.password,
+      confirmPassword: store.confirmPassword,
+    },
     onSuccess: async (data) => {
       await signUp(data);
-      resetState();
+      store.clear();
     },
   });
 
@@ -90,4 +98,4 @@ const RegistrationStep3 = () => {
   );
 };
 
-export default RegistrationStep3;
+export default RegistrationStep3View;

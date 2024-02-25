@@ -11,7 +11,7 @@
  */
 
 import Layout from "@/ui/Layout";
-import RegistrationStep3 from "@/views/register/Step3";
+import RegistrationStep3View from "@/views/register/Step3";
 
 const RegistrationStep3Screen: React.FC = () => {
   return (
@@ -22,7 +22,7 @@ const RegistrationStep3Screen: React.FC = () => {
         subtitle="Choose a secure password"
       />
 
-      <RegistrationStep3 />
+      <RegistrationStep3View />
     </Layout>
   );
 };

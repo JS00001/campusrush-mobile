@@ -15,7 +15,7 @@ import { MenuAction } from "@react-native-menu/menu";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import pnmsApi from "@/apiv1/api/pnms";
-import useZustandStore from "src/statev1";
+import useZustandStore from "@/statev1";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import useModalsStore from "@/statev1/modals";

@@ -1,5 +1,5 @@
 /*
- * Created on Fri Feb 23 2024
+ * Created on Sat Feb 24 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -9,7 +9,3 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
-
-import Login from "./Login";
-
-export default Login;

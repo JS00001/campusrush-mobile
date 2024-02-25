@@ -16,7 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useEffect, useState, useContext } from "react";
 
 import authAPI from "@/apiv1/auth";
-import useZustandStore from "src/statev1";
+import useZustandStore from "@/statev1";
 import { useWebsocket } from "@/providers/Websocket";
 
 interface AuthContextProps {

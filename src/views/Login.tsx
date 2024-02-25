@@ -18,7 +18,7 @@ import validators from "@/constants/validators";
 import useApiCall from "@/hooks/useFormMutation";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
-const Login = () => {
+const LoginView = () => {
   const mutation = useLogin();
   const { signIn } = useAuth();
 
@@ -61,4 +61,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginView;

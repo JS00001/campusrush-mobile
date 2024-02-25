@@ -12,7 +12,7 @@
 
 import Layout from "@/ui/Layout";
 import { useAuth } from "@/providers/Auth";
-import Verification from "@/views/verification";
+import VerificationView from "@/views/Verification";
 
 const VerificationScreen = () => {
   const { chapter } = useAuth();
@@ -24,7 +24,7 @@ const VerificationScreen = () => {
         subtitle={`We have sent a verification code sent to ${chapter?.email}. Enter it below.`}
       />
 
-      <Verification />
+      <VerificationView />
     </Layout>
   );
 };

@@ -9,7 +9,3 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
-
-import Verification from "./verification";
-
-export default Verification;

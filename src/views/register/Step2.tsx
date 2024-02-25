@@ -14,16 +14,16 @@ import { useNavigation } from "@react-navigation/native";
 
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
+import { useRegistrationStore } from "@/store";
 import validators from "@/constants/validators";
 import { useCheckEmail } from "@/hooks/api/auth";
 import useFormMutation from "@/hooks/useFormMutation";
-import useRegistrationStore from "@/statev1/registration";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep2 = () => {
   const mutation = useCheckEmail();
   const navigation = useNavigation();
-  const { fields, setField } = useRegistrationStore();
+  const store = useRegistrationStore();
 
   const formValidators = {
     email: validators.email,
@@ -35,9 +35,9 @@ const RegistrationStep2 = () => {
     mutation,
     validators: formValidators,
     initialValues: {
-      email: fields.email,
-      firstName: fields.firstName,
-      lastName: fields.lastName,
+      email: store.email,
+      firstName: store.firstName,
+      lastName: store.lastName,
     },
     onSuccess: async ({ data }) => {
       if (data.exists) {
@@ -45,9 +45,9 @@ const RegistrationStep2 = () => {
         return;
       }
 
-      setField("email", form.state.email.value);
-      setField("firstName", form.state.firstName.value);
-      setField("lastName", form.state.lastName.value);
+      store.setField("email", form.state.email.value);
+      store.setField("firstName", form.state.firstName.value);
+      store.setField("lastName", form.state.lastName.value);
       (navigation.navigate as any)("RegistrationStep3");
     },
   });

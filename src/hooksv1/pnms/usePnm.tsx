@@ -15,7 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import errors from "@/lib/errors";
 import pnmsApi from "@/apiv1/api/pnms";
-import useZustandStore from "src/statev1";
+import useZustandStore from "@/statev1";
 import usePnmsStore from "@/statev1/pnms";
 
 interface UsePnm {

@@ -11,7 +11,7 @@
  */
 
 import Layout from "@/ui/Layout";
-import Login from "@/views/login";
+import LoginView from "@/views/Login";
 
 const LoginScreen = () => {
   return (
@@ -22,7 +22,7 @@ const LoginScreen = () => {
         subtitle="Login as a chapter"
       />
 
-      <Login />
+      <LoginView />
     </Layout>
   );
 };

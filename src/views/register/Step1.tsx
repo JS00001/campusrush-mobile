@@ -16,15 +16,15 @@ import { useNavigation } from "@react-navigation/native";
 import Button from "@/ui/Button";
 import Dropdown from "@/ui/Dropdown";
 import useForm from "@/hooks/useForm";
-import useRegistrationStore from "@/statev1/registration";
+import { useRegistrationStore } from "@/store";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 import schools from "@/constants/schools";
 import chapters from "@/constants/chapters";
 
-const RegistrationStep1 = () => {
+const RegistrationStep1View = () => {
   const navigation = useNavigation();
-  const { fields, setField } = useRegistrationStore();
+  const store = useRegistrationStore();
 
   const formValidators = {
     name: z.enum(chapters as [string, ...string[]], {
@@ -38,8 +38,8 @@ const RegistrationStep1 = () => {
   const form = useForm({
     validators: formValidators,
     initialValues: {
-      name: fields.name,
-      school: fields.school,
+      name: store.name,
+      school: store.school,
     },
   });
 
@@ -50,8 +50,8 @@ const RegistrationStep1 = () => {
       return;
     }
 
-    setField("name", form.state.name.value);
-    setField("school", form.state.school.value);
+    store.setField("name", form.state.name.value);
+    store.setField("school", form.state.school.value);
     (navigation.navigate as any)("RegistrationStep2");
   };
 
@@ -84,4 +84,4 @@ const RegistrationStep1 = () => {
   );
 };
 
-export default RegistrationStep1;
+export default RegistrationStep1View;

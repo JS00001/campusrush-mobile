@@ -11,7 +11,7 @@
  */
 
 import Layout from "@/ui/Layout";
-import RegistrationStep1 from "@/views/register/Step1";
+import RegistrationStep1View from "@/views/register/Step1";
 
 const RegistrationStep1Screen = () => {
   return (
@@ -22,7 +22,7 @@ const RegistrationStep1Screen = () => {
         subtitle="Please provide your chapters information"
       />
 
-      <RegistrationStep1 />
+      <RegistrationStep1View />
     </Layout>
   );
 };

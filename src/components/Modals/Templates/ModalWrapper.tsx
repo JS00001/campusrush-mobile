@@ -29,14 +29,14 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
 }) => {
   // Styling
   const containerClasses = tw.style(
-    "bg-white p-5 rounded-md shadow-2xl mx-2 items-start gap-6",
+    "bg-white p-5 rounded shadow-2xl mx-2 items-start gap-6",
   );
 
   return (
     <Modal
       {...props}
       isVisible={open}
-      backdropOpacity={0.2}
+      backdropOpacity={0.5}
       onBackdropPress={close}
       animationIn="zoomIn"
       animationOut="zoomOut"
