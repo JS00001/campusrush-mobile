@@ -15,7 +15,7 @@ import { View, TouchableOpacity } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import useCopy from "@/hooksv1/util/useCopy";
+import useCopy from "@/hooks/useCopy";
 
 interface CopyItemProps {
   value: string;

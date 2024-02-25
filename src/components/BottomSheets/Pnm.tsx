@@ -67,6 +67,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
 
           if ("error" in res) return;
 
+          // TODO: MAke this glovbally update state, IE remove from statistics, remove conversations, etc
           store.deletePnm(pnmId);
           handleClose();
         };

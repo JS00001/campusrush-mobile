@@ -23,7 +23,7 @@ import date from "@/lib/util/date";
 import IconButton from "@/ui/IconButton";
 import DetailView from "@/ui/DetailView";
 import ButtonGroup from "@/ui/ButtonGroup";
-import useCopy from "@/hooksv1/util/useCopy";
+import useCopy from "@/hooks/useCopy";
 import { EVENT_URL } from "@/apiv1/constants";
 import useEvent from "@/hooksv1/events/useEvent";
 import { formatEvent } from "@/lib/util/format";
