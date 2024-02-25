@@ -24,6 +24,8 @@ interface IStatisticsStore {
 
   clear(): void;
   setField(field: keyof IStatisticsStore, value: any): void;
+  incrementField(field: 'pnmCount' | 'starredPnmCount'): void;
+  decrementField(field: 'pnmCount' | 'starredPnmCount'): void;
 }
 
 const useStore = create<IStatisticsStore>()(
@@ -54,10 +56,32 @@ const useStore = create<IStatisticsStore>()(
         }));
       };
 
+      /**
+       * Increments a field in the store
+       */
+      const incrementField = (field: 'pnmCount' | 'starredPnmCount') => {
+        return set((state) => ({
+          ...state,
+          [field]: state[field] + 1,
+        }));
+      };
+
+      /**
+       * Decrements a field in the store
+       */
+      const decrementField = (field: 'pnmCount' | 'starredPnmCount') => {
+        return set((state) => ({
+          ...state,
+          [field]: state[field] - 1,
+        }));
+      };
+
       return {
         ...initialState,
         clear,
         setField,
+        incrementField,
+        decrementField,
       };
     },
     {

@@ -9,6 +9,7 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+export * from './GlobalStore';
 
 export * from './EntitlementStore';
 export * from './EventStore';
