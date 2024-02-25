@@ -18,7 +18,7 @@ interface IUseForm {
   validators: Record<string, any>;
 
   /** The initial values for a form (optional) */
-  initialValues?: Record<string, string | undefined>;
+  initialValues?: Record<string, any>;
 }
 
 const useForm = ({ validators, initialValues }: IUseForm) => {
@@ -30,7 +30,7 @@ const useForm = ({ validators, initialValues }: IUseForm) => {
 
   type TState = {
     [K in TFields]: {
-      value: string | undefined;
+      value: any;
       error: string;
     };
   };
@@ -59,7 +59,7 @@ const useForm = ({ validators, initialValues }: IUseForm) => {
    * Set the value of a field in the state, this is essentially a more
    * controlled version of the normal setState function in React
    */
-  const setValue = (key: TFields, value: string) => {
+  const setValue = (key: TFields, value: any) => {
     setState((prev) => ({
       ...prev,
       [key]: {

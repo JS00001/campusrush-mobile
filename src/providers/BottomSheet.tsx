@@ -23,6 +23,14 @@ import BottomSheetComponents from "@/components/BottomSheets";
  */
 const BottomSheets = [
   { name: "PNM", component: BottomSheetComponents.PnmSheet },
+  {
+    name: "TERMS_OF_SERVICE",
+    component: BottomSheetComponents.TermsOfServiceSheet,
+  },
+  {
+    name: "PRIVACY_POLICY",
+    component: BottomSheetComponents.PrivacyPolicySheet,
+  },
 ];
 
 interface BottomSheetContextProps {

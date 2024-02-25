@@ -10,91 +10,11 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
-import Button from "@/ui/Button";
-import AppConstants from "@/constants";
-import ActionCard from "@/ui/ActionCard";
-import Content from "@/constants/content";
-import { useAuth } from "@/providers/Auth";
-import useModalsStore from "@/statev1/modals";
-import { useBottomSheets } from "@/providers/BottomSheetv1";
-import useDeleteChapter from "@/hooksv1/auth/useDeleteChapter";
+import SettingsView from "@/views/settings";
 
-interface SettingsProps {
-  navigation: NativeStackNavigationProp<any>;
-}
-
-const Settings: React.FC<SettingsProps> = ({ navigation }) => {
-  const { chapter, signOut, isPro } = useAuth();
-  const { openBottomSheet } = useBottomSheets();
-  const { onDeleteChapter, isLoading } = useDeleteChapter();
-
-  const openModal = useModalsStore((state) => state.openModal);
-
-  const onHelpPress = () => {
-    openBottomSheet("HELP");
-  };
-
-  const onAboutPress = () => {
-    openBottomSheet("ABOUT");
-  };
-
-  const onTermsAndConditionsPress = () => {
-    openBottomSheet("TERMS_AND_CONDITIONS");
-  };
-
-  const onPrivacyPolicyPress = () => {
-    openBottomSheet("PRIVACY_POLICY");
-  };
-
-  const onChapterPress = () => {
-    navigation.navigate("UpdateChapter");
-  };
-
-  const onPhoneNumberPress = () => {
-    navigation.navigate("PhoneNumber");
-  };
-
-  const onBillingPress = () => {
-    navigation.navigate("UpdateBilling");
-  };
-
-  const onNotificationsPress = () => {
-    navigation.navigate("UpdateNotifications");
-  };
-
-  const onDeleteAccountPress = () => {
-    openModal({
-      name: "ERROR",
-      props: {
-        title: Content.confirmDeleteAccount.title,
-        subtitle: Content.confirmDeleteAccount.subtitle,
-        secondaryButtonText: "No, Cancel",
-        primaryButtonText: "Yes, Delete",
-        primaryButtonAction: onDeleteChapter,
-      },
-    });
-  };
-
-  const onLinkSharingPress = () => {
-    if (isPro) {
-      navigation.navigate("LinkSharing");
-      return;
-    }
-
-    openModal({
-      name: "UPGRADE",
-      props: {
-        subtitle: Content.addPNM.shareQRCodeUpgrade,
-      },
-    });
-  };
-
+const SettingsScreen = () => {
   return (
     <Layout scrollable gap={12} contentContainerStyle={tw`pb-6`}>
       <Layout.Header
@@ -103,80 +23,9 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
         subtitle="Manage your chapter"
       />
 
-      <ActionCard
-        title="Chapter"
-        subtitle="Manage your chapter"
-        icon="ri-building-2-fill"
-        onPress={onChapterPress}
-      />
-
-      <ActionCard
-        title="Notifications"
-        subtitle="Manage your notifications"
-        icon="ri-notification-2-fill"
-        onPress={onNotificationsPress}
-      />
-
-      <ActionCard
-        title="Phone Number"
-        subtitle="Your custom phone number "
-        icon="ri-phone-fill"
-        onPress={onPhoneNumberPress}
-      />
-
-      <ActionCard
-        enforceProPlan
-        title="Link Sharing"
-        subtitle="Manage your link sharing"
-        icon="ri-share-fill"
-        onPress={onLinkSharingPress}
-      />
-
-      <ActionCard
-        title="Billing"
-        subtitle="Manage your billing"
-        icon="ri-bank-card-2-fill"
-        onPress={onBillingPress}
-      />
-
-      <View style={tw`w-full flex-row gap-3`}>
-        <ActionCard
-          size="sm"
-          icon="ri-file-list-3-fill"
-          title="Terms of Service"
-          subtitle="View our terms and conditions"
-          onPress={onTermsAndConditionsPress}
-        />
-
-        <ActionCard
-          size="sm"
-          icon="ri-shield-user-fill"
-          title="Privacy Policy"
-          subtitle="View our privacy policy"
-          onPress={onPrivacyPolicyPress}
-        />
-      </View>
-
-      <Button size="sm" style={tw`w-full`} onPress={signOut}>
-        Sign Out of {chapter.name}
-      </Button>
-
-      <Button
-        size="sm"
-        color="gray"
-        style={tw`w-full`}
-        loading={isLoading}
-        textStyle={tw`text-red font-medium`}
-        onPress={onDeleteAccountPress}
-      >
-        Delete Account
-      </Button>
-
-      <Text variant="subtext" style={tw`text-slate-600`}>
-        App Version: {AppConstants.version}
-      </Text>
+      <SettingsView />
     </Layout>
   );
 };
 
-export default Settings;
+export default SettingsScreen;

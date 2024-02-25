@@ -10,53 +10,23 @@
  * Do not distribute
  */
 
+import { useMemo } from "react";
 import { View } from "react-native";
-import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 
-import BottomSheet from "./Components/BottomSheet";
-import BottomSheetContainer from "./Components/BottomSheetContainer";
+import { BottomSheetProps } from "./@types";
 
 import Text from "@/ui/Text";
-import date from "@/lib/util/date";
 import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
+import date from "@/lib/util/date";
 import Skeleton from "@/ui/Skeleton";
-import contentApi from "@/apiv1/content";
+import { BottomSheet } from "@/ui/BottomSheet";
+import { useGetTermsOfService } from "@/hooks/api/content";
+import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
-interface TermsAndConditionsProps {
-  innerRef: React.RefObject<any>;
-  handleCloseModalPress: () => void;
-  handleSnapToIndex: (index: number) => void;
-  handleSnapToPosition: (position: string) => void;
-}
+const TermsOfServiceSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
+  const query = useGetTermsOfService();
 
-const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
-  innerRef,
-}) => {
-  const snapPoints = useMemo(() => ["90%"], []);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Create a query to get the chapter statistics
-  const query = useQuery({
-    queryKey: ["TermsAndConditions"],
-    enabled: isModalOpen,
-    queryFn: async () => {
-      return contentApi.getTermsOfService();
-    },
-  });
-
-  // When the bottom sheet modal is open
-  const onBottomSheetChange = (index: number) => {
-    if (index === 0) {
-      setIsModalOpen(true);
-      return;
-    }
-
-    setIsModalOpen(false);
-  };
-
-  // The last updated date
   const lastUpdated = useMemo(() => {
     const queryDate =
       query.data?.date_updated || query.data?.date_created || new Date();
@@ -64,17 +34,21 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
     return date.timeAgo(queryDate);
   }, [query.data?.date_updated, query.data?.date_created]);
 
+  const contentContainerStyle = tw.style(
+    "w-full p-4",
+    "items-center bg-white rounded-xl shadow-sm",
+  );
+
   return (
     <BottomSheet
       innerRef={innerRef}
-      onChange={onBottomSheetChange}
       backgroundStyle={tw`bg-slate-100`}
       children={() => (
         <BottomSheetContainer
           style={tw`bg-slate-100`}
           contentContainerStyle={tw`bg-slate-100`}
         >
-          {query.isLoading && <TermsAndConditionsSkeleton />}
+          {query.isLoading && <TermsOfServiceSkeleton />}
 
           {query.isFetched && !query.isLoading && (
             <>
@@ -82,19 +56,19 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
                 Last Updated: {lastUpdated}
               </Badge>
               <Text variant="header" style={tw`text-primary mb-4`}>
-                Terms and Conditions
+                Terms of Service
               </Text>
 
-              <View
-                style={tw`items-center w-full bg-white p-4 rounded-xl shadow-sm`}
-              >
+              <View style={contentContainerStyle}>
                 <Text variant="body">
-                  {query.data?.content.split("**").map((item, index) =>
-                    index % 2 === 0 ? (
-                      <Text key={index} variant="body">
-                        {item}
-                      </Text>
-                    ) : (
+                  {query.data?.content.split("**").map((item, index) => {
+                    const isFirstOccurrance = index % 2 === 0;
+
+                    if (isFirstOccurrance) {
+                      return item;
+                    }
+
+                    return (
                       <Text
                         key={index}
                         variant="body"
@@ -102,8 +76,8 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
                       >
                         {item}
                       </Text>
-                    ),
-                  )}
+                    );
+                  })}
                 </Text>
               </View>
             </>
@@ -117,14 +91,14 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({
 /**
  * The loading component for the bottom sheet
  */
-const TermsAndConditionsSkeleton: React.FC = () => {
+const TermsOfServiceSkeleton: React.FC = () => {
   const array = useMemo(() => Array.from({ length: 25 }), []);
 
   return (
     <>
       <Badge size="md">Loading...</Badge>
       <Text variant="header" style={tw`text-primary mb-4`}>
-        Terms and Conditions
+        Terms of Service
       </Text>
 
       <View style={tw`items-center w-full bg-white p-4 rounded-xl`}>
@@ -136,4 +110,4 @@ const TermsAndConditionsSkeleton: React.FC = () => {
   );
 };
 
-export default TermsAndConditions;
+export default TermsOfServiceSheet;

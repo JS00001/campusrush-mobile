@@ -31,14 +31,6 @@ const BottomSheets = [
   { name: "HELP", component: BottomSheetComponents.Help },
   { name: "NEW_MESSAGE", component: BottomSheetComponents.NewMessage },
   {
-    name: "TERMS_AND_CONDITIONS",
-    component: BottomSheetComponents.TermsAndConditions,
-  },
-  {
-    name: "PRIVACY_POLICY",
-    component: BottomSheetComponents.PrivacyPolicy,
-  },
-  {
     name: "PLAN_COMPARISON",
     component: BottomSheetComponents.PlanComparison,
   },

@@ -29,10 +29,10 @@ interface IUseFormMutation<TResponse, TRequest> {
   validators: Record<string, any>;
 
   /** The callback to be executed on success */
-  onSuccess: (data: API.SuccessResponse<TResponse>) => Promise<void>;
+  onSuccess?: (data: API.SuccessResponse<TResponse>) => Promise<void>;
 
   /** The initial values for a form (optional) */
-  initialValues?: Record<string, string | undefined>;
+  initialValues?: Record<string, any>;
 }
 
 const useFormMutation = <TResponse = any, TRequest = any>({
@@ -49,7 +49,7 @@ const useFormMutation = <TResponse = any, TRequest = any>({
 
   type TState = {
     [K in TFields]: {
-      value: string | undefined;
+      value: any;
       error: string;
     };
   };
@@ -76,7 +76,7 @@ const useFormMutation = <TResponse = any, TRequest = any>({
    * Set the value of a field in the state, this is essentially a more
    * controlled version of the normal setState function in React
    */
-  const setValue = (key: TFields, value: string) => {
+  const setValue = (key: TFields, value: any) => {
     setState((prev) => ({
       ...prev,
       [key]: {
@@ -152,7 +152,7 @@ const useFormMutation = <TResponse = any, TRequest = any>({
         throw res;
       }
 
-      await onSuccess(res);
+      await onSuccess?.(res);
 
       setLoading(false);
     } catch (err) {

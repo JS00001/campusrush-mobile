@@ -11,12 +11,11 @@
  */
 
 import lodash from "lodash";
-import { useMutation } from "@tanstack/react-query";
 import * as RNNotifications from "expo-notifications";
 import { createContext, useContext, useEffect } from "react";
 
 import { useAuth } from "@/providers/Auth";
-import chapterApi from "@/apiv1/api/chapter";
+import { useUpdateChapter } from "@/hooks/api/chapter";
 
 interface NotificationsContextProps {
   isLoading: boolean;
@@ -60,11 +59,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   // The mutation to update the chapter
   // We will pass either the notificationPushToken or notificationsEnabled
   // depending on the function called
-  const mutation = useMutation({
-    mutationFn: (input: UpdateChapterInput) => {
-      return chapterApi.updateChapter(input);
-    },
-  });
+  const mutation = useUpdateChapter();
 
   // Every time the access token changes, we will check the notification status
   // This is so that we can update the notification token if the user logs in
@@ -178,18 +173,13 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
 
   // Updates the notification status in the server (calls the mutation)
   const updateNotificationsEnabled = async (value: boolean) => {
-    mutation.mutate(
-      {
-        notificationsEnabled: value,
-      },
-      {
-        onSuccess: ({ data }) => {
-          // Update the chapter with the new notificationsEnabled
-          // from the server
-          updateChapter(data.data.chapter);
-        },
-      },
-    );
+    const res = await mutation.mutateAsync({
+      notificationsEnabled: value,
+    });
+
+    if ("error" in res) return;
+
+    updateChapter(res.data.chapter);
   };
 
   return (

@@ -19,9 +19,7 @@ import AddEvent from "./AddEvent";
 import UpdatePnm from "./UpdatePnm";
 import NewMessage from "./NewMessage";
 import UpdateEvent from "./UpdateEvent";
-import PrivacyPolicy from "./PrivacyPolicy";
 import PlanComparison from "./PlanComparison";
-import TermsAndConditions from "./TermsAndConditions";
 
 export default {
   Help,
@@ -32,7 +30,5 @@ export default {
   UpdatePnm,
   UpdateEvent,
   NewMessage,
-  PrivacyPolicy,
   PlanComparison,
-  TermsAndConditions,
 };

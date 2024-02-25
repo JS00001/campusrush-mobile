@@ -1,0 +1,95 @@
+/*
+ * Created on Sun Feb 25 2024
+ *
+ * This software is the proprietary property of CampusRush.
+ * All rights reserved. Unauthorized copying, modification, or distribution
+ * of this software, in whole or in part, is strictly prohibited.
+ * For licensing information contact CampusRush.
+ *
+ * Copyright (c) 2024 CampusRush
+ * Do not distribute
+ */
+
+import { z } from "zod";
+import { View } from "react-native";
+
+import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
+import CopyItem from "@/ui/CopyItem";
+import AppConstants from "@/constants";
+import { useAuth } from "@/providers/Auth";
+import SelectionCard from "@/ui/SelectionCard";
+import useFormMutation from "@/hooks/useFormMutation";
+import { useUpdateChapter } from "@/hooks/api/chapter";
+
+const LinkSharingView = () => {
+  const mutation = useUpdateChapter();
+  const { chapter, updateChapter } = useAuth();
+
+  const formValidators = {
+    linkSharingEnabled: z.boolean(),
+  };
+
+  const form = useFormMutation({
+    mutation: mutation,
+    validators: formValidators,
+    onSuccess: async ({ data }) => {
+      updateChapter(data.chapter);
+    },
+    initialValues: {
+      linkSharingEnabled: chapter?.linkSharingEnabled || false,
+    },
+  });
+
+  const linkSharingCode = `${AppConstants.sharingUrl}/${chapter.linkSharingCode}`;
+
+  const linkSharingEnabledSubtitle = form.state.linkSharingEnabled.value
+    ? "Currently Enabled"
+    : "Click to enable link sharing";
+
+  const linkSharingDisabledSubtitle = !form.state.linkSharingEnabled.value
+    ? "Currently Disabled"
+    : "Click to disable link sharing";
+
+  const onPress = () => {
+    form.setValue("linkSharingEnabled", !form.state.linkSharingEnabled.value);
+    form.handleSubmission();
+  };
+
+  return (
+    <>
+      <View>
+        <Text variant="title">Your Link Sharing URL</Text>
+        <Text variant="body">
+          Send this link to PNMs to allow them to add themselves to your
+          recruitment list.
+        </Text>
+      </View>
+
+      <CopyItem label="Link Sharing URL" value={linkSharingCode} />
+
+      <Text variant="title">Manage Your Link Sharing</Text>
+
+      <View style={tw`gap-2 w-full`}>
+        <SelectionCard
+          loading={mutation.isLoading}
+          selected={form.state.linkSharingEnabled.value}
+          title="Enable Link Sharing"
+          subtitle={linkSharingEnabledSubtitle}
+          description="Enable link sharing to allow PNMs to manually add themselves to your recruitment list via the link below."
+          onPress={onPress}
+        />
+        <SelectionCard
+          loading={mutation.isLoading}
+          selected={!form.state.linkSharingEnabled.value}
+          title="Disable Link Sharing"
+          subtitle={linkSharingDisabledSubtitle}
+          description="Disable link sharing to prevent PNMs from manually adding themselves to your recruitment list."
+          onPress={onPress}
+        />
+      </View>
+    </>
+  );
+};
+
+export default LinkSharingView;

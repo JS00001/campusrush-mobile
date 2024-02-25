@@ -10,12 +10,6 @@
  * Do not distribute
  */
 
-import PnmSheet from "./Pnm";
-import PrivacyPolicySheet from "./PrivacyPolicy";
-import TermsOfServiceSheet from "./TermsOfService";
+import LinkSharingView from "./LinkSharing";
 
-export default {
-  PnmSheet,
-  PrivacyPolicySheet,
-  TermsOfServiceSheet,
-};
+export default LinkSharingView;

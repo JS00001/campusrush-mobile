@@ -15,7 +15,7 @@ import { View } from "react-native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Hyperlink from "@/ui/Hyperlink";
-import { useBottomSheets } from "@/providers/BottomSheetv1";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface TermsAndConditionsProps {
   color?: "dark" | "light";
@@ -24,8 +24,8 @@ interface TermsAndConditionsProps {
 const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ color }) => {
   const { openBottomSheet } = useBottomSheets();
 
-  const onTermsAndConditionsPress = () => {
-    openBottomSheet("TERMS_AND_CONDITIONS");
+  const onTermsOfServicePress = () => {
+    openBottomSheet("TERMS_OF_SERVICE ");
   };
 
   const onPrivacyPolicyPress = () => {
@@ -38,8 +38,8 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ color }) => {
         By continuing, you acknowledge and agree to our
       </Text>
       <View style={tw`flex-row justify-center`}>
-        <Hyperlink color={color} onPress={onTermsAndConditionsPress}>
-          Terms and Conditions
+        <Hyperlink color={color} onPress={onTermsOfServicePress}>
+          Terms of Service
         </Hyperlink>
         <Text style={tw`text-center`}>&nbsp;and&nbsp;</Text>
         <Hyperlink color={color} onPress={onPrivacyPolicyPress}>

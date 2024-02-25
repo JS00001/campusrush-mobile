@@ -26,6 +26,10 @@ export const PRODUCTION_WEB_URL = 'https://campusrush.app';
 export const PRODUCTION_URL = 'https://api.campusrush.app';
 export const PRODUCTION_WEBSOCKET_URL = 'wss://api.campusrush.app';
 
+// Endpoints for the web
+export const SHARING_URL = '/sharing';
+export const EVENT_URL = '/events';
+
 const AppConstants = {
   /**
    * Whether or not we are in a production environment
@@ -67,6 +71,18 @@ const AppConstants = {
    * The websocket url for the backend
    */
   websocketUrl: isProduction ? PRODUCTION_WEBSOCKET_URL : STAGING_WEBSOCKET_URL,
+  /**
+   * The url to sharing
+   */
+  sharingUrl: isProduction
+    ? PRODUCTION_WEB_URL + SHARING_URL
+    : STAGING_WEB_URL + SHARING_URL,
+  /**
+   * The url to events
+   */
+  eventUrl: isProduction
+    ? PRODUCTION_WEB_URL + EVENT_URL
+    : STAGING_WEB_URL + EVENT_URL,
   /**
    * The CMS/content url
    */
