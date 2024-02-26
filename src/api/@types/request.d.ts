@@ -298,3 +298,10 @@ interface GetPnmRequest {
    */
   id: string;
 }
+
+interface GetEventRequest {
+  /**
+   * The ID of the event to be retrieved
+   */
+  id: string;
+}

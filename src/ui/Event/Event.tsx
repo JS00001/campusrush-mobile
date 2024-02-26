@@ -23,8 +23,9 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 import { formatEvent } from "@/lib/util/format";
-import { useBottomSheets } from "@/providers/BottomSheetv1";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
+// TODO: Cleanup this component
 interface EventProps {
   event: Event;
   loading?: boolean;

@@ -285,3 +285,10 @@ type GetPnmResponse = API.Response<{
    */
   pnm: PNM;
 }>;
+
+type GetEventResponse = API.Response<{
+  /**
+   * Event information
+   */
+  event: Event;
+}>;

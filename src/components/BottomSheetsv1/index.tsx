@@ -14,17 +14,13 @@ import Help from "./Help";
 import Event from "./Event";
 import About from "./About";
 
-import AddEvent from "./AddEvent";
 import UpdatePnm from "./UpdatePnm";
 import NewMessage from "./NewMessage";
-import UpdateEvent from "./UpdateEvent";
 
 export default {
   Help,
   About,
   Event,
-  AddEvent,
   UpdatePnm,
-  UpdateEvent,
   NewMessage,
 };

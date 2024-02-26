@@ -22,7 +22,9 @@ import BottomSheetComponents from "@/components/BottomSheets";
  * Put all bottom sheets in the @/components/BottomSheets folder
  */
 const BottomSheets = [
+  { name: "CREATE_EVENT", component: BottomSheetComponents.CreateEventSheet },
   { name: "CREATE_PNM", component: BottomSheetComponents.CreatePnmSheet },
+  { name: "EVENT", component: BottomSheetComponents.EventSheet },
 
   { name: "PNM", component: BottomSheetComponents.PnmSheet },
   {
@@ -38,6 +40,10 @@ const BottomSheets = [
     component: BottomSheetComponents.TermsOfServiceSheet,
   },
   { name: "UPDATE_PNM", component: BottomSheetComponents.UpdatePnmSheet },
+  {
+    name: "UPDATE_EVENT",
+    component: BottomSheetComponents.UpdateEventSheet,
+  },
 ];
 
 interface BottomSheetContextProps {

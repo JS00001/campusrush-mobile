@@ -24,9 +24,7 @@ import BottomSheetComponents from "@/components/BottomSheetsv1";
 const BottomSheets = [
   { name: "UPDATE_PNM", component: BottomSheetComponents.UpdatePnm },
   { name: "ABOUT", component: BottomSheetComponents.About },
-  { name: "ADD_EVENT", component: BottomSheetComponents.AddEvent },
   { name: "EVENT", component: BottomSheetComponents.Event },
-  { name: "UPDATE_EVENT", component: BottomSheetComponents.UpdateEvent },
   { name: "HELP", component: BottomSheetComponents.Help },
   { name: "NEW_MESSAGE", component: BottomSheetComponents.NewMessage },
 ];

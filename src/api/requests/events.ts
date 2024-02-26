@@ -39,6 +39,18 @@ export const deleteEvents = async () => {
 };
 
 /**
+ * Request:     GET /api/v1/consumer/events/get/:id
+ * Description: Get an event by id
+ */
+export const getEvent = async (data: GetEventRequest) => {
+  const url = `${PREFIX}/get/${data.id}`;
+
+  const { data: responseData } = await axiosClient.get(url);
+
+  return responseData as GetEventResponse;
+};
+
+/**
  * Request:     POST /api/v1/consumer/events/create
  * Description: Create an event
  */

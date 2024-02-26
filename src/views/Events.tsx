@@ -13,19 +13,20 @@
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 
+import useSearch from "@/hooks/useSearch";
+import { useEventStore, useModalStore } from "@/store";
+import { useBottomSheets } from "@/providers/BottomSheet";
+import { useDeleteEvent, useDeleteEvents } from "@/hooks/api/events";
+
 import Event from "@/ui/Event";
 import tw from "@/lib/tailwind";
 import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
-import useSearch from "@/hooks/useSearch";
 import Content from "@/constants/content";
 import ActionButton from "@/ui/ActionButton";
 import Menu, { MenuAction } from "@/ui/Menu";
 import InfiniteList from "@/components/InfiniteList";
-import { useEventStore, useModalStore } from "@/store";
 import { DefaultEventLoader } from "@/ui/Event/Loaders";
-import { useBottomSheets } from "@/providers/BottomSheet";
-import { useDeleteEvent, useDeleteEvents } from "@/hooks/api/events";
 
 const EventsView = () => {
   const { openModal } = useModalStore();
@@ -120,7 +121,7 @@ const EventsView = () => {
   };
 
   const onNewEventPress = () => {
-    // openBottomSheet("ADD_EVENT");
+    openBottomSheet("CREATE_EVENT");
   };
 
   const onRefresh = async () => {

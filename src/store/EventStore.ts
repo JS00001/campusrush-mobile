@@ -14,8 +14,9 @@ import { create } from 'zustand';
 import { useEffect } from 'react';
 import { PersistStorage, persist } from 'zustand/middleware';
 
-import { useGetEvents } from '@/hooks/api/events';
 import customAsyncStorage from '@/lib/asyncStorage';
+import { useGetEvent, useGetEvents } from '@/hooks/api/events';
+import date from '@/lib/util/date';
 
 interface IEventStore {
   events: Event[];
@@ -64,22 +65,29 @@ export const useEventZustandStore = create<IEventStore>()(
        * Add an event to the store (if it's id doesn't exist)
        */
       const addEvent = (event: Event) => {
-        const eventExists = get().events.some((e) => e._id === event._id);
-
-        if (eventExists) return;
-
-        return set({ events: [...get().events, event] });
+        return set((state) => {
+          return insertEvent(state, event);
+        });
       };
 
       /**
        * Update an event in the store
        */
       const updateEvent = (event: Event) => {
-        const events = get().events.map((e) =>
-          e._id === event._id ? event : e,
-        );
+        return set((state) => {
+          const oldEvent = state.events.find((e) => e._id === event._id);
 
-        return set({ events });
+          if (!oldEvent) return state;
+
+          const updatedEvent = {
+            ...oldEvent,
+            ...event,
+          };
+
+          const newEvents = state.events.filter((e) => e._id !== event._id);
+
+          return insertEvent({ ...state, events: newEvents }, updatedEvent);
+        });
       };
 
       /**
@@ -108,6 +116,59 @@ export const useEventZustandStore = create<IEventStore>()(
   ),
 );
 
+const insertEvent = (state: IEventStore, event: Event) => {
+  // Don't insert the event if it already exists
+  if (state.events.find((e) => e._id === event._id)) {
+    return state;
+  }
+
+  /**
+   * Find the first event that has a start date greater than
+   * the event we are trying to insert. This allows us to insert
+   * the event in the correct order of start dates
+   */
+  const insertIndex = state.events.findIndex(
+    (e) => e.startDate > event.startDate,
+  );
+
+  // If there is a valid index, we are in the correct order of start dates
+  // so we can insert the event at the index
+  if (insertIndex !== -1) {
+    return {
+      events: [
+        ...state.events.slice(0, insertIndex),
+        event,
+        ...state.events.slice(insertIndex),
+      ],
+    };
+  }
+
+  /**
+   * If there are no events with a later start date, we need to find the first event
+   * that has a start date that has passed. This allows us to insert the event
+   * in the correct order of start dates
+   */
+  const newInsertIndex = state.events.findIndex((e) =>
+    date.hasPassed(e.startDate),
+  );
+
+  // If there is a valid index, we are in the correct order of start dates
+  if (newInsertIndex !== -1) {
+    return {
+      events: [
+        ...state.events.slice(0, newInsertIndex),
+        event,
+        ...state.events.slice(newInsertIndex),
+      ],
+    };
+  }
+
+  // If there are no events that have passed, just add the event to the end of the list
+  return {
+    events: [...state.events, event],
+  };
+};
+
 export const useEventStore = () => {
   const query = useGetEvents();
   const store = useEventZustandStore();
@@ -125,6 +186,25 @@ export const useEventStore = () => {
   }, [query.data]);
 
   return {
+    ...query,
+    ...store,
+  };
+};
+
+export const useEvent = (id: string) => {
+  const query = useGetEvent(id);
+  const store = useEventZustandStore();
+
+  const event = store.getEvent(id);
+
+  useEffect(() => {
+    if (!query.data || 'error' in query.data) return;
+
+    store.updateEvent(query.data.data.event);
+  }, [query.data]);
+
+  return {
+    event,
     ...query,
     ...store,
   };

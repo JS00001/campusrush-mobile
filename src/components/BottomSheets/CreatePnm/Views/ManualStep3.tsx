@@ -90,7 +90,12 @@ const ManualStep3: React.FC<UseSheetFlowProps> = ({
       })}
 
       <ButtonGroup>
-        <Button size="sm" color="gray" onPress={prevView}>
+        <Button
+          size="sm"
+          color="gray"
+          onPress={prevView}
+          disabled={mutation.isLoading}
+        >
           No, Go Back
         </Button>
         <Button

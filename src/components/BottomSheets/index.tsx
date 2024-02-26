@@ -10,17 +10,23 @@
  * Do not distribute
  */
 
+import CreateEventSheet from "./CreateEvent";
 import CreatePnmSheet from "./CreatePnm";
+import EventSheet from "./Event";
 import PnmSheet from "./Pnm";
 import UpdatePnmSheet from "./UpdatePnm";
+import UpdateEventSheet from "./UpdateEvent";
 import PlanComparisonSheet from "./PlanComparison";
 import PrivacyPolicySheet from "./PrivacyPolicy";
 import TermsOfServiceSheet from "./TermsOfService";
 
 export default {
+  CreateEventSheet,
   CreatePnmSheet,
+  EventSheet,
   PnmSheet,
   UpdatePnmSheet,
+  UpdateEventSheet,
   PlanComparisonSheet,
   PrivacyPolicySheet,
   TermsOfServiceSheet,

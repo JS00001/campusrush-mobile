@@ -10,9 +10,9 @@
  * Do not distribute
  */
 
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
-import { getEvents } from "@/api";
+import { getEvent, getEvents } from "@/api";
 import { useAuth } from "@/providers/Auth";
 
 export const useGetEvents = () => {
@@ -31,5 +31,11 @@ export const useGetEvents = () => {
 
       return lastPage.data.nextOffset;
     },
+  });
+};
+
+export const useGetEvent = (id: string) => {
+  return useQuery(["event", id], () => {
+    return getEvent({ id });
   });
 };

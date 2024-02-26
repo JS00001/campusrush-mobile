@@ -1,48 +1,62 @@
 /*
- * Created on Wed Dec 27 2023
+ * Created on Mon Feb 26 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
  * of this software, in whole or in part, is strictly prohibited.
  * For licensing information contact CampusRush.
  *
- * Copyright (c) 2023 CampusRush
+ * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
 
 import { View } from "react-native";
 
-import { AddEventScreens } from "./types";
-
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import useForm from "@/hooks/useForm";
 import TextInput from "@/ui/TextInput";
+import validators from "@/constants/validators";
 import KeyboardListener from "@/ui/KeyboardListener";
-import { UseCreateEvent } from "@/hooksv1/events/useCreateEvent";
+import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-interface AddEventStep1Props extends UseCreateEvent {
-  setScreen: (screen: AddEventScreens) => void;
-  handleCloseModalPress: () => void;
-  handleSnapToIndex: (index: number) => void;
-  handleSnapToPosition: (position: string) => void;
-}
-
-const AddEventStep1: React.FC<AddEventStep1Props> = ({
-  setScreen,
+const Step1: React.FC<UseSheetFlowProps> = ({
+  state,
+  setState,
   handleSnapToIndex,
   handleSnapToPosition,
-  handleCloseModalPress,
-  ...props
+  nextView,
 }) => {
-  // When the next button is pressed, make sure the fields are valid
-  // and then go to the next step
-  const onNextPress = () => {
-    const isValid = props.validateFields(["title", "location", "description"]);
+  const formValidators = {
+    title: validators.shortContentString,
+    description: validators.longContentString,
+    location: validators.shortContentString,
+  };
 
-    if (!isValid) return;
+  const form = useForm({
+    validators: formValidators,
+    initialValues: {
+      title: state.title,
+      description: state.description,
+      location: state.location,
+    },
+  });
 
-    setScreen(AddEventScreens.AddEventStep2);
+  const handleSubmission = () => {
+    const isValid = form.validateState();
+
+    if (!isValid) {
+      return;
+    }
+
+    nextView();
+    setState((prevState: any) => ({
+      ...prevState,
+      title: form.state.title.value,
+      description: form.state.description.value,
+      location: form.state.location.value,
+    }));
   };
 
   const onKeyboardWillShow = () => {
@@ -69,28 +83,28 @@ const AddEventStep1: React.FC<AddEventStep1Props> = ({
 
         <TextInput
           placeholder="Title"
-          value={props.title}
-          error={props.errors?.title}
-          onChangeText={(text) => props.setField("title", text)}
+          value={form.state.title.value}
+          error={form.state.title.error}
+          onChangeText={form.setValue.bind(null, "title")}
         />
         <TextInput
           placeholder="Location"
-          value={props.location}
-          error={props.errors?.location}
-          onChangeText={(text) => props.setField("location", text)}
+          value={form.state.location.value}
+          error={form.state.location.error}
+          onChangeText={form.setValue.bind(null, "location")}
         />
         <TextInput
           multiline
           blurOnSubmit
           returnKeyType="done"
-          value={props.description}
+          value={form.state.description.value}
           inputStyle={tw`h-36`}
           placeholder="Description"
-          error={props.errors?.description}
-          onChangeText={(text) => props.setField("description", text)}
+          error={form.state.description.error}
+          onChangeText={form.setValue.bind(null, "description")}
         />
 
-        <Button size="sm" onPress={onNextPress}>
+        <Button size="sm" onPress={handleSubmission}>
           Next
         </Button>
       </View>
@@ -98,4 +112,4 @@ const AddEventStep1: React.FC<AddEventStep1Props> = ({
   );
 };
 
-export default AddEventStep1;
+export default Step1;
