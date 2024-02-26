@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-export type MessageType = "READ_CONVERSATION";
+export type MessageType = 'READ_CONVERSATION';
 
 export interface SocketInputData {
   type: MessageType;

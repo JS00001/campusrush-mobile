@@ -4,7 +4,7 @@
 */
 const groupByDate = (messages: Message[]): TimestampedMessage[] => {
   // Initialize a variable to keep track of the previous date.
-  let previousDate: string = "";
+  let previousDate: string = '';
 
   // Initialize an array to store the timestamped messages.
   let timestampedMessages: TimestampedMessage[] = [];
@@ -68,33 +68,33 @@ const groupByDate = (messages: Message[]): TimestampedMessage[] => {
 */
 const parseDate = (date: Date): string => {
   const dateString = date.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 
   // If the date is today, return "Today".
   if (
     dateString ===
     new Date().toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     })
   ) {
-    return "Today";
+    return 'Today';
   }
 
   // If the date is yesterday, return "Yesterday".
   if (
     dateString ===
     new Date(Date.now() - 86400000).toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     })
   ) {
-    return "Yesterday";
+    return 'Yesterday';
   }
 
   return dateString;

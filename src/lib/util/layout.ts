@@ -10,11 +10,11 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
+import tw from '@/lib/tailwind';
 
 export const hiddenContent = (bool: boolean) => {
   const styles = bool ? tw`opacity-100` : tw`opacity-0 h-0 w-0`;
-  const events = bool ? "auto" : ("none" as any);
+  const events = bool ? 'auto' : ('none' as any);
 
   return { style: styles, pointerEvents: events };
 };

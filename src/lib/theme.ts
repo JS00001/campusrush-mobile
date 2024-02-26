@@ -10,12 +10,12 @@
  * Do not distribute
  */
 
-import { DefaultTheme } from "@react-navigation/native";
+import { DefaultTheme } from '@react-navigation/native';
 
 export const navigationTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: "#fff",
+    background: '#fff',
   },
 };

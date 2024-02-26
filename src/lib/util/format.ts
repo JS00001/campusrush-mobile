@@ -33,57 +33,57 @@ export const formatEvent = (event: Event): FormattedEvent => {
 
   const totalResponses = event.yesCount + event.noCount;
 
-  const dateString = startDate.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
+  const dateString = startDate.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
   });
 
-  const startMonth = startDate.toLocaleDateString("en-US", {
-    month: "short",
+  const startMonth = startDate.toLocaleDateString('en-US', {
+    month: 'short',
   });
 
-  const endMonth = endDate.toLocaleDateString("en-US", {
-    month: "short",
+  const endMonth = endDate.toLocaleDateString('en-US', {
+    month: 'short',
   });
 
-  const startDay = startDate.toLocaleDateString("en-US", {
-    day: "numeric",
+  const startDay = startDate.toLocaleDateString('en-US', {
+    day: 'numeric',
   });
 
-  const endDay = endDate.toLocaleDateString("en-US", {
-    day: "numeric",
+  const endDay = endDate.toLocaleDateString('en-US', {
+    day: 'numeric',
   });
 
   const startWeekday = startDate
-    .toLocaleDateString("en-US", {
-      weekday: "short",
+    .toLocaleDateString('en-US', {
+      weekday: 'short',
     })
     .slice(0, 3);
 
   const endWeekday = endDate
-    .toLocaleDateString("en-US", {
-      weekday: "short",
+    .toLocaleDateString('en-US', {
+      weekday: 'short',
     })
     .slice(0, 3);
 
   const startTime = startDate
     .toLocaleTimeString([], {
-      hour: "numeric",
-      minute: "numeric",
+      hour: 'numeric',
+      minute: 'numeric',
     })
     .toLowerCase()
-    .replace(/\s/g, "")
-    .replace(":00", "");
+    .replace(/\s/g, '')
+    .replace(':00', '');
 
   const endTime = endDate
     .toLocaleTimeString([], {
-      hour: "numeric",
-      minute: "numeric",
+      hour: 'numeric',
+      minute: 'numeric',
     })
     .toLowerCase()
-    .replace(/\s/g, "")
-    .replace(":00", "");
+    .replace(/\s/g, '')
+    .replace(':00', '');
 
   return {
     ...event,

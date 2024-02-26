@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const customAsyncStorage = {
   getItem: async (key: string) => {

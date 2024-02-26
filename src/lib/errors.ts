@@ -11,10 +11,10 @@
  */
 
 // TODO: DELETE THIS once we dont need error handling
-import { AxiosError } from "axios";
-import Toast from "react-native-toast-message";
+import { AxiosError } from 'axios';
+import Toast from 'react-native-toast-message';
 
-import Content from "@/constants/content";
+import Content from '@/constants/content';
 
 const handleApiError = (error: any, form?: any) => {
   if (error instanceof AxiosError) {
@@ -29,7 +29,7 @@ const handleApiError = (error: any, form?: any) => {
     } else {
       // Else show the error as a toast message
       Toast.show({
-        type: "error",
+        type: 'error',
         text1: Content.errorTitle,
         text2: errorMessage.humanMessage,
       });
@@ -37,7 +37,7 @@ const handleApiError = (error: any, form?: any) => {
   } else {
     // Show a toast with the error message
     Toast.show({
-      type: "error",
+      type: 'error',
       text1: Content.errorTitle,
       text2: error.message,
     });

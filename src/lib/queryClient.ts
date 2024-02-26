@@ -9,8 +9,8 @@
  * Copyright (c) 2023 CampusRush
  * Do not distribute
  */
-import { AxiosError } from "axios";
-import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
+import { AxiosError } from 'axios';
+import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({

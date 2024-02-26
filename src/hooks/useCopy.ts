@@ -10,19 +10,19 @@
  * Do not distribute
  */
 
-import * as Haptics from "expo-haptics";
-import * as Clipboard from "expo-clipboard";
-import Toast from "react-native-toast-message";
+import * as Haptics from 'expo-haptics';
+import * as Clipboard from 'expo-clipboard';
+import Toast from 'react-native-toast-message';
 
 const useCopy = () => {
   const copy = (value: string, label?: string) => {
-    label = label || "Value";
+    label = label || 'Value';
 
     Haptics.selectionAsync();
     Clipboard.setStringAsync(value);
 
     Toast.show({
-      type: "success",
+      type: 'success',
       text1: `${label} copied to clipboard`,
       text2: value,
       visibilityTime: 2000,
