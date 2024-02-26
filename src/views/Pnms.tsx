@@ -20,9 +20,10 @@ import Content from "@/constants/content";
 import Menu, { MenuAction } from "@/ui/Menu";
 import PnmsList from "@/components/PnmsList";
 import { useDeletePnms } from "@/hooks/api/pnms";
-import { useModalStore, usePnmStore } from "@/store";
+import { useGlobalStore, useModalStore, usePnmStore } from "@/store";
 
 const PnmsView = () => {
+  const globalStore = useGlobalStore();
   const { openModal } = useModalStore();
   const deletionMutation = useDeletePnms();
   const { pnms, isLoading, refetch } = usePnmStore();
@@ -88,6 +89,8 @@ const PnmsView = () => {
           onPrimaryAction: async () => {
             await deletionMutation.mutateAsync();
             await refetch();
+
+            globalStore.resetPnmStores();
           },
         });
       },
