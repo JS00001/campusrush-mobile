@@ -19,6 +19,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import ListItem from "@/ui/ListItem";
+import { useGlobalStore } from "@/store";
 import Content from "@/constants/content";
 import ButtonGroup from "@/ui/ButtonGroup";
 import { useCreatePnm } from "@/hooks/api/pnms";
@@ -39,6 +40,7 @@ const ManualStep3: React.FC<UseSheetFlowProps> = ({
   };
 
   const mutation = useCreatePnm();
+  const globalStore = useGlobalStore();
 
   const handleSubmission = async () => {
     const res = await mutation.mutateAsync(state as CreatePnmRequest);
@@ -47,7 +49,6 @@ const ManualStep3: React.FC<UseSheetFlowProps> = ({
       return;
     }
 
-    // TODO: Add pnm via the global store (Updating the statistics, list of PNMs, etc.)
     setState({
       firstName: undefined,
       lastName: undefined,
@@ -56,6 +57,8 @@ const ManualStep3: React.FC<UseSheetFlowProps> = ({
       instagram: undefined,
       snapchat: undefined,
     });
+
+    globalStore.addPnm(res.data.pnm);
 
     Toast.show({
       type: "success",

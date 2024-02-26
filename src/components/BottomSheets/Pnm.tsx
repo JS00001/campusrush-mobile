@@ -18,11 +18,11 @@ import { BottomSheetProps } from "./@types";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
-import { usePnm } from "@/store";
 import date from "@/lib/util/date";
 import IconButton from "@/ui/IconButton";
 import DetailView from "@/ui/DetailView";
 import { BottomSheet } from "@/ui/BottomSheet";
+import { useGlobalStore, usePnm } from "@/store";
 import { formatPhoneNumber } from "@/lib/util/string";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 import { useDeletePnm, useUpdatePnm } from "@/hooks/api/pnms";
@@ -39,6 +39,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         const pnmId = data?.data.pnmId as string;
 
         const store = usePnm(pnmId);
+        const globalStore = useGlobalStore();
         const deleteMutation = useDeletePnm();
         const updateMutation = useUpdatePnm();
 
@@ -54,21 +55,31 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         }, [store.pnm]);
 
         const onFavorite = async (starred: boolean) => {
+          if (!pnm) return;
+
           const res = await updateMutation.mutateAsync({ id: pnmId, starred });
 
           if ("error" in res) return;
 
           store.updatePnm(res.data.pnm);
           store.refetch();
+
+          if (starred) {
+            globalStore.favoritePnm(pnm);
+          } else {
+            globalStore.unfavoritePnm(pnm);
+          }
         };
 
         const onDelete = async () => {
+          if (!pnm) return;
+
           const res = await deleteMutation.mutateAsync({ id: pnmId });
 
           if ("error" in res) return;
 
-          // TODO: MAke this glovbally update state, IE remove from statistics, remove conversations, etc
           store.deletePnm(pnmId);
+          globalStore.deletePnm(pnm);
           handleClose();
         };
 

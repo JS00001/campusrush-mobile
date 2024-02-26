@@ -28,7 +28,7 @@ interface IPnmStore {
   deletePnm: (id: string) => void;
 }
 
-const useStore = create<IPnmStore>()(
+export const usePnmZustandStore = create<IPnmStore>()(
   persist(
     (set, get) => {
       /**
@@ -107,8 +107,8 @@ const useStore = create<IPnmStore>()(
 );
 
 export const usePnmStore = () => {
-  const store = useStore();
   const query = useGetPnms();
+  const store = usePnmZustandStore();
 
   useEffect(() => {
     if (!query.data || 'error' in query.data) return;
@@ -123,8 +123,9 @@ export const usePnmStore = () => {
 };
 
 export const usePnm = (id: string) => {
-  const store = useStore();
   const query = useGetPnm(id);
+  const store = usePnmZustandStore();
+
   const pnm = store.getPnm(id);
 
   useEffect(() => {

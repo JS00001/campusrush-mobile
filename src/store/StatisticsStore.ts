@@ -28,7 +28,7 @@ interface IStatisticsStore {
   decrementField(field: 'pnmCount' | 'starredPnmCount'): void;
 }
 
-const useStore = create<IStatisticsStore>()(
+export const useStatisticsZustandStore = create<IStatisticsStore>()(
   persist(
     (set) => {
       /**
@@ -92,8 +92,8 @@ const useStore = create<IStatisticsStore>()(
 );
 
 export const useStatisticsStore = () => {
-  const store = useStore();
   const query = useGetChapterStatistics();
+  const store = useStatisticsZustandStore();
 
   /**
    * Update the store when the query data changes

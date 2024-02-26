@@ -28,7 +28,7 @@ interface IEventStore {
   deleteEvent: (id: string) => void;
 }
 
-const useStore = create<IEventStore>()(
+export const useEventZustandStore = create<IEventStore>()(
   persist(
     (set, get) => {
       /**
@@ -109,8 +109,8 @@ const useStore = create<IEventStore>()(
 );
 
 export const useEventStore = () => {
-  const store = useStore();
   const query = useGetEvents();
+  const store = useEventZustandStore();
 
   useEffect(() => {
     if (!query.data) return;

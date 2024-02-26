@@ -30,7 +30,7 @@ interface IContactStore {
   removeContacts: (field: keyof IContactStore, value: PNM[] | PNM) => void;
 }
 
-const useStore = create<IContactStore>()(
+export const useContactZustandStore = create<IContactStore>()(
   persist(
     (set, get) => {
       /**
@@ -112,8 +112,8 @@ const useStore = create<IContactStore>()(
 );
 
 export const useContactStore = () => {
-  const store = useStore();
   const query = useGetContacts();
+  const store = useContactZustandStore();
 
   /**
    * Update the store when the query data changes

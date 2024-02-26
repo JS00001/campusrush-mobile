@@ -16,7 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useEffect, useState, useContext } from "react";
 
 import authAPI from "@/apiv1/auth";
-import useZustandStore from "@/statev1";
+import { useGlobalStore } from "@/store";
 import { useWebsocket } from "@/providers/Websocket";
 
 interface AuthContextProps {
@@ -53,7 +53,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   );
 
   // Clears all the pnms when user logs out
-  const { resetState } = useZustandStore();
+  const { clear } = useGlobalStore();
 
   // Import the websocket data
   const websocket = useWebsocket();
@@ -240,7 +240,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   // Clear all user data
   const clearUserData = async () => {
     // Clear all of the user data from the store
-    await resetState();
+    await clear();
 
     // Clear the refresh token from storage
     await AsyncStorage.removeItem("refreshToken");

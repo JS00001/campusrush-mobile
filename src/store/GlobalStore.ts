@@ -10,11 +10,11 @@
  * Do not distribute
  */
 
-import { useEventStore } from './EventStore';
-import { usePnmStore } from './PnmStore';
-import { useStatisticsStore } from './StatisticsStore';
+import { useEventZustandStore } from './EventStore';
+import { usePnmZustandStore } from './PnmStore';
+import { useStatisticsZustandStore } from './StatisticsStore';
 
-import { useContactStore } from './messaging/ContactStore';
+import { useContactZustandStore } from './messaging/ContactStore';
 import { useConversationStore } from './messaging/ConversationStore';
 import { useMessageStore } from './messaging/MessageStore';
 
@@ -25,12 +25,12 @@ import { useMessageStore } from './messaging/MessageStore';
  * keep the state consistent across multiple stores.
  */
 export const useGlobalStore = () => {
-  const pnmStore = usePnmStore();
-  const statisticsStore = useStatisticsStore();
-  const contactStore = useContactStore();
+  const pnmStore = usePnmZustandStore();
+  const statisticsStore = useStatisticsZustandStore();
+  const contactStore = useContactZustandStore();
   const conversationStore = useConversationStore();
   const messageStore = useMessageStore();
-  const eventStore = useEventStore();
+  const eventStore = useEventZustandStore();
 
   /**
    * Adds a PNM to the system. This needs to update
