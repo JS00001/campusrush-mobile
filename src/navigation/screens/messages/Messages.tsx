@@ -11,7 +11,7 @@
  */
 
 import Layout from "@/ui/Layout";
-import MessagesView from "@/views/Messages";
+import MessagesView from "@/views/messaging";
 
 const MessagesScreen = () => {
   return (

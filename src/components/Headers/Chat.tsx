@@ -28,6 +28,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
   loading,
   onPnmRemove,
 }) => {
+  // TODO: REPLACE
   const { actions, onActionPress, isLoading } = usePnmActions(pnms[0]);
 
   // Whether or not the chat is a single PNM
@@ -41,7 +42,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
   return (
     <Header
       hasBackButton
-      hasMenuButton
+      hasMenuButton={isSinglePnm}
       title={title}
       loading={loading}
       menuButton={{

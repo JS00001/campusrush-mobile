@@ -10,12 +10,16 @@
  * Do not distribute
  */
 
+import { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import { useContactStore, useMessageStore } from "@/store";
+import { useSendMassMessage } from "@/hooks/api/messaging";
+import { useConversationStore } from "@/store/messaging/ConversationStore";
 
 import Layout from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
 import ChatHeader from "@/components/Headers/Chat";
-import useMassMessager from "@/hooksv1/messaging/useMassMessager";
 
 interface NewMessageProps {
   route: any;
@@ -23,23 +27,61 @@ interface NewMessageProps {
 }
 
 const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
-  // Define the pnms from the route params
-  const routePnms = route.params.pnms;
+  const initialPnms: PNM[] = route.params.pnms;
 
-  const { pnms, sendMessage, removePnm } = useMassMessager(routePnms);
+  const [pnms, setPnms] = useState(initialPnms);
+
+  const contactStore = useContactStore();
+  const messageStore = useMessageStore();
+  const conversationStore = useConversationStore();
+  const sendMassMessageMutation = useSendMassMessage();
+
+  const onMessageSend = async (message: string) => {
+    const payload = {
+      message,
+      pnms: pnms.map((pnm) => pnm._id),
+    };
+
+    (navigation.navigate as any)("Messages");
+
+    // TODO: Before we begin the mutation, we want to set the loading state somehow on the messgages screen
+
+    const res = await sendMassMessageMutation.mutateAsync(payload);
+
+    if ("error" in res) return;
+
+    const messages = res.data.messages;
+    const conversations = res.data.conversations;
+
+    /**
+     * The API will return the conversations in a 'backwards' order so we need to reverse
+     * them to get them in chronological order
+     */
+    conversations.reverse();
+
+    conversationStore.addConversations(conversations);
+    // TODO: Now, set the status of the message to sent
+    contactStore.removeContacts("uncontacted", pnms);
+
+    messages.forEach((message) => {
+      messageStore.addMessages(message.pnm, message);
+    });
+  };
+
+  const onRemovePnm = (pnm: PNM) => {
+    setPnms((prev) => prev.filter((p) => p._id !== pnm._id));
+  };
 
   return (
-    <>
-      <Layout scrollable gap={8}>
-        <Layout.CustomHeader>
-          <ChatHeader pnms={pnms} onPnmRemove={removePnm} />
-        </Layout.CustomHeader>
+    <Layout scrollable gap={8}>
+      <Layout.CustomHeader>
+        <ChatHeader pnms={pnms} onPnmRemove={onRemovePnm} />
+      </Layout.CustomHeader>
 
-        <Layout.Footer keyboardAvoiding>
-          <MessageBox onSend={sendMessage} />
-        </Layout.Footer>
-      </Layout>
-    </>
+      <Layout.Footer keyboardAvoiding>
+        <MessageBox onSend={onMessageSend} />
+      </Layout.Footer>
+    </Layout>
   );
 };
 

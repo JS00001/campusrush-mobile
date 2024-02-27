@@ -28,7 +28,7 @@ interface ChatProps {
 
 const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
   // Get the pnm from the route params
-  const pnm = route.params.pnm;
+  const pnm: PNM = route.params.pnm;
 
   const { onConversationOpen, onConversationClose } = useWebsocket();
 
@@ -62,7 +62,7 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
     <>
       <Layout gap={8} contentContainerStyle={tw`p-0`}>
         <Layout.CustomHeader>
-          <ChatHeader pnms={[route.params.pnm]} loading={isLoading} />
+          <ChatHeader pnms={[pnm]} loading={isLoading} />
         </Layout.CustomHeader>
 
         <MessageList

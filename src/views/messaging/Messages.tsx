@@ -71,6 +71,8 @@ const MessagesView = () => {
     await store.fetchNextPage();
   };
 
+  // TODO: Add loading state when messages are sending etc, (Status state)
+
   return (
     <>
       <ActionButton icon="ri-add-line" onPress={onNewChatPress} />
