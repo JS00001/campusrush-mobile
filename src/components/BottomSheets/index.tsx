@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import CreateMessageSheet from "./CreateMessage";
 import CreateEventSheet from "./CreateEvent";
 import CreatePnmSheet from "./CreatePnm";
 import EventSheet from "./Event";
@@ -21,6 +22,7 @@ import PrivacyPolicySheet from "./PrivacyPolicy";
 import TermsOfServiceSheet from "./TermsOfService";
 
 export default {
+  CreateMessageSheet,
   CreateEventSheet,
   CreatePnmSheet,
   EventSheet,

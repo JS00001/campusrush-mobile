@@ -1,55 +1,46 @@
 /*
- * Created on Tue Oct 17 2023
+ * Created on Tue Feb 27 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
  * of this software, in whole or in part, is strictly prohibited.
  * For licensing information contact CampusRush.
  *
- * Copyright (c) 2023 CampusRush
+ * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
 
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { NewMessageScreens } from "./types";
+import useSearch from "@/hooks/useSearch";
+import { useContactStore } from "@/store";
+import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import TextInput from "@/ui/TextInput";
 import RecentPnms from "@/components/RecentPnms";
-import useContacts from "@/hooksv1/messaging/useContacts";
 
-interface DirectMessageProps {
-  handleCloseModalPress?: () => void;
-  handleSnapToPosition?: (position: string) => void;
-  setScreen?: (screen: NewMessageScreens) => void;
-}
-
-const DirectMessage: React.FC<DirectMessageProps> = ({
-  handleCloseModalPress,
+const DirectMessage: React.FC<UseSheetFlowProps> = ({
+  handleClose,
   handleSnapToPosition,
 }) => {
-  // Navigation hook to navigate to new message screen
   const navigation = useNavigation();
-  // Custom hook to get contacts
-  const {
-    searchQuery,
-    isLoading,
-    filteredPnms,
-    directMessageHeader,
-    setSearchQuery,
-  } = useContacts();
+  const { all, isLoading } = useContactStore();
+  const search = useSearch({
+    data: all,
+  });
 
   const onPnmPress = (pnm: PNM) => {
-    // Close the bottom sheet modal
-    handleCloseModalPress?.();
-    // and navigate to the new message screen
     (navigation.navigate as any)("Chat", {
-      pnm: pnm,
+      pnm,
     });
+
+    handleClose();
   };
+
+  const directMessageHeader = search.query ? "Results" : "Suggested Contacts";
 
   return (
     <View style={tw`gap-y-4 flex-1`}>
@@ -63,8 +54,8 @@ const DirectMessage: React.FC<DirectMessageProps> = ({
         icon="ri-search-line"
         variant="alternate"
         placeholder="Search"
-        value={searchQuery}
-        onChangeText={setSearchQuery}
+        value={search.query}
+        onChangeText={search.setQuery}
         onFocus={() => {
           handleSnapToPosition?.("95%");
         }}
@@ -73,7 +64,7 @@ const DirectMessage: React.FC<DirectMessageProps> = ({
       <View style={tw`gap-y-3 flex-1`}>
         <Text variant="text">{directMessageHeader}</Text>
         <RecentPnms
-          pnms={filteredPnms}
+          pnms={search.data}
           loading={isLoading}
           onPress={onPnmPress}
         />

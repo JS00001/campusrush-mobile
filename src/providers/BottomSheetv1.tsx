@@ -23,10 +23,6 @@ import BottomSheetComponents from "@/components/BottomSheetsv1";
  */
 const BottomSheets = [
   { name: "UPDATE_PNM", component: BottomSheetComponents.UpdatePnm },
-  { name: "ABOUT", component: BottomSheetComponents.About },
-  { name: "EVENT", component: BottomSheetComponents.Event },
-  { name: "HELP", component: BottomSheetComponents.Help },
-  { name: "NEW_MESSAGE", component: BottomSheetComponents.NewMessage },
 ];
 
 interface BottomSheetContextProps {

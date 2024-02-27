@@ -10,17 +10,8 @@
  * Do not distribute
  */
 
-import Help from "./Help";
-import Event from "./Event";
-import About from "./About";
-
 import UpdatePnm from "./UpdatePnm";
-import NewMessage from "./NewMessage";
 
 export default {
-  Help,
-  About,
-  Event,
   UpdatePnm,
-  NewMessage,
 };

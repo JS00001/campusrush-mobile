@@ -22,6 +22,10 @@ import BottomSheetComponents from "@/components/BottomSheets";
  * Put all bottom sheets in the @/components/BottomSheets folder
  */
 const BottomSheets = [
+  {
+    name: "CREATE_MESSAGE",
+    component: BottomSheetComponents.CreateMessageSheet,
+  },
   { name: "CREATE_EVENT", component: BottomSheetComponents.CreateEventSheet },
   { name: "CREATE_PNM", component: BottomSheetComponents.CreatePnmSheet },
   { name: "EVENT", component: BottomSheetComponents.EventSheet },

@@ -13,9 +13,9 @@
 import 'react-native-url-polyfill/auto';
 import { createDirectus, rest, readSingleton } from '@directus/sdk';
 
-import { CONTENT_URL } from '@/apiv1/constants';
+import AppConstants from '@/constants';
 
-const client = createDirectus(CONTENT_URL).with(rest());
+const client = createDirectus(AppConstants.contentUrl).with(rest());
 
 /**
  * Get the terms of service from the CMS

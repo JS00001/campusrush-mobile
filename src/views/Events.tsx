@@ -158,7 +158,7 @@ const EventsView = () => {
 
       <InfiniteList
         elementsDeletable
-        data={events}
+        data={search.data}
         loading={isLoading}
         onRefresh={onRefresh}
         onEndReached={onEndReached}

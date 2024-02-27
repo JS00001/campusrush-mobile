@@ -15,7 +15,7 @@ import { usePnmZustandStore } from './PnmStore';
 import { useStatisticsZustandStore } from './StatisticsStore';
 
 import { useContactZustandStore } from './messaging/ContactStore';
-import { useConversationStore } from './messaging/ConversationStore';
+import { useConversationZustandStore } from './messaging/ConversationStore';
 import { useMessageStore } from './messaging/MessageStore';
 
 /**
@@ -28,7 +28,7 @@ export const useGlobalStore = () => {
   const pnmStore = usePnmZustandStore();
   const statisticsStore = useStatisticsZustandStore();
   const contactStore = useContactZustandStore();
-  const conversationStore = useConversationStore();
+  const conversationStore = useConversationZustandStore();
   const messageStore = useMessageStore();
   const eventStore = useEventZustandStore();
 
