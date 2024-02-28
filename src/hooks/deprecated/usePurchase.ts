@@ -10,10 +10,10 @@
  * Do not distribute
  */
 
-import { useState } from "react";
+import { useState } from 'react';
 
-import { useAuth } from "@/providers/Auth";
-import { useIAPs } from "@/providers/IAP";
+import { useAuth } from '@/providers/Auth';
+import { useIAPs } from '@/providers/IAP';
 
 const usePurchase = () => {
   // Import refetch billing data from auth provider
@@ -38,7 +38,7 @@ const usePurchase = () => {
   const selectedProduct = packages?.[packageID]?.product;
 
   // **PRIVATE VAR** Whether or not a product is a subscription
-  const _isSubscription = selectedProduct?.productCategory === "SUBSCRIPTION";
+  const _isSubscription = selectedProduct?.productCategory === 'SUBSCRIPTION';
   // **PRIVATE VAR** Whether or not the user has previously purchased a subscription
   const _hasPreviousSubscription =
     Object.keys(customerData?.entitlements?.all ?? {}).length > 0;
