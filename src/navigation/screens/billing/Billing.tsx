@@ -18,7 +18,7 @@ import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import Hyperlink from "@/ui/Hyperlink";
 import { useAuth } from "@/providers/Auth";
-import usePurchase from "@/hooksv1/usePurchase";
+import usePurchase from "@/hooks/deprecated/usePurchase";
 import ProductCard from "@/components/ProductCard";
 
 const BillingScreen = () => {

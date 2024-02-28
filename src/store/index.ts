@@ -20,3 +20,4 @@ export * from './StatisticsStore';
 
 export * from './messaging/ContactStore';
 export * from './messaging/MessageStore';
+export * from './messaging/ConversationStore';

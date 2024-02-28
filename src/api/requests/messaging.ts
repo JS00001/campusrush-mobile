@@ -19,7 +19,7 @@ const PREFIX = '/api/v1/consumer/messaging';
  * Description: Get a conversation with a PNM
  */
 export const getConversation = async (data: GetConversationRequest) => {
-  const url = `${PREFIX}/conversation/${data.pnmId}`;
+  const url = `${PREFIX}/conversation/${data.pnmId}?offset=${data.offset}`;
 
   const { data: responseData } = await axiosClient.get(url);
 

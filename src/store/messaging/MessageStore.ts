@@ -77,7 +77,7 @@ export const useMessageStore = create<IMessageStore>()((set, get) => {
       return {
         messages: {
           ...state.messages,
-          [pnmId]: [...filteredCurrentMessages, ...newMessages],
+          [pnmId]: [...newMessages, ...filteredCurrentMessages],
         },
       };
     });

@@ -13,13 +13,16 @@
 import { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import { useContactStore, useMessageStore } from "@/store";
+import {
+  useContactStore,
+  useMessageStore,
+  useConversationStore,
+} from "@/store";
 import { useSendMassMessage } from "@/hooks/api/messaging";
-import { useConversationStore } from "@/store/messaging/ConversationStore";
 
 import Layout from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
-import ChatHeader from "@/components/Headers/Chat";
+import MassMessageHeader from "@/components/Headers/MassMessage";
 
 interface NewMessageProps {
   route: any;
@@ -75,7 +78,7 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
   return (
     <Layout scrollable gap={8}>
       <Layout.CustomHeader>
-        <ChatHeader pnms={pnms} onPnmRemove={onRemovePnm} />
+        <MassMessageHeader pnms={pnms} onPnmRemove={onRemovePnm} />
       </Layout.CustomHeader>
 
       <Layout.Footer keyboardAvoiding>

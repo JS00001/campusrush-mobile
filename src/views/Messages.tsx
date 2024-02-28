@@ -13,8 +13,8 @@
 import { View } from "react-native";
 
 import useSearch from "@/hooks/useSearch";
+import { useConversationStore } from "@/store";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import { useConversationStore } from "@/store/messaging/ConversationStore";
 
 import tw from "@/lib/tailwind";
 import TextInput from "@/ui/TextInput";
