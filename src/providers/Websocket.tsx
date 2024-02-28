@@ -13,11 +13,9 @@
 import Toast from "react-native-toast-message";
 import { createContext, useContext, useState } from "react";
 
+import AppConstants from "@/constants";
 import { isJSON } from "@/lib/util/string";
-import { WEBSOCKET_URL } from "@/apiv1/constants";
-import useMessagesStore from "@/statev1/messaging/messages";
-import useConversationsStore from "@/statev1/messaging/conversations";
-import SocketInput from "@/lib/socketInput";
+import { useConversationStore, useMessageStore } from "@/store";
 
 interface WebsocketContextProps {
   data: {
@@ -45,10 +43,8 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   const [currentConversation, setCurrentConversation] = useState<string>("");
 
   // Get the addMessage function from the messages store
-  const addMessage = useMessagesStore((s) => s.addMessage);
-
-  // Get the addConversations function from the conversations store
-  const addConversations = useConversationsStore((s) => s.addConversations);
+  const messageStore = useMessageStore();
+  const conversationStore = useConversationStore();
 
   /**
    * Connects to the websocket with the given access token
@@ -59,7 +55,10 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
     // If there is an existing websocket that is OPEN, return
     if (ws && ws.readyState === WebSocket.OPEN) {
-      console.info("[WEBSOCKET] Already connected to %s", WEBSOCKET_URL);
+      console.info(
+        "[WEBSOCKET] Already connected to %s",
+        AppConstants.websocketUrl,
+      );
       return;
     }
 
@@ -69,11 +68,11 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     // Create a new websocket with the access token as the header
-    const newWs = new WebSocket(WEBSOCKET_URL, accessToken);
+    const newWs = new WebSocket(AppConstants.websocketUrl, accessToken);
 
     // When the websocket is opened, set the websocket and reset the reconnectAttempts
     newWs.onopen = () => {
-      console.info("[WEBSOCKET] Connected to %s", WEBSOCKET_URL);
+      console.info("[WEBSOCKET] Connected to %s", AppConstants.websocketUrl);
       setWs(newWs);
       reconnectAttempts = 0;
     };
@@ -85,7 +84,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
       if (reconnectAttempts > 5) {
         console.info(
           "[WEBSOCKET] Failed to connect to %s after 5 attempts",
-          WEBSOCKET_URL,
+          AppConstants.websocketUrl,
         );
         return;
       }
@@ -129,8 +128,8 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
           if (!conversation || !pnmId) return;
 
-          addConversations([conversation]);
-          addMessage(pnmId, conversation.messages[0] || {});
+          conversationStore.addConversations(conversation);
+          messageStore.addMessages(pnmId, conversation.messages[0] || {});
           break;
       }
 
@@ -147,7 +146,10 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
      * Manage when a websocket is closed
      */
     newWs.onclose = (event) => {
-      console.info("[WEBSOCKET] Disconnected from %s", WEBSOCKET_URL);
+      console.info(
+        "[WEBSOCKET] Disconnected from %s",
+        AppConstants.websocketUrl,
+      );
 
       const { code, reason } = event;
 

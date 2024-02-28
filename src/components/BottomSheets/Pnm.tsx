@@ -87,9 +87,14 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
           openBottomSheet("UPDATE_PNM", { pnmId });
         };
 
-        // TODO: Add proper loading state
+        // TODO: Add proper loading state, This does NOT update once the pnm finishes loading
+        // could be an issue with the store.
         if (!pnm) {
-          return <Text>Loading...</Text>;
+          return (
+            <BottomSheetContainer>
+              <Text>Loading...</Text>
+            </BottomSheetContainer>
+          );
         }
 
         return (

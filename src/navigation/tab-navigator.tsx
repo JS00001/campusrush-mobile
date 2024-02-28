@@ -23,8 +23,8 @@ import {
 
 import tw from "@/lib/tailwind";
 import { useAuth } from "@/providers/Auth";
+import { useConversationStore } from "@/store";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import useConversationsStore from "@/statev1/messaging/conversations";
 
 export const Tab = createBottomTabNavigator();
 
@@ -37,10 +37,10 @@ export const Tab = createBottomTabNavigator();
 export const TabNavigator = () => {
   const { chapter } = useAuth();
   const { openBottomSheet } = useBottomSheets();
+  const conversationStore = useConversationStore();
 
-  const hasUnreadConversation = useConversationsStore(
-    (s) => s.conversations.filter((c) => !c.read).length > 0,
-  );
+  const hasUnreadConversation =
+    conversationStore.conversations.filter((c) => !c.read).length > 0;
 
   const onAddTabPress = () => {
     openBottomSheet("CREATE_PNM");

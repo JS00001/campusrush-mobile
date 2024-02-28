@@ -10,12 +10,13 @@
  * Do not distribute
  */
 
+import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import Purchases, { CustomerInfo } from "react-native-purchases";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useEffect, useState, useContext } from "react";
 
-import authAPI from "@/apiv1/auth";
+import AppConstants from "@/constants";
 import { useGlobalStore } from "@/store";
 import { useWebsocket } from "@/providers/Websocket";
 
@@ -61,23 +62,35 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   // Declare all AuthAPI mutations
   const refreshAccessTokenMutation = useMutation({
     mutationFn: (refreshToken: string) => {
-      return authAPI.refreshAccessToken({
-        refreshToken,
-      });
+      return axios.post(
+        `${AppConstants.apiUrl}/api/v1/consumer/auth/refresh`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        },
+      );
     },
   });
 
   const getChapterMutation = useMutation({
     mutationFn: (accessToken: string) => {
-      return authAPI.getChapter({
-        accessToken,
+      return axios.get(`${AppConstants.apiUrl}/api/v1/consumer/auth/chapter`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
     },
   });
 
   const logoutMutation = useMutation({
     mutationFn: () => {
-      return authAPI.logout({ accessToken });
+      return axios.post(`${AppConstants.apiUrl}/api/v1/consumer/auth/logout`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
     },
   });
 

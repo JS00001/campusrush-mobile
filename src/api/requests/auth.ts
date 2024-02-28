@@ -66,7 +66,7 @@ export const checkEmail = async (data: CheckEmailRequest) => {
  * Request:     POST /api/v1/consumer/auth/verification/verify
  * Description: Verify an email
  */
-export const verifyChapter = async (data: VerifyChapterInput) => {
+export const verifyChapter = async (data: VerifyChapterRequest) => {
   const url = `${PREFIX}/verification/verify`;
 
   const { data: responseData } = await axiosClient.post(url, data);

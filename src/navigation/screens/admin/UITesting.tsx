@@ -20,7 +20,6 @@ import { useState } from "react";
 import InfiniteCarousel from "@/ui/InfiniteCarousel";
 import Text from "@/ui/Text";
 import Button from "@/ui/Button";
-import useModalsStore from "@/statev1/modals";
 import { useModalStore } from "@/store";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
