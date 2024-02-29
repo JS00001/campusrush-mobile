@@ -11,7 +11,7 @@
  */
 
 import { useEventStore } from './EventStore';
-import { usePnmStore } from './PnmStore';
+import { usePnmStore } from './PNMStore';
 import { useStatisticsStore } from './StatisticsStore';
 
 import { useContactStore } from './messaging/ContactStore';
