@@ -1,12 +1,12 @@
 /*
- * Created on Sun Sep 10 2023
+ * Created on Sun Feb 25 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
  * of this software, in whole or in part, is strictly prohibited.
  * For licensing information contact CampusRush.
  *
- * Copyright (c) 2023 CampusRush
+ * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
 
@@ -22,31 +22,36 @@ import BottomSheetComponents from "@/components/BottomSheets";
  * Put all bottom sheets in the @/components/BottomSheets folder
  */
 const BottomSheets = [
-  { name: "PNM", component: BottomSheetComponents.Pnm },
-  { name: "UPDATE_PNM", component: BottomSheetComponents.UpdatePnm },
-  { name: "ABOUT", component: BottomSheetComponents.About },
-  { name: "ADD_PNM", component: BottomSheetComponents.AddPnm },
-  { name: "ADD_EVENT", component: BottomSheetComponents.AddEvent },
-  { name: "EVENT", component: BottomSheetComponents.Event },
-  { name: "UPDATE_EVENT", component: BottomSheetComponents.UpdateEvent },
-  { name: "HELP", component: BottomSheetComponents.Help },
-  { name: "NEW_MESSAGE", component: BottomSheetComponents.NewMessage },
   {
-    name: "TERMS_AND_CONDITIONS",
-    component: BottomSheetComponents.TermsAndConditions,
+    name: "CREATE_MESSAGE",
+    component: BottomSheetComponents.CreateMessageSheet,
+  },
+  { name: "CREATE_EVENT", component: BottomSheetComponents.CreateEventSheet },
+  { name: "CREATE_PNM", component: BottomSheetComponents.CreatePnmSheet },
+  { name: "EVENT", component: BottomSheetComponents.EventSheet },
+
+  { name: "PNM", component: BottomSheetComponents.PnmSheet },
+  {
+    name: "PLAN_COMPARISON",
+    component: BottomSheetComponents.PlanComparisonSheet,
   },
   {
     name: "PRIVACY_POLICY",
-    component: BottomSheetComponents.PrivacyPolicy,
+    component: BottomSheetComponents.PrivacyPolicySheet,
   },
   {
-    name: "PLAN_COMPARISON",
-    component: BottomSheetComponents.PlanComparison,
+    name: "TERMS_OF_SERVICE",
+    component: BottomSheetComponents.TermsOfServiceSheet,
+  },
+  { name: "UPDATE_PNM", component: BottomSheetComponents.UpdatePnmSheet },
+  {
+    name: "UPDATE_EVENT",
+    component: BottomSheetComponents.UpdateEventSheet,
   },
 ];
 
 interface BottomSheetContextProps {
-  handlePresentModalPress: (
+  openBottomSheet: (
     name: (typeof BottomSheets)[number]["name"],
     props?: any,
   ) => void;
@@ -72,7 +77,7 @@ const BottomSheetProvider: React.FC<{ children?: React.ReactNode }> = ({
   // Create a ref to the bottom sheet modal so we can programmatically open it
   const bottomSheetModalRef = useRef<BottomSheetModal[]>([]);
 
-  const handlePresentModalPress = useCallback(
+  const openBottomSheet = useCallback(
     (name: (typeof BottomSheets)[number]["name"], props?: any) => {
       // Find the index of the bottom sheet we want to open
       const index = BottomSheets.findIndex((sheet) => sheet.name === name);
@@ -117,7 +122,7 @@ const BottomSheetProvider: React.FC<{ children?: React.ReactNode }> = ({
       value={{
         handleSnapToIndex,
         handleSnapToPosition,
-        handlePresentModalPress,
+        openBottomSheet,
         handleCloseModalPress,
       }}
     >
@@ -126,9 +131,9 @@ const BottomSheetProvider: React.FC<{ children?: React.ReactNode }> = ({
         // Create props
         const props = {
           key: sheet.name,
-          handlePresentModalPress: (name: string, props?: any) =>
-            handlePresentModalPress(name, props),
-          handleCloseModalPress: () => handleCloseModalPress(sheet.name),
+          openBottomSheet: (name: string, props?: any) =>
+            openBottomSheet(name, props),
+          handleClose: () => handleCloseModalPress(sheet.name),
           handleSnapToIndex: (index: number) =>
             handleSnapToIndex(sheet.name, index),
           handleSnapToPosition: (position: string) =>

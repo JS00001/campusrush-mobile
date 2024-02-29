@@ -10,39 +10,12 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
-
-import Text from "@/ui/Text";
-import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
-import Button from "@/ui/Button";
-import TextInput from "@/ui/TextInput";
-import Hyperlink from "@/ui/Hyperlink";
 import { useAuth } from "@/providers/Auth";
-import useVerification from "@/hooks/useVerification";
+import VerificationView from "@/views/Verification";
 
-const Verification = () => {
-  const {
-    errors,
-    isLoading,
-    code,
-    setCode,
-    validateFields,
-    handleSubmission,
-    resendVerificationEmail,
-  } = useVerification();
-
-  const { chapter, signOut } = useAuth();
-
-  // Handle the submission of the form
-  const onSubmit = () => {
-    // Ensure the fields are valid
-    const isValid = validateFields(["code"]);
-    // If the fields are not valid, dont submit the final request
-    if (!isValid) return;
-    // Submit the final request if the fields are valid
-    handleSubmission();
-  };
+const VerificationScreen = () => {
+  const { chapter } = useAuth();
 
   return (
     <Layout scrollable gap={18}>
@@ -50,38 +23,10 @@ const Verification = () => {
         title="Verification"
         subtitle={`We have sent a verification code sent to ${chapter?.email}. Enter it below.`}
       />
-      <TextInput
-        error={errors.code}
-        placeholder="Verification Code"
-        value={code}
-        onChangeText={setCode}
-      />
 
-      <Button
-        loading={isLoading}
-        iconRight="ri-arrow-right-line"
-        onPress={onSubmit}
-      >
-        Continue
-      </Button>
-
-      <View style={tw`gap-y-2`}>
-        <View style={tw`flex-row justify-center`}>
-          <Text style={tw`text-center`}>Incorrect email address?&nbsp;</Text>
-          <Hyperlink color="dark" onPress={signOut}>
-            Sign out
-          </Hyperlink>
-        </View>
-
-        <View style={tw`flex-row justify-center`}>
-          <Text style={tw`text-center`}>Didn't receive a code?&nbsp;</Text>
-          <Hyperlink color="dark" onPress={resendVerificationEmail}>
-            Resend
-          </Hyperlink>
-        </View>
-      </View>
+      <VerificationView />
     </Layout>
   );
 };
 
-export default Verification;
+export default VerificationScreen;

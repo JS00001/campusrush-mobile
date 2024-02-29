@@ -10,21 +10,23 @@
  * Do not distribute
  */
 
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
 import Layout from "@/ui/Layout";
-import useAdmin from "@/hooks/useAdmin";
+import { useGetAdminChapters } from "@/hooks/api/admin";
 import AdminChapterList from "@/components/AdminChapterList";
 
-interface ChaptersProps {
-  navigation: NativeStackNavigationProp<any>;
-}
+const Chapters = () => {
+  const { data, refetch, isLoading } = useGetAdminChapters();
 
-const Chapters: React.FC<ChaptersProps> = ({ navigation }) => {
-  const { chapters, refetchChapters, getChaptersQuery } = useAdmin();
+  const chapters = (() => {
+    if (data && "error" in data) {
+      return [];
+    }
+
+    return data?.data.chapters ?? [];
+  })();
 
   const onRefresh = async () => {
-    await refetchChapters();
+    await refetch();
   };
 
   return (
@@ -36,7 +38,7 @@ const Chapters: React.FC<ChaptersProps> = ({ navigation }) => {
       />
 
       <AdminChapterList
-        loading={getChaptersQuery.isLoading}
+        loading={isLoading}
         chapters={chapters}
         refetchChapters={onRefresh}
       />

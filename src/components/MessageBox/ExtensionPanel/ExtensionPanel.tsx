@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
@@ -18,16 +18,16 @@ import Tabs from "@/ui/Tabs";
 import Event from "@/ui/Event";
 
 import tw from "@/lib/tailwind";
+import { useGetEvents } from "@/hooks/api/events";
 import { CardEventLoader } from "@/ui/Event/Loaders";
 import KeyboardListener from "@/ui/KeyboardListener";
-import useEventsList from "@/hooks/events/useEventsList";
 import InfiniteHorizontaList from "@/components/InfiniteHorizontalList";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   ({ setVisible, setEvent, animateMessageBox }: ExtensionPanelProps, ref) => {
     const [activeTab, setActiveTab] = useState(0);
-    const { events, isLoading, fetchNextPage } = useEventsList("cache-2");
 
+    const eventsQuery = useGetEvents();
     const bottomSheetRef = useRef<BottomSheetModal>(null);
 
     useImperativeHandle(ref, () => ({
@@ -55,7 +55,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
     };
 
     const onEndReached = async () => {
-      await fetchNextPage();
+      await eventsQuery.fetchNextPage();
     };
 
     return (
@@ -76,8 +76,8 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
             />
 
             <InfiniteHorizontaList
-              data={events}
-              loading={isLoading}
+              data={eventsQuery.events}
+              loading={eventsQuery.isLoading}
               onEndReached={onEndReached}
               loadingComponent={<CardEventLoader />}
               emptyListTitle="No Events Found"

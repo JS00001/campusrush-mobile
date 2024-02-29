@@ -20,22 +20,73 @@ import { useState } from "react";
 import InfiniteCarousel from "@/ui/InfiniteCarousel";
 import Text from "@/ui/Text";
 import Button from "@/ui/Button";
-import useModalsStore from "@/state/modals";
+import { useModalStore } from "@/store";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
-  const arrayOfTen = new Array(10).fill(0);
-  const { openModal } = useModalsStore();
+  const { openModal } = useModalStore();
+  const { openBottomSheet } = useBottomSheets();
 
-  const [data, setData] = useState([...arrayOfTen]);
+  const openErrorModal = () => {
+    openModal("error", {
+      title: "Error",
+      subtitle: "An error occurred",
+    });
+  };
 
-  const onEndReached = async () => {
-    // wait 5 seconds, then add 10 more items to the list
-    await new Promise((resolve) => setTimeout(resolve, 50000));
-    setData([...data, ...arrayOfTen]);
+  const openInfoModal = () => {
+    openModal("info", {
+      title: "Info",
+      subtitle: "An info message",
+    });
+  };
+
+  const openWarningModal = () => {
+    openModal("warning", {
+      title: "Warning",
+      subtitle: "A warning message",
+    });
+  };
+
+  const openErrorWithActionsModal = () => {
+    openModal("error", {
+      title: "Error",
+      subtitle: "An error occurred",
+      primaryActionLabel: "Retry",
+      secondaryActionLabel: "Go Back",
+      onPrimaryAction: async () => console.log("Retry"),
+      onSecondaryAction: async () => console.log("Go Back"),
+    });
+  };
+
+  const openInfoWithActionsModal = () => {
+    openModal("info", {
+      title: "Info",
+      subtitle: "An info message",
+      primaryActionLabel: "Continue",
+      secondaryActionLabel: "Go Back",
+      onPrimaryAction: async () => console.log("Continue"),
+      onSecondaryAction: async () => console.log("Go Back"),
+    });
+  };
+
+  const openWarningWithActionsModal = () => {
+    openModal("warning", {
+      title: "Warning",
+      subtitle: "A warning message",
+      primaryActionLabel: "Continue",
+      secondaryActionLabel: "Go Back",
+      onPrimaryAction: async () => console.log("Continue"),
+      onSecondaryAction: async () => console.log("Go Back"),
+    });
+  };
+
+  const onCreatePnmPress = () => {
+    openBottomSheet("CREATE_PNM");
   };
 
   return (
@@ -44,43 +95,20 @@ const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
         <Header hasBackButton hasMenuButton title="Admin" />
       </Layout.CustomHeader>
 
-      <Button
-        onPress={() => {
-          openModal({
-            name: "WARNING",
-            props: {
-              secondaryButtonText: "Cancel",
-              primaryButtonText: "Continue",
-            },
-          });
-        }}
-      >
-        Open Warning
+      <Button onPress={openErrorModal}>Open Error Modal</Button>
+      <Button onPress={openInfoModal}>Open Info Modal</Button>
+      <Button onPress={openWarningModal}>Open Warning Modal</Button>
+      <Button onPress={openErrorWithActionsModal}>
+        Open Error Modal with Actions
+      </Button>
+      <Button onPress={openInfoWithActionsModal}>
+        Open Info Modal with Actions
+      </Button>
+      <Button onPress={openWarningWithActionsModal}>
+        Open Warning Modal with Actions
       </Button>
 
-      <Button
-        onPress={() => {
-          openModal({
-            name: "ERROR",
-            props: {
-              primaryButtonText: "Upgrade",
-            },
-          });
-        }}
-      >
-        Open Error
-      </Button>
-
-      <Button
-        onPress={() => {
-          openModal({
-            name: "UPGRADE",
-            props: {},
-          });
-        }}
-      >
-        Open Upgrade
-      </Button>
+      <Button onPress={onCreatePnmPress}>Open Create PNM Sheet</Button>
     </Layout>
   );
 };

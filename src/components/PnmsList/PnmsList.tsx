@@ -32,7 +32,7 @@ interface PnmsListProps {
 }
 
 const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
-  const { handlePresentModalPress } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheets();
   // Create a ref to the sectionlist so we can scroll to a specific index programatically
   const sectionListRef = useRef<SectionList>(null);
   // Whether or not the list is refreshing
@@ -150,7 +150,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
   // The components for each item in teh section list
   const ItemComponent = ({ item: pnm }: { item: PNM }) => {
     const onPress = () => {
-      handlePresentModalPress("PNM", { pnmId: pnm._id });
+      openBottomSheet("PNM", { pnmId: pnm._id });
     };
 
     return (
@@ -168,18 +168,18 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
   const ListEmptyComponent = () => {
     if (loading) {
       return new Array(20).fill(0).map((_, i) => <ListItemLoader key={i} />);
-    } else {
-      return (
-        <>
-          <Text variant="title" style={tw`text-center mt-16`}>
-            No PNMs found
-          </Text>
-          <Text style={tw`text-center`}>
-            Try changing your filters or refreshing the page
-          </Text>
-        </>
-      );
     }
+
+    return (
+      <>
+        <Text variant="title" style={tw`text-center mt-16`}>
+          No PNMs found
+        </Text>
+        <Text style={tw`text-center`}>
+          Try changing your filters or refreshing the page
+        </Text>
+      </>
+    );
   };
 
   return (
@@ -231,7 +231,6 @@ const AlphabetList: React.FC<AlphabetListProps> = ({
   currentLetter,
   setCurrentLetter = () => {},
 }) => {
-  // All letters in the alphabet
   const alphabetChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
   return (
@@ -240,17 +239,13 @@ const AlphabetList: React.FC<AlphabetListProps> = ({
         style={tw`bg-slate-100 rounded-full justify-between py-1 items-center`}
       >
         {alphabetChars.map((char, i) => {
-          // Stlying
           const textClasses = tw.style(
-            // If not the selected letter, make it a light gray
             "text-slate-400",
-            // If the selected letter, make it a dark blue
             currentLetter === char && "text-primary font-medium",
           );
 
           const containerClasses = tw.style("w-full items-center px-1");
 
-          // On press, set the current letter
           const handlePress = () => {
             requestAnimationFrame(() => {
               setCurrentLetter(char);

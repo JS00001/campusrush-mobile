@@ -11,28 +11,9 @@
  */
 
 import Layout from "@/ui/Layout";
-import SelectionCard from "@/ui/SelectionCard/SelectionCard";
-import { useNotifications } from "@/providers/Notifications";
+import UpdateNotificationsView from "@/views/settings/UpdateNotifications";
 
-const UpdateNotifications = () => {
-  const {
-    isLoading,
-    notificationsEnabled,
-    setNotificationsEnabled,
-    enableNotificationsSubtitle,
-    disableNotificationsSubtitle,
-  } = useNotifications();
-
-  // Update the notification status to enabled
-  const onNotificationsEnable = () => {
-    setNotificationsEnabled(true);
-  };
-
-  // Update the notification status to disabled
-  const onNotificationsDisable = () => {
-    setNotificationsEnabled(false);
-  };
-
+const UpdateNotificationsScreen = () => {
   return (
     <Layout scrollable>
       <Layout.Header
@@ -41,24 +22,9 @@ const UpdateNotifications = () => {
         subtitle="Manage your notifications"
       />
 
-      <SelectionCard
-        loading={isLoading}
-        selected={notificationsEnabled}
-        title="Enable Notifications"
-        description="You will receive push notifications for various events to better help your chapter succeed."
-        subtitle={enableNotificationsSubtitle}
-        onPress={onNotificationsEnable}
-      />
-      <SelectionCard
-        loading={isLoading}
-        selected={!notificationsEnabled}
-        title="Disable Notifications"
-        description="You will not receive push notifications. You can turn notifications back on at any time."
-        subtitle={disableNotificationsSubtitle}
-        onPress={onNotificationsDisable}
-      />
+      <UpdateNotificationsView />
     </Layout>
   );
 };
 
-export default UpdateNotifications;
+export default UpdateNotificationsScreen;

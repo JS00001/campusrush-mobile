@@ -1,43 +1,41 @@
 /*
- * Created on Wed Dec 20 2023
+ * Created on Mon Feb 26 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
  * of this software, in whole or in part, is strictly prohibited.
  * For licensing information contact CampusRush.
  *
- * Copyright (c) 2023 CampusRush
+ * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
 
-import { useMemo } from "react";
 import { View } from "react-native";
+import { useEffect, useState } from "react";
 
-import BottomSheet from "./Components/BottomSheet";
-import BottomSheetContainer from "./Components/BottomSheetContainer";
+import { BottomSheetProps } from "./@types";
+
+import useCopy from "@/hooks/useCopy";
+import { useEventStore } from "@/store";
+import { useDeleteEvent, useGetEvent } from "@/hooks/api/events";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import date from "@/lib/util/date";
+import Skeleton from "@/ui/Skeleton";
+import AppConstants from "@/constants";
 import IconButton from "@/ui/IconButton";
 import DetailView from "@/ui/DetailView";
 import ButtonGroup from "@/ui/ButtonGroup";
-import useCopy from "@/hooks/util/useCopy";
-import { EVENT_URL } from "@/api/constants";
-import useEvent from "@/hooks/events/useEvent";
 import { formatEvent } from "@/lib/util/format";
+import { BottomSheet } from "@/ui/BottomSheet";
+import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
-interface EventProps {
-  innerRef: React.RefObject<any>;
-  handleCloseModalPress: () => void;
-  handlePresentModalPress: (name: string, props?: any) => void;
-}
-
-const Event: React.FC<EventProps> = ({
+const EventSheet: React.FC<BottomSheetProps> = ({
   innerRef,
-  handleCloseModalPress,
-  handlePresentModalPress,
+  handleClose,
+  openBottomSheet,
 }) => {
   const copy = useCopy();
 
@@ -47,38 +45,58 @@ const Event: React.FC<EventProps> = ({
       children={(data) => {
         const eventId = data?.data.eventId;
 
-        const { event: rawEvent, ...actions } = useEvent(eventId);
+        const eventQuery = useGetEvent(eventId);
+        const eventsStore = useEventStore();
+        const deleteMutation = useDeleteEvent();
 
-        // We need a cached version of the event to prevent the bottom sheet from
-        // crashing when the event is deleted (the event will be null or undefined)
-        const cachedEvent = useMemo(() => rawEvent, []);
+        const eventUrl = `${AppConstants.eventUrl}/${eventId}`;
 
-        // Set the event to the cached version ONLY if event is null or undefined
-        const event = formatEvent(rawEvent || cachedEvent);
+        /**
+         * We need to use state here as a 'cache', because when the pnm is deleted,
+         * the store value becomes undefined, and we need to keep the pnm data so
+         * the app doesnt crash before the bottom sheet is closed.
+         */
+        const [event, setEvent] = useState(eventQuery.event);
+        const formattedEvent = formatEvent(event as Event);
 
-        const eventUrl = `${EVENT_URL}/${event._id}`;
+        useEffect(() => {
+          if (eventQuery.event) {
+            setEvent(eventQuery.event);
+          }
+        }, [eventQuery.event]);
 
-        const deleteEvent = async () => {
-          await actions.delete();
-          handleCloseModalPress();
+        const onDelete = async () => {
+          if (!event) return;
+
+          const res = await deleteMutation.mutateAsync({ id: eventId });
+
+          if ("error" in res) return;
+
+          eventsStore.deleteEvent(eventId);
+
+          handleClose();
         };
 
         const onEditPress = () => {
-          handlePresentModalPress("UPDATE_EVENT", { eventId: event._id });
+          openBottomSheet("UPDATE_EVENT", { eventId });
         };
 
-        const onSharePress = () => {
+        const onShare = () => {
           copy(eventUrl, "Event link");
-          handleCloseModalPress();
+          handleClose();
         };
+
+        if (!event) {
+          return <LoadingState />;
+        }
 
         return (
           <BottomSheetContainer>
             <View style={tw`mb-2 flex-row justify-between items-center`}>
               <View style={tw`shrink`}>
-                <Text variant="title">{event.title}</Text>
+                <Text variant="title">{formattedEvent.title}</Text>
                 <Text variant="body">
-                  Added on {date.toString(event.createdAt) || "N/A"}
+                  Added on {date.toString(formattedEvent.createdAt) || "N/A"}
                 </Text>
               </View>
 
@@ -87,8 +105,8 @@ const Event: React.FC<EventProps> = ({
                   size="md"
                   icon="ri-delete-bin-6-line"
                   color={tw.color("red")}
-                  onPress={deleteEvent}
-                  loading={actions.loading === "deleting"}
+                  onPress={onDelete}
+                  loading={deleteMutation.isLoading}
                 />
               </View>
             </View>
@@ -99,20 +117,29 @@ const Event: React.FC<EventProps> = ({
                 title="Description"
                 content={event.description}
               />
-              <DetailView.Section title="Date" content={event.dateString} />
+              <DetailView.Section
+                title="Date"
+                content={formattedEvent.dateString}
+              />
               <DetailView.Section
                 title="Starts at"
-                content={event.start.time}
+                content={formattedEvent.start.time}
               />
-              <DetailView.Section title="Ends at" content={event.end.time} />
-              <DetailView.Section title="Location" content={event.location} />
+              <DetailView.Section
+                title="Ends at"
+                content={formattedEvent.end.time}
+              />
+              <DetailView.Section
+                title="Location"
+                content={formattedEvent.location}
+              />
               <DetailView.Section
                 title="# Responded Yes"
-                content={event.yesCount.toString()}
+                content={formattedEvent.yesCount.toString()}
               />
               <DetailView.Section
                 title="# Responded No"
-                content={event.noCount.toString()}
+                content={formattedEvent.noCount.toString()}
               />
             </DetailView>
 
@@ -120,7 +147,7 @@ const Event: React.FC<EventProps> = ({
               <Button size="sm" color="gray" onPress={onEditPress}>
                 Edit
               </Button>
-              <Button size="sm" onPress={onSharePress}>
+              <Button size="sm" onPress={onShare}>
                 Share
               </Button>
             </ButtonGroup>
@@ -131,4 +158,25 @@ const Event: React.FC<EventProps> = ({
   );
 };
 
-export default Event;
+const LoadingState = () => {
+  return (
+    <BottomSheetContainer>
+      <View style={tw`mb-2 flex-row justify-between items-center gap-2`}>
+        <View style={tw`flex-1 gap-2`}>
+          <Skeleton height={24} />
+          <Skeleton width={"75%"} height={16} />
+        </View>
+
+        <View style={tw`flex-row gap-1`}>
+          <Skeleton width={48} height={48} borderRadius={999} />
+        </View>
+      </View>
+
+      <Skeleton height={332} />
+
+      <Skeleton height={54} />
+    </BottomSheetContainer>
+  );
+};
+
+export default EventSheet;

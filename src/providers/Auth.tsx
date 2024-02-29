@@ -10,13 +10,14 @@
  * Do not distribute
  */
 
+import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import Purchases, { CustomerInfo } from "react-native-purchases";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useEffect, useState, useContext } from "react";
 
-import authAPI from "@/api/auth";
-import useZustandStore from "@/state";
+import AppConstants from "@/constants";
+import { useGlobalStore } from "@/store";
 import { useWebsocket } from "@/providers/Websocket";
 
 interface AuthContextProps {
@@ -30,8 +31,8 @@ interface AuthContextProps {
   signOut: () => void;
   clearUserData: () => void;
   updateChapter: (chapter: Chapter) => void;
-  signIn: (response: LoginAsChapterAPIResponse) => Promise<void>;
-  signUp: (response: RegisterAsChapterAPIResponse) => Promise<void>;
+  signIn: (response: LoginResponse) => Promise<void>;
+  signUp: (response: RegisterResponse) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
@@ -53,7 +54,7 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   );
 
   // Clears all the pnms when user logs out
-  const { resetState } = useZustandStore();
+  const { clear } = useGlobalStore();
 
   // Import the websocket data
   const websocket = useWebsocket();
@@ -61,23 +62,39 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   // Declare all AuthAPI mutations
   const refreshAccessTokenMutation = useMutation({
     mutationFn: (refreshToken: string) => {
-      return authAPI.refreshAccessToken({
-        refreshToken,
-      });
+      return axios.post(
+        `${AppConstants.apiUrl}/api/v1/consumer/auth/refresh`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        },
+      );
     },
   });
 
   const getChapterMutation = useMutation({
     mutationFn: (accessToken: string) => {
-      return authAPI.getChapter({
-        accessToken,
+      return axios.get(`${AppConstants.apiUrl}/api/v1/consumer/auth/chapter`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
     },
   });
 
   const logoutMutation = useMutation({
     mutationFn: () => {
-      return authAPI.logout({ accessToken });
+      return axios.post(
+        `${AppConstants.apiUrl}/api/v1/consumer/auth/logout`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
     },
   });
 
@@ -172,13 +189,15 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   };
 
   // Sign in as an chapter
-  const signIn = async (response: LoginAsChapterAPIResponse) => {
+  const signIn = async (response: LoginResponse) => {
+    if ("error" in response) return;
+
     // The new chapter data
-    const chapter = response.data?.data.chapter;
+    const chapter = response.data.chapter;
     // The new access token
-    const accessToken = response.data?.data.accessToken;
+    const accessToken = response.data.accessToken;
     // The new refresh token
-    const refreshToken = response.data?.data.refreshToken;
+    const refreshToken = response.data.refreshToken;
 
     // Store the refresh token in storage
     await AsyncStorage.setItem("refreshToken", refreshToken);
@@ -195,13 +214,15 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   };
 
   // Sign up as an chapter
-  const signUp = async (response: RegisterAsChapterAPIResponse) => {
+  const signUp = async (response: RegisterResponse) => {
+    if ("error" in response) return;
+
     // The new chapter data
-    const chapter = response.data?.data.chapter;
+    const chapter = response.data.chapter;
     // The new access token
-    const accessToken = response.data?.data.accessToken;
+    const accessToken = response.data.accessToken;
     // The new refresh token
-    const refreshToken = response.data?.data.refreshToken;
+    const refreshToken = response.data.refreshToken;
 
     // Store the refresh token in storage
     await AsyncStorage.setItem("refreshToken", refreshToken);
@@ -226,17 +247,15 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   const signOut = async () => {
     if (!accessToken) return;
 
-    logoutMutation.mutate(undefined, {
-      onSuccess: async () => {
-        await clearUserData();
-      },
-    });
+    await logoutMutation.mutateAsync();
+
+    clearUserData();
   };
 
   // Clear all user data
   const clearUserData = async () => {
     // Clear all of the user data from the store
-    await resetState();
+    await clear();
 
     // Clear the refresh token from storage
     await AsyncStorage.removeItem("refreshToken");

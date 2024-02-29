@@ -1,119 +1,131 @@
 /*
- * Created on Wed Dec 20 2023
+ * Created on Sun Feb 25 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
  * of this software, in whole or in part, is strictly prohibited.
  * For licensing information contact CampusRush.
  *
- * Copyright (c) 2023 CampusRush
+ * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
 
-import { ActivityIndicator } from "react-native";
-
-import FormSheet from "./Components/FormSheet";
+import type { BottomSheetProps } from "./@types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
+import { usePnmStore, useStatusStore } from "@/store";
 import TextInput from "@/ui/TextInput";
-import StatusIcon from "@/ui/StatusIcon";
+import { FormSheet } from "@/ui/BottomSheet";
+import validators from "@/constants/validators";
 import FormHeader from "@/components/Headers/Form";
-import useUpdatePnm from "@/hooks/pnms/useUpdatePnm";
+import useFormMutation from "@/hooks/useFormMutation";
+import { useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
-interface UpdatePnmProps {
-  innerRef: React.RefObject<any>;
-  handleCloseModalPress: () => void;
-}
-
-const UpdatePnm: React.FC<UpdatePnmProps> = ({
-  handleCloseModalPress,
+const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
   innerRef,
+  handleClose,
 }) => {
-  const onCancel = () => {
-    handleCloseModalPress();
-  };
-
   return (
     <FormSheet
       innerRef={innerRef}
       children={(data) => {
-        const pnmId = data?.data.pnmId;
-        const form = useUpdatePnm(pnmId);
+        const pnmId = data?.data.pnmId as string;
 
-        const onSave = async () => {
-          const isValid = form.validateFields();
+        const pnmStore = usePnmStore();
+        const pnmQuery = useGetPnm(pnmId);
+        const updatePnmMutation = useUpdatePnm();
+        const setStatus = useStatusStore((s) => s.setStatus);
 
-          if (!isValid) return;
+        const formValidators = {
+          id: validators.objectId,
+          firstName: validators.firstName.optional(),
+          lastName: validators.lastName.optional(),
+          phoneNumber: validators.phoneNumber.optional(),
+          classification: validators.shortContentString.optional(),
+          instagram: validators.shortContentString.optional(),
+          snapchat: validators.shortContentString.optional(),
+        };
 
+        const form = useFormMutation({
+          mutation: updatePnmMutation,
+          validators: formValidators,
+          onSuccess: async ({ data }) => {
+            pnmStore.addOrUpdatePnm(data.pnm);
+            pnmQuery.refetch();
+            handleClose();
+          },
+          initialValues: {
+            id: pnmId,
+            firstName: pnmQuery.pnm?.firstName,
+            lastName: pnmQuery.pnm?.lastName,
+            phoneNumber: pnmQuery.pnm?.phoneNumber,
+            classification: pnmQuery.pnm?.classification,
+            instagram: pnmQuery.pnm?.instagram,
+            snapchat: pnmQuery.pnm?.snapchat,
+          },
+        });
+
+        const handleSubmission = async () => {
+          setStatus("loading");
           await form.handleSubmission();
-          handleCloseModalPress();
+          setStatus("idle");
         };
 
         return (
-          <>
-            {form.loading && (
-              <StatusIcon>
-                <StatusIcon.Icon>
-                  <ActivityIndicator size="large" color="white" />
-                </StatusIcon.Icon>
-              </StatusIcon>
-            )}
+          <Layout
+            scrollable
+            contentContainerStyle={tw`pt-0 items-start`}
+            gap={12}
+          >
+            <FormHeader onSave={handleSubmission} onCancel={handleClose} />
 
-            <Layout
-              scrollable
-              contentContainerStyle={tw`pt-0 items-start`}
-              gap={12}
-            >
-              <FormHeader onSave={onSave} onCancel={onCancel} />
+            <Text variant="header" style={tw`text-primary`}>
+              Edit PNM
+            </Text>
 
-              <Text variant="header" style={tw`text-primary`}>
-                Edit PNM
-              </Text>
-
-              <TextInput
-                placeholder="First Name"
-                value={form.firstName}
-                error={form.errors.firstName}
-                onChangeText={(text) => form.setField("firstName", text)}
-              />
-              <TextInput
-                placeholder="Last Name"
-                value={form.lastName}
-                error={form.errors.lastName}
-                onChangeText={(text) => form.setField("lastName", text)}
-              />
-              <TextInput
-                placeholder="Phone Number"
-                value={form.phoneNumber}
-                error={form.errors.phoneNumber}
-                onChangeText={(text) => form.setField("phoneNumber", text)}
-              />
-              <TextInput
-                placeholder="Classification"
-                value={form.classification}
-                error={form.errors.classification}
-                onChangeText={(text) => form.setField("classification", text)}
-              />
-              <TextInput
-                placeholder="Instagram"
-                value={form.instagram}
-                error={form.errors.instagram}
-                onChangeText={(text) => form.setField("instagram", text)}
-              />
-              <TextInput
-                placeholder="Snapchat"
-                value={form.snapchat}
-                error={form.errors.snapchat}
-                onChangeText={(text) => form.setField("snapchat", text)}
-              />
-            </Layout>
-          </>
+            <TextInput
+              placeholder="First Name"
+              value={form.state.firstName.value}
+              error={form.state.firstName.error}
+              onChangeText={form.setValue.bind(null, "firstName")}
+            />
+            <TextInput
+              placeholder="Last Name"
+              value={form.state.lastName.value}
+              error={form.state.lastName.error}
+              onChangeText={form.setValue.bind(null, "lastName")}
+            />
+            <TextInput
+              placeholder="Phone Number"
+              value={form.state.phoneNumber.value}
+              error={form.state.phoneNumber.error}
+              onChangeText={form.setValue.bind(null, "phoneNumber")}
+            />
+            <TextInput
+              placeholder="Classification"
+              value={form.state.classification.value}
+              error={form.state.classification.error}
+              onChangeText={form.setValue.bind(null, "classification")}
+            />
+            <TextInput
+              placeholder="Instagram"
+              value={form.state.instagram.value}
+              error={form.state.instagram.error}
+              onChangeText={form.setValue.bind(null, "instagram")}
+            />
+            <TextInput
+              placeholder="Snapchat"
+              value={form.state.snapchat.value}
+              error={form.state.snapchat.error}
+              onChangeText={form.setValue.bind(null, "snapchat")}
+            />
+          </Layout>
         );
       }}
-    ></FormSheet>
+    />
   );
 };
 
-export default UpdatePnm;
+export default UpdatePnmSheet;

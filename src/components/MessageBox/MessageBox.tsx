@@ -24,7 +24,6 @@ import { waitFor } from "@/lib/util";
 import AppConstants from "@/constants";
 import IconButton from "@/ui/IconButton";
 import Content from "@/constants/content";
-import { EVENT_URL } from "@/api/constants";
 import { eventsRegex } from "@/constants/regex";
 import { formatEvent } from "@/lib/util/format";
 import Walkthroughs from "@/components/Walkthroughs";
@@ -97,7 +96,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
         .replace('{{location}}', formattedEvent.location)
         .replace('{{date}}', `${formattedEvent.dateString}`)
         .replace('{{time}}', `${formattedEvent.start.time} - ${formattedEvent.end.time}`)
-        .replace('{{link}}',  `${EVENT_URL}/${event._id}`)
+        .replace('{{link}}',  `${AppConstants.eventUrl}/${event._id}`)
 
       // If there is a message, we want to separate the event message from the message
       const newLine = message ? "\n\n" : "";

@@ -14,9 +14,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AdminScreen from "@/navigation/screens/admin/Admin";
 import AdminNetwork from "@/navigation/screens/admin/Network";
-import AdminBillingScreen from "@/navigation/screens/admin/Billing";
 import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
-import AdminStatisticsScreen from "@/navigation/screens/admin/Statistics";
 import AdminChaptersScreen from "@/navigation/screens/admin/Chapters";
 
 import PNMsScreen from "@/navigation/screens/pnms/Pnms";
@@ -261,14 +259,6 @@ export const AdminStack = () => {
       <Stack.Screen
         name="Admin"
         component={AdminScreen}
-      />
-      <Stack.Screen
-        name="AdminBilling"
-        component={AdminBillingScreen}
-      />
-      <Stack.Screen
-        name="AdminStatistics"
-        component={AdminStatisticsScreen}
       />
       <Stack.Screen
         name="AdminChapters"
