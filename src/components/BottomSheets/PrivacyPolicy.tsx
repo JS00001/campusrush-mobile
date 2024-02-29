@@ -10,50 +10,23 @@
  * Do not distribute
  */
 
+import { useMemo } from "react";
 import { View } from "react-native";
-import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 
-import BottomSheet from "./Components/BottomSheet";
-import BottomSheetContainer from "./Components/BottomSheetContainer";
+import type { BottomSheetProps } from "./@types";
 
 import Text from "@/ui/Text";
-import date from "@/lib/util/date";
 import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
+import date from "@/lib/util/date";
 import Skeleton from "@/ui/Skeleton";
-import contentApi from "@/api/content";
+import { BottomSheet } from "@/ui/BottomSheet";
+import { useGetPrivacyPolicy } from "@/hooks/api/content";
+import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
-interface PrivacyPolicyProps {
-  innerRef: React.RefObject<any>;
-  handleCloseModalPress: () => void;
-  handleSnapToIndex: (index: number) => void;
-  handleSnapToPosition: (position: string) => void;
-}
+const PrivacyPolicySheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
+  const query = useGetPrivacyPolicy();
 
-const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ innerRef }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Create a query to get the chapter statistics
-  const query = useQuery({
-    queryKey: ["PrivacyPolicy"],
-    enabled: isModalOpen,
-    queryFn: async () => {
-      return contentApi.getPrivacyPolicy();
-    },
-  });
-
-  // When the bottom sheet modal is open
-  const onBottomSheetChange = (index: number) => {
-    if (index === 0) {
-      setIsModalOpen(true);
-      return;
-    }
-
-    setIsModalOpen(false);
-  };
-
-  // The last updated date
   const lastUpdated = useMemo(() => {
     const queryDate =
       query.data?.date_updated || query.data?.date_created || new Date();
@@ -61,15 +34,19 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ innerRef }) => {
     return date.timeAgo(queryDate);
   }, [query.data?.date_updated, query.data?.date_created]);
 
+  const contentContainerStyle = tw.style(
+    "w-full p-4",
+    "items-center bg-white rounded-xl shadow-sm",
+  );
+
   return (
     <BottomSheet
       innerRef={innerRef}
-      onChange={onBottomSheetChange}
       backgroundStyle={tw`bg-slate-100`}
       children={() => (
         <BottomSheetContainer
           style={tw`bg-slate-100`}
-          contentContainerStyle={`bg-slate-100`}
+          contentContainerStyle={tw`bg-slate-100`}
         >
           {query.isLoading && <PrivacyPolicySkeleton />}
 
@@ -82,16 +59,16 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ innerRef }) => {
                 Privacy Policy
               </Text>
 
-              <View
-                style={tw`items-center w-full bg-white p-4 rounded-xl shadow-sm`}
-              >
+              <View style={contentContainerStyle}>
                 <Text variant="body">
-                  {query.data?.content.split("**").map((item, index) =>
-                    index % 2 === 0 ? (
-                      <Text key={index} variant="body">
-                        {item}
-                      </Text>
-                    ) : (
+                  {query.data?.content.split("**").map((item, index) => {
+                    const isFirstOccurrance = index % 2 === 0;
+
+                    if (isFirstOccurrance) {
+                      return item;
+                    }
+
+                    return (
                       <Text
                         key={index}
                         variant="body"
@@ -99,8 +76,8 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ innerRef }) => {
                       >
                         {item}
                       </Text>
-                    ),
-                  )}
+                    );
+                  })}
                 </Text>
               </View>
             </>
@@ -133,4 +110,4 @@ const PrivacyPolicySkeleton: React.FC = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default PrivacyPolicySheet;

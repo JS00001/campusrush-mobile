@@ -10,12 +10,21 @@
  * Do not distribute
  */
 
+import { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import {
+  useContactStore,
+  useMessageStore,
+  useConversationStore,
+  useStatusStore,
+} from "@/store";
+import { useSendMassMessage } from "@/hooks/api/messaging";
 
 import Layout from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
-import ChatHeader from "@/components/Headers/Chat";
-import useMassMessager from "@/hooks/messaging/useMassMessager";
+import MassMessageHeader from "@/components/Headers/MassMessage";
+import Toast from "react-native-toast-message";
 
 interface NewMessageProps {
   route: any;
@@ -23,23 +32,69 @@ interface NewMessageProps {
 }
 
 const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
-  // Define the pnms from the route params
-  const routePnms = route.params.pnms;
+  const initialPnms: PNM[] = route.params.pnms;
 
-  const { pnms, sendMessage, removePnm } = useMassMessager(routePnms);
+  const [pnms, setPnms] = useState(initialPnms);
+
+  const contactStore = useContactStore();
+  const messageStore = useMessageStore();
+  const conversationStore = useConversationStore();
+  const sendMassMessageMutation = useSendMassMessage();
+  const setStatus = useStatusStore((s) => s.setStatus);
+
+  const onMessageSend = async (message: string) => {
+    const payload = {
+      message,
+      pnms: pnms.map((pnm) => pnm._id),
+    };
+
+    (navigation.navigate as any)("Messages");
+
+    setStatus("loading");
+
+    const res = await sendMassMessageMutation.mutateAsync(payload);
+
+    if ("error" in res) return setStatus("idle");
+
+    const messages = res.data.messages;
+    const conversations = res.data.conversations;
+
+    /**
+     * The API will return the conversations in a 'backwards' order so we need to reverse
+     * them to get them in chronological order
+     */
+    conversations.reverse();
+
+    conversationStore.addConversations(conversations);
+    contactStore.removeContacts("uncontacted", pnms);
+
+    messages.forEach((message) => {
+      messageStore.addMessages(message.pnm, message);
+    });
+
+    Toast.show({
+      type: "success",
+      text1: "Mass message sent",
+      text2: `Your message has been sent to ${pnms.length} PNMs.`,
+    });
+
+    setStatus("idle");
+  };
+
+  const onRemovePnm = (pnm: PNM) => {
+    setPnms((prev) => prev.filter((p) => p._id !== pnm._id));
+  };
 
   return (
-    <>
-      <Layout scrollable gap={8}>
-        <Layout.CustomHeader>
-          <ChatHeader pnms={pnms} onPnmRemove={removePnm} />
-        </Layout.CustomHeader>
+    <Layout scrollable gap={8}>
+      <Layout.CustomHeader>
+        <MassMessageHeader pnms={pnms} onPnmRemove={onRemovePnm} />
+      </Layout.CustomHeader>
 
-        <Layout.Footer keyboardAvoiding>
-          <MessageBox onSend={sendMessage} />
-        </Layout.Footer>
-      </Layout>
-    </>
+      <Layout.Footer keyboardAvoiding>
+        <MessageBox onSend={onMessageSend} />
+      </Layout.Footer>
+    </Layout>
   );
 };
 

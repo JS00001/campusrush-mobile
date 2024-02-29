@@ -51,7 +51,7 @@ const PhoneNumber = () => {
 
       <CopyItem
         label="Phone Number"
-        value={formatPhoneNumber(chapter?.phoneNumber)}
+        value={formatPhoneNumber(chapter.phoneNumber)}
       />
 
       <CopyItem label="Phone Number ID" value={chapter?.phoneNumberId} />

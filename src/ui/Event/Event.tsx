@@ -25,6 +25,7 @@ import date from "@/lib/util/date";
 import { formatEvent } from "@/lib/util/format";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
+// TODO: Cleanup this component
 interface EventProps {
   event: Event;
   loading?: boolean;
@@ -51,7 +52,7 @@ const Event: React.FC<EventProps> = ({ ...props }) => {
  * allowing for sharing and editing, if the onPress prop is not provided.
  */
 const DefaultEvent: React.FC<EventProps> = ({ event, onPress }) => {
-  const { handlePresentModalPress } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheets();
 
   const formattedEvent = formatEvent(event);
   const hasPassed = date.hasPassed(formattedEvent.startDate);
@@ -69,7 +70,7 @@ const DefaultEvent: React.FC<EventProps> = ({ event, onPress }) => {
       return;
     }
 
-    handlePresentModalPress("EVENT", {
+    openBottomSheet("EVENT", {
       eventId: event._id,
     });
   };

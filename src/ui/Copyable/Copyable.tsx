@@ -13,7 +13,7 @@
 import { MenuView } from "@react-native-menu/menu";
 
 import tw from "@/lib/tailwind";
-import useCopy from "@/hooks/util/useCopy";
+import useCopy from "@/hooks/useCopy";
 
 interface CopyableProps {
   title: string;

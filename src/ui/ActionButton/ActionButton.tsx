@@ -32,7 +32,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
     // Default styles
     "p-4 rounded-full bg-primary shadow-lg self-end",
     // Positioning absolute
-    "z-20 bottom-0 absolute bottom-4 right-4",
+    "z-20 absolute bottom-4 right-4",
     // Custom styles
     style,
   );

@@ -22,14 +22,14 @@ interface TermsAndConditionsProps {
 }
 
 const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ color }) => {
-  const { handlePresentModalPress } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheets();
 
-  const onTermsAndConditionsPress = () => {
-    handlePresentModalPress("TERMS_AND_CONDITIONS");
+  const onTermsOfServicePress = () => {
+    openBottomSheet("TERMS_OF_SERVICE");
   };
 
   const onPrivacyPolicyPress = () => {
-    handlePresentModalPress("PRIVACY_POLICY");
+    openBottomSheet("PRIVACY_POLICY");
   };
 
   return (
@@ -38,8 +38,8 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ color }) => {
         By continuing, you acknowledge and agree to our
       </Text>
       <View style={tw`flex-row justify-center`}>
-        <Hyperlink color={color} onPress={onTermsAndConditionsPress}>
-          Terms and Conditions
+        <Hyperlink color={color} onPress={onTermsOfServicePress}>
+          Terms of Service
         </Hyperlink>
         <Text style={tw`text-center`}>&nbsp;and&nbsp;</Text>
         <Hyperlink color={color} onPress={onPrivacyPolicyPress}>

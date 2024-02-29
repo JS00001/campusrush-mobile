@@ -12,28 +12,16 @@
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
-import Button from "@/ui/Button";
 import ActionCard from "@/ui/ActionCard";
-import useAdmin from "@/hooks/useAdmin";
-import Information from "@/ui/Information";
 
 interface AdminProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const Admin: React.FC<AdminProps> = ({ navigation }) => {
-  const onStatisticsPress = () => {
-    navigation.navigate("AdminStatistics");
-  };
-
   const onChaptersPress = () => {
     navigation.navigate("AdminChapters");
-  };
-
-  const onBillingPress = () => {
-    navigation.navigate("AdminBilling");
   };
 
   const onUITestingPress = () => {
@@ -49,24 +37,10 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
       <Layout.Header title="Admin" subtitle="Admin options/developer options" />
 
       <ActionCard
-        title="Statistics"
-        subtitle="View statistics for the app"
-        icon="ri-bar-chart-2-fill"
-        onPress={onStatisticsPress}
-      />
-
-      <ActionCard
         title="View Chapters"
         subtitle="List all registered chapters"
         icon="ri-group-fill"
         onPress={onChaptersPress}
-      />
-
-      <ActionCard
-        title="Update Chapter Billing"
-        subtitle="Update a chapter's billing"
-        icon="ri-bank-card-2-fill"
-        onPress={onBillingPress}
       />
 
       <ActionCard

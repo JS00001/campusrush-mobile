@@ -12,7 +12,6 @@
 
 import { SafeAreaView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { MenuAction, MenuView } from "@react-native-menu/menu";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -26,24 +25,17 @@ interface HeaderProps {
   children?: React.ReactNode;
   hasBackButton?: boolean;
   hasMenuButton?: boolean;
-  menuButton?: {
-    loading?: boolean;
-    actions: MenuAction[];
-    onPressAction: (event: any) => void;
-  };
+  onMenuButtonPress?: () => void;
 }
 
+// TODO: Relook at this component for cleanliness
 const Header: React.FC<HeaderProps> = ({
   title,
   children,
   loading,
   hasBackButton = false,
   hasMenuButton = false,
-  menuButton = {
-    loading: false,
-    actions: [],
-    onPressAction: () => {},
-  },
+  onMenuButtonPress,
 }) => {
   const navigation = useNavigation();
 
@@ -73,16 +65,11 @@ const Header: React.FC<HeaderProps> = ({
         </Text>
 
         <View {...hiddenContent(hasMenuButton)}>
-          <MenuView
-            actions={menuButton.actions}
-            onPressAction={menuButton.onPressAction}
-          >
-            <IconButton
-              size="sm"
-              icon="ri-more-fill"
-              loading={menuButton.loading}
-            />
-          </MenuView>
+          <IconButton
+            size="sm"
+            icon="ri-more-fill"
+            onPress={onMenuButtonPress}
+          />
         </View>
       </View>
 

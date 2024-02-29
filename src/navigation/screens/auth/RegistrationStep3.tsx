@@ -11,39 +11,9 @@
  */
 
 import Layout from "@/ui/Layout";
-import Button from "@/ui/Button";
-import TextInput from "@/ui/TextInput";
-import usePosthog from "@/hooks/usePosthog";
-import useRegistration from "@/hooks/auth/useRegistration";
-import TermsAndConditions from "@/components/TermsAndConditions";
+import RegistrationStep3View from "@/views/register/Step3";
 
-const RegistrationStep3: React.FC = () => {
-  const {
-    errors,
-    password,
-    isLoading,
-    confirmPassword,
-    setField,
-    validateFields,
-    handleSubmission,
-  } = useRegistration();
-
-  const posthog = usePosthog();
-
-  // Handle the submission of the form
-  const onComplete = () => {
-    // Ensure the fields are valid
-    const isValid = validateFields(["password", "confirmPassword"]);
-    // If the fields are not valid, dont submit the final request
-    if (!isValid) return;
-
-    // Capture the event in analytics
-    posthog.capture("complete_registration");
-
-    // Submit the final request if the fields are valid
-    handleSubmission();
-  };
-
+const RegistrationStep3Screen: React.FC = () => {
   return (
     <Layout scrollable keyboardAvoiding gap={18}>
       <Layout.Header
@@ -51,32 +21,10 @@ const RegistrationStep3: React.FC = () => {
         title="Register"
         subtitle="Choose a secure password"
       />
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setField.bind(null, "password")}
-        secureTextEntry
-        error={errors.password}
-      />
-      <TextInput
-        placeholder="Confirm Password"
-        value={confirmPassword}
-        onChangeText={setField.bind(null, "confirmPassword")}
-        secureTextEntry
-        error={errors.confirmPassword}
-      />
 
-      <Button
-        loading={isLoading}
-        onPress={onComplete}
-        iconRight="ri-arrow-right-line"
-      >
-        Complete Registration
-      </Button>
-
-      <TermsAndConditions />
+      <RegistrationStep3View />
     </Layout>
   );
 };
 
-export default RegistrationStep3;
+export default RegistrationStep3Screen;

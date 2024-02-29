@@ -28,7 +28,7 @@ import { formatJSON } from "@/lib/util/string";
 import { useAuth } from "@/providers/Auth";
 import SegmentedControl from "@/ui/SegmentedControl";
 import { usePreferences } from "@/providers/Preferences";
-import BottomSheetBackdrop from "../BottomSheets/Components/BottomSheetBackdrop";
+import BottomSheetBackdrop from "@/ui/BottomSheet/Backdrop";
 import { useWebsocket } from "@/providers/Websocket";
 
 const DevEnvironment: React.FC = ({}) => {
@@ -48,7 +48,7 @@ const DevEnvironment: React.FC = ({}) => {
   const snapPoints = useMemo(() => ["75%"], []);
 
   // Open the bottom sheet modal
-  const handlePresentModalPress = useCallback(() => {
+  const openBottomSheet = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
 
@@ -89,7 +89,7 @@ const DevEnvironment: React.FC = ({}) => {
     if (__DEV__) {
       // Listen for shake gesture, show dev screen when it happens
       const subscription = listenForShake(() => {
-        handlePresentModalPress();
+        openBottomSheet();
       });
 
       // Remove the listener when the component unmounts

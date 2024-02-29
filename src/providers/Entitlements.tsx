@@ -10,11 +10,10 @@
  * Do not distribute
  */
 
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useContext, createContext } from "react";
 
-import billingApi from "@/api/billing";
-import useEntitlementsStore from "@/state/entitlements";
+import { useEntitlementStore } from "@/store";
+import { useGetEntitlements } from "@/hooks/api/billing";
 
 interface EntitlementsContextProps {
   isLoading: boolean;
@@ -27,25 +26,14 @@ const EntitlementsContext = createContext<EntitlementsContextProps>({
 const EntitlementsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  // Create a query to get the chapter statistics
-  const query = useQuery({
-    // The query is unauthorized and always the same so we dont need to use an access token
-    queryKey: ["entitlements"],
-    queryFn: async () => {
-      return billingApi.getEntitlements();
-    },
-  });
+  const query = useGetEntitlements();
+  const setEntitlements = useEntitlementStore((s) => s.setEntitlements);
 
-  // Get the entitlements store
-  const setEntitlementDetails = useEntitlementsStore(
-    (state) => state.setEntitlementDetails,
-  );
-
-  // Extract the data from the query
   useEffect(() => {
-    // If there is valid response data, set the entitlements
-    if (query.data?.data?.data) {
-      setEntitlementDetails(query.data?.data?.data as EntitlementDetails);
+    if (!query.data || "error" in query.data) return;
+
+    if (query.data.data.entitlements) {
+      setEntitlements(query.data.data);
     }
   }, [query.data]);
 

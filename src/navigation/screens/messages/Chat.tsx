@@ -17,9 +17,19 @@ import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
 import MessageList from "@/components/MessageList";
-import ChatHeader from "@/components/Headers/Chat";
+
+import {
+  useGetConversation,
+  useSendDirectMessage,
+} from "@/hooks/api/messaging";
+import {
+  useContactStore,
+  useMessageStore,
+  useConversationStore,
+} from "@/store";
+import { useAuth } from "@/providers/Auth";
 import { useWebsocket } from "@/providers/Websocket";
-import useConversation from "@/hooks/messaging/useConversation";
+import DirectMessageHeader from "@/components/Headers/DirectMessage";
 
 interface ChatProps {
   route: any;
@@ -27,42 +37,122 @@ interface ChatProps {
 }
 
 const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
-  // Get the pnm from the route params
-  const pnm = route.params.pnm;
+  const pnm = route.params.pnm as PNM;
+  const pnmId = pnm._id;
 
-  const { onConversationOpen, onConversationClose } = useWebsocket();
+  const { chapter } = useAuth();
+  const websocket = useWebsocket();
 
-  const { isLoading, messages, fetchNextPage, sendMessage } = useConversation(
-    pnm._id,
-  );
+  const contactStore = useContactStore();
+  const messageStore = useMessageStore();
+  const conversationStore = useConversationStore();
 
-  // Ensure that the pnm is defined, otherwise go back
-  if (!pnm) navigation.goBack();
+  const sendMessageMutation = useSendDirectMessage();
+  const conversationQuery = useGetConversation(pnmId);
 
-  // When the user reaches the end of the list, fetch the next page
-  const onEndReached = async () => {
-    await fetchNextPage();
-  };
+  const messages = messageStore.getMessages(pnmId) || [];
+  const conversation = conversationStore.getConversation(pnmId);
 
-  // Send a message
-  const onSend = async (text: string) => {
-    await sendMessage(text);
-  };
-
-  // When the component mounts, open the conversation
+  /**
+   * On the first render, set the conversation as opened
+   * in the websocket
+   */
   useEffect(() => {
-    onConversationOpen(pnm._id);
+    websocket.onConversationOpen(pnmId);
 
-    return () => {
-      onConversationClose();
-    };
+    return () => websocket.onConversationClose();
   }, []);
+
+  /**
+   * On the first render, we want the initial message data
+   * to be 'fetched' from the conversation and added to the
+   * message store
+   */
+  useEffect(() => {
+    messageStore.setMessages(pnmId, conversation?.messages || []);
+  }, []);
+
+  /**
+   * Whenever the conversation query is updated/new pages are
+   * fetched, we need to update the conversation and message store
+   */
+  useEffect(() => {
+    if (!conversationQuery.data) return;
+
+    const firstConversation = (conversationQuery.data.pages[0] as any).data
+      .conversation;
+
+    const fetchedMessages = conversationQuery.data.pages.flatMap((page) => {
+      if ("error" in page) return [];
+
+      const messages = page.data.conversation?.messages || [];
+      const filteredMessages = messages.filter(Boolean);
+      return filteredMessages;
+    });
+
+    const storedMessages = messageStore.getMessages(pnmId) || [];
+    const storedMessagesLength = storedMessages.length;
+    const fetchedMessagesLength = fetchedMessages.length;
+
+    const isQueryBehind = fetchedMessagesLength < storedMessagesLength;
+
+    if (conversationQuery.data.pages.length === 1) {
+      if (firstConversation && !isQueryBehind) {
+        conversationStore.addConversations(firstConversation);
+      }
+    }
+
+    if (!isQueryBehind) {
+      messageStore.setMessages(pnmId, fetchedMessages);
+    }
+  }, [conversationQuery.data]);
+
+  /**
+   * Send a direct message
+   */
+  const sendDirectMessage = async (message: string) => {
+    const payload = {
+      message,
+      pnm: pnmId,
+    };
+
+    const newMessage: Message = {
+      _id: "temp",
+      sent: true,
+      pnm: pnmId,
+      content: message,
+      chapter: chapter._id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    messageStore.addMessages(pnmId, newMessage);
+
+    const res = await sendMessageMutation.mutateAsync(payload);
+
+    if ("error" in res) return messageStore.removeMessage(pnmId, "temp");
+
+    conversationStore.addConversations(res.data.conversation);
+    messageStore.replaceMessage(pnmId, "temp", res.data.message);
+    contactStore.removeContacts("uncontacted", pnm);
+  };
+
+  const onEndReached = async () => {
+    await conversationQuery.fetchNextPage();
+  };
+
+  const onSend = async (message: string) => {
+    await sendDirectMessage(message);
+  };
 
   return (
     <>
       <Layout gap={8} contentContainerStyle={tw`p-0`}>
         <Layout.CustomHeader>
-          <ChatHeader pnms={[route.params.pnm]} loading={isLoading} />
+          <DirectMessageHeader
+            pnm={pnm}
+            loading={sendMessageMutation.isLoading}
+          />
         </Layout.CustomHeader>
 
         <MessageList
@@ -72,7 +162,10 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
         />
 
         <Layout.Footer keyboardAvoiding>
-          <MessageBox onSend={onSend} disableSend={isLoading} />
+          <MessageBox
+            onSend={onSend}
+            disableSend={sendMessageMutation.isLoading}
+          />
         </Layout.Footer>
       </Layout>
     </>
