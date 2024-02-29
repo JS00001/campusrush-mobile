@@ -24,6 +24,7 @@ import { useSendMassMessage } from "@/hooks/api/messaging";
 import Layout from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
 import MassMessageHeader from "@/components/Headers/MassMessage";
+import Toast from "react-native-toast-message";
 
 interface NewMessageProps {
   route: any;
@@ -69,6 +70,12 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
 
     messages.forEach((message) => {
       messageStore.addMessages(message.pnm, message);
+    });
+
+    Toast.show({
+      type: "success",
+      text1: "Mass message sent",
+      text2: `Your message has been sent to ${pnms.length} PNMs.`,
     });
 
     setStatus("idle");

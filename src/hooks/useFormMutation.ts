@@ -129,7 +129,14 @@ const useFormMutation = <TResponse = any, TRequest = any>({
    * will handle the validators and the API call, along with
    * error handling and loading state
    */
-  const handleSubmission = async () => {
+  const handleSubmission = async (
+    /**
+     * If you need to override any fields values, you can do so here
+     * This is helpful if you call setValue in the same function as the handleSubmission
+     * and you need to "get the change" before it actually is updated in state
+     */
+    input: { [key: TFields]: any } = {},
+  ) => {
     setLoading(true);
 
     /**
@@ -145,8 +152,13 @@ const useFormMutation = <TResponse = any, TRequest = any>({
     /**
      * Step 2: Call the API
      */
+    const mergedState = {
+      ...transformedState,
+      ...input,
+    };
+
     try {
-      const res = await mutation.mutateAsync(transformedState as TRequest);
+      const res = await mutation.mutateAsync(mergedState as TRequest);
 
       if ('error' in res) return;
 

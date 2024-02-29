@@ -37,7 +37,7 @@ const LinkSharingView = () => {
       updateChapter(data.chapter);
     },
     initialValues: {
-      linkSharingEnabled: chapter?.linkSharingEnabled || false,
+      linkSharingEnabled: chapter.linkSharingEnabled,
     },
   });
 
@@ -51,9 +51,14 @@ const LinkSharingView = () => {
     ? "Currently Disabled"
     : "Click to disable link sharing";
 
-  const onPress = () => {
-    form.setValue("linkSharingEnabled", !form.state.linkSharingEnabled.value);
-    form.handleSubmission();
+  const onPress = async (value: boolean) => {
+    if (value === form.state.linkSharingEnabled.value) return;
+
+    form.setValue("linkSharingEnabled", value);
+
+    form.handleSubmission({
+      linkSharingEnabled: value,
+    });
   };
 
   return (
@@ -77,7 +82,7 @@ const LinkSharingView = () => {
           title="Enable Link Sharing"
           subtitle={linkSharingEnabledSubtitle}
           description="Enable link sharing to allow PNMs to manually add themselves to your recruitment list via the link below."
-          onPress={onPress}
+          onPress={() => onPress(true)}
         />
         <SelectionCard
           loading={mutation.isLoading}
@@ -85,7 +90,7 @@ const LinkSharingView = () => {
           title="Disable Link Sharing"
           subtitle={linkSharingDisabledSubtitle}
           description="Disable link sharing to prevent PNMs from manually adding themselves to your recruitment list."
-          onPress={onPress}
+          onPress={() => onPress(false)}
         />
       </View>
     </>
