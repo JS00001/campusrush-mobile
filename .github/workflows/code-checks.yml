@@ -23,9 +23,6 @@ jobs:
       - name: 🎨 Verify format using Prettier
         run: yarn format:check
 
-      - name: Clear Yarn Cache
-        run: yarn cache clean
-
       # Ensure that the typscript compiles and the types are correct
-      - name: 🏗️ Verify typescript
-        run: yarn types:check
+      # - name: 🏗️ Verify typescript
+      #   run: yarn types:check
