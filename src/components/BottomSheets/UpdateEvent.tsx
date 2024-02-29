@@ -15,13 +15,13 @@ import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { BottomSheetProps } from "./@types";
 
 import useFormMutation from "@/hooks/useFormMutation";
+import { useEventStore, useStatusStore } from "@/store";
 import { useGetEvent, useUpdateEvent } from "@/hooks/api/events";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import TextInput from "@/ui/TextInput";
-import { useEventStore } from "@/store";
 import { FormSheet } from "@/ui/BottomSheet";
 import validators from "@/constants/validators";
 import DateTimePicker from "@/ui/DateTimePicker";
@@ -40,6 +40,7 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
         const eventStore = useEventStore();
         const eventQuery = useGetEvent(eventId);
         const updateEventMutation = useUpdateEvent();
+        const setStatus = useStatusStore((s) => s.setStatus);
 
         const currentDate = new Date();
         const startDate = new Date(eventQuery.event?.startDate || "")
@@ -62,7 +63,7 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
           mutation: updateEventMutation,
           validators: formValidators,
           onSuccess: async ({ data }) => {
-            eventStore.updateEvent(data.event);
+            eventStore.addOrUpdateEvent(data.event);
             eventQuery.refetch();
             handleClose();
           },
@@ -95,7 +96,8 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
           }
         };
 
-        const handleSubmission = () => {
+        const handleSubmission = async () => {
+          setStatus("loading");
           const isValid = form.validateState();
 
           if (!isValid) return;
@@ -108,13 +110,9 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
             return;
           }
 
-          form.handleSubmission();
+          await form.handleSubmission();
+          setStatus("idle");
         };
-
-        // TODO: Add proper loading state
-        if (!eventQuery.event) {
-          return <Text>Loading...</Text>;
-        }
 
         return (
           <Layout

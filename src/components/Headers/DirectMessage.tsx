@@ -12,8 +12,8 @@
 
 import { useEffect } from "react";
 
-import { usePnm } from "@/store";
 import Header from "@/ui/Header";
+import { useGetPnm } from "@/hooks/api/pnms";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import { useNavigation } from "@react-navigation/native";
 
@@ -29,8 +29,8 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({
   const navigation = useNavigation();
   const { openBottomSheet } = useBottomSheets();
 
-  const store = usePnm(pnm._id);
-  const title = `${store.pnm?.firstName} ${store.pnm?.lastName}`;
+  const pnmQuery = useGetPnm(pnm._id);
+  const title = `${pnmQuery.pnm?.firstName} ${pnmQuery.pnm?.lastName}`;
 
   const onMenuButtonPress = () => {
     openBottomSheet("PNM", {
@@ -38,9 +38,13 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({
     });
   };
 
+  // TODO: this could cause going back if there is:
+  // - no cache
+  // - no pnms fetched yet (havent nagivated to pnms page)
+  // - therefore, when we fetch the pnm, it starts loading,but the pnm is undefined
   useEffect(() => {
-    if (!store.pnm) navigation.goBack();
-  }, [store.pnm]);
+    if (!pnmQuery.pnm) navigation.goBack();
+  }, [pnmQuery.pnm]);
 
   return (
     <Header

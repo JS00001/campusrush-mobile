@@ -11,11 +11,11 @@
  */
 
 import { useEventStore } from './EventStore';
-import { usePnmZustandStore } from './PnmStore';
-import { useStatisticsZustandStore } from './StatisticsStore';
+import { usePnmStore } from './PnmStore';
+import { useStatisticsStore } from './StatisticsStore';
 
-import { useContactZustandStore } from './messaging/ContactStore';
-import { useConversationZustandStore } from './messaging/ConversationStore';
+import { useContactStore } from './messaging/ContactStore';
+import { useConversationStore } from './messaging/ConversationStore';
 import { useMessageStore } from './messaging/MessageStore';
 
 /**
@@ -25,10 +25,10 @@ import { useMessageStore } from './messaging/MessageStore';
  * keep the state consistent across multiple stores.
  */
 export const useGlobalStore = () => {
-  const pnmStore = usePnmZustandStore();
-  const statisticsStore = useStatisticsZustandStore();
-  const contactStore = useContactZustandStore();
-  const conversationStore = useConversationZustandStore();
+  const pnmStore = usePnmStore();
+  const statisticsStore = useStatisticsStore();
+  const contactStore = useContactStore();
+  const conversationStore = useConversationStore();
   const messageStore = useMessageStore();
   const eventStore = useEventStore();
 
@@ -37,7 +37,7 @@ export const useGlobalStore = () => {
    * the pnm, statistics, contacts, and more.
    */
   const addPnm = async (pnm: PNM) => {
-    pnmStore.addPnm(pnm);
+    pnmStore.addOrUpdatePnm(pnm);
 
     // Update statistics to add the pnm count and recent pnms
     statisticsStore.incrementField('pnmCount');
@@ -86,7 +86,7 @@ export const useGlobalStore = () => {
    *
    */
   const favoritePnm = async (pnm: PNM) => {
-    pnmStore.updatePnm({
+    pnmStore.addOrUpdatePnm({
       ...pnm,
       starred: true,
     });
@@ -104,7 +104,7 @@ export const useGlobalStore = () => {
    * stores.
    */
   const unfavoritePnm = async (pnm: PNM) => {
-    pnmStore.updatePnm({
+    pnmStore.addOrUpdatePnm({
       ...pnm,
       starred: false,
     });

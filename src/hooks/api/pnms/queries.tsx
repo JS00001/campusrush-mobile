@@ -10,27 +10,57 @@
  * Do not distribute
  */
 
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { getPnms, getPnm } from "@/api";
 import { useAuth } from "@/providers/Auth";
+import { usePnmStore } from "@/store";
 
 export const useGetPnms = () => {
   const { accessToken } = useAuth();
 
-  return useQuery(["pnms", accessToken], {
+  const pnms = usePnmStore((s) => s.pnms);
+  const setPnms = usePnmStore((s) => s.setPnms);
+
+  const query = useQuery(["pnms", accessToken], {
     queryFn: () => {
       return getPnms();
     },
   });
+
+  useEffect(() => {
+    if (!query.data || "error" in query.data) return;
+
+    setPnms(query.data.data.pnms);
+  }, [query.data]);
+
+  return {
+    ...query,
+    pnms,
+  };
 };
 
 export const useGetPnm = (id: string) => {
   const { accessToken } = useAuth();
 
-  return useQuery(["pnm", id, accessToken], {
+  const pnm = usePnmStore((s) => s.getPnm(id));
+  const addOrUpdatePnm = usePnmStore((s) => s.addOrUpdatePnm);
+
+  const query = useQuery(["pnm", id, accessToken], {
     queryFn: () => {
       return getPnm({ id });
     },
   });
+
+  useEffect(() => {
+    if (!query.data || "error" in query.data) return;
+
+    addOrUpdatePnm(query.data.data.pnm);
+  }, [query.data]);
+
+  return {
+    ...query,
+    pnm,
+  };
 };

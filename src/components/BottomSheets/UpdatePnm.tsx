@@ -15,13 +15,13 @@ import type { BottomSheetProps } from "./@types";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
-import { usePnm } from "@/store";
+import { usePnmStore, useStatusStore } from "@/store";
 import TextInput from "@/ui/TextInput";
 import { FormSheet } from "@/ui/BottomSheet";
-import { useUpdatePnm } from "@/hooks/api/pnms";
 import validators from "@/constants/validators";
 import FormHeader from "@/components/Headers/Form";
 import useFormMutation from "@/hooks/useFormMutation";
+import { useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
 const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
   innerRef,
@@ -33,8 +33,10 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
       children={(data) => {
         const pnmId = data?.data.pnmId as string;
 
-        const store = usePnm(pnmId);
-        const updateMutation = useUpdatePnm();
+        const pnmStore = usePnmStore();
+        const pnmQuery = useGetPnm(pnmId);
+        const updatePnmMutation = useUpdatePnm();
+        const setStatus = useStatusStore((s) => s.setStatus);
 
         const formValidators = {
           id: validators.objectId,
@@ -47,28 +49,29 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
         };
 
         const form = useFormMutation({
-          mutation: updateMutation,
+          mutation: updatePnmMutation,
           validators: formValidators,
           onSuccess: async ({ data }) => {
-            store.updatePnm(data.pnm);
-            store.refetch();
+            pnmStore.addOrUpdatePnm(data.pnm);
+            pnmQuery.refetch();
             handleClose();
           },
           initialValues: {
             id: pnmId,
-            firstName: store.pnm?.firstName,
-            lastName: store.pnm?.lastName,
-            phoneNumber: store.pnm?.phoneNumber,
-            classification: store.pnm?.classification,
-            instagram: store.pnm?.instagram,
-            snapchat: store.pnm?.snapchat,
+            firstName: pnmQuery.pnm?.firstName,
+            lastName: pnmQuery.pnm?.lastName,
+            phoneNumber: pnmQuery.pnm?.phoneNumber,
+            classification: pnmQuery.pnm?.classification,
+            instagram: pnmQuery.pnm?.instagram,
+            snapchat: pnmQuery.pnm?.snapchat,
           },
         });
 
-        // TODO: Add proper loading state
-        if (!store.pnm) {
-          return <Text>Loading...</Text>;
-        }
+        const handleSubmission = async () => {
+          setStatus("loading");
+          await form.handleSubmission();
+          setStatus("idle");
+        };
 
         return (
           <Layout
@@ -76,7 +79,7 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
             contentContainerStyle={tw`pt-0 items-start`}
             gap={12}
           >
-            <FormHeader onSave={form.handleSubmission} onCancel={handleClose} />
+            <FormHeader onSave={handleSubmission} onCancel={handleClose} />
 
             <Text variant="header" style={tw`text-primary`}>
               Edit PNM

@@ -18,15 +18,15 @@ import tw from "@/lib/tailwind";
 import ActionCard from "@/ui/ActionCard";
 import IconButton from "@/ui/IconButton";
 import { useAuth } from "@/providers/Auth";
-import { useStatisticsStore } from "@/store";
 import RecentPnms from "@/components/RecentPnms";
 import { useBottomSheets } from "@/providers/BottomSheet";
+import { useGetChapterStatistics } from "@/hooks/api/chapter";
 
 const HomeView = () => {
   const { chapter } = useAuth();
   const navigation = useNavigation();
-  const store = useStatisticsStore();
   const { openBottomSheet } = useBottomSheets();
+  const statisticsQuery = useGetChapterStatistics();
 
   const onSettingsPress = () => {
     (navigation.navigate as any)("Settings");
@@ -75,17 +75,23 @@ const HomeView = () => {
             size="md"
             pressable={false}
             icon="ri-user-fill"
-            title={store.pnmCount?.toString() || "0"}
+            title={statisticsQuery.pnmCount?.toString() || "0"}
             subtitle="Current PNMs registered to rush"
-            loading={store.isLoading && store.pnmCount === undefined}
+            loading={
+              statisticsQuery.isLoading &&
+              statisticsQuery.pnmCount === undefined
+            }
           />
           <ActionCard
             size="md"
             pressable={false}
             icon="ri-user-star-fill"
-            title={store.starredPnmCount?.toString() || "0"}
+            title={statisticsQuery.starredPnmCount?.toString() || "0"}
             subtitle="PNMs saved as favorites"
-            loading={store.isLoading && store.starredPnmCount === undefined}
+            loading={
+              statisticsQuery.isLoading &&
+              statisticsQuery.starredPnmCount === undefined
+            }
           />
         </View>
 
@@ -101,9 +107,12 @@ const HomeView = () => {
         {/* Recently Added PNMs */}
         <Text variant="title">Recently Added PNMs</Text>
         <RecentPnms
-          pnms={store.recentPnms}
+          pnms={statisticsQuery.recentPnms}
           onPress={onRecentPnmPress}
-          loading={store.isLoading && store.recentPnms === undefined}
+          loading={
+            statisticsQuery.isLoading &&
+            statisticsQuery.recentPnms === undefined
+          }
         />
       </View>
     </>

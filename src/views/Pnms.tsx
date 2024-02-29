@@ -19,17 +19,18 @@ import useSearch from "@/hooks/useSearch";
 import Content from "@/constants/content";
 import Menu, { MenuAction } from "@/ui/Menu";
 import PnmsList from "@/components/PnmsList";
-import { useDeletePnms } from "@/hooks/api/pnms";
-import { useGlobalStore, useModalStore, usePnmStore } from "@/store";
+import { useGlobalStore, useModalStore } from "@/store";
+import { useDeletePnms, useGetPnms } from "@/hooks/api/pnms";
 
 const PnmsView = () => {
   const globalStore = useGlobalStore();
   const { openModal } = useModalStore();
-  const deletionMutation = useDeletePnms();
-  const { pnms, isLoading, refetch } = usePnmStore();
+
+  const pnmsQuery = useGetPnms();
+  const deleteAllPnmsMutation = useDeletePnms();
 
   const search = useSearch({
-    data: pnms,
+    data: pnmsQuery.pnms,
     filters: [
       {
         id: "STARRED",
@@ -87,8 +88,8 @@ const PnmsView = () => {
           primaryActionLabel: "Yes, Delete",
           secondaryActionLabel: "No, Cancel",
           onPrimaryAction: async () => {
-            await deletionMutation.mutateAsync();
-            await refetch();
+            await deleteAllPnmsMutation.mutateAsync();
+            await pnmsQuery.refetch();
 
             globalStore.resetPnmStores();
           },
@@ -97,10 +98,10 @@ const PnmsView = () => {
     },
   ];
 
-  const placeholder = `Search ${pnms.length || 0} PNMs`;
+  const placeholder = `Search ${pnmsQuery.pnms.length || 0} PNMs`;
 
   const onRefetch = async () => {
-    await refetch();
+    await pnmsQuery.refetch();
   };
 
   return (
@@ -125,7 +126,11 @@ const PnmsView = () => {
         </Menu>
       </View>
 
-      <PnmsList loading={isLoading} pnms={search.data} onRefetch={onRefetch} />
+      <PnmsList
+        loading={pnmsQuery.isLoading}
+        pnms={search.data}
+        onRefetch={onRefetch}
+      />
     </>
   );
 };

@@ -19,13 +19,14 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import date from "@/lib/util/date";
+import Skeleton from "@/ui/Skeleton";
 import IconButton from "@/ui/IconButton";
 import DetailView from "@/ui/DetailView";
 import { BottomSheet } from "@/ui/BottomSheet";
-import { useGlobalStore, usePnm } from "@/store";
+import { useGlobalStore, usePnmStore } from "@/store";
 import { formatPhoneNumber } from "@/lib/util/string";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
-import { useDeletePnm, useUpdatePnm } from "@/hooks/api/pnms";
+import { useDeletePnm, useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
 const PnmSheet: React.FC<BottomSheetProps> = ({
   innerRef,
@@ -38,8 +39,10 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
       children={(data) => {
         const pnmId = data?.data.pnmId as string;
 
-        const store = usePnm(pnmId);
+        const pnmStore = usePnmStore();
         const globalStore = useGlobalStore();
+
+        const pnmQuery = useGetPnm(pnmId);
         const deleteMutation = useDeletePnm();
         const updateMutation = useUpdatePnm();
 
@@ -48,11 +51,11 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
          * the store value becomes undefined, and we need to keep the pnm data so
          * the app doesnt crash before the bottom sheet is closed.
          */
-        const [pnm, setPnm] = useState(store.pnm);
+        const [pnm, setPnm] = useState(pnmQuery.pnm);
 
         useEffect(() => {
-          if (store.pnm) setPnm(store.pnm);
-        }, [store.pnm]);
+          if (pnmQuery.pnm) setPnm(pnmQuery.pnm);
+        }, [pnmQuery.pnm]);
 
         const onFavorite = async (starred: boolean) => {
           if (!pnm) return;
@@ -61,8 +64,8 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
 
           if ("error" in res) return;
 
-          store.updatePnm(res.data.pnm);
-          store.refetch();
+          pnmStore.addOrUpdatePnm(res.data.pnm);
+          pnmQuery.refetch();
 
           if (starred) {
             globalStore.favoritePnm(pnm);
@@ -78,7 +81,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
 
           if ("error" in res) return;
 
-          store.deletePnm(pnmId);
+          pnmStore.deletePnm(pnm._id);
           globalStore.deletePnm(pnm);
           handleClose();
         };
@@ -87,14 +90,8 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
           openBottomSheet("UPDATE_PNM", { pnmId });
         };
 
-        // TODO: Add proper loading state, This does NOT update once the pnm finishes loading
-        // could be an issue with the store.
         if (!pnm) {
-          return (
-            <BottomSheetContainer>
-              <Text>Loading...</Text>
-            </BottomSheetContainer>
-          );
+          return <LoadingState />;
         }
 
         return (
@@ -153,6 +150,28 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         );
       }}
     ></BottomSheet>
+  );
+};
+
+const LoadingState = () => {
+  return (
+    <BottomSheetContainer>
+      <View style={tw`mb-2 flex-row justify-between items-center gap-2`}>
+        <View style={tw`flex-1 gap-2`}>
+          <Skeleton height={24} />
+          <Skeleton width={"75%"} height={16} />
+        </View>
+
+        <View style={tw`flex-row gap-1`}>
+          <Skeleton width={48} height={48} borderRadius={999} />
+          <Skeleton width={48} height={48} borderRadius={999} />
+        </View>
+      </View>
+
+      <Skeleton height={196} />
+
+      <Skeleton height={54} />
+    </BottomSheetContainer>
   );
 };
 

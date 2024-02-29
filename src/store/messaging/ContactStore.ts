@@ -11,11 +11,9 @@
  */
 
 import { create } from 'zustand';
-import { useEffect } from 'react';
 import { PersistStorage, persist } from 'zustand/middleware';
 
 import customAsyncStorage from '@/lib/asyncStorage';
-import { useGetContacts } from '@/hooks/api/messaging';
 
 interface IContactStore {
   all: PNM[];
@@ -30,7 +28,7 @@ interface IContactStore {
   removeContacts: (field: keyof IContactStore, value: PNM[] | PNM) => void;
 }
 
-export const useContactZustandStore = create<IContactStore>()(
+export const useContactStore = create<IContactStore>()(
   persist(
     (set, get) => {
       /**
@@ -111,24 +109,24 @@ export const useContactZustandStore = create<IContactStore>()(
   ),
 );
 
-export const useContactStore = () => {
-  const query = useGetContacts();
-  const store = useContactZustandStore();
+// export const useContactStore = () => {
+//   const query = useGetContacts();
+//   const store = useContactZustandStore();
 
-  /**
-   * Update the store when the query data changes
-   */
-  useEffect(() => {
-    if (!query.data || 'error' in query.data) return;
+//   /**
+//    * Update the store when the query data changes
+//    */
+//   useEffect(() => {
+//     if (!query.data || 'error' in query.data) return;
 
-    store.setContacts('all', query.data.data.all);
-    store.setContacts('starred', query.data.data.favorited);
-    store.setContacts('suggested', query.data.data.suggested);
-    store.setContacts('uncontacted', query.data.data.uncontacted);
-  }, [query.data]);
+//     store.setContacts('all', query.data.data.all);
+//     store.setContacts('starred', query.data.data.favorited);
+//     store.setContacts('suggested', query.data.data.suggested);
+//     store.setContacts('uncontacted', query.data.data.uncontacted);
+//   }, [query.data]);
 
-  return {
-    ...query,
-    ...store,
-  };
-};
+//   return {
+//     ...query,
+//     ...store,
+//   };
+// };

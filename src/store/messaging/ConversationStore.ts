@@ -14,8 +14,6 @@ import { create } from 'zustand';
 import { PersistStorage, persist } from 'zustand/middleware';
 
 import customAsyncStorage from '@/lib/asyncStorage';
-import { useGetConversations } from '@/hooks/api/messaging';
-import { useEffect } from 'react';
 
 interface IConversationStore {
   conversations: Conversation[];
@@ -29,7 +27,7 @@ interface IConversationStore {
   addConversations: (conversations: Conversation[] | Conversation) => void;
 }
 
-export const useConversationZustandStore = create<IConversationStore>()(
+export const useConversationStore = create<IConversationStore>()(
   persist(
     (set, get) => {
       /**
@@ -134,24 +132,24 @@ export const useConversationZustandStore = create<IConversationStore>()(
   ),
 );
 
-export const useConversationStore = () => {
-  const query = useGetConversations();
-  const store = useConversationZustandStore();
+// export const useConversationStore = () => {
+//   const query = useGetConversations();
+//   const store = useConversationZustandStore();
 
-  useEffect(() => {
-    if (!query.data) return;
+//   useEffect(() => {
+//     if (!query.data) return;
 
-    const combinedConversations = query.data.pages.flatMap((page) => {
-      if ('error' in page) return [];
+//     const combinedConversations = query.data.pages.flatMap((page) => {
+//       if ('error' in page) return [];
 
-      return page.data.conversations;
-    });
+//       return page.data.conversations;
+//     });
 
-    store.setConversations(combinedConversations);
-  }, []);
+//     store.setConversations(combinedConversations);
+//   }, []);
 
-  return {
-    ...query,
-    ...store,
-  };
-};
+//   return {
+//     ...query,
+//     ...store,
+//   };
+// };

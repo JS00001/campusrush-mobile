@@ -22,8 +22,7 @@ interface IEventStore {
   clear: () => void;
   setEvents: (events: Event[]) => void;
   getEvent: (id: string) => Event | undefined;
-  addEvent: (event: Event) => void;
-  updateEvent: (event: Event) => void;
+  addOrUpdateEvent: (event: Event) => void;
   deleteEvent: (id: string) => void;
 }
 
@@ -60,31 +59,24 @@ export const useEventStore = create<IEventStore>()(
       };
 
       /**
-       * Add an event to the store (if it's id doesn't exist)
+       * Add an event if it doesn't exist, or update it if it does
        */
-      const addEvent = (event: Event) => {
-        return set((state) => {
-          return insertEvent(state, event);
-        });
-      };
-
-      /**
-       * Update an event in the store
-       */
-      const updateEvent = (event: Event) => {
+      const addOrUpdateEvent = (event: Event) => {
         return set((state) => {
           const oldEvent = state.events.find((e) => e._id === event._id);
 
-          if (!oldEvent) return state;
+          if (oldEvent) {
+            const updatedEvent = {
+              ...oldEvent,
+              ...event,
+            };
 
-          const updatedEvent = {
-            ...oldEvent,
-            ...event,
-          };
+            const newEvents = state.events.filter((e) => e._id !== event._id);
 
-          const newEvents = state.events.filter((e) => e._id !== event._id);
+            return insertEvent({ ...state, events: newEvents }, updatedEvent);
+          }
 
-          return insertEvent({ ...state, events: newEvents }, updatedEvent);
+          return insertEvent(state, event);
         });
       };
 
@@ -102,8 +94,7 @@ export const useEventStore = create<IEventStore>()(
         clear,
         setEvents,
         getEvent,
-        addEvent,
-        updateEvent,
+        addOrUpdateEvent,
         deleteEvent,
       };
     },

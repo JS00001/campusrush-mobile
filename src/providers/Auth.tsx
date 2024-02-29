@@ -86,11 +86,15 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
 
   const logoutMutation = useMutation({
     mutationFn: () => {
-      return axios.post(`${AppConstants.apiUrl}/api/v1/consumer/auth/logout`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      return axios.post(
+        `${AppConstants.apiUrl}/api/v1/consumer/auth/logout`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         },
-      });
+      );
     },
   });
 
@@ -243,11 +247,9 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   const signOut = async () => {
     if (!accessToken) return;
 
-    logoutMutation.mutate(undefined, {
-      onSuccess: async () => {
-        await clearUserData();
-      },
-    });
+    await logoutMutation.mutateAsync();
+
+    clearUserData();
   };
 
   // Clear all user data

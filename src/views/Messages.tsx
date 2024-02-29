@@ -13,7 +13,6 @@
 import { View } from "react-native";
 
 import useSearch from "@/hooks/useSearch";
-import { useConversationStore } from "@/store";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
 import tw from "@/lib/tailwind";
@@ -23,14 +22,15 @@ import Menu, { MenuAction } from "@/ui/Menu";
 import ActionButton from "@/ui/ActionButton";
 import Conversation from "@/ui/Conversation";
 import InfiniteList from "@/components/InfiniteList";
+import { useGetConversations } from "@/hooks/api/messaging";
 import { ConversationLoader } from "@/ui/Conversation/Loaders";
 
 const MessagesView = () => {
-  const store = useConversationStore();
   const { openBottomSheet } = useBottomSheets();
+  const conversationsQuery = useGetConversations();
 
   const search = useSearch({
-    data: store.conversations,
+    data: conversationsQuery.conversations,
     filters: [
       {
         id: "UNREAD",
@@ -64,11 +64,11 @@ const MessagesView = () => {
   };
 
   const onRefresh = async () => {
-    await store.refetch();
+    await conversationsQuery.refetch();
   };
 
   const onEndReached = async () => {
-    await store.fetchNextPage();
+    await conversationsQuery.fetchNextPage();
   };
 
   // TODO: Add loading state when messages are sending etc, (Status state)
@@ -95,7 +95,6 @@ const MessagesView = () => {
 
       {/* The conversations that exist */}
       <InfiniteList
-        loading={store.isLoading}
         data={search.data}
         onRefresh={onRefresh}
         onEndReached={onEndReached}
@@ -105,6 +104,9 @@ const MessagesView = () => {
         renderItem={({ item: conversation }) => (
           <Conversation conversation={conversation} />
         )}
+        loading={
+          conversationsQuery.isLoading && !conversationsQuery.conversations
+        }
       />
     </>
   );

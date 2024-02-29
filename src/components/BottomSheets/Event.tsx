@@ -23,6 +23,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import date from "@/lib/util/date";
+import Skeleton from "@/ui/Skeleton";
 import AppConstants from "@/constants";
 import IconButton from "@/ui/IconButton";
 import DetailView from "@/ui/DetailView";
@@ -85,9 +86,8 @@ const EventSheet: React.FC<BottomSheetProps> = ({
           handleClose();
         };
 
-        // TODO: Add proper loading state
         if (!event) {
-          return <Text>Loading...</Text>;
+          return <LoadingState />;
         }
 
         return (
@@ -155,6 +155,27 @@ const EventSheet: React.FC<BottomSheetProps> = ({
         );
       }}
     />
+  );
+};
+
+const LoadingState = () => {
+  return (
+    <BottomSheetContainer>
+      <View style={tw`mb-2 flex-row justify-between items-center gap-2`}>
+        <View style={tw`flex-1 gap-2`}>
+          <Skeleton height={24} />
+          <Skeleton width={"75%"} height={16} />
+        </View>
+
+        <View style={tw`flex-row gap-1`}>
+          <Skeleton width={48} height={48} borderRadius={999} />
+        </View>
+      </View>
+
+      <Skeleton height={332} />
+
+      <Skeleton height={54} />
+    </BottomSheetContainer>
   );
 };
 

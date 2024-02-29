@@ -25,6 +25,7 @@ import AuthProvider from "@/providers/Auth";
 import PurchasesProvider from "@/providers/IAP";
 import AxiosIntercepter from "@/providers/Axios";
 import WebsocketProvider from "@/providers/Websocket";
+import StatusOverlay from "@/components/StatusOverlay";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
 import SentryProvider from "@/providers/external/Sentry";
@@ -62,6 +63,7 @@ const App = () => {
                                 <Modals />
                                 <DevEnvironment />
                                 <RootNavigator />
+                                <StatusOverlay />
                                 <Toast config={toastConfig} />
                               </EntitlementsProvider>
                             </BottomSheetProvider>

@@ -11,11 +11,9 @@
  */
 
 import { create } from 'zustand';
-import { useEffect } from 'react';
 import { PersistStorage, persist } from 'zustand/middleware';
 
 import customAsyncStorage from '@/lib/asyncStorage';
-import { useGetPnm, useGetPnms } from '@/hooks/api/pnms';
 
 interface IPnmStore {
   pnms: PNM[];
@@ -23,12 +21,11 @@ interface IPnmStore {
   clear: () => void;
   setPnms: (pnms: PNM[]) => void;
   getPnm: (id: string) => PNM | undefined;
-  addPnm: (pnm: PNM) => void;
-  updatePnm: (pnm: PNM) => void;
+  addOrUpdatePnm: (pnm: PNM) => void;
   deletePnm: (id: string) => void;
 }
 
-export const usePnmZustandStore = create<IPnmStore>()(
+export const usePnmStore = create<IPnmStore>()(
   persist(
     (set, get) => {
       /**
@@ -61,23 +58,19 @@ export const usePnmZustandStore = create<IPnmStore>()(
       };
 
       /**
-       * Add a PNM to the store (if it's id doesn't exist)
+       * Add a PNM to the store if it doesn't exist, or update it if it does
        */
-      const addPnm = (pnm: PNM) => {
+      const addOrUpdatePnm = (pnm: PNM) => {
         const pnmExists = get().pnms.some((p) => p._id === pnm._id);
 
-        if (pnmExists) return;
+        // If the pnm exists, we update rather than add
+        if (pnmExists) {
+          const pnms = get().pnms.map((p) => (p._id === pnm._id ? pnm : p));
+
+          return set({ pnms });
+        }
 
         return set({ pnms: [...get().pnms, pnm] });
-      };
-
-      /**
-       * Update a PNM in the store
-       */
-      const updatePnm = (pnm: PNM) => {
-        const pnms = get().pnms.map((p) => (p._id === pnm._id ? pnm : p));
-
-        return set({ pnms });
       };
 
       /**
@@ -94,8 +87,7 @@ export const usePnmZustandStore = create<IPnmStore>()(
         clear,
         setPnms,
         getPnm,
-        addPnm,
-        updatePnm,
+        addOrUpdatePnm,
         deletePnm,
       };
     },
@@ -106,37 +98,37 @@ export const usePnmZustandStore = create<IPnmStore>()(
   ),
 );
 
-export const usePnmStore = () => {
-  const query = useGetPnms();
-  const store = usePnmZustandStore();
+// export const usePnmStore = () => {
+//   const query = useGetPnms();
+//   const store = usePnmZustandStore();
 
-  useEffect(() => {
-    if (!query.data || 'error' in query.data) return;
+//   useEffect(() => {
+//     if (!query.data || 'error' in query.data) return;
 
-    store.setPnms(query.data.data.pnms);
-  }, [query.data]);
+//     store.setPnms(query.data.data.pnms);
+//   }, [query.data]);
 
-  return {
-    ...query,
-    ...store,
-  };
-};
+//   return {
+//     ...query,
+//     ...store,
+//   };
+// };
 
-export const usePnm = (id: string) => {
-  const query = useGetPnm(id);
-  const store = usePnmZustandStore();
+// export const usePnm = (id: string) => {
+//   const query = useGetPnm(id);
+//   const store = usePnmZustandStore();
 
-  const pnm = store.getPnm(id);
+//   const pnm = store.getPnm(id);
 
-  useEffect(() => {
-    if (!query.data || 'error' in query.data) return;
+//   useEffect(() => {
+//     if (!query.data || 'error' in query.data) return;
 
-    store.updatePnm(query.data.data.pnm);
-  }, [query.data]);
+//     store.updatePnm(query.data.data.pnm);
+//   }, [query.data]);
 
-  return {
-    pnm,
-    ...query,
-    ...store,
-  };
-};
+//   return {
+//     pnm,
+//     ...query,
+//     ...store,
+//   };
+// };

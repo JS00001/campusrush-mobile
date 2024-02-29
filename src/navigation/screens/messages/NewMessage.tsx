@@ -17,6 +17,7 @@ import {
   useContactStore,
   useMessageStore,
   useConversationStore,
+  useStatusStore,
 } from "@/store";
 import { useSendMassMessage } from "@/hooks/api/messaging";
 
@@ -38,6 +39,7 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
   const messageStore = useMessageStore();
   const conversationStore = useConversationStore();
   const sendMassMessageMutation = useSendMassMessage();
+  const setStatus = useStatusStore((s) => s.setStatus);
 
   const onMessageSend = async (message: string) => {
     const payload = {
@@ -47,11 +49,11 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
 
     (navigation.navigate as any)("Messages");
 
-    // TODO: Before we begin the mutation, we want to set the loading state somehow on the messgages screen
+    setStatus("loading");
 
     const res = await sendMassMessageMutation.mutateAsync(payload);
 
-    if ("error" in res) return;
+    if ("error" in res) return setStatus("idle");
 
     const messages = res.data.messages;
     const conversations = res.data.conversations;
@@ -63,12 +65,13 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
     conversations.reverse();
 
     conversationStore.addConversations(conversations);
-    // TODO: Now, set the status of the message to sent
     contactStore.removeContacts("uncontacted", pnms);
 
     messages.forEach((message) => {
       messageStore.addMessages(message.pnm, message);
     });
+
+    setStatus("idle");
   };
 
   const onRemovePnm = (pnm: PNM) => {

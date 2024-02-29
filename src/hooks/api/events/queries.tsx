@@ -60,7 +60,7 @@ export const useGetEvent = (id: string) => {
   const { accessToken } = useAuth();
 
   const event = useEventStore((s) => s.getEvent(id));
-  const updateEvent = useEventStore((s) => s.updateEvent);
+  const addOrUpdateEvent = useEventStore((s) => s.addOrUpdateEvent);
 
   const query = useQuery(["event", id, accessToken], () => {
     return getEvent({ id });
@@ -69,7 +69,7 @@ export const useGetEvent = (id: string) => {
   useEffect(() => {
     if (!query.data || "error" in query.data) return;
 
-    updateEvent(query.data.data.event);
+    addOrUpdateEvent(query.data.data.event);
   }, [query.data]);
 
   return {

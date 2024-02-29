@@ -148,9 +148,7 @@ const useFormMutation = <TResponse = any, TRequest = any>({
     try {
       const res = await mutation.mutateAsync(transformedState as TRequest);
 
-      if ('error' in res) {
-        throw res;
-      }
+      if ('error' in res) return;
 
       await onSuccess?.(res);
 
@@ -175,15 +173,9 @@ const useFormMutation = <TResponse = any, TRequest = any>({
         setError(errorField, error.humanMessage);
         setLoading(false);
         return;
-      } else {
-        Toast.show({
-          type: 'error',
-          text1: 'Error',
-          text2: 'An unexpected error occurred. Please try again later.',
-        });
-
-        setLoading(false);
       }
+
+      setLoading(false);
     }
   };
 

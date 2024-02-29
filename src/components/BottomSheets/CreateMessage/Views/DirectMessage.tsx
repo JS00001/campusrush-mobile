@@ -14,23 +14,21 @@ import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import useSearch from "@/hooks/useSearch";
-import { useContactStore } from "@/store";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import TextInput from "@/ui/TextInput";
 import RecentPnms from "@/components/RecentPnms";
+import { useGetContacts } from "@/hooks/api/messaging";
 
 const DirectMessage: React.FC<UseSheetFlowProps> = ({
   handleClose,
   handleSnapToPosition,
 }) => {
   const navigation = useNavigation();
-  const { all, isLoading } = useContactStore();
-  const search = useSearch({
-    data: all,
-  });
+  const { all, isLoading } = useGetContacts();
+  const search = useSearch({ data: all });
 
   const onPnmPress = (pnm: PNM) => {
     (navigation.navigate as any)("Chat", {

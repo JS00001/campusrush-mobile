@@ -46,7 +46,7 @@ const Step3: React.FC<UseSheetFlowProps> = ({
       endDate: undefined,
     });
 
-    eventStore.addEvent(res.data.event);
+    eventStore.addOrUpdateEvent(res.data.event);
 
     Toast.show({
       type: "success",

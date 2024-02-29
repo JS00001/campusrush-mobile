@@ -17,6 +17,7 @@ export * from './ModalStore';
 export * from './PnmStore';
 export * from './RegistrationStore';
 export * from './StatisticsStore';
+export * from './StatusStore';
 
 export * from './messaging/ContactStore';
 export * from './messaging/MessageStore';

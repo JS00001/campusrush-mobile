@@ -16,17 +16,20 @@ import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import { useModalStore } from "@/store";
 import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
-import { useContactStore, useModalStore } from "@/store";
+
+import { useGetContacts } from "@/hooks/api/messaging";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
   const { isPro } = useAuth();
   const navigation = useNavigation();
+
   const openModal = useModalStore((state) => state.openModal);
-  const { all, uncontacted, starred, isLoading } = useContactStore();
+  const { all, starred, uncontacted, isLoading } = useGetContacts();
 
   /**
    * Helper function for mass messaging (all uncontacted, all favorites, etc)

@@ -28,7 +28,7 @@ interface IStatisticsStore {
   decrementField(field: 'pnmCount' | 'starredPnmCount'): void;
 }
 
-export const useStatisticsZustandStore = create<IStatisticsStore>()(
+export const useStatisticsStore = create<IStatisticsStore>()(
   persist(
     (set) => {
       /**
@@ -90,24 +90,3 @@ export const useStatisticsZustandStore = create<IStatisticsStore>()(
     },
   ),
 );
-
-export const useStatisticsStore = () => {
-  const query = useGetChapterStatistics();
-  const store = useStatisticsZustandStore();
-
-  /**
-   * Update the store when the query data changes
-   */
-  useEffect(() => {
-    if (!query.data || 'error' in query.data) return;
-
-    store.setField('pnmCount', query.data.data.pnms);
-    store.setField('starredPnmCount', query.data.data.starredPnms);
-    store.setField('recentPnms', query.data.data.recentPnms);
-  }, [query.data]);
-
-  return {
-    ...query,
-    ...store,
-  };
-};
