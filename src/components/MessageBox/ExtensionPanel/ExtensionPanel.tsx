@@ -18,7 +18,7 @@ import Tabs from "@/ui/Tabs";
 import Event from "@/ui/Event";
 
 import tw from "@/lib/tailwind";
-import { useEventStore } from "@/store";
+import { useGetEvents } from "@/hooks/api/events";
 import { CardEventLoader } from "@/ui/Event/Loaders";
 import KeyboardListener from "@/ui/KeyboardListener";
 import InfiniteHorizontaList from "@/components/InfiniteHorizontalList";
@@ -26,8 +26,8 @@ import InfiniteHorizontaList from "@/components/InfiniteHorizontalList";
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   ({ setVisible, setEvent, animateMessageBox }: ExtensionPanelProps, ref) => {
     const [activeTab, setActiveTab] = useState(0);
-    const eventsStore = useEventStore();
 
+    const eventsQuery = useGetEvents();
     const bottomSheetRef = useRef<BottomSheetModal>(null);
 
     useImperativeHandle(ref, () => ({
@@ -55,7 +55,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
     };
 
     const onEndReached = async () => {
-      await eventsStore.fetchNextPage();
+      await eventsQuery.fetchNextPage();
     };
 
     return (
@@ -76,8 +76,8 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
             />
 
             <InfiniteHorizontaList
-              data={eventsStore.events}
-              loading={eventsStore.isLoading}
+              data={eventsQuery.events}
+              loading={eventsQuery.isLoading}
               onEndReached={onEndReached}
               loadingComponent={<CardEventLoader />}
               emptyListTitle="No Events Found"

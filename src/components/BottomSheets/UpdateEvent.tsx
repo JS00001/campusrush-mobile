@@ -10,21 +10,22 @@
  * Do not distribute
  */
 import { z } from "zod";
+import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+
 import { BottomSheetProps } from "./@types";
 
-import { useEvent } from "@/store";
-import { useUpdateEvent } from "@/hooks/api/events";
+import useFormMutation from "@/hooks/useFormMutation";
+import { useGetEvent, useUpdateEvent } from "@/hooks/api/events";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import TextInput from "@/ui/TextInput";
+import { useEventStore } from "@/store";
 import { FormSheet } from "@/ui/BottomSheet";
 import validators from "@/constants/validators";
 import DateTimePicker from "@/ui/DateTimePicker";
 import FormHeader from "@/components/Headers/Form";
-import useFormMutation from "@/hooks/useFormMutation";
-import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
 const UpdateEventSheet: React.FC<BottomSheetProps> = ({
   innerRef,
@@ -36,14 +37,15 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
       children={(data) => {
         const eventId = data?.data.eventId as string;
 
-        const store = useEvent(eventId);
-        const updateMutation = useUpdateEvent();
+        const eventStore = useEventStore();
+        const eventQuery = useGetEvent(eventId);
+        const updateEventMutation = useUpdateEvent();
 
         const currentDate = new Date();
-        const startDate = new Date(store.event?.startDate || "")
+        const startDate = new Date(eventQuery.event?.startDate || "")
           .getTime()
           .toString();
-        const endDate = new Date(store.event?.endDate || "")
+        const endDate = new Date(eventQuery.event?.endDate || "")
           .getTime()
           .toString();
 
@@ -57,20 +59,20 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
         };
 
         const form = useFormMutation({
-          mutation: updateMutation,
+          mutation: updateEventMutation,
           validators: formValidators,
           onSuccess: async ({ data }) => {
-            store.updateEvent(data.event);
-            store.refetch();
+            eventStore.updateEvent(data.event);
+            eventQuery.refetch();
             handleClose();
           },
           initialValues: {
             id: eventId,
-            title: store.event?.title,
-            location: store.event?.location,
+            title: eventQuery.event?.title,
+            location: eventQuery.event?.location,
             startDate: startDate,
             endDate: endDate,
-            description: store.event?.description,
+            description: eventQuery.event?.description,
           },
         });
 
@@ -110,7 +112,7 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
         };
 
         // TODO: Add proper loading state
-        if (!store.event) {
+        if (!eventQuery.event) {
           return <Text>Loading...</Text>;
         }
 

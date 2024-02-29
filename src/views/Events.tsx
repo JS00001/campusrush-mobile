@@ -13,10 +13,14 @@
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 
+import {
+  useDeleteEvent,
+  useDeleteEvents,
+  useGetEvents,
+} from "@/hooks/api/events";
 import useSearch from "@/hooks/useSearch";
 import { useEventStore, useModalStore } from "@/store";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import { useDeleteEvent, useDeleteEvents } from "@/hooks/api/events";
 
 import Event from "@/ui/Event";
 import tw from "@/lib/tailwind";
@@ -30,13 +34,15 @@ import { DefaultEventLoader } from "@/ui/Event/Loaders";
 
 const EventsView = () => {
   const { openModal } = useModalStore();
-  const singleDeletionMutation = useDeleteEvent();
-  const massDeletionMutation = useDeleteEvents();
   const { openBottomSheet } = useBottomSheets();
-  const { events, isLoading, refetch, ...store } = useEventStore();
+
+  const eventStore = useEventStore();
+  const eventsQuery = useGetEvents();
+  const deleteEventMutation = useDeleteEvent();
+  const deleteAllEventsMutation = useDeleteEvents();
 
   const search = useSearch({
-    data: events,
+    data: eventsQuery.events,
     filters: [
       {
         id: "PAST",
@@ -94,24 +100,24 @@ const EventsView = () => {
           primaryActionLabel: "Yes, Delete",
           secondaryActionLabel: "No, Cancel",
           onPrimaryAction: async () => {
-            await massDeletionMutation.mutateAsync();
-            await refetch();
+            await deleteAllEventsMutation.mutateAsync();
+            await eventsQuery.refetch();
             // Empty the stores cache
-            store.clear();
+            eventStore.clear();
           },
         });
       },
     },
   ];
 
-  const placeholder = `Search ${events.length || 0} Events`;
+  const placeholder = `Search ${eventsQuery.events.length || 0} Events`;
 
   const onDeleteEvent = async (event: Event) => {
-    const res = await singleDeletionMutation.mutateAsync({ id: event._id });
+    const res = await deleteEventMutation.mutateAsync({ id: event._id });
 
     if ("error" in res) return;
 
-    await refetch();
+    await eventsQuery.refetch();
 
     Toast.show({
       type: "success",
@@ -125,11 +131,11 @@ const EventsView = () => {
   };
 
   const onRefresh = async () => {
-    await refetch();
+    await eventsQuery.refetch();
   };
 
   const onEndReached = async () => {
-    await store.fetchNextPage();
+    await eventsQuery.fetchNextPage();
   };
 
   return (
@@ -159,11 +165,11 @@ const EventsView = () => {
       <InfiniteList
         elementsDeletable
         data={search.data}
-        loading={isLoading}
         onRefresh={onRefresh}
         onEndReached={onEndReached}
         onDeleteElement={onDeleteEvent}
         loadingComponent={<DefaultEventLoader />}
+        loading={eventsQuery.isLoading && !eventsQuery.data}
         emptyListTitle="No Events Found"
         emptyListSubtitle="Try changing your filters or creating a new event"
         renderItem={({ item: event }) => <Event event={event} />}

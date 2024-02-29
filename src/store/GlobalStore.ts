@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { useEventZustandStore } from './EventStore';
+import { useEventStore } from './EventStore';
 import { usePnmZustandStore } from './PnmStore';
 import { useStatisticsZustandStore } from './StatisticsStore';
 
@@ -30,7 +30,7 @@ export const useGlobalStore = () => {
   const contactStore = useContactZustandStore();
   const conversationStore = useConversationZustandStore();
   const messageStore = useMessageStore();
-  const eventStore = useEventZustandStore();
+  const eventStore = useEventStore();
 
   /**
    * Adds a PNM to the system. This needs to update

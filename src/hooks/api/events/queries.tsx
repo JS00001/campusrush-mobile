@@ -10,15 +10,20 @@
  * Do not distribute
  */
 
+import { useEffect } from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
-import { getEvent, getEvents } from "@/api";
+import { useEventStore } from "@/store";
 import { useAuth } from "@/providers/Auth";
+import { getEvent, getEvents } from "@/api";
 
 export const useGetEvents = () => {
   const { accessToken } = useAuth();
 
-  return useInfiniteQuery(["events", accessToken], {
+  const events = useEventStore((s) => s.events);
+  const setEvents = useEventStore((s) => s.setEvents);
+
+  const query = useInfiniteQuery(["events", accessToken], {
     queryFn: ({ pageParam = 0 }) => {
       return getEvents({ offset: pageParam });
     },
@@ -32,10 +37,43 @@ export const useGetEvents = () => {
       return lastPage.data.nextOffset;
     },
   });
+
+  useEffect(() => {
+    if (!query.data) return;
+
+    const combinedEvents = query.data.pages.flatMap((page) => {
+      if ("error" in page) return [];
+
+      return page.data.events;
+    });
+
+    setEvents(combinedEvents);
+  }, [query.data]);
+
+  return {
+    ...query,
+    events,
+  };
 };
 
 export const useGetEvent = (id: string) => {
-  return useQuery(["event", id], () => {
+  const { accessToken } = useAuth();
+
+  const event = useEventStore((s) => s.getEvent(id));
+  const updateEvent = useEventStore((s) => s.updateEvent);
+
+  const query = useQuery(["event", id, accessToken], () => {
     return getEvent({ id });
   });
+
+  useEffect(() => {
+    if (!query.data || "error" in query.data) return;
+
+    updateEvent(query.data.data.event);
+  }, [query.data]);
+
+  return {
+    ...query,
+    event,
+  };
 };

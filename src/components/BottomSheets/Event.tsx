@@ -15,9 +15,9 @@ import { useEffect, useState } from "react";
 
 import { BottomSheetProps } from "./@types";
 
-import { useEvent, useEventStore } from "@/store";
 import useCopy from "@/hooks/useCopy";
-import { useDeleteEvent } from "@/hooks/api/events";
+import { useEventStore } from "@/store";
+import { useDeleteEvent, useGetEvent } from "@/hooks/api/events";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -44,7 +44,7 @@ const EventSheet: React.FC<BottomSheetProps> = ({
       children={(data) => {
         const eventId = data?.data.eventId;
 
-        const eventStore = useEvent(eventId);
+        const eventQuery = useGetEvent(eventId);
         const eventsStore = useEventStore();
         const deleteMutation = useDeleteEvent();
 
@@ -55,14 +55,14 @@ const EventSheet: React.FC<BottomSheetProps> = ({
          * the store value becomes undefined, and we need to keep the pnm data so
          * the app doesnt crash before the bottom sheet is closed.
          */
-        const [event, setEvent] = useState(eventStore.event);
+        const [event, setEvent] = useState(eventQuery.event);
         const formattedEvent = formatEvent(event as Event);
 
         useEffect(() => {
-          if (eventStore.event) {
-            setEvent(eventStore.event);
+          if (eventQuery.event) {
+            setEvent(eventQuery.event);
           }
-        }, []);
+        }, [eventQuery.event]);
 
         const onDelete = async () => {
           if (!event) return;
@@ -71,7 +71,6 @@ const EventSheet: React.FC<BottomSheetProps> = ({
 
           if ("error" in res) return;
 
-          eventStore.deleteEvent(eventId);
           eventsStore.deleteEvent(eventId);
 
           handleClose();

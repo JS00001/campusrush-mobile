@@ -11,12 +11,10 @@
  */
 
 import { create } from 'zustand';
-import { useEffect } from 'react';
 import { PersistStorage, persist } from 'zustand/middleware';
 
-import customAsyncStorage from '@/lib/asyncStorage';
-import { useGetEvent, useGetEvents } from '@/hooks/api/events';
 import date from '@/lib/util/date';
+import customAsyncStorage from '@/lib/asyncStorage';
 
 interface IEventStore {
   events: Event[];
@@ -29,7 +27,7 @@ interface IEventStore {
   deleteEvent: (id: string) => void;
 }
 
-export const useEventZustandStore = create<IEventStore>()(
+export const useEventStore = create<IEventStore>()(
   persist(
     (set, get) => {
       /**
@@ -166,46 +164,5 @@ const insertEvent = (state: IEventStore, event: Event) => {
   // If there are no events that have passed, just add the event to the end of the list
   return {
     events: [...state.events, event],
-  };
-};
-
-export const useEventStore = () => {
-  const query = useGetEvents();
-  const store = useEventZustandStore();
-
-  useEffect(() => {
-    if (!query.data) return;
-
-    const combinedEvents = query.data.pages.flatMap((page) => {
-      if ('error' in page) return [];
-
-      return page.data.events;
-    });
-
-    store.setEvents(combinedEvents);
-  }, [query.data]);
-
-  return {
-    ...query,
-    ...store,
-  };
-};
-
-export const useEvent = (id: string) => {
-  const query = useGetEvent(id);
-  const store = useEventZustandStore();
-
-  const event = store.getEvent(id);
-
-  useEffect(() => {
-    if (!query.data || 'error' in query.data) return;
-
-    store.updateEvent(query.data.data.event);
-  }, [query.data]);
-
-  return {
-    event,
-    ...query,
-    ...store,
   };
 };
