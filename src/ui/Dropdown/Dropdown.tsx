@@ -100,26 +100,26 @@ const Dropdown: React.FC<DropdownProps> = ({
   );
 
   // The modal backdrop's classes
-  const modalBackdropClasses = tw`w-full h-full items-center px-6`;
+  const modalBackdropClasses = tw`w-full h-full items-center px-6 `;
 
   // The modal content's (the list of options) classes
   const modalContentClasses = tw.style(
-    `bg-slate-100 rounded-lg w-full max-h-52 py-1 gap-y-1 `,
+    `bg-slate-100 rounded-lg w-full max-h-52 py-1 gap-y-1 border border-slate-200`,
     {
       // Offset the modal by the dropdowns position
       top: yPos + 70,
-      shadowColor: "#000",
-      shadowOpacity: 0.08,
-      shadowRadius: 4,
-      shadowOffset: {
-        height: 2,
-        width: 0,
-      },
+      // shadowColor: "#000",
+      // shadowOpacity: 0.08,
+      // shadowRadius: 4,
+      // shadowOffset: {
+      //   height: 2,
+      //   width: 0,
+      // },
     },
   );
 
   // The search box's classes
-  const searchBoxClasses = tw`px-4.5 py-3 border-b border-slate-200 text-lg leading-5`;
+  const searchBoxClasses = tw`px-4.5 py-3 border-b border-slate-200 text-sm leading-4 `;
 
   return (
     <View style={containerClasses}>
