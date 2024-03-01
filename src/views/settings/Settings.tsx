@@ -23,14 +23,16 @@ import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import { useDeleteChapter } from "@/hooks/api/chapter";
 import { useBottomSheets } from "@/providers/BottomSheet";
+import { useLogout } from "@/hooks/api/auth";
 
 const SettingsView = () => {
   const navigation = useNavigation();
   const mutation = useDeleteChapter();
 
+  const logoutMutation = useLogout();
   const { openModal } = useModalStore();
   const { openBottomSheet } = useBottomSheets();
-  const { chapter, signOut, isPro } = useAuth();
+  const { chapter, isPro, clearUserData } = useAuth();
 
   const onTermsOfServicePress = () => {
     openBottomSheet("TERMS_OF_SERVICE");
@@ -54,6 +56,14 @@ const SettingsView = () => {
 
   const onUpdateNotificationsPress = () => {
     (navigation.navigate as any)("UpdateNotifications");
+  };
+
+  const onLogout = async () => {
+    const res = await logoutMutation.mutateAsync();
+
+    if ("error" in res.data) return;
+
+    clearUserData();
   };
 
   const onDeleteAccount = () => {
@@ -137,7 +147,12 @@ const SettingsView = () => {
         />
       </View>
 
-      <Button size="sm" style={tw`w-full`} onPress={signOut}>
+      <Button
+        size="sm"
+        style={tw`w-full`}
+        loading={logoutMutation.isLoading}
+        onPress={onLogout}
+      >
         Sign Out of {chapter.name}
       </Button>
 

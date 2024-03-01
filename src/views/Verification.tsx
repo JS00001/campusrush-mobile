@@ -14,6 +14,11 @@ import { z } from "zod";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 
+import {
+  useLogout,
+  useResendVerification,
+  useVerifyEmail,
+} from "@/hooks/api/auth";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
@@ -22,11 +27,11 @@ import TextInput from "@/ui/TextInput";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import useFormMutation from "@/hooks/useFormMutation";
-import { useResendVerification, useVerifyEmail } from "@/hooks/api/auth";
 
 const VerificationView = () => {
-  const { signOut, updateChapter } = useAuth();
+  const logoutMutation = useLogout();
   const verifyEmailMutation = useVerifyEmail();
+  const { clearUserData, updateChapter } = useAuth();
   const resendVerificationMutation = useResendVerification();
 
   const formValidators = {
@@ -51,10 +56,18 @@ const VerificationView = () => {
     await resendVerificationMutation.mutateAsync();
 
     Toast.show({
-      type: "info",
+      type: "success",
       text1: Content.verificationSuccess.resendVerificationEmail.title,
       text2: Content.verificationSuccess.resendVerificationEmail.message,
     });
+  };
+
+  const onLogout = async () => {
+    const res = await logoutMutation.mutateAsync();
+
+    if ("error" in res.data) return;
+
+    clearUserData();
   };
 
   return (
@@ -77,7 +90,11 @@ const VerificationView = () => {
       <View style={tw`gap-y-2`}>
         <View style={tw`flex-row justify-center`}>
           <Text style={tw`text-center`}>Incorrect email address?&nbsp;</Text>
-          <Hyperlink color="dark" onPress={signOut}>
+          <Hyperlink
+            color="dark"
+            onPress={onLogout}
+            disabled={logoutMutation.isLoading}
+          >
             Sign out
           </Hyperlink>
         </View>

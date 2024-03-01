@@ -18,8 +18,9 @@ import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import Hyperlink from "@/ui/Hyperlink";
 import { useAuth } from "@/providers/Auth";
-import usePurchase from "@/hooks/deprecated/usePurchase";
+import { useLogout } from "@/hooks/api/auth";
 import ProductCard from "@/components/ProductCard";
+import usePurchase from "@/hooks/deprecated/usePurchase";
 
 const BillingScreen = () => {
   const {
@@ -33,7 +34,8 @@ const BillingScreen = () => {
     restorePurchases,
   } = usePurchase();
 
-  const { chapter, signOut } = useAuth();
+  const logoutMutation = useLogout();
+  const { chapter, clearUserData } = useAuth();
 
   const onButtonPress = () => {
     completePurchase();
@@ -41,6 +43,14 @@ const BillingScreen = () => {
 
   const onRestorePress = () => {
     restorePurchases();
+  };
+
+  const onLogout = async () => {
+    const res = await logoutMutation.mutateAsync();
+
+    if ("error" in res.data) return;
+
+    clearUserData();
   };
 
   if (areOfferingsLoading) return null;
@@ -68,7 +78,11 @@ const BillingScreen = () => {
         </Text>
 
         <View style={tw`justify-center items-center`}>
-          <Hyperlink color="dark" onPress={signOut}>
+          <Hyperlink
+            color="dark"
+            onPress={onLogout}
+            disabled={logoutMutation.isLoading}
+          >
             Sign out
           </Hyperlink>
           <Text style={tw`mx-1`}>or</Text>
