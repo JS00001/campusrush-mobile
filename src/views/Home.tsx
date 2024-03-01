@@ -110,8 +110,7 @@ const HomeView = () => {
           pnms={statisticsQuery.recentPnms}
           onPress={onRecentPnmPress}
           loading={
-            statisticsQuery.isLoading &&
-            statisticsQuery.recentPnms === undefined
+            statisticsQuery.isLoading && !statisticsQuery.recentPnms.length
           }
         />
       </View>

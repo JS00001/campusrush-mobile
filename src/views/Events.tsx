@@ -169,7 +169,7 @@ const EventsView = () => {
         onEndReached={onEndReached}
         onDeleteElement={onDeleteEvent}
         loadingComponent={<DefaultEventLoader />}
-        loading={eventsQuery.isLoading && !eventsQuery.data}
+        loading={eventsQuery.isLoading && !eventsQuery.events.length}
         emptyListTitle="No Events Found"
         emptyListSubtitle="Try changing your filters or creating a new event"
         renderItem={({ item: event }) => <Event event={event} />}

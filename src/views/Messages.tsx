@@ -105,7 +105,8 @@ const MessagesView = () => {
           <Conversation conversation={conversation} />
         )}
         loading={
-          conversationsQuery.isLoading && !conversationsQuery.conversations
+          conversationsQuery.isLoading &&
+          !conversationsQuery.conversations?.length
         }
       />
     </>

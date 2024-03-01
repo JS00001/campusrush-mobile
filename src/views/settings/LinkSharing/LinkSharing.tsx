@@ -15,6 +15,7 @@ import { View } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Button from "@/ui/Button";
 import CopyItem from "@/ui/CopyItem";
 import AppConstants from "@/constants";
 import { useAuth } from "@/providers/Auth";
@@ -41,25 +42,15 @@ const LinkSharingView = () => {
     },
   });
 
-  const linkSharingCode = `${AppConstants.sharingUrl}/${chapter.linkSharingCode}`;
-
-  const linkSharingEnabledSubtitle = form.state.linkSharingEnabled.value
+  const linkSharingEnabledSubtitle = chapter.linkSharingEnabled
     ? "Currently Enabled"
     : "Click to enable link sharing";
 
-  const linkSharingDisabledSubtitle = !form.state.linkSharingEnabled.value
+  const linkSharingDisabledSubtitle = !chapter.linkSharingEnabled
     ? "Currently Disabled"
     : "Click to disable link sharing";
 
-  const onPress = async (value: boolean) => {
-    if (value === form.state.linkSharingEnabled.value) return;
-
-    form.setValue("linkSharingEnabled", value);
-
-    form.handleSubmission({
-      linkSharingEnabled: value,
-    });
-  };
+  const linkSharingCode = `${AppConstants.sharingUrl}/${chapter.linkSharingCode}`;
 
   return (
     <>
@@ -77,22 +68,24 @@ const LinkSharingView = () => {
 
       <View style={tw`gap-2 w-full`}>
         <SelectionCard
-          loading={mutation.isLoading}
-          selected={form.state.linkSharingEnabled.value}
           title="Enable Link Sharing"
           subtitle={linkSharingEnabledSubtitle}
           description="Enable link sharing to allow PNMs to manually add themselves to your recruitment list via the link below."
-          onPress={() => onPress(true)}
+          selected={form.state.linkSharingEnabled.value}
+          onPress={form.setValue.bind(null, "linkSharingEnabled", true)}
         />
         <SelectionCard
-          loading={mutation.isLoading}
-          selected={!form.state.linkSharingEnabled.value}
           title="Disable Link Sharing"
           subtitle={linkSharingDisabledSubtitle}
           description="Disable link sharing to prevent PNMs from manually adding themselves to your recruitment list."
-          onPress={() => onPress(false)}
+          selected={!form.state.linkSharingEnabled.value}
+          onPress={form.setValue.bind(null, "linkSharingEnabled", false)}
         />
       </View>
+
+      <Button onPress={form.handleSubmission} loading={form.loading}>
+        Save Changes
+      </Button>
     </>
   );
 };
