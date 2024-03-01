@@ -40,9 +40,10 @@ import NotificationsProvider from "@/providers/Notifications";
 // when app/component is mounted
 ExpoSplashScreen.preventAutoHideAsync();
 
-// If we are in development mode, start network logging
-// Can be shown by shaking the device
-if (__DEV__) startNetworkLogging();
+// Start network logging no matter what
+// Visible by shaking the screen in dev mode, or the admin panel
+// in production
+startNetworkLogging();
 
 const App = () => {
   return (
