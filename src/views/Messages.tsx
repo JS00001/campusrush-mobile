@@ -37,6 +37,7 @@ const MessagesView = () => {
         filterFn: (data) => data.filter((conversation) => !conversation.read),
       },
     ],
+    fields: ["pnm"],
   });
 
   /**

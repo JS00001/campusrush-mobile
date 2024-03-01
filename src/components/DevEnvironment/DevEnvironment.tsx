@@ -34,7 +34,7 @@ import { useWebsocket } from "@/providers/Websocket";
 const DevEnvironment: React.FC = ({}) => {
   const { updatePreferences } = usePreferences();
   // Use data from auth provider
-  const { signOut, chapter, customerData } = useAuth();
+  const { chapter, customerData } = useAuth();
   // The active index of the segmented control
   const [activeIndex, setActiveIndex] = useState<number>(0);
   // Ref to the bottom sheet modal so we can programmatically open it
@@ -147,21 +147,6 @@ const DevEnvironment: React.FC = ({}) => {
                     <Text style={tw`text-green-700`}>Subscription active</Text>
                   )}
                 </View>
-              </View>
-
-              <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`} variant="body">
-                  Auth Overrides
-                </Text>
-                <Button
-                  iconLeft="ri-logout-circle-line"
-                  onPress={() => {
-                    signOut();
-                    handleCloseModalPress();
-                  }}
-                >
-                  Force Logout
-                </Button>
               </View>
 
               <View style={tw`w-full gap-y-2`}>

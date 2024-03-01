@@ -28,7 +28,6 @@ interface AuthContextProps {
   chapter: Chapter;
   customerData: CustomerInfo;
 
-  signOut: () => void;
   clearUserData: () => void;
   updateChapter: (chapter: Chapter) => void;
   signIn: (response: LoginResponse) => Promise<void>;
@@ -81,20 +80,6 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
           Authorization: `Bearer ${accessToken}`,
         },
       });
-    },
-  });
-
-  const logoutMutation = useMutation({
-    mutationFn: () => {
-      return axios.post(
-        `${AppConstants.apiUrl}/api/v1/consumer/auth/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
     },
   });
 
@@ -243,15 +228,6 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     setChapter(chapter);
   };
 
-  // Sign out the chapter
-  const signOut = async () => {
-    if (!accessToken) return;
-
-    await logoutMutation.mutateAsync();
-
-    clearUserData();
-  };
-
   // Clear all user data
   const clearUserData = async () => {
     // Clear all of the user data from the store
@@ -283,7 +259,6 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
         chapter,
         customerData,
 
-        signOut,
         signIn,
         signUp,
 
