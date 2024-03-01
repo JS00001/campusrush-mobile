@@ -79,7 +79,7 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
   useEffect(() => {
     if (!conversationQuery.data) return;
 
-    const firstConversation = (conversationQuery.data.pages[0] as any).data
+    const fetchedConversation = (conversationQuery.data.pages[0] as any).data
       .conversation;
 
     const fetchedMessages = conversationQuery.data.pages.flatMap((page) => {
@@ -97,8 +97,8 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
     const isQueryBehind = fetchedMessagesLength < storedMessagesLength;
 
     if (conversationQuery.data.pages.length === 1) {
-      if (firstConversation && !isQueryBehind) {
-        conversationStore.addConversations(firstConversation);
+      if (fetchedConversation && !isQueryBehind) {
+        conversationStore.updateConversation(fetchedConversation);
       }
     }
 

@@ -22,9 +22,11 @@ interface IUseSearch<T = any> {
     /** The filter function */
     filterFn: (data: T[]) => T[];
   }[];
+  /** The fields to search in (searches entire object values if not passed) */
+  fields?: (keyof T)[];
 }
 
-const useSearch = ({ data, filters = [] }: IUseSearch) => {
+const useSearch = ({ data, filters = [], fields = [] }: IUseSearch) => {
   type FilterID = (typeof filters)[number]['id'] | 'NO_FILTER';
 
   const [query, setQuery] = useState('');
@@ -37,6 +39,16 @@ const useSearch = ({ data, filters = [] }: IUseSearch) => {
    */
   useEffect(() => {
     const matchedData = data.filter((item) => {
+      if (fields.length) {
+        return fields.some((field) => {
+          const value = item[field];
+
+          return JSON.stringify(value)
+            .toLowerCase()
+            .includes(query.toLowerCase());
+        });
+      }
+
       const values = Object.values(item).join(' ').toLowerCase();
 
       return values.includes(query.toLowerCase());
