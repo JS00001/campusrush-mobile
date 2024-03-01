@@ -15,7 +15,7 @@ import TextInput from "@/ui/TextInput";
 import { useAuth } from "@/providers/Auth";
 import { useLogin } from "@/hooks/api/auth";
 import validators from "@/constants/validators";
-import useApiCall from "@/hooks/useFormMutation";
+import useFormMutation from "@/hooks/useFormMutation";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const LoginView = () => {
@@ -27,7 +27,7 @@ const LoginView = () => {
     password: validators.password,
   };
 
-  const form = useApiCall({
+  const form = useFormMutation({
     mutation,
     validators: formValidators,
     onSuccess: (data) => signIn(data),
