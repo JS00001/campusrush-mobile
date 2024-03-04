@@ -12,10 +12,10 @@
 import { Pressable, TextInput as RNTextInput } from "react-native";
 import { useState, useEffect, RefObject } from "react";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
 import AppConstants from "@/constants";
-import { TextInputWithNoFontScaling } from "@/ui/TextInput/TextInput";
+import { TextInputWithNoFontScaling } from "@/ui_v1/TextInput/TextInput";
 
 interface TextInputProps {
   value: string;

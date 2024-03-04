@@ -12,13 +12,13 @@
 
 import { View } from "react-native";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
+import Button from "@/ui_v1/Button";
 import useForm from "@/hooks/useForm";
-import TextInput from "@/ui/TextInput";
+import TextInput from "@/ui_v1/TextInput";
 import validators from "@/constants/validators";
-import KeyboardListener from "@/ui/KeyboardListener";
+import KeyboardListener from "@/ui_v1/KeyboardListener";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 const Step1: React.FC<UseSheetFlowProps> = ({

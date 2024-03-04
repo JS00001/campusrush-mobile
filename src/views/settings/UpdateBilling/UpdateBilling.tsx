@@ -12,9 +12,9 @@
 
 import { Linking } from "react-native";
 
-import Button from "@/ui/Button";
+import Button from "@/ui_v1/Button";
 import date from "@/lib/util/date";
-import Hyperlink from "@/ui/Hyperlink";
+import Hyperlink from "@/ui_v1/Hyperlink";
 import { useIAPs } from "@/providers/IAP";
 import { useAuth } from "@/providers/Auth";
 import { useEntitlementStore } from "@/store";

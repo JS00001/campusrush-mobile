@@ -12,9 +12,9 @@
 
 import { View } from "react-native";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Hyperlink from "@/ui/Hyperlink";
+import Hyperlink from "@/ui_v1/Hyperlink";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface TermsAndConditionsProps {

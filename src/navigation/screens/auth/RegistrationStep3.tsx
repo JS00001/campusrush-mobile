@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import Layout from "@/ui/Layout";
+import Layout from "@/ui_v1/Layout";
 import RegistrationStep3View from "@/views/register/Step3";
 
 const RegistrationStep3Screen: React.FC = () => {

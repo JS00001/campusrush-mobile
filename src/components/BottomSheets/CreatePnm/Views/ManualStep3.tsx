@@ -15,13 +15,13 @@ import Toast from "react-native-toast-message";
 
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
-import ListItem from "@/ui/ListItem";
+import Button from "@/ui_v1/Button";
+import ListItem from "@/ui_v1/ListItem";
 import { useGlobalStore } from "@/store";
 import Content from "@/constants/content";
-import ButtonGroup from "@/ui/ButtonGroup";
+import ButtonGroup from "@/ui_v1/ButtonGroup";
 import { useCreatePnm } from "@/hooks/api/pnms";
 
 const ManualStep3: React.FC<UseSheetFlowProps> = ({

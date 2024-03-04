@@ -12,10 +12,10 @@
 
 import { cloneElement } from "react";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import ListItem from "@/ui/ListItem";
-import InfiniteCarousel from "@/ui/InfiniteCarousel";
+import ListItem from "@/ui_v1/ListItem";
+import InfiniteCarousel from "@/ui_v1/InfiniteCarousel";
 import { View } from "react-native";
 
 interface InfiniteHorizontaListProps<T> {

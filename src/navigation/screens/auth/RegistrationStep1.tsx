@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import Layout from "@/ui/Layout";
+import Layout from "@/ui_v1/Layout";
 import RegistrationStep1View from "@/views/register/Step1";
 
 const RegistrationStep1Screen = () => {

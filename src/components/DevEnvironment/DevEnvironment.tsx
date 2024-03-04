@@ -19,16 +19,16 @@ import NetworkLogger from "react-native-network-logger";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
-import Button from "@/ui/Button";
+import Layout from "@/ui_v1/Layout";
+import Button from "@/ui_v1/Button";
 import AppConstants from "@/constants";
 import { formatJSON } from "@/lib/util/string";
 import { useAuth } from "@/providers/Auth";
-import SegmentedControl from "@/ui/SegmentedControl";
+import SegmentedControl from "@/ui_v1/SegmentedControl";
 import { usePreferences } from "@/providers/Preferences";
-import BottomSheetBackdrop from "@/ui/BottomSheet/Backdrop";
+import BottomSheetBackdrop from "@/ui_v1/BottomSheet/Backdrop";
 import { useWebsocket } from "@/providers/Websocket";
 
 const DevEnvironment: React.FC = ({}) => {

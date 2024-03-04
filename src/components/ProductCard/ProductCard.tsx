@@ -13,12 +13,12 @@
 import { PurchasesStoreProduct } from "react-native-purchases";
 
 import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
+import Button from "@/ui_v1/Button";
 import { useAuth } from "@/providers/Auth";
 import { useEntitlementStore } from "@/store";
 import ProductPerk from "@/components/ProductPerk";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import SelectionCard from "@/ui/SelectionCard/SelectionCard";
+import SelectionCard from "@/ui_v1/SelectionCard/SelectionCard";
 
 interface ProductCardProps {
   product: PurchasesStoreProduct;

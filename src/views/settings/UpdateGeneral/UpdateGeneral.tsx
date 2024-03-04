@@ -11,8 +11,8 @@
  */
 import Toast from "react-native-toast-message";
 
-import Button from "@/ui/Button";
-import TextInput from "@/ui/TextInput";
+import Button from "@/ui_v1/Button";
+import TextInput from "@/ui_v1/TextInput";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import validators from "@/constants/validators";

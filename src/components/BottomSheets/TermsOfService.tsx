@@ -15,14 +15,14 @@ import { View } from "react-native";
 
 import { BottomSheetProps } from "./@types";
 
-import Text from "@/ui/Text";
-import Badge from "@/ui/Badge";
+import Text from "@/ui_v1/Text";
+import Badge from "@/ui_v1/Badge";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
-import Skeleton from "@/ui/Skeleton";
-import { BottomSheet } from "@/ui/BottomSheet";
+import Skeleton from "@/ui_v1/Skeleton";
+import { BottomSheet } from "@/ui_v1/BottomSheet";
 import { useGetTermsOfService } from "@/hooks/api/content";
-import BottomSheetContainer from "@/ui/BottomSheet/Container";
+import BottomSheetContainer from "@/ui_v1/BottomSheet/Container";
 
 const TermsOfServiceSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   const query = useGetTermsOfService();

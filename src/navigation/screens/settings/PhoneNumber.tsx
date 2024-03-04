@@ -23,10 +23,10 @@
 
 import { View } from "react-native";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
-import CopyItem from "@/ui/CopyItem";
+import Layout from "@/ui_v1/Layout";
+import CopyItem from "@/ui_v1/CopyItem";
 import { useAuth } from "@/providers/Auth";
 import { formatPhoneNumber } from "@/lib/util/string";
 

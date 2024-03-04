@@ -15,17 +15,17 @@ import { useEffect, useState } from "react";
 
 import { BottomSheetProps } from "./@types";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
+import Button from "@/ui_v1/Button";
 import date from "@/lib/util/date";
-import Skeleton from "@/ui/Skeleton";
-import IconButton from "@/ui/IconButton";
-import DetailView from "@/ui/DetailView";
-import { BottomSheet } from "@/ui/BottomSheet";
+import Skeleton from "@/ui_v1/Skeleton";
+import IconButton from "@/ui_v1/IconButton";
+import DetailView from "@/ui_v1/DetailView";
+import { BottomSheet } from "@/ui_v1/BottomSheet";
 import { useGlobalStore, usePnmStore } from "@/store";
 import { formatPhoneNumber } from "@/lib/util/string";
-import BottomSheetContainer from "@/ui/BottomSheet/Container";
+import BottomSheetContainer from "@/ui_v1/BottomSheet/Container";
 import { useDeletePnm, useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
 const PnmSheet: React.FC<BottomSheetProps> = ({

@@ -14,9 +14,9 @@ import { View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
-import Button from "@/ui/Button";
-import Typewriter from "@/ui/Typewriter";
+import Layout from "@/ui_v1/Layout";
+import Button from "@/ui_v1/Button";
+import Typewriter from "@/ui_v1/Typewriter";
 import Logo64Svg from "@/assets/Logo64Svg";
 import LandingSvg from "@/assets/LandingSvg";
 import TermsAndConditions from "@/components/TermsAndConditions";

@@ -14,11 +14,11 @@ import { useMemo } from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import ListItem from "@/ui/ListItem";
+import ListItem from "@/ui_v1/ListItem";
 import { formatPhoneNumber } from "@/lib/util/string";
-import { ListItemLoader } from "@/ui/ListItem/Loading";
+import { ListItemLoader } from "@/ui_v1/ListItem/Loading";
 
 interface RecentPnmsProps {
   pnms: PNM[];

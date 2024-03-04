@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import Layout from "@/ui/Layout";
+import Layout from "@/ui_v1/Layout";
 import UpdateNotificationsView from "@/views/settings/UpdateNotifications";
 
 const UpdateNotificationsScreen = () => {

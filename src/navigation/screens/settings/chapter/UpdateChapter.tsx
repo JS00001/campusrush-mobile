@@ -12,9 +12,9 @@
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import Layout from "@/ui/Layout";
-import ActionCard from "@/ui/ActionCard";
-import TextInput from "@/ui/TextInput";
+import Layout from "@/ui_v1/Layout";
+import ActionCard from "@/ui_v1/ActionCard";
+import TextInput from "@/ui_v1/TextInput";
 import { useAuth } from "@/providers/Auth";
 
 interface UpdateChapterProps {

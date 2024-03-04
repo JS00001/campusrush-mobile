@@ -16,9 +16,9 @@ import Step1 from "./Views/Step1";
 import Step2 from "./Views/Step2";
 import Step3 from "./Views/Step3";
 
-import { BottomSheet } from "@/ui/BottomSheet";
+import { BottomSheet } from "@/ui_v1/BottomSheet";
 import useSheetFlow from "@/hooks/useSheetFlow";
-import BottomSheetContainer from "@/ui/BottomSheet/Container";
+import BottomSheetContainer from "@/ui_v1/BottomSheet/Container";
 
 const CreateEventSheet: React.FC<BottomSheetProps> = ({
   innerRef,

@@ -16,12 +16,12 @@ import RemixIcon from "react-native-remix-icon";
 
 import type { BottomSheetProps } from "./@types";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Information from "@/ui/Information";
+import Information from "@/ui_v1/Information";
 import { useEntitlementStore } from "@/store";
-import { BottomSheet } from "@/ui/BottomSheet";
-import BottomSheetContainer from "@/ui/BottomSheet/Container";
+import { BottomSheet } from "@/ui_v1/BottomSheet";
+import BottomSheetContainer from "@/ui_v1/BottomSheet/Container";
 
 const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   const entitlements = useEntitlementStore((state) => state.entitlements);

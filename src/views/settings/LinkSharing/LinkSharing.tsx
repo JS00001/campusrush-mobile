@@ -13,13 +13,13 @@
 import { z } from "zod";
 import { View } from "react-native";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
-import CopyItem from "@/ui/CopyItem";
+import Button from "@/ui_v1/Button";
+import CopyItem from "@/ui_v1/CopyItem";
 import AppConstants from "@/constants";
 import { useAuth } from "@/providers/Auth";
-import SelectionCard from "@/ui/SelectionCard";
+import SelectionCard from "@/ui_v1/SelectionCard";
 import useFormMutation from "@/hooks/useFormMutation";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 

@@ -14,7 +14,7 @@ import { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
+import Layout from "@/ui_v1/Layout";
 import MessageBox from "@/components/MessageBox";
 import MessageList from "@/components/MessageList";
 

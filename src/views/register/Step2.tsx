@@ -12,8 +12,8 @@
 
 import { useNavigation } from "@react-navigation/native";
 
-import Button from "@/ui/Button";
-import TextInput from "@/ui/TextInput";
+import Button from "@/ui_v1/Button";
+import TextInput from "@/ui_v1/TextInput";
 import { useRegistrationStore } from "@/store";
 import validators from "@/constants/validators";
 import { useCheckEmail } from "@/hooks/api/auth";

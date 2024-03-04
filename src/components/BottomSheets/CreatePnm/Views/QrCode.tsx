@@ -15,9 +15,9 @@ import QRCode from "react-native-qrcode-svg";
 
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import CopyItem from "@/ui/CopyItem";
+import CopyItem from "@/ui_v1/CopyItem";
 import AppConstants from "@/constants";
 import { useAuth } from "@/providers/Auth";
 

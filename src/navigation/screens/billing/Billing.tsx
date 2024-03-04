@@ -12,11 +12,11 @@
 
 import { View } from "react-native";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
-import Button from "@/ui/Button";
-import Hyperlink from "@/ui/Hyperlink";
+import Layout from "@/ui_v1/Layout";
+import Button from "@/ui_v1/Button";
+import Hyperlink from "@/ui_v1/Hyperlink";
 import { useAuth } from "@/providers/Auth";
 import { useLogout } from "@/hooks/api/auth";
 import ProductCard from "@/components/ProductCard";

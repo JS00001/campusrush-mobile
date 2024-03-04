@@ -16,14 +16,14 @@ import useSearch from "@/hooks/useSearch";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
 import tw from "@/lib/tailwind";
-import TextInput from "@/ui/TextInput";
-import IconButton from "@/ui/IconButton";
-import Menu, { MenuAction } from "@/ui/Menu";
-import ActionButton from "@/ui/ActionButton";
-import Conversation from "@/ui/Conversation";
+import TextInput from "@/ui_v1/TextInput";
+import IconButton from "@/ui_v1/IconButton";
+import Menu, { MenuAction } from "@/ui_v1/Menu";
+import ActionButton from "@/ui_v1/ActionButton";
+import Conversation from "@/ui_v1/Conversation";
 import InfiniteList from "@/components/InfiniteList";
 import { useGetConversations } from "@/hooks/api/messaging";
-import { ConversationLoader } from "@/ui/Conversation/Loaders";
+import { ConversationLoader } from "@/ui_v1/Conversation/Loaders";
 
 const MessagesView = () => {
   const { openBottomSheet } = useBottomSheets();

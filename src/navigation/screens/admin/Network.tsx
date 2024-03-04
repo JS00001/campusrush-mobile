@@ -13,7 +13,7 @@
 import { View } from "react-native";
 import NetworkLogger from "react-native-network-logger";
 
-import Layout from "@/ui/Layout";
+import Layout from "@/ui_v1/Layout";
 import tw from "@/lib/tailwind";
 
 const Network: React.FC = () => {

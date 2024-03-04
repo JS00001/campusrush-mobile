@@ -18,13 +18,13 @@ import useFormMutation from "@/hooks/useFormMutation";
 import { useEventStore, useStatusStore } from "@/store";
 import { useGetEvent, useUpdateEvent } from "@/hooks/api/events";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
-import TextInput from "@/ui/TextInput";
-import { FormSheet } from "@/ui/BottomSheet";
+import Layout from "@/ui_v1/Layout";
+import TextInput from "@/ui_v1/TextInput";
+import { FormSheet } from "@/ui_v1/BottomSheet";
 import validators from "@/constants/validators";
-import DateTimePicker from "@/ui/DateTimePicker";
+import DateTimePicker from "@/ui_v1/DateTimePicker";
 import FormHeader from "@/components/Headers/Form";
 
 const UpdateEventSheet: React.FC<BottomSheetProps> = ({

@@ -22,15 +22,15 @@ import useSearch from "@/hooks/useSearch";
 import { useEventStore, useModalStore } from "@/store";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
-import Event from "@/ui/Event";
+import Event from "@/ui_v1/Event";
 import tw from "@/lib/tailwind";
-import TextInput from "@/ui/TextInput";
-import IconButton from "@/ui/IconButton";
+import TextInput from "@/ui_v1/TextInput";
+import IconButton from "@/ui_v1/IconButton";
 import Content from "@/constants/content";
-import ActionButton from "@/ui/ActionButton";
-import Menu, { MenuAction } from "@/ui/Menu";
+import ActionButton from "@/ui_v1/ActionButton";
+import Menu, { MenuAction } from "@/ui_v1/Menu";
 import InfiniteList from "@/components/InfiniteList";
-import { DefaultEventLoader } from "@/ui/Event/Loaders";
+import { DefaultEventLoader } from "@/ui_v1/Event/Loaders";
 
 const EventsView = () => {
   const { openModal } = useModalStore();

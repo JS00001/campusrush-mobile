@@ -13,12 +13,12 @@
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
+import Button from "@/ui_v1/Button";
 import AppConstants from "@/constants";
 import { useModalStore } from "@/store";
-import ActionCard from "@/ui/ActionCard";
+import ActionCard from "@/ui_v1/ActionCard";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import { useDeleteChapter } from "@/hooks/api/chapter";

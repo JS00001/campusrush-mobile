@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import Layout from "@/ui/Layout";
+import Layout from "@/ui_v1/Layout";
 import UpdateGeneralView from "@/views/settings/UpdateGeneral";
 
 const UpdateGeneralScreen = () => {

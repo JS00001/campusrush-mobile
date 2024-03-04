@@ -13,7 +13,7 @@
 import { View } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
 
 const toastContainerClasses = tw.style(

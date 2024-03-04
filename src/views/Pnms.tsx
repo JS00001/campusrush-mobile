@@ -13,11 +13,11 @@
 import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
-import TextInput from "@/ui/TextInput";
-import IconButton from "@/ui/IconButton";
+import TextInput from "@/ui_v1/TextInput";
+import IconButton from "@/ui_v1/IconButton";
 import useSearch from "@/hooks/useSearch";
 import Content from "@/constants/content";
-import Menu, { MenuAction } from "@/ui/Menu";
+import Menu, { MenuAction } from "@/ui_v1/Menu";
 import PnmsList from "@/components/PnmsList";
 import { useGlobalStore, useModalStore } from "@/store";
 import { useDeletePnms, useGetPnms } from "@/hooks/api/pnms";

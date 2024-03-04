@@ -14,13 +14,13 @@ import { View } from "react-native";
 
 import { BottomSheetProps } from "./@types";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
-import Skeleton from "@/ui/Skeleton";
-import DetailView from "@/ui/DetailView";
-import { BottomSheet } from "@/ui/BottomSheet";
-import BottomSheetContainer from "@/ui/BottomSheet/Container";
+import Skeleton from "@/ui_v1/Skeleton";
+import DetailView from "@/ui_v1/DetailView";
+import { BottomSheet } from "@/ui_v1/BottomSheet";
+import BottomSheetContainer from "@/ui_v1/BottomSheet/Container";
 import { useGetAdminChapter } from "@/hooks/api/admin";
 import { formatPhoneNumber } from "@/lib/util/string";
 

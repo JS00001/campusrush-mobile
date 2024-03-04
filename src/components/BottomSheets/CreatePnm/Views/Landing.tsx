@@ -14,9 +14,9 @@ import { View } from "react-native";
 
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import { useModalStore } from "@/store";
-import ActionCard from "@/ui/ActionCard";
+import ActionCard from "@/ui_v1/ActionCard";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 

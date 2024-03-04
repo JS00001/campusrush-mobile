@@ -13,11 +13,11 @@
 import { useMemo, useState } from "react";
 import { SectionList, ActivityIndicator } from "react-native";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import date from "@/lib/util/date";
 import tw from "@/lib/tailwind";
-import ListItem from "@/ui/ListItem";
-import Copyable from "@/ui/Copyable";
+import ListItem from "@/ui_v1/ListItem";
+import Copyable from "@/ui_v1/Copyable";
 import { formatPhoneNumber } from "@/lib/util/string";
 
 interface AdminChapterListProps {

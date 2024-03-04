@@ -12,8 +12,8 @@
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import Layout from "@/ui/Layout";
-import ActionCard from "@/ui/ActionCard";
+import Layout from "@/ui_v1/Layout";
+import ActionCard from "@/ui_v1/ActionCard";
 
 interface AdminProps {
   navigation: NativeStackNavigationProp<any>;

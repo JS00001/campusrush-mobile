@@ -19,18 +19,18 @@ import useCopy from "@/hooks/useCopy";
 import { useEventStore } from "@/store";
 import { useDeleteEvent, useGetEvent } from "@/hooks/api/events";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
+import Button from "@/ui_v1/Button";
 import date from "@/lib/util/date";
-import Skeleton from "@/ui/Skeleton";
+import Skeleton from "@/ui_v1/Skeleton";
 import AppConstants from "@/constants";
-import IconButton from "@/ui/IconButton";
-import DetailView from "@/ui/DetailView";
-import ButtonGroup from "@/ui/ButtonGroup";
+import IconButton from "@/ui_v1/IconButton";
+import DetailView from "@/ui_v1/DetailView";
+import ButtonGroup from "@/ui_v1/ButtonGroup";
 import { formatEvent } from "@/lib/util/format";
-import { BottomSheet } from "@/ui/BottomSheet";
-import BottomSheetContainer from "@/ui/BottomSheet/Container";
+import { BottomSheet } from "@/ui_v1/BottomSheet";
+import BottomSheetContainer from "@/ui_v1/BottomSheet/Container";
 
 const EventSheet: React.FC<BottomSheetProps> = ({
   innerRef,

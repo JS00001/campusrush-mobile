@@ -18,11 +18,11 @@ import TextInput from "./TextInput";
 import ExtensionPanel from "./ExtensionPanel";
 import TextSuggestions from "./TextSuggestions";
 
-import Event from "@/ui/Event";
+import Event from "@/ui_v1/Event";
 import tw from "@/lib/tailwind";
 import { waitFor } from "@/lib/util";
 import AppConstants from "@/constants";
-import IconButton from "@/ui/IconButton";
+import IconButton from "@/ui_v1/IconButton";
 import Content from "@/constants/content";
 import { eventsRegex } from "@/constants/regex";
 import { formatEvent } from "@/lib/util/format";

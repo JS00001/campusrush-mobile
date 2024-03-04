@@ -13,10 +13,10 @@
 import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
+import Button from "@/ui_v1/Button";
 import ProductPerk from "@/components/ProductPerk";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import SelectionCard from "@/ui/SelectionCard/SelectionCard";
+import SelectionCard from "@/ui_v1/SelectionCard/SelectionCard";
 
 interface BillingDetailsProps {
   activeProducts: {

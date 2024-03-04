@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import SelectionCard from "@/ui/SelectionCard";
+import SelectionCard from "@/ui_v1/SelectionCard";
 import { useNotifications } from "@/providers/Notifications";
 
 const UpdateNotificationsView = () => {

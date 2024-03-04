@@ -12,14 +12,14 @@
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import Layout from "@/ui/Layout";
-import Header from "@/ui/Header";
+import Layout from "@/ui_v1/Layout";
+import Header from "@/ui_v1/Header";
 import { View } from "react-native";
 import tw from "@/lib/tailwind";
 import { useState } from "react";
-import InfiniteCarousel from "@/ui/InfiniteCarousel";
-import Text from "@/ui/Text";
-import Button from "@/ui/Button";
+import InfiniteCarousel from "@/ui_v1/InfiniteCarousel";
+import Text from "@/ui_v1/Text";
+import Button from "@/ui_v1/Button";
 import { useModalStore } from "@/store";
 import { useBottomSheets } from "@/providers/BottomSheet";
 

@@ -21,7 +21,7 @@ import {
 } from "@/store";
 import { useSendMassMessage } from "@/hooks/api/messaging";
 
-import Layout from "@/ui/Layout";
+import Layout from "@/ui_v1/Layout";
 import MessageBox from "@/components/MessageBox";
 import MassMessageHeader from "@/components/Headers/MassMessage";
 import Toast from "react-native-toast-message";

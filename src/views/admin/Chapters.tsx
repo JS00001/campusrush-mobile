@@ -13,12 +13,12 @@
 import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
-import Chapter from "@/ui/Chapter";
-import TextInput from "@/ui/TextInput";
-import IconButton from "@/ui/IconButton";
+import Chapter from "@/ui_v1/Chapter";
+import TextInput from "@/ui_v1/TextInput";
+import IconButton from "@/ui_v1/IconButton";
 import useSearch from "@/hooks/useSearch";
-import Menu, { MenuAction } from "@/ui/Menu";
-import ChapterLoader from "@/ui/Chapter/Loaders";
+import Menu, { MenuAction } from "@/ui_v1/Menu";
+import ChapterLoader from "@/ui_v1/Chapter/Loaders";
 import InfiniteList from "@/components/InfiniteList";
 import { useGetAdminChapters } from "@/hooks/api/admin";
 

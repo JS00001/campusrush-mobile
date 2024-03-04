@@ -16,9 +16,9 @@ import { useNavigation } from "@react-navigation/native";
 import useSearch from "@/hooks/useSearch";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import TextInput from "@/ui/TextInput";
+import TextInput from "@/ui_v1/TextInput";
 import RecentPnms from "@/components/RecentPnms";
 import { useGetContacts } from "@/hooks/api/messaging";
 

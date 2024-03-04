@@ -19,11 +19,11 @@ import {
   useResendVerification,
   useVerifyEmail,
 } from "@/hooks/api/auth";
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
-import Hyperlink from "@/ui/Hyperlink";
-import TextInput from "@/ui/TextInput";
+import Button from "@/ui_v1/Button";
+import Hyperlink from "@/ui_v1/Hyperlink";
+import TextInput from "@/ui_v1/TextInput";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import useFormMutation from "@/hooks/useFormMutation";

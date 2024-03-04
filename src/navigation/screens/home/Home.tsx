@@ -11,7 +11,7 @@
  */
 
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
+import Layout from "@/ui_v1/Layout";
 import HomeView from "@/views/Home";
 import HomeHeaderSvg from "@/assets/HomeHeaderSvg";
 

@@ -10,12 +10,12 @@
  * Do not distribute
  */
 
-import Layout from "@/ui/Layout";
+import Layout from "@/ui_v1/Layout";
 
 import React from "react";
 
-import ActionButton from "@/ui/ActionButton/ActionButton";
-import Dropdown from "@/ui/Dropdown";
+import ActionButton from "@/ui_v1/ActionButton/ActionButton";
+import Dropdown from "@/ui_v1/Dropdown";
 
 interface UITestingProps {}
 

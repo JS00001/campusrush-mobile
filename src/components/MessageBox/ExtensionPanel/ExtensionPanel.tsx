@@ -14,13 +14,13 @@ import { View } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
-import Tabs from "@/ui/Tabs";
-import Event from "@/ui/Event";
+import Tabs from "@/ui_v1/Tabs";
+import Event from "@/ui_v1/Event";
 
 import tw from "@/lib/tailwind";
 import { useGetEvents } from "@/hooks/api/events";
-import { CardEventLoader } from "@/ui/Event/Loaders";
-import KeyboardListener from "@/ui/KeyboardListener";
+import { CardEventLoader } from "@/ui_v1/Event/Loaders";
+import KeyboardListener from "@/ui_v1/KeyboardListener";
 import InfiniteHorizontaList from "@/components/InfiniteHorizontalList";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(

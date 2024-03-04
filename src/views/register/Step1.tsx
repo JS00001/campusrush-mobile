@@ -13,8 +13,8 @@
 import { z } from "zod";
 import { useNavigation } from "@react-navigation/native";
 
-import Button from "@/ui/Button";
-import Dropdown from "@/ui/Dropdown";
+import Button from "@/ui_v1/Button";
+import Dropdown from "@/ui_v1/Dropdown";
 import useForm from "@/hooks/useForm";
 import { useRegistrationStore } from "@/store";
 import TermsAndConditions from "@/components/TermsAndConditions";

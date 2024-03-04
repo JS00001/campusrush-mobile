@@ -12,11 +12,11 @@
 
 import { cloneElement } from "react";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import ListItem from "@/ui/ListItem";
-import InfiniteScroll from "@/ui/InfiniteScroll";
-import DeleteSwipable from "@/ui/Swipeables/Delete";
+import ListItem from "@/ui_v1/ListItem";
+import InfiniteScroll from "@/ui_v1/InfiniteScroll";
+import DeleteSwipable from "@/ui_v1/Swipeables/Delete";
 
 interface InfiniteListProps<T> {
   data: T[];

@@ -18,11 +18,11 @@ import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import useForm from "@/hooks/useForm";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
-import ButtonGroup from "@/ui/ButtonGroup";
-import DateTimePicker from "@/ui/DateTimePicker";
+import Button from "@/ui_v1/Button";
+import ButtonGroup from "@/ui_v1/ButtonGroup";
+import DateTimePicker from "@/ui_v1/DateTimePicker";
 
 const Step2: React.FC<UseSheetFlowProps> = ({
   state,

@@ -12,12 +12,12 @@
 
 import type { BottomSheetProps } from "./@types";
 
-import Text from "@/ui/Text";
+import Text from "@/ui_v1/Text";
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
+import Layout from "@/ui_v1/Layout";
 import { usePnmStore, useStatusStore } from "@/store";
-import TextInput from "@/ui/TextInput";
-import { FormSheet } from "@/ui/BottomSheet";
+import TextInput from "@/ui_v1/TextInput";
+import { FormSheet } from "@/ui_v1/BottomSheet";
 import validators from "@/constants/validators";
 import FormHeader from "@/components/Headers/Form";
 import useFormMutation from "@/hooks/useFormMutation";

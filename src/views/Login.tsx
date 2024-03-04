@@ -10,8 +10,8 @@
  * Do not distribute
  */
 
-import Button from "@/ui/Button";
-import TextInput from "@/ui/TextInput";
+import Button from "@/ui_v1/Button";
+import TextInput from "@/ui_v1/TextInput";
 import { useAuth } from "@/providers/Auth";
 import { useLogin } from "@/hooks/api/auth";
 import validators from "@/constants/validators";
