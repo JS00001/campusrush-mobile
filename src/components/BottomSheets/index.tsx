@@ -15,6 +15,7 @@ import CreateEventSheet from "./CreateEvent";
 import CreatePnmSheet from "./CreatePnm";
 import EventSheet from "./Event";
 import PnmSheet from "./Pnm";
+import ChapterSheet from "./Chapter";
 import UpdatePnmSheet from "./UpdatePnm";
 import UpdateEventSheet from "./UpdateEvent";
 import PlanComparisonSheet from "./PlanComparison";
@@ -25,6 +26,7 @@ export default {
   CreateMessageSheet,
   CreateEventSheet,
   CreatePnmSheet,
+  ChapterSheet,
   EventSheet,
   PnmSheet,
   UpdatePnmSheet,

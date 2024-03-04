@@ -16,14 +16,23 @@ import RemixIcon from "react-native-remix-icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import dateUtil from "@/lib/util/date";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface ChapterProps {
   chapter: Chapter;
 }
 
 const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
+  const { openBottomSheet } = useBottomSheets();
+
+  const containerStyles = tw.style("bg-slate-100 rounded-xl p-5 gap-y-3");
+
+  const onPress = () => {
+    openBottomSheet("CHAPTER", { chapterId: chapter._id });
+  };
+
   return (
-    <TouchableOpacity style={tw`bg-slate-100 rounded-xl p-5 gap-y-3`}>
+    <TouchableOpacity style={containerStyles} onPress={onPress}>
       <View>
         <Text variant="title">{chapter.name}</Text>
         <Text>Created {dateUtil.toString(chapter.createdAt)}</Text>
