@@ -25,3 +25,15 @@ export const getAdminChapters = async () => {
 
   return data as GetAdminChaptersResponse;
 };
+
+/**
+ * Request:     GET /api/v1/consumer/admin/chapter/:id
+ * Description: Get a chapter by id
+ */
+export const getAdminChapter = async (data: GetAdminChapterRequest) => {
+  const url = `${PREFIX}/chapter/${data.id}`;
+
+  const { data: responseData } = await axiosClient.get(url);
+
+  return responseData as GetAdminChapterResponse;
+};

@@ -292,3 +292,10 @@ type GetEventResponse = API.Response<{
    */
   event: Event;
 }>;
+
+type GetAdminChapterResponse = API.Response<{
+  /**
+   * Admin chapter information
+   */
+  chapter: Chapter;
+}>;
