@@ -94,7 +94,7 @@ const DetailViewSection: React.FC<DetailViewSectionProps> = ({
 
   return (
     <View style={containerClasses}>
-      <View style={tw`flex-1`}>
+      <View style={tw``}>
         <Text style={tw`text-primary`}>{title}</Text>
       </View>
       <View style={tw`flex-1 items-end`}>

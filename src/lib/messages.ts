@@ -1,4 +1,22 @@
 /*
+ * Created on Mon Mar 04 2024
+ *
+ * This software is the proprietary property of CampusRush.
+ * All rights reserved. Unauthorized copying, modification, or distribution
+ * of this software, in whole or in part, is strictly prohibited.
+ * For licensing information contact CampusRush.
+ *
+ * Copyright (c) 2024 CampusRush
+ * Do not distribute
+ */
+
+interface TimestampedMessage extends Message {
+  date?: string;
+  showTimestamp?: boolean;
+  showDate?: boolean;
+}
+
+/*
   Define a function called groupByDate that takes an array of messages 
   as input and returns an array of timestamped messages.
 */

@@ -22,6 +22,8 @@ import BottomSheetComponents from "@/components/BottomSheets";
  * Put all bottom sheets in the @/components/BottomSheets folder
  */
 const BottomSheets = [
+  { name: "CHAPTER", component: BottomSheetComponents.ChapterSheet },
+
   {
     name: "CREATE_MESSAGE",
     component: BottomSheetComponents.CreateMessageSheet,

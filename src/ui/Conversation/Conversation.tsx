@@ -21,13 +21,9 @@ import date from "@/lib/util/date";
 
 interface ConversationProps {
   conversation: Conversation;
-  loading?: boolean;
 }
 
-const Conversation: React.FC<ConversationProps> = ({
-  conversation,
-  loading,
-}) => {
+const Conversation: React.FC<ConversationProps> = ({ conversation }) => {
   // Use the navigation hook to navigate to the chat screen
   const navigation = useNavigation();
   // Get the full name of the PNM
@@ -54,8 +50,6 @@ const Conversation: React.FC<ConversationProps> = ({
     // If the conversation is read, hide the indicator
     conversation.read && "opacity-0",
   );
-
-  if (loading) return <ConversationLoader />;
 
   return (
     <TouchableOpacity onPress={onPress} style={containerClasses}>

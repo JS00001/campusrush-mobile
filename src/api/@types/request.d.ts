@@ -305,3 +305,10 @@ interface GetEventRequest {
    */
   id: string;
 }
+
+interface GetAdminChapterRequest {
+  /**
+   * The ID of the chapter to be retrieved
+   */
+  id: string;
+}
