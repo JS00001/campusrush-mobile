@@ -12,7 +12,7 @@
 
 import Tooltip from "react-native-walkthrough-tooltip";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface MessageBoxWalkthroughProps {

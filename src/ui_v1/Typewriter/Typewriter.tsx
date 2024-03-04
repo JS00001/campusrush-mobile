@@ -12,21 +12,21 @@
 
 import { useState, useEffect } from "react";
 
-import Text from "@/ui_v1/Text";
-import { variantClasses } from "@/ui_v1/Text/Text";
+import Text from "@/ui/Text";
+import { TextType } from "@/ui/Text";
 
 interface TypewriterProps {
   text: string;
   delay?: number;
   style?: any;
-  variant?: keyof typeof variantClasses;
+  type: TextType;
 }
 
 const Typewriter: React.FC<TypewriterProps> = ({
   text,
   style,
   delay = 100,
-  variant = "text",
+  type = "p3",
 }) => {
   // The current text that is being displayed
   const [currentText, setCurrentText] = useState("");
@@ -50,7 +50,7 @@ const Typewriter: React.FC<TypewriterProps> = ({
   }, [currentText, currentIndex]);
 
   return (
-    <Text variant={variant} style={style}>
+    <Text type={type} style={style}>
       {currentText}
     </Text>
   );

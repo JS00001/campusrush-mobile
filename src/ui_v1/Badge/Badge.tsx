@@ -13,7 +13,7 @@
 import RemixIcon from "react-native-remix-icon";
 import { TouchableOpacity, View } from "react-native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface BadgeProps {
@@ -39,9 +39,9 @@ const sizeClasses = {
  * of the badge.
  */
 const textVariants = {
-  sm: "subtext",
-  md: "subtext",
-  lg: "text",
+  sm: "p4",
+  md: "p4",
+  lg: "p3",
 };
 
 const Badge: React.FC<BadgeProps> = ({
@@ -68,7 +68,7 @@ const Badge: React.FC<BadgeProps> = ({
 
   return (
     <View style={containerClasses}>
-      <Text variant={variant} style={tw`text-white`}>
+      <Text type={variant} style={tw`text-white`}>
         {children}
       </Text>
 

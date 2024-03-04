@@ -12,7 +12,7 @@
 
 import { cloneElement } from "react";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui_v1/ListItem";
 import InfiniteCarousel from "@/ui_v1/InfiniteCarousel";
@@ -53,7 +53,7 @@ const InfiniteHorizontaList = <T,>({
 
     return (
       <View style={tw`w-full `}>
-        <Text variant="title" style={tw`text-center mt-16`}>
+        <Text type="h2" style={tw`text-center mt-16`}>
           {emptyListTitle || "No content found"}
         </Text>
         <Text style={tw`text-center`}>

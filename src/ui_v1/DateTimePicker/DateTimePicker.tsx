@@ -15,7 +15,7 @@ import RNDateTimePicker, {
 } from "@react-native-community/datetimepicker";
 import { View } from "react-native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface DateTimePickerProps extends IOSNativeProps {

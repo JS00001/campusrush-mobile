@@ -19,7 +19,7 @@ import useCopy from "@/hooks/useCopy";
 import { useEventStore } from "@/store";
 import { useDeleteEvent, useGetEvent } from "@/hooks/api/events";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui_v1/Button";
 import date from "@/lib/util/date";
@@ -94,8 +94,8 @@ const EventSheet: React.FC<BottomSheetProps> = ({
           <BottomSheetContainer>
             <View style={tw`mb-2 flex-row justify-between items-center`}>
               <View style={tw`shrink`}>
-                <Text variant="title">{formattedEvent.title}</Text>
-                <Text variant="body">
+                <Text type="h2">{formattedEvent.title}</Text>
+                <Text>
                   Added on {date.toString(formattedEvent.createdAt) || "N/A"}
                 </Text>
               </View>

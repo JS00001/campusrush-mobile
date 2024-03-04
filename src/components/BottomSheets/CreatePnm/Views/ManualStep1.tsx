@@ -14,7 +14,7 @@ import { View } from "react-native";
 
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui_v1/Button";
 import useForm from "@/hooks/useForm";
@@ -80,10 +80,8 @@ const ManualStep1: React.FC<UseSheetFlowProps> = ({
     >
       <View style={tw`gap-y-4`}>
         <View style={tw`mb-2`}>
-          <Text variant="title">Basic Information</Text>
-          <Text variant="body">
-            Enter the PNM's name and contact information
-          </Text>
+          <Text type="h2">Basic Information</Text>
+          <Text>Enter the PNM's name and contact information</Text>
         </View>
 
         <TextInput

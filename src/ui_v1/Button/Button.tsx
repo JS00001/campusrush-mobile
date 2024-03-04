@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import Icon from "react-native-remix-icon";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface ButtonProps extends TouchableOpacityProps {

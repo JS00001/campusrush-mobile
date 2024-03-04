@@ -18,7 +18,7 @@ import useFormMutation from "@/hooks/useFormMutation";
 import { useEventStore, useStatusStore } from "@/store";
 import { useGetEvent, useUpdateEvent } from "@/hooks/api/events";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui_v1/Layout";
 import TextInput from "@/ui_v1/TextInput";
@@ -122,7 +122,7 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
           >
             <FormHeader onSave={handleSubmission} onCancel={handleClose} />
 
-            <Text variant="header" style={tw`text-primary`}>
+            <Text type="h1" style={tw`text-primary`}>
               Edit Event
             </Text>
 

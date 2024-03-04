@@ -21,7 +21,7 @@ import {
 import RemixIcon from "react-native-remix-icon";
 import { useEffect, useRef, useState } from "react";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface DropdownProps {
@@ -136,7 +136,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       >
         <Text
           numberOfLines={1}
-          variant="title"
+          type="h2"
           style={tw.style("font-medium", error && "text-red", "shrink")}
         >
           {valueText}
@@ -179,7 +179,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 ListEmptyComponent={
                   // If there are no results found, show a message
                   // prettier-ignore
-                  <Text variant="title" style={tw`px-4.5 py-3 text-primary font-normal`}>
+                  <Text type="h2" style={tw`px-4.5 py-3 text-primary font-normal`}>
                     No results found
                   </Text>
                 }
@@ -231,7 +231,7 @@ export const DropdownOption: React.FC<DropdownOptionProps> = ({
   return (
     <TouchableOpacity style={containerClasses} onPress={onOptionPress}>
       <View style={contentContainerClasses}>
-        <Text style={textClasses} variant="title">
+        <Text style={textClasses} type="h2">
           {option}
         </Text>
       </View>

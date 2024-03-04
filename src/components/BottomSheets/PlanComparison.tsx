@@ -16,7 +16,7 @@ import RemixIcon from "react-native-remix-icon";
 
 import type { BottomSheetProps } from "./@types";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Information from "@/ui_v1/Information";
 import { useEntitlementStore } from "@/store";
@@ -44,8 +44,8 @@ const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
       children={() => (
         <BottomSheetContainer style={tw`px-0`}>
           <View style={tw`items-center gap-y-2 p-6`}>
-            <Text variant="title">Plan Comparison</Text>
-            <Text variant="body" style={tw`text-center`}>
+            <Text type="h2">Plan Comparison</Text>
+            <Text style={tw`text-center`}>
               CampusRush offers the best recruitment experience for greek
               chapters of all sizes.
             </Text>
@@ -112,14 +112,14 @@ const FeatureRow: React.FC<FeatureRowProps> = ({
       : `border-b border-slate-200`,
   );
 
-  const featureNameTextVariant = feature.header ? "body" : "text";
+  const featureNameTextType = feature.header ? "p2" : "p3";
 
   const booleanComponents = {
     true: (
       <RemixIcon
         name="ri-checkbox-circle-line"
         size={20}
-        color={tw.color(`green-500`)}
+        color={tw.color(`green`)}
       />
     ),
     false: (
@@ -139,10 +139,7 @@ const FeatureRow: React.FC<FeatureRowProps> = ({
         {feature.description && (
           <Information tooltip={feature.description} size="sm" />
         )}
-        <Text
-          variant={featureNameTextVariant}
-          style={tw`text-slate-500 font-medium`}
-        >
+        <Text type={featureNameTextType} style={tw`text-slate-500 font-medium`}>
           {feature.name}
         </Text>
       </View>
@@ -160,7 +157,7 @@ const FeatureRow: React.FC<FeatureRowProps> = ({
         // If the value is a string or a number, show the value
         return (
           <View key={i} style={tw`flex-1 items-center`}>
-            <Text variant={featureNameTextVariant} style={tw`text-center`}>
+            <Text type={featureNameTextType} style={tw`text-center`}>
               {value}
             </Text>
           </View>

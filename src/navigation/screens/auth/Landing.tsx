@@ -46,7 +46,7 @@ const Landing: React.FC<LandingProps> = ({ navigation }) => {
           <Logo64Svg />
           <Typewriter
             delay={20}
-            variant="header"
+            type="h1"
             style={tw`text-white text-center`}
             text="Elevate Recruitment With CampusRush"
           />

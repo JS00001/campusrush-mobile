@@ -19,7 +19,7 @@ import {
   useResendVerification,
   useVerifyEmail,
 } from "@/hooks/api/auth";
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui_v1/Button";
 import Hyperlink from "@/ui_v1/Hyperlink";

@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { ConversationLoader } from "./Loaders";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 
@@ -59,11 +59,9 @@ const Conversation: React.FC<ConversationProps> = ({ conversation }) => {
 
         {/* Title and subtitle */}
         <View>
-          <Text variant="body" style={tw`text-primary`}>
-            {fullName}
-          </Text>
+          <Text style={tw`text-primary`}>{fullName}</Text>
 
-          <Text variant="subtext" style={tw`text-slate-500`} numberOfLines={1}>
+          <Text type="p4" style={tw`text-slate-500`} numberOfLines={1}>
             {conversation.lastMessage}
           </Text>
         </View>
@@ -71,7 +69,7 @@ const Conversation: React.FC<ConversationProps> = ({ conversation }) => {
 
       {/* Timestamp */}
       <View style={tw`h-full `}>
-        <Text style={tw`text-slate-400`} variant="subtext">
+        <Text style={tw`text-slate-400`} type="p4">
           {date.timeAgo(conversation.lastMessageSentAt)}
         </Text>
       </View>

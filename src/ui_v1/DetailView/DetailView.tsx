@@ -13,7 +13,7 @@
 import React from "react";
 import { View } from "react-native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface DetailViewProps {
@@ -95,10 +95,14 @@ const DetailViewSection: React.FC<DetailViewSectionProps> = ({
   return (
     <View style={containerClasses}>
       <View style={tw``}>
-        <Text style={tw`text-primary`}>{title}</Text>
+        <Text type="p3" style={tw`text-primary`}>
+          {title}
+        </Text>
       </View>
       <View style={tw`flex-1 items-end`}>
-        <Text style={tw`text-slate-500`}>{content}</Text>
+        <Text type="p3" style={tw`text-slate-500`}>
+          {content}
+        </Text>
       </View>
     </View>
   );

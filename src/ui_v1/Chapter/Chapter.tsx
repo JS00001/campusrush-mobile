@@ -13,7 +13,7 @@
 import { TouchableOpacity, View } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import dateUtil from "@/lib/util/date";
 import { useBottomSheets } from "@/providers/BottomSheet";
@@ -34,7 +34,7 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
   return (
     <TouchableOpacity style={containerStyles} onPress={onPress}>
       <View>
-        <Text variant="title">{chapter.name}</Text>
+        <Text type="h2">{chapter.name}</Text>
         <Text>Created {dateUtil.toString(chapter.createdAt)}</Text>
       </View>
 
@@ -47,7 +47,7 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
           />
         </View>
 
-        <Text variant="body">{chapter.school}</Text>
+        <Text>{chapter.school}</Text>
       </View>
 
       <View style={tw`flex-row items-center gap-2`}>
@@ -55,9 +55,7 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
           <RemixIcon name="time-fill" size={16} color={tw.color("primary")} />
         </View>
 
-        <Text variant="body">
-          Last Seen {dateUtil.timeAgo(chapter.lastOnline)}
-        </Text>
+        <Text>Last Seen {dateUtil.timeAgo(chapter.lastOnline)}</Text>
       </View>
     </TouchableOpacity>
   );

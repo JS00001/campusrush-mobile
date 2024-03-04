@@ -13,7 +13,7 @@
 import { View } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Information from "@/ui_v1/Information";
 
@@ -34,7 +34,7 @@ const ProductPerk: React.FC<ProductPerkProps> = ({
       <View style={tw`flex-row gap-2 shrink`}>
         <RemixIcon
           name="ri-checkbox-circle-line"
-          color={tw.color("green-500")}
+          color={tw.color("green")}
           size={20}
         />
         <Text style={tw`shrink`}>{name}</Text>

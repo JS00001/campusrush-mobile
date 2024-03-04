@@ -13,7 +13,7 @@
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui_v1/Button";
 import AppConstants from "@/constants";
@@ -167,7 +167,7 @@ const SettingsView = () => {
         Delete Account
       </Button>
 
-      <Text variant="subtext" style={tw`text-slate-600`}>
+      <Text type="p4" style={tw`text-slate-600`}>
         App Version: {AppConstants.version}
       </Text>
     </>

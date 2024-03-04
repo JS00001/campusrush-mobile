@@ -13,7 +13,7 @@
 import { useState, useEffect } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface TextSuggestionsProps {
@@ -89,7 +89,7 @@ const TextSuggestions: React.FC<TextSuggestionsProps> = ({
             style={tw`px-4 border-b border-slate-100 py-3`}
             onPress={onPress}
           >
-            <Text variant="body" style={tw`text-primary font-semibold`}>
+            <Text style={tw`text-primary font-semibold`}>
               {suggestion.keyword}
             </Text>
             <Text>{suggestion.description}</Text>

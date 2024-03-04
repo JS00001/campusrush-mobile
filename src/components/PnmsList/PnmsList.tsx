@@ -18,7 +18,7 @@ import {
 } from "react-native";
 import { useMemo, useRef, useState } from "react";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui_v1/ListItem";
 import { formatPhoneNumber } from "@/lib/util/string";
@@ -172,7 +172,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
 
     return (
       <>
-        <Text variant="title" style={tw`text-center mt-16`}>
+        <Text type="h2" style={tw`text-center mt-16`}>
           No PNMs found
         </Text>
         <Text style={tw`text-center`}>
@@ -258,7 +258,7 @@ const AlphabetList: React.FC<AlphabetListProps> = ({
               onPress={handlePress}
               style={containerClasses}
             >
-              <Text variant="subtext" style={textClasses}>
+              <Text type="p4" style={textClasses}>
                 {char}
               </Text>
             </TouchableOpacity>

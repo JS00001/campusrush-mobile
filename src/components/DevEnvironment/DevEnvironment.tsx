@@ -19,7 +19,7 @@ import NetworkLogger from "react-native-network-logger";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui_v1/Layout";
 import Button from "@/ui_v1/Button";
@@ -136,7 +136,7 @@ const DevEnvironment: React.FC = ({}) => {
           <>
             <Layout gap={20} scrollable contentContainerStyle={tw`pb-12`}>
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`} variant="body">
+                <Text style={tw`w-full font-medium`}>
                   Current Subscription?
                 </Text>
 
@@ -144,13 +144,13 @@ const DevEnvironment: React.FC = ({}) => {
                   {lodash.isEmpty(customerData?.entitlements?.active) ? (
                     <Text style={tw`text-red`}>No active subscription</Text>
                   ) : (
-                    <Text style={tw`text-green-700`}>Subscription active</Text>
+                    <Text style={tw`text-green`}>Subscription active</Text>
                   )}
                 </View>
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`} variant="body">
+                <Text style={tw`w-full font-medium`}>
                   Preferences Overrides
                 </Text>
                 <Button
@@ -167,7 +167,7 @@ const DevEnvironment: React.FC = ({}) => {
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`} variant="body">
+                <Text style={tw`w-full font-medium`}>
                   Subscription Overrides
                 </Text>
                 <Button
@@ -198,18 +198,14 @@ const DevEnvironment: React.FC = ({}) => {
           <>
             <Layout gap={20} scrollable contentContainerStyle={tw`items-start`}>
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`font-medium`} variant="body">
-                  App Version
-                </Text>
+                <Text style={tw`font-medium`}>App Version</Text>
                 <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
                   <Text>{AppConstants.version}</Text>
                 </View>
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`font-medium`} variant="body">
-                  Current Chapter
-                </Text>
+                <Text style={tw`font-medium`}>Current Chapter</Text>
                 <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
                   <Text style={tw`text-black text-[10px] leading-3`}>
                     {JSON.stringify(chapter, null, 2).slice(1, -1)}
@@ -218,9 +214,7 @@ const DevEnvironment: React.FC = ({}) => {
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`} variant="body">
-                  Current Subscription
-                </Text>
+                <Text style={tw`w-full font-medium`}>Current Subscription</Text>
 
                 <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
                   {lodash.isEmpty(customerData?.entitlements?.active) ? (
@@ -238,7 +232,7 @@ const DevEnvironment: React.FC = ({}) => {
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`font-medium`} variant="body">
+                <Text style={tw`font-medium`}>
                   RevenueCat Entitlement Information
                 </Text>
                 <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
@@ -271,15 +265,11 @@ const DevEnvironment: React.FC = ({}) => {
                   Refresh Data
                 </Button>
 
-                <Text style={tw`font-medium`} variant="body">
-                  Async Storage Size
-                </Text>
+                <Text style={tw`font-medium`}>Async Storage Size</Text>
                 <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
                   <Text>{asyncStorageSize}</Text>
                 </View>
-                <Text style={tw`font-medium`} variant="body">
-                  Async Storage items
-                </Text>
+                <Text style={tw`font-medium`}>Async Storage items</Text>
                 {Object.keys(asyncStorageData).map((key) => (
                   <MenuView
                     key={key}
@@ -316,23 +306,19 @@ const DevEnvironment: React.FC = ({}) => {
           <>
             <Layout gap={20} scrollable contentContainerStyle={tw`pb-12`}>
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`} variant="body">
-                  Websocket Connection
-                </Text>
+                <Text style={tw`w-full font-medium`}>Websocket Connection</Text>
 
                 <View style={tw`bg-slate-100 p-3 rounded-xl w-full`}>
                   {!data.connected ? (
                     <Text style={tw`text-red`}>Not connected</Text>
                   ) : (
-                    <Text style={tw`text-green-500`}>Connected</Text>
+                    <Text style={tw`text-green`}>Connected</Text>
                   )}
                 </View>
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`} variant="body">
-                  Messages
-                </Text>
+                <Text style={tw`w-full font-medium`}>Messages</Text>
 
                 {data.messages.map((message, index) => (
                   <View

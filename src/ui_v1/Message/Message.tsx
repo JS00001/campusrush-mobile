@@ -12,7 +12,7 @@
 
 import { View } from "react-native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Copyable from "../Copyable";
 
@@ -82,7 +82,7 @@ const Message: React.FC<MessageProps> = ({
     <View>
       {/* Date if provided */}
       {date === undefined ? null : (
-        <Text variant="subtext" style={dateClasses}>
+        <Text type="p4" style={dateClasses}>
           {date}
         </Text>
       )}
@@ -96,7 +96,7 @@ const Message: React.FC<MessageProps> = ({
 
       {/* Message timestamp if provided */}
       {createdAt === undefined ? null : (
-        <Text variant="subtext" style={timestampClasses}>
+        <Text type="p4" style={timestampClasses}>
           {time}
         </Text>
       )}

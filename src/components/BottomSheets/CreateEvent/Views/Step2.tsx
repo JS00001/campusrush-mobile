@@ -18,7 +18,7 @@ import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import useForm from "@/hooks/useForm";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui_v1/Button";
 import ButtonGroup from "@/ui_v1/ButtonGroup";
@@ -100,8 +100,8 @@ const Step2: React.FC<UseSheetFlowProps> = ({
     <>
       <View style={tw`gap-y-4`}>
         <View style={tw`mb-2`}>
-          <Text variant="title">When's the Event?</Text>
-          <Text variant="body">
+          <Text type="h2">When's the Event?</Text>
+          <Text>
             Enter when your event starts and ends. This can be changed later.
           </Text>
         </View>

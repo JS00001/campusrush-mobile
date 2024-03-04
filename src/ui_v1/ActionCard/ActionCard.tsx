@@ -19,7 +19,7 @@ import {
   ActionCardSmLoader,
 } from "./Loaders";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import { useAuth } from "@/providers/Auth";
 
@@ -130,21 +130,16 @@ const ActionCard: React.FC<ActionCardProps> = ({
         <View style={tw.style(size != "lg" && "hidden", "shrink")}>
           <Text>{title}</Text>
 
-          <Text variant="body" style={tw`text-primary`}>
-            {subtitle}
-          </Text>
+          <Text style={tw`text-primary`}>{subtitle}</Text>
         </View>
 
         {/* Title and subtitle for size=sm and size=md */}
         <View style={tw.style(size == "lg" && "hidden", loading && "gap-2")}>
-          <Text
-            variant={size == "md" ? "header" : "body"}
-            style={tw`text-primary`}
-          >
+          <Text type={size == "md" ? "h1" : "p2"} style={tw`text-primary`}>
             {title}
           </Text>
 
-          <Text>{subtitle}</Text>
+          <Text type="p3">{subtitle}</Text>
         </View>
       </View>
 

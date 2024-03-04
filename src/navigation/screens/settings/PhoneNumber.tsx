@@ -23,7 +23,7 @@
 
 import { View } from "react-native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui_v1/Layout";
 import CopyItem from "@/ui_v1/CopyItem";
@@ -42,8 +42,8 @@ const PhoneNumber = () => {
       />
 
       <View>
-        <Text variant="title">Phone Information</Text>
-        <Text variant="body">
+        <Text type="h2">Phone Information</Text>
+        <Text>
           All messages to this phone number will show up in your "Messages"
           inbox.
         </Text>

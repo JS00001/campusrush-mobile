@@ -16,7 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import useSearch from "@/hooks/useSearch";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import TextInput from "@/ui_v1/TextInput";
 import RecentPnms from "@/components/RecentPnms";
@@ -43,8 +43,8 @@ const DirectMessage: React.FC<UseSheetFlowProps> = ({
   return (
     <View style={tw`gap-y-4 flex-1`}>
       <View>
-        <Text variant="title">Begin Typing</Text>
-        <Text variant="body">Search for a PNM to message</Text>
+        <Text type="h2">Begin Typing</Text>
+        <Text>Search for a PNM to message</Text>
       </View>
 
       <TextInput
@@ -60,7 +60,7 @@ const DirectMessage: React.FC<UseSheetFlowProps> = ({
       />
 
       <View style={tw`gap-y-3 flex-1`}>
-        <Text variant="text">{directMessageHeader}</Text>
+        <Text type="p3">{directMessageHeader}</Text>
         <RecentPnms
           pnms={search.data}
           loading={isLoading}

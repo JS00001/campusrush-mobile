@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 
 import { BottomSheetProps } from "./@types";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui_v1/Button";
 import date from "@/lib/util/date";
@@ -98,12 +98,10 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
           <BottomSheetContainer>
             <View style={tw`mb-2 flex-row justify-between items-center`}>
               <View style={tw`shrink`}>
-                <Text variant="title">
+                <Text type="h2">
                   {pnm.firstName} {pnm.lastName}
                 </Text>
-                <Text variant="body">
-                  Added on {date.toString(pnm.createdAt)}
-                </Text>
+                <Text>Added on {date.toString(pnm.createdAt)}</Text>
               </View>
 
               <View style={tw`flex-row gap-1`}>

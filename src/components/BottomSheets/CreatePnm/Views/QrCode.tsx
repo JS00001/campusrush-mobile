@@ -15,7 +15,7 @@ import QRCode from "react-native-qrcode-svg";
 
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import CopyItem from "@/ui_v1/CopyItem";
 import AppConstants from "@/constants";
@@ -29,8 +29,8 @@ const QrCode: React.FC<UseSheetFlowProps> = () => {
   return (
     <>
       <View style={tw`w-full`}>
-        <Text variant="title">Display QR Code</Text>
-        <Text variant="body">Have a PNM scan the QR code</Text>
+        <Text type="h2">Display QR Code</Text>
+        <Text>Have a PNM scan the QR code</Text>
       </View>
 
       <View style={tw`bg-slate-100 rounded-xl p-12 w-full items-center`}>
@@ -42,7 +42,7 @@ const QrCode: React.FC<UseSheetFlowProps> = () => {
         />
       </View>
 
-      <Text variant="title" style={tw`self-center`}>
+      <Text type="h2" style={tw`self-center`}>
         Or
       </Text>
 

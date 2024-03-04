@@ -15,7 +15,7 @@ import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
 import { ListItemLoader } from "./Loading";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface ListItemProps extends TouchableOpacityProps {
@@ -69,11 +69,9 @@ const ListItem: React.FC<ListItemProps> = ({
         )}
 
         <View style={tw`shrink`}>
-          <Text variant="body" style={tw`text-primary`}>
-            {title}
-          </Text>
+          <Text style={tw`text-primary`}>{title}</Text>
 
-          <Text variant="subtext" style={tw`text-slate-500`}>
+          <Text type="p4" style={tw`text-slate-500`}>
             {subtitle}
           </Text>
         </View>

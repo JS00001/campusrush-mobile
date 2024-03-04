@@ -13,7 +13,7 @@
 import { SafeAreaView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import IconButton from "@/ui_v1/IconButton";
 import ProgressBar from "@/ui_v1/ProgressBar";
@@ -60,7 +60,7 @@ const Header: React.FC<HeaderProps> = ({
           />
         </View>
 
-        <Text variant="title" style={tw`font-medium text-black`}>
+        <Text type="h2" style={tw`font-medium text-black`}>
           {title}
         </Text>
 

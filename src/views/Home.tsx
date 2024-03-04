@@ -13,7 +13,7 @@
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ActionCard from "@/ui_v1/ActionCard";
 import IconButton from "@/ui_v1/IconButton";
@@ -50,11 +50,7 @@ const HomeView = () => {
       <View style={tw`w-full items-start px-6 pt-6 gap-y-6`}>
         {/* Header */}
         <View style={tw`justify-between items-center flex-row w-full`}>
-          <Text
-            variant="header"
-            numberOfLines={1}
-            style={tw`text-white shrink`}
-          >
+          <Text type="h1" numberOfLines={1} style={tw`text-white shrink`}>
             Welcome {chapter.firstName}
           </Text>
           <IconButton
@@ -67,7 +63,7 @@ const HomeView = () => {
         </View>
 
         {/* Chapter Statistics */}
-        <Text variant="title" style={tw`text-white`}>
+        <Text type="h2" style={tw`text-white`}>
           Chapter Statistics
         </Text>
         <View style={tw`w-full flex-row gap-5`}>
@@ -96,7 +92,7 @@ const HomeView = () => {
         </View>
 
         {/* Quick Links */}
-        <Text variant="title">Quick Links</Text>
+        <Text type="h2">Quick Links</Text>
         <ActionCard
           title="New PNM"
           subtitle="Add a new PNM to the system"
@@ -105,7 +101,7 @@ const HomeView = () => {
         />
 
         {/* Recently Added PNMs */}
-        <Text variant="title">Recently Added PNMs</Text>
+        <Text type="h2">Recently Added PNMs</Text>
         <RecentPnms
           pnms={statisticsQuery.recentPnms}
           onPress={onRecentPnmPress}

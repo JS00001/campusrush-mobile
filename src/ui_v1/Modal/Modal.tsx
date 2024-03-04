@@ -14,7 +14,7 @@ import { useState } from "react";
 import { View } from "react-native";
 import ReactNativeModal from "react-native-modal";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui_v1/Button";
 import ButtonGroup from "@/ui_v1/ButtonGroup";
@@ -95,10 +95,8 @@ const Modal: React.FC<ModalProps> = ({
     >
       <View style={containerClasses}>
         <View style={tw`gap-y-2`}>
-          <Text variant="header">{title}</Text>
-          <Text variant="body" style={tw`text-black`}>
-            {subtitle}
-          </Text>
+          <Text type="h1">{title}</Text>
+          <Text style={tw`text-black`}>{subtitle}</Text>
         </View>
 
         <ButtonGroup>

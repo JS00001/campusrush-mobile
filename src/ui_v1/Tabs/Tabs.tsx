@@ -12,7 +12,7 @@
 
 import { ScrollView, TouchableOpacity, View } from "react-native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface TabsProps {
@@ -77,7 +77,7 @@ const Tab: React.FC<TabProps> = ({ label, selected, disabled, onPress }) => {
       onPress={onPress}
       disabled={disabled}
     >
-      <Text variant="subtext" style={textClasses}>
+      <Text type="p4" style={textClasses}>
         {label}
       </Text>
     </TouchableOpacity>

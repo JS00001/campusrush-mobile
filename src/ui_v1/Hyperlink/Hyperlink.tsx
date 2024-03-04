@@ -12,7 +12,7 @@
 
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface HyperlinkProps extends TouchableOpacityProps {

@@ -18,7 +18,7 @@ import { View } from "react-native";
 import tw from "@/lib/tailwind";
 import { useState } from "react";
 import InfiniteCarousel from "@/ui_v1/InfiniteCarousel";
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import Button from "@/ui_v1/Button";
 import { useModalStore } from "@/store";
 import { useBottomSheets } from "@/providers/BottomSheet";

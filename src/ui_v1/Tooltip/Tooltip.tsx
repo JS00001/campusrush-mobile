@@ -13,7 +13,7 @@
 import RNTooltip from "react-native-walkthrough-tooltip";
 import type { TooltipProps as RNTooltipProps } from "react-native-walkthrough-tooltip";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface TooltipProps extends RNTooltipProps {

@@ -12,7 +12,7 @@
 
 import type { BottomSheetProps } from "./@types";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui_v1/Layout";
 import { usePnmStore, useStatusStore } from "@/store";
@@ -81,7 +81,7 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
           >
             <FormHeader onSave={handleSubmission} onCancel={handleClose} />
 
-            <Text variant="header" style={tw`text-primary`}>
+            <Text type="h1" style={tw`text-primary`}>
               Edit PNM
             </Text>
 

@@ -19,7 +19,7 @@ import {
   AttachmentEventLoader,
 } from "./Loaders";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 import { formatEvent } from "@/lib/util/format";
@@ -91,10 +91,10 @@ const DefaultEvent: React.FC<EventProps> = ({ event, onPress }) => {
 
         {/* Information */}
         <View style={tw`shrink`}>
-          <Text variant="title" numberOfLines={1}>
+          <Text type="h2" numberOfLines={1}>
             {event.title}
           </Text>
-          <Text variant="text" style={tw`text-slate-500`} numberOfLines={2}>
+          <Text type="p3" style={tw`text-slate-500`} numberOfLines={2}>
             {formattedEvent.start.time} · {formattedEvent.location}
           </Text>
         </View>
@@ -139,11 +139,9 @@ const AttachmentEvent: React.FC<EventProps> = ({ event, onPress }) => {
       />
 
       <View style={tw`shrink`}>
-        <Text variant="body" style={tw`text-primary`}>
-          {event.title}
-        </Text>
+        <Text style={tw`text-primary`}>{event.title}</Text>
 
-        <Text variant="subtext" style={tw`text-slate-500`} numberOfLines={1}>
+        <Text type="p4" style={tw`text-slate-500`} numberOfLines={1}>
           {formattedEvent.start.time} · {formattedEvent.location} is long
         </Text>
       </View>
@@ -197,14 +195,10 @@ const CardEvent: React.FC<EventProps> = ({ event, onPress }) => {
 
       {/* Information */}
       <View style={tw`shrink`}>
-        <Text
-          variant="body"
-          style={tw`font-semibold text-primary`}
-          numberOfLines={1}
-        >
+        <Text style={tw`font-semibold text-primary`} numberOfLines={1}>
           {event.title}
         </Text>
-        <Text variant="subtext" style={tw`text-slate-500`} numberOfLines={2}>
+        <Text type="p4" style={tw`text-slate-500`} numberOfLines={2}>
           {formattedEvent.start.time} · {formattedEvent.location}
         </Text>
       </View>
@@ -234,7 +228,7 @@ const EventDate: React.FC<EventDateProps> = ({ month, day, weekday }) => {
         {month}
       </Text>
 
-      <Text variant="title" style={tw`leading-6`}>
+      <Text type="h2" style={tw`leading-6`}>
         {day}
       </Text>
 

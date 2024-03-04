@@ -17,7 +17,7 @@ import { useEventStore } from "@/store";
 import { useCreateEvent } from "@/hooks/api/events";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui_v1/Button";
 import ListItem from "@/ui_v1/ListItem";
@@ -82,8 +82,8 @@ const Step3: React.FC<UseSheetFlowProps> = ({
     <>
       {/* Header and subheader */}
       <View style={tw`mb-2`}>
-        <Text variant="title">Finalize</Text>
-        <Text variant="body">Does this look correct?</Text>
+        <Text type="h2">Finalize</Text>
+        <Text>Does this look correct?</Text>
       </View>
 
       {/* The list of all the form fields and their values */}

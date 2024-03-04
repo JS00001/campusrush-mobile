@@ -14,7 +14,7 @@ import { View } from "react-native";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import { useModalStore } from "@/store";
 import ActionCard from "@/ui_v1/ActionCard";
@@ -113,8 +113,8 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
   return (
     <>
       <View style={tw`pb-4`}>
-        <Text variant="title">New Message</Text>
-        <Text variant="body">Start a new message with potential members</Text>
+        <Text type="h2">New Message</Text>
+        <Text>Start a new message with potential members</Text>
       </View>
 
       <ActionCard

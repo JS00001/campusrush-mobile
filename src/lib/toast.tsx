@@ -13,7 +13,7 @@
 import { View } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 const toastContainerClasses = tw.style(
@@ -41,7 +41,7 @@ const toastConfig = {
     <View style={toastContainerClasses}>
       <RemixIcon name="ri-checkbox-circle-line" size={24} color="#10B981" />
       <View style={tw`flex-1`}>
-        <Text variant="body" style={toastText1Classes} numberOfLines={1}>
+        <Text style={toastText1Classes} numberOfLines={1}>
           {props.text1}
         </Text>
         <Text style={toastText2Classes} numberOfLines={2}>
@@ -57,7 +57,7 @@ const toastConfig = {
     <View style={toastContainerClasses}>
       <RemixIcon name="ri-error-warning-line" size={24} color="#EF4444" />
       <View style={tw`flex-1`}>
-        <Text variant="body" style={toastText1Classes} numberOfLines={1}>
+        <Text style={toastText1Classes} numberOfLines={1}>
           {props.text1}
         </Text>
         <Text style={toastText2Classes} numberOfLines={2}>
@@ -73,7 +73,7 @@ const toastConfig = {
     <View style={toastContainerClasses}>
       <RemixIcon name="ri-error-warning-line" size={24} color="#F59E0B" />
       <View style={tw`flex-1`}>
-        <Text variant="body" style={toastText1Classes} numberOfLines={1}>
+        <Text style={toastText1Classes} numberOfLines={1}>
           {props.text1}
         </Text>
         <Text style={toastText2Classes} numberOfLines={2}>
@@ -89,7 +89,7 @@ const toastConfig = {
     <View style={toastContainerClasses}>
       <RemixIcon name="ri-information-line" size={24} color="#3B82F6" />
       <View style={tw`flex-1`}>
-        <Text variant="body" style={toastText1Classes} numberOfLines={1}>
+        <Text style={toastText1Classes} numberOfLines={1}>
           {props.text1}
         </Text>
         <Text style={toastText2Classes} numberOfLines={2}>

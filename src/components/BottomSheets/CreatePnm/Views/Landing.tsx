@@ -14,7 +14,7 @@ import { View } from "react-native";
 
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import { useModalStore } from "@/store";
 import ActionCard from "@/ui_v1/ActionCard";
 import Content from "@/constants/content";
@@ -43,10 +43,8 @@ const Landing: React.FC<UseSheetFlowProps> = ({
   return (
     <>
       <View>
-        <Text variant="title">Add a PNM</Text>
-        <Text variant="body">
-          Add a PNM to your chapter to keep track of their rush.
-        </Text>
+        <Text type="h2">Add a PNM</Text>
+        <Text>Add a PNM to your chapter to keep track of their rush.</Text>
       </View>
 
       <ActionCard

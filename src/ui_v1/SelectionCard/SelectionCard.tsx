@@ -13,7 +13,7 @@
 import Icon from "react-native-remix-icon";
 import { TouchableOpacity, View, ActivityIndicator } from "react-native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface SelectionCardProps {
@@ -93,21 +93,13 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
       )}
 
       {/* Title */}
-      {title && (
-        <Text variant="body" style={tw`text-primary`}>
-          {title}
-        </Text>
-      )}
+      {title && <Text style={tw`text-primary`}>{title}</Text>}
 
       {/* Description */}
       {description && <Text>{description}</Text>}
 
       {/* Subtitle */}
-      {subtitle && (
-        <Text variant="body" style={tw`text-primary`}>
-          {subtitle}
-        </Text>
-      )}
+      {subtitle && <Text style={tw`text-primary`}>{subtitle}</Text>}
 
       {/* Children */}
       {ChildrenComponent}

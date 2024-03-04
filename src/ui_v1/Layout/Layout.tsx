@@ -24,7 +24,7 @@ import Icon from "react-native-remix-icon";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Badge from "@/ui_v1/Badge";
 import HeaderSvg from "@/assets/HeaderSvg";
@@ -205,7 +205,7 @@ const Header: React.FC<HeaderProps> = ({
                 Beta
               </Badge>
             )}
-            <Text variant="header" style={tw`text-white`}>
+            <Text type="h1" style={tw`text-white`}>
               {title}
             </Text>
             <Text style={tw`text-gray-300`}>{subtitle}</Text>

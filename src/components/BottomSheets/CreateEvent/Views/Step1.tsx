@@ -12,7 +12,7 @@
 
 import { View } from "react-native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui_v1/Button";
 import useForm from "@/hooks/useForm";
@@ -74,8 +74,8 @@ const Step1: React.FC<UseSheetFlowProps> = ({
     >
       <View style={tw`gap-y-4`}>
         <View style={tw`mb-2`}>
-          <Text variant="title">What's Your Event About?</Text>
-          <Text variant="body">
+          <Text type="h2">What's Your Event About?</Text>
+          <Text>
             Enter your events information below. You can always edit this
             information later.
           </Text>

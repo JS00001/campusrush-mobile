@@ -13,7 +13,7 @@
 import { z } from "zod";
 import { View } from "react-native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui_v1/Button";
 import CopyItem from "@/ui_v1/CopyItem";
@@ -55,8 +55,8 @@ const LinkSharingView = () => {
   return (
     <>
       <View>
-        <Text variant="title">Your Link Sharing URL</Text>
-        <Text variant="body">
+        <Text type="h2">Your Link Sharing URL</Text>
+        <Text>
           Send this link to PNMs to allow them to add themselves to your
           recruitment list.
         </Text>
@@ -64,7 +64,7 @@ const LinkSharingView = () => {
 
       <CopyItem label="Link Sharing URL" value={linkSharingCode} />
 
-      <Text variant="title">Manage Your Link Sharing</Text>
+      <Text type="h2">Manage Your Link Sharing</Text>
 
       <View style={tw`gap-2 w-full`}>
         <SelectionCard

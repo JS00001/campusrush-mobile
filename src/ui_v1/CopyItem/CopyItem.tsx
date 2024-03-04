@@ -13,7 +13,7 @@
 import RemixIcon from "react-native-remix-icon";
 import { View, TouchableOpacity } from "react-native";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import useCopy from "@/hooks/useCopy";
 
@@ -33,7 +33,7 @@ const CopyItem: React.FC<CopyItemProps> = ({ value, label }) => {
 
   const iconContainerClasses = tw.style("bg-slate-200 p-2 rounded-md ");
 
-  const valueTextVariant = label ? "subtext" : "body";
+  const valueTextVariant = label ? "p4" : "p2";
 
   const onCopyPress = () => {
     copy(value, label);
@@ -43,14 +43,14 @@ const CopyItem: React.FC<CopyItemProps> = ({ value, label }) => {
     <View style={containerClasses}>
       <View style={tw`shrink`}>
         {label && (
-          <Text variant="body" numberOfLines={1} style={tw`text-primary`}>
+          <Text numberOfLines={1} style={tw`text-primary`}>
             {label}
           </Text>
         )}
 
         <Text
           numberOfLines={1}
-          variant={valueTextVariant}
+          type={valueTextVariant}
           style={tw`text-slate-500`}
         >
           {value}

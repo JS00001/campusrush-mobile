@@ -20,7 +20,7 @@ import RemixIcon from "react-native-remix-icon";
 import { useEffect, useRef, useState } from "react";
 
 import tw from "@/lib/tailwind";
-import Text from "@/ui_v1/Text/Text";
+import Text from "@/ui/Text";
 
 // This is a hack to disable font scaling for all text components
 export interface TextInputWithDefaultProps extends RNTextInput {
@@ -228,9 +228,7 @@ const DefaultTextInput: React.FC<TextInputProps> = ({
         }}
         {...props}
       >
-        <Text variant="body" style={valueClasses}>
-          {value}
-        </Text>
+        <Text style={valueClasses}>{value}</Text>
       </TextInputWithNoFontScaling>
 
       <Animated.Text

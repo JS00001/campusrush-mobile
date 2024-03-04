@@ -14,7 +14,7 @@ import { View } from "react-native";
 
 import { BottomSheetProps } from "./@types";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 import Skeleton from "@/ui_v1/Skeleton";
@@ -42,8 +42,8 @@ const ChapterSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
           <BottomSheetContainer>
             <View style={tw`mb-2 flex-row justify-between items-center`}>
               <View style={tw`shrink`}>
-                <Text variant="title">{chapter.name}</Text>
-                <Text variant="body">{chapter.school}</Text>
+                <Text type="h2">{chapter.name}</Text>
+                <Text>{chapter.school}</Text>
               </View>
             </View>
 

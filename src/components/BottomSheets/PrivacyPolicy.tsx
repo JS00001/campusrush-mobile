@@ -15,7 +15,7 @@ import { View } from "react-native";
 
 import type { BottomSheetProps } from "./@types";
 
-import Text from "@/ui_v1/Text";
+import Text from "@/ui/Text";
 import Badge from "@/ui_v1/Badge";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
@@ -55,12 +55,12 @@ const PrivacyPolicySheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
               <Badge size="md" style={tw`self-start`}>
                 Last Updated: {lastUpdated}
               </Badge>
-              <Text variant="header" style={tw`text-primary mb-4`}>
+              <Text type="h1" style={tw`text-primary mb-4`}>
                 Privacy Policy
               </Text>
 
               <View style={contentContainerStyle}>
-                <Text variant="body">
+                <Text>
                   {query.data?.content.split("**").map((item, index) => {
                     const isFirstOccurrance = index % 2 === 0;
 
@@ -69,11 +69,7 @@ const PrivacyPolicySheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
                     }
 
                     return (
-                      <Text
-                        key={index}
-                        variant="body"
-                        style={tw`text-primary font-bold`}
-                      >
+                      <Text key={index} style={tw`text-primary font-bold`}>
                         {item}
                       </Text>
                     );
@@ -97,7 +93,7 @@ const PrivacyPolicySkeleton: React.FC = () => {
   return (
     <>
       <Badge size="md">Loading...</Badge>
-      <Text variant="header" style={tw`text-primary mb-4`}>
+      <Text type="h1" style={tw`text-primary mb-4`}>
         Privacy Policy
       </Text>
 
