@@ -10,18 +10,17 @@
  * Do not distribute
  */
 
-import { PurchasesStoreProduct } from "react-native-purchases";
+import { Product } from "react-native-qonversion";
 
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
-import { useAuth } from "@/providers/Authv1";
 import { useEntitlementStore } from "@/store";
 import ProductPerk from "@/components/ProductPerk";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import SelectionCard from "@/ui/SelectionCard/SelectionCard";
 
 interface ProductCardProps {
-  product: PurchasesStoreProduct;
+  product: Product;
   selected: boolean;
   onPress: () => void;
 }
@@ -31,45 +30,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
   selected,
   onPress,
 }) => {
-  // The bottom sheet provider to open the compare plans modal
-  const { customerData } = useAuth();
   const { openBottomSheet } = useBottomSheets();
-
-  // The Product ID
-  const id = product.identifier as ProductId;
-  // Whether or not a product is a subscription
-  const isSubscription = product.productCategory === "SUBSCRIPTION";
-  // Whether or not a product has a trial period (free trial)
-  const hasTrialPeriod = product.introPrice !== null;
-  // The length of a trial period (formatted as "3-day" or "1-week" etc.)
-  // prettier-ignore
-  const trialLength = `${product.introPrice?.periodNumberOfUnits}-${product.introPrice?.periodUnit.toLowerCase()}`;
-  // Whether or not the user has previously purchased a subscription
-  // prettier-ignore
-  const hasPreviousSubscription = Object.keys(customerData?.entitlements?.all ?? {}).length > 0;
-
-  // The title of the product (should always exist, but just in case)
-  const title = product.title || "No title";
-  // The subtitle (price) of the product (should always exist, but just in case)
-  // prettier-ignore
-  const subtitle = `${product.priceString} ${isSubscription ? "/ year" : ""}` ?? "No price";
-  // The description of the product (whether or not it has a trial period)
-  const description = isSubscription
-    ? hasPreviousSubscription
-      ? "Unlock features to boost your recruitment"
-      : hasTrialPeriod
-        ? `with ${trialLength} free trial`
-        : "with no free trial"
-    : "one-time purchase";
-
-  // Pull the entitlement details from the store
-  // prettier-ignore
   const entitlements = useEntitlementStore((s) => s.entitlements);
 
-  // Get the perks from the entitlement details
-  const productPerks = entitlements?.products[id]?.FEATURED_PERKS || [];
+  const hasTrialPeriod = product.trialPeriod !== null;
+  const trialLength = `${product.trialPeriod?.unitCount}-${product.trialPeriod?.unit.toLowerCase()}`;
 
-  // When the compare plans button is pressed, open the compare plans modal
+  const title = product.skProduct?.localizedTitle;
+  const subtitle = `${product.prettyPrice} /${product.subscriptionPeriod?.unit.toLowerCase()}`;
+  const description = hasTrialPeriod
+    ? `with ${trialLength} free trial`
+    : `Unlock features to boost your recruitment`;
+
+  const productPerks =
+    entitlements?.products[product.storeID as any]?.FEATURED_PERKS || [];
+
   const onComparePlansPress = () => {
     openBottomSheet("PLAN_COMPARISON");
   };

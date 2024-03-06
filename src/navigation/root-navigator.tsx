@@ -26,7 +26,7 @@ import {
   BillingStack,
   VerificationStack,
 } from "@/navigation/stack-navigator";
-import { useAuth } from "@/providers/Authv1";
+import { useAuth } from "@/providers/Auth";
 import useVersioning from "@/hooks/useVersioning";
 import { usePreferences } from "@/providers/Preferences";
 import { TabNavigator } from "@/navigation/tab-navigator";
@@ -45,9 +45,9 @@ const RootNavigator = () => {
     isLoading: isVersioningLoading,
   } = useVersioning();
 
+  const { isLoading: isAuthLoading, chapter } = useAuth();
   const { isLoading: isPreferencesLoading } = usePreferences();
   const { isLoading: isEntitlementsLoading } = useEntitlements();
-  const { isLoading: isAuthLoading, chapter, customerData } = useAuth();
 
   const shouldHideSplashScreen = () => {
     return (
@@ -93,8 +93,7 @@ const RootNavigator = () => {
   if (!chapter?.verified) return <VerificationStack />;
 
   // If the user has no active entitlements, we show the BillingStack
-  if (lodash.isEmpty(customerData?.entitlements?.active))
-    return <BillingStack />;
+  if (lodash.isEmpty(chapter?.entitlements)) return <BillingStack />;
 
   // If the user is logged in and verified, we show the TabNavigator
   // (the main app)
