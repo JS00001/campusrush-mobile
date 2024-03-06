@@ -52,6 +52,7 @@ export default {
   },
   owner: 'js00001',
   plugins: [
+    'expo-font',
     'sentry-expo',
     'expo-localization',
     [

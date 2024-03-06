@@ -10,8 +10,9 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
 import { Text as RNText, TextProps as RNTextProps } from "react-native";
+
+import tw from "@/lib/tailwind";
 
 // This is a hack to disable font scaling for all text components
 const TextWithNoFontScaling = Object.assign(RNText, {

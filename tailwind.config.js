@@ -1,3 +1,5 @@
+const { plugin } = require('twrnc');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [],
@@ -22,5 +24,13 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        '.disabled': {
+          opacity: 0.5,
+        },
+      });
+    }),
+  ],
 };
