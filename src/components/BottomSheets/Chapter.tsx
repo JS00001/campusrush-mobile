@@ -100,8 +100,6 @@ const LoadingState = () => {
       </View>
 
       <Skeleton height={400} />
-
-      <Skeleton height={54} />
     </BottomSheetContainer>
   );
 };

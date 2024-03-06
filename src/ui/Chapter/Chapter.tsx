@@ -40,6 +40,14 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
 
       <View style={tw`flex-row items-center gap-2`}>
         <View style={tw`p-2 rounded-full bg-slate-200`}>
+          <RemixIcon name="mail-fill" size={16} color={tw.color("primary")} />
+        </View>
+
+        <Text variant="body">{chapter.email}</Text>
+      </View>
+
+      <View style={tw`flex-row items-center gap-2`}>
+        <View style={tw`p-2 rounded-full bg-slate-200`}>
           <RemixIcon
             name="government-fill"
             size={16}

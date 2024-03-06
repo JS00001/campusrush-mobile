@@ -36,6 +36,12 @@ const ChapterLoader: React.FC<ChapterLoaderProps> = () => {
 
         <Skeleton height="h-4" style={tw`flex-1`} />
       </View>
+
+      <View style={tw`flex-row items-center gap-2`}>
+        <View style={tw`p-4 rounded-full bg-slate-200`} />
+
+        <Skeleton height="h-4" style={tw`flex-1`} />
+      </View>
     </View>
   );
 };
