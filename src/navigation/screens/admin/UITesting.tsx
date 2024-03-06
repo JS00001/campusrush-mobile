@@ -10,11 +10,12 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import IconButton from "@/ui/IconButton";
-import { View } from "react-native";
 import tw from "@/lib/tailwind";
+import ListItem from "@/ui/ListItem";
+import ActionButton from "@/ui/ActionButton";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
@@ -22,9 +23,37 @@ interface UITestingProps {
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
   return (
-    <View style={tw`mt-48`}>
-      <IconButton iconName="24-hours-fill" color="primary" />
-    </View>
+    <>
+      <ActionButton icon="add-fill" />
+      <View style={tw`mt-48 px-6 gap-y-2`}>
+        <ListItem
+          size="sm"
+          title="Title"
+          subtitle="Subtitle"
+          icon="account-box-fill"
+        />
+
+        <ListItem title="Title" subtitle="Subtitle" />
+        <ListItem
+          title="Title"
+          subtitle="Subtitle"
+          icon="star-fill"
+          iconColor={tw.color("yellow")}
+        />
+        <ListItem
+          title="Title"
+          subtitle="Subtitle"
+          icon="star-fill"
+          size="lg"
+        />
+        <ListItem
+          title="Title"
+          subtitle="Subtitle"
+          icon="star-fill"
+          size="lg"
+        />
+      </View>
+    </>
   );
 };
 

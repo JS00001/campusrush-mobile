@@ -17,6 +17,7 @@ import {
   TouchableOpacityProps,
 } from "react-native";
 
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Icon, { IconType } from "@/ui/Icon";
 
@@ -26,6 +27,7 @@ export type IconButtonSize = "sm" | "md" | "lg";
 
 interface IconButtonProps extends TouchableOpacityProps {
   iconName: IconType;
+  label?: string;
   style?: any;
   loading?: boolean;
   color?: IconButtonColor;
@@ -37,16 +39,19 @@ interface IconButtonProps extends TouchableOpacityProps {
  */
 const IconButtonSizes = {
   sm: {
-    container: { padding: 8 },
-    icon: 20,
+    icon: 22,
+    text: "p4",
+    container: { padding: 10 },
   },
   md: {
-    container: { padding: 10 },
-    icon: 22,
+    icon: 24,
+    text: "p3",
+    container: { padding: 12 },
   },
   lg: {
-    container: { padding: 12 },
-    icon: 24,
+    icon: 26,
+    text: "p2",
+    container: { padding: 14 },
   },
 };
 
@@ -55,12 +60,12 @@ const IconButtonSizes = {
  */
 const IconButtonColors = {
   primary: {
-    container: "bg-navy-300",
-    icon: tw.color("white"),
+    container: "bg-primary",
+    color: tw.color("white"),
   },
   secondary: {
     container: "bg-slate-100",
-    icon: tw.color("bg-navy-300"),
+    color: tw.color("primary"),
   },
 };
 
@@ -68,6 +73,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   style,
   loading,
   iconName,
+  label,
   size = "lg",
   color = "primary",
   disabled,
@@ -75,35 +81,42 @@ const IconButton: React.FC<IconButtonProps> = ({
 }) => {
   disabled = disabled || loading;
 
+  const textColor = IconButtonColors[color].color;
+
   const containerStyles = tw.style(
-    "rounded-full self-start",
+    "rounded-full self-start flex-row items-center gap-x-2",
+    disabled && "disabled",
     IconButtonColors[color].container,
     IconButtonSizes[size].container,
     style,
   );
 
   const loadingIndicatorStyles = tw.style(
-    "absolute w-full h-full",
+    "absolute inset-0",
     "items-center justify-center z-10",
   );
 
   return (
-    <View>
+    <TouchableOpacity {...props} disabled={disabled} style={containerStyles}>
       {loading && (
         <View style={loadingIndicatorStyles}>
           <ActivityIndicator size="small" />
         </View>
       )}
 
-      <TouchableOpacity {...props} disabled={disabled} style={containerStyles}>
-        <Icon
-          name={iconName}
-          size={IconButtonSizes[size].icon}
-          color={IconButtonColors[color].icon}
-          style={tw.style(loading && "opacity-0")}
-        />
-      </TouchableOpacity>
-    </View>
+      <Icon
+        name={iconName}
+        color={textColor}
+        size={IconButtonSizes[size].icon}
+        style={tw.style(loading && "opacity-0")}
+      />
+
+      {label && (
+        <Text style={tw.style({ color: textColor }, "font-medium")}>
+          {label}
+        </Text>
+      )}
+    </TouchableOpacity>
   );
 };
 
