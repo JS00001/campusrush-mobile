@@ -12,10 +12,11 @@
 
 import Layout from "@/ui/Layout";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import ActionButton from "@/ui/ActionButton/ActionButton";
 import Dropdown from "@/ui/Dropdown";
+import Qonversion, { Product } from "react-native-qonversion";
 
 interface UITestingProps {}
 
@@ -78,6 +79,17 @@ const UITesting: React.FC<UITestingProps> = () => {
 
   const [chapter, setChapter] = React.useState("");
   const [school, setSchool] = React.useState("");
+
+  useEffect(() => {
+    (async () => {
+      const products: Map<string, Product> =
+        await Qonversion.getSharedInstance().products();
+
+      products.forEach((product) => {
+        console.log(product);
+      });
+    })();
+  }, []);
 
   return (
     <>

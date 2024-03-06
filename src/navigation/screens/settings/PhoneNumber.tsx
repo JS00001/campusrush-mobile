@@ -27,7 +27,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import CopyItem from "@/ui/CopyItem";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import { formatPhoneNumber } from "@/lib/util/string";
 
 const PhoneNumber = () => {

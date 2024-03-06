@@ -27,7 +27,7 @@ import {
   useMessageStore,
   useConversationStore,
 } from "@/store";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import { useWebsocket } from "@/providers/Websocket";
 import DirectMessageHeader from "@/components/Headers/DirectMessage";
 

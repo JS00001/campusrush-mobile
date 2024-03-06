@@ -13,7 +13,7 @@
 import { useEffect } from "react";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import { useContactStore, useConversationStore } from "@/store";
 import { getContacts, getConversation, getConversations } from "@/api";
 

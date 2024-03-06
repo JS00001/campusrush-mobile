@@ -18,7 +18,7 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import CopyItem from "@/ui/CopyItem";
 import AppConstants from "@/constants";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import SelectionCard from "@/ui/SelectionCard";
 import useFormMutation from "@/hooks/useFormMutation";
 import { useUpdateChapter } from "@/hooks/api/chapter";

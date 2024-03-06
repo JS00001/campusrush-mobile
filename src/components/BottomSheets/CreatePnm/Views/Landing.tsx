@@ -18,7 +18,7 @@ import Text from "@/ui/Text";
 import { useModalStore } from "@/store";
 import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 
 const Landing: React.FC<UseSheetFlowProps> = ({
   nextView,

@@ -26,7 +26,7 @@ import {
   BillingStack,
   VerificationStack,
 } from "@/navigation/stack-navigator";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import useVersioning from "@/hooks/useVersioning";
 import { usePreferences } from "@/providers/Preferences";
 import { TabNavigator } from "@/navigation/tab-navigator";

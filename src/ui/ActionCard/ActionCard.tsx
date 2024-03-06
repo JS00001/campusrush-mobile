@@ -21,7 +21,7 @@ import {
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 
 interface ActionCardProps {
   title: string;

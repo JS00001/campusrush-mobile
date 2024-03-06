@@ -14,7 +14,7 @@ import lodash from "lodash";
 import * as RNNotifications from "expo-notifications";
 import { createContext, useContext, useEffect } from "react";
 
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 
 interface NotificationsContextProps {

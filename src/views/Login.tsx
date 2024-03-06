@@ -12,7 +12,7 @@
 
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import { useLogin } from "@/hooks/api/auth";
 import validators from "@/constants/validators";
 import useFormMutation from "@/hooks/useFormMutation";

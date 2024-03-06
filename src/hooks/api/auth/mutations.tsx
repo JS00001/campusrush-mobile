@@ -22,7 +22,7 @@ import {
   logout,
 } from "@/api";
 
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 
 export const useLogin = () => {
   return useMutation({

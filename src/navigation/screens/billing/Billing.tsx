@@ -17,7 +17,7 @@ import tw from "@/lib/tailwind";
 import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import Hyperlink from "@/ui/Hyperlink";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import { useLogout } from "@/hooks/api/auth";
 import ProductCard from "@/components/ProductCard";
 import usePurchase from "@/hooks/deprecated/usePurchase";

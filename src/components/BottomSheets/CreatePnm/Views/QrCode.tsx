@@ -19,7 +19,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import CopyItem from "@/ui/CopyItem";
 import AppConstants from "@/constants";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 
 const QrCode: React.FC<UseSheetFlowProps> = () => {
   const { chapter } = useAuth();

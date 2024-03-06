@@ -16,7 +16,7 @@ import Button from "@/ui/Button";
 import date from "@/lib/util/date";
 import Hyperlink from "@/ui/Hyperlink";
 import { useIAPs } from "@/providers/IAP";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import { useEntitlementStore } from "@/store";
 import BillingDetails from "@/components/BillingDetails";
 

@@ -18,7 +18,7 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import AppConstants from "@/constants";
 import { useModalStore } from "@/store";
 import Content from "@/constants/content";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 
 interface AxiosInterceptorProps {
   children?: React.ReactNode;

@@ -25,7 +25,7 @@ import Button from "@/ui/Button";
 import Hyperlink from "@/ui/Hyperlink";
 import TextInput from "@/ui/TextInput";
 import Content from "@/constants/content";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import useFormMutation from "@/hooks/useFormMutation";
 
 const VerificationView = () => {

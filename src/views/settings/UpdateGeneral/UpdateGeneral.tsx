@@ -14,7 +14,7 @@ import Toast from "react-native-toast-message";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import Content from "@/constants/content";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import validators from "@/constants/validators";
 import useFormMutation from "@/hooks/useFormMutation";
 import { useUpdateChapter } from "@/hooks/api/chapter";

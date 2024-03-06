@@ -12,7 +12,7 @@
 
 import { useState } from 'react';
 
-import { useAuth } from '@/providers/Auth';
+import { useAuth } from '@/providers/Authv1';
 import { useIAPs } from '@/providers/IAP';
 
 const usePurchase = () => {

@@ -20,7 +20,7 @@ import AppConstants from "@/constants";
 import { useModalStore } from "@/store";
 import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import { useDeleteChapter } from "@/hooks/api/chapter";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import { useLogout } from "@/hooks/api/auth";

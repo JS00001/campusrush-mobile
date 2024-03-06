@@ -25,7 +25,7 @@ import Layout from "@/ui/Layout";
 import Button from "@/ui/Button";
 import AppConstants from "@/constants";
 import { formatJSON } from "@/lib/util/string";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import SegmentedControl from "@/ui/SegmentedControl";
 import { usePreferences } from "@/providers/Preferences";
 import BottomSheetBackdrop from "@/ui/BottomSheet/Backdrop";

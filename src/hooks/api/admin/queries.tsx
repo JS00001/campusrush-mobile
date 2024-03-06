@@ -12,7 +12,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import { getAdminChapter, getAdminChapters } from "@/api";
 import { useEffect, useState } from "react";
 

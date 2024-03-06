@@ -13,7 +13,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { getEntitlements } from "@/api";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 
 export const useGetEntitlements = () => {
   const { accessToken } = useAuth();

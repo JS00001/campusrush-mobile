@@ -15,7 +15,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Layout from "@/ui/Layout";
 import ActionCard from "@/ui/ActionCard";
 import TextInput from "@/ui/TextInput";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 
 interface UpdateChapterProps {
   navigation: NativeStackNavigationProp<any>;

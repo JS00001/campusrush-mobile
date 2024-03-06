@@ -14,7 +14,7 @@ import { PurchasesStoreProduct } from "react-native-purchases";
 
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from "@/providers/Authv1";
 import { useEntitlementStore } from "@/store";
 import ProductPerk from "@/components/ProductPerk";
 import { useBottomSheets } from "@/providers/BottomSheet";
