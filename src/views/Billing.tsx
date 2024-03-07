@@ -11,8 +11,10 @@
  */
 import { useState } from "react";
 import { View } from "react-native";
+import Toast from "react-native-toast-message";
+import * as Sentry from "@sentry/react-native";
 import { useQuery } from "@tanstack/react-query";
-import Qonversion from "react-native-qonversion";
+import Qonversion, { PurchaseModel } from "react-native-qonversion";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -70,20 +72,24 @@ const BillingView = () => {
    */
   const onPurchase = async () => {
     setPurchaseLoading(true);
-    const purchaseModel = selectedProduct?.toPurchaseModel() as any;
 
     try {
-      const entitlements =
-        await Qonversion.getSharedInstance().purchase(purchaseModel);
+      const purchaseModel = selectedProduct?.toPurchaseModel() as PurchaseModel;
+
+      const qonversionInstance = Qonversion.getSharedInstance();
+      const entitlements = await qonversionInstance.purchase(purchaseModel);
 
       if (entitlements) {
         setEntitlements(entitlements);
       }
+    } catch (e: any) {
+      if (e.userCancelled) {
+        return;
+      }
 
+      Sentry.captureException(e);
+    } finally {
       setPurchaseLoading(false);
-    } catch (e) {
-      setPurchaseLoading(false);
-      console.error(e);
     }
   };
 
@@ -93,13 +99,22 @@ const BillingView = () => {
   const onRestorePress = async () => {
     try {
       const entitlements = await Qonversion.getSharedInstance().restore();
+      const hasActiveEntitlements = Array.from(entitlements.values()).some(
+        (entitlement) => entitlement.isActive,
+      );
 
-      if (entitlements) {
+      if (hasActiveEntitlements) {
         setEntitlements(entitlements);
+        return;
       }
-      // TODO: CAN add an else to say no restorable purchases
+
+      Toast.show({
+        type: "error",
+        text1: "No purchases found",
+        text2: "You have no purchases to restore",
+      });
     } catch (e) {
-      console.log(e);
+      Sentry.captureException(e);
     }
   };
 
@@ -117,6 +132,7 @@ const BillingView = () => {
   // TODO: Add loading to this
   if (query.isLoading && query.isFetching) return null;
 
+  // TODO: Add a "No products found" message here
   if (!products) return null;
 
   return (

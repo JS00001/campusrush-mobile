@@ -19,6 +19,10 @@ import { QonversionConfigBuilder, LaunchMode } from 'react-native-qonversion';
 const qonversionConfig = new QonversionConfigBuilder(
   AppConstants.qonversionProjectKey,
   LaunchMode.SUBSCRIPTION_MANAGEMENT,
-).build();
+)
+  .setEntitlementsUpdateListener({
+    onEntitlementsUpdated: (entitlements) => {},
+  })
+  .build();
 
 export default qonversionConfig;

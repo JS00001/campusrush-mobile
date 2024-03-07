@@ -127,14 +127,12 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       await checkEntitlements();
 
       websocket.connect(accessToken);
-
-      setIsLoading(false);
     } catch {
       setAccessToken("");
       setRefreshToken("");
       setChapter({} as Chapter);
+    } finally {
       setIsLoading(false);
-      return;
     }
   };
 
