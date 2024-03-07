@@ -15,115 +15,117 @@ import { Linking } from "react-native";
 import Button from "@/ui/Button";
 import date from "@/lib/util/date";
 import Hyperlink from "@/ui/Hyperlink";
-import { useIAPs } from "@/providers/IAP";
-import { useAuth } from "@/providers/Authv1";
+
+import { useAuth } from "@/providers/Auth";
 import { useEntitlementStore } from "@/store";
 import BillingDetails from "@/components/BillingDetails";
 
 const UpdateBillingView = () => {
-  const { customerData } = useAuth();
-  const { offering, restorePurchases } = useIAPs();
-  const entitlements = useEntitlementStore((s) => s.entitlements);
+  // const { customerData } = useAuth();
+  // const { offering, restorePurchases } = useIAPs();
+  // const entitlements = useEntitlementStore((s) => s.entitlements);
 
-  const managementURL = customerData.managementURL;
+  // const managementURL = customerData.managementURL;
 
-  /** The list of all of the productIds for the customers entitlements  */
-  const activeEntitlements = Object.keys(customerData.entitlements.active).map(
-    (key) => customerData.entitlements.active[key].productIdentifier,
-  );
+  // /** The list of all of the productIds for the customers entitlements  */
+  // const activeEntitlements = Object.keys(customerData.entitlements.active).map(
+  //   (key) => customerData.entitlements.active[key].productIdentifier,
+  // );
 
-  /**
-   * The 'offering' is all of the currently available packages for the user to buy.
-   * We are using this as a 'hack' to get the product information of all of the users
-   * active entitlements. (There is currently no direcy way to get product information from
-   * the users entitlements)
-   */
-  const purchasedPackages =
-    offering?.availablePackages.filter((pkg) =>
-      activeEntitlements.includes(pkg.identifier),
-    ) ?? [];
+  // /**
+  //  * The 'offering' is all of the currently available packages for the user to buy.
+  //  * We are using this as a 'hack' to get the product information of all of the users
+  //  * active entitlements. (There is currently no direcy way to get product information from
+  //  * the users entitlements)
+  //  */
+  // const purchasedPackages =
+  //   offering?.availablePackages.filter((pkg) =>
+  //     activeEntitlements.includes(pkg.identifier),
+  //   ) ?? [];
 
-  /** We want to 'group' together the package with its entitlement  */
-  const purchasedPackageInformation = purchasedPackages.map((pkg) => {
-    const entitlementKey = Object.keys(customerData.entitlements.active).find(
-      (key) => {
-        return (
-          customerData.entitlements.active[key].productIdentifier ===
-          pkg.product.identifier
-        );
-      },
-    );
+  // /** We want to 'group' together the package with its entitlement  */
+  // const purchasedPackageInformation = purchasedPackages.map((pkg) => {
+  //   const entitlementKey = Object.keys(customerData.entitlements.active).find(
+  //     (key) => {
+  //       return (
+  //         customerData.entitlements.active[key].productIdentifier ===
+  //         pkg.product.identifier
+  //       );
+  //     },
+  //   );
 
-    const entitlement = entitlementKey
-      ? customerData.entitlements.active[entitlementKey]
-      : null;
+  //   const entitlement = entitlementKey
+  //     ? customerData.entitlements.active[entitlementKey]
+  //     : null;
 
-    return {
-      product: pkg.product,
-      entitlement,
-    };
-  });
+  //   return {
+  //     product: pkg.product,
+  //     entitlement,
+  //   };
+  // });
 
-  /**
-   *  Format all of the products to be properly displayed, each product in the array will be formatted as:
-   *  {
-   *    title: "Product Title",
-   *    description: "Product Description",
-   *    subtitle: "Product Price",
-   *    perks: ["Perk 1", "Perk 2", "Perk 3"]
-   *  }
-   */
-  const activePackageInformation = purchasedPackageInformation.map(
-    (product) => {
-      const isSubscription = product.product.productCategory === "SUBSCRIPTION";
-      const isPendingCancellation = product.entitlement?.willRenew === false;
-      const expirationDate = product.entitlement?.expirationDate
-        ? date.toString(product.entitlement.expirationDate)
-        : null;
+  // /**
+  //  *  Format all of the products to be properly displayed, each product in the array will be formatted as:
+  //  *  {
+  //  *    title: "Product Title",
+  //  *    description: "Product Description",
+  //  *    subtitle: "Product Price",
+  //  *    perks: ["Perk 1", "Perk 2", "Perk 3"]
+  //  *  }
+  //  */
+  // const activePackageInformation = purchasedPackageInformation.map(
+  //   (product) => {
+  //     const isSubscription = product.product.productCategory === "SUBSCRIPTION";
+  //     const isPendingCancellation = product.entitlement?.willRenew === false;
+  //     const expirationDate = product.entitlement?.expirationDate
+  //       ? date.toString(product.entitlement.expirationDate)
+  //       : null;
 
-      const title = product.product.title ?? "No Title";
-      const description = (() => {
-        if (isSubscription && isPendingCancellation) {
-          return `Pending Cancellation on ${expirationDate}`;
-        }
+  //     const title = product.product.title ?? "No Title";
+  //     const description = (() => {
+  //       if (isSubscription && isPendingCancellation) {
+  //         return `Pending Cancellation on ${expirationDate}`;
+  //       }
 
-        if (isSubscription) {
-          return `Renews automatically on ${expirationDate}`;
-        }
+  //       if (isSubscription) {
+  //         return `Renews automatically on ${expirationDate}`;
+  //       }
 
-        return "No Description";
-      })();
+  //       return "No Description";
+  //     })();
 
-      const subtitle =
-        `${product.product.priceString} ${isSubscription ? "/ year" : ""}` ??
-        "No Price";
+  //     const subtitle =
+  //       `${product.product.priceString} ${isSubscription ? "/ year" : ""}` ??
+  //       "No Price";
 
-      const id = product.product.identifier as ProductId;
+  //     const id = product.product.identifier as ProductId;
 
-      const perks = entitlements?.products[id]?.FEATURED_PERKS ?? [];
+  //     const perks = entitlements?.products[id]?.FEATURED_PERKS ?? [];
 
-      return {
-        title,
-        description,
-        subtitle,
-        perks,
-      };
-    },
-  );
+  //     return {
+  //       title,
+  //       description,
+  //       subtitle,
+  //       perks,
+  //     };
+  //   },
+  // );
 
-  const onManageBilling = () => {
-    if (managementURL) {
-      Linking.openURL(managementURL);
-    }
-  };
+  // const onManageBilling = () => {
+  //   if (managementURL) {
+  //     Linking.openURL(managementURL);
+  //   }
+  // };
 
-  return (
-    <>
-      <BillingDetails activeProducts={activePackageInformation} />
-      <Button onPress={onManageBilling}>Manage Subscription</Button>
-      <Hyperlink onPress={restorePurchases}>Restore Purchases</Hyperlink>
-    </>
-  );
+  // return (
+  //   <>
+  //     <BillingDetails activeProducts={activePackageInformation} />
+  //     <Button onPress={onManageBilling}>Manage Subscription</Button>
+  //     <Hyperlink onPress={restorePurchases}>Restore Purchases</Hyperlink>
+  //   </>
+  // );
+
+  return <></>;
 };
 
 export default UpdateBillingView;

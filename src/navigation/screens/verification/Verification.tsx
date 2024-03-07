@@ -11,7 +11,7 @@
  */
 
 import Layout from "@/ui/Layout";
-import { useAuth } from "@/providers/Authv1";
+import { useAuth } from "@/providers/Auth";
 import VerificationView from "@/views/Verification";
 
 const VerificationScreen = () => {

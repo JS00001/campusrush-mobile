@@ -12,7 +12,7 @@
 
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
-import { useAuth } from "@/providers/Authv1";
+import { useAuth } from "@/providers/Auth";
 import { useLogin } from "@/hooks/api/auth";
 import validators from "@/constants/validators";
 import useFormMutation from "@/hooks/useFormMutation";
@@ -20,7 +20,7 @@ import TermsAndConditions from "@/components/TermsAndConditions";
 
 const LoginView = () => {
   const mutation = useLogin();
-  const { signIn } = useAuth();
+  const { login } = useAuth();
 
   const formValidators = {
     email: validators.email,
@@ -30,7 +30,9 @@ const LoginView = () => {
   const form = useFormMutation({
     mutation,
     validators: formValidators,
-    onSuccess: (data) => signIn(data),
+    onSuccess: async (data) => {
+      await login(data);
+    },
   });
 
   return (

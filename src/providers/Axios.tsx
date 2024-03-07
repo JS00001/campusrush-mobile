@@ -18,7 +18,7 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import AppConstants from "@/constants";
 import { useModalStore } from "@/store";
 import Content from "@/constants/content";
-import { useAuth } from "@/providers/Authv1";
+import { useAuth } from "@/providers/Auth";
 
 interface AxiosInterceptorProps {
   children?: React.ReactNode;
@@ -31,7 +31,7 @@ const axiosClient = axios.create({
 const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
   const navigation = useNavigation();
   const { openModal } = useModalStore();
-  const { accessToken, clearUserData } = useAuth();
+  const { accessToken, clear } = useAuth();
 
   useEffect(() => {
     /**
@@ -80,7 +80,7 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
 
       /** 401 - UNAUTHORIZED */
       if (data.message === "UNAUTHORIZED") {
-        clearUserData();
+        clear();
         return;
       }
 

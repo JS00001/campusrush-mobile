@@ -28,6 +28,7 @@ import {
 } from "@/navigation/stack-navigator";
 import { useAuth } from "@/providers/Auth";
 import useVersioning from "@/hooks/useVersioning";
+import { useQonversion } from "@/providers/Qonversion";
 import { usePreferences } from "@/providers/Preferences";
 import { TabNavigator } from "@/navigation/tab-navigator";
 import { useEntitlements } from "@/providers/Entitlements";
@@ -39,15 +40,11 @@ const RootNavigator = () => {
     DMSans_700Bold,
   });
 
-  const {
-    isValidVersion,
-    forceUpdateAlert,
-    isLoading: isVersioningLoading,
-  } = useVersioning();
-
+  const versioning = useVersioning();
   const { isLoading: isAuthLoading, chapter } = useAuth();
   const { isLoading: isPreferencesLoading } = usePreferences();
   const { isLoading: isEntitlementsLoading } = useEntitlements();
+  const { isLoading: isQonversionLoading, entitlements } = useQonversion();
 
   const shouldHideSplashScreen = () => {
     return (
@@ -55,8 +52,9 @@ const RootNavigator = () => {
       !isAuthLoading &&
       !isPreferencesLoading &&
       !isEntitlementsLoading &&
-      isValidVersion &&
-      !isVersioningLoading
+      versioning.isValidVersion &&
+      !versioning.isLoading &&
+      !isQonversionLoading
     );
   };
   // Hide the splash screen when the app is fully loaded
@@ -69,16 +67,17 @@ const RootNavigator = () => {
     isAuthLoading,
     isPreferencesLoading,
     isEntitlementsLoading,
-    isValidVersion,
-    isVersioningLoading,
+    versioning.isValidVersion,
+    versioning.isLoading,
+    isQonversionLoading,
   ]);
 
   // If the user is not on the latest version, we show an alert
   useEffect(() => {
-    if (!isValidVersion && !isVersioningLoading) {
-      forceUpdateAlert();
+    if (!versioning.isValidVersion && !versioning.isLoading) {
+      versioning.forceUpdateAlert();
     }
-  }, [isValidVersion, isVersioningLoading]);
+  }, [versioning.isValidVersion, versioning.isLoading]);
 
   // If the user is loading, we can't render the app
   if (isAuthLoading && lodash.isEmpty(chapter)) return null;
@@ -93,7 +92,7 @@ const RootNavigator = () => {
   if (!chapter?.verified) return <VerificationStack />;
 
   // If the user has no active entitlements, we show the BillingStack
-  if (lodash.isEmpty(chapter?.entitlements)) return <BillingStack />;
+  if (lodash.isEmpty(entitlements)) return <BillingStack />;
 
   // If the user is logged in and verified, we show the TabNavigator
   // (the main app)

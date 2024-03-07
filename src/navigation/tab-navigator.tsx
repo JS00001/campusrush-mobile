@@ -22,7 +22,7 @@ import {
 } from "@/navigation/stack-navigator";
 
 import tw from "@/lib/tailwind";
-import { useAuth } from "@/providers/Authv1";
+import { useAuth } from "@/providers/Auth";
 import { useConversationStore } from "@/store";
 import { useBottomSheets } from "@/providers/BottomSheet";
 

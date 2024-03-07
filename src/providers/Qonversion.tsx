@@ -1,0 +1,81 @@
+/*
+ * Created on Wed Mar 06 2024
+ *
+ * This software is the proprietary property of CampusRush.
+ * All rights reserved. Unauthorized copying, modification, or distribution
+ * of this software, in whole or in part, is strictly prohibited.
+ * For licensing information contact CampusRush.
+ *
+ * Copyright (c) 2024 CampusRush
+ * Do not distribute
+ */
+
+import Qonversion from "react-native-qonversion";
+import { Entitlement } from "react-native-qonversion";
+import { createContext, useEffect, useState, useContext } from "react";
+
+interface IQonversionContext {
+  isLoading: boolean;
+  entitlements: string[];
+
+  checkEntitlements(): Promise<void>;
+  setEntitlements(entitlements: Map<string, Entitlement>): void;
+}
+
+const QonversionContext = createContext<IQonversionContext>(
+  {} as IQonversionContext,
+);
+
+const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [entitlementState, setEntitlementState] = useState<string[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      await checkEntitlements();
+      setIsLoading(false);
+    })();
+  }, []);
+
+  /**
+   * Get the active entitlements from the Qonversion SDK
+   * and set the active entitlements using only their ids.
+   */
+  const checkEntitlements = async () => {
+    const qonversionInstance = Qonversion.getSharedInstance();
+    const fetchedEntitlements = await qonversionInstance.checkEntitlements();
+
+    setEntitlements(fetchedEntitlements);
+  };
+
+  /**
+   * Takes an array of entitlements and sets the active entitlements
+   * using only their ids.
+   */
+  const setEntitlements = (entitlements: Map<string, Entitlement>) => {
+    const activeEntitlements = Array.from(entitlements.values())
+      .filter((entitlement) => entitlement.isActive)
+      .map((entitlement) => entitlement.id);
+
+    setEntitlementState(activeEntitlements);
+  };
+
+  return (
+    <QonversionContext.Provider
+      value={{
+        isLoading,
+        entitlements: entitlementState,
+        checkEntitlements,
+        setEntitlements,
+      }}
+    >
+      {children}
+    </QonversionContext.Provider>
+  );
+};
+
+export const useQonversion = () => useContext(QonversionContext);
+
+export default QonversionProvider;

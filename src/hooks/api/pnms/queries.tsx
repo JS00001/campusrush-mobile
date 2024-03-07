@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { usePnmStore } from "@/store";
 import { getPnms, getPnm } from "@/api";
-import { useAuth } from "@/providers/Authv1";
+import { useAuth } from "@/providers/Auth";
 
 export const useGetPnms = () => {
   const { accessToken } = useAuth();

@@ -20,7 +20,7 @@ import AppConstants from "@/constants";
 import { useModalStore } from "@/store";
 import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
-import { useAuth } from "@/providers/Authv1";
+import { useAuth } from "@/providers/Auth";
 import { useDeleteChapter } from "@/hooks/api/chapter";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import { useLogout } from "@/hooks/api/auth";
@@ -32,7 +32,7 @@ const SettingsView = () => {
   const logoutMutation = useLogout();
   const { openModal } = useModalStore();
   const { openBottomSheet } = useBottomSheets();
-  const { chapter, isPro, clearUserData } = useAuth();
+  const { chapter, isPro, clear } = useAuth();
 
   const onTermsOfServicePress = () => {
     openBottomSheet("TERMS_OF_SERVICE");
@@ -63,7 +63,7 @@ const SettingsView = () => {
 
     if ("error" in res.data) return;
 
-    clearUserData();
+    clear();
   };
 
   const onDeleteAccount = () => {

@@ -19,7 +19,7 @@ import tw from "@/lib/tailwind";
 import { useModalStore } from "@/store";
 import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
-import { useAuth } from "@/providers/Authv1";
+import { useAuth } from "@/providers/Auth";
 
 import { useGetContacts } from "@/hooks/api/messaging";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";

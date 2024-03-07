@@ -22,14 +22,14 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import toastConfig from "@/lib/toast";
 import Modals from "@/providers/Modal";
 import queryClient from "@/lib/queryClient";
-import AuthProvider from "@/providers/Authv1";
+import AuthProvider from "@/providers/Auth";
 import qonversionConfig from "@/lib/qonversion";
-import PurchasesProvider from "@/providers/IAP";
 import AxiosIntercepter from "@/providers/Axios";
 import WebsocketProvider from "@/providers/Websocket";
 import StatusOverlay from "@/components/StatusOverlay";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
+import QonversionProvider from "@/providers/Qonversion";
 import SentryProvider from "@/providers/external/Sentry";
 import DevEnvironment from "@/components/DevEnvironment";
 import BottomSheetProvider from "@/providers/BottomSheet";
@@ -55,7 +55,7 @@ const App = () => {
   return (
     <SentryProvider>
       <QueryClientProvider client={queryClient}>
-        <PurchasesProvider>
+        <QonversionProvider>
           <WebsocketProvider>
             <AuthProvider>
               <NavigationProvider>
@@ -83,7 +83,7 @@ const App = () => {
               </NavigationProvider>
             </AuthProvider>
           </WebsocketProvider>
-        </PurchasesProvider>
+        </QonversionProvider>
       </QueryClientProvider>
     </SentryProvider>
   );

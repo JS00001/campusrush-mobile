@@ -19,6 +19,7 @@ import { createContext, useEffect, useState, useContext } from "react";
 import AppConstants from "@/constants";
 import { useGlobalStore } from "@/store";
 import { useWebsocket } from "@/providers/Websocket";
+import { useQonversion } from "@/providers/Qonversion";
 
 interface IAuthContext {
   isPro: boolean;
@@ -40,6 +41,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const websocket = useWebsocket();
   const globalStore = useGlobalStore();
+  const { checkEntitlements } = useQonversion();
 
   const [isLoading, setIsLoading] = useState(true);
   const [accessToken, setAccessToken] = useState("");
@@ -121,6 +123,8 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         UserPropertyKey.EMAIL,
         chapter.email,
       );
+
+      await checkEntitlements();
 
       websocket.connect(accessToken);
 
@@ -206,7 +210,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   /**
    * Whether or not the user is subscribed to the pro plan
    */
-  const isPro = chapter.entitlements.some((e) => e === "pro");
+  const isPro = chapter.entitlements?.some((e) => e === "pro");
 
   return (
     <AuthContext.Provider

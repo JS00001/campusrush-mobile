@@ -14,7 +14,7 @@ import { z } from "zod";
 
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
-import { useAuth } from "@/providers/Authv1";
+import { useAuth } from "@/providers/Auth";
 import { useRegistrationStore } from "@/store";
 import { useRegister } from "@/hooks/api/auth";
 import validators from "@/constants/validators";
@@ -22,7 +22,7 @@ import useFormMutation from "@/hooks/useFormMutation";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep3View = () => {
-  const { signUp } = useAuth();
+  const { register } = useAuth();
   const mutation = useRegister();
   const store = useRegistrationStore();
 
@@ -49,7 +49,7 @@ const RegistrationStep3View = () => {
       confirmPassword: store.confirmPassword,
     },
     onSuccess: async (data) => {
-      await signUp(data);
+      await register(data);
       store.clear();
     },
   });

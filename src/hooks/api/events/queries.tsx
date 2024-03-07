@@ -14,7 +14,7 @@ import { useEffect } from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 import { useEventStore } from "@/store";
-import { useAuth } from "@/providers/Authv1";
+import { useAuth } from "@/providers/Auth";
 import { getEvent, getEvents } from "@/api";
 
 export const useGetEvents = () => {

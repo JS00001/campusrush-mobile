@@ -17,7 +17,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ActionCard from "@/ui/ActionCard";
 import IconButton from "@/ui/IconButton";
-import { useAuth } from "@/providers/Authv1";
+import { useAuth } from "@/providers/Auth";
 import RecentPnms from "@/components/RecentPnms";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import { useGetChapterStatistics } from "@/hooks/api/chapter";

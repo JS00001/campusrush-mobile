@@ -18,14 +18,14 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import CopyItem from "@/ui/CopyItem";
 import AppConstants from "@/constants";
-import { useAuth } from "@/providers/Authv1";
+import { useAuth } from "@/providers/Auth";
 import SelectionCard from "@/ui/SelectionCard";
 import useFormMutation from "@/hooks/useFormMutation";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 
 const LinkSharingView = () => {
   const mutation = useUpdateChapter();
-  const { chapter, updateChapter } = useAuth();
+  const { chapter, setChapter } = useAuth();
 
   const formValidators = {
     linkSharingEnabled: z.boolean(),
@@ -35,7 +35,7 @@ const LinkSharingView = () => {
     mutation: mutation,
     validators: formValidators,
     onSuccess: async ({ data }) => {
-      updateChapter(data.chapter);
+      setChapter(data.chapter);
     },
     initialValues: {
       linkSharingEnabled: chapter.linkSharingEnabled,

@@ -14,13 +14,13 @@ import Toast from "react-native-toast-message";
 import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import Content from "@/constants/content";
-import { useAuth } from "@/providers/Authv1";
+import { useAuth } from "@/providers/Auth";
 import validators from "@/constants/validators";
 import useFormMutation from "@/hooks/useFormMutation";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 
 const UpdateGeneralView = () => {
-  const { chapter, updateChapter } = useAuth();
+  const { chapter, setChapter } = useAuth();
   const updateMutation = useUpdateChapter();
 
   const formValidators = {
@@ -33,7 +33,7 @@ const UpdateGeneralView = () => {
     mutation: updateMutation,
     validators: formValidators,
     onSuccess: async ({ data }) => {
-      updateChapter(data.chapter);
+      setChapter(data.chapter);
 
       Toast.show({
         type: "success",

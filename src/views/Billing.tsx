@@ -12,7 +12,7 @@
 import { useState } from "react";
 import { View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import Qonversion, { Entitlement } from "react-native-qonversion";
+import Qonversion from "react-native-qonversion";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -21,11 +21,14 @@ import Hyperlink from "@/ui/Hyperlink";
 import { useAuth } from "@/providers/Auth";
 import { useLogout } from "@/hooks/api/auth";
 import ProductCard from "@/components/ProductCard";
+import { useQonversion } from "@/providers/Qonversion";
 
 const BillingView = () => {
   const logoutMutation = useLogout();
-  const { chapter, setChapter, clear } = useAuth();
+  const { chapter, clear } = useAuth();
+  const { setEntitlements } = useQonversion();
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [purchaseLoading, setPurchaseLoading] = useState(false);
 
   /**
    * Fetch all of the products from Qonversion and
@@ -54,7 +57,11 @@ const BillingView = () => {
   const selectedProduct = products?.[selectedIndex];
 
   const buttonCTA = selectedProduct?.trialPeriod
-    ? `Start your ${selectedProduct.trialPeriod.unitCount}-${selectedProduct.trialPeriod?.unit.toLowerCase()} free trial\nthen ${selectedProduct.prettyPrice} /${selectedProduct.subscriptionPeriod?.unit.toLowerCase()}`
+    ? `Start your ${
+        selectedProduct.trialPeriod.unitCount
+      }-${selectedProduct.trialPeriod?.unit.toLowerCase()} free trial\nthen ${
+        selectedProduct.prettyPrice
+      } /${selectedProduct.subscriptionPeriod?.unit.toLowerCase()}`
     : `Subscribe for ${selectedProduct?.prettyPrice} /${selectedProduct?.subscriptionPeriod?.unit.toLowerCase()}`;
 
   /**
@@ -62,6 +69,7 @@ const BillingView = () => {
    * not throw an error if the buyer cancels the purchase
    */
   const onPurchase = async () => {
+    setPurchaseLoading(true);
     const purchaseModel = selectedProduct?.toPurchaseModel() as any;
 
     try {
@@ -69,16 +77,12 @@ const BillingView = () => {
         await Qonversion.getSharedInstance().purchase(purchaseModel);
 
       if (entitlements) {
-        const entitlementIds = Array.from(entitlements.values()).map(
-          (entitlement) => entitlement.id,
-        );
-
-        setChapter({
-          ...chapter,
-          entitlements: entitlementIds,
-        });
+        setEntitlements(entitlements);
       }
+
+      setPurchaseLoading(false);
     } catch (e) {
+      setPurchaseLoading(false);
       console.error(e);
     }
   };
@@ -91,15 +95,9 @@ const BillingView = () => {
       const entitlements = await Qonversion.getSharedInstance().restore();
 
       if (entitlements) {
-        const entitlementIds = Array.from(entitlements.values()).map(
-          (entitlement) => entitlement.id,
-        );
-
-        setChapter({
-          ...chapter,
-          entitlements: entitlementIds,
-        });
+        setEntitlements(entitlements);
       }
+      // TODO: CAN add an else to say no restorable purchases
     } catch (e) {
       console.log(e);
     }
@@ -140,7 +138,9 @@ const BillingView = () => {
         );
       })}
 
-      <Button onPress={onPurchase}>{buttonCTA}</Button>
+      <Button onPress={onPurchase} loading={purchaseLoading}>
+        {buttonCTA}
+      </Button>
 
       <View style={tw`justify-center -mt-2 items-center`}>
         <Text style={tw`text-center`}>
