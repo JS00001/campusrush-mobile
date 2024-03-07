@@ -11,8 +11,6 @@
  */
 import { useState } from "react";
 import { View } from "react-native";
-import Toast from "react-native-toast-message";
-import * as Sentry from "@sentry/react-native";
 import { useQuery } from "@tanstack/react-query";
 import Qonversion, { PurchaseModel } from "react-native-qonversion";
 
@@ -28,7 +26,7 @@ import { useQonversion } from "@/providers/Qonversion";
 const BillingView = () => {
   const logoutMutation = useLogout();
   const { chapter, clear } = useAuth();
-  const { setEntitlements } = useQonversion();
+  const { purchaseProduct, restorePurchases } = useQonversion();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [purchaseLoading, setPurchaseLoading] = useState(false);
 
@@ -73,49 +71,11 @@ const BillingView = () => {
   const onPurchase = async () => {
     setPurchaseLoading(true);
 
-    try {
-      const purchaseModel = selectedProduct?.toPurchaseModel() as PurchaseModel;
+    const purchaseModel = selectedProduct?.toPurchaseModel() as PurchaseModel;
 
-      const qonversionInstance = Qonversion.getSharedInstance();
-      const entitlements = await qonversionInstance.purchase(purchaseModel);
+    purchaseProduct(purchaseModel);
 
-      if (entitlements) {
-        setEntitlements(entitlements);
-      }
-    } catch (e: any) {
-      if (e.userCancelled) {
-        return;
-      }
-
-      Sentry.captureException(e);
-    } finally {
-      setPurchaseLoading(false);
-    }
-  };
-
-  /**
-   * When the restore button is pressed, restore the user's purchases
-   */
-  const onRestorePress = async () => {
-    try {
-      const entitlements = await Qonversion.getSharedInstance().restore();
-      const hasActiveEntitlements = Array.from(entitlements.values()).some(
-        (entitlement) => entitlement.isActive,
-      );
-
-      if (hasActiveEntitlements) {
-        setEntitlements(entitlements);
-        return;
-      }
-
-      Toast.show({
-        type: "error",
-        text1: "No purchases found",
-        text2: "You have no purchases to restore",
-      });
-    } catch (e) {
-      Sentry.captureException(e);
-    }
+    setPurchaseLoading(false);
   };
 
   /**
@@ -172,7 +132,7 @@ const BillingView = () => {
             Sign out
           </Hyperlink>
           <Text style={tw`mx-1`}>or</Text>
-          <Hyperlink color="dark" onPress={onRestorePress}>
+          <Hyperlink color="dark" onPress={restorePurchases}>
             Restore purchases
           </Hyperlink>
         </View>

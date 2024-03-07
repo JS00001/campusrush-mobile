@@ -11,42 +11,22 @@
  */
 
 import { Linking, View } from "react-native";
-import * as Sentry from "@sentry/react-native";
-import Toast from "react-native-toast-message";
 import RemixIcon from "react-native-remix-icon";
-import { useQuery } from "@tanstack/react-query";
-import Qonversion, { EntitlementRenewState } from "react-native-qonversion";
+import { EntitlementRenewState } from "react-native-qonversion";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import date from "@/lib/util/date";
 import Hyperlink from "@/ui/Hyperlink";
-import { useAuth } from "@/providers/Auth";
 import { useQonversion } from "@/providers/Qonversion";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
 const UpdateBillingView = () => {
   const URL = "https://apps.apple.com/account/subscriptions";
 
-  const { accessToken } = useAuth();
-  const { setEntitlements } = useQonversion();
   const { openBottomSheet } = useBottomSheets();
-
-  const query = useQuery(["billing", accessToken], {
-    queryFn: async () => {
-      const qonversionInstance = Qonversion.getSharedInstance();
-      const fetchedEntitlements = await qonversionInstance.checkEntitlements();
-
-      const entitlements = Array.from(fetchedEntitlements.values()).filter(
-        (entitlement) => entitlement.isActive,
-      );
-
-      return entitlements;
-    },
-  });
-
-  const entitlements = query.data;
+  const { entitlements, restorePurchases } = useQonversion();
 
   const containerStyles = tw.style(
     "bg-slate-100 rounded-xl p-5 gap-y-5 w-full",
@@ -59,32 +39,6 @@ const UpdateBillingView = () => {
   const onManageBilling = () => {
     Linking.openURL(URL);
   };
-
-  // TODO: Make this a part of the Qonversion provider
-  const onRestorePress = async () => {
-    try {
-      const entitlements = await Qonversion.getSharedInstance().restore();
-      const hasActiveEntitlements = Array.from(entitlements.values()).some(
-        (entitlement) => entitlement.isActive,
-      );
-
-      if (hasActiveEntitlements) {
-        setEntitlements(entitlements);
-        return;
-      }
-
-      Toast.show({
-        type: "error",
-        text1: "No purchases found",
-        text2: "You have no purchases to restore",
-      });
-    } catch (e) {
-      Sentry.captureException(e);
-    }
-  };
-
-  // TODO: Add a loading spinner
-  if (query.isLoading) return null;
 
   // TODO: Add an error message
   if (!entitlements) return null;
@@ -167,7 +121,7 @@ const UpdateBillingView = () => {
         );
       })}
 
-      <Hyperlink onPress={onRestorePress}>Restore Purchases</Hyperlink>
+      <Hyperlink onPress={restorePurchases}>Restore Purchases</Hyperlink>
     </View>
   );
 };
