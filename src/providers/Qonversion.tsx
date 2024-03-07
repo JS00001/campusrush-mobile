@@ -15,8 +15,10 @@ import { Entitlement } from "react-native-qonversion";
 import { createContext, useEffect, useState, useContext } from "react";
 
 interface IQonversionContext {
+  isPro: boolean;
   isLoading: boolean;
-  entitlements: string[];
+  entitlementIds: string[];
+  entitlements: Map<string, Entitlement>;
 
   checkEntitlements(): Promise<void>;
   setEntitlements(entitlements: Map<string, Entitlement>): void;
@@ -30,7 +32,9 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [entitlementState, setEntitlementState] = useState<string[]>([]);
+  const [entitlementIds, setEntitlementIds] = useState<string[]>([]);
+  // prettier-ignore
+  const [entitlementState, setEntitlementState] = useState<Map<string, Entitlement>>(new Map());
 
   useEffect(() => {
     (async () => {
@@ -55,20 +59,33 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
    * using only their ids.
    */
   const setEntitlements = (entitlements: Map<string, Entitlement>) => {
-    const activeEntitlements = Array.from(entitlements.values())
-      .filter((entitlement) => entitlement.isActive)
-      .map((entitlement) => entitlement.id);
+    const activeEntitlements = Array.from(entitlements.values()).filter(
+      (entitlement) => entitlement.isActive,
+    );
 
-    setEntitlementState(activeEntitlements);
+    const activeEntitlementIds = activeEntitlements.map(
+      (entitlement) => entitlement.id,
+    );
+
+    setEntitlementState(entitlements);
+    setEntitlementIds(activeEntitlementIds);
   };
+
+  /**
+   * Whether or not the user has a pro subscription.
+   */
+  const isPro = entitlementIds.includes("pro");
 
   return (
     <QonversionContext.Provider
       value={{
+        isPro,
         isLoading,
         entitlements: entitlementState,
-        checkEntitlements,
+        entitlementIds,
+
         setEntitlements,
+        checkEntitlements,
       }}
     >
       {children}

@@ -22,7 +22,6 @@ import { useWebsocket } from "@/providers/Websocket";
 import { useQonversion } from "@/providers/Qonversion";
 
 interface IAuthContext {
-  isPro: boolean;
   isLoading: boolean;
   chapter: Chapter;
   accessToken: string;
@@ -205,15 +204,9 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     websocket.disconnect();
   };
 
-  /**
-   * Whether or not the user is subscribed to the pro plan
-   */
-  const isPro = chapter.entitlements?.some((e) => e === "pro");
-
   return (
     <AuthContext.Provider
       value={{
-        isPro,
         isLoading,
         chapter,
         accessToken,
