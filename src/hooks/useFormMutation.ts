@@ -13,6 +13,7 @@
 import { z } from 'zod';
 import { useState } from 'react';
 import { AxiosError } from 'axios';
+import * as Sentry from '@sentry/react-native';
 import Toast from 'react-native-toast-message';
 import type { UseMutationResult } from '@tanstack/react-query';
 
@@ -151,8 +152,6 @@ const useFormMutation = <TResponse = any, TRequest = any>({
       if ('error' in res) return;
 
       await onSuccess?.(res);
-
-      setLoading(false);
     } catch (err) {
       if (err instanceof AxiosError) {
         const error = (err.response?.data as API.ErrorResponse).error;
@@ -166,15 +165,15 @@ const useFormMutation = <TResponse = any, TRequest = any>({
             text2: error.humanMessage,
           });
 
-          setLoading(false);
           return;
         }
 
         setError(errorField, error.humanMessage);
-        setLoading(false);
         return;
       }
 
+      Sentry.captureException(err);
+    } finally {
       setLoading(false);
     }
   };

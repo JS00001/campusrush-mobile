@@ -31,7 +31,7 @@ import useFormMutation from "@/hooks/useFormMutation";
 const VerificationView = () => {
   const logoutMutation = useLogout();
   const verifyEmailMutation = useVerifyEmail();
-  const { clearUserData, updateChapter } = useAuth();
+  const { clear, setChapter } = useAuth();
   const resendVerificationMutation = useResendVerification();
 
   const formValidators = {
@@ -42,7 +42,7 @@ const VerificationView = () => {
     mutation: verifyEmailMutation,
     validators: formValidators,
     onSuccess: async ({ data }) => {
-      updateChapter(data.chapter);
+      setChapter(data.chapter);
 
       Toast.show({
         type: "success",
@@ -67,7 +67,7 @@ const VerificationView = () => {
 
     if ("error" in res.data) return;
 
-    clearUserData();
+    clear();
   };
 
   return (

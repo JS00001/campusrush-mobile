@@ -12,10 +12,11 @@
 
 import Layout from "@/ui/Layout";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import ActionButton from "@/ui/ActionButton/ActionButton";
 import Dropdown from "@/ui/Dropdown";
+import Qonversion, { Product } from "react-native-qonversion";
 
 interface UITestingProps {}
 
@@ -83,48 +84,7 @@ const UITesting: React.FC<UITestingProps> = () => {
     <>
       <Layout scrollable keyboardAvoiding>
         <Layout.Header title="Test" subtitle="Test 2" hasBackButton />
-        {/* <SegmentedControl
-        values={["Monthly", "Yearly"]}
-        selectedIndex={0}
-        onChange={() => {}}
-      /> */}
-        {/* <SelectionCard
-        selected={selected === 0}
-        title="Basic Lifetime Plan"
-        description="One-time Purchase"
-        subtitle="$849.99"
-        onPress={() => setSelected(0)}
-      />
-      <SelectionCard
-        selected={selected === 1}
-        title="Basic Monthly Plan"
-        description="Monthly Subscription"
-        subtitle="$9.99 /mo"
-        onPress={() => setSelected(1)}
-      /> */}
-        {/* <ActionCard
-          title="Test"
-          subtitle="Test 2"
-          icon="ri-building-2-fill"
-          onPress={() => {}}
-        />
 
-        <View style={tw`flex-row gap-6 w-full`}>
-          <ActionCard
-            title="Test"
-            subtitle="Test 2"
-            icon="ri-building-2-fill"
-            onPress={() => {}}
-            size="sm"
-          />
-          <ActionCard
-            title="Test"
-            subtitle="Test 2"
-            icon="ri-building-2-fill"
-            onPress={() => {}}
-            size="sm"
-          />
-        </View> */}
         <Dropdown
           searchable
           placeholder="Chapter"

@@ -22,7 +22,7 @@ import useFormMutation from "@/hooks/useFormMutation";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep3View = () => {
-  const { signUp } = useAuth();
+  const { register } = useAuth();
   const mutation = useRegister();
   const store = useRegistrationStore();
 
@@ -49,7 +49,7 @@ const RegistrationStep3View = () => {
       confirmPassword: store.confirmPassword,
     },
     onSuccess: async (data) => {
-      await signUp(data);
+      await register(data);
       store.clear();
     },
   });

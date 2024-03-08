@@ -1,67 +1,55 @@
 /*
- * Created on Sat Aug 12 2023
+ * Created on Wed Mar 06 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
  * of this software, in whole or in part, is strictly prohibited.
  * For licensing information contact CampusRush.
  *
- * Copyright (c) 2023 CampusRush
+ * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
 
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import Purchases, { CustomerInfo } from "react-native-purchases";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Qonversion, { UserPropertyKey } from "react-native-qonversion";
 import { createContext, useEffect, useState, useContext } from "react";
 
 import AppConstants from "@/constants";
 import { useGlobalStore } from "@/store";
 import { useWebsocket } from "@/providers/Websocket";
+import { useQonversion } from "@/providers/Qonversion";
 
-interface AuthContextProps {
-  isPro: boolean;
+interface IAuthContext {
   isLoading: boolean;
-  accessToken: string | null;
-  refreshToken: string | null;
   chapter: Chapter;
-  customerData: CustomerInfo;
+  accessToken: string;
+  refreshToken: string;
 
-  clearUserData: () => void;
-  updateChapter: (chapter: Chapter) => void;
-  signIn: (response: LoginResponse) => Promise<void>;
-  signUp: (response: RegisterResponse) => Promise<void>;
+  clear(): void;
+  setChapter(chapter: Chapter): void;
+  login: (response: LoginResponse) => Promise<void>;
+  register: (response: RegisterResponse) => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
+const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
-const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
+const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  // Whether or not the app is loading
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  // The current chapters access token
-  const [accessToken, setAccessToken] = useState<string>("");
-  // The current chapters refresh token
-  const [refreshToken, setRefreshToken] = useState<string>("");
-  // The current chapter's data
-  const [chapter, setChapter] = useState<Chapter>({} as Chapter);
-  // The current chapter's billing data
-  const [customerData, setcustomerData] = useState<CustomerInfo>(
-    {} as CustomerInfo,
-  );
-
-  // Clears all the pnms when user logs out
-  const { clear } = useGlobalStore();
-
-  // Import the websocket data
   const websocket = useWebsocket();
+  const globalStore = useGlobalStore();
+  const { checkEntitlements } = useQonversion();
 
-  // Declare all AuthAPI mutations
-  const refreshAccessTokenMutation = useMutation({
-    mutationFn: (refreshToken: string) => {
-      return axios.post(
+  const [isLoading, setIsLoading] = useState(true);
+  const [accessToken, setAccessToken] = useState("");
+  const [refreshToken, setRefreshToken] = useState("");
+  const [chapter, setChapter] = useState<Chapter>({} as Chapter);
+
+  const refreshTokenMutation = useMutation({
+    mutationFn: async (refreshToken: string) => {
+      const { data } = await axios.post(
         `${AppConstants.apiUrl}/api/v1/consumer/auth/refresh`,
         {},
         {
@@ -70,200 +58,163 @@ const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
           },
         },
       );
+
+      return data as RefreshAccessTokenResponse;
     },
   });
 
   const getChapterMutation = useMutation({
-    mutationFn: (accessToken: string) => {
-      return axios.get(`${AppConstants.apiUrl}/api/v1/consumer/auth/chapter`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+    mutationFn: async (accessToken: string) => {
+      const { data } = await axios.get(
+        `${AppConstants.apiUrl}/api/v1/consumer/auth/chapter`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         },
-      });
+      );
+
+      return data as GetChapterResponse;
     },
   });
 
-  // On initial load (ONLY ONCE)
-  // Load the refresh token,
-  // if refresh token, will load access token,
-  // if access token, will load chapter,
-  // if chapter, will load billing data
   useEffect(() => {
-    _loadRefreshToken();
+    fetchChapterData();
   }, []);
 
-  Purchases.addCustomerInfoUpdateListener((customerInfo) => {
-    setcustomerData(customerInfo);
-  });
-
-  // Load the refresh token from storage (if it exists)
-  const _loadRefreshToken = async () => {
-    const refreshToken = await AsyncStorage.getItem("refreshToken");
-
-    // If the refresh token exists, set it
-    if (refreshToken) {
-      setRefreshToken(refreshToken);
-      // Refresh the access token using the refresh token
-      _loadAccessToken(refreshToken);
-    } else {
-      // If the refresh token doesn't exist, set the loading state to false
-      setRefreshToken("");
-      setIsLoading(false);
-    }
-  };
-
-  // Refresh the access token with the refresh token
-  const _loadAccessToken = async (refreshToken: string) => {
+  /**
+   * Using a stored refresh token, get a new access token and
+   * then access the chapter data
+   */
+  const fetchChapterData = async () => {
     try {
-      // Request a new access token using the refresh token
-      const response =
-        await refreshAccessTokenMutation.mutateAsync(refreshToken);
-      // The access token
-      const accessToken = response.data?.data.accessToken;
-      // store the access token in state
-      setAccessToken(accessToken);
-      // Load the chapter from the access token
-      _loadChapter(accessToken);
-    } catch (error) {
-      // If the request or access token is invalid, set the loading state to false
-      setAccessToken("");
-      setIsLoading(false);
-    }
-  };
+      // Get the refresh token from async storage
+      const refreshToken = await AsyncStorage.getItem("refreshToken");
 
-  // Load the currently logged in chapter
-  const _loadChapter = async (accessToken: string) => {
-    try {
-      // Get the currently logged in chapter
-      const response = await getChapterMutation.mutateAsync(accessToken);
-      // The chapter data
-      const chapter = response.data?.data.chapter;
-      // Set the chapter in state
+      if (!refreshToken) {
+        throw new Error("No refresh token found");
+      }
+
+      // Use the refresh token to get a new access token
+      const response = await refreshTokenMutation.mutateAsync(refreshToken);
+
+      if ("error" in response) {
+        throw new Error("Could not refresh token");
+      }
+
+      const accessToken = response.data.accessToken;
+
+      // Use the access token to get the chapter data
+      const chapterResponse = await getChapterMutation.mutateAsync(accessToken);
+
+      if ("error" in chapterResponse) {
+        throw new Error("Could not fetch chapter data");
+      }
+
+      const chapter = chapterResponse.data.chapter;
+
       setChapter(chapter);
-      // Load the chapter's billing data from revenue cat
-      _loadCustomerData(chapter);
-      // Connect to the websocket
+      setAccessToken(accessToken);
+      setRefreshToken(refreshToken);
+
+      Qonversion.getSharedInstance().identify(chapter.customerId);
+      Qonversion.getSharedInstance().setUserProperty(
+        UserPropertyKey.EMAIL,
+        chapter.email,
+      );
+
+      await checkEntitlements();
+
       websocket.connect(accessToken);
-    } catch (error) {
-      // If the request or access token is invalid, set the loading state to false
+    } catch {
+      setAccessToken("");
+      setRefreshToken("");
       setChapter({} as Chapter);
+    } finally {
       setIsLoading(false);
     }
   };
 
-  // Load the currently logged in chapter's billing data
-  const _loadCustomerData = async (chapter: Chapter) => {
-    try {
-      // Login the user with revenue cat
-      await Purchases.logIn(chapter.customerId);
-
-      // Set the customer Id in local storage
-      await AsyncStorage.setItem("customerId", chapter.customerId);
-
-      // Get the chapter's billing data
-      const customerData = await Purchases.getCustomerInfo();
-
-      // Set the billing data in state
-      setcustomerData(customerData);
-    } catch (error) {
-      setcustomerData({} as CustomerInfo);
-    }
-
-    // Finally, set the loading state to false
-    setIsLoading(false);
-  };
-
-  // Sign in as an chapter
-  const signIn = async (response: LoginResponse) => {
+  /**
+   * Take a response from the login mutation and set the store
+   * to the new chapter and access token
+   */
+  const login = async (response: LoginResponse) => {
     if ("error" in response) return;
 
-    // The new chapter data
     const chapter = response.data.chapter;
-    // The new access token
     const accessToken = response.data.accessToken;
-    // The new refresh token
     const refreshToken = response.data.refreshToken;
 
-    // Store the refresh token in storage
     await AsyncStorage.setItem("refreshToken", refreshToken);
 
-    // Update the state for all of the new data
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
     setChapter(chapter);
 
-    // Load the new chapter's billing data
-    _loadCustomerData(chapter);
-    // Connect to the websocket
+    Qonversion.getSharedInstance().identify(chapter.customerId);
+    Qonversion.getSharedInstance().setUserProperty(
+      UserPropertyKey.EMAIL,
+      chapter.email,
+    );
+
     websocket.connect(accessToken);
   };
 
-  // Sign up as an chapter
-  const signUp = async (response: RegisterResponse) => {
+  /**
+   * Take a response from the register mutation and set the store
+   * to the new chapter and access token
+   */
+  const register = async (response: RegisterResponse) => {
     if ("error" in response) return;
 
-    // The new chapter data
     const chapter = response.data.chapter;
-    // The new access token
     const accessToken = response.data.accessToken;
-    // The new refresh token
     const refreshToken = response.data.refreshToken;
 
-    // Store the refresh token in storage
     await AsyncStorage.setItem("refreshToken", refreshToken);
 
-    // Update the state for all of the new data
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
     setChapter(chapter);
 
-    // Load the new chapter's billing data
-    _loadCustomerData(chapter);
-    // Connect to the websocket
+    Qonversion.getSharedInstance().identify(chapter.customerId);
+    Qonversion.getSharedInstance().setUserProperty(
+      UserPropertyKey.EMAIL,
+      chapter.email,
+    );
+
     websocket.connect(accessToken);
   };
 
-  // Update the chapter
-  const updateChapter = (chapter: Chapter) => {
-    setChapter(chapter);
-  };
-
-  // Clear all user data
-  const clearUserData = async () => {
-    // Clear all of the user data from the store
-    await clear();
-
-    // Clear the refresh token from storage
+  /**
+   * Clear all of the users data from the store and the
+   * async storage
+   */
+  const clear = async () => {
+    await globalStore.clear();
     await AsyncStorage.removeItem("refreshToken");
 
-    // Clear all of the user data from state
-    setChapter({} as Chapter);
     setAccessToken("");
     setRefreshToken("");
+    setChapter({} as Chapter);
 
-    // Disconnect from the websocket
+    Qonversion.getSharedInstance().logout();
+
     websocket.disconnect();
   };
-
-  const isPro =
-    Object.keys(customerData?.entitlements?.active || {}).includes("pro") ||
-    false;
 
   return (
     <AuthContext.Provider
       value={{
-        isPro,
         isLoading,
+        chapter,
         accessToken,
         refreshToken,
-        chapter,
-        customerData,
-
-        signIn,
-        signUp,
-
-        clearUserData,
-        updateChapter,
+        clear,
+        setChapter,
+        login,
+        register,
       }}
     >
       {children}

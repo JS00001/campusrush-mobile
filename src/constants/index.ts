@@ -48,6 +48,10 @@ const AppConstants = {
    */
   revenueCatPublicKey: ExpoConstants.expoConfig?.extra?.revenueCat?.publicKey,
   /**
+   * The project key used to initialize qonversion
+   */
+  qonversionProjectKey: ExpoConstants.expoConfig?.extra?.qonversion?.projectKey,
+  /**
    * The DSN to initialize sentry
    */
   sentryDsn: ExpoConstants.expoConfig?.extra?.sentry?.dsn,

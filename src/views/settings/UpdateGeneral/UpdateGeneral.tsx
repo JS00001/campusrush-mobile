@@ -20,7 +20,7 @@ import useFormMutation from "@/hooks/useFormMutation";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 
 const UpdateGeneralView = () => {
-  const { chapter, updateChapter } = useAuth();
+  const { chapter, setChapter } = useAuth();
   const updateMutation = useUpdateChapter();
 
   const formValidators = {
@@ -33,7 +33,7 @@ const UpdateGeneralView = () => {
     mutation: updateMutation,
     validators: formValidators,
     onSuccess: async ({ data }) => {
-      updateChapter(data.chapter);
+      setChapter(data.chapter);
 
       Toast.show({
         type: "success",

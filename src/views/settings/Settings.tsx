@@ -21,18 +21,20 @@ import { useModalStore } from "@/store";
 import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
+import { useLogout } from "@/hooks/api/auth";
+import { useQonversion } from "@/providers/Qonversion";
 import { useDeleteChapter } from "@/hooks/api/chapter";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import { useLogout } from "@/hooks/api/auth";
 
 const SettingsView = () => {
   const navigation = useNavigation();
   const mutation = useDeleteChapter();
 
+  const { isPro } = useQonversion();
   const logoutMutation = useLogout();
+  const { chapter, clear } = useAuth();
   const { openModal } = useModalStore();
   const { openBottomSheet } = useBottomSheets();
-  const { chapter, isPro, clearUserData } = useAuth();
 
   const onTermsOfServicePress = () => {
     openBottomSheet("TERMS_OF_SERVICE");
@@ -63,7 +65,7 @@ const SettingsView = () => {
 
     if ("error" in res.data) return;
 
-    clearUserData();
+    clear();
   };
 
   const onDeleteAccount = () => {
