@@ -21,7 +21,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Icon, { IconType } from "@/ui/Icon";
 
-export type IconButtonColor = "primary" | "secondary";
+export type IconButtonColor = "primary" | "secondary" | "tertiary";
 
 export type IconButtonSize = "sm" | "md" | "lg";
 
@@ -65,6 +65,10 @@ const IconButtonColors = {
   },
   secondary: {
     container: "bg-slate-100",
+    color: tw.color("primary"),
+  },
+  tertiary: {
+    container: "bg-slate-200",
     color: tw.color("primary"),
   },
 };

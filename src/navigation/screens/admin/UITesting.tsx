@@ -10,12 +10,16 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
 import ActionButton from "@/ui/ActionButton";
+import Badge from "@/ui/Badge";
+import Button from "@/ui/Button";
+import ButtonGroup from "@/ui/ButtonGroup";
+import IconLabel from "@/ui/IconLabel";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
@@ -23,37 +27,45 @@ interface UITestingProps {
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
   return (
-    <>
-      <ActionButton icon="add-fill" />
-      <View style={tw`mt-48 px-6 gap-y-2`}>
-        <ListItem
-          size="sm"
-          title="Title"
-          subtitle="Subtitle"
-          icon="account-box-fill"
-        />
-
-        <ListItem title="Title" subtitle="Subtitle" />
-        <ListItem
-          title="Title"
-          subtitle="Subtitle"
-          icon="star-fill"
-          iconColor={tw.color("yellow")}
-        />
-        <ListItem
-          title="Title"
-          subtitle="Subtitle"
-          icon="star-fill"
-          size="lg"
-        />
-        <ListItem
-          title="Title"
-          subtitle="Subtitle"
-          icon="star-fill"
-          size="lg"
-        />
-      </View>
-    </>
+    <ScrollView contentContainerStyle={tw`pt-20 h-full gap-y-4 px-2`}>
+      <IconLabel
+        iconName="mail-line"
+        title="Mail"
+        subtitle="This is a mail icon"
+      />
+      <IconLabel
+        iconName="mail-line"
+        title="Mail"
+        subtitle="This is a mail icon"
+        color="secondary"
+      />
+      <IconLabel
+        iconName="mail-line"
+        title="Mail"
+        subtitle="This is a mail icon"
+        size="md"
+      />
+      <IconLabel
+        iconName="mail-line"
+        title="Mail"
+        subtitle="This is a mail icon"
+        color="secondary"
+        size="md"
+      />
+      <IconLabel
+        iconName="mail-line"
+        title="Mail"
+        subtitle="This is a mail icon"
+        size="sm"
+      />
+      <IconLabel
+        iconName="mail-line"
+        title="Mail"
+        subtitle="This is a mail icon"
+        color="secondary"
+        size="sm"
+      />
+    </ScrollView>
   );
 };
 

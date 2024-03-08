@@ -61,7 +61,7 @@ const CopyItem: React.FC<CopyItemProps> = ({ value, label }) => {
         <RemixIcon
           name="ri-file-copy-line"
           size={20}
-          color={tw.color("slate-400")}
+          color={tw.color("primary")}
         />
       </TouchableOpacity>
     </View>

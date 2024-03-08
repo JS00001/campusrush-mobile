@@ -13,7 +13,7 @@
 import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
-import Chapter from "@/ui_v1/Chapter";
+import Chapter from "@/ui/Chapter";
 import TextInput from "@/ui_v1/TextInput";
 import IconButton from "@/ui_v1/IconButton";
 import useSearch from "@/hooks/useSearch";
