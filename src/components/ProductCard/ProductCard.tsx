@@ -13,7 +13,7 @@
 import { Product } from "react-native-qonversion";
 
 import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
+import Button from "@/ui_v1/Button";
 import { useEntitlementStore } from "@/store";
 import ProductPerk from "@/components/ProductPerk";
 import { useBottomSheets } from "@/providers/BottomSheet";

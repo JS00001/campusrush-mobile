@@ -43,7 +43,7 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
           <RemixIcon name="mail-fill" size={16} color={tw.color("primary")} />
         </View>
 
-        <Text variant="body">{chapter.email}</Text>
+        <Text>{chapter.email}</Text>
       </View>
 
       <View style={tw`flex-row items-center gap-2`}>

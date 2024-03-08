@@ -16,9 +16,9 @@ import { EntitlementRenewState } from "react-native-qonversion";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
+import Button from "@/ui_v1/Button";
 import date from "@/lib/util/date";
-import Hyperlink from "@/ui/Hyperlink";
+import Hyperlink from "@/ui_v1/Hyperlink";
 import { useQonversion } from "@/providers/Qonversion";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
@@ -54,7 +54,7 @@ const UpdateBillingView = () => {
         return (
           <View style={containerStyles} key={entitlement.id}>
             <View>
-              <Text variant="title" style={tw`capitalize`}>
+              <Text type="h2" style={tw`capitalize`}>
                 {entitlement.id} Subscription
               </Text>
               <Text>Thank you for choosing CampusRush</Text>
@@ -70,10 +70,8 @@ const UpdateBillingView = () => {
               </View>
 
               <View>
-                <Text variant="body" style={tw`text-primary`}>
-                  Subscriber Since
-                </Text>
-                <Text variant="body">
+                <Text style={tw`text-primary`}>Subscriber Since</Text>
+                <Text>
                   {date.toString(entitlement.firstPurchaseDate as Date) ||
                     "N/A"}
                 </Text>
@@ -90,10 +88,8 @@ const UpdateBillingView = () => {
               </View>
 
               <View>
-                <Text variant="body" style={tw`text-primary`}>
-                  {renewText}
-                </Text>
-                <Text variant="body">
+                <Text style={tw`text-primary`}>{renewText}</Text>
+                <Text>
                   {date.toString(entitlement.expirationDate as Date) || "N/A"}
                 </Text>
               </View>

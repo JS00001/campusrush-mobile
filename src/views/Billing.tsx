@@ -16,8 +16,8 @@ import Qonversion, { PurchaseModel } from "react-native-qonversion";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
-import Hyperlink from "@/ui/Hyperlink";
+import Button from "@/ui_v1/Button";
+import Hyperlink from "@/ui_v1/Hyperlink";
 import { useAuth } from "@/providers/Auth";
 import { useLogout } from "@/hooks/api/auth";
 import ProductCard from "@/components/ProductCard";

@@ -200,7 +200,7 @@ const DevEnvironment: React.FC = ({}) => {
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`} variant="body">
+                <Text style={tw`w-full font-medium`} type="p2">
                   Current Subscription
                 </Text>
               </View>

@@ -9,7 +9,7 @@
  * Copyright (c) 2023 CampusRush
  * Do not distribute
  */
-import Layout from "@/ui/Layout";
+import Layout from "@/ui_v1/Layout";
 import BillingView from "@/views/Billing";
 
 const BillingScreen = () => {
