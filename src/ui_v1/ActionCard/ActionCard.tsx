@@ -21,7 +21,7 @@ import {
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import { useAuth } from "@/providers/Auth";
+import { useQonversion } from "@/providers/Qonversion";
 
 interface ActionCardProps {
   title: string;
@@ -71,7 +71,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
   enforceProPlan,
   loading,
 }) => {
-  const { isPro } = useAuth();
+  const { isPro } = useQonversion();
 
   const iconColor = enforceProPlan
     ? isPro

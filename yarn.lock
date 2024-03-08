@@ -6499,6 +6499,11 @@ react-native-purchases@^6.6.2:
   dependencies:
     "@revenuecat/purchases-typescript-internal" "6.3.1"
 
+react-native-qonversion@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-qonversion/-/react-native-qonversion-7.1.0.tgz#d58fbbdfce381a885d71cdd55ca7848b8ce684dc"
+  integrity sha512-Sv3jy1ez/LaCn7RhVGueq57Ayq1FVp4/ociKnZX8iqjHAEugNc2/8KpUuatxupMG5ZOTGA2HdRM5y96lPfGNdw==
+
 react-native-qrcode-svg@^6.2.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/react-native-qrcode-svg/-/react-native-qrcode-svg-6.3.0.tgz#2b03826b7bd0c95d9c3fb669cb0fb5091f98d687"

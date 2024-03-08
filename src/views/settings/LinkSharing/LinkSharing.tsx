@@ -25,7 +25,7 @@ import { useUpdateChapter } from "@/hooks/api/chapter";
 
 const LinkSharingView = () => {
   const mutation = useUpdateChapter();
-  const { chapter, updateChapter } = useAuth();
+  const { chapter, setChapter } = useAuth();
 
   const formValidators = {
     linkSharingEnabled: z.boolean(),
@@ -35,7 +35,7 @@ const LinkSharingView = () => {
     mutation: mutation,
     validators: formValidators,
     onSuccess: async ({ data }) => {
-      updateChapter(data.chapter);
+      setChapter(data.chapter);
     },
     initialValues: {
       linkSharingEnabled: chapter.linkSharingEnabled,

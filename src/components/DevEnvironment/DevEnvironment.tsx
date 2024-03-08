@@ -34,7 +34,7 @@ import { useWebsocket } from "@/providers/Websocket";
 const DevEnvironment: React.FC = ({}) => {
   const { updatePreferences } = usePreferences();
   // Use data from auth provider
-  const { chapter, customerData } = useAuth();
+  const { chapter } = useAuth();
   // The active index of the segmented control
   const [activeIndex, setActiveIndex] = useState<number>(0);
   // Ref to the bottom sheet modal so we can programmatically open it
@@ -137,20 +137,6 @@ const DevEnvironment: React.FC = ({}) => {
             <Layout gap={20} scrollable contentContainerStyle={tw`pb-12`}>
               <View style={tw`w-full gap-y-2`}>
                 <Text style={tw`w-full font-medium`}>
-                  Current Subscription?
-                </Text>
-
-                <View style={tw`bg-slate-100 p-3 rounded-xl w-full`}>
-                  {lodash.isEmpty(customerData?.entitlements?.active) ? (
-                    <Text style={tw`text-red`}>No active subscription</Text>
-                  ) : (
-                    <Text style={tw`text-green`}>Subscription active</Text>
-                  )}
-                </View>
-              </View>
-
-              <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`}>
                   Preferences Overrides
                 </Text>
                 <Button
@@ -214,35 +200,9 @@ const DevEnvironment: React.FC = ({}) => {
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`}>Current Subscription</Text>
-
-                <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
-                  {lodash.isEmpty(customerData?.entitlements?.active) ? (
-                    <Text>No active subscription</Text>
-                  ) : (
-                    <Text>
-                      {JSON.stringify(
-                        customerData?.entitlements?.active,
-                        null,
-                        2,
-                      ).slice(1, -1)}
-                    </Text>
-                  )}
-                </View>
-              </View>
-
-              <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`font-medium`}>
-                  RevenueCat Entitlement Information
+                <Text style={tw`w-full font-medium`} variant="body">
+                  Current Subscription
                 </Text>
-                <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
-                  <Text style={tw`text-black text-[10px] leading-3`}>
-                    {JSON.stringify(customerData?.entitlements, null, 2).slice(
-                      1,
-                      -1,
-                    )}
-                  </Text>
-                </View>
               </View>
             </Layout>
           </>

@@ -36,6 +36,9 @@ export default {
     revenueCat: {
       publicKey: 'appl_cjerjYwfjLIGoYMsbLhqPxeeqwp',
     },
+    qonversion: {
+      projectKey: '0vNPscbrDatfqzz0xf_WqVf3fsydPhrb',
+    },
     sentry: {
       dsn: 'https://e67ab04c64431925a12476788c0e22a9@o4506311638843392.ingest.sentry.io/4506317292175360',
     },

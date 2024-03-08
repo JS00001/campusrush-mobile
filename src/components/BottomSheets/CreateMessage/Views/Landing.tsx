@@ -19,13 +19,13 @@ import tw from "@/lib/tailwind";
 import { useModalStore } from "@/store";
 import ActionCard from "@/ui_v1/ActionCard";
 import Content from "@/constants/content";
-import { useAuth } from "@/providers/Auth";
 
+import { useQonversion } from "@/providers/Qonversion";
 import { useGetContacts } from "@/hooks/api/messaging";
-import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
+import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
-  const { isPro } = useAuth();
+  const { isPro } = useQonversion();
   const navigation = useNavigation();
 
   const openModal = useModalStore((state) => state.openModal);
