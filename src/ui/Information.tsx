@@ -10,7 +10,12 @@
  * Do not distribute
  */
 
-import { ViewProps } from "react-native";
+import { useState } from "react";
+import { TouchableOpacity, View, ViewProps } from "react-native";
+
+import Icon from "@/ui/Icon";
+import tw from "@/lib/tailwind";
+import Tooltip from "@/ui/Tooltip";
 
 export type InformationSize = "sm" | "md" | "lg";
 
@@ -20,13 +25,61 @@ interface InformationProps extends ViewProps {
   style?: any;
 }
 
+/**
+ * The sizes of the information button
+ */
+const InformationSizes = {
+  sm: {
+    size: 16,
+    touchAreaStyles: tw.style("p-3 -top-1 -left-1"),
+  },
+  md: {
+    size: 20,
+    touchAreaStyles: tw.style("p-3 -top-0.5 -left-0.5"),
+  },
+  lg: {
+    size: 24,
+    touchAreaStyles: tw.style("p-4 -top-1 -left-1"),
+  },
+};
+
 const Information: React.FC<InformationProps> = ({
   tooltip,
-  size,
+  size = "md",
   style,
   ...props
 }) => {
-  return <></>;
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handlePress = () => {
+    setIsVisible((prev) => !prev);
+  };
+
+  const containerStyles = tw.style("relative", style);
+
+  const touchAreaStyles = tw.style(
+    "absolute opacity-50 w-full h-full",
+    InformationSizes[size].touchAreaStyles,
+  );
+
+  return (
+    <Tooltip
+      content={tooltip}
+      isVisible={isVisible}
+      onClose={handlePress}
+      parentWrapperStyle={style}
+    >
+      <View style={containerStyles} {...props}>
+        <Icon
+          name="information-line"
+          size={InformationSizes[size].size}
+          color={tw.color("slate-400")}
+        />
+
+        <TouchableOpacity onPress={handlePress} style={touchAreaStyles} />
+      </View>
+    </Tooltip>
+  );
 };
 
 export default Information;
