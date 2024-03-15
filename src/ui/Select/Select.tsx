@@ -1,0 +1,108 @@
+/*
+ * Created on Fri Mar 15 2024
+ *
+ * This software is the proprietary property of CampusRush.
+ * All rights reserved. Unauthorized copying, modification, or distribution
+ * of this software, in whole or in part, is strictly prohibited.
+ * For licensing information contact CampusRush.
+ *
+ * Copyright (c) 2024 CampusRush
+ * Do not distribute
+ */
+
+import { useRef, useState } from "react";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { TouchableOpacity, View, ViewProps } from "react-native";
+
+import OptionSheet from "./OptionSheet";
+
+import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
+import Icon, { IconType } from "@/ui/Icon";
+
+interface SelectProps extends ViewProps {
+  options: string[];
+  placeholder: string;
+  value: string | null;
+  searchable?: boolean;
+  error?: string;
+  style?: any;
+  onChange: (value: string | null) => void;
+}
+
+const Select: React.FC<SelectProps> = ({
+  options,
+  placeholder,
+  searchable,
+  error,
+  value,
+  style,
+  onChange,
+  ...props
+}) => {
+  const sheetRef = useRef<BottomSheetModal>(null);
+  const [expanded, setExpanded] = useState(false);
+
+  const valueText = value || `Select ${placeholder}`;
+  const iconName: IconType = expanded ? "arrow-up-s-line" : "arrow-down-s-line";
+
+  const toggleExpanded = () => {
+    if (expanded) {
+      handleCloseSheet();
+      return;
+    }
+
+    handleOpenSheet();
+  };
+
+  const handleOpenSheet = () => {
+    setExpanded(true);
+    sheetRef.current?.present();
+  };
+
+  const handleCloseSheet = () => {
+    setExpanded(false);
+    sheetRef.current?.dismiss();
+  };
+
+  const containerStyles = tw.style("gap-2 w-full", style);
+
+  const selectStyles = tw.style(
+    "border bg-slate-100 rounded-xl p-4.5",
+    "flex-row justify-between items-center",
+    error && "border-red",
+    !error && "border-slate-100",
+  );
+
+  const textStyles = tw.style(
+    "font-medium",
+    error && "text-red",
+    !error && "text-primary",
+  );
+
+  return (
+    <>
+      <View style={containerStyles} {...props}>
+        <Text style={textStyles}>{error || placeholder}</Text>
+
+        <TouchableOpacity style={selectStyles} onPress={toggleExpanded}>
+          <Text numberOfLines={1} type="h2" style={textStyles}>
+            {valueText}
+          </Text>
+          <Icon name={iconName} color={tw.color("primary")} />
+        </TouchableOpacity>
+      </View>
+
+      <OptionSheet
+        innerRef={sheetRef}
+        value={value}
+        options={options}
+        placeholder={placeholder}
+        onChange={onChange}
+        handleCloseSheet={handleCloseSheet}
+      />
+    </>
+  );
+};
+
+export default Select;

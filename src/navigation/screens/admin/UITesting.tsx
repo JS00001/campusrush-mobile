@@ -21,28 +21,24 @@ import Button from "@/ui/Button";
 import ButtonGroup from "@/ui/ButtonGroup";
 import IconLabel from "@/ui/IconLabel";
 import { Detail } from "@/ui/DetailView";
+import Select from "@/ui/Select/Select";
+import { useState } from "react";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
+  const [value, setValue] = useState<string | null>(null);
+
   return (
     <ScrollView contentContainerStyle={tw`pt-20 h-full gap-y-4 px-6`}>
-      <Detail.View>
-        <Detail.Item
-          layout="vertical"
-          title="Title"
-          value="Value is getting longer as well, so what weill we do i guess we can g away"
-        />
-        <Detail.Item title="Title" value="Value" />
-        <Detail.Item title="Title" value="Value" />
-        <Detail.Item title="Title" value="Value" />
-        <Detail.Item
-          title="Title is longer"
-          value="Value is getting longer as well, so what weill we do"
-        />
-      </Detail.View>
+      <Select
+        value={value}
+        placeholder="School Name"
+        options={["Option 1", "Option 2"]}
+        onChange={(value) => setValue(value)}
+      />
     </ScrollView>
   );
 };
