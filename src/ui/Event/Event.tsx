@@ -10,23 +10,25 @@
  * Do not distribute
  */
 
-import { ViewProps } from "react-native";
+import { TouchableOpacityProps } from "react-native";
 
-export type InformationSize = "sm" | "md" | "lg";
+export type EventType = "card" | "attachment";
 
-interface InformationProps extends ViewProps {
-  tooltip: string;
-  size?: InformationSize;
+interface EventProps extends Omit<TouchableOpacityProps, "onPress"> {
+  event: Event;
+  type?: EventType;
   style?: any;
+  onPress?: (event: Event) => void;
 }
 
-const Information: React.FC<InformationProps> = ({
-  tooltip,
-  size,
+const Event: React.FC<EventProps> = ({
+  event,
+  type = "card",
   style,
+  onPress,
   ...props
 }) => {
   return <></>;
 };
 
-export default Information;
+export default Event;

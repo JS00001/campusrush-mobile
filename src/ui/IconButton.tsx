@@ -23,7 +23,7 @@ import Icon, { IconType } from "@/ui/Icon";
 
 export type IconButtonColor = "primary" | "secondary" | "tertiary";
 
-export type IconButtonSize = "sm" | "md" | "lg";
+export type IconButtonSize = "xs" | "sm" | "md" | "lg";
 
 interface IconButtonProps extends TouchableOpacityProps {
   iconName: IconType;
@@ -38,6 +38,11 @@ interface IconButtonProps extends TouchableOpacityProps {
  * The sizes for all of the IconButton components
  */
 const IconButtonSizes = {
+  xs: {
+    icon: 20,
+    text: "p4",
+    container: { padding: 8 },
+  },
   sm: {
     icon: 22,
     text: "p4",

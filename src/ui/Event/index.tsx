@@ -10,23 +10,6 @@
  * Do not distribute
  */
 
-import { ViewProps } from "react-native";
+import Event from "./Event";
 
-export type InformationSize = "sm" | "md" | "lg";
-
-interface InformationProps extends ViewProps {
-  tooltip: string;
-  size?: InformationSize;
-  style?: any;
-}
-
-const Information: React.FC<InformationProps> = ({
-  tooltip,
-  size,
-  style,
-  ...props
-}) => {
-  return <></>;
-};
-
-export default Information;
+export default Event;

@@ -40,7 +40,6 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
         color: "white",
         fontSize: 14,
       }}
-      backgroundColor={tw.color("slate-50")}
     />
   );
 };

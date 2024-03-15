@@ -20,6 +20,7 @@ import Badge from "@/ui/Badge";
 import Button from "@/ui/Button";
 import ButtonGroup from "@/ui/ButtonGroup";
 import IconLabel from "@/ui/IconLabel";
+import { Detail } from "@/ui/DetailView";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;
@@ -27,44 +28,21 @@ interface UITestingProps {
 
 const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
   return (
-    <ScrollView contentContainerStyle={tw`pt-20 h-full gap-y-4 px-2`}>
-      <IconLabel
-        iconName="mail-line"
-        title="Mail"
-        subtitle="This is a mail icon"
-      />
-      <IconLabel
-        iconName="mail-line"
-        title="Mail"
-        subtitle="This is a mail icon"
-        color="secondary"
-      />
-      <IconLabel
-        iconName="mail-line"
-        title="Mail"
-        subtitle="This is a mail icon"
-        size="md"
-      />
-      <IconLabel
-        iconName="mail-line"
-        title="Mail"
-        subtitle="This is a mail icon"
-        color="secondary"
-        size="md"
-      />
-      <IconLabel
-        iconName="mail-line"
-        title="Mail"
-        subtitle="This is a mail icon"
-        size="sm"
-      />
-      <IconLabel
-        iconName="mail-line"
-        title="Mail"
-        subtitle="This is a mail icon"
-        color="secondary"
-        size="sm"
-      />
+    <ScrollView contentContainerStyle={tw`pt-20 h-full gap-y-4 px-6`}>
+      <Detail.View>
+        <Detail.Item
+          layout="vertical"
+          title="Title"
+          value="Value is getting longer as well, so what weill we do i guess we can g away"
+        />
+        <Detail.Item title="Title" value="Value" />
+        <Detail.Item title="Title" value="Value" />
+        <Detail.Item title="Title" value="Value" />
+        <Detail.Item
+          title="Title is longer"
+          value="Value is getting longer as well, so what weill we do"
+        />
+      </Detail.View>
     </ScrollView>
   );
 };

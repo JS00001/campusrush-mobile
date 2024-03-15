@@ -24,7 +24,7 @@ const TextWithNoFontScaling = Object.assign(RNText, {
 
 export type TextType = "h1" | "h2" | "p1" | "p2" | "p3" | "p4" | "p5";
 
-interface TextProps extends RNTextProps {
+export interface TextProps extends RNTextProps {
   type?: TextType;
   style?: any;
 }

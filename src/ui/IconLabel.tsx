@@ -18,7 +18,7 @@ import Icon, { IconType } from "@/ui/Icon";
 
 export type IconLabelColor = "primary" | "secondary" | "tertiary";
 
-export type IconLabelSize = "sm" | "md" | "lg";
+export type IconLabelSize = "xs" | "sm" | "md" | "lg";
 
 interface IconLabelProps extends ViewProps {
   iconName: IconType;
@@ -33,6 +33,11 @@ interface IconLabelProps extends ViewProps {
  * The sizes for all of the IconLabel components
  */
 const IconLabelSizes = {
+  xs: {
+    icon: 20,
+    text: "p4",
+    container: { padding: 8 },
+  },
   sm: {
     icon: 22,
     text: "p4",
@@ -82,7 +87,7 @@ const IconLabel: React.FC<IconLabelProps> = ({
   const containerStyles = tw.style("flex-row items-center gap-2", style);
 
   const iconContainerStyles = tw.style(
-    "rounded-full self-start flex-row items-center gap-x-2",
+    "rounded-full flex-row items-center gap-x-2",
     IconLabelColors[color].container,
     IconLabelSizes[size].container,
   );

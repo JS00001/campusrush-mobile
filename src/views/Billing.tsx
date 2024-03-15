@@ -73,7 +73,7 @@ const BillingView = () => {
 
     const purchaseModel = selectedProduct?.toPurchaseModel() as PurchaseModel;
 
-    purchaseProduct(purchaseModel);
+    await purchaseProduct(purchaseModel);
 
     setPurchaseLoading(false);
   };

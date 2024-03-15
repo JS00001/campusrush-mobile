@@ -10,23 +10,10 @@
  * Do not distribute
  */
 
-import { ViewProps } from "react-native";
+import DetailView from "./DetailView";
+import DetailItem from "./DetailItem";
 
-export type InformationSize = "sm" | "md" | "lg";
-
-interface InformationProps extends ViewProps {
-  tooltip: string;
-  size?: InformationSize;
-  style?: any;
-}
-
-const Information: React.FC<InformationProps> = ({
-  tooltip,
-  size,
-  style,
-  ...props
-}) => {
-  return <></>;
+export const Detail = {
+  View: DetailView,
+  Item: DetailItem,
 };
-
-export default Information;

@@ -10,23 +10,26 @@
  * Do not distribute
  */
 
-import { ViewProps } from "react-native";
+import { View, ViewProps } from "react-native";
 
-export type InformationSize = "sm" | "md" | "lg";
+import tw from "@/lib/tailwind";
 
-interface InformationProps extends ViewProps {
-  tooltip: string;
-  size?: InformationSize;
+interface DetailViewProps extends ViewProps {
   style?: any;
 }
 
-const Information: React.FC<InformationProps> = ({
-  tooltip,
-  size,
+const DetailView: React.FC<DetailViewProps> = ({
+  children,
   style,
   ...props
 }) => {
-  return <></>;
+  const containerStyles = tw.style("w-full rounded-xl overflow-hidden", style);
+
+  return (
+    <View style={containerStyles} {...props}>
+      {children}
+    </View>
+  );
 };
 
-export default Information;
+export default DetailView;
