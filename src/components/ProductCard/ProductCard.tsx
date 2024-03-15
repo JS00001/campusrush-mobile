@@ -34,8 +34,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const entitlements = useEntitlementStore((s) => s.entitlements);
 
   const hasTrialPeriod = product.trialPeriod !== null;
-  const trialLength = `${product.trialPeriod
-    ?.unitCount}-${product.trialPeriod?.unit.toLowerCase()}`;
+  const trialLength = `${
+    product.trialPeriod?.unitCount
+  }-${product.trialPeriod?.unit.toLowerCase()}`;
 
   const title = product.skProduct?.localizedTitle;
   const subtitle = `${
