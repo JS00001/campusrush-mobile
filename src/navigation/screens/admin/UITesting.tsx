@@ -14,15 +14,11 @@ import { View, ScrollView } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import tw from "@/lib/tailwind";
-import ListItem from "@/ui/ListItem";
-import ActionButton from "@/ui/ActionButton";
-import Badge from "@/ui/Badge";
-import Button from "@/ui/Button";
-import ButtonGroup from "@/ui/ButtonGroup";
-import IconLabel from "@/ui/IconLabel";
-import { Detail } from "@/ui/DetailView";
+
 import Select from "@/ui/Select/Select";
 import { useState } from "react";
+import FormField from "@/ui/FormField";
+import TextInput from "@/ui/TextInput";
 
 interface UITestingProps {
   navigation: NativeStackNavigationProp<any>;

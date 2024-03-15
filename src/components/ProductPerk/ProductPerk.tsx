@@ -37,7 +37,9 @@ const ProductPerk: React.FC<ProductPerkProps> = ({
           color={tw.color("green")}
           size={20}
         />
-        <Text style={tw`shrink`}>{name}</Text>
+        <Text type="p3" style={tw`shrink`}>
+          {name}
+        </Text>
       </View>
 
       {/* The information to show more information */}

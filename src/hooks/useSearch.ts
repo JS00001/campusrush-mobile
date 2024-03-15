@@ -49,6 +49,11 @@ const useSearch = ({ data, filters = [], fields = [] }: IUseSearch) => {
         });
       }
 
+      // Check if data is an array of strings rather than objects
+      if (typeof item === 'string') {
+        return item.toLowerCase().includes(query.toLowerCase());
+      }
+
       const values = Object.values(item).join(' ').toLowerCase();
 
       return values.includes(query.toLowerCase());

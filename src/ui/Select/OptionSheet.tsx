@@ -30,8 +30,10 @@ import Option from "./Option";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import TextInput from "@/ui/TextInput";
 import useSearch from "@/hooks/useSearch";
 import { BottomSheet } from "@/ui/BottomSheet";
+import KeyboardListener from "@/ui/KeyboardListener";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 interface OptionSheetProps {
@@ -58,7 +60,7 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
   });
 
   const handleSheetChanges = useCallback((index: number) => {
-    // If the sheet closes, call the handleClose function
+    // When the sheet closes...
     if (index === -1) {
       handleCloseSheet();
       setSelected(value);
@@ -70,41 +72,59 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
     handleCloseSheet();
   };
 
+  const onKeyboardWillShow = () => {
+    innerRef.current?.snapToPosition("95%");
+  };
+
+  const onKeyboardWillHide = () => {
+    innerRef.current?.snapToIndex(0);
+  };
+
   const inputPlaceholder = `Search ${options.length} options`;
 
   const containerStyles = tw.style("px-0 gap-3");
 
   return (
-    <BottomSheet innerRef={innerRef} onChange={handleSheetChanges}>
-      <BottomSheetContainer style={containerStyles}>
-        <View style={tw`px-6`}>
-          <Text type="h1">{placeholder}</Text>
-        </View>
-
-        {options.map((option, index) => {
-          const isSelected = selected === option;
-
-          const handleOptionPress = () => {
-            setSelected(option);
-          };
-
-          return (
-            <Option
-              value={option}
-              key={index}
-              selected={isSelected}
-              onPress={handleOptionPress}
+    <KeyboardListener
+      onKeyboardWillShow={onKeyboardWillShow}
+      onKeyboardWillHide={onKeyboardWillHide}
+    >
+      <BottomSheet innerRef={innerRef} onChange={handleSheetChanges}>
+        <BottomSheetContainer style={containerStyles}>
+          <View style={tw`px-6 gap-3`}>
+            <Text type="h1">{placeholder}</Text>
+            <TextInput
+              placeholder={inputPlaceholder}
+              value={search.query}
+              onChangeText={search.setQuery}
             />
-          );
-        })}
+          </View>
 
-        <View style={tw`px-6`}>
-          <Button size="sm" onPress={onDonePress}>
-            Done
-          </Button>
-        </View>
-      </BottomSheetContainer>
-    </BottomSheet>
+          {search.data.map((option, index) => {
+            const isSelected = selected === option;
+
+            const handleOptionPress = () => {
+              setSelected(option);
+            };
+
+            return (
+              <Option
+                value={option}
+                key={index}
+                selected={isSelected}
+                onPress={handleOptionPress}
+              />
+            );
+          })}
+
+          <View style={tw`px-6`}>
+            <Button size="sm" onPress={onDonePress}>
+              Done
+            </Button>
+          </View>
+        </BottomSheetContainer>
+      </BottomSheet>
+    </KeyboardListener>
   );
 };
 
