@@ -44,8 +44,8 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
       />
 
       <ActionCard
-        title="UI Testing"
-        subtitle="Test new UI in a sandbox environment"
+        title="UI Components"
+        subtitle="All of the current UI components and their docs"
         icon="ri-layout-masonry-fill"
         onPress={onUITestingPress}
       />
