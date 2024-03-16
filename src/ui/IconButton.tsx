@@ -27,6 +27,7 @@ export type IconButtonSize = "xs" | "sm" | "md" | "lg";
 
 interface IconButtonProps extends TouchableOpacityProps {
   iconName: IconType;
+  iconColor?: string;
   label?: string;
   style?: any;
   loading?: boolean;
@@ -82,6 +83,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   style,
   loading,
   iconName,
+  iconColor,
   label,
   size = "lg",
   color = "primary",
@@ -115,7 +117,7 @@ const IconButton: React.FC<IconButtonProps> = ({
 
       <Icon
         name={iconName}
-        color={textColor}
+        color={iconColor || textColor}
         size={IconButtonSizes[size].icon}
         style={tw.style(loading && "opacity-0")}
       />

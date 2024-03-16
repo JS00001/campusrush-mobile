@@ -14,11 +14,13 @@ import { View } from "react-native";
 
 import { BottomSheetProps } from "./@types";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 import Skeleton from "@/ui/Skeleton";
+import Headline from "@/ui/Headline";
+import useCopy from "@/hooks/useCopy";
 import { Detail } from "@/ui/DetailView";
+import IconButton from "@/ui/IconButton";
 import { BottomSheet } from "@/ui/BottomSheet";
 import { formatPhoneNumber } from "@/lib/util/string";
 import { useGetAdminChapter } from "@/hooks/api/admin";
@@ -29,10 +31,15 @@ const ChapterSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
     <BottomSheet
       innerRef={innerRef}
       children={(data) => {
+        const copy = useCopy();
         const chapterId = data?.data.chapterId;
 
         const chapterQuery = useGetAdminChapter(chapterId);
         const chapter = chapterQuery.chapter;
+
+        const copyId = () => {
+          copy(chapterId, "Chapter ID");
+        };
 
         if (!chapter) {
           return <LoadingState />;
@@ -41,10 +48,19 @@ const ChapterSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
         return (
           <BottomSheetContainer>
             <View style={tw`mb-2 flex-row justify-between items-center`}>
-              <View style={tw`shrink`}>
-                <Text type="h2">{chapter.name}</Text>
-                <Text>{chapter.school}</Text>
-              </View>
+              <Headline
+                style={tw`shrink`}
+                title={chapter.name}
+                subtitle={chapter.school}
+              />
+
+              <IconButton
+                size="sm"
+                color="secondary"
+                label="Copy ID"
+                iconName="file-copy-2-line"
+                onPress={copyId}
+              />
             </View>
 
             <Detail.View>

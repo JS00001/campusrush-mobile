@@ -15,17 +15,17 @@ import { useEffect, useState } from "react";
 
 import { BottomSheetProps } from "./@types";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui_v1/Button";
+import Button from "@/ui/Button";
 import date from "@/lib/util/date";
-import Skeleton from "@/ui_v1/Skeleton";
-import IconButton from "@/ui_v1/IconButton";
-import DetailView from "@/ui_v1/DetailView";
-import { BottomSheet } from "@/ui_v1/BottomSheet";
+import Skeleton from "@/ui/Skeleton";
+import Headline from "@/ui/Headline";
+import { Detail } from "@/ui/DetailView";
+import IconButton from "@/ui/IconButton";
+import { BottomSheet } from "@/ui/BottomSheet";
 import { useGlobalStore, usePnmStore } from "@/store";
 import { formatPhoneNumber } from "@/lib/util/string";
-import BottomSheetContainer from "@/ui_v1/BottomSheet/Container";
+import BottomSheetContainer from "@/ui/BottomSheet/Container";
 import { useDeletePnm, useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
 const PnmSheet: React.FC<BottomSheetProps> = ({
@@ -97,49 +97,46 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         return (
           <BottomSheetContainer>
             <View style={tw`mb-2 flex-row justify-between items-center`}>
-              <View style={tw`shrink`}>
-                <Text type="h2">
-                  {pnm.firstName} {pnm.lastName}
-                </Text>
-                <Text>Added on {date.toString(pnm.createdAt)}</Text>
-              </View>
+              <Headline
+                style={tw`shrink`}
+                title={`${pnm.firstName} ${pnm.lastName}`}
+                subtitle={`Added on ${date.toString(pnm.createdAt)}`}
+              />
 
               <View style={tw`flex-row gap-1`}>
                 <IconButton
-                  size="md"
+                  size="sm"
+                  color="secondary"
                   loading={updateMutation.isLoading}
-                  icon={pnm.starred ? "ri-star-fill" : "ri-star-line"}
-                  color={pnm.starred ? tw.color("yellow") : tw.color("primary")}
+                  iconName={pnm.starred ? "star-fill" : "star-line"}
+                  iconColor={
+                    pnm.starred ? tw.color("yellow") : tw.color("primary")
+                  }
                   onPress={() => onFavorite(!pnm.starred)}
                 />
                 <IconButton
-                  size="md"
+                  size="sm"
+                  color="secondary"
                   loading={deleteMutation.isLoading}
-                  icon="ri-delete-bin-6-line"
-                  color={tw.color("red")}
+                  iconName="delete-bin-6-line"
+                  iconColor={tw.color("red")}
                   onPress={onDelete}
                 />
               </View>
             </View>
 
-            <DetailView>
-              <DetailView.Section
+            <Detail.View>
+              <Detail.Item
                 title="Phone Number"
-                content={formatPhoneNumber(pnm.phoneNumber) || "N/A"}
+                value={formatPhoneNumber(pnm.phoneNumber) || "N/A"}
               />
-              <DetailView.Section
+              <Detail.Item
                 title="Classification"
-                content={pnm.classification || "N/A"}
+                value={pnm.classification || "N/A"}
               />
-              <DetailView.Section
-                title="Instagram"
-                content={pnm.instagram || "N/A"}
-              />
-              <DetailView.Section
-                title="Snapchat"
-                content={pnm.snapchat || "N/A"}
-              />
-            </DetailView>
+              <Detail.Item title="Instagram" value={pnm.instagram || "N/A"} />
+              <Detail.Item title="Snapchat" value={pnm.snapchat || "N/A"} />
+            </Detail.View>
 
             <Button size="sm" onPress={onEditPress}>
               Edit PNM

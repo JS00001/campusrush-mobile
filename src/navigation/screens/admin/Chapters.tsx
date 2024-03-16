@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
 import ChaptersView from "@/views/admin";
 
@@ -22,7 +23,7 @@ const Chapters = () => {
         subtitle="View all registered chapters"
       />
 
-      <Layout.Content gap={12}>
+      <Layout.Content gap={12} contentContainerStyle={tw`pb-0`}>
         <ChaptersView />
       </Layout.Content>
     </Layout.Root>

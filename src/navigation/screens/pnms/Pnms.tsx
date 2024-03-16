@@ -10,19 +10,21 @@
  * Do not distribute
  */
 
-import Layout from "@/ui_v1/Layout";
 import PnmsView from "@/views/Pnms";
+import { Layout } from "@/ui/Layout";
 
 const PnmsScreen = () => {
   return (
-    <Layout gap={8}>
+    <Layout.Root>
       <Layout.Header
         title="PNMs"
         subtitle="View and manage all potential new members"
       />
 
-      <PnmsView />
-    </Layout>
+      <Layout.Content gap={8}>
+        <PnmsView />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

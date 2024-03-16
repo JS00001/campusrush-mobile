@@ -20,9 +20,10 @@ import { useMemo, useRef, useState } from "react";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import ListItem from "@/ui_v1/ListItem";
+import ListItem from "@/ui/ListItem";
+import Headline from "@/ui/Headline";
+import ListItemLoader from "@/ui/Loaders/ListItem";
 import { formatPhoneNumber } from "@/lib/util/string";
-import { ListItemLoader } from "@/ui_v1/ListItem/Loading";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface PnmsListProps {
@@ -158,9 +159,9 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
         key={pnm._id}
         title={`${pnm.firstName} ${pnm.lastName}`}
         subtitle={formatPhoneNumber(pnm.phoneNumber)}
+        icon={pnm.starred ? "star-fill" : undefined}
+        iconColor={tw.color("yellow")}
         onPress={onPress}
-        icon={pnm.starred ? "ri-star-fill" : undefined}
-        iconColor="yellow"
       />
     );
   };
@@ -171,14 +172,11 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
     }
 
     return (
-      <>
-        <Text type="h2" style={tw`text-center mt-16`}>
-          No PNMs found
-        </Text>
-        <Text style={tw`text-center`}>
-          Try changing your filters or refreshing the page
-        </Text>
-      </>
+      <Headline
+        title="No PNMs found"
+        subtitle="Try changing your filters or refreshing the page"
+        style={tw`mt-16 items-center`}
+      />
     );
   };
 
