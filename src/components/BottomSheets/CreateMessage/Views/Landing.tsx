@@ -16,8 +16,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import ListItem from "@/ui/ListItem";
 import { useModalStore } from "@/store";
-import ActionCard from "@/ui_v1/ActionCard";
 import Content from "@/constants/content";
 
 import { useQonversion } from "@/providers/Qonversion";
@@ -110,6 +110,8 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
     handleClose();
   };
 
+  // TODO: Add a proper loading state here
+
   return (
     <>
       <View style={tw`pb-4`}>
@@ -117,34 +119,32 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
         <Text>Start a new message with potential members</Text>
       </View>
 
-      <ActionCard
+      <ListItem
+        size="lg"
         title="Direct Message"
         subtitle="Send a message to a PNM"
-        icon="ri-chat-private-fill"
-        loading={isLoading}
+        icon="chat-private-fill"
         onPress={onDirectMessagePress}
       />
-      <ActionCard
+      <ListItem
+        size="lg"
         title="Message All"
         subtitle="Send a message to all PNMs"
-        icon="ri-chat-voice-fill"
-        loading={isLoading}
+        icon="chat-voice-fill"
         onPress={onMessageAllPress}
       />
-      <ActionCard
-        enforceProPlan
+      <ListItem
+        size="lg"
         title="Message New PNMS"
         subtitle="Send a message to all PNMs you have not contacted"
-        icon="ri-chat-history-fill"
-        loading={isLoading}
+        icon="chat-history-fill"
         onPress={onMessageUncontactedPress}
       />
-      <ActionCard
-        enforceProPlan
+      <ListItem
+        size="lg"
         title="Message Favorite PNMS"
         subtitle="Send a message to all PNMs you have favorited"
-        icon="ri-star-fill"
-        loading={isLoading}
+        icon="star-fill"
         onPress={onMessageFavoritesPress}
       />
     </>

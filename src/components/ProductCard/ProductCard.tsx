@@ -13,11 +13,11 @@
 import { Product } from "react-native-qonversion";
 
 import tw from "@/lib/tailwind";
-import Button from "@/ui_v1/Button";
+import Button from "@/ui/Button";
 import { useEntitlementStore } from "@/store";
+import SelectionCard from "@/ui/SelectionCard";
 import ProductPerk from "@/components/ProductPerk";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import SelectionCard from "@/ui_v1/SelectionCard/SelectionCard";
 
 interface ProductCardProps {
   product: Product;
@@ -38,7 +38,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     product.trialPeriod?.unitCount
   }-${product.trialPeriod?.unit.toLowerCase()}`;
 
-  const title = product.skProduct?.localizedTitle;
+  const title = product.skProduct?.localizedTitle || "No title";
   const subtitle = `${
     product.prettyPrice
   } /${product.subscriptionPeriod?.unit.toLowerCase()}`;
@@ -68,7 +68,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
       <Button
         size="sm"
-        color={"gray"}
+        color="secondary"
         style={tw`mt-2`}
         onPress={onComparePlansPress}
       >

@@ -12,9 +12,9 @@
 
 import { ScrollView } from "react-native";
 
-import Badge from "@/ui_v1/Badge";
+import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
-import Header from "@/ui_v1/Header";
+import Header from "@/ui/Header";
 
 interface MassMessageHeaderProps {
   pnms: PNM[];

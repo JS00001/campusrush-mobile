@@ -13,7 +13,6 @@
 import { FlatList } from "react-native-bidirectional-infinite-scroll";
 
 import tw from "@/lib/tailwind";
-import Message from "@/ui_v1/Message";
 import messaging from "@/lib/messages";
 import MessageBubble from "@/ui/MessageBubble";
 

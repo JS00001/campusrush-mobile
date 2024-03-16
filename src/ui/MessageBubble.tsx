@@ -57,7 +57,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
     !sent && "self-start",
   );
 
-  const dateStyles = tw.style("text-gray-500 pt-4", "self-center");
+  const dateStyles = tw.style("text-gray-500 py-4", "self-center");
 
   return (
     <View>

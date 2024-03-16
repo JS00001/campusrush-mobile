@@ -18,7 +18,7 @@ import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import TextInput from "@/ui_v1/TextInput";
+import TextInput from "@/ui/TextInput";
 import RecentPnms from "@/components/RecentPnms";
 import { useGetContacts } from "@/hooks/api/messaging";
 
@@ -49,8 +49,7 @@ const DirectMessage: React.FC<UseSheetFlowProps> = ({
 
       <TextInput
         autoCorrect={false}
-        icon="ri-search-line"
-        variant="alternate"
+        icon="search-line"
         placeholder="Search"
         value={search.query}
         onChangeText={search.setQuery}

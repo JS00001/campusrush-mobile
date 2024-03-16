@@ -21,7 +21,7 @@ import tw from "@/lib/tailwind";
 import Icon, { IconType } from "@/ui/Icon";
 
 // This is a hack to disable font scaling for all text input components
-const TextInputWithNoFontScaling = Object.assign(RNTextInput, {
+export const TextInputWithNoFontScaling = Object.assign(RNTextInput, {
   defaultProps: {
     ...(RNTextInput as any).defaultProps,
     allowFontScaling: false,

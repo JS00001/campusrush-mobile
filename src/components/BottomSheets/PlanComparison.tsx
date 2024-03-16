@@ -12,10 +12,10 @@
 
 import { useMemo } from "react";
 import { View } from "react-native";
-import RemixIcon from "react-native-remix-icon";
 
 import type { BottomSheetProps } from "./@types";
 
+import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Headline from "@/ui/Headline";
@@ -115,18 +115,10 @@ const FeatureRow: React.FC<FeatureRowProps> = ({
 
   const booleanComponents = {
     true: (
-      <RemixIcon
-        name="ri-checkbox-circle-line"
-        size={20}
-        color={tw.color(`green`)}
-      />
+      <Icon size={20} name="checkbox-circle-line" color={tw.color(`green`)} />
     ),
     false: (
-      <RemixIcon
-        name="ri-close-circle-line"
-        size={20}
-        color={tw.color(`slate-400`)}
-      />
+      <Icon size={20} name="close-circle-line" color={tw.color(`slate-400`)} />
     ),
   };
 

@@ -12,13 +12,13 @@
 
 import { View } from "react-native";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui_v1/Button";
+import Button from "@/ui/Button";
+import Headline from "@/ui/Headline";
 import useForm from "@/hooks/useForm";
-import TextInput from "@/ui_v1/TextInput";
+import FormField from "@/ui/FormField";
 import validators from "@/constants/validators";
-import KeyboardListener from "@/ui_v1/KeyboardListener";
+import KeyboardListener from "@/ui/KeyboardListener";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 const Step1: React.FC<UseSheetFlowProps> = ({
@@ -73,33 +73,30 @@ const Step1: React.FC<UseSheetFlowProps> = ({
       onKeyboardWillHide={onKeyboardWillHide}
     >
       <View style={tw`gap-y-4`}>
-        <View style={tw`mb-2`}>
-          <Text type="h2">What's Your Event About?</Text>
-          <Text>
-            Enter your events information below. You can always edit this
-            information later.
-          </Text>
-        </View>
+        <Headline
+          title="What's Your Event About?"
+          subtitle="Enter your events information below. You can always edit this information later."
+        />
 
-        <TextInput
+        <FormField
           placeholder="Title"
           value={form.state.title.value}
           error={form.state.title.error}
           onChangeText={form.setValue.bind(null, "title")}
         />
-        <TextInput
+        <FormField
           placeholder="Location"
           value={form.state.location.value}
           error={form.state.location.error}
           onChangeText={form.setValue.bind(null, "location")}
         />
-        <TextInput
+        <FormField
           multiline
           blurOnSubmit
           returnKeyType="done"
           value={form.state.description.value}
-          inputStyle={tw`h-36`}
           placeholder="Description"
+          style={tw`h-36`}
           error={form.state.description.error}
           onChangeText={form.setValue.bind(null, "description")}
         />

@@ -14,13 +14,13 @@ import { View } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
-import Tabs from "@/ui_v1/Tabs";
+import Tabs from "@/ui/Tabs";
 import Event from "@/ui_v1/Event";
 
 import tw from "@/lib/tailwind";
 import { useGetEvents } from "@/hooks/api/events";
 import { CardEventLoader } from "@/ui_v1/Event/Loaders";
-import KeyboardListener from "@/ui_v1/KeyboardListener";
+import KeyboardListener from "@/ui/KeyboardListener";
 import InfiniteHorizontaList from "@/components/InfiniteHorizontalList";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
@@ -69,9 +69,9 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
         >
           <View style={tw`p-3 gap-4 flex-1 pb-20`}>
             <Tabs
-              selectedIndex={activeTab}
               options={["Events", "Photos", "Videos"]}
-              disabledIndexes={[1, 2]}
+              currentIndex={activeTab}
+              disabledIndex={[1, 2]}
               onChange={setActiveTab}
             />
 

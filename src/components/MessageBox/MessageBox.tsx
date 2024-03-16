@@ -22,7 +22,7 @@ import Event from "@/ui_v1/Event";
 import tw from "@/lib/tailwind";
 import { waitFor } from "@/lib/util";
 import AppConstants from "@/constants";
-import IconButton from "@/ui_v1/IconButton";
+import IconButton from "@/ui/IconButton";
 import Content from "@/constants/content";
 import { eventsRegex } from "@/constants/regex";
 import { formatEvent } from "@/lib/util/format";
@@ -146,10 +146,11 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
 
         <View style={inputContainerClasses}>
           <IconButton
-            size="md"
-            icon={extensionsVisible ? "ri-close-line" : "ri-add-fill"}
+            size="sm"
+            color="secondary"
+            iconName={extensionsVisible ? "close-line" : "add-fill"}
             // prettier-ignore
-            color={ extensionsVisible ? tw.color("red") : tw.color("primary")}
+            iconColor={ extensionsVisible ? tw.color("red") : tw.color("primary")}
             onPress={onExtensionsPress}
           />
 
@@ -160,8 +161,9 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
             setValue={setValue}
           />
           <IconButton
-            size="md"
-            icon="ri-send-plane-2-fill"
+            size="sm"
+            color="secondary"
+            iconName="send-plane-2-fill"
             disabled={isButtonDisabled}
             onPress={onSendPress}
           />

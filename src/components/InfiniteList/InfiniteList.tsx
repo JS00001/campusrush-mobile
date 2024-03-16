@@ -14,9 +14,9 @@ import { cloneElement } from "react";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import ListItem from "@/ui_v1/ListItem";
-import InfiniteScroll from "@/ui_v1/InfiniteScroll";
-import DeleteSwipable from "@/ui_v1/Swipeables/Delete";
+import { Infinite } from "@/ui/InfiniteScroll";
+import ListItemLoader from "@/ui/Loaders/ListItem";
+import DeleteSwipable from "@/ui/Swipeable/Delete";
 
 interface InfiniteListProps<T> {
   data: T[];
@@ -52,9 +52,7 @@ const InfiniteList = <T,>({
       return new Array(20).fill(0).map((_, i) => {
         if (loadingComponent) return cloneElement(loadingComponent, { key: i });
 
-        return (
-          <ListItem key={i} title="" subtitle="" loading pressable={false} />
-        );
+        return <ListItemLoader key={i} />;
       });
     }
 
@@ -98,7 +96,7 @@ const InfiniteList = <T,>({
     if (elementsDeletable) {
       return (
         <DeleteSwipable
-          innerRef={handleRef}
+          ref={handleRef}
           onDelete={onDeletePress}
           onBegan={closeOtherSwipeables}
         >
@@ -111,7 +109,7 @@ const InfiniteList = <T,>({
   };
 
   return (
-    <InfiniteScroll
+    <Infinite.Scroll
       data={data}
       onRefresh={onRefresh}
       onEndReached={onEndReached}

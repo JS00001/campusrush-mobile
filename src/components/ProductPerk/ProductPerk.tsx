@@ -11,32 +11,23 @@
  */
 
 import { View } from "react-native";
-import RemixIcon from "react-native-remix-icon";
 
 import Text from "@/ui/Text";
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
-import Information from "@/ui_v1/Information";
+import Information from "@/ui/Information";
 
 interface ProductPerkProps {
-  active: boolean;
   name: string;
   description: string;
 }
 
-const ProductPerk: React.FC<ProductPerkProps> = ({
-  active,
-  name,
-  description,
-}) => {
+const ProductPerk: React.FC<ProductPerkProps> = ({ name, description }) => {
   return (
     <View style={tw`flex-row items-center justify-between gap-2 mt-1`}>
       {/* The perk and checkmark icon */}
       <View style={tw`flex-row gap-2 shrink`}>
-        <RemixIcon
-          name="ri-checkbox-circle-line"
-          color={tw.color("green")}
-          size={20}
-        />
+        <Icon size={20} color={tw.color("green")} name="checkbox-circle-line" />
         <Text type="p3" style={tw`shrink`}>
           {name}
         </Text>

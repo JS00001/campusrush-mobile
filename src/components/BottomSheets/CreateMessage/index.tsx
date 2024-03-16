@@ -15,9 +15,9 @@ import { BottomSheetProps } from "../@types";
 import Landing from "./Views/Landing";
 import DirectMessage from "./Views/DirectMessage";
 
-import { BottomSheet } from "@/ui_v1/BottomSheet";
+import { BottomSheet } from "@/ui/BottomSheet";
 import useSheetFlow from "@/hooks/useSheetFlow";
-import BottomSheetContainer from "@/ui_v1/BottomSheet/Container";
+import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const CreateMessageSheet: React.FC<BottomSheetProps> = ({
   innerRef,

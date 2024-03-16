@@ -10,19 +10,17 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
 import Toast from "react-native-toast-message";
 
 import { useEventStore } from "@/store";
 import { useCreateEvent } from "@/hooks/api/events";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui/Text";
-import tw from "@/lib/tailwind";
-import Button from "@/ui_v1/Button";
-import ListItem from "@/ui_v1/ListItem";
+import Button from "@/ui/Button";
+import ListItem from "@/ui/ListItem";
+import Headline from "@/ui/Headline";
 import Content from "@/constants/content";
-import ButtonGroup from "@/ui_v1/ButtonGroup";
+import ButtonGroup from "@/ui/ButtonGroup";
 
 const Step3: React.FC<UseSheetFlowProps> = ({
   state,
@@ -80,11 +78,7 @@ const Step3: React.FC<UseSheetFlowProps> = ({
 
   return (
     <>
-      {/* Header and subheader */}
-      <View style={tw`mb-2`}>
-        <Text type="h2">Finalize</Text>
-        <Text>Does this look correct?</Text>
-      </View>
+      <Headline title="Finalize" subtitle="Does this look correct?" />
 
       {/* The list of all the form fields and their values */}
 
@@ -118,7 +112,7 @@ const Step3: React.FC<UseSheetFlowProps> = ({
       <ButtonGroup>
         <Button
           size="sm"
-          color="gray"
+          color="secondary"
           onPress={prevView}
           disabled={mutation.isLoading}
         >

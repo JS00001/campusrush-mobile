@@ -12,7 +12,7 @@
 
 import { useEffect } from "react";
 
-import Header from "@/ui_v1/Header";
+import Header from "@/ui/Header";
 import { useGetPnm } from "@/hooks/api/pnms";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import { useNavigation } from "@react-navigation/native";

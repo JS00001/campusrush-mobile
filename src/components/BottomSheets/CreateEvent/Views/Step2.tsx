@@ -18,11 +18,11 @@ import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import useForm from "@/hooks/useForm";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui_v1/Button";
-import ButtonGroup from "@/ui_v1/ButtonGroup";
-import DateTimePicker from "@/ui_v1/DateTimePicker";
+import Button from "@/ui/Button";
+import Headline from "@/ui/Headline";
+import ButtonGroup from "@/ui/ButtonGroup";
+import DateTimePicker from "@/ui/DateTimePicker";
 
 const Step2: React.FC<UseSheetFlowProps> = ({
   state,
@@ -84,6 +84,7 @@ const Step2: React.FC<UseSheetFlowProps> = ({
     nextView();
   };
 
+  // TODO: Cleanup
   const onDateTimeChange = (
     event: DateTimePickerEvent,
     field: "startDate" | "endDate",
@@ -99,12 +100,10 @@ const Step2: React.FC<UseSheetFlowProps> = ({
   return (
     <>
       <View style={tw`gap-y-4`}>
-        <View style={tw`mb-2`}>
-          <Text type="h2">When's the Event?</Text>
-          <Text>
-            Enter when your event starts and ends. This can be changed later.
-          </Text>
-        </View>
+        <Headline
+          title="When's the Event?"
+          subtitle="Enter when your event starts and ends. This can be changed later."
+        />
 
         <DateTimePicker
           label="Starts at"
@@ -124,7 +123,7 @@ const Step2: React.FC<UseSheetFlowProps> = ({
         />
 
         <ButtonGroup>
-          <Button size="sm" color="gray" onPress={prevView}>
+          <Button size="sm" color="secondary" onPress={prevView}>
             Go Back
           </Button>
           <Button size="sm" onPress={handleSubmission}>

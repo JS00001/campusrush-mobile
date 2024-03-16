@@ -17,7 +17,7 @@ import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import CopyItem from "@/ui_v1/CopyItem";
+import CopyView from "@/ui/CopyView";
 import AppConstants from "@/constants";
 import { useAuth } from "@/providers/Auth";
 
@@ -46,7 +46,7 @@ const QrCode: React.FC<UseSheetFlowProps> = () => {
         Or
       </Text>
 
-      <CopyItem label="Link Sharing URL" value={linkSharingCode} />
+      <CopyView title="Link Sharing URL" content={linkSharingCode} />
     </>
   );
 };
