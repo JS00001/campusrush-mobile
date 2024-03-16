@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import SelectionCard from "@/ui_v1/SelectionCard";
+import SelectionCard from "@/ui/SelectionCard";
 import { useNotifications } from "@/providers/Notifications";
 
 const UpdateNotificationsView = () => {
@@ -36,16 +36,16 @@ const UpdateNotificationsView = () => {
         loading={isLoading}
         selected={notificationsEnabled}
         title="Enable Notifications"
-        description="You will receive push notifications for various events to better help your chapter succeed."
-        subtitle={enableNotificationsSubtitle}
+        subtitle="You will receive push notifications for various events to better help your chapter succeed."
+        description={enableNotificationsSubtitle}
         onPress={onNotificationsEnable}
       />
       <SelectionCard
         loading={isLoading}
         selected={!notificationsEnabled}
         title="Disable Notifications"
-        description="You will not receive push notifications. You can turn notifications back on at any time."
-        subtitle={disableNotificationsSubtitle}
+        subtitle="You will not receive push notifications. You can turn notifications back on at any time."
+        description={disableNotificationsSubtitle}
         onPress={onNotificationsDisable}
       />
     </>

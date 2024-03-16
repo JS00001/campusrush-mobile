@@ -21,12 +21,10 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
-
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Layout from "@/ui_v1/Layout";
-import CopyItem from "@/ui_v1/CopyItem";
+import { Layout } from "@/ui/Layout";
+import CopyView from "@/ui/CopyView";
+import Headline from "@/ui/Headline";
 import { useAuth } from "@/providers/Auth";
 import { formatPhoneNumber } from "@/lib/util/string";
 
@@ -34,28 +32,31 @@ const PhoneNumber = () => {
   const { chapter } = useAuth();
 
   return (
-    <Layout gap={16} scrollable contentContainerStyle={tw`items-start pb-6`}>
+    <Layout.Root>
       <Layout.Header
         hasBackButton
         title="Phone Number"
         subtitle="We have assigned you a phone number that PNMs can use to contact you."
       />
 
-      <View>
-        <Text type="h2">Phone Information</Text>
-        <Text>
-          All messages to this phone number will show up in your "Messages"
-          inbox.
-        </Text>
-      </View>
+      <Layout.Content
+        gap={16}
+        scrollable
+        contentContainerStyle={tw`items-start`}
+      >
+        <Headline
+          title="Phone Information"
+          subtitle="All messages to this phone number will show up in your 'Messages' inbox."
+        />
 
-      <CopyItem
-        label="Phone Number"
-        value={formatPhoneNumber(chapter.phoneNumber)}
-      />
+        <CopyView
+          title="Phone Number"
+          content={formatPhoneNumber(chapter.phoneNumber)}
+        />
 
-      <CopyItem label="Phone Number ID" value={chapter?.phoneNumberId} />
-    </Layout>
+        <CopyView title="Phone Number ID" content={chapter?.phoneNumberId} />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

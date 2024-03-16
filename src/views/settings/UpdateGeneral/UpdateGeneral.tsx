@@ -11,8 +11,8 @@
  */
 import Toast from "react-native-toast-message";
 
-import Button from "@/ui_v1/Button";
-import TextInput from "@/ui_v1/TextInput";
+import Button from "@/ui/Button";
+import FormField from "@/ui/FormField";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import validators from "@/constants/validators";
@@ -50,19 +50,19 @@ const UpdateGeneralView = () => {
 
   return (
     <>
-      <TextInput
+      <FormField
         placeholder="Email"
         value={form.state.email.value}
         error={form.state.email.error}
         onChangeText={form.setValue.bind(null, "email")}
       />
-      <TextInput
+      <FormField
         placeholder="First Name"
         value={form.state.firstName.value}
         error={form.state.firstName.error}
         onChangeText={form.setValue.bind(null, "firstName")}
       />
-      <TextInput
+      <FormField
         placeholder="Last Name"
         value={form.state.lastName.value}
         error={form.state.lastName.error}

@@ -10,19 +10,22 @@
  * Do not distribute
  */
 
-import Layout from "@/ui_v1/Layout";
+import { Layout } from "@/ui/Layout";
 import UpdateBillingView from "@/views/settings/UpdateBilling";
 
 const UpdateBillingScreen = () => {
   return (
-    <Layout scrollable>
+    <Layout.Root>
       <Layout.Header
         hasBackButton
         title="Billing"
         subtitle="Manage your current plan"
       />
-      <UpdateBillingView />
-    </Layout>
+
+      <Layout.Content scrollable>
+        <UpdateBillingView />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

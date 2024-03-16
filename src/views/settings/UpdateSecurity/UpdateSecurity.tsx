@@ -11,8 +11,8 @@
  */
 import Toast from "react-native-toast-message";
 
-import Button from "@/ui_v1/Button";
-import TextInput from "@/ui_v1/TextInput";
+import Button from "@/ui/Button";
+import FormField from "@/ui/FormField";
 import Content from "@/constants/content";
 import validators from "@/constants/validators";
 import useFormMutation from "@/hooks/useFormMutation";
@@ -55,21 +55,21 @@ const UpdateSecurityView = () => {
 
   return (
     <>
-      <TextInput
+      <FormField
         secureTextEntry
         placeholder="Current Password"
         value={form.state.currentPassword.value}
         error={form.state.currentPassword.error}
         onChangeText={form.setValue.bind(null, "currentPassword")}
       />
-      <TextInput
+      <FormField
         secureTextEntry
         placeholder="New Password"
         value={form.state.newPassword.value}
         error={form.state.newPassword.error}
         onChangeText={form.setValue.bind(null, "newPassword")}
       />
-      <TextInput
+      <FormField
         secureTextEntry
         placeholder="Confirm New Password"
         value={form.state.confirmNewPassword.value}

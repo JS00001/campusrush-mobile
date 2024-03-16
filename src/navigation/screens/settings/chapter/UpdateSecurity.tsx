@@ -10,20 +10,22 @@
  * Do not distribute
  */
 
-import Layout from "@/ui_v1/Layout";
+import { Layout } from "@/ui/Layout";
 import UpdateSecurityView from "@/views/settings/UpdateSecurity";
 
 const UpdateSecurityScreen: React.FC = () => {
   return (
-    <Layout scrollable>
+    <Layout.Root>
       <Layout.Header
         hasBackButton
         title="Security"
         subtitle="Update security information"
       />
 
-      <UpdateSecurityView />
-    </Layout>
+      <Layout.Content gap={12} scrollable>
+        <UpdateSecurityView />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

@@ -18,10 +18,11 @@ import type { BottomSheetProps } from "./@types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Information from "@/ui_v1/Information";
+import Headline from "@/ui/Headline";
+import Information from "@/ui/Information";
 import { useEntitlementStore } from "@/store";
-import { BottomSheet } from "@/ui_v1/BottomSheet";
-import BottomSheetContainer from "@/ui_v1/BottomSheet/Container";
+import { BottomSheet } from "@/ui/BottomSheet";
+import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   const entitlements = useEntitlementStore((state) => state.entitlements);
@@ -43,13 +44,11 @@ const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
       innerRef={innerRef}
       children={() => (
         <BottomSheetContainer style={tw`px-0`}>
-          <View style={tw`items-center gap-y-2 p-6`}>
-            <Text type="h2">Plan Comparison</Text>
-            <Text style={tw`text-center`}>
-              CampusRush offers the best recruitment experience for greek
-              chapters of all sizes.
-            </Text>
-          </View>
+          <Headline
+            style={tw`p-6 items-center`}
+            title="Plan Comparison"
+            subtitle="CampusRush offers the best recruitment experience for greek chapters of all sizes."
+          />
 
           <View style={tw`flex-1 w-full`}>
             {/* The header row of the table */}

@@ -10,20 +10,22 @@
  * Do not distribute
  */
 
-import Layout from "@/ui_v1/Layout";
+import { Layout } from "@/ui/Layout";
 import UpdateNotificationsView from "@/views/settings/UpdateNotifications";
 
 const UpdateNotificationsScreen = () => {
   return (
-    <Layout scrollable>
+    <Layout.Root>
       <Layout.Header
         hasBackButton
         title="Notifications"
         subtitle="Manage your notifications"
       />
 
-      <UpdateNotificationsView />
-    </Layout>
+      <Layout.Content>
+        <UpdateNotificationsView />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

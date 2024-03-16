@@ -10,20 +10,22 @@
  * Do not distribute
  */
 
-import Layout from "@/ui_v1/Layout";
+import { Layout } from "@/ui/Layout";
 import UpdateGeneralView from "@/views/settings/UpdateGeneral";
 
 const UpdateGeneralScreen = () => {
   return (
-    <Layout scrollable>
+    <Layout.Root>
       <Layout.Header
         hasBackButton
         title="General"
         subtitle="Update general information"
       />
 
-      <UpdateGeneralView />
-    </Layout>
+      <Layout.Content gap={12} scrollable>
+        <UpdateGeneralView />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

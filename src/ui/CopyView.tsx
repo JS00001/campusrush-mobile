@@ -51,7 +51,7 @@ const CopyView: React.FC<CopyViewProps> = ({
         <Text numberOfLines={1} style={tw`text-primary`}>
           {title}
         </Text>
-        <Text numberOfLines={1} style={tw`text-slate-500`}>
+        <Text type="p3" numberOfLines={1} style={tw`text-slate-500`}>
           {content}
         </Text>
       </View>

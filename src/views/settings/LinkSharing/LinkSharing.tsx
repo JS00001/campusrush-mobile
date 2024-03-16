@@ -15,11 +15,12 @@ import { View } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui_v1/Button";
-import CopyItem from "@/ui_v1/CopyItem";
+import Button from "@/ui/Button";
+import Headline from "@/ui/Headline";
+import CopyView from "@/ui/CopyView";
 import AppConstants from "@/constants";
 import { useAuth } from "@/providers/Auth";
-import SelectionCard from "@/ui_v1/SelectionCard";
+import SelectionCard from "@/ui/SelectionCard";
 import useFormMutation from "@/hooks/useFormMutation";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 
@@ -42,11 +43,11 @@ const LinkSharingView = () => {
     },
   });
 
-  const linkSharingEnabledSubtitle = chapter.linkSharingEnabled
+  const linkSharingEnabledDescription = chapter.linkSharingEnabled
     ? "Currently Enabled"
     : "Click to enable link sharing";
 
-  const linkSharingDisabledSubtitle = !chapter.linkSharingEnabled
+  const linkSharingDisabledDescription = !chapter.linkSharingEnabled
     ? "Currently Disabled"
     : "Click to disable link sharing";
 
@@ -54,30 +55,27 @@ const LinkSharingView = () => {
 
   return (
     <>
-      <View>
-        <Text type="h2">Your Link Sharing URL</Text>
-        <Text>
-          Send this link to PNMs to allow them to add themselves to your
-          recruitment list.
-        </Text>
-      </View>
+      <Headline
+        title="Your Link Sharing URL"
+        subtitle="Send this link to PNMs to allow them to add themselves to your recruitment list."
+      />
 
-      <CopyItem label="Link Sharing URL" value={linkSharingCode} />
+      <CopyView title="Link Sharing URL" content={linkSharingCode} />
 
       <Text type="h2">Manage Your Link Sharing</Text>
 
       <View style={tw`gap-2 w-full`}>
         <SelectionCard
           title="Enable Link Sharing"
-          subtitle={linkSharingEnabledSubtitle}
-          description="Enable link sharing to allow PNMs to manually add themselves to your recruitment list via the link below."
+          subtitle="Enable link sharing to allow PNMs to manually add themselves to your recruitment list via the link below."
+          description={linkSharingEnabledDescription}
           selected={form.state.linkSharingEnabled.value}
           onPress={form.setValue.bind(null, "linkSharingEnabled", true)}
         />
         <SelectionCard
           title="Disable Link Sharing"
-          subtitle={linkSharingDisabledSubtitle}
-          description="Disable link sharing to prevent PNMs from manually adding themselves to your recruitment list."
+          subtitle="Disable link sharing to prevent PNMs from manually adding themselves to your recruitment list."
+          description={linkSharingDisabledDescription}
           selected={!form.state.linkSharingEnabled.value}
           onPress={form.setValue.bind(null, "linkSharingEnabled", false)}
         />
