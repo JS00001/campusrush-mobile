@@ -49,7 +49,7 @@ const ListItem: React.FC<ListItemProps> = ({
   const iconColorValue = iconColor || tw.color("primary");
 
   const containerStyles = tw.style(
-    "bg-slate-100 rounded-xl w-full shrink",
+    "bg-slate-100 rounded-xl w-full gap-4",
     disabled && "disabled",
     size === "sm" && "p-4 gap-y-2 flex-col",
     size === "md" && "px-3 py-4 justify-between items-center flex-row",
@@ -57,6 +57,7 @@ const ListItem: React.FC<ListItemProps> = ({
   );
 
   const contentContainerStyles = tw.style(
+    "shrink",
     size === "sm" && "flex-col gap-y-2",
     size === "md" && "flex-row gap-x-2 items-center",
     size === "lg" && "flex-row gap-x-5 items-center",
@@ -82,7 +83,9 @@ const ListItem: React.FC<ListItemProps> = ({
           <Text type="p2" style={tw`text-primary`}>
             {title}
           </Text>
-          <Text type="p3">{subtitle}</Text>
+          <Text type="p3" numberOfLines={1}>
+            {subtitle}
+          </Text>
         </View>
       </View>
 

@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const TypewriterScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Typewriter"
+        subtitle="A typewriter effect for text"
+      />
+    </Layout.Root>
+  );
+};
+
+export default TypewriterScreen;

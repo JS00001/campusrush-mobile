@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const CopyViewScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Copy View"
+        subtitle="Shows what will be copied, and a copy button"
+      />
+    </Layout.Root>
+  );
+};
+
+export default CopyViewScreen;

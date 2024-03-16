@@ -9,3 +9,15 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const IconScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header title="Icon" subtitle="All bootstrap icons in one place" />
+    </Layout.Root>
+  );
+};
+
+export default IconScreen;

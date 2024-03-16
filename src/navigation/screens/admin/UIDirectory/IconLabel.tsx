@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const IconLabelScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Icon Label"
+        subtitle="An icon badge with a title and subtitle next to it"
+      />
+    </Layout.Root>
+  );
+};
+
+export default IconLabelScreen;

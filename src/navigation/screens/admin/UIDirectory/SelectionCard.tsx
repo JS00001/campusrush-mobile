@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const SelectionCardScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Selection Card"
+        subtitle="Toggle between multiple cards"
+      />
+    </Layout.Root>
+  );
+};
+
+export default SelectionCardScreen;

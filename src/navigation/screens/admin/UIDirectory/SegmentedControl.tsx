@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const SegmentedControlScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Segmented Control"
+        subtitle="Alternative form of tabs for navigating between two or more screens"
+      />
+    </Layout.Root>
+  );
+};
+
+export default SegmentedControlScreen;

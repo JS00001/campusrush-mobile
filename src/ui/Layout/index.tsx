@@ -10,17 +10,16 @@
  * Do not distribute
  */
 
-import { Layout } from "@/ui/Layout";
+import Content from "./Content";
+import CustomHeader from "./CustomHeader";
+import Footer from "./Footer";
+import Header from "./Header";
+import LayoutRoot from "./Layout";
 
-const ActionButtonScreen = () => {
-  return (
-    <Layout.Root>
-      <Layout.Header
-        title="Action Button"
-        subtitle="A button that floats at the bottom of the screen"
-      />
-    </Layout.Root>
-  );
+export const Layout = {
+  Root: LayoutRoot,
+  Header: Header,
+  CustomHeader: CustomHeader,
+  Content: Content,
+  Footer: Footer,
 };
-
-export default ActionButtonScreen;

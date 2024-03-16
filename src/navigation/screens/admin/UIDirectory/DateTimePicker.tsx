@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const DateTimePickerScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Date Time Picker"
+        subtitle="A date and time picker for user input"
+      />
+    </Layout.Root>
+  );
+};
+
+export default DateTimePickerScreen;

@@ -9,3 +9,15 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const TooltipScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header title="Tooltip" subtitle="A small pop-up " />
+    </Layout.Root>
+  );
+};
+
+export default TooltipScreen;

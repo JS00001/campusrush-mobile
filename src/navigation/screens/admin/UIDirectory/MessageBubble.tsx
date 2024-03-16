@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const MessageBubbleScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="MessageBubble"
+        subtitle="A message bubble that was sent or received"
+      />
+    </Layout.Root>
+  );
+};
+
+export default MessageBubbleScreen;

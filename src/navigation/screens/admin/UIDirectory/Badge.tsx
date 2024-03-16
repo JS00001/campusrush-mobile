@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const BadgeScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Badge"
+        subtitle="A chip to display a small amount of information"
+      />
+    </Layout.Root>
+  );
+};
+
+export default BadgeScreen;

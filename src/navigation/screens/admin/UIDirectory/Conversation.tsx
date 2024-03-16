@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const ConversationScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Conversation"
+        subtitle="A list item that represents a conversation. Has an unread indicator and a timestamp."
+      />
+    </Layout.Root>
+  );
+};
+
+export default ConversationScreen;

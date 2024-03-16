@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const IconButtonScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Icon Button"
+        subtitle="A button with an icon and an optional label"
+      />
+    </Layout.Root>
+  );
+};
+
+export default IconButtonScreen;

@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const ListItemScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="List Item"
+        subtitle="All cards for any form of list"
+      />
+    </Layout.Root>
+  );
+};
+
+export default ListItemScreen;

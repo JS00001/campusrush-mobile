@@ -9,3 +9,15 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const TabsScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header title="Tabs" subtitle="A tab bar with multiple tabs" />
+    </Layout.Root>
+  );
+};
+
+export default TabsScreen;

@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const ButtonGroupScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Button Group"
+        subtitle="Groups buttons and makes them evenly spaced and sized"
+      />
+    </Layout.Root>
+  );
+};
+
+export default ButtonGroupScreen;

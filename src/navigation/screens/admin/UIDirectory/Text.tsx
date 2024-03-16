@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const TextScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Text"
+        subtitle="Simple text with different styles"
+      />
+    </Layout.Root>
+  );
+};
+
+export default TextScreen;

@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const TextInputScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Text Input"
+        subtitle="A text input to be used when there is only one input"
+      />
+    </Layout.Root>
+  );
+};
+
+export default TextInputScreen;

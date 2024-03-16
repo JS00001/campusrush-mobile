@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const ButtonScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Button"
+        subtitle="A pressable button for user interaction"
+      />
+    </Layout.Root>
+  );
+};
+
+export default ButtonScreen;

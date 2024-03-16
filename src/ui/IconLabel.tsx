@@ -60,7 +60,7 @@ const IconLabelSizes = {
  */
 const IconLabelColors = {
   primary: {
-    container: "bg-primary",
+    container: "bg-navy-50",
     color: tw.color("white"),
   },
   secondary: {

@@ -9,3 +9,15 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const MenuScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header title="Menu" subtitle="Shows the native iOS menu view" />
+    </Layout.Root>
+  );
+};
+
+export default MenuScreen;

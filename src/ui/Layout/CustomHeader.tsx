@@ -9,3 +9,13 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+interface CustomHeaderProps {
+  children: React.ReactNode;
+}
+
+const CustomHeader: React.FC<CustomHeaderProps> = ({ children }) => {
+  return children;
+};
+
+export default CustomHeader;

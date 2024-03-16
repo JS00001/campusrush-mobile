@@ -9,3 +9,15 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const HeadlineScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header title="Headline" subtitle="A title and subtitle pair" />
+    </Layout.Root>
+  );
+};
+
+export default HeadlineScreen;

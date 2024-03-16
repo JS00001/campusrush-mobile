@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const ChapterScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Chapter"
+        subtitle="A chapter detail section for admins"
+      />
+    </Layout.Root>
+  );
+};
+
+export default ChapterScreen;

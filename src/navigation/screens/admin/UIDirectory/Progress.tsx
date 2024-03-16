@@ -9,3 +9,18 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Layout } from "@/ui/Layout";
+
+const ProgressScreen = () => {
+  return (
+    <Layout.Root>
+      <Layout.Header
+        title="Progress"
+        subtitle="An indeterminate progress bar"
+      />
+    </Layout.Root>
+  );
+};
+
+export default ProgressScreen;
