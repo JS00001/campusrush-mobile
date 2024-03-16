@@ -49,7 +49,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <>
       {/* Background Circles */}
-      <View style={tw`absolute`}>
+      <View style={tw`absolute w-full h-full`}>
         <HeaderSvg />
       </View>
 

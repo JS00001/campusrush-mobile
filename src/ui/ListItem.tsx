@@ -48,6 +48,8 @@ const ListItem: React.FC<ListItemProps> = ({
   const iconSizeValue = ListItemIconSizes[size];
   const iconColorValue = iconColor || tw.color("primary");
 
+  const subtitleMaxLines = size != "md" ? 3 : 1;
+
   const containerStyles = tw.style(
     "bg-slate-100 rounded-xl w-full gap-4",
     disabled && "disabled",
@@ -83,7 +85,7 @@ const ListItem: React.FC<ListItemProps> = ({
           <Text type="p2" style={tw`text-primary`}>
             {title}
           </Text>
-          <Text type="p3" numberOfLines={1}>
+          <Text type="p3" numberOfLines={subtitleMaxLines}>
             {subtitle}
           </Text>
         </View>

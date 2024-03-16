@@ -181,7 +181,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <>
       {/* Background circles */}
-      <View style={tw`absolute`}>
+      <View style={tw`absolute h-full w-full`}>
         <HeaderSvg />
       </View>
 

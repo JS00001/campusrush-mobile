@@ -24,6 +24,10 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
     navigation.navigate("AdminChapters");
   };
 
+  const onUIComponentsPress = () => {
+    navigation.navigate("AdminUIComponents");
+  };
+
   const onUITestingPress = () => {
     navigation.navigate("AdminUITesting");
   };
@@ -35,26 +39,29 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
   return (
     <Layout scrollable gap={12}>
       <Layout.Header title="Admin" subtitle="Admin options/developer options" />
-
       <ActionCard
         title="View Chapters"
         subtitle="List all registered chapters"
         icon="ri-group-fill"
         onPress={onChaptersPress}
       />
-
-      <ActionCard
-        title="UI Components"
-        subtitle="All of the current UI components and their docs"
-        icon="ri-layout-masonry-fill"
-        onPress={onUITestingPress}
-      />
-
       <ActionCard
         title="Network"
         subtitle="View network logs"
         icon="ri-wifi-fill"
         onPress={onNetworkPress}
+      />
+      <ActionCard
+        title="UI Components"
+        subtitle="All of the current UI components and their docs"
+        icon="ri-book-fill"
+        onPress={onUIComponentsPress}
+      />
+      <ActionCard
+        title="UI Testing"
+        subtitle="Test new UI components in a sandbox"
+        icon="ri-test-tube-fill"
+        onPress={onUITestingPress}
       />
     </Layout>
   );

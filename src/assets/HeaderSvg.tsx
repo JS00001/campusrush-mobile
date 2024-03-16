@@ -10,23 +10,21 @@
  * Do not distribute
  */
 
-import Svg, { Path } from "react-native-svg";
+import tw from "@/lib/tailwind";
+import { View } from "react-native";
 
 interface HeaderSvgProps {}
 
 const HeaderSvg: React.FC<HeaderSvgProps> = () => {
   return (
-    <Svg width={390} height={846} fill="none" style={{ marginTop: -10 }}>
-      <Path fill="#020037" d="M0 2h390v844H0V2Z" />
-      <Path
-        fill="#010C4A"
-        d="M0 292V2h390v118c-45.547 96.922-136.602 212.545-241.5 212.545-54.778 0-105.781-9.512-148.5-40.545Z"
+    <View style={tw`w-full h-full bg-primary overflow-hidden`}>
+      <View
+        style={tw`w-96 h-[400px] rounded-full -top-44 -left-24 bg-navy-100 absolute z-10`}
       />
-      <Path
-        fill="#0B1652"
-        d="M51.5 252C191.504 252 305 140.071 305 2c0-4.36.224 4.305 0 0H0v244.5c19.992 4.999 29.931 5.5 51.5 5.5Z"
+      <View
+        style={tw`w-[500px] h-[550px] rounded-full -top-64 -left-28 bg-navy-200 absolute`}
       />
-    </Svg>
+    </View>
   );
 };
 
