@@ -15,7 +15,13 @@ import { Layout } from "@/ui/Layout";
 const SkeletonScreen = () => {
   return (
     <Layout.Root>
-      <Layout.Header title="Skeleton" subtitle="Used to show a loading state" />
+      <Layout.Header
+        hasBackButton
+        title="Skeleton"
+        subtitle="Used to show a loading state"
+      />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

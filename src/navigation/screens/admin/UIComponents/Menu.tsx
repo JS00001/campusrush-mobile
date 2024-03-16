@@ -15,7 +15,13 @@ import { Layout } from "@/ui/Layout";
 const MenuScreen = () => {
   return (
     <Layout.Root>
-      <Layout.Header title="Menu" subtitle="Shows the native iOS menu view" />
+      <Layout.Header
+        hasBackButton
+        title="Menu"
+        subtitle="Shows the native iOS menu view"
+      />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

@@ -16,9 +16,12 @@ const DateTimePickerScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Date Time Picker"
         subtitle="A date and time picker for user input"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

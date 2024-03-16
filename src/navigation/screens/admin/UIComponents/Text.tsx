@@ -16,9 +16,12 @@ const TextScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Text"
         subtitle="Simple text with different styles"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

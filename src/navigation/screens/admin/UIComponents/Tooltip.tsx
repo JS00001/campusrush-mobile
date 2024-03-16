@@ -15,7 +15,9 @@ import { Layout } from "@/ui/Layout";
 const TooltipScreen = () => {
   return (
     <Layout.Root>
-      <Layout.Header title="Tooltip" subtitle="A small pop-up " />
+      <Layout.Header hasBackButton title="Tooltip" subtitle="A small pop-up " />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

@@ -16,9 +16,12 @@ const FormFieldScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Form Field"
         subtitle="Alternate form of text input, used for forms with multiple fields"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

@@ -16,9 +16,12 @@ const SegmentedControlScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Segmented Control"
         subtitle="Alternative form of tabs for navigating between two or more screens"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

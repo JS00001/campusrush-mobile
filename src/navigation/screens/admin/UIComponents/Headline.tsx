@@ -15,7 +15,13 @@ import { Layout } from "@/ui/Layout";
 const HeadlineScreen = () => {
   return (
     <Layout.Root>
-      <Layout.Header title="Headline" subtitle="A title and subtitle pair" />
+      <Layout.Header
+        hasBackButton
+        title="Headline"
+        subtitle="A title and subtitle pair"
+      />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

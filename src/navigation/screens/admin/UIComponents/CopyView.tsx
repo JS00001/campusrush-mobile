@@ -16,9 +16,12 @@ const CopyViewScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Copy View"
         subtitle="Shows what will be copied, and a copy button"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

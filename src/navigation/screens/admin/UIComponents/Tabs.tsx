@@ -15,7 +15,13 @@ import { Layout } from "@/ui/Layout";
 const TabsScreen = () => {
   return (
     <Layout.Root>
-      <Layout.Header title="Tabs" subtitle="A tab bar with multiple tabs" />
+      <Layout.Header
+        hasBackButton
+        title="Tabs"
+        subtitle="A tab bar with multiple tabs"
+      />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

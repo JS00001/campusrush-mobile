@@ -13,28 +13,30 @@
 import { View } from "react-native";
 import NetworkLogger from "react-native-network-logger";
 
-import Layout from "@/ui_v1/Layout";
 import tw from "@/lib/tailwind";
+import { Layout } from "@/ui/Layout";
 
 const Network: React.FC = () => {
   return (
-    <Layout gap={12}>
+    <Layout.Root>
       <Layout.Header
         hasBackButton
         title="Network"
         subtitle="View network logs"
       />
 
-      <View style={tw`flex-1 w-full`}>
-        <NetworkLogger
-          theme={{
-            colors: {
-              background: "white",
-            },
-          }}
-        />
-      </View>
-    </Layout>
+      <Layout.Content>
+        <View style={tw`flex-1 w-full`}>
+          <NetworkLogger
+            theme={{
+              colors: {
+                background: "white",
+              },
+            }}
+          />
+        </View>
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

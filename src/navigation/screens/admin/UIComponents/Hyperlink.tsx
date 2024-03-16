@@ -16,9 +16,12 @@ const HyperlinkScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Hyperlink"
         subtitle="A text link to another screen or action"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

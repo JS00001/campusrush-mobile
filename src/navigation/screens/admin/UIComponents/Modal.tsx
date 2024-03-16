@@ -16,9 +16,12 @@ const ModalScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Modal"
         subtitle="A popup that requires user interaction to dismiss"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

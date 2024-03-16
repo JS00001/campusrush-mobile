@@ -12,8 +12,8 @@
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import Layout from "@/ui_v1/Layout";
-import ActionCard from "@/ui_v1/ActionCard";
+import ListItem from "@/ui/ListItem";
+import { Layout } from "@/ui/Layout";
 
 interface AdminProps {
   navigation: NativeStackNavigationProp<any>;
@@ -37,33 +37,40 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
   };
 
   return (
-    <Layout scrollable gap={12}>
+    <Layout.Root>
       <Layout.Header title="Admin" subtitle="Admin options/developer options" />
-      <ActionCard
-        title="View Chapters"
-        subtitle="List all registered chapters"
-        icon="ri-group-fill"
-        onPress={onChaptersPress}
-      />
-      <ActionCard
-        title="Network"
-        subtitle="View network logs"
-        icon="ri-wifi-fill"
-        onPress={onNetworkPress}
-      />
-      <ActionCard
-        title="UI Components"
-        subtitle="All of the current UI components and their docs"
-        icon="ri-book-fill"
-        onPress={onUIComponentsPress}
-      />
-      <ActionCard
-        title="UI Testing"
-        subtitle="Test new UI components in a sandbox"
-        icon="ri-test-tube-fill"
-        onPress={onUITestingPress}
-      />
-    </Layout>
+
+      <Layout.Content scrollable gap={12}>
+        <ListItem
+          size="lg"
+          title="View Chapters"
+          subtitle="List all registered chapters"
+          icon="group-fill"
+          onPress={onChaptersPress}
+        />
+        <ListItem
+          size="lg"
+          title="Network"
+          subtitle="View network logs"
+          icon="wifi-fill"
+          onPress={onNetworkPress}
+        />
+        <ListItem
+          size="lg"
+          title="UI Components"
+          subtitle="All of the current UI components and their docs"
+          icon="book-fill"
+          onPress={onUIComponentsPress}
+        />
+        <ListItem
+          size="lg"
+          title="UI Testing"
+          subtitle="Test new UI components in a sandbox"
+          icon="test-tube-fill"
+          onPress={onUITestingPress}
+        />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

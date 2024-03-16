@@ -16,9 +16,12 @@ const BadgeScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Badge"
         subtitle="A chip to display a small amount of information"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

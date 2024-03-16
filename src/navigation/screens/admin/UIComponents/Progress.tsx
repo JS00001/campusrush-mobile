@@ -16,9 +16,12 @@ const ProgressScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Progress"
         subtitle="An indeterminate progress bar"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

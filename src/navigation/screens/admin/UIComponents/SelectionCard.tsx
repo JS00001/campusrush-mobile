@@ -16,9 +16,12 @@ const SelectionCardScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Selection Card"
         subtitle="Toggle between multiple cards"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

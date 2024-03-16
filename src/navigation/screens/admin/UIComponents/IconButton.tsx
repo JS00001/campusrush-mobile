@@ -16,9 +16,12 @@ const IconButtonScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Icon Button"
         subtitle="A button with an icon and an optional label"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

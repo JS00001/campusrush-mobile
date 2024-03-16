@@ -16,9 +16,12 @@ const SelectScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Select"
         subtitle="Opens a sheet with a list of options"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

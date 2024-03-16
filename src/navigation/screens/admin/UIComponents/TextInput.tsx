@@ -16,9 +16,12 @@ const TextInputScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Text Input"
         subtitle="A text input to be used when there is only one input"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

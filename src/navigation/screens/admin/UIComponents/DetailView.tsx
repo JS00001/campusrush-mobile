@@ -16,9 +16,12 @@ const DetailViewScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Detail View"
         subtitle="Shows a list of key-value pairs"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

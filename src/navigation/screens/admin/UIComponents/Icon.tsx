@@ -15,7 +15,13 @@ import { Layout } from "@/ui/Layout";
 const IconScreen = () => {
   return (
     <Layout.Root>
-      <Layout.Header title="Icon" subtitle="All bootstrap icons in one place" />
+      <Layout.Header
+        hasBackButton
+        title="Icon"
+        subtitle="All bootstrap icons in one place"
+      />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

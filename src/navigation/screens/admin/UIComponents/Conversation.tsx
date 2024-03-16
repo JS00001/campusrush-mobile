@@ -16,9 +16,12 @@ const ConversationScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Conversation"
         subtitle="A list item that represents a conversation. Has an unread indicator and a timestamp."
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

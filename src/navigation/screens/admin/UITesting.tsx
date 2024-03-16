@@ -10,9 +10,7 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { View } from "react-native";
 
 interface UITestingScreenProps {
   navigation: NativeStackNavigationProp<any>;

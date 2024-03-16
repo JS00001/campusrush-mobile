@@ -16,9 +16,12 @@ const CopyActionScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Copy Action"
         subtitle="Holding down on a message will show a copy action"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

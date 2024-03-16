@@ -16,9 +16,12 @@ const ButtonScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Button"
         subtitle="A pressable button for user interaction"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

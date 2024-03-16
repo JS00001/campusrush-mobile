@@ -10,20 +10,22 @@
  * Do not distribute
  */
 
-import Layout from "@/ui_v1/Layout";
+import { Layout } from "@/ui/Layout";
 import ChaptersView from "@/views/admin";
 
 const Chapters = () => {
   return (
-    <Layout gap={12}>
+    <Layout.Root>
       <Layout.Header
         hasBackButton
         title="Chapters"
         subtitle="View all registered chapters"
       />
 
-      <ChaptersView />
-    </Layout>
+      <Layout.Content gap={12}>
+        <ChaptersView />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

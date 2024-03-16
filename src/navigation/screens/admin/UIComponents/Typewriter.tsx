@@ -16,9 +16,12 @@ const TypewriterScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Typewriter"
         subtitle="A typewriter effect for text"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

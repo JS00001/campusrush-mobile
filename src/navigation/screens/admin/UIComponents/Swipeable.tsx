@@ -16,9 +16,12 @@ const SwipeableScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Swipeable"
         subtitle="Swipe left or right to reveal actions"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

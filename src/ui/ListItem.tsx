@@ -81,7 +81,7 @@ const ListItem: React.FC<ListItemProps> = ({
           />
         </View>
 
-        <View>
+        <View style={tw`shrink`}>
           <Text type="p2" style={tw`text-primary`}>
             {title}
           </Text>

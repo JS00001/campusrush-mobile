@@ -16,9 +16,12 @@ const ListItemScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="List Item"
         subtitle="All cards for any form of list"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

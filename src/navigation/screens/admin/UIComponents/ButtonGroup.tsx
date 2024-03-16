@@ -16,9 +16,12 @@ const ButtonGroupScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Button Group"
         subtitle="Groups buttons and makes them evenly spaced and sized"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

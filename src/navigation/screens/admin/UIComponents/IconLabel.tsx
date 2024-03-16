@@ -16,9 +16,12 @@ const IconLabelScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Icon Label"
         subtitle="An icon badge with a title and subtitle next to it"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

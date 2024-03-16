@@ -16,9 +16,12 @@ const InformationScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Information"
         subtitle="Information icon, when clicked shows a tooltip"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

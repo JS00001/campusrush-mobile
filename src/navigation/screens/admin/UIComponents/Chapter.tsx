@@ -16,9 +16,12 @@ const ChapterScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Chapter"
         subtitle="A chapter detail section for admins"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

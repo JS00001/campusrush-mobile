@@ -16,9 +16,12 @@ const EventScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Event"
         subtitle="Displays information about an event"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

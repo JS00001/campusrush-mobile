@@ -16,9 +16,12 @@ const MessageBubbleScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="MessageBubble"
         subtitle="A message bubble that was sent or received"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };

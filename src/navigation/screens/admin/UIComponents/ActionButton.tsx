@@ -16,9 +16,12 @@ const ActionButtonScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
+        hasBackButton
         title="Action Button"
         subtitle="A button that floats at the bottom of the screen"
       />
+
+      <Layout.Content></Layout.Content>
     </Layout.Root>
   );
 };
