@@ -21,7 +21,7 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
+import { FlatList, View } from "react-native";
 import { useCallback, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
@@ -62,6 +62,7 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
   const handleSheetChanges = useCallback((index: number) => {
     // When the sheet closes...
     if (index === -1) {
+      search.setQuery("");
       handleCloseSheet();
       setSelected(value);
     }
@@ -90,7 +91,7 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
       onKeyboardWillHide={onKeyboardWillHide}
     >
       <BottomSheet innerRef={innerRef} onChange={handleSheetChanges}>
-        <BottomSheetContainer style={containerStyles}>
+        <BottomSheetContainer style={containerStyles} disableScroll>
           <View style={tw`px-6 gap-3`}>
             <Text type="h1">{placeholder}</Text>
             <TextInput
@@ -100,22 +101,32 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
             />
           </View>
 
-          {search.data.map((option, index) => {
-            const isSelected = selected === option;
+          <FlatList
+            data={search.data}
+            style={tw`max-h-64`}
+            keyboardShouldPersistTaps="handled"
+            ListEmptyComponent={
+              <Text type="h2" style={tw`px-4.5 py-3 font-normal`}>
+                No results found
+              </Text>
+            }
+            renderItem={({ item, index }) => {
+              const isSelected = selected === item;
 
-            const handleOptionPress = () => {
-              setSelected(option);
-            };
+              const handleOptionPress = () => {
+                setSelected(item);
+              };
 
-            return (
-              <Option
-                value={option}
-                key={index}
-                selected={isSelected}
-                onPress={handleOptionPress}
-              />
-            );
-          })}
+              return (
+                <Option
+                  value={item}
+                  key={index}
+                  selected={isSelected}
+                  onPress={handleOptionPress}
+                />
+              );
+            }}
+          />
 
           <View style={tw`px-6`}>
             <Button size="sm" onPress={onDonePress}>

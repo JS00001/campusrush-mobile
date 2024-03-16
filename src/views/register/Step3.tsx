@@ -12,8 +12,8 @@
 
 import { z } from "zod";
 
-import Button from "@/ui_v1/Button";
-import TextInput from "@/ui_v1/TextInput";
+import Button from "@/ui/Button";
+import FormField from "@/ui/FormField";
 import { useAuth } from "@/providers/Auth";
 import { useRegistrationStore } from "@/store";
 import { useRegister } from "@/hooks/api/auth";
@@ -70,14 +70,14 @@ const RegistrationStep3View = () => {
 
   return (
     <>
-      <TextInput
+      <FormField
         secureTextEntry
         placeholder="Password"
         value={form.state.password.value}
         error={form.state.password.error}
         onChangeText={form.setValue.bind(null, "password")}
       />
-      <TextInput
+      <FormField
         secureTextEntry
         placeholder="Confirm Password"
         value={form.state.confirmPassword.value}
@@ -88,7 +88,7 @@ const RegistrationStep3View = () => {
       <Button
         loading={form.loading}
         onPress={onSubmit}
-        iconRight="ri-arrow-right-line"
+        iconRight="arrow-right-line"
       >
         Complete Registration
       </Button>

@@ -18,9 +18,9 @@ import ManualStep1 from "./Views/ManualStep1";
 import ManualStep3 from "./Views/ManualStep3";
 import ManualStep2 from "./Views/ManualStep2";
 
-import { BottomSheet } from "@/ui_v1/BottomSheet";
+import { BottomSheet } from "@/ui/BottomSheet";
 import useSheetFlow from "@/hooks/useSheetFlow";
-import BottomSheetContainer from "@/ui_v1/BottomSheet/Container";
+import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const CreatePnmSheet: React.FC<BottomSheetProps> = ({
   innerRef,

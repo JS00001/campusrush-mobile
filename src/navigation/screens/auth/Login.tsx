@@ -10,20 +10,22 @@
  * Do not distribute
  */
 
-import Layout from "@/ui_v1/Layout";
+import { Layout } from "@/ui/Layout";
 import LoginView from "@/views/Login";
 
 const LoginScreen = () => {
   return (
-    <Layout scrollable keyboardAvoiding gap={18}>
+    <Layout.Root>
       <Layout.Header
         hasBackButton
         title="Login"
         subtitle="Login as a chapter"
       />
 
-      <LoginView />
-    </Layout>
+      <Layout.Content scrollable keyboardAvoiding gap={18}>
+        <LoginView />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

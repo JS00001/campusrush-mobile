@@ -87,7 +87,7 @@ const Button: React.FC<ButtonProps> = ({
   const textType = sizeStyle.text as TextType;
 
   const containerStyles = tw.style(
-    "flex flex-row items-center justify-center rounded-xl gap-2.5",
+    "flex flex-row items-center justify-center rounded-xl gap-2.5 w-full",
     disabled && "disabled",
     colorStyle.container,
     sizeStyle.container,
@@ -95,7 +95,7 @@ const Button: React.FC<ButtonProps> = ({
   );
 
   const textStyles = tw.style(
-    "text-center",
+    "text-center font-medium",
     loading && "opacity-0",
     colorStyle.text,
     textStyle,
@@ -120,7 +120,12 @@ const Button: React.FC<ButtonProps> = ({
       )}
 
       {iconRight && (
-        <Icon name={iconRight} color={colorStyle.icon} size={sizeStyle.icon} />
+        <Icon
+          name={iconRight}
+          color={colorStyle.icon}
+          size={sizeStyle.icon}
+          style={textStyles}
+        />
       )}
     </TouchableOpacity>
   );

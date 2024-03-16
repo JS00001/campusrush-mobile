@@ -23,7 +23,11 @@ interface ListItemProps extends TouchableOpacityProps {
   subtitle: string;
   icon?: IconType;
   iconColor?: string;
+  pressable?: boolean;
   size?: ListItemSize;
+  style?: any;
+  titleStyle?: any;
+  subtitleStyle?: any;
 }
 
 /**
@@ -42,6 +46,10 @@ const ListItem: React.FC<ListItemProps> = ({
   iconColor,
   size = "md",
   disabled,
+  pressable = true,
+  style,
+  titleStyle,
+  subtitleStyle,
   ...props
 }) => {
   const iconNameValue = icon || "circle-line";
@@ -51,11 +59,12 @@ const ListItem: React.FC<ListItemProps> = ({
   const subtitleMaxLines = size != "md" ? 3 : 1;
 
   const containerStyles = tw.style(
-    "bg-slate-100 rounded-xl w-full gap-4",
+    "bg-slate-100 rounded-xl gap-4",
     disabled && "disabled",
-    size === "sm" && "p-4 gap-y-2 flex-col",
-    size === "md" && "px-3 py-4 justify-between items-center flex-row",
-    size === "lg" && "px-7 py-4 justify-between items-center flex-row",
+    size === "sm" && "p-4 gap-y-2 flex-col flex-1",
+    size === "md" && "px-3 py-4 justify-between items-center flex-row w-full",
+    size === "lg" && "px-7 py-4 justify-between items-center flex-row w-full",
+    style,
   );
 
   const contentContainerStyles = tw.style(
@@ -71,7 +80,11 @@ const ListItem: React.FC<ListItemProps> = ({
   );
 
   return (
-    <TouchableOpacity style={containerStyles} {...props}>
+    <TouchableOpacity
+      style={containerStyles}
+      disabled={disabled || !pressable}
+      {...props}
+    >
       <View style={contentContainerStyles}>
         <View style={iconStyles}>
           <Icon
@@ -82,17 +95,21 @@ const ListItem: React.FC<ListItemProps> = ({
         </View>
 
         <View style={tw`shrink`}>
-          <Text type="p2" style={tw`text-primary`}>
+          <Text type="p2" style={tw.style("text-primary", titleStyle)}>
             {title}
           </Text>
-          <Text type="p3" numberOfLines={subtitleMaxLines}>
+          <Text
+            type="p3"
+            numberOfLines={subtitleMaxLines}
+            style={subtitleStyle}
+          >
             {subtitle}
           </Text>
         </View>
       </View>
 
       {/* Caret only for medium and large */}
-      {size !== "sm" && (
+      {size !== "sm" && pressable && (
         <Icon name="arrow-right-s-line" size={24} color={tw.color("primary")} />
       )}
     </TouchableOpacity>

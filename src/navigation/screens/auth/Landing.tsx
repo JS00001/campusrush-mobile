@@ -14,9 +14,9 @@ import { View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import tw from "@/lib/tailwind";
-import Layout from "@/ui_v1/Layout";
-import Button from "@/ui_v1/Button";
-import Typewriter from "@/ui_v1/Typewriter";
+import { Layout } from "@/ui/Layout";
+import Button from "@/ui/Button";
+import Typewriter from "@/ui/Typewriter";
 import Logo64Svg from "@/assets/Logo64Svg";
 import LandingSvg from "@/assets/LandingSvg";
 import TermsAndConditions from "@/components/TermsAndConditions";
@@ -38,39 +38,39 @@ const Landing: React.FC<LandingProps> = ({ navigation }) => {
     <>
       <LandingSvg />
 
-      <Layout
-        style={tw`bg-transparent`}
-        contentContainerStyle={tw`justify-between h-full`}
-      >
-        <View style={tw`items-center gap-y-10 justify-center flex-1`}>
-          <Logo64Svg />
-          <Typewriter
-            delay={20}
-            type="h1"
-            style={tw`text-white text-center`}
-            text="Elevate Recruitment With CampusRush"
-          />
-        </View>
+      <Layout.Root>
+        <Layout.Content
+          style={tw`bg-transparent`}
+          contentContainerStyle={tw`justify-between h-full`}
+        >
+          <View style={tw`items-center gap-y-10 justify-center flex-1`}>
+            <Logo64Svg />
+            <Typewriter delay={20} type="h1" style={tw`text-white text-center`}>
+              Elevate Recruitment With CampusRush
+            </Typewriter>
+          </View>
 
-        <View style={tw`w-full`}>
-          <Button color="light" onPress={handleCreateAccount}>
-            Create Account
-          </Button>
-          <Button style={tw`bg-transparent`} onPress={handleLogBackIn}>
-            Log Back In
-          </Button>
-          {__DEV__ && (
-            <Button
-              style={tw`bg-transparent`}
-              onPress={() => navigation.navigate("UITesting")}
-            >
-              UI Testing (DEV)
+          <View style={tw`w-full`}>
+            <Button color="secondary" onPress={handleCreateAccount}>
+              Create Account
             </Button>
-          )}
+            <Button style={tw`bg-transparent`} onPress={handleLogBackIn}>
+              Log Back In
+            </Button>
 
-          <TermsAndConditions color="light" />
-        </View>
-      </Layout>
+            {__DEV__ && (
+              <Button
+                style={tw`bg-transparent`}
+                onPress={() => navigation.navigate("UITesting")}
+              >
+                UI Testing (DEV)
+              </Button>
+            )}
+
+            <TermsAndConditions color="secondary" />
+          </View>
+        </Layout.Content>
+      </Layout.Root>
     </>
   );
 };

@@ -15,8 +15,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import ActionCard from "@/ui_v1/ActionCard";
-import IconButton from "@/ui_v1/IconButton";
+import ListItem from "@/ui/ListItem";
+import IconButton from "@/ui/IconButton";
 import { useAuth } from "@/providers/Auth";
 import RecentPnms from "@/components/RecentPnms";
 import { useBottomSheets } from "@/providers/BottomSheet";
@@ -42,22 +42,23 @@ const HomeView = () => {
     });
   };
 
+  // TODO: Add full loading skeleton for the entire screen
+
   return (
     <>
       {/* White background */}
       <View style={tw`bg-white absolute h-full -z-10 w-full top-56`} />
 
-      <View style={tw`w-full items-start px-6 pt-6 gap-y-6`}>
+      <View style={tw`w-full items-start p-6 gap-y-6`}>
         {/* Header */}
         <View style={tw`justify-between items-center flex-row w-full`}>
           <Text type="h1" numberOfLines={1} style={tw`text-white shrink`}>
             Welcome {chapter.firstName}
           </Text>
           <IconButton
-            color="white"
+            color="primary"
             size="md"
-            icon="ri-settings-4-fill"
-            style={tw`bg-navy-100 shadow-lg`}
+            iconName="settings-4-fill"
             onPress={onSettingsPress}
           />
         </View>
@@ -67,36 +68,32 @@ const HomeView = () => {
           Chapter Statistics
         </Text>
         <View style={tw`w-full flex-row gap-5`}>
-          <ActionCard
-            size="md"
+          <ListItem
+            size="sm"
             pressable={false}
-            icon="ri-user-fill"
+            icon="user-fill"
+            titleStyle={tw`text-[32px] font-semibold leading-9`}
             title={statisticsQuery.pnmCount?.toString() || "0"}
             subtitle="Current PNMs registered to rush"
-            loading={
-              statisticsQuery.isLoading &&
-              statisticsQuery.pnmCount === undefined
-            }
           />
-          <ActionCard
-            size="md"
+
+          <ListItem
+            size="sm"
             pressable={false}
-            icon="ri-user-star-fill"
+            icon="user-star-fill"
+            titleStyle={tw`text-[32px] font-semibold leading-9`}
             title={statisticsQuery.starredPnmCount?.toString() || "0"}
             subtitle="PNMs saved as favorites"
-            loading={
-              statisticsQuery.isLoading &&
-              statisticsQuery.starredPnmCount === undefined
-            }
           />
         </View>
 
         {/* Quick Links */}
         <Text type="h2">Quick Links</Text>
-        <ActionCard
-          title="New PNM"
+        <ListItem
+          size="lg"
+          icon="user-add-fill"
+          title="Add New PNM"
           subtitle="Add a new PNM to the system"
-          icon="ri-user-add-fill"
           onPress={onAddPNM}
         />
 

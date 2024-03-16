@@ -10,20 +10,22 @@
  * Do not distribute
  */
 
-import Layout from "@/ui_v1/Layout";
+import { Layout } from "@/ui/Layout";
 import RegistrationStep2View from "@/views/register/Step2";
 
 const RegistrationStep2Screen = () => {
   return (
-    <Layout scrollable keyboardAvoiding gap={18}>
+    <Layout.Root>
       <Layout.Header
         hasBackButton
         title="Register"
         subtitle="Please provide your personal details"
       />
 
-      <RegistrationStep2View />
-    </Layout>
+      <Layout.Content scrollable keyboardAvoiding gap={18}>
+        <RegistrationStep2View />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

@@ -14,14 +14,14 @@ import { View } from "react-native";
 
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui_v1/Button";
+import Button from "@/ui/Button";
+import Headline from "@/ui/Headline";
 import useForm from "@/hooks/useForm";
-import TextInput from "@/ui_v1/TextInput";
-import ButtonGroup from "@/ui_v1/ButtonGroup";
+import FormField from "@/ui/FormField";
+import ButtonGroup from "@/ui/ButtonGroup";
 import validators from "@/constants/validators";
-import KeyboardListener from "@/ui_v1/KeyboardListener";
+import KeyboardListener from "@/ui/KeyboardListener";
 
 const ManualStep1: React.FC<UseSheetFlowProps> = ({
   state,
@@ -79,30 +79,30 @@ const ManualStep1: React.FC<UseSheetFlowProps> = ({
       onKeyboardWillHide={onKeyboardWillHide}
     >
       <View style={tw`gap-y-4`}>
-        <View style={tw`mb-2`}>
-          <Text type="h2">Basic Information</Text>
-          <Text>Enter the PNM's name and contact information</Text>
-        </View>
+        <Headline
+          title="Basic Information"
+          subtitle="Enter the PNM's name and contact information"
+        />
 
-        <TextInput
+        <FormField
           placeholder="First Name"
           value={form.state.firstName.value}
           error={form.state.firstName.error}
           onChangeText={form.setValue.bind(null, "firstName")}
         />
-        <TextInput
+        <FormField
           placeholder="Last Name"
           value={form.state.lastName.value}
           error={form.state.lastName.error}
           onChangeText={form.setValue.bind(null, "lastName")}
         />
-        <TextInput
+        <FormField
           placeholder="Phone Number"
           value={form.state.phoneNumber.value}
           error={form.state.phoneNumber.error}
           onChangeText={form.setValue.bind(null, "phoneNumber")}
         />
-        <TextInput
+        <FormField
           placeholder="Classification"
           value={form.state.classification.value}
           error={form.state.classification.error}
@@ -110,7 +110,7 @@ const ManualStep1: React.FC<UseSheetFlowProps> = ({
         />
 
         <ButtonGroup>
-          <Button size="sm" color="gray" onPress={prevView}>
+          <Button size="sm" color="secondary" onPress={prevView}>
             Go Back
           </Button>
           <Button size="sm" onPress={handleSubmission}>

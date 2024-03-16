@@ -10,14 +10,37 @@
  * Do not distribute
  */
 
+import tw from "@/lib/tailwind";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { View } from "react-native";
+import ListItem from "@/ui/ListItem";
 
 interface UITestingScreenProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
 const UITestingScreen: React.FC<UITestingScreenProps> = ({ navigation }) => {
-  return <></>;
+  return (
+    <View style={tw`w-full flex-row gap-5 mt-20 px-4`}>
+      <ListItem
+        size="sm"
+        pressable={false}
+        icon="user-fill"
+        titleStyle={tw`text-[32px] font-semibold leading-9`}
+        title={"0"}
+        subtitle="Current PNMs registered to rush"
+      />
+
+      <ListItem
+        size="sm"
+        pressable={false}
+        icon="user-star-fill"
+        titleStyle={tw`text-[32px] font-semibold`}
+        title={"0"}
+        subtitle="PNMs saved as favorites"
+      />
+    </View>
+  );
 };
 
 export default UITestingScreen;

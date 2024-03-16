@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import Layout from "@/ui_v1/Layout";
+import { Layout } from "@/ui/Layout";
 import { useAuth } from "@/providers/Auth";
 import VerificationView from "@/views/Verification";
 
@@ -18,14 +18,16 @@ const VerificationScreen = () => {
   const { chapter } = useAuth();
 
   return (
-    <Layout scrollable gap={18}>
+    <Layout.Root>
       <Layout.Header
         title="Verification"
         subtitle={`We have sent a verification code sent to ${chapter?.email}. Enter it below.`}
       />
 
-      <VerificationView />
-    </Layout>
+      <Layout.Content scrollable gap={18}>
+        <VerificationView />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

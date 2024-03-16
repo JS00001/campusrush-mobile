@@ -11,7 +11,7 @@
  */
 
 import { ScrollViewProps } from "react-native";
-import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { BottomSheetScrollView, BottomSheetView } from "@gorhom/bottom-sheet";
 
 import tw from "@/lib/tailwind";
 
@@ -34,6 +34,14 @@ const BottomSheetContainer: React.FC<BottomSheetContainerProps> = ({
     "gap-y-2 pb-16",
     contentContainerStyle,
   );
+
+  if (disableScroll) {
+    return (
+      <BottomSheetView {...props} style={containerStyles}>
+        {children}
+      </BottomSheetView>
+    );
+  }
 
   return (
     <BottomSheetScrollView
