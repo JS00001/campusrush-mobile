@@ -14,11 +14,11 @@ import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
 import Chapter from "@/ui/Chapter";
-import TextInput from "@/ui_v1/TextInput";
-import IconButton from "@/ui_v1/IconButton";
+import TextInput from "@/ui/TextInput";
+import IconButton from "@/ui/IconButton";
 import useSearch from "@/hooks/useSearch";
-import Menu, { MenuAction } from "@/ui_v1/Menu";
-import ChapterLoader from "@/ui_v1/Chapter/Loaders";
+import Menu, { MenuAction } from "@/ui/Menu";
+import ChapterLoader from "@/ui/Loaders/Chapter";
 import InfiniteList from "@/components/InfiniteList";
 import { useGetAdminChapters } from "@/hooks/api/admin";
 
@@ -107,16 +107,19 @@ const ChaptersView = () => {
       <View style={tw`flex-row w-full gap-x-1`}>
         <TextInput
           autoCorrect={false}
-          icon="ri-search-line"
-          variant="alternate"
+          icon="search-line"
           placeholder={inputPlaceholder}
           value={search.query}
           onChangeText={search.setQuery}
-          containerStyle={tw`flex-shrink`}
+          contentContainerStyle={tw`shrink`}
         />
 
         <Menu actions={filterMenu}>
-          <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
+          <IconButton
+            color="secondary"
+            iconName="filter-3-fill"
+            style={tw`flex-grow`}
+          />
         </Menu>
       </View>
 

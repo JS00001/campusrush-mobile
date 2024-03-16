@@ -46,6 +46,7 @@ const UIComponentsScreen: React.FC<UIComponentsScreenProps> = ({
 
       <Layout.Content scrollable gap={12}>
         <TextInput
+          icon="search-line"
           placeholder={placeholder}
           value={search.query}
           onChangeText={search.setQuery}

@@ -17,12 +17,12 @@ import { BottomSheetProps } from "./@types";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
-import Skeleton from "@/ui_v1/Skeleton";
-import DetailView from "@/ui_v1/DetailView";
-import { BottomSheet } from "@/ui_v1/BottomSheet";
-import BottomSheetContainer from "@/ui_v1/BottomSheet/Container";
-import { useGetAdminChapter } from "@/hooks/api/admin";
+import Skeleton from "@/ui/Skeleton";
+import { Detail } from "@/ui/DetailView";
+import { BottomSheet } from "@/ui/BottomSheet";
 import { formatPhoneNumber } from "@/lib/util/string";
+import { useGetAdminChapter } from "@/hooks/api/admin";
+import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const ChapterSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   return (
@@ -47,37 +47,31 @@ const ChapterSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
               </View>
             </View>
 
-            <DetailView>
-              <DetailView.Section title="Email" content={chapter.email} />
-              <DetailView.Section
-                title="First Name"
-                content={chapter.firstName}
-              />
-              <DetailView.Section
-                title="Last Name"
-                content={chapter.lastName}
-              />
-              <DetailView.Section
+            <Detail.View>
+              <Detail.Item title="Email" value={chapter.email} />
+              <Detail.Item title="First Name" value={chapter.firstName} />
+              <Detail.Item title="Last Name" value={chapter.lastName} />
+              <Detail.Item
                 title="PNM Count"
-                content={`${chapter.pnms.length || "--"}`}
+                value={`${chapter.pnms.length || "--"}`}
               />
-              <DetailView.Section
+              <Detail.Item
                 title="Entitlements"
-                content={chapter.entitlements.join(", ") || "--"}
+                value={chapter.entitlements.join(", ")}
               />
-              <DetailView.Section
+              <Detail.Item
                 title="Custom Phone Number"
-                content={formatPhoneNumber(chapter.phoneNumber) || "--"}
+                value={formatPhoneNumber(chapter.phoneNumber) || "--"}
               />
-              <DetailView.Section
+              <Detail.Item
                 title="Last Seen"
-                content={date.timeAgo(chapter.lastOnline)}
+                value={date.timeAgo(chapter.lastOnline)}
               />
-              <DetailView.Section
+              <Detail.Item
                 title="Created On"
-                content={date.toString(chapter.createdAt)}
+                value={date.toString(chapter.createdAt)}
               />
-            </DetailView>
+            </Detail.View>
           </BottomSheetContainer>
         );
       }}
