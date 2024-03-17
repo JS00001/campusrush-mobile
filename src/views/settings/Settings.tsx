@@ -16,23 +16,25 @@ import { useNavigation } from "@react-navigation/native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import ListItem from "@/ui/ListItem";
 import AppConstants from "@/constants";
 import { useModalStore } from "@/store";
-import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
+import { useLogout } from "@/hooks/api/auth";
+import { useQonversion } from "@/providers/Qonversion";
 import { useDeleteChapter } from "@/hooks/api/chapter";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import { useLogout } from "@/hooks/api/auth";
 
 const SettingsView = () => {
   const navigation = useNavigation();
   const mutation = useDeleteChapter();
 
+  const { isPro } = useQonversion();
   const logoutMutation = useLogout();
+  const { chapter, clear } = useAuth();
   const { openModal } = useModalStore();
   const { openBottomSheet } = useBottomSheets();
-  const { chapter, isPro, clearUserData } = useAuth();
 
   const onTermsOfServicePress = () => {
     openBottomSheet("TERMS_OF_SERVICE");
@@ -63,7 +65,7 @@ const SettingsView = () => {
 
     if ("error" in res.data) return;
 
-    clearUserData();
+    clear();
   };
 
   const onDeleteAccount = () => {
@@ -93,54 +95,58 @@ const SettingsView = () => {
 
   return (
     <>
-      <ActionCard
+      <ListItem
+        size="lg"
         title="Chapter"
         subtitle="Manage your chapter"
-        icon="ri-building-2-fill"
+        icon="building-2-fill"
         onPress={onUpdateChapterPress}
       />
 
-      <ActionCard
+      <ListItem
+        size="lg"
         title="Notifications"
         subtitle="Manage your notifications"
-        icon="ri-notification-2-fill"
+        icon="notification-2-fill"
         onPress={onUpdateNotificationsPress}
       />
 
-      <ActionCard
+      <ListItem
+        size="lg"
         title="Phone Number"
         subtitle="Your custom phone number "
-        icon="ri-phone-fill"
+        icon="phone-fill"
         onPress={onPhoneNumberPress}
       />
 
-      <ActionCard
-        enforceProPlan
+      <ListItem
+        size="lg"
         title="Link Sharing"
         subtitle="Manage your link sharing"
-        icon="ri-share-fill"
+        icon="share-fill"
         onPress={onLinkSharingPress}
       />
 
-      <ActionCard
+      <ListItem
+        size="lg"
         title="Billing"
         subtitle="Manage your billing"
-        icon="ri-bank-card-2-fill"
+        icon="bank-card-2-fill"
         onPress={onUpdateBillingPress}
       />
 
       <View style={tw`w-full flex-row gap-3`}>
-        <ActionCard
+        <ListItem
           size="sm"
-          icon="ri-file-list-3-fill"
+          icon="file-list-3-fill"
           title="Terms of Service"
           subtitle="View our terms and conditions"
           onPress={onTermsOfServicePress}
         />
 
-        <ActionCard
+        <ListItem
           size="sm"
-          icon="ri-shield-user-fill"
+          icon="shield-user-fill"
           title="Privacy Policy"
           subtitle="View our privacy policy"
           onPress={onPrivacyPolicyPress}
@@ -158,7 +164,7 @@ const SettingsView = () => {
 
       <Button
         size="sm"
-        color="gray"
+        color="secondary"
         style={tw`w-full`}
         loading={mutation.isLoading}
         textStyle={tw`text-red font-medium`}
@@ -167,7 +173,7 @@ const SettingsView = () => {
         Delete Account
       </Button>
 
-      <Text variant="subtext" style={tw`text-slate-600`}>
+      <Text type="p4" style={tw`text-slate-600`}>
         App Version: {AppConstants.version}
       </Text>
     </>

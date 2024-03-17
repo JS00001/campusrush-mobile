@@ -10,21 +10,22 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
+import { Layout } from "@/ui/Layout";
 import SettingsView from "@/views/settings";
 
 const SettingsScreen = () => {
   return (
-    <Layout scrollable gap={12} contentContainerStyle={tw`pb-6`}>
+    <Layout.Root>
       <Layout.Header
         hasBackButton
         title="Settings"
         subtitle="Manage your chapter"
       />
 
-      <SettingsView />
-    </Layout>
+      <Layout.Content scrollable gap={12}>
+        <SettingsView />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

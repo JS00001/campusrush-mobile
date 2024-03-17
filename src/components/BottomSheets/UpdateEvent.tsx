@@ -20,8 +20,8 @@ import { useGetEvent, useUpdateEvent } from "@/hooks/api/events";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
-import TextInput from "@/ui/TextInput";
+import { Layout } from "@/ui/Layout";
+import FormField from "@/ui/FormField";
 import { FormSheet } from "@/ui/BottomSheet";
 import validators from "@/constants/validators";
 import DateTimePicker from "@/ui/DateTimePicker";
@@ -115,63 +115,65 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
         };
 
         return (
-          <Layout
-            scrollable
-            contentContainerStyle={tw`pt-0 items-start`}
-            gap={12}
-          >
-            <FormHeader onSave={handleSubmission} onCancel={handleClose} />
+          <Layout.Root>
+            <Layout.Content
+              scrollable
+              contentContainerStyle={tw`pt-0 items-start`}
+              gap={12}
+            >
+              <FormHeader onSave={handleSubmission} onCancel={handleClose} />
 
-            <Text variant="header" style={tw`text-primary`}>
-              Edit Event
-            </Text>
+              <Text type="h1" style={tw`text-primary`}>
+                Edit Event
+              </Text>
 
-            <TextInput
-              placeholder="Title"
-              value={form.state.title.value}
-              error={form.state.title.error}
-              onChangeText={form.setValue.bind(null, "title")}
-            />
-            <TextInput
-              placeholder="Location"
-              value={form.state.location.value}
-              error={form.state.location.error}
-              onChangeText={form.setValue.bind(null, "location")}
-            />
+              <FormField
+                placeholder="Title"
+                value={form.state.title.value}
+                error={form.state.title.error}
+                onChangeText={form.setValue.bind(null, "title")}
+              />
+              <FormField
+                placeholder="Location"
+                value={form.state.location.value}
+                error={form.state.location.error}
+                onChangeText={form.setValue.bind(null, "location")}
+              />
 
-            <DateTimePicker
-              label="Starts at"
-              mode="datetime"
-              value={newStartDate}
-              minimumDate={currentDate}
-              error={form.state.startDate.error}
-              onChange={(event, date) =>
-                onDateTimeChange(event, "startDate", date)
-              }
-            />
+              <DateTimePicker
+                label="Starts at"
+                mode="datetime"
+                value={newStartDate}
+                minimumDate={currentDate}
+                error={form.state.startDate.error}
+                onChange={(event, date) =>
+                  onDateTimeChange(event, "startDate", date)
+                }
+              />
 
-            <DateTimePicker
-              label="Ends at"
-              mode="datetime"
-              value={newEndDate}
-              minimumDate={newStartDate}
-              error={form.state.endDate.error}
-              onChange={(event, date) =>
-                onDateTimeChange(event, "endDate", date)
-              }
-            />
+              <DateTimePicker
+                label="Ends at"
+                mode="datetime"
+                value={newEndDate}
+                minimumDate={newStartDate}
+                error={form.state.endDate.error}
+                onChange={(event, date) =>
+                  onDateTimeChange(event, "endDate", date)
+                }
+              />
 
-            <TextInput
-              multiline
-              blurOnSubmit
-              returnKeyType="done"
-              inputStyle={tw`h-36`}
-              placeholder="Description"
-              value={form.state.description.value}
-              error={form.state.description.error}
-              onChangeText={form.setValue.bind(null, "description")}
-            />
-          </Layout>
+              <FormField
+                multiline
+                blurOnSubmit
+                returnKeyType="done"
+                style={tw`h-36`}
+                placeholder="Description"
+                value={form.state.description.value}
+                error={form.state.description.error}
+                onChangeText={form.setValue.bind(null, "description")}
+              />
+            </Layout.Content>
+          </Layout.Root>
         );
       }}
     />

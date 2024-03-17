@@ -10,107 +10,24 @@
  * Do not distribute
  */
 
+import { Layout } from "@/ui/Layout";
+import ListItemLoader from "@/ui/Loaders/ListItem";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import Layout from "@/ui/Layout";
-import Header from "@/ui/Header";
-import { View } from "react-native";
-import tw from "@/lib/tailwind";
-import { useState } from "react";
-import InfiniteCarousel from "@/ui/InfiniteCarousel";
-import Text from "@/ui/Text";
-import Button from "@/ui/Button";
-import { useModalStore } from "@/store";
-import { useBottomSheets } from "@/providers/BottomSheet";
-
-interface UITestingProps {
+interface UITestingScreenProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
-const UITesting: React.FC<UITestingProps> = ({ navigation }) => {
-  const { openModal } = useModalStore();
-  const { openBottomSheet } = useBottomSheets();
-
-  const openErrorModal = () => {
-    openModal("error", {
-      title: "Error",
-      subtitle: "An error occurred",
-    });
-  };
-
-  const openInfoModal = () => {
-    openModal("info", {
-      title: "Info",
-      subtitle: "An info message",
-    });
-  };
-
-  const openWarningModal = () => {
-    openModal("warning", {
-      title: "Warning",
-      subtitle: "A warning message",
-    });
-  };
-
-  const openErrorWithActionsModal = () => {
-    openModal("error", {
-      title: "Error",
-      subtitle: "An error occurred",
-      primaryActionLabel: "Retry",
-      secondaryActionLabel: "Go Back",
-      onPrimaryAction: async () => console.log("Retry"),
-      onSecondaryAction: async () => console.log("Go Back"),
-    });
-  };
-
-  const openInfoWithActionsModal = () => {
-    openModal("info", {
-      title: "Info",
-      subtitle: "An info message",
-      primaryActionLabel: "Continue",
-      secondaryActionLabel: "Go Back",
-      onPrimaryAction: async () => console.log("Continue"),
-      onSecondaryAction: async () => console.log("Go Back"),
-    });
-  };
-
-  const openWarningWithActionsModal = () => {
-    openModal("warning", {
-      title: "Warning",
-      subtitle: "A warning message",
-      primaryActionLabel: "Continue",
-      secondaryActionLabel: "Go Back",
-      onPrimaryAction: async () => console.log("Continue"),
-      onSecondaryAction: async () => console.log("Go Back"),
-    });
-  };
-
-  const onCreatePnmPress = () => {
-    openBottomSheet("CREATE_PNM");
-  };
-
+const UITestingScreen: React.FC<UITestingScreenProps> = ({ navigation }) => {
   return (
-    <Layout gap={12} contentContainerStyle={tw`pl-4 pr-0`}>
-      <Layout.CustomHeader>
-        <Header hasBackButton hasMenuButton title="Admin" />
-      </Layout.CustomHeader>
-
-      <Button onPress={openErrorModal}>Open Error Modal</Button>
-      <Button onPress={openInfoModal}>Open Info Modal</Button>
-      <Button onPress={openWarningModal}>Open Warning Modal</Button>
-      <Button onPress={openErrorWithActionsModal}>
-        Open Error Modal with Actions
-      </Button>
-      <Button onPress={openInfoWithActionsModal}>
-        Open Info Modal with Actions
-      </Button>
-      <Button onPress={openWarningWithActionsModal}>
-        Open Warning Modal with Actions
-      </Button>
-
-      <Button onPress={onCreatePnmPress}>Open Create PNM Sheet</Button>
-    </Layout>
+    <Layout.Root>
+      <Layout.Content>
+        <ListItemLoader size="sm" />
+        <ListItemLoader size="md" />
+        <ListItemLoader size="lg" />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 
-export default UITesting;
+export default UITestingScreen;

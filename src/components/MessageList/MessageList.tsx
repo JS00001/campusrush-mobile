@@ -13,8 +13,8 @@
 import { FlatList } from "react-native-bidirectional-infinite-scroll";
 
 import tw from "@/lib/tailwind";
-import Message from "@/ui/Message";
 import messaging from "@/lib/messages";
+import MessageBubble from "@/ui/MessageBubble";
 
 interface MessageListProps {
   messages?: Message[];
@@ -36,7 +36,7 @@ const MessageList: React.FC<MessageListProps> = ({
       data={timestampedMessages}
       inverted
       renderItem={({ item }) => (
-        <Message
+        <MessageBubble
           key={item._id}
           content={item.content}
           sent={item.sent}

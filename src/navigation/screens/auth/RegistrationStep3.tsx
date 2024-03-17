@@ -10,20 +10,22 @@
  * Do not distribute
  */
 
-import Layout from "@/ui/Layout";
+import { Layout } from "@/ui/Layout";
 import RegistrationStep3View from "@/views/register/Step3";
 
 const RegistrationStep3Screen: React.FC = () => {
   return (
-    <Layout scrollable keyboardAvoiding gap={18}>
+    <Layout.Root>
       <Layout.Header
         hasBackButton
         title="Register"
         subtitle="Choose a secure password"
       />
 
-      <RegistrationStep3View />
-    </Layout>
+      <Layout.Content scrollable keyboardAvoiding gap={18}>
+        <RegistrationStep3View />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

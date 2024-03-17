@@ -12,9 +12,9 @@
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import Layout from "@/ui/Layout";
-import ActionCard from "@/ui/ActionCard";
-import TextInput from "@/ui/TextInput";
+import { Layout } from "@/ui/Layout";
+import ListItem from "@/ui/ListItem";
+import FormField from "@/ui/FormField";
 import { useAuth } from "@/providers/Auth";
 
 interface UpdateChapterProps {
@@ -33,38 +33,42 @@ const UpdateChapter: React.FC<UpdateChapterProps> = ({ navigation }) => {
   };
 
   return (
-    <Layout scrollable>
+    <Layout.Root>
       <Layout.Header
         hasBackButton
         title="Chapter"
         subtitle="Manage your chapter"
       />
 
-      <TextInput
-        disabled
-        placeholder="Chapter Name"
-        value={chapter.name || "N/A"}
-      />
-      <TextInput
-        disabled
-        placeholder="School"
-        value={chapter.school || "N/A"}
-      />
+      <Layout.Content gap={12} scrollable>
+        <FormField
+          disabled
+          placeholder="Chapter Name"
+          value={chapter.name || "N/A"}
+        />
+        <FormField
+          disabled
+          placeholder="School"
+          value={chapter.school || "N/A"}
+        />
 
-      <ActionCard
-        title="General"
-        subtitle="Update general information"
-        icon="ri-building-2-fill"
-        onPress={onGeneralPress}
-      />
+        <ListItem
+          size="lg"
+          title="General"
+          subtitle="Update general information"
+          icon="building-2-fill"
+          onPress={onGeneralPress}
+        />
 
-      <ActionCard
-        title="Security"
-        subtitle="Update security information"
-        icon="ri-shield-check-fill"
-        onPress={onSecurityPress}
-      />
-    </Layout>
+        <ListItem
+          size="lg"
+          title="Security"
+          subtitle="Update security information"
+          icon="shield-check-fill"
+          onPress={onSecurityPress}
+        />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

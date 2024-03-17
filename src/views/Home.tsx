@@ -15,10 +15,12 @@ import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import ActionCard from "@/ui/ActionCard";
+import Skeleton from "@/ui/Skeleton";
+import ListItem from "@/ui/ListItem";
 import IconButton from "@/ui/IconButton";
 import { useAuth } from "@/providers/Auth";
 import RecentPnms from "@/components/RecentPnms";
+import ListItemLoader from "@/ui/Loaders/ListItem";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import { useGetChapterStatistics } from "@/hooks/api/chapter";
 
@@ -42,77 +44,105 @@ const HomeView = () => {
     });
   };
 
+  if (statisticsQuery.isLoading) {
+    return <LoadingState />;
+  }
+
   return (
     <>
       {/* White background */}
       <View style={tw`bg-white absolute h-full -z-10 w-full top-56`} />
 
-      <View style={tw`w-full items-start px-6 pt-6 gap-y-6`}>
+      <View style={tw`w-full items-start p-6 gap-y-6`}>
         {/* Header */}
         <View style={tw`justify-between items-center flex-row w-full`}>
-          <Text
-            variant="header"
-            numberOfLines={1}
-            style={tw`text-white shrink`}
-          >
+          <Text type="h1" numberOfLines={1} style={tw`text-white shrink`}>
             Welcome {chapter.firstName}
           </Text>
           <IconButton
-            color="white"
+            color="primary"
             size="md"
-            icon="ri-settings-4-fill"
-            style={tw`bg-navy-100 shadow-lg`}
+            iconName="settings-4-fill"
             onPress={onSettingsPress}
           />
         </View>
 
         {/* Chapter Statistics */}
-        <Text variant="title" style={tw`text-white`}>
+        <Text type="h2" style={tw`text-white`}>
           Chapter Statistics
         </Text>
         <View style={tw`w-full flex-row gap-5`}>
-          <ActionCard
-            size="md"
+          <ListItem
+            size="sm"
             pressable={false}
-            icon="ri-user-fill"
+            icon="user-fill"
+            titleStyle={tw`text-[32px] font-semibold leading-9`}
             title={statisticsQuery.pnmCount?.toString() || "0"}
             subtitle="Current PNMs registered to rush"
-            loading={
-              statisticsQuery.isLoading &&
-              statisticsQuery.pnmCount === undefined
-            }
           />
-          <ActionCard
-            size="md"
+
+          <ListItem
+            size="sm"
             pressable={false}
-            icon="ri-user-star-fill"
+            icon="user-star-fill"
+            titleStyle={tw`text-[32px] font-semibold leading-9`}
             title={statisticsQuery.starredPnmCount?.toString() || "0"}
             subtitle="PNMs saved as favorites"
-            loading={
-              statisticsQuery.isLoading &&
-              statisticsQuery.starredPnmCount === undefined
-            }
           />
         </View>
 
         {/* Quick Links */}
-        <Text variant="title">Quick Links</Text>
-        <ActionCard
-          title="New PNM"
+        <Text type="h2">Quick Links</Text>
+        <ListItem
+          size="lg"
+          icon="user-add-fill"
+          title="Add New PNM"
           subtitle="Add a new PNM to the system"
-          icon="ri-user-add-fill"
           onPress={onAddPNM}
         />
 
         {/* Recently Added PNMs */}
-        <Text variant="title">Recently Added PNMs</Text>
+        <Text type="h2">Recently Added PNMs</Text>
         <RecentPnms
           pnms={statisticsQuery.recentPnms}
           onPress={onRecentPnmPress}
-          loading={
-            statisticsQuery.isLoading && !statisticsQuery.recentPnms.length
-          }
         />
+      </View>
+    </>
+  );
+};
+
+const LoadingState = () => {
+  return (
+    <>
+      <View style={tw`bg-white absolute h-full -z-10 w-full top-56`} />
+
+      <View style={tw`w-full items-start p-6 gap-y-6`}>
+        {/* Header */}
+        <View style={tw`justify-between items-center flex-row w-full`}>
+          <Skeleton height={40} width={"75%"} />
+          <Skeleton borderRadius={999} height={54} width={54} />
+        </View>
+
+        {/* Chapter Statistics */}
+        <Skeleton width="30%" />
+        <View style={tw`w-full flex-row gap-5`}>
+          <Skeleton style={tw`flex-1`} height={164} />
+          <Skeleton style={tw`flex-1`} height={164} />
+        </View>
+
+        {/* Quick Links */}
+        <Text type="h2">Quick Links</Text>
+        <ListItemLoader />
+
+        {/* Recently Added PNMs */}
+        <Text type="h2">Recently Added PNMs</Text>
+
+        <View style={tw`gap-y-2`}>
+          <ListItemLoader />
+          <ListItemLoader />
+          <ListItemLoader />
+        </View>
       </View>
     </>
   );

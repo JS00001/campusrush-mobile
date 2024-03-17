@@ -18,7 +18,8 @@ import TextInput from "./TextInput";
 import ExtensionPanel from "./ExtensionPanel";
 import TextSuggestions from "./TextSuggestions";
 
-import Event from "@/ui/Event";
+import EventAttachment from "./ExtensionPanel/Extensions/Event/Attachment";
+
 import tw from "@/lib/tailwind";
 import { waitFor } from "@/lib/util";
 import AppConstants from "@/constants";
@@ -140,16 +141,15 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
       />
 
       <Animated.View style={[containerClasses, { marginBottom: minHeight }]}>
-        {event && (
-          <Event type="attachment" event={event} onPress={removeEvent} />
-        )}
+        {event && <EventAttachment event={event} onPress={removeEvent} />}
 
         <View style={inputContainerClasses}>
           <IconButton
-            size="md"
-            icon={extensionsVisible ? "ri-close-line" : "ri-add-fill"}
+            size="sm"
+            color="secondary"
+            iconName={extensionsVisible ? "close-line" : "add-fill"}
             // prettier-ignore
-            color={ extensionsVisible ? tw.color("red") : tw.color("primary")}
+            iconColor={ extensionsVisible ? tw.color("red") : tw.color("primary")}
             onPress={onExtensionsPress}
           />
 
@@ -160,8 +160,9 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
             setValue={setValue}
           />
           <IconButton
-            size="md"
-            icon="ri-send-plane-2-fill"
+            size="sm"
+            color="secondary"
+            iconName="send-plane-2-fill"
             disabled={isButtonDisabled}
             onPress={onSendPress}
           />

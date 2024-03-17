@@ -12,12 +12,13 @@
 
 import { useMemo } from "react";
 import { View } from "react-native";
-import RemixIcon from "react-native-remix-icon";
 
 import type { BottomSheetProps } from "./@types";
 
+import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Headline from "@/ui/Headline";
 import Information from "@/ui/Information";
 import { useEntitlementStore } from "@/store";
 import { BottomSheet } from "@/ui/BottomSheet";
@@ -43,13 +44,12 @@ const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
       innerRef={innerRef}
       children={() => (
         <BottomSheetContainer style={tw`px-0`}>
-          <View style={tw`items-center gap-y-2 p-6`}>
-            <Text variant="title">Plan Comparison</Text>
-            <Text variant="body" style={tw`text-center`}>
-              CampusRush offers the best recruitment experience for greek
-              chapters of all sizes.
-            </Text>
-          </View>
+          <Headline
+            centerText
+            style={tw`p-6`}
+            title="Plan Comparison"
+            subtitle="CampusRush offers the best recruitment experience for greek chapters of all sizes."
+          />
 
           <View style={tw`flex-1 w-full`}>
             {/* The header row of the table */}
@@ -112,22 +112,14 @@ const FeatureRow: React.FC<FeatureRowProps> = ({
       : `border-b border-slate-200`,
   );
 
-  const featureNameTextVariant = feature.header ? "body" : "text";
+  const featureNameTextType = feature.header ? "p2" : "p3";
 
   const booleanComponents = {
     true: (
-      <RemixIcon
-        name="ri-checkbox-circle-line"
-        size={20}
-        color={tw.color(`green-500`)}
-      />
+      <Icon size={20} name="checkbox-circle-line" color={tw.color(`green`)} />
     ),
     false: (
-      <RemixIcon
-        name="ri-close-circle-line"
-        size={20}
-        color={tw.color(`slate-400`)}
-      />
+      <Icon size={20} name="close-circle-line" color={tw.color(`slate-400`)} />
     ),
   };
 
@@ -139,10 +131,7 @@ const FeatureRow: React.FC<FeatureRowProps> = ({
         {feature.description && (
           <Information tooltip={feature.description} size="sm" />
         )}
-        <Text
-          variant={featureNameTextVariant}
-          style={tw`text-slate-500 font-medium`}
-        >
+        <Text type={featureNameTextType} style={tw`text-slate-500 font-medium`}>
           {feature.name}
         </Text>
       </View>
@@ -160,7 +149,7 @@ const FeatureRow: React.FC<FeatureRowProps> = ({
         // If the value is a string or a number, show the value
         return (
           <View key={i} style={tw`flex-1 items-center`}>
-            <Text variant={featureNameTextVariant} style={tw`text-center`}>
+            <Text type={featureNameTextType} style={tw`text-center`}>
               {value}
             </Text>
           </View>

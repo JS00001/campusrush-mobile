@@ -3,7 +3,7 @@ const IS_DEV = process.env.APP_VARIANT === 'development';
 export default {
   name: IS_DEV ? 'Campus Rush (DEV)' : 'Campus Rush',
   slug: 'campusrush',
-  version: '1.0.53',
+  version: '1.0.55',
   orientation: 'portrait',
   icon: IS_DEV ? './assets/development-icon.png' : './assets/icon.png',
   userInterfaceStyle: 'light',
@@ -36,6 +36,9 @@ export default {
     revenueCat: {
       publicKey: 'appl_cjerjYwfjLIGoYMsbLhqPxeeqwp',
     },
+    qonversion: {
+      projectKey: '0vNPscbrDatfqzz0xf_WqVf3fsydPhrb',
+    },
     sentry: {
       dsn: 'https://e67ab04c64431925a12476788c0e22a9@o4506311638843392.ingest.sentry.io/4506317292175360',
     },
@@ -52,6 +55,7 @@ export default {
   },
   owner: 'js00001',
   plugins: [
+    'expo-font',
     'sentry-expo',
     'expo-localization',
     [

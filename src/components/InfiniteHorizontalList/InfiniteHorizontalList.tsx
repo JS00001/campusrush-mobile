@@ -10,13 +10,13 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
 import { cloneElement } from "react";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import ListItem from "@/ui/ListItem";
-import InfiniteCarousel from "@/ui/InfiniteCarousel";
-import { View } from "react-native";
+import { Infinite } from "@/ui/InfiniteScroll";
+import ListItemLoader from "@/ui/Loaders/ListItem";
 
 interface InfiniteHorizontaListProps<T> {
   data: T[];
@@ -45,15 +45,13 @@ const InfiniteHorizontaList = <T,>({
       return new Array(10).fill(0).map((_, i) => {
         if (loadingComponent) return cloneElement(loadingComponent, { key: i });
 
-        return (
-          <ListItem key={i} title="" subtitle="" loading pressable={false} />
-        );
+        return <ListItemLoader key={i} />;
       });
     }
 
     return (
       <View style={tw`w-full `}>
-        <Text variant="title" style={tw`text-center mt-16`}>
+        <Text type="h2" style={tw`text-center mt-16`}>
           {emptyListTitle || "No content found"}
         </Text>
         <Text style={tw`text-center`}>
@@ -64,7 +62,7 @@ const InfiniteHorizontaList = <T,>({
   };
 
   return (
-    <InfiniteCarousel
+    <Infinite.Carousel
       data={data}
       style={tw`flex-1`}
       onEndReached={onEndReached}

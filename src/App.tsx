@@ -12,6 +12,7 @@
 
 import { registerRootComponent } from "expo";
 import Toast from "react-native-toast-message";
+import Qonversion from "react-native-qonversion";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
@@ -22,12 +23,13 @@ import toastConfig from "@/lib/toast";
 import Modals from "@/providers/Modal";
 import queryClient from "@/lib/queryClient";
 import AuthProvider from "@/providers/Auth";
-import PurchasesProvider from "@/providers/IAP";
+import qonversionConfig from "@/lib/qonversion";
 import AxiosIntercepter from "@/providers/Axios";
 import WebsocketProvider from "@/providers/Websocket";
 import StatusOverlay from "@/components/StatusOverlay";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
+import QonversionProvider from "@/providers/Qonversion";
 import SentryProvider from "@/providers/external/Sentry";
 import DevEnvironment from "@/components/DevEnvironment";
 import BottomSheetProvider from "@/providers/BottomSheet";
@@ -45,11 +47,15 @@ ExpoSplashScreen.preventAutoHideAsync();
 // in production
 startNetworkLogging();
 
+// Now, we need to initialize the qonversion SDK
+// so we can handle in-app purchases
+Qonversion.initialize(qonversionConfig);
+
 const App = () => {
   return (
     <SentryProvider>
       <QueryClientProvider client={queryClient}>
-        <PurchasesProvider>
+        <QonversionProvider>
           <WebsocketProvider>
             <AuthProvider>
               <NavigationProvider>
@@ -65,10 +71,11 @@ const App = () => {
                                 <DevEnvironment />
                                 <RootNavigator />
                                 <StatusOverlay />
-                                <Toast config={toastConfig} />
                               </EntitlementsProvider>
                             </BottomSheetProvider>
                           </BottomSheetModalProvider>
+                          {/* We need the toast outside of the bottom sheet modal provider so it shows up on top of bottom sheets */}
+                          <Toast config={toastConfig} />
                         </GestureHandlerRootView>
                       </NotificationsProvider>
                     </PosthogProvider>
@@ -77,7 +84,7 @@ const App = () => {
               </NavigationProvider>
             </AuthProvider>
           </WebsocketProvider>
-        </PurchasesProvider>
+        </QonversionProvider>
       </QueryClientProvider>
     </SentryProvider>
   );

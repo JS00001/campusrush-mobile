@@ -11,27 +11,18 @@
  */
 
 import { View } from "react-native";
-import RemixIcon from "react-native-remix-icon";
 
+import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 const toastContainerClasses = tw.style(
-  // Sizing
   "w-11/12 flex-row gap-4 p-4 rounded-lg",
-  // Colors
-  "bg-gray-800 shadow-md",
+  "bg-slate-800 shadow-md",
 );
 
-const toastText1Classes = tw.style(
-  // Sizing
-  "text-white font-medium",
-);
-
-const toastText2Classes = tw.style(
-  // Sizing
-  "text-slate-200",
-);
+const toastText1Classes = tw.style("text-white font-medium");
+const toastText2Classes = tw.style("text-slate-200");
 
 const toastConfig = {
   /**
@@ -39,9 +30,9 @@ const toastConfig = {
    */
   success: (props: any) => (
     <View style={toastContainerClasses}>
-      <RemixIcon name="ri-checkbox-circle-line" size={24} color="#10B981" />
+      <Icon name="checkbox-circle-line" size={24} color="#10B981" />
       <View style={tw`flex-1`}>
-        <Text variant="body" style={toastText1Classes} numberOfLines={1}>
+        <Text style={toastText1Classes} numberOfLines={1}>
           {props.text1}
         </Text>
         <Text style={toastText2Classes} numberOfLines={2}>
@@ -55,9 +46,9 @@ const toastConfig = {
    */
   error: (props: any) => (
     <View style={toastContainerClasses}>
-      <RemixIcon name="ri-error-warning-line" size={24} color="#EF4444" />
+      <Icon name="error-warning-line" size={24} color="#EF4444" />
       <View style={tw`flex-1`}>
-        <Text variant="body" style={toastText1Classes} numberOfLines={1}>
+        <Text style={toastText1Classes} numberOfLines={1}>
           {props.text1}
         </Text>
         <Text style={toastText2Classes} numberOfLines={2}>
@@ -71,9 +62,9 @@ const toastConfig = {
    */
   warning: (props: any) => (
     <View style={toastContainerClasses}>
-      <RemixIcon name="ri-error-warning-line" size={24} color="#F59E0B" />
+      <Icon name="error-warning-line" size={24} color="#F59E0B" />
       <View style={tw`flex-1`}>
-        <Text variant="body" style={toastText1Classes} numberOfLines={1}>
+        <Text style={toastText1Classes} numberOfLines={1}>
           {props.text1}
         </Text>
         <Text style={toastText2Classes} numberOfLines={2}>
@@ -87,9 +78,9 @@ const toastConfig = {
    */
   info: (props: any) => (
     <View style={toastContainerClasses}>
-      <RemixIcon name="ri-information-line" size={24} color="#3B82F6" />
+      <Icon name="information-line" size={24} color="#3B82F6" />
       <View style={tw`flex-1`}>
-        <Text variant="body" style={toastText1Classes} numberOfLines={1}>
+        <Text style={toastText1Classes} numberOfLines={1}>
           {props.text1}
         </Text>
         <Text style={toastText2Classes} numberOfLines={2}>

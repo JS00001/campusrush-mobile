@@ -1,12 +1,12 @@
 /*
- * Created on Sun Dec 24 2023
+ * Created on Fri Mar 15 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
  * of this software, in whole or in part, is strictly prohibited.
  * For licensing information contact CampusRush.
  *
- * Copyright (c) 2023 CampusRush
+ * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
 
@@ -25,17 +25,20 @@ interface BottomSheetProps extends BottomSheetModalProps {
 
 const BottomSheet: React.FC<BottomSheetProps> = ({ children, ...props }) => {
   const MAX_HEIGHT_PERCENTAGE = 0.9;
+
   const windowHeight = Dimensions.get("window").height;
   const maxDynamicContentSize = windowHeight * MAX_HEIGHT_PERCENTAGE;
+
+  const handleIndicatorStyles = tw.style("bg-slate-500 rounded-full w-14");
 
   return (
     <BottomSheetModal
       enableDynamicSizing
       ref={props.innerRef}
-      maxDynamicContentSize={maxDynamicContentSize}
       backgroundStyle={tw`rounded-3xl`}
-      handleIndicatorStyle={tw`bg-slate-500 rounded-full w-14`}
       backdropComponent={BottomSheetBackdrop}
+      handleIndicatorStyle={handleIndicatorStyles}
+      maxDynamicContentSize={maxDynamicContentSize}
       {...props}
     >
       {children}

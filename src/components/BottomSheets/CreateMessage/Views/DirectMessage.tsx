@@ -43,14 +43,13 @@ const DirectMessage: React.FC<UseSheetFlowProps> = ({
   return (
     <View style={tw`gap-y-4 flex-1`}>
       <View>
-        <Text variant="title">Begin Typing</Text>
-        <Text variant="body">Search for a PNM to message</Text>
+        <Text type="h2">Begin Typing</Text>
+        <Text>Search for a PNM to message</Text>
       </View>
 
       <TextInput
         autoCorrect={false}
-        icon="ri-search-line"
-        variant="alternate"
+        icon="search-line"
         placeholder="Search"
         value={search.query}
         onChangeText={search.setQuery}
@@ -60,7 +59,7 @@ const DirectMessage: React.FC<UseSheetFlowProps> = ({
       />
 
       <View style={tw`gap-y-3 flex-1`}>
-        <Text variant="text">{directMessageHeader}</Text>
+        <Text type="p3">{directMessageHeader}</Text>
         <RecentPnms
           pnms={search.data}
           loading={isLoading}

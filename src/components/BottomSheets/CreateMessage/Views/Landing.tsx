@@ -16,16 +16,18 @@ import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import ListItem from "@/ui/ListItem";
 import { useModalStore } from "@/store";
-import ActionCard from "@/ui/ActionCard";
 import Content from "@/constants/content";
-import { useAuth } from "@/providers/Auth";
+import ListItemLoader from "@/ui/Loaders/ListItem";
+import HeadlineLoader from "@/ui/Loaders/Headline";
 
+import { useQonversion } from "@/providers/Qonversion";
 import { useGetContacts } from "@/hooks/api/messaging";
-import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
+import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
-  const { isPro } = useAuth();
+  const { isPro } = useQonversion();
   const navigation = useNavigation();
 
   const openModal = useModalStore((state) => state.openModal);
@@ -59,7 +61,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
       })
     }
 
-    handleClose();    
+    handleClose();
   }
 
   /**
@@ -110,43 +112,56 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
     handleClose();
   };
 
+  if (isLoading) return <LoadingState />;
+
   return (
     <>
       <View style={tw`pb-4`}>
-        <Text variant="title">New Message</Text>
-        <Text variant="body">Start a new message with potential members</Text>
+        <Text type="h2">New Message</Text>
+        <Text>Start a new message with potential members</Text>
       </View>
 
-      <ActionCard
+      <ListItem
+        size="lg"
         title="Direct Message"
         subtitle="Send a message to a PNM"
-        icon="ri-chat-private-fill"
-        loading={isLoading}
+        icon="chat-private-fill"
         onPress={onDirectMessagePress}
       />
-      <ActionCard
+      <ListItem
+        size="lg"
         title="Message All"
         subtitle="Send a message to all PNMs"
-        icon="ri-chat-voice-fill"
-        loading={isLoading}
+        icon="chat-voice-fill"
         onPress={onMessageAllPress}
       />
-      <ActionCard
-        enforceProPlan
+      <ListItem
+        size="lg"
         title="Message New PNMS"
         subtitle="Send a message to all PNMs you have not contacted"
-        icon="ri-chat-history-fill"
-        loading={isLoading}
+        icon="chat-history-fill"
         onPress={onMessageUncontactedPress}
       />
-      <ActionCard
-        enforceProPlan
+      <ListItem
+        size="lg"
         title="Message Favorite PNMS"
         subtitle="Send a message to all PNMs you have favorited"
-        icon="ri-star-fill"
-        loading={isLoading}
+        icon="star-fill"
         onPress={onMessageFavoritesPress}
       />
+    </>
+  );
+};
+
+const LoadingState = () => {
+  return (
+    <>
+      <HeadlineLoader style={tw`pb-4`} />
+
+      <ListItemLoader size="lg" />
+      <ListItemLoader size="lg" />
+      <ListItemLoader size="lg" />
+      <ListItemLoader size="lg" />
     </>
   );
 };

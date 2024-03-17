@@ -10,119 +10,98 @@
  * Do not distribute
  */
 
-import { Linking } from "react-native";
+import { Linking, View } from "react-native";
+import { EntitlementRenewState } from "react-native-qonversion";
 
+import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import date from "@/lib/util/date";
+import Headline from "@/ui/Headline";
+import IconLabel from "@/ui/IconLabel";
 import Hyperlink from "@/ui/Hyperlink";
-import { useIAPs } from "@/providers/IAP";
-import { useAuth } from "@/providers/Auth";
-import { useEntitlementStore } from "@/store";
-import BillingDetails from "@/components/BillingDetails";
+import { useQonversion } from "@/providers/Qonversion";
+import { useBottomSheets } from "@/providers/BottomSheet";
 
 const UpdateBillingView = () => {
-  const { customerData } = useAuth();
-  const { offering, restorePurchases } = useIAPs();
-  const entitlements = useEntitlementStore((s) => s.entitlements);
+  const URL = "https://apps.apple.com/account/subscriptions";
 
-  const managementURL = customerData.managementURL;
+  const { openBottomSheet } = useBottomSheets();
+  const { entitlements, restorePurchases } = useQonversion();
 
-  /** The list of all of the productIds for the customers entitlements  */
-  const activeEntitlements = Object.keys(customerData.entitlements.active).map(
-    (key) => customerData.entitlements.active[key].productIdentifier,
+  const containerStyles = tw.style(
+    "bg-slate-100 rounded-xl p-5 gap-y-5 w-full",
   );
 
-  /**
-   * The 'offering' is all of the currently available packages for the user to buy.
-   * We are using this as a 'hack' to get the product information of all of the users
-   * active entitlements. (There is currently no direcy way to get product information from
-   * the users entitlements)
-   */
-  const purchasedPackages =
-    offering?.availablePackages.filter((pkg) =>
-      activeEntitlements.includes(pkg.identifier),
-    ) ?? [];
-
-  /** We want to 'group' together the package with its entitlement  */
-  const purchasedPackageInformation = purchasedPackages.map((pkg) => {
-    const entitlementKey = Object.keys(customerData.entitlements.active).find(
-      (key) => {
-        return (
-          customerData.entitlements.active[key].productIdentifier ===
-          pkg.product.identifier
-        );
-      },
-    );
-
-    const entitlement = entitlementKey
-      ? customerData.entitlements.active[entitlementKey]
-      : null;
-
-    return {
-      product: pkg.product,
-      entitlement,
-    };
-  });
-
-  /**
-   *  Format all of the products to be properly displayed, each product in the array will be formatted as:
-   *  {
-   *    title: "Product Title",
-   *    description: "Product Description",
-   *    subtitle: "Product Price",
-   *    perks: ["Perk 1", "Perk 2", "Perk 3"]
-   *  }
-   */
-  const activePackageInformation = purchasedPackageInformation.map(
-    (product) => {
-      const isSubscription = product.product.productCategory === "SUBSCRIPTION";
-      const isPendingCancellation = product.entitlement?.willRenew === false;
-      const expirationDate = product.entitlement?.expirationDate
-        ? date.toString(product.entitlement.expirationDate)
-        : null;
-
-      const title = product.product.title ?? "No Title";
-      const description = (() => {
-        if (isSubscription && isPendingCancellation) {
-          return `Pending Cancellation on ${expirationDate}`;
-        }
-
-        if (isSubscription) {
-          return `Renews automatically on ${expirationDate}`;
-        }
-
-        return "No Description";
-      })();
-
-      const subtitle =
-        `${product.product.priceString} ${isSubscription ? "/ year" : ""}` ??
-        "No Price";
-
-      const id = product.product.identifier as ProductId;
-
-      const perks = entitlements?.products[id]?.FEATURED_PERKS ?? [];
-
-      return {
-        title,
-        description,
-        subtitle,
-        perks,
-      };
-    },
-  );
-
-  const onManageBilling = () => {
-    if (managementURL) {
-      Linking.openURL(managementURL);
-    }
+  const onComparePlansPress = () => {
+    openBottomSheet("PLAN_COMPARISON");
   };
 
+  const onManageBilling = () => {
+    Linking.openURL(URL);
+  };
+
+  // TODO: Add an error message
+  if (!entitlements) return null;
+
   return (
-    <>
-      <BillingDetails activeProducts={activePackageInformation} />
-      <Button onPress={onManageBilling}>Manage Subscription</Button>
+    <View style={tw`w-full gap-y-4 items-center`}>
+      {entitlements.map((entitlement) => {
+        const renewText =
+          entitlement.renewState == EntitlementRenewState.WILL_RENEW
+            ? `Renews on`
+            : `Expires on`;
+
+        return (
+          <View style={containerStyles} key={entitlement.id}>
+            <Headline
+              title={`${entitlement.id.charAt(0).toUpperCase() + entitlement.id.slice(1)} Subscription`}
+              subtitle="Thank you for choosing CampusRush"
+            />
+
+            <IconLabel
+              size="xs"
+              color="tertiary"
+              iconName="timer-fill"
+              title="Subscriber Since"
+              subtitle={
+                date.toString(entitlement.firstPurchaseDate as Date) || "N/A"
+              }
+            />
+
+            <IconLabel
+              size="xs"
+              color="tertiary"
+              iconName="arrow-go-forward-fill"
+              title={renewText}
+              subtitle={
+                date.toString(entitlement.expirationDate as Date) || "N/A"
+              }
+            />
+
+            <View>
+              <Button
+                size="sm"
+                style={tw`bg-slate-200`}
+                textStyle={tw`text-red`}
+                onPress={onManageBilling}
+              >
+                Manage Subscription
+              </Button>
+              <Button
+                size="sm"
+                style={tw`bg-transparent`}
+                textStyle={tw`text-primary`}
+                onPress={onComparePlansPress}
+              >
+                Compare Plans
+              </Button>
+            </View>
+          </View>
+        );
+      })}
+
       <Hyperlink onPress={restorePurchases}>Restore Purchases</Hyperlink>
-    </>
+    </View>
   );
 };
 

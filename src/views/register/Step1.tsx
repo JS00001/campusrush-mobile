@@ -14,7 +14,7 @@ import { z } from "zod";
 import { useNavigation } from "@react-navigation/native";
 
 import Button from "@/ui/Button";
-import Dropdown from "@/ui/Dropdown";
+import Select from "@/ui/Select";
 import useForm from "@/hooks/useForm";
 import { useRegistrationStore } from "@/store";
 import TermsAndConditions from "@/components/TermsAndConditions";
@@ -57,25 +57,25 @@ const RegistrationStep1View = () => {
 
   return (
     <>
-      <Dropdown
+      <Select
         searchable
         placeholder="School Name"
         options={schools}
         value={form.state.school.value}
         error={form.state.school.error}
-        onValueChange={form.setValue.bind(null, "school")}
+        onChange={form.setValue.bind(null, "school")}
       />
 
-      <Dropdown
+      <Select
         searchable
         placeholder="Chapter Name"
         options={chapters}
         value={form.state.name.value}
         error={form.state.name.error}
-        onValueChange={form.setValue.bind(null, "name")}
+        onChange={form.setValue.bind(null, "name")}
       />
 
-      <Button onPress={handleSubmission} iconRight="ri-arrow-right-line">
+      <Button onPress={handleSubmission} iconRight="arrow-right-line">
         Continue
       </Button>
 

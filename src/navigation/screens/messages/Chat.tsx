@@ -13,8 +13,7 @@
 import { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
+import { Layout } from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
 import MessageList from "@/components/MessageList";
 
@@ -146,29 +145,29 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
   };
 
   return (
-    <>
-      <Layout gap={8} contentContainerStyle={tw`p-0`}>
-        <Layout.CustomHeader>
-          <DirectMessageHeader
-            pnm={pnm}
-            loading={sendMessageMutation.isLoading}
-          />
-        </Layout.CustomHeader>
+    <Layout.Root>
+      <Layout.CustomHeader>
+        <DirectMessageHeader
+          pnm={pnm}
+          loading={sendMessageMutation.isLoading}
+        />
+      </Layout.CustomHeader>
 
+      <Layout.Content gap={8} removePadding>
         <MessageList
           messages={messages}
           onEndReached={onEndReached}
           onStartReached={async () => {}}
         />
+      </Layout.Content>
 
-        <Layout.Footer keyboardAvoiding>
-          <MessageBox
-            onSend={onSend}
-            disableSend={sendMessageMutation.isLoading}
-          />
-        </Layout.Footer>
-      </Layout>
-    </>
+      <Layout.Footer keyboardAvoiding>
+        <MessageBox
+          onSend={onSend}
+          disableSend={sendMessageMutation.isLoading}
+        />
+      </Layout.Footer>
+    </Layout.Root>
   );
 };
 

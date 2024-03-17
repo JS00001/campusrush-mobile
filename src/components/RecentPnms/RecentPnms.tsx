@@ -17,8 +17,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
+import ListItemLoader from "@/ui/Loaders/ListItem";
 import { formatPhoneNumber } from "@/lib/util/string";
-import { ListItemLoader } from "@/ui/ListItem/Loading";
 
 interface RecentPnmsProps {
   pnms: PNM[];
@@ -40,10 +40,10 @@ const RecentPnms: React.FC<RecentPnmsProps> = ({ pnms, loading, onPress }) => {
 
       {pnms.length === 0 && !loading && (
         <View>
-          <Text variant="title" style={tw`text-center mt-5`}>
+          <Text type="h2" style={tw`text-center mt-5`}>
             No PNMs found
           </Text>
-          <Text variant="body" style={tw`text-center`}>
+          <Text style={tw`text-center`}>
             Add a PNM to your chapter to get started.
           </Text>
         </View>

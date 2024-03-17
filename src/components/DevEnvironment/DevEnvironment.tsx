@@ -21,7 +21,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
+import { Layout } from "@/ui/Layout";
 import Button from "@/ui/Button";
 import AppConstants from "@/constants";
 import { formatJSON } from "@/lib/util/string";
@@ -34,7 +34,7 @@ import { useWebsocket } from "@/providers/Websocket";
 const DevEnvironment: React.FC = ({}) => {
   const { updatePreferences } = usePreferences();
   // Use data from auth provider
-  const { chapter, customerData } = useAuth();
+  const { chapter } = useAuth();
   // The active index of the segmented control
   const [activeIndex, setActiveIndex] = useState<number>(0);
   // Ref to the bottom sheet modal so we can programmatically open it
@@ -133,28 +133,14 @@ const DevEnvironment: React.FC = ({}) => {
 
         {/* Overrides */}
         {activeIndex === 1 && (
-          <>
-            <Layout gap={20} scrollable contentContainerStyle={tw`pb-12`}>
+          <Layout.Root>
+            <Layout.Content gap={20} scrollable>
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`} variant="body">
-                  Current Subscription?
-                </Text>
-
-                <View style={tw`bg-slate-100 p-3 rounded-xl w-full`}>
-                  {lodash.isEmpty(customerData?.entitlements?.active) ? (
-                    <Text style={tw`text-red`}>No active subscription</Text>
-                  ) : (
-                    <Text style={tw`text-green-700`}>Subscription active</Text>
-                  )}
-                </View>
-              </View>
-
-              <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`} variant="body">
+                <Text style={tw`w-full font-medium`}>
                   Preferences Overrides
                 </Text>
                 <Button
-                  iconLeft="ri-settings-3-line"
+                  iconLeft="settings-3-line"
                   onPress={() => {
                     updatePreferences({
                       ...AppConstants.preferences,
@@ -165,51 +151,27 @@ const DevEnvironment: React.FC = ({}) => {
                   Reset All Preferences
                 </Button>
               </View>
-
-              <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`} variant="body">
-                  Subscription Overrides
-                </Text>
-                <Button
-                  disabled={lodash.isEmpty(chapter)}
-                  iconLeft="ri-delete-bin-line"
-                >
-                  Clear Subscriptions
-                </Button>
-                <Button
-                  disabled={lodash.isEmpty(chapter)}
-                  iconLeft="ri-vip-diamond-line"
-                >
-                  Force Basic Subscription
-                </Button>
-                <Button
-                  disabled={lodash.isEmpty(chapter)}
-                  iconLeft="ri-copper-diamond-line"
-                >
-                  Force Pro Subscription
-                </Button>
-              </View>
-            </Layout>
-          </>
+            </Layout.Content>
+          </Layout.Root>
         )}
 
         {/* Debug Information */}
         {activeIndex === 2 && (
-          <>
-            <Layout gap={20} scrollable contentContainerStyle={tw`items-start`}>
+          <Layout.Root>
+            <Layout.Content
+              gap={20}
+              scrollable
+              contentContainerStyle={tw`items-start`}
+            >
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`font-medium`} variant="body">
-                  App Version
-                </Text>
+                <Text style={tw`font-medium`}>App Version</Text>
                 <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
                   <Text>{AppConstants.version}</Text>
                 </View>
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`font-medium`} variant="body">
-                  Current Chapter
-                </Text>
+                <Text style={tw`font-medium`}>Current Chapter</Text>
                 <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
                   <Text style={tw`text-black text-[10px] leading-3`}>
                     {JSON.stringify(chapter, null, 2).slice(1, -1)}
@@ -218,46 +180,18 @@ const DevEnvironment: React.FC = ({}) => {
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`} variant="body">
+                <Text style={tw`w-full font-medium`} type="p2">
                   Current Subscription
                 </Text>
-
-                <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
-                  {lodash.isEmpty(customerData?.entitlements?.active) ? (
-                    <Text>No active subscription</Text>
-                  ) : (
-                    <Text>
-                      {JSON.stringify(
-                        customerData?.entitlements?.active,
-                        null,
-                        2,
-                      ).slice(1, -1)}
-                    </Text>
-                  )}
-                </View>
               </View>
-
-              <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`font-medium`} variant="body">
-                  RevenueCat Entitlement Information
-                </Text>
-                <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
-                  <Text style={tw`text-black text-[10px] leading-3`}>
-                    {JSON.stringify(customerData?.entitlements, null, 2).slice(
-                      1,
-                      -1,
-                    )}
-                  </Text>
-                </View>
-              </View>
-            </Layout>
-          </>
+            </Layout.Content>
+          </Layout.Root>
         )}
 
         {/* Storage information */}
         {activeIndex === 3 && (
-          <>
-            <Layout
+          <Layout.Root>
+            <Layout.Content
               gap={20}
               scrollable
               contentContainerStyle={tw`items-start pb-12`}
@@ -271,15 +205,11 @@ const DevEnvironment: React.FC = ({}) => {
                   Refresh Data
                 </Button>
 
-                <Text style={tw`font-medium`} variant="body">
-                  Async Storage Size
-                </Text>
+                <Text style={tw`font-medium`}>Async Storage Size</Text>
                 <View style={tw`bg-slate-100 p-2 rounded-xl w-full`}>
                   <Text>{asyncStorageSize}</Text>
                 </View>
-                <Text style={tw`font-medium`} variant="body">
-                  Async Storage items
-                </Text>
+                <Text style={tw`font-medium`}>Async Storage items</Text>
                 {Object.keys(asyncStorageData).map((key) => (
                   <MenuView
                     key={key}
@@ -307,32 +237,32 @@ const DevEnvironment: React.FC = ({}) => {
                   </MenuView>
                 ))}
               </View>
-            </Layout>
-          </>
+            </Layout.Content>
+          </Layout.Root>
         )}
 
         {/* Websocket information */}
         {activeIndex === 4 && (
-          <>
-            <Layout gap={20} scrollable contentContainerStyle={tw`pb-12`}>
+          <Layout.Root>
+            <Layout.Content
+              gap={20}
+              scrollable
+              contentContainerStyle={tw`pb-12`}
+            >
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`} variant="body">
-                  Websocket Connection
-                </Text>
+                <Text style={tw`w-full font-medium`}>Websocket Connection</Text>
 
                 <View style={tw`bg-slate-100 p-3 rounded-xl w-full`}>
                   {!data.connected ? (
                     <Text style={tw`text-red`}>Not connected</Text>
                   ) : (
-                    <Text style={tw`text-green-500`}>Connected</Text>
+                    <Text style={tw`text-green`}>Connected</Text>
                   )}
                 </View>
               </View>
 
               <View style={tw`w-full gap-y-2`}>
-                <Text style={tw`w-full font-medium`} variant="body">
-                  Messages
-                </Text>
+                <Text style={tw`w-full font-medium`}>Messages</Text>
 
                 {data.messages.map((message, index) => (
                   <View
@@ -345,8 +275,8 @@ const DevEnvironment: React.FC = ({}) => {
                   </View>
                 ))}
               </View>
-            </Layout>
-          </>
+            </Layout.Content>
+          </Layout.Root>
         )}
       </BottomSheetModal>
     </>

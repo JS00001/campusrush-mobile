@@ -18,7 +18,7 @@ import Hyperlink from "@/ui/Hyperlink";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
 interface TermsAndConditionsProps {
-  color?: "dark" | "light";
+  color?: "primary" | "secondary";
 }
 
 const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ color }) => {
@@ -34,9 +34,7 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ color }) => {
 
   return (
     <View>
-      <Text style={tw`mt-8 text-center`}>
-        By continuing, you acknowledge and agree to our
-      </Text>
+      <Text style={tw`mt-8 text-center`}>By continuing, you agree to our</Text>
       <View style={tw`flex-row justify-center`}>
         <Hyperlink color={color} onPress={onTermsOfServicePress}>
           Terms of Service

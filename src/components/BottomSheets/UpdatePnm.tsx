@@ -14,13 +14,13 @@ import type { BottomSheetProps } from "./@types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
-import { usePnmStore, useStatusStore } from "@/store";
-import TextInput from "@/ui/TextInput";
+import { Layout } from "@/ui/Layout";
+import FormField from "@/ui/FormField";
 import { FormSheet } from "@/ui/BottomSheet";
 import validators from "@/constants/validators";
 import FormHeader from "@/components/Headers/Form";
 import useFormMutation from "@/hooks/useFormMutation";
+import { usePnmStore, useStatusStore } from "@/store";
 import { useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
 const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
@@ -74,54 +74,56 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
         };
 
         return (
-          <Layout
-            scrollable
-            contentContainerStyle={tw`pt-0 items-start`}
-            gap={12}
-          >
-            <FormHeader onSave={handleSubmission} onCancel={handleClose} />
+          <Layout.Root>
+            <Layout.Content
+              scrollable
+              contentContainerStyle={tw`pt-0 items-start`}
+              gap={12}
+            >
+              <FormHeader onSave={handleSubmission} onCancel={handleClose} />
 
-            <Text variant="header" style={tw`text-primary`}>
-              Edit PNM
-            </Text>
+              <Text type="h1" style={tw`text-primary`}>
+                Edit PNM
+              </Text>
 
-            <TextInput
-              placeholder="First Name"
-              value={form.state.firstName.value}
-              error={form.state.firstName.error}
-              onChangeText={form.setValue.bind(null, "firstName")}
-            />
-            <TextInput
-              placeholder="Last Name"
-              value={form.state.lastName.value}
-              error={form.state.lastName.error}
-              onChangeText={form.setValue.bind(null, "lastName")}
-            />
-            <TextInput
-              placeholder="Phone Number"
-              value={form.state.phoneNumber.value}
-              error={form.state.phoneNumber.error}
-              onChangeText={form.setValue.bind(null, "phoneNumber")}
-            />
-            <TextInput
-              placeholder="Classification"
-              value={form.state.classification.value}
-              error={form.state.classification.error}
-              onChangeText={form.setValue.bind(null, "classification")}
-            />
-            <TextInput
-              placeholder="Instagram"
-              value={form.state.instagram.value}
-              error={form.state.instagram.error}
-              onChangeText={form.setValue.bind(null, "instagram")}
-            />
-            <TextInput
-              placeholder="Snapchat"
-              value={form.state.snapchat.value}
-              error={form.state.snapchat.error}
-              onChangeText={form.setValue.bind(null, "snapchat")}
-            />
-          </Layout>
+              <FormField
+                placeholder="First Name"
+                value={form.state.firstName.value}
+                error={form.state.firstName.error}
+                onChangeText={form.setValue.bind(null, "firstName")}
+              />
+              <FormField
+                placeholder="Last Name"
+                value={form.state.lastName.value}
+                error={form.state.lastName.error}
+                onChangeText={form.setValue.bind(null, "lastName")}
+              />
+              <FormField
+                placeholder="Phone Number"
+                value={form.state.phoneNumber.value}
+                error={form.state.phoneNumber.error}
+                onChangeText={form.setValue.bind(null, "phoneNumber")}
+              />
+              <FormField
+                placeholder="Classification"
+                value={form.state.classification.value}
+                error={form.state.classification.error}
+                onChangeText={form.setValue.bind(null, "classification")}
+              />
+              <FormField
+                placeholder="Instagram"
+                value={form.state.instagram.value}
+                error={form.state.instagram.error}
+                onChangeText={form.setValue.bind(null, "instagram")}
+              />
+              <FormField
+                placeholder="Snapchat"
+                value={form.state.snapchat.value}
+                error={form.state.snapchat.error}
+                onChangeText={form.setValue.bind(null, "snapchat")}
+              />
+            </Layout.Content>
+          </Layout.Root>
         );
       }}
     />

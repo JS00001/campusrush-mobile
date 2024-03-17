@@ -22,20 +22,26 @@
  */
 
 import tw from "@/lib/tailwind";
-import Layout from "@/ui/Layout";
+import { Layout } from "@/ui/Layout";
 import LinkSharingView from "@/views/settings/LinkSharing";
 
 const LinkSharingScreen = () => {
   return (
-    <Layout gap={16} scrollable contentContainerStyle={tw`items-start pb-4`}>
+    <Layout.Root>
       <Layout.Header
         hasBackButton
         title="Link Sharing"
         subtitle="Manage your link sharing settings."
       />
 
-      <LinkSharingView />
-    </Layout>
+      <Layout.Content
+        gap={16}
+        scrollable
+        contentContainerStyle={tw`items-start`}
+      >
+        <LinkSharingView />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

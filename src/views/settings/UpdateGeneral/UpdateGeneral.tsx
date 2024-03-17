@@ -12,7 +12,7 @@
 import Toast from "react-native-toast-message";
 
 import Button from "@/ui/Button";
-import TextInput from "@/ui/TextInput";
+import FormField from "@/ui/FormField";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import validators from "@/constants/validators";
@@ -20,7 +20,7 @@ import useFormMutation from "@/hooks/useFormMutation";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 
 const UpdateGeneralView = () => {
-  const { chapter, updateChapter } = useAuth();
+  const { chapter, setChapter } = useAuth();
   const updateMutation = useUpdateChapter();
 
   const formValidators = {
@@ -33,7 +33,7 @@ const UpdateGeneralView = () => {
     mutation: updateMutation,
     validators: formValidators,
     onSuccess: async ({ data }) => {
-      updateChapter(data.chapter);
+      setChapter(data.chapter);
 
       Toast.show({
         type: "success",
@@ -50,19 +50,19 @@ const UpdateGeneralView = () => {
 
   return (
     <>
-      <TextInput
+      <FormField
         placeholder="Email"
         value={form.state.email.value}
         error={form.state.email.error}
         onChangeText={form.setValue.bind(null, "email")}
       />
-      <TextInput
+      <FormField
         placeholder="First Name"
         value={form.state.firstName.value}
         error={form.state.firstName.error}
         onChangeText={form.setValue.bind(null, "firstName")}
       />
-      <TextInput
+      <FormField
         placeholder="Last Name"
         value={form.state.lastName.value}
         error={form.state.lastName.error}

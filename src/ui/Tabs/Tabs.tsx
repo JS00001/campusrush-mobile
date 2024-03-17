@@ -1,86 +1,68 @@
 /*
- * Created on Thu Dec 28 2023
+ * Created on Fri Mar 15 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
  * of this software, in whole or in part, is strictly prohibited.
  * For licensing information contact CampusRush.
  *
- * Copyright (c) 2023 CampusRush
+ * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
 
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { View, ViewProps } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
-import Text from "@/ui/Text";
+import Tab from "./Tab";
+
 import tw from "@/lib/tailwind";
 
-interface TabsProps {
+interface TabsProps extends ViewProps {
   options: string[];
-  selectedIndex: number;
-  disabledIndexes?: number[];
+  currentIndex: number;
+  disabledIndex?: number[];
   style?: any;
   onChange: (index: number) => void;
 }
 
 const Tabs: React.FC<TabsProps> = ({
   options,
-  selectedIndex,
-  disabledIndexes,
+  currentIndex,
+  disabledIndex = [],
   style,
   onChange,
+  ...props
 }) => {
-  const containerStyles = tw.style("gap-1", style);
+  const containerStyles = tw.style("w-full", style);
+
+  const contentContainerStyles = tw.style("gap-1");
 
   return (
-    <View style={tw`w-full`}>
+    <View style={containerStyles} {...props}>
       <ScrollView
-        horizontal={true}
-        contentContainerStyle={containerStyles}
+        horizontal
         showsHorizontalScrollIndicator={false}
+        contentContainerStyle={contentContainerStyles}
       >
-        {options.map((option, index) => (
-          <Tab
-            key={option}
-            label={option}
-            selected={selectedIndex === index}
-            disabled={disabledIndexes?.includes(index)}
-            onPress={() => onChange(index)}
-          />
-        ))}
+        {options.map((option, index) => {
+          const isSelected = currentIndex === index;
+
+          const handlePress = () => {
+            onChange(index);
+          };
+
+          return (
+            <Tab
+              key={index}
+              label={option}
+              selected={isSelected}
+              disabled={disabledIndex.includes(index)}
+              onPress={handlePress}
+            />
+          );
+        })}
       </ScrollView>
     </View>
-  );
-};
-
-interface TabProps {
-  label: string;
-  selected: boolean;
-  disabled?: boolean;
-  onPress: () => void;
-}
-
-const Tab: React.FC<TabProps> = ({ label, selected, disabled, onPress }) => {
-  const containerClasses = tw.style(
-    "rounded-full py-1.5 px-6",
-    selected ? "bg-primary" : "bg-slate-100",
-    disabled && "opacity-50",
-  );
-
-  const textClasses = tw.style(
-    selected ? "text-white font-semibold" : "text-slate-500",
-  );
-
-  return (
-    <TouchableOpacity
-      style={containerClasses}
-      onPress={onPress}
-      disabled={disabled}
-    >
-      <Text variant="subtext" style={textClasses}>
-        {label}
-      </Text>
-    </TouchableOpacity>
   );
 };
 

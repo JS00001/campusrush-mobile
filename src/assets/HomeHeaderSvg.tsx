@@ -19,7 +19,7 @@ interface HomeHeaderSvgProps {}
 
 const HomeHeaderSvg: React.FC<HomeHeaderSvgProps> = () => {
   return (
-    <View style={tw`absolute`}>
+    <View style={tw`absolute w-full h-full`}>
       <HeaderSvg />
 
       <View style={tw`bg-white absolute h-48 z-10 w-full bottom-0`} />

@@ -16,6 +16,7 @@ import { createContext, useContext, useEffect } from "react";
 
 import { useAuth } from "@/providers/Auth";
 import { useUpdateChapter } from "@/hooks/api/chapter";
+import { useQonversion } from "@/providers/Qonversion";
 
 interface NotificationsContextProps {
   isLoading: boolean;
@@ -41,8 +42,8 @@ RNNotifications.setNotificationHandler({
 const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
-  // Import data from auth provider
-  const { chapter, updateChapter, accessToken } = useAuth();
+  const { entitlements } = useQonversion();
+  const { chapter, setChapter, accessToken } = useAuth();
 
   // Get the notification status from the chapter
   const notificationsEnabled = chapter?.notificationsEnabled || false;
@@ -68,6 +69,8 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     const notificationStatus = async () => {
       // If there is no logged in user, return
       if (lodash.isEmpty(chapter)) return;
+
+      if (lodash.isEmpty(entitlements)) return;
 
       // Check if we have permission to send notifications
       const hasPermission = await hasNotificationPermission();
@@ -119,6 +122,8 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     // If there is no logged in user, return
     if (lodash.isEmpty(chapter)) return;
 
+    if (lodash.isEmpty(entitlements)) return;
+
     // Generate the notification token, we pass the project id
     // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
     const notificationPushToken = await RNNotifications.getExpoPushTokenAsync({
@@ -138,6 +143,8 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   const setNotificationsEnabled = async (value: boolean) => {
     // If there is no logged in user, return
     if (lodash.isEmpty(chapter)) return;
+
+    if (lodash.isEmpty(entitlements)) return;
 
     // Check if we have permission to send notifications
     const hasPermission = await hasNotificationPermission();
@@ -179,7 +186,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
 
     if ("error" in res) return;
 
-    updateChapter(res.data.chapter);
+    setChapter(res.data.chapter);
   };
 
   return (

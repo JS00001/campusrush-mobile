@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 import { useEventStore } from "@/store";
@@ -19,6 +19,7 @@ import { getEvent, getEvents } from "@/api";
 
 export const useGetEvents = () => {
   const { accessToken } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
 
   const events = useEventStore((s) => s.events);
   const setEvents = useEventStore((s) => s.setEvents);
@@ -39,7 +40,10 @@ export const useGetEvents = () => {
   });
 
   useEffect(() => {
-    if (!query.data) return;
+    if (!query.data) {
+      setIsLoading(query.isLoading);
+      return;
+    }
 
     const combinedEvents = query.data.pages.flatMap((page) => {
       if ("error" in page) return [];
@@ -48,11 +52,13 @@ export const useGetEvents = () => {
     });
 
     setEvents(combinedEvents);
+    setIsLoading(query.isLoading);
   }, [query.data]);
 
   return {
     ...query,
     events,
+    isLoading: isLoading && !events.length,
   };
 };
 

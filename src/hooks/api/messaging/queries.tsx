@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
@@ -20,6 +20,7 @@ import { getContacts, getConversation, getConversations } from "@/api";
 export const useGetContacts = () => {
   const { accessToken } = useAuth();
   const contactStore = useContactStore();
+  const [isLoading, setIsLoading] = useState(true);
 
   const query = useQuery(["contacts", accessToken], {
     queryFn: () => {
@@ -28,12 +29,17 @@ export const useGetContacts = () => {
   });
 
   useEffect(() => {
-    if (!query.data || "error" in query.data) return;
+    if (!query.data || "error" in query.data) {
+      setIsLoading(query.isLoading);
+      return;
+    }
 
     contactStore.setContacts("all", query.data.data.all);
     contactStore.setContacts("suggested", query.data.data.suggested);
     contactStore.setContacts("starred", query.data.data.favorited);
     contactStore.setContacts("uncontacted", query.data.data.uncontacted);
+
+    setIsLoading(query.isLoading);
   }, [query.data]);
 
   return {
@@ -42,6 +48,7 @@ export const useGetContacts = () => {
     suggested: contactStore.suggested,
     starred: contactStore.starred,
     uncontacted: contactStore.uncontacted,
+    isLoading: isLoading && !contactStore.all.length,
   };
 };
 
@@ -67,6 +74,7 @@ export const useGetConversation = (pnmId: string) => {
 
 export const useGetConversations = () => {
   const { accessToken } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
 
   const conversations = useConversationStore((s) => s.conversations);
   const setConversations = useConversationStore((s) => s.setConversations);
@@ -87,7 +95,10 @@ export const useGetConversations = () => {
   });
 
   useEffect(() => {
-    if (!query.data) return;
+    if (!query.data) {
+      setIsLoading(query.isLoading);
+      return;
+    }
 
     const combinedConversations = query.data.pages.flatMap((page) => {
       if ("error" in page) return [];
@@ -96,10 +107,12 @@ export const useGetConversations = () => {
     });
 
     setConversations(combinedConversations);
+    setIsLoading(query.isLoading);
   }, [query.data]);
 
   return {
     ...query,
     conversations,
+    isLoading: isLoading && !conversations.length,
   };
 };
