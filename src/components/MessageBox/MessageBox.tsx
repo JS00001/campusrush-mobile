@@ -18,7 +18,8 @@ import TextInput from "./TextInput";
 import ExtensionPanel from "./ExtensionPanel";
 import TextSuggestions from "./TextSuggestions";
 
-import Event from "@/ui_v1/Event";
+import EventAttachment from "./ExtensionPanel/Extensions/Event/Attachment";
+
 import tw from "@/lib/tailwind";
 import { waitFor } from "@/lib/util";
 import AppConstants from "@/constants";
@@ -140,9 +141,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
       />
 
       <Animated.View style={[containerClasses, { marginBottom: minHeight }]}>
-        {event && (
-          <Event type="attachment" event={event} onPress={removeEvent} />
-        )}
+        {event && <EventAttachment event={event} onPress={removeEvent} />}
 
         <View style={inputContainerClasses}>
           <IconButton

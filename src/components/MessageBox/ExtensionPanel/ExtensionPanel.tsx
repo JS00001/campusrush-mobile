@@ -14,12 +14,12 @@ import { View } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
-import Tabs from "@/ui/Tabs";
-import Event from "@/ui_v1/Event";
+import EventCard from "./Extensions/Event/Card";
+import { EventCardLoader } from "./Extensions/Event/Card";
 
+import Tabs from "@/ui/Tabs";
 import tw from "@/lib/tailwind";
 import { useGetEvents } from "@/hooks/api/events";
-import { CardEventLoader } from "@/ui_v1/Event/Loaders";
 import KeyboardListener from "@/ui/KeyboardListener";
 import InfiniteHorizontaList from "@/components/InfiniteHorizontalList";
 
@@ -79,11 +79,11 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
               data={eventsQuery.events}
               loading={eventsQuery.isLoading}
               onEndReached={onEndReached}
-              loadingComponent={<CardEventLoader />}
+              loadingComponent={<EventCardLoader />}
               emptyListTitle="No Events Found"
               emptyListSubtitle="Try creating a new event"
               renderItem={({ item: event }) => (
-                <Event type="card" event={event} onPress={onEventPress} />
+                <EventCard event={event} onPress={onEventPress} />
               )}
             />
           </View>
