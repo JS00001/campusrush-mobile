@@ -10,21 +10,22 @@
  * Do not distribute
  */
 
-import Layout from "@/ui/Layout";
+import tw from "@/lib/tailwind";
+import { Layout } from "@/ui/Layout";
 import MessagesView from "@/views/Messages";
 
 const MessagesScreen = () => {
   return (
-    <>
-      <Layout gap={8}>
-        <Layout.Header
-          title="Messages"
-          subtitle="Message potential new members"
-        />
+    <Layout.Root>
+      <Layout.Header
+        title="Messages"
+        subtitle="Message potential new members"
+      />
 
+      <Layout.Content gap={8} contentContainerStyle={tw`pb-0`}>
         <MessagesView />
-      </Layout>
-    </>
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

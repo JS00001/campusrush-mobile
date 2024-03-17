@@ -15,7 +15,42 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AdminScreen from "@/navigation/screens/admin/Admin";
 import AdminNetwork from "@/navigation/screens/admin/Network";
 import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
+import AdminUIComponentsScreen from "@/navigation/screens/admin/UIComponents";
 import AdminChaptersScreen from "@/navigation/screens/admin/Chapters";
+
+import ActionButtonScreen from "@/navigation/screens/admin/UIComponents/ActionButton";
+import BadgeScreen from "@/navigation/screens/admin/UIComponents/Badge";
+import ButtonScreen from "@/navigation/screens/admin/UIComponents/Button";
+import ButtonGroupScreen from "@/navigation/screens/admin/UIComponents/ButtonGroup";
+import ChapterScreen from "@/navigation/screens/admin/UIComponents/Chapter";
+import ConversationScreen from "@/navigation/screens/admin/UIComponents/Conversation";
+import CopyActionScreen from "@/navigation/screens/admin/UIComponents/CopyAction";
+import CopyViewScreen from "@/navigation/screens/admin/UIComponents/CopyView";
+import DateTimePickerScreen from "@/navigation/screens/admin/UIComponents/DateTimePicker";
+import DetailViewScreen from "@/navigation/screens/admin/UIComponents/DetailView";
+import EventScreen from "@/navigation/screens/admin/UIComponents/Event";
+import FormFieldScreen from "@/navigation/screens/admin/UIComponents/FormField";
+import HeadlineScreen from "@/navigation/screens/admin/UIComponents/Headline";
+import HyperlinkScreen from "@/navigation/screens/admin/UIComponents/Hyperlink";
+import IconScreen from "@/navigation/screens/admin/UIComponents/Icon";
+import IconButtonScreen from "@/navigation/screens/admin/UIComponents/IconButton";
+import IconLabelScreen from "@/navigation/screens/admin/UIComponents/IconLabel";
+import InformationScreen from "@/navigation/screens/admin/UIComponents/Information";
+import ListItemScreen from "@/navigation/screens/admin/UIComponents/ListItem";
+import MenuScreen from "@/navigation/screens/admin/UIComponents/Menu";
+import MessageBubbleScreen from "@/navigation/screens/admin/UIComponents/MessageBubble";
+import ModalScreen from "@/navigation/screens/admin/UIComponents/Modal";
+import ProgressScreen from "@/navigation/screens/admin/UIComponents/Progress";
+import SegmentedControlScreen from "@/navigation/screens/admin/UIComponents/SegmentedControl";
+import SelectScreen from "@/navigation/screens/admin/UIComponents/Select";
+import SelectionCardScreen from "@/navigation/screens/admin/UIComponents/SelectionCard";
+import SkeletonScreen from "@/navigation/screens/admin/UIComponents/Skeleton";
+import SwipeableScreen from "@/navigation/screens/admin/UIComponents/Swipeable";
+import TabsScreen from "@/navigation/screens/admin/UIComponents/Tabs";
+import TextScreen from "@/navigation/screens/admin/UIComponents/Text";
+import TextInputScreen from "@/navigation/screens/admin/UIComponents/TextInput";
+import TooltipScreen from "@/navigation/screens/admin/UIComponents/Tooltip";
+import TypewriterScreen from "@/navigation/screens/admin/UIComponents/Typewriter";
 
 import PNMsScreen from "@/navigation/screens/pnms/Pnms";
 
@@ -265,12 +300,148 @@ export const AdminStack = () => {
         component={AdminChaptersScreen}
       />
       <Stack.Screen
+        name="AdminUIComponents"
+        component={AdminUIComponentsScreen}
+      />
+      <Stack.Screen
         name="AdminUITesting"
         component={AdminUITestingScreen}
       />
       <Stack.Screen
         name="AdminNetwork"
         component={AdminNetwork}
+      />
+      <Stack.Screen
+        name="UIActionButton"
+        component={ActionButtonScreen}
+      />
+      <Stack.Screen
+        name="UIBadge"
+        component={BadgeScreen}
+      />
+      <Stack.Screen
+        name="UIButton"
+        component={ButtonScreen}
+      />
+      <Stack.Screen
+        name="UIBtnGroup"
+        component={ButtonGroupScreen}
+      />
+      <Stack.Screen
+        name="UIChapter"
+        component={ChapterScreen}
+      />
+      <Stack.Screen
+        name="UIConversation"
+        component={ConversationScreen}
+      />
+      <Stack.Screen
+        name="UICopyAction"
+        component={CopyActionScreen}
+      />
+      <Stack.Screen
+        name="UICopyView"
+        component={CopyViewScreen}
+      />
+      <Stack.Screen
+        name="UIDateTimePicker"
+        component={DateTimePickerScreen}
+      />
+      <Stack.Screen
+        name="UIDetailView"
+        component={DetailViewScreen}
+      />
+      <Stack.Screen
+        name="UIEvent"
+        component={EventScreen}
+      />
+      <Stack.Screen
+        name="UIFormField"
+        component={FormFieldScreen}
+      />
+      <Stack.Screen
+        name="UIHeadline"
+        component={HeadlineScreen}
+      />
+      <Stack.Screen
+        name="UIHyperlink"
+        component={HyperlinkScreen}
+      />
+      <Stack.Screen
+        name="UIIcon"
+        component={IconScreen}
+      />
+      <Stack.Screen
+        name="UIIconButton"
+        component={IconButtonScreen}
+      />
+      <Stack.Screen
+        name="UIIconLabel"
+        component={IconLabelScreen}
+      />
+      <Stack.Screen
+        name="UIInformation"
+        component={InformationScreen}
+      />
+      <Stack.Screen
+        name="UIListItem"
+        component={ListItemScreen}
+      />
+      <Stack.Screen
+        name="UIMenu"
+        component={MenuScreen}
+      />
+      <Stack.Screen
+        name="UIMessageBubble"
+        component={MessageBubbleScreen}
+      />
+      <Stack.Screen
+        name="UIModal"
+        component={ModalScreen}
+      />
+      <Stack.Screen
+        name="UIProgress"
+        component={ProgressScreen}
+      />
+      <Stack.Screen
+        name="UISegmentedControl"
+        component={SegmentedControlScreen}
+      />
+      <Stack.Screen
+        name="UISelect"
+        component={SelectScreen}
+      />
+      <Stack.Screen
+        name="UISelectionCard"
+        component={SelectionCardScreen}
+      />
+      <Stack.Screen
+        name="UISkeleton"
+        component={SkeletonScreen}
+      />
+      <Stack.Screen
+        name="UISwipeable"
+        component={SwipeableScreen}
+      />
+      <Stack.Screen
+        name="UITabs"
+        component={TabsScreen}
+      />
+      <Stack.Screen
+        name="UIText"
+        component={TextScreen}
+      />
+      <Stack.Screen
+        name="UITextInput"
+        component={TextInputScreen}
+      />
+      <Stack.Screen
+        name="UITooltip"
+        component={TooltipScreen}
+      />
+      <Stack.Screen
+        name="UITypewriter"
+        component={TypewriterScreen}
       />
     </Stack.Navigator>
   );

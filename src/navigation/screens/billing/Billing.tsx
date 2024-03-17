@@ -9,16 +9,18 @@
  * Copyright (c) 2023 CampusRush
  * Do not distribute
  */
-import Layout from "@/ui/Layout";
+import { Layout } from "@/ui/Layout";
 import BillingView from "@/views/Billing";
 
 const BillingScreen = () => {
   return (
-    <Layout scrollable gap={18}>
+    <Layout.Root>
       <Layout.Header title="Billing" subtitle="Select a plan to get started" />
 
-      <BillingView />
-    </Layout>
+      <Layout.Content scrollable gap={18}>
+        <BillingView />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

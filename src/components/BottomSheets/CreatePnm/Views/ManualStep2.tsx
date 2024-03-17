@@ -14,11 +14,11 @@ import { View } from "react-native";
 
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import Headline from "@/ui/Headline";
 import useForm from "@/hooks/useForm";
-import TextInput from "@/ui/TextInput";
+import FormField from "@/ui/FormField";
 import ButtonGroup from "@/ui/ButtonGroup";
 import validators from "@/constants/validators";
 import KeyboardListener from "@/ui/KeyboardListener";
@@ -73,18 +73,18 @@ const ManualStep2: React.FC<UseSheetFlowProps> = ({
       onKeyboardWillHide={onKeyboardWillHide}
     >
       <View style={tw`gap-y-4`}>
-        <View style={tw`mb-2`}>
-          <Text variant="title">Social Media</Text>
-          <Text variant="body">Enter the PNM's known social media</Text>
-        </View>
+        <Headline
+          title="Social Media"
+          subtitle="Enter the PNM's known social media"
+        />
 
-        <TextInput
+        <FormField
           placeholder="Instagram"
           value={form.state.instagram.value}
           error={form.state.instagram.error}
           onChangeText={form.setValue.bind(null, "instagram")}
         />
-        <TextInput
+        <FormField
           placeholder="Snapchat"
           value={form.state.snapchat.value}
           error={form.state.snapchat.error}
@@ -92,7 +92,7 @@ const ManualStep2: React.FC<UseSheetFlowProps> = ({
         />
 
         <ButtonGroup>
-          <Button size="sm" color="gray" onPress={prevView}>
+          <Button size="sm" color="secondary" onPress={prevView}>
             Go Back
           </Button>
           <Button size="sm" onPress={handleSubmission}>

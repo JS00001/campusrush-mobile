@@ -22,8 +22,8 @@ import Menu, { MenuAction } from "@/ui/Menu";
 import ActionButton from "@/ui/ActionButton";
 import Conversation from "@/ui/Conversation";
 import InfiniteList from "@/components/InfiniteList";
+import ConversationLoader from "@/ui/Loaders/Conversation";
 import { useGetConversations } from "@/hooks/api/messaging";
-import { ConversationLoader } from "@/ui/Conversation/Loaders";
 
 const MessagesView = () => {
   const { openBottomSheet } = useBottomSheets();
@@ -76,21 +76,22 @@ const MessagesView = () => {
 
   return (
     <>
-      <ActionButton icon="ri-add-line" onPress={onNewChatPress} />
-
       <View style={tw`flex-row w-full gap-x-1`}>
         <TextInput
           autoCorrect={false}
-          icon="ri-search-line"
-          variant="alternate"
+          icon="search-line"
           placeholder="Search Conversations"
           value={search.query}
           onChangeText={search.setQuery}
-          containerStyle={tw`flex-shrink`}
+          contentContainerStyle={tw`flex-shrink`}
         />
 
         <Menu actions={filterMenu}>
-          <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
+          <IconButton
+            color="secondary"
+            iconName="filter-3-fill"
+            style={tw`flex-grow`}
+          />
         </Menu>
       </View>
 
@@ -99,17 +100,16 @@ const MessagesView = () => {
         data={search.data}
         onRefresh={onRefresh}
         onEndReached={onEndReached}
-        loadingComponent={<ConversationLoader />}
+        loading={conversationsQuery.isLoading}
         emptyListTitle="No Conversations Found"
         emptyListSubtitle="Try changing your filters or sending a new message"
+        loadingComponent={<ConversationLoader />}
         renderItem={({ item: conversation }) => (
           <Conversation conversation={conversation} />
         )}
-        loading={
-          conversationsQuery.isLoading &&
-          !conversationsQuery.conversations?.length
-        }
       />
+
+      <ActionButton icon="add-line" onPress={onNewChatPress} />
     </>
   );
 };

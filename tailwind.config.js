@@ -1,3 +1,5 @@
+const { plugin } = require('twrnc');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [],
@@ -6,12 +8,13 @@ module.exports = {
       colors: {
         red: '#E03C3C',
         yellow: '#EAB308',
-        primary: '#03014F',
+        green: '#10B981',
+        primary: '#020037',
         navy: {
-          100: '#18235B',
-          200: '#0B1652',
-          300: '#010D4F',
-          400: '#03014F',
+          50: '#18235B',
+          100: '#0B1652',
+          200: '#010C4A',
+          300: '#020037',
         },
       },
       fontFamily: {
@@ -21,5 +24,13 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        '.disabled': {
+          opacity: 0.5,
+        },
+      });
+    }),
+  ],
 };

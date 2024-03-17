@@ -73,7 +73,7 @@ const BillingView = () => {
 
     const purchaseModel = selectedProduct?.toPurchaseModel() as PurchaseModel;
 
-    purchaseProduct(purchaseModel);
+    await purchaseProduct(purchaseModel);
 
     setPurchaseLoading(false);
   };
@@ -125,14 +125,14 @@ const BillingView = () => {
 
         <View style={tw`justify-center items-center`}>
           <Hyperlink
-            color="dark"
+            color="primary"
             onPress={onLogout}
             disabled={logoutMutation.isLoading}
           >
             Sign out
           </Hyperlink>
           <Text style={tw`mx-1`}>or</Text>
-          <Hyperlink color="dark" onPress={restorePurchases}>
+          <Hyperlink color="primary" onPress={restorePurchases}>
             Restore purchases
           </Hyperlink>
         </View>

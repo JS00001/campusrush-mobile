@@ -109,26 +109,33 @@ const PnmsView = () => {
       <View style={tw`flex-row w-full gap-x-1`}>
         <TextInput
           autoCorrect={false}
-          icon="ri-search-line"
-          variant="alternate"
+          icon="search-line"
           placeholder={placeholder}
           value={search.query}
           onChangeText={search.setQuery}
-          containerStyle={tw`flex-shrink`}
+          contentContainerStyle={tw`flex-shrink`}
         />
 
         <Menu title="Filter By" actions={filterMenu}>
-          <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
+          <IconButton
+            color="secondary"
+            iconName="filter-3-fill"
+            style={tw`flex-grow`}
+          />
         </Menu>
 
         <Menu actions={moreMenu}>
-          <IconButton icon="ri-more-fill" style={tw`flex-grow`} />
+          <IconButton
+            color="secondary"
+            iconName="more-fill"
+            style={tw`flex-grow`}
+          />
         </Menu>
       </View>
 
       <PnmsList
-        loading={pnmsQuery.isLoading}
         pnms={search.data}
+        loading={pnmsQuery.isLoading}
         onRefetch={onRefetch}
       />
     </>

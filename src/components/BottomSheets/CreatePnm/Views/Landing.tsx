@@ -10,14 +10,13 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
-
 import { useModalStore } from "@/store";
 import { useQonversion } from "@/providers/Qonversion";
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
-import Text from "@/ui/Text";
-import ActionCard from "@/ui/ActionCard";
+import tw from "@/lib/tailwind";
+import ListItem from "@/ui/ListItem";
+import Headline from "@/ui/Headline";
 import Content from "@/constants/content";
 
 const Landing: React.FC<UseSheetFlowProps> = ({
@@ -42,24 +41,24 @@ const Landing: React.FC<UseSheetFlowProps> = ({
 
   return (
     <>
-      <View>
-        <Text variant="title">Add a PNM</Text>
-        <Text variant="body">
-          Add a PNM to your chapter to keep track of their rush.
-        </Text>
-      </View>
+      <Headline
+        style={tw`mb-2`}
+        title="Add a PNM"
+        subtitle="Add a PNM to your chapter to keep track of their rush."
+      />
 
-      <ActionCard
+      <ListItem
+        size="lg"
         title="Add PNM Manually"
         subtitle="Add a PNMs info manually"
-        icon="ri-user-voice-fill"
+        icon="user-voice-fill"
         onPress={nextView}
       />
-      <ActionCard
-        enforceProPlan
+      <ListItem
+        size="lg"
         title="Share QR Code or Link"
         subtitle="Share a QR code with a PNM"
-        icon="ri-qr-code-fill"
+        icon="qr-code-fill"
         onPress={onQrCodePress}
       />
     </>

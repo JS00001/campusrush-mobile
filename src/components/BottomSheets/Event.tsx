@@ -19,17 +19,17 @@ import useCopy from "@/hooks/useCopy";
 import { useEventStore } from "@/store";
 import { useDeleteEvent, useGetEvent } from "@/hooks/api/events";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import date from "@/lib/util/date";
+import Headline from "@/ui/Headline";
 import Skeleton from "@/ui/Skeleton";
 import AppConstants from "@/constants";
+import { Detail } from "@/ui/DetailView";
 import IconButton from "@/ui/IconButton";
-import DetailView from "@/ui/DetailView";
 import ButtonGroup from "@/ui/ButtonGroup";
-import { formatEvent } from "@/lib/util/format";
 import { BottomSheet } from "@/ui/BottomSheet";
+import { formatEvent } from "@/lib/util/format";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const EventSheet: React.FC<BottomSheetProps> = ({
@@ -93,58 +93,49 @@ const EventSheet: React.FC<BottomSheetProps> = ({
         return (
           <BottomSheetContainer>
             <View style={tw`mb-2 flex-row justify-between items-center`}>
-              <View style={tw`shrink`}>
-                <Text variant="title">{formattedEvent.title}</Text>
-                <Text variant="body">
-                  Added on {date.toString(formattedEvent.createdAt) || "N/A"}
-                </Text>
-              </View>
+              <Headline
+                style={tw`shrink`}
+                title={formattedEvent.title}
+                subtitle={`Added on ${date.toString(formattedEvent.createdAt) || "N/A"}`}
+              />
 
               <View style={tw`flex-row gap-1`}>
                 <IconButton
-                  size="md"
-                  icon="ri-delete-bin-6-line"
-                  color={tw.color("red")}
+                  size="sm"
+                  color="secondary"
+                  iconName="delete-bin-6-line"
+                  iconColor={tw.color("red")}
                   onPress={onDelete}
                   loading={deleteMutation.isLoading}
                 />
               </View>
             </View>
 
-            <DetailView>
-              <DetailView.Section
-                alternate
+            <Detail.View>
+              <Detail.Item
+                layout="vertical"
                 title="Description"
-                content={event.description}
+                value={event.description}
               />
-              <DetailView.Section
-                title="Date"
-                content={formattedEvent.dateString}
-              />
-              <DetailView.Section
+              <Detail.Item title="Date" value={formattedEvent.dateString} />
+              <Detail.Item
                 title="Starts at"
-                content={formattedEvent.start.time}
+                value={formattedEvent.start.time}
               />
-              <DetailView.Section
-                title="Ends at"
-                content={formattedEvent.end.time}
-              />
-              <DetailView.Section
-                title="Location"
-                content={formattedEvent.location}
-              />
-              <DetailView.Section
+              <Detail.Item title="Ends at" value={formattedEvent.end.time} />
+              <Detail.Item title="Location" value={formattedEvent.location} />
+              <Detail.Item
                 title="# Responded Yes"
-                content={formattedEvent.yesCount.toString()}
+                value={formattedEvent.yesCount.toString()}
               />
-              <DetailView.Section
+              <Detail.Item
                 title="# Responded No"
-                content={formattedEvent.noCount.toString()}
+                value={formattedEvent.noCount.toString()}
               />
-            </DetailView>
+            </Detail.View>
 
             <ButtonGroup>
-              <Button size="sm" color="gray" onPress={onEditPress}>
+              <Button size="sm" color="secondary" onPress={onEditPress}>
                 Edit
               </Button>
               <Button size="sm" onPress={onShare}>

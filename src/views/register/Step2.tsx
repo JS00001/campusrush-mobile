@@ -13,7 +13,7 @@
 import { useNavigation } from "@react-navigation/native";
 
 import Button from "@/ui/Button";
-import TextInput from "@/ui/TextInput";
+import FormField from "@/ui/FormField";
 import { useRegistrationStore } from "@/store";
 import validators from "@/constants/validators";
 import { useCheckEmail } from "@/hooks/api/auth";
@@ -54,19 +54,20 @@ const RegistrationStep2 = () => {
 
   return (
     <>
-      <TextInput
+      <FormField
         placeholder="Email"
         value={form.state.email.value}
         error={form.state.email.error}
         onChangeText={form.setValue.bind(null, "email")}
       />
-      <TextInput
+      <FormField
         placeholder="First Name"
         value={form.state.firstName.value}
         error={form.state.firstName.error}
         onChangeText={form.setValue.bind(null, "firstName")}
       />
-      <TextInput
+
+      <FormField
         placeholder="Last Name"
         value={form.state.lastName.value}
         error={form.state.lastName.error}
@@ -76,7 +77,7 @@ const RegistrationStep2 = () => {
       <Button
         loading={form.loading}
         onPress={form.handleSubmission}
-        iconRight="ri-arrow-right-line"
+        iconRight="arrow-right-line"
       >
         Continue
       </Button>

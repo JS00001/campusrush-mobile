@@ -11,13 +11,13 @@
  */
 
 import { Linking, View } from "react-native";
-import RemixIcon from "react-native-remix-icon";
 import { EntitlementRenewState } from "react-native-qonversion";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import date from "@/lib/util/date";
+import Headline from "@/ui/Headline";
+import IconLabel from "@/ui/IconLabel";
 import Hyperlink from "@/ui/Hyperlink";
 import { useQonversion } from "@/providers/Qonversion";
 import { useBottomSheets } from "@/providers/BottomSheet";
@@ -53,51 +53,30 @@ const UpdateBillingView = () => {
 
         return (
           <View style={containerStyles} key={entitlement.id}>
-            <View>
-              <Text variant="title" style={tw`capitalize`}>
-                {entitlement.id} Subscription
-              </Text>
-              <Text>Thank you for choosing CampusRush</Text>
-            </View>
+            <Headline
+              title={`${entitlement.id.charAt(0).toUpperCase() + entitlement.id.slice(1)} Subscription`}
+              subtitle="Thank you for choosing CampusRush"
+            />
 
-            <View style={tw`flex-row items-center gap-2`}>
-              <View style={tw`p-2 rounded-full bg-slate-200`}>
-                <RemixIcon
-                  name="timer-fill"
-                  size={16}
-                  color={tw.color("primary")}
-                />
-              </View>
+            <IconLabel
+              size="xs"
+              color="tertiary"
+              iconName="timer-fill"
+              title="Subscriber Since"
+              subtitle={
+                date.toString(entitlement.firstPurchaseDate as Date) || "N/A"
+              }
+            />
 
-              <View>
-                <Text variant="body" style={tw`text-primary`}>
-                  Subscriber Since
-                </Text>
-                <Text variant="body">
-                  {date.toString(entitlement.firstPurchaseDate as Date) ||
-                    "N/A"}
-                </Text>
-              </View>
-            </View>
-
-            <View style={tw`flex-row items-center gap-2`}>
-              <View style={tw`p-2 rounded-full bg-slate-200`}>
-                <RemixIcon
-                  name="arrow-go-forward-fill"
-                  size={16}
-                  color={tw.color("primary")}
-                />
-              </View>
-
-              <View>
-                <Text variant="body" style={tw`text-primary`}>
-                  {renewText}
-                </Text>
-                <Text variant="body">
-                  {date.toString(entitlement.expirationDate as Date) || "N/A"}
-                </Text>
-              </View>
-            </View>
+            <IconLabel
+              size="xs"
+              color="tertiary"
+              iconName="arrow-go-forward-fill"
+              title={renewText}
+              subtitle={
+                date.toString(entitlement.expirationDate as Date) || "N/A"
+              }
+            />
 
             <View>
               <Button

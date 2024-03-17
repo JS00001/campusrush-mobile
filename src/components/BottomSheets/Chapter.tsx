@@ -14,25 +14,32 @@ import { View } from "react-native";
 
 import { BottomSheetProps } from "./@types";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 import Skeleton from "@/ui/Skeleton";
-import DetailView from "@/ui/DetailView";
+import Headline from "@/ui/Headline";
+import useCopy from "@/hooks/useCopy";
+import { Detail } from "@/ui/DetailView";
+import IconButton from "@/ui/IconButton";
 import { BottomSheet } from "@/ui/BottomSheet";
-import BottomSheetContainer from "@/ui/BottomSheet/Container";
-import { useGetAdminChapter } from "@/hooks/api/admin";
 import { formatPhoneNumber } from "@/lib/util/string";
+import { useGetAdminChapter } from "@/hooks/api/admin";
+import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const ChapterSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   return (
     <BottomSheet
       innerRef={innerRef}
       children={(data) => {
+        const copy = useCopy();
         const chapterId = data?.data.chapterId;
 
         const chapterQuery = useGetAdminChapter(chapterId);
         const chapter = chapterQuery.chapter;
+
+        const copyId = () => {
+          copy(chapterId, "Chapter ID");
+        };
 
         if (!chapter) {
           return <LoadingState />;
@@ -41,43 +48,46 @@ const ChapterSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
         return (
           <BottomSheetContainer>
             <View style={tw`mb-2 flex-row justify-between items-center`}>
-              <View style={tw`shrink`}>
-                <Text variant="title">{chapter.name}</Text>
-                <Text variant="body">{chapter.school}</Text>
-              </View>
+              <Headline
+                style={tw`shrink`}
+                title={chapter.name}
+                subtitle={chapter.school}
+              />
+
+              <IconButton
+                size="sm"
+                color="secondary"
+                label="Copy ID"
+                iconName="file-copy-2-line"
+                onPress={copyId}
+              />
             </View>
 
-            <DetailView>
-              <DetailView.Section title="Email" content={chapter.email} />
-              <DetailView.Section
-                title="First Name"
-                content={chapter.firstName}
-              />
-              <DetailView.Section
-                title="Last Name"
-                content={chapter.lastName}
-              />
-              <DetailView.Section
+            <Detail.View>
+              <Detail.Item title="Email" value={chapter.email} />
+              <Detail.Item title="First Name" value={chapter.firstName} />
+              <Detail.Item title="Last Name" value={chapter.lastName} />
+              <Detail.Item
                 title="PNM Count"
-                content={`${chapter.pnms.length || "--"}`}
+                value={`${chapter.pnms.length || "--"}`}
               />
-              <DetailView.Section
+              <Detail.Item
                 title="Entitlements"
-                content={chapter.entitlements.join(", ") || "--"}
+                value={chapter.entitlements.join(", ")}
               />
-              <DetailView.Section
+              <Detail.Item
                 title="Custom Phone Number"
-                content={formatPhoneNumber(chapter.phoneNumber) || "--"}
+                value={formatPhoneNumber(chapter.phoneNumber) || "--"}
               />
-              <DetailView.Section
+              <Detail.Item
                 title="Last Seen"
-                content={date.timeAgo(chapter.lastOnline)}
+                value={date.timeAgo(chapter.lastOnline)}
               />
-              <DetailView.Section
+              <Detail.Item
                 title="Created On"
-                content={date.toString(chapter.createdAt)}
+                value={date.toString(chapter.createdAt)}
               />
-            </DetailView>
+            </Detail.View>
           </BottomSheetContainer>
         );
       }}

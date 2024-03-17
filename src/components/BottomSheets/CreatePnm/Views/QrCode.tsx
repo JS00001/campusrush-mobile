@@ -17,7 +17,7 @@ import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import CopyItem from "@/ui/CopyItem";
+import CopyView from "@/ui/CopyView";
 import AppConstants from "@/constants";
 import { useAuth } from "@/providers/Auth";
 
@@ -29,8 +29,8 @@ const QrCode: React.FC<UseSheetFlowProps> = () => {
   return (
     <>
       <View style={tw`w-full`}>
-        <Text variant="title">Display QR Code</Text>
-        <Text variant="body">Have a PNM scan the QR code</Text>
+        <Text type="h2">Display QR Code</Text>
+        <Text>Have a PNM scan the QR code</Text>
       </View>
 
       <View style={tw`bg-slate-100 rounded-xl p-12 w-full items-center`}>
@@ -42,11 +42,11 @@ const QrCode: React.FC<UseSheetFlowProps> = () => {
         />
       </View>
 
-      <Text variant="title" style={tw`self-center`}>
+      <Text type="h2" style={tw`self-center`}>
         Or
       </Text>
 
-      <CopyItem label="Link Sharing URL" value={linkSharingCode} />
+      <CopyView title="Link Sharing URL" content={linkSharingCode} />
     </>
   );
 };

@@ -10,14 +10,15 @@
  * Do not distribute
  */
 
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
 import { getAdminChapter, getAdminChapters } from "@/api";
-import { useEffect, useState } from "react";
 
 export const useGetAdminChapters = () => {
   const { accessToken } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
   const [chapters, setChapters] = useState<Chapter[]>([]);
 
   const query = useQuery(["adminChapters", accessToken], {
@@ -27,14 +28,19 @@ export const useGetAdminChapters = () => {
   });
 
   useEffect(() => {
-    if (!query.data || "error" in query.data) return;
+    if (!query.data || "error" in query.data) {
+      setIsLoading(query.isLoading);
+      return;
+    }
 
     setChapters(query.data.data.chapters);
+    setIsLoading(query.isLoading);
   }, [query.data]);
 
   return {
     ...query,
     chapters,
+    isLoading: isLoading && !chapters.length,
   };
 };
 

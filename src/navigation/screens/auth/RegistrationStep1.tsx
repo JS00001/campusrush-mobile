@@ -10,20 +10,22 @@
  * Do not distribute
  */
 
-import Layout from "@/ui/Layout";
+import { Layout } from "@/ui/Layout";
 import RegistrationStep1View from "@/views/register/Step1";
 
 const RegistrationStep1Screen = () => {
   return (
-    <Layout gap={18} keyboardAvoiding>
+    <Layout.Root>
       <Layout.Header
         hasBackButton
         title="Register"
         subtitle="Please provide your chapters information"
       />
 
-      <RegistrationStep1View />
-    </Layout>
+      <Layout.Content gap={18} keyboardAvoiding>
+        <RegistrationStep1View />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

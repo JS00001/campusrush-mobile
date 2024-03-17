@@ -10,99 +10,12 @@
  * Do not distribute
  */
 
-import Layout from "@/ui/Layout";
-
-import React, { useEffect } from "react";
-
-import ActionButton from "@/ui/ActionButton/ActionButton";
-import Dropdown from "@/ui/Dropdown";
-import Qonversion, { Product } from "react-native-qonversion";
+import React from "react";
 
 interface UITestingProps {}
 
-// TESTING AUTOCOMPLETE
-// const UITesting: React.FC<UITestingProps> = () => {
-//   const form = useFormik({
-//     initialValues: {
-//       chapter: "",
-//       school: "",
-//     },
-//     onSubmit: (values) => {},
-//   });
-
-const chapters = [
-  "Acacia",
-  "Alpha Chi Rho",
-  "Alpha Chi Sigma",
-  "Alpha Delta",
-  "Alpha Delta Gamma",
-  "Alpha Delta Phi",
-  "Alpha Epsilon Pi",
-  "Alpha Gamma Omega",
-];
-
-const schools = [
-  "University of California, Berkeley",
-  "University of California, Los Angeles",
-  "University of California, San Diego",
-  "University of California, Irvine",
-  "University of California, Davis",
-  "University of California, Santa Barbara",
-  "University of California, Santa Cruz",
-  "University of California, Riverside",
-  "University of California, Merced",
-  "University of California, San Francisco",
-];
-
-//   return (
-//     <Layout>
-//       <Autocomplete
-//         placeholder="Chapter"
-//         options={chapters}
-//         value={form.values.chapter}
-//         onChangeText={(text) => form.setFieldValue("chapter", text)}
-//       ></Autocomplete>
-
-//       <Autocomplete
-//         placeholder="School"
-//         options={schools}
-//         value={form.values.school}
-//         onChangeText={(text) => form.setFieldValue("school", text)}
-//       ></Autocomplete>
-//     </Layout>
-//   );
-// };
-
-// TESTING NEW LAYOUT AND SEGMENTED CONTROL
 const UITesting: React.FC<UITestingProps> = () => {
-  const [selected, setSelected] = React.useState(0);
-
-  const [chapter, setChapter] = React.useState("");
-  const [school, setSchool] = React.useState("");
-
-  return (
-    <>
-      <Layout scrollable keyboardAvoiding>
-        <Layout.Header title="Test" subtitle="Test 2" hasBackButton />
-
-        <Dropdown
-          searchable
-          placeholder="Chapter"
-          options={chapters}
-          value={chapter}
-          onValueChange={setChapter}
-        />
-        <Dropdown
-          placeholder="School"
-          options={schools}
-          value={school}
-          onValueChange={setSchool}
-        />
-      </Layout>
-
-      <ActionButton icon="ri-add-line" onPress={() => {}} />
-    </>
-  );
+  return <></>;
 };
 
 export default UITesting;

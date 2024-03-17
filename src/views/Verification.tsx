@@ -23,7 +23,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import Hyperlink from "@/ui/Hyperlink";
-import TextInput from "@/ui/TextInput";
+import FormField from "@/ui/FormField";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import useFormMutation from "@/hooks/useFormMutation";
@@ -72,7 +72,7 @@ const VerificationView = () => {
 
   return (
     <>
-      <TextInput
+      <FormField
         placeholder="Verification Code"
         error={form.state.code.error}
         value={form.state.code.value}
@@ -81,7 +81,7 @@ const VerificationView = () => {
 
       <Button
         loading={form.loading}
-        iconRight="ri-arrow-right-line"
+        iconRight="arrow-right-line"
         onPress={form.handleSubmission}
       >
         Continue
@@ -91,7 +91,7 @@ const VerificationView = () => {
         <View style={tw`flex-row justify-center`}>
           <Text style={tw`text-center`}>Incorrect email address?&nbsp;</Text>
           <Hyperlink
-            color="dark"
+            color="primary"
             onPress={onLogout}
             disabled={logoutMutation.isLoading}
           >
@@ -101,7 +101,7 @@ const VerificationView = () => {
 
         <View style={tw`flex-row justify-center`}>
           <Text style={tw`text-center`}>Didn't receive a code?&nbsp;</Text>
-          <Hyperlink color="dark" onPress={resendVerificationEmail}>
+          <Hyperlink color="primary" onPress={resendVerificationEmail}>
             Resend
           </Hyperlink>
         </View>

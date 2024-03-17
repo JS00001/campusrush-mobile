@@ -55,12 +55,12 @@ const TermsOfServiceSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
               <Badge size="md" style={tw`self-start`}>
                 Last Updated: {lastUpdated}
               </Badge>
-              <Text variant="header" style={tw`text-primary mb-4`}>
+              <Text type="h1" style={tw`text-primary mb-4`}>
                 Terms of Service
               </Text>
 
               <View style={contentContainerStyle}>
-                <Text variant="body">
+                <Text>
                   {query.data?.content.split("**").map((item, index) => {
                     const isFirstOccurrance = index % 2 === 0;
 
@@ -69,11 +69,7 @@ const TermsOfServiceSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
                     }
 
                     return (
-                      <Text
-                        key={index}
-                        variant="body"
-                        style={tw`text-primary font-bold`}
-                      >
+                      <Text key={index} style={tw`text-primary font-bold`}>
                         {item}
                       </Text>
                     );
@@ -97,7 +93,7 @@ const TermsOfServiceSkeleton: React.FC = () => {
   return (
     <>
       <Badge size="md">Loading...</Badge>
-      <Text variant="header" style={tw`text-primary mb-4`}>
+      <Text type="h1" style={tw`text-primary mb-4`}>
         Terms of Service
       </Text>
 

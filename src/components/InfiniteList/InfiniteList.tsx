@@ -10,13 +10,13 @@
  * Do not distribute
  */
 
-import { cloneElement } from "react";
+import React, { useMemo } from "react";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import ListItem from "@/ui/ListItem";
-import InfiniteScroll from "@/ui/InfiniteScroll";
-import DeleteSwipable from "@/ui/Swipeables/Delete";
+import Headline from "@/ui/Headline";
+import { Infinite } from "@/ui/InfiniteScroll";
+import ListItemLoader from "@/ui/Loaders/ListItem";
+import DeleteSwipable from "@/ui/Swipeable/Delete";
 
 interface InfiniteListProps<T> {
   data: T[];
@@ -47,26 +47,26 @@ const InfiniteList = <T,>({
   renderItem,
   onDeleteElement,
 }: InfiniteListProps<T>) => {
+  const LoadingComponent = useMemo(() => {
+    const Component = loadingComponent || <ListItemLoader />;
+
+    return new Array(20).fill(0).map((_, i) => {
+      return <React.Fragment key={i}>{Component}</React.Fragment>;
+    });
+  }, [loadingComponent]);
+
   const ListEmptyComponent = () => {
     if (loading) {
-      return new Array(20).fill(0).map((_, i) => {
-        if (loadingComponent) return cloneElement(loadingComponent, { key: i });
-
-        return (
-          <ListItem key={i} title="" subtitle="" loading pressable={false} />
-        );
-      });
+      return LoadingComponent;
     }
 
     return (
-      <>
-        <Text variant="title" style={tw`text-center mt-16`}>
-          {emptyListTitle || "No content found"}
-        </Text>
-        <Text style={tw`text-center`}>
-          {emptyListSubtitle || "Try changing your filters"}
-        </Text>
-      </>
+      <Headline
+        centerText
+        style={tw`mt-16`}
+        title={emptyListTitle || "No content found"}
+        subtitle={emptyListSubtitle || "Try changing your filters"}
+      />
     );
   };
 
@@ -98,7 +98,7 @@ const InfiniteList = <T,>({
     if (elementsDeletable) {
       return (
         <DeleteSwipable
-          innerRef={handleRef}
+          ref={handleRef}
           onDelete={onDeletePress}
           onBegan={closeOtherSwipeables}
         >
@@ -111,7 +111,7 @@ const InfiniteList = <T,>({
   };
 
   return (
-    <InfiniteScroll
+    <Infinite.Scroll
       data={data}
       onRefresh={onRefresh}
       onEndReached={onEndReached}
