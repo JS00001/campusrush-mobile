@@ -11,6 +11,7 @@
  */
 
 import { useState } from "react";
+import Toast from "react-native-toast-message";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import {
@@ -21,10 +22,9 @@ import {
 } from "@/store";
 import { useSendMassMessage } from "@/hooks/api/messaging";
 
-import Layout from "@/ui_v1/Layout";
+import { Layout } from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
 import MassMessageHeader from "@/components/Headers/MassMessage";
-import Toast from "react-native-toast-message";
 
 interface NewMessageProps {
   route: any;
@@ -85,16 +85,20 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
     setPnms((prev) => prev.filter((p) => p._id !== pnm._id));
   };
 
+  // TODO: When we first open the 'mass-message' screen, and do not click to focus the text input yet,
+  // The text input glitches out
   return (
-    <Layout scrollable gap={8}>
+    <Layout.Root>
       <Layout.CustomHeader>
         <MassMessageHeader pnms={pnms} onPnmRemove={onRemovePnm} />
       </Layout.CustomHeader>
 
+      <Layout.Content />
+
       <Layout.Footer keyboardAvoiding>
         <MessageBox onSend={onMessageSend} />
       </Layout.Footer>
-    </Layout>
+    </Layout.Root>
   );
 };
 

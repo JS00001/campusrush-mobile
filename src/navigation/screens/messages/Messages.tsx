@@ -10,21 +10,21 @@
  * Do not distribute
  */
 
-import Layout from "@/ui_v1/Layout";
+import { Layout } from "@/ui/Layout";
 import MessagesView from "@/views/Messages";
 
 const MessagesScreen = () => {
   return (
-    <>
-      <Layout gap={8}>
-        <Layout.Header
-          title="Messages"
-          subtitle="Message potential new members"
-        />
+    <Layout.Root>
+      <Layout.Header
+        title="Messages"
+        subtitle="Message potential new members"
+      />
 
+      <Layout.Content gap={8}>
         <MessagesView />
-      </Layout>
-    </>
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

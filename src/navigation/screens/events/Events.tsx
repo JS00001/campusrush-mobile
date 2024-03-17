@@ -10,20 +10,22 @@
  * Do not distribute
  */
 
-import Layout from "@/ui_v1/Layout";
+import { Layout } from "@/ui/Layout";
 import EventsView from "@/views/Events";
 
 const EventsScreen = () => {
   return (
-    <Layout gap={8}>
+    <Layout.Root>
       <Layout.Header
         beta
         title="Events"
         subtitle="Manage and share your events"
       />
 
-      <EventsView />
-    </Layout>
+      <Layout.Content gap={8}>
+        <EventsView />
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

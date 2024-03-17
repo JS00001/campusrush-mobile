@@ -10,25 +10,27 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
 import { View } from "react-native";
+
+import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";
 
-interface ListItemLoaderProps {}
-
-const ListItemLoader: React.FC<ListItemLoaderProps> = () => {
+const EventLoader = () => {
   const containerClasses = tw.style(
-    "bg-slate-100 w-full p-4 rounded-xl",
+    "bg-slate-100 w-full p-4 rounded-xl gap-6",
     "flex-row items-center",
   );
 
   return (
     <View style={containerClasses}>
-      <View style={tw`gap-3 items-center flex-row`}>
-        <View style={tw`w-3.5`} />
+      <View style={tw`flex-row gap-5 flex-shrink`}>
+        {/* Date and Time */}
+        <Skeleton width="w-16" height="h-18" />
 
-        <View style={tw`flex-1 gap-y-1`}>
-          <Skeleton width="w-40" height="h-5" />
+        {/* Information */}
+        <View style={tw`flex-1 gap-y-2`}>
+          <Skeleton width="w-40" height="h-6" />
+          <Skeleton height="h-4" />
           <Skeleton height="h-4" />
         </View>
       </View>
@@ -36,4 +38,4 @@ const ListItemLoader: React.FC<ListItemLoaderProps> = () => {
   );
 };
 
-export default ListItemLoader;
+export default EventLoader;

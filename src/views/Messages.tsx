@@ -16,14 +16,14 @@ import useSearch from "@/hooks/useSearch";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
 import tw from "@/lib/tailwind";
-import TextInput from "@/ui_v1/TextInput";
-import IconButton from "@/ui_v1/IconButton";
-import Menu, { MenuAction } from "@/ui_v1/Menu";
-import ActionButton from "@/ui_v1/ActionButton";
-import Conversation from "@/ui_v1/Conversation";
+import TextInput from "@/ui/TextInput";
+import IconButton from "@/ui/IconButton";
+import Menu, { MenuAction } from "@/ui/Menu";
+import ActionButton from "@/ui/ActionButton";
+import Conversation from "@/ui/Conversation";
 import InfiniteList from "@/components/InfiniteList";
+import ConversationLoader from "@/ui/Loaders/Conversation";
 import { useGetConversations } from "@/hooks/api/messaging";
-import { ConversationLoader } from "@/ui_v1/Conversation/Loaders";
 
 const MessagesView = () => {
   const { openBottomSheet } = useBottomSheets();
@@ -76,21 +76,24 @@ const MessagesView = () => {
 
   return (
     <>
-      <ActionButton icon="ri-add-line" onPress={onNewChatPress} />
+      <ActionButton icon="add-line" onPress={onNewChatPress} />
 
       <View style={tw`flex-row w-full gap-x-1`}>
         <TextInput
           autoCorrect={false}
-          icon="ri-search-line"
-          variant="alternate"
+          icon="search-line"
           placeholder="Search Conversations"
           value={search.query}
           onChangeText={search.setQuery}
-          containerStyle={tw`flex-shrink`}
+          contentContainerStyle={tw`flex-shrink`}
         />
 
         <Menu actions={filterMenu}>
-          <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
+          <IconButton
+            color="secondary"
+            iconName="filter-3-fill"
+            style={tw`flex-grow`}
+          />
         </Menu>
       </View>
 

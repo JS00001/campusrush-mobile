@@ -22,15 +22,15 @@ import useSearch from "@/hooks/useSearch";
 import { useEventStore, useModalStore } from "@/store";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
-import Event from "@/ui_v1/Event";
+import Event from "@/ui/Event";
 import tw from "@/lib/tailwind";
-import TextInput from "@/ui_v1/TextInput";
-import IconButton from "@/ui_v1/IconButton";
+import TextInput from "@/ui/TextInput";
+import IconButton from "@/ui/IconButton";
 import Content from "@/constants/content";
-import ActionButton from "@/ui_v1/ActionButton";
-import Menu, { MenuAction } from "@/ui_v1/Menu";
+import EventLoader from "@/ui/Loaders/Event";
+import ActionButton from "@/ui/ActionButton";
+import Menu, { MenuAction } from "@/ui/Menu";
 import InfiniteList from "@/components/InfiniteList";
-import { DefaultEventLoader } from "@/ui_v1/Event/Loaders";
 
 const EventsView = () => {
   const { openModal } = useModalStore();
@@ -140,25 +140,32 @@ const EventsView = () => {
 
   return (
     <>
-      <ActionButton icon="ri-add-line" onPress={onNewEventPress} />
+      <ActionButton icon="add-line" onPress={onNewEventPress} />
 
       <View style={tw`flex-row w-full gap-x-1`}>
         <TextInput
           autoCorrect={false}
-          icon="ri-search-line"
-          variant="alternate"
+          icon="search-line"
           placeholder={placeholder}
           value={search.query}
           onChangeText={search.setQuery}
-          containerStyle={tw`flex-shrink`}
+          contentContainerStyle={tw`flex-shrink`}
         />
 
         <Menu title="Filter By" actions={filterMenu}>
-          <IconButton icon="ri-filter-3-fill" style={tw`flex-grow`} />
+          <IconButton
+            color="secondary"
+            iconName="filter-3-fill"
+            style={tw`flex-grow`}
+          />
         </Menu>
 
         <Menu actions={moreMenu}>
-          <IconButton icon="ri-more-fill" style={tw`flex-grow`} />
+          <IconButton
+            color="secondary"
+            iconName="more-fill"
+            style={tw`flex-grow`}
+          />
         </Menu>
       </View>
 
@@ -168,11 +175,19 @@ const EventsView = () => {
         onRefresh={onRefresh}
         onEndReached={onEndReached}
         onDeleteElement={onDeleteEvent}
-        loadingComponent={<DefaultEventLoader />}
+        loadingComponent={<EventLoader />}
         loading={eventsQuery.isLoading && !eventsQuery.events.length}
         emptyListTitle="No Events Found"
         emptyListSubtitle="Try changing your filters or creating a new event"
-        renderItem={({ item: event }) => <Event event={event} />}
+        renderItem={({ item: event }) => {
+          const handlePress = () => {
+            openBottomSheet("EVENT", {
+              eventId: event._id,
+            });
+          };
+
+          return <Event event={event} onPress={handlePress} />;
+        }}
       />
     </>
   );

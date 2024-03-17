@@ -95,7 +95,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   const textColor = IconButtonColors[color].color;
 
   const containerStyles = tw.style(
-    "rounded-full self-start flex-row items-center gap-x-2",
+    "rounded-full self-start flex-row items-center gap-x-2 shrink-0",
     disabled && "disabled",
     IconButtonColors[color].container,
     IconButtonSizes[size].container,

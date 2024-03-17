@@ -12,7 +12,7 @@
 
 import { create } from 'zustand';
 
-import Modal, { ModalProps } from '@/ui_v1/Modal';
+import Modal, { ModalProps } from '@/ui/Modal';
 
 /**
  * All modals that can be opened

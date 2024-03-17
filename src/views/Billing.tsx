@@ -16,8 +16,8 @@ import Qonversion, { PurchaseModel } from "react-native-qonversion";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Button from "@/ui_v1/Button";
-import Hyperlink from "@/ui_v1/Hyperlink";
+import Button from "@/ui/Button";
+import Hyperlink from "@/ui/Hyperlink";
 import { useAuth } from "@/providers/Auth";
 import { useLogout } from "@/hooks/api/auth";
 import ProductCard from "@/components/ProductCard";
@@ -125,14 +125,14 @@ const BillingView = () => {
 
         <View style={tw`justify-center items-center`}>
           <Hyperlink
-            color="dark"
+            color="primary"
             onPress={onLogout}
             disabled={logoutMutation.isLoading}
           >
             Sign out
           </Hyperlink>
           <Text style={tw`mx-1`}>or</Text>
-          <Hyperlink color="dark" onPress={restorePurchases}>
+          <Hyperlink color="primary" onPress={restorePurchases}>
             Restore purchases
           </Hyperlink>
         </View>

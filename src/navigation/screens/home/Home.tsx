@@ -11,8 +11,8 @@
  */
 
 import tw from "@/lib/tailwind";
-import Layout from "@/ui_v1/Layout";
 import HomeView from "@/views/Home";
+import { Layout } from "@/ui/Layout";
 import HomeHeaderSvg from "@/assets/HomeHeaderSvg";
 
 const HomeScreen = () => {
@@ -20,14 +20,16 @@ const HomeScreen = () => {
     <>
       <HomeHeaderSvg />
 
-      <Layout
-        scrollable
-        removePadding
-        style={tw`bg-transparent`}
-        contentContainerStyle={tw`items-start`}
-      >
-        <HomeView />
-      </Layout>
+      <Layout.Root>
+        <Layout.Content
+          scrollable
+          removePadding
+          style={tw`bg-transparent`}
+          contentContainerStyle={tw`items-start`}
+        >
+          <HomeView />
+        </Layout.Content>
+      </Layout.Root>
     </>
   );
 };

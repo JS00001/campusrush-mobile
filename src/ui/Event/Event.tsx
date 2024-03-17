@@ -10,25 +10,76 @@
  * Do not distribute
  */
 
-import { TouchableOpacityProps } from "react-native";
+import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
-export type EventType = "card" | "attachment";
+import EventDate from "./Date";
+
+import Text from "@/ui/Text";
+import Icon from "@/ui/Icon";
+import tw from "@/lib/tailwind";
+import date from "@/lib/util/date";
+import { formatEvent } from "@/lib/util/format";
 
 interface EventProps extends Omit<TouchableOpacityProps, "onPress"> {
   event: Event;
-  type?: EventType;
   style?: any;
   onPress?: (event: Event) => void;
 }
 
 const Event: React.FC<EventProps> = ({
   event,
-  type = "card",
   style,
   onPress,
+  disabled,
   ...props
 }) => {
-  return <></>;
+  const formattedEvent = formatEvent(event);
+  const hasEventPassed = date.hasPassed(formattedEvent.startDate);
+
+  const handlePress = () => {
+    if (onPress) {
+      onPress(event);
+    }
+  };
+
+  const containerStyles = tw.style(
+    "bg-slate-100 rounded-xl w-full",
+    "flex-row justify-between items-center p-4",
+    hasEventPassed && "disabled",
+    style,
+  );
+
+  const contentContainerStyles = tw.style("flex-row shrink gap-5");
+
+  return (
+    <TouchableOpacity
+      disabled={disabled}
+      style={containerStyles}
+      onPress={handlePress}
+      {...props}
+    >
+      <View style={contentContainerStyles}>
+        <EventDate
+          month={formattedEvent.start.month}
+          day={formattedEvent.start.day}
+          weekday={formattedEvent.start.weekday}
+        />
+
+        <View style={tw`shrink`}>
+          <Text type="h2" numberOfLines={1}>
+            {formattedEvent.title}
+          </Text>
+          <Text type="p3" numberOfLines={2}>
+            {formattedEvent.start.time} · {formattedEvent.location}
+          </Text>
+        </View>
+      </View>
+
+      {!hasEventPassed && (
+        <Icon size={20} name="arrow-right-s-line" color={tw.color("primary")} />
+      )}
+    </TouchableOpacity>
+  );
 };
 
 export default Event;
