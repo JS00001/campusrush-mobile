@@ -18,7 +18,6 @@ import tw from "@/lib/tailwind";
 
 const toastContainerClasses = tw.style(
   "w-11/12 flex-row gap-4 p-4 rounded-lg",
-
   "bg-slate-800 shadow-md",
 );
 
