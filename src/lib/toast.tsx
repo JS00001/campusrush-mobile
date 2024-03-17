@@ -17,21 +17,13 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 const toastContainerClasses = tw.style(
-  // Sizing
   "w-11/12 flex-row gap-4 p-4 rounded-lg",
-  // Colors
+
   "bg-slate-800 shadow-md",
 );
 
-const toastText1Classes = tw.style(
-  // Sizing
-  "text-white font-medium",
-);
-
-const toastText2Classes = tw.style(
-  // Sizing
-  "text-slate-200",
-);
+const toastText1Classes = tw.style("text-white font-medium");
+const toastText2Classes = tw.style("text-slate-200");
 
 const toastConfig = {
   /**
