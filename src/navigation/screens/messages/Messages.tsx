@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
 import MessagesView from "@/views/Messages";
 
@@ -21,7 +22,7 @@ const MessagesScreen = () => {
         subtitle="Message potential new members"
       />
 
-      <Layout.Content gap={8}>
+      <Layout.Content gap={8} contentContainerStyle={tw`pb-0`}>
         <MessagesView />
       </Layout.Content>
     </Layout.Root>

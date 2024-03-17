@@ -128,13 +128,10 @@ const ChaptersView = () => {
         onRefresh={onRefresh}
         onEndReached={async () => {}}
         loadingComponent={<ChapterLoader />}
-        emptyListTitle="No Conversations Found"
-        emptyListSubtitle="Try changing your filters or sending a new message"
+        loading={getAdminChaptersQuery.isLoading}
+        emptyListTitle="No Chapters Found"
+        emptyListSubtitle="Try changing your filters"
         renderItem={({ item: chapter }) => <Chapter chapter={chapter} />}
-        loading={
-          getAdminChaptersQuery.isLoading &&
-          !getAdminChaptersQuery.chapters.length
-        }
       />
     </>
   );

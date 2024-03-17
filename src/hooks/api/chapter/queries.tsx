@@ -10,15 +10,16 @@
  * Do not distribute
  */
 
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
 import { getChapterStatistics } from "@/api";
 import { useStatisticsStore } from "@/store";
-import { useEffect } from "react";
 
 export const useGetChapterStatistics = () => {
   const { accessToken } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
 
   const statisticsStore = useStatisticsStore();
 
@@ -29,11 +30,16 @@ export const useGetChapterStatistics = () => {
   });
 
   useEffect(() => {
-    if (!query.data || "error" in query.data) return;
+    if (!query.data || "error" in query.data) {
+      setIsLoading(query.isLoading);
+      return;
+    }
 
     statisticsStore.setField("pnmCount", query.data.data.pnms);
-    statisticsStore.setField("starredPnmCount", query.data.data.starredPnms);
     statisticsStore.setField("recentPnms", query.data.data.recentPnms);
+    statisticsStore.setField("starredPnmCount", query.data.data.starredPnms);
+
+    setIsLoading(query.isLoading);
   }, [query.data]);
 
   return {
@@ -41,5 +47,6 @@ export const useGetChapterStatistics = () => {
     pnmCount: statisticsStore.pnmCount,
     starredPnmCount: statisticsStore.starredPnmCount,
     recentPnms: statisticsStore.recentPnms,
+    isLoading: isLoading && !statisticsStore.pnmCount,
   };
 };

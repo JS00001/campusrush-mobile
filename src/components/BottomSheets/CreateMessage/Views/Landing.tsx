@@ -19,6 +19,8 @@ import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
 import { useModalStore } from "@/store";
 import Content from "@/constants/content";
+import ListItemLoader from "@/ui/Loaders/ListItem";
+import HeadlineLoader from "@/ui/Loaders/Headline";
 
 import { useQonversion } from "@/providers/Qonversion";
 import { useGetContacts } from "@/hooks/api/messaging";
@@ -110,7 +112,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
     handleClose();
   };
 
-  // TODO: Add a proper loading state here
+  if (isLoading) return <LoadingState />;
 
   return (
     <>
@@ -147,6 +149,19 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
         icon="star-fill"
         onPress={onMessageFavoritesPress}
       />
+    </>
+  );
+};
+
+const LoadingState = () => {
+  return (
+    <>
+      <HeadlineLoader style={tw`pb-4`} />
+
+      <ListItemLoader size="lg" />
+      <ListItemLoader size="lg" />
+      <ListItemLoader size="lg" />
+      <ListItemLoader size="lg" />
     </>
   );
 };

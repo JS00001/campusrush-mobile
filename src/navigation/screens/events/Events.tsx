@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
 import EventsView from "@/views/Events";
 
@@ -22,7 +23,7 @@ const EventsScreen = () => {
         subtitle="Manage and share your events"
       />
 
-      <Layout.Content gap={8}>
+      <Layout.Content gap={8} contentContainerStyle={tw`pb-0`}>
         <EventsView />
       </Layout.Content>
     </Layout.Root>

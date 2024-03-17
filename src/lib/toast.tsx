@@ -20,7 +20,7 @@ const toastContainerClasses = tw.style(
   // Sizing
   "w-11/12 flex-row gap-4 p-4 rounded-lg",
   // Colors
-  "bg-gray-800 shadow-md",
+  "bg-slate-800 shadow-md",
 );
 
 const toastText1Classes = tw.style(

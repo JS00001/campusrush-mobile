@@ -18,21 +18,31 @@ import tw from "@/lib/tailwind";
 interface HeadlineProps extends ViewProps {
   title: string;
   subtitle: string;
+  centerText?: boolean;
   style?: any;
 }
 
 const Headline: React.FC<HeadlineProps> = ({
   title,
   subtitle,
+  centerText,
   style,
   ...props
 }) => {
-  const containerStyles = tw.style("flex-col gap-y-1", style);
+  const containerStyles = tw.style(
+    "flex-col gap-y-1",
+    centerText && "items-center",
+    style,
+  );
+
+  const textStyles = tw.style(centerText && "text-center");
 
   return (
     <View style={containerStyles} {...props}>
-      <Text type="h2">{title}</Text>
-      <Text>{subtitle}</Text>
+      <Text type="h2" style={textStyles}>
+        {title}
+      </Text>
+      <Text style={textStyles}>{subtitle}</Text>
     </View>
   );
 };

@@ -55,9 +55,12 @@ const Skeleton: React.FC<SkeletonProps> = ({
     };
   }, []);
 
-  const opacity = animatedValue.interpolate({
+  const backgroundColor = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [1, 0.4],
+    outputRange: [
+      tw.color("slate-200") as string,
+      tw.color("slate-300") as string,
+    ],
   });
 
   // use the height passed if it is a percent or number, if it is h-<number> then use the number * 4
@@ -70,11 +73,7 @@ const Skeleton: React.FC<SkeletonProps> = ({
     width = parseInt(width.replace("w-", "")) * 4;
   }
 
-  const viewStyles = [
-    style,
-    { backgroundColor: tw.color("slate-300") },
-    { width, height, opacity, borderRadius },
-  ];
+  const viewStyles = [style, { backgroundColor, width, height, borderRadius }];
 
   return <Animated.View style={viewStyles} />;
 };

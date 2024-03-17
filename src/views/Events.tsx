@@ -140,8 +140,6 @@ const EventsView = () => {
 
   return (
     <>
-      <ActionButton icon="add-line" onPress={onNewEventPress} />
-
       <View style={tw`flex-row w-full gap-x-1`}>
         <TextInput
           autoCorrect={false}
@@ -176,7 +174,7 @@ const EventsView = () => {
         onEndReached={onEndReached}
         onDeleteElement={onDeleteEvent}
         loadingComponent={<EventLoader />}
-        loading={eventsQuery.isLoading && !eventsQuery.events.length}
+        loading={eventsQuery.isLoading}
         emptyListTitle="No Events Found"
         emptyListSubtitle="Try changing your filters or creating a new event"
         renderItem={({ item: event }) => {
@@ -189,6 +187,8 @@ const EventsView = () => {
           return <Event event={event} onPress={handlePress} />;
         }}
       />
+
+      <ActionButton icon="add-line" onPress={onNewEventPress} />
     </>
   );
 };

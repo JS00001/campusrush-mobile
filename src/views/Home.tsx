@@ -15,10 +15,12 @@ import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Skeleton from "@/ui/Skeleton";
 import ListItem from "@/ui/ListItem";
 import IconButton from "@/ui/IconButton";
 import { useAuth } from "@/providers/Auth";
 import RecentPnms from "@/components/RecentPnms";
+import ListItemLoader from "@/ui/Loaders/ListItem";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import { useGetChapterStatistics } from "@/hooks/api/chapter";
 
@@ -42,7 +44,9 @@ const HomeView = () => {
     });
   };
 
-  // TODO: Add full loading skeleton for the entire screen
+  if (statisticsQuery.isLoading) {
+    return <LoadingState />;
+  }
 
   return (
     <>
@@ -102,10 +106,43 @@ const HomeView = () => {
         <RecentPnms
           pnms={statisticsQuery.recentPnms}
           onPress={onRecentPnmPress}
-          loading={
-            statisticsQuery.isLoading && !statisticsQuery.recentPnms.length
-          }
         />
+      </View>
+    </>
+  );
+};
+
+const LoadingState = () => {
+  return (
+    <>
+      <View style={tw`bg-white absolute h-full -z-10 w-full top-56`} />
+
+      <View style={tw`w-full items-start p-6 gap-y-6`}>
+        {/* Header */}
+        <View style={tw`justify-between items-center flex-row w-full`}>
+          <Skeleton height={40} width={"75%"} />
+          <Skeleton borderRadius={999} height={54} width={54} />
+        </View>
+
+        {/* Chapter Statistics */}
+        <Skeleton width="30%" />
+        <View style={tw`w-full flex-row gap-5`}>
+          <Skeleton style={tw`flex-1`} height={164} />
+          <Skeleton style={tw`flex-1`} height={164} />
+        </View>
+
+        {/* Quick Links */}
+        <Text type="h2">Quick Links</Text>
+        <ListItemLoader />
+
+        {/* Recently Added PNMs */}
+        <Text type="h2">Recently Added PNMs</Text>
+
+        <View style={tw`gap-y-2`}>
+          <ListItemLoader />
+          <ListItemLoader />
+          <ListItemLoader />
+        </View>
       </View>
     </>
   );

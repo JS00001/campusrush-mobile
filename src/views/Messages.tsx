@@ -76,8 +76,6 @@ const MessagesView = () => {
 
   return (
     <>
-      <ActionButton icon="add-line" onPress={onNewChatPress} />
-
       <View style={tw`flex-row w-full gap-x-1`}>
         <TextInput
           autoCorrect={false}
@@ -102,17 +100,16 @@ const MessagesView = () => {
         data={search.data}
         onRefresh={onRefresh}
         onEndReached={onEndReached}
-        loadingComponent={<ConversationLoader />}
+        loading={conversationsQuery.isLoading}
         emptyListTitle="No Conversations Found"
         emptyListSubtitle="Try changing your filters or sending a new message"
+        loadingComponent={<ConversationLoader />}
         renderItem={({ item: conversation }) => (
           <Conversation conversation={conversation} />
         )}
-        loading={
-          conversationsQuery.isLoading &&
-          !conversationsQuery.conversations?.length
-        }
       />
+
+      <ActionButton icon="add-line" onPress={onNewChatPress} />
     </>
   );
 };

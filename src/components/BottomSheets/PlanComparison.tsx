@@ -45,7 +45,8 @@ const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
       children={() => (
         <BottomSheetContainer style={tw`px-0`}>
           <Headline
-            style={tw`p-6 items-center`}
+            centerText
+            style={tw`p-6`}
             title="Plan Comparison"
             subtitle="CampusRush offers the best recruitment experience for greek chapters of all sizes."
           />
