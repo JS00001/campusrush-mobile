@@ -35,43 +35,30 @@ const Landing: React.FC<LandingProps> = ({ navigation }) => {
   };
 
   return (
-    <>
-      <LandingSvg />
+    <Layout.Root style={tw`bg-navy-300`}>
+      <Layout.Content
+        style={tw`bg-transparent`}
+        contentContainerStyle={tw`justify-between h-full`}
+      >
+        <View style={tw`items-center gap-y-10 justify-center flex-1`}>
+          <Logo64Svg />
+          <Typewriter delay={20} type="h1" style={tw`text-white text-center`}>
+            Elevate Recruitment With CampusRush
+          </Typewriter>
+        </View>
 
-      <Layout.Root>
-        <Layout.Content
-          style={tw`bg-transparent`}
-          contentContainerStyle={tw`justify-between h-full`}
-        >
-          <View style={tw`items-center gap-y-10 justify-center flex-1`}>
-            <Logo64Svg />
-            <Typewriter delay={20} type="h1" style={tw`text-white text-center`}>
-              Elevate Recruitment With CampusRush
-            </Typewriter>
-          </View>
+        <View style={tw`w-full`}>
+          <Button color="secondary" onPress={handleCreateAccount}>
+            Create Account
+          </Button>
+          <Button style={tw`bg-transparent`} onPress={handleLogBackIn}>
+            Log Back In
+          </Button>
 
-          <View style={tw`w-full`}>
-            <Button color="secondary" onPress={handleCreateAccount}>
-              Create Account
-            </Button>
-            <Button style={tw`bg-transparent`} onPress={handleLogBackIn}>
-              Log Back In
-            </Button>
-
-            {__DEV__ && (
-              <Button
-                style={tw`bg-transparent`}
-                onPress={() => navigation.navigate("UITesting")}
-              >
-                UI Testing (DEV)
-              </Button>
-            )}
-
-            <TermsAndConditions color="secondary" />
-          </View>
-        </Layout.Content>
-      </Layout.Root>
-    </>
+          <TermsAndConditions color="secondary" />
+        </View>
+      </Layout.Content>
+    </Layout.Root>
   );
 };
 

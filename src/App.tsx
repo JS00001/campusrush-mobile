@@ -30,8 +30,8 @@ import StatusOverlay from "@/components/StatusOverlay";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
 import QonversionProvider from "@/providers/Qonversion";
+import DeveloperTools from "@/components/DeveloperTools";
 import SentryProvider from "@/providers/external/Sentry";
-import DevEnvironment from "@/components/DevEnvironment";
 import BottomSheetProvider from "@/providers/BottomSheet";
 import PreferencesProvider from "@/providers/Preferences";
 import PosthogProvider from "@/providers/external/Posthog";
@@ -68,7 +68,7 @@ const App = () => {
                             <BottomSheetProvider>
                               <EntitlementsProvider>
                                 <Modals />
-                                <DevEnvironment />
+                                <DeveloperTools />
                                 <RootNavigator />
                                 <StatusOverlay />
                               </EntitlementsProvider>

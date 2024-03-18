@@ -41,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({
   const containerStyles = tw.style("px-6 py-8 z-10");
 
   const contentContainerStyles = tw.style(
-    "min-h-[144px] flex-col gap-y-4",
+    "min-h-[144px] flex-col gap-y-4 mt-6",
     hasBackButton && "justify-between",
     !hasBackButton && "justify-end",
   );

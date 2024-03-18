@@ -17,10 +17,26 @@ import AppConstants from "@/constants";
 import { isJSON } from "@/lib/util/string";
 import { useConversationStore, useMessageStore } from "@/store";
 
+export type MessageType = "NEW_MESSAGE";
+
+export interface SocketMessage {
+  type: MessageType;
+  data: any;
+  notification?: {
+    title: string;
+    body: string;
+  };
+}
+
+export interface LoggedMessage {
+  timestamp: number;
+  message: string;
+}
+
 interface WebsocketContextProps {
   data: {
     connected: boolean;
-    messages: string[];
+    messages: LoggedMessage[];
   };
 
   onConversationClose: () => void;
@@ -39,7 +55,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   // Create state to store the websocket and messages
   const [ws, setWs] = useState<WebSocket | null>(null);
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<LoggedMessage[]>([]);
   const [currentConversation, setCurrentConversation] = useState<string>("");
 
   // Get the addMessage function from the messages store
@@ -73,6 +89,13 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
     // When the websocket is opened, set the websocket and reset the reconnectAttempts
     newWs.onopen = () => {
       console.info("[WEBSOCKET] Connected to %s", AppConstants.websocketUrl);
+
+      const connectionLog = {
+        timestamp: Date.now(),
+        message: "Connected to WS",
+      };
+
+      setMessages((messages) => [connectionLog, ...messages]);
       setWs(newWs);
       reconnectAttempts = 0;
     };
@@ -118,8 +141,14 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
       // Ensure that the parsedData matches with SocketMessage
       const payload = parsedJSON as SocketMessage;
 
+      // Create the message log
+      const messageLog = {
+        timestamp: Date.now(),
+        message: data,
+      };
+
       // Add the message to the messages state
-      setMessages((messages) => [data, ...messages]);
+      setMessages((messages) => [messageLog, ...messages]);
 
       switch (payload.type) {
         case "NEW_MESSAGE":
@@ -157,6 +186,13 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
         reconnect();
         return;
       }
+
+      const disconnectionLog = {
+        timestamp: Date.now(),
+        message: "Disconnected from WS",
+      };
+
+      setMessages((messages) => [disconnectionLog, ...messages]);
 
       setWs(null);
     };

@@ -73,7 +73,7 @@ const ChapterSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
               />
               <Detail.Item
                 title="Entitlements"
-                value={chapter.entitlements.join(", ")}
+                value={chapter.entitlements.join(", ") || "--"}
               />
               <Detail.Item
                 title="Custom Phone Number"

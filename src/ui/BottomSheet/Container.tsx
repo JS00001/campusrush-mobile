@@ -37,7 +37,7 @@ const BottomSheetContainer: React.FC<BottomSheetContainerProps> = ({
 
   if (disableScroll) {
     return (
-      <BottomSheetView {...props} style={containerStyles}>
+      <BottomSheetView {...props} style={[containerStyles]}>
         {children}
       </BottomSheetView>
     );

@@ -20,6 +20,8 @@ interface HeadlineProps extends ViewProps {
   subtitle: string;
   centerText?: boolean;
   style?: any;
+  titleStyle?: any;
+  subtitleStyle?: any;
 }
 
 const Headline: React.FC<HeadlineProps> = ({
@@ -27,6 +29,9 @@ const Headline: React.FC<HeadlineProps> = ({
   subtitle,
   centerText,
   style,
+  titleStyle,
+  subtitleStyle,
+
   ...props
 }) => {
   const containerStyles = tw.style(
@@ -37,12 +42,15 @@ const Headline: React.FC<HeadlineProps> = ({
 
   const textStyles = tw.style(centerText && "text-center");
 
+  const titleStyles = tw.style(textStyles, titleStyle);
+  const subtitleStyles = tw.style(textStyles, subtitleStyle);
+
   return (
     <View style={containerStyles} {...props}>
-      <Text type="h2" style={textStyles}>
+      <Text type="h2" style={titleStyles}>
         {title}
       </Text>
-      <Text style={textStyles}>{subtitle}</Text>
+      <Text style={subtitleStyles}>{subtitle}</Text>
     </View>
   );
 };
