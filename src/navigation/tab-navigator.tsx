@@ -10,7 +10,6 @@
  * Do not distribute
  */
 
-import Icon from "react-native-remix-icon";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import {
@@ -21,6 +20,7 @@ import {
   EventsStack,
 } from "@/navigation/stack-navigator";
 
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import { useAuth } from "@/providers/Auth";
 import { useConversationStore } from "@/store";
@@ -69,13 +69,13 @@ export const TabNavigator = () => {
           tabBarIcon: ({ color, focused }) =>
             focused ? (
               <Icon
-                name="ri-home-fill"
+                name="home-fill"
                 size={26}
                 color={color}
               />
             ) : (
               <Icon
-                name="ri-home-line"
+                name="home-line"
                 size={26}
                 color={color}
               />
@@ -90,13 +90,13 @@ export const TabNavigator = () => {
           tabBarIcon: ({ color, focused }) =>
             focused ? (
               <Icon
-                name="ri-contacts-book-2-fill"
+                name="contacts-book-2-fill"
                 size={26}
                 color={color}
               />
             ) : (
               <Icon
-                name="ri-contacts-book-2-line"
+                name="contacts-book-2-line"
                 size={26}
                 color={color}
               />
@@ -116,7 +116,7 @@ export const TabNavigator = () => {
           tabBarLabel: "Add",
           tabBarIcon: ({ color, focused }) => (
             <Icon
-              name="ri-add-line"
+              name="add-line"
               size={26}
               color={color}
             />
@@ -141,13 +141,13 @@ export const TabNavigator = () => {
           tabBarIcon: ({ color, focused }) =>
             focused ? (
               <Icon
-                name="ri-chat-1-fill"
+                name="chat-1-fill"
                 size={26}
                 color={color}
               />
             ) : (
               <Icon
-                name="ri-chat-1-line"
+                name="chat-1-line"
                 size={26}
                 color={color}
               />
@@ -162,13 +162,13 @@ export const TabNavigator = () => {
           tabBarIcon: ({ color, focused }) =>
             focused ? (
               <Icon
-                name="ri-calendar-2-fill"
+                name="calendar-2-fill"
                 size={26}
                 color={color}
               />
             ) : (
               <Icon
-                name="ri-calendar-2-line"
+                name="calendar-2-line"
                 size={26}
                 color={color}
               />
@@ -185,13 +185,13 @@ export const TabNavigator = () => {
             tabBarIcon: ({ color, focused }) =>
               focused ? (
                 <Icon
-                  name="ri-admin-fill"
+                  name="admin-fill"
                   size={26}
                   color={color}
                 />
               ) : (
                 <Icon
-                  name="ri-admin-line"
+                  name="admin-line"
                   size={26}
                   color={color}
                 />

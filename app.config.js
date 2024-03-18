@@ -33,9 +33,6 @@ export default {
     eas: {
       projectId: '9e0d874e-cc30-4dca-ae7e-9609b121b1ae',
     },
-    revenueCat: {
-      publicKey: 'appl_cjerjYwfjLIGoYMsbLhqPxeeqwp',
-    },
     qonversion: {
       projectKey: '0vNPscbrDatfqzz0xf_WqVf3fsydPhrb',
     },
