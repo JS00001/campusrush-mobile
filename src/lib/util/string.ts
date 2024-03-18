@@ -83,3 +83,14 @@ export const stringifyVersion = (version: string) => {
 
   return paddedParts.join('');
 };
+
+/**
+ * Put a string into title case
+ */
+export const titleCase = (string: string) => {
+  return string
+    .toLowerCase()
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};

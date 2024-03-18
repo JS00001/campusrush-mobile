@@ -37,6 +37,7 @@ import PreferencesProvider from "@/providers/Preferences";
 import PosthogProvider from "@/providers/external/Posthog";
 import EntitlementsProvider from "@/providers/Entitlements";
 import NotificationsProvider from "@/providers/Notifications";
+import DeveloperTools from "./components/DeveloperTools";
 
 // Prevent native splash screen from autohiding
 // when app/component is mounted
@@ -68,7 +69,7 @@ const App = () => {
                             <BottomSheetProvider>
                               <EntitlementsProvider>
                                 <Modals />
-                                <DevEnvironment />
+                                <DeveloperTools />
                                 <RootNavigator />
                                 <StatusOverlay />
                               </EntitlementsProvider>

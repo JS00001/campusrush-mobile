@@ -19,6 +19,7 @@ import date from "@/lib/util/date";
 import Headline from "@/ui/Headline";
 import IconLabel from "@/ui/IconLabel";
 import Hyperlink from "@/ui/Hyperlink";
+import { titleCase } from "@/lib/util/string";
 import { useQonversion } from "@/providers/Qonversion";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
@@ -54,7 +55,7 @@ const UpdateBillingView = () => {
         return (
           <View style={containerStyles} key={entitlement.id}>
             <Headline
-              title={`${entitlement.id.charAt(0).toUpperCase() + entitlement.id.slice(1)} Subscription`}
+              title={`${titleCase(entitlement.id)} Subscription`}
               subtitle="Thank you for choosing CampusRush"
             />
 
