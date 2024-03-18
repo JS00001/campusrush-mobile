@@ -33,10 +33,7 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
 
   return (
     <TouchableOpacity style={containerStyles} onPress={onPress}>
-      <Headline
-        title={chapter.name}
-        subtitle={`Created ${dateUtil.toString(chapter.createdAt)}`}
-      />
+      <Headline title={chapter.name} subtitle={chapter.school} />
 
       <IconLabel
         size="xs"
@@ -48,16 +45,16 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
       <IconLabel
         size="xs"
         color="tertiary"
-        iconName="government-fill"
-        title="School"
-        subtitle={chapter.school}
+        iconName="time-fill"
+        title="Last Seen"
+        subtitle={dateUtil.timeAgo(chapter.lastOnline)}
       />
       <IconLabel
         size="xs"
         color="tertiary"
-        iconName="time-fill"
-        title="Last Seen"
-        subtitle={dateUtil.timeAgo(chapter.lastOnline)}
+        iconName="calendar-fill"
+        title="Created On"
+        subtitle={dateUtil.toString(chapter.createdAt)}
       />
     </TouchableOpacity>
   );

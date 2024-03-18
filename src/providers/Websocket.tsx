@@ -17,6 +17,17 @@ import AppConstants from "@/constants";
 import { isJSON } from "@/lib/util/string";
 import { useConversationStore, useMessageStore } from "@/store";
 
+export type MessageType = "NEW_MESSAGE";
+
+export interface SocketMessage {
+  type: MessageType;
+  data: any;
+  notification?: {
+    title: string;
+    body: string;
+  };
+}
+
 interface WebsocketContextProps {
   data: {
     connected: boolean;
