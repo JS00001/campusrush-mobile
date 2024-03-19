@@ -44,10 +44,6 @@ const AppConstants = {
    */
   buildNumber: ExpoConstants.expoConfig?.extra?.buildNumber,
   /**
-   * The public key to initialize revenue cat
-   */
-  revenueCatPublicKey: ExpoConstants.expoConfig?.extra?.revenueCat?.publicKey,
-  /**
    * The project key used to initialize qonversion
    */
   qonversionProjectKey: ExpoConstants.expoConfig?.extra?.qonversion?.projectKey,

@@ -3,7 +3,7 @@ const IS_DEV = process.env.APP_VARIANT === 'development';
 export default {
   name: IS_DEV ? 'Campus Rush (DEV)' : 'Campus Rush',
   slug: 'campusrush',
-  version: '1.0.56',
+  version: '1.0.57',
   orientation: 'portrait',
   icon: IS_DEV ? './assets/development-icon.png' : './assets/icon.png',
   userInterfaceStyle: 'light',
@@ -15,7 +15,7 @@ export default {
   assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: false,
-    bundleIdentifier: 'app.campusrush',
+    bundleIdentifier: IS_DEV ? 'app.campusrush.dev' : 'app.campusrush',
     config: {
       usesNonExemptEncryption: false,
     },
@@ -32,9 +32,6 @@ export default {
   extra: {
     eas: {
       projectId: '9e0d874e-cc30-4dca-ae7e-9609b121b1ae',
-    },
-    revenueCat: {
-      publicKey: 'appl_cjerjYwfjLIGoYMsbLhqPxeeqwp',
     },
     qonversion: {
       projectKey: '0vNPscbrDatfqzz0xf_WqVf3fsydPhrb',

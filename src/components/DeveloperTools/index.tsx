@@ -92,7 +92,7 @@ const DeveloperTools = () => {
         subscription.remove();
       };
     }
-  }, []);
+  }, [chapter.role]);
 
   return (
     <BottomSheet enablePanDownToClose={false} innerRef={sheetRef}>

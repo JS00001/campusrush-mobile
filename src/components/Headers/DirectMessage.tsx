@@ -11,11 +11,14 @@
  */
 
 import { useEffect } from "react";
+import { SafeAreaView, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
+import tw from "@/lib/tailwind";
 import Header from "@/ui/Header";
+import Skeleton from "@/ui/Skeleton";
 import { useGetPnm } from "@/hooks/api/pnms";
 import { useBottomSheets } from "@/providers/BottomSheet";
-import { useNavigation } from "@react-navigation/native";
 
 interface DirectMessageHeaderProps {
   pnm: PNM;
@@ -38,13 +41,15 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({
     });
   };
 
-  // TODO: this could cause going back if there is:
-  // - no cache
-  // - no pnms fetched yet (havent nagivated to pnms page)
-  // - therefore, when we fetch the pnm, it starts loading,but the pnm is undefined
   useEffect(() => {
+    if (pnmQuery.isLoading) {
+      return;
+    }
+
     if (!pnmQuery.pnm) navigation.goBack();
   }, [pnmQuery.pnm]);
+
+  if (pnmQuery.isLoading) return <LoadingState />;
 
   return (
     <Header
@@ -54,6 +59,26 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({
       loading={loading}
       onMenuButtonPress={onMenuButtonPress}
     />
+  );
+};
+
+const LoadingState = () => {
+  const safeAreaStyles = tw.style("w-full border-b border-slate-200");
+
+  const headerStyles = tw.style(
+    "justify-between flex-row items-center px-6 py-3",
+  );
+
+  return (
+    <SafeAreaView style={safeAreaStyles}>
+      <View style={headerStyles}>
+        <Skeleton height={36} width={36} borderRadius={999} />
+
+        <Skeleton width={100} />
+
+        <Skeleton height={36} width={36} borderRadius={999} />
+      </View>
+    </SafeAreaView>
   );
 };
 
