@@ -49,6 +49,7 @@ export const useGetPnms = () => {
 
 export const useGetPnm = (id: string) => {
   const { accessToken } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
 
   const pnm = usePnmStore((s) => s.getPnm(id));
   const addOrUpdatePnm = usePnmStore((s) => s.addOrUpdatePnm);
@@ -60,13 +61,18 @@ export const useGetPnm = (id: string) => {
   });
 
   useEffect(() => {
-    if (!query.data || "error" in query.data) return;
+    if (!query.data || "error" in query.data) {
+      setIsLoading(query.isLoading);
+      return;
+    }
 
     addOrUpdatePnm(query.data.data.pnm);
+    setIsLoading(query.isLoading);
   }, [query.data]);
 
   return {
     ...query,
     pnm,
+    isLoading: isLoading && !pnm,
   };
 };
