@@ -41,8 +41,14 @@ const UpdateBillingView = () => {
     Linking.openURL(URL);
   };
 
-  // TODO: Add an error message
-  if (!entitlements) return null;
+  if (!entitlements)
+    return (
+      <Headline
+        centerText
+        title="No Subscriptions Found"
+        subtitle="Please try again later"
+      />
+    );
 
   return (
     <View style={tw`w-full gap-y-4 items-center`}>

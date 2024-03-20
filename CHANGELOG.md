@@ -4,6 +4,8 @@
 
 #### Added
 
+- Add error message to billing screen if the user has no subscription.
+
 #### Fixed
 
 - Fixed issue where opening the events sheet in the 'message all' screen would hide the text input.
