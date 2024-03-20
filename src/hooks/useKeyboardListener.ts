@@ -1,5 +1,5 @@
 /*
- * Created on Fri Mar 15 2024
+ * Created on Wed Mar 20 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,22 +10,19 @@
  * Do not distribute
  */
 
-// TODO: Potentially make into a hook
-
-import { useEffect } from "react";
-import { EmitterSubscription, Keyboard, KeyboardEventName } from "react-native";
+import { useEffect } from 'react';
+import { EmitterSubscription, Keyboard, KeyboardEventName } from 'react-native';
 
 const KeyboardEvents: KeyboardEventName[] = [
-  "keyboardWillShow",
-  "keyboardDidShow",
-  "keyboardWillHide",
-  "keyboardDidHide",
-  "keyboardWillChangeFrame",
-  "keyboardDidChangeFrame",
+  'keyboardWillShow',
+  'keyboardDidShow',
+  'keyboardWillHide',
+  'keyboardDidHide',
+  'keyboardWillChangeFrame',
+  'keyboardDidChangeFrame',
 ];
 
-interface KeyboardListenerProps {
-  children?: React.ReactNode;
+interface KeyboardListenerParams {
   onKeyboardWillShow?: () => void;
   onKeyboardDidShow?: () => void;
   onKeyboardWillHide?: () => void;
@@ -34,17 +31,15 @@ interface KeyboardListenerProps {
   onKeyboardDidChangeFrame?: () => void;
 }
 
-const KeyboardListener: React.FC<KeyboardListenerProps> = ({
-  children,
-  ...props
-}) => {
-  let listeners: EmitterSubscription[] = [];
-
+const useKeyboardListener = (params: KeyboardListenerParams) => {
   useEffect(() => {
+    let listeners: EmitterSubscription[] = [];
+
+    // For each event, check if there is a param passed for it, if so, listen to it
+    // and execute the function passed in the param when the event is triggered
     KeyboardEvents.forEach((event) => {
-      // check if the event should be listened to (if there is a prop for it)
       const onEventName = `on${event[0].toUpperCase()}${event.slice(1)}`;
-      const listenerFunction = (props as any)[onEventName];
+      const listenerFunction = params[onEventName];
 
       if (listenerFunction) {
         const listener = Keyboard.addListener(event, () => {
@@ -58,9 +53,7 @@ const KeyboardListener: React.FC<KeyboardListenerProps> = ({
     return () => {
       listeners.forEach((listener) => listener.remove());
     };
-  }, []);
-
-  return children;
+  }, [params]);
 };
 
-export default KeyboardListener;
+export default useKeyboardListener;

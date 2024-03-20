@@ -86,8 +86,6 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
     setPnms((prev) => prev.filter((p) => p._id !== pnm._id));
   };
 
-  // TODO: When we first open the 'mass-message' screen, and do not click to focus the text input yet,
-  // The text input glitches out
   return (
     <Layout.Root>
       <Layout.CustomHeader>

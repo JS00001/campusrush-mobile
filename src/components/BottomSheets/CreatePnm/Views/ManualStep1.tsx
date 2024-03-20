@@ -21,7 +21,7 @@ import useForm from "@/hooks/useForm";
 import FormField from "@/ui/FormField";
 import ButtonGroup from "@/ui/ButtonGroup";
 import validators from "@/constants/validators";
-import KeyboardListener from "@/ui/KeyboardListener";
+import useKeyboardListener from "@/hooks/useKeyboardListener";
 
 const ManualStep1: React.FC<UseSheetFlowProps> = ({
   state,
@@ -31,6 +31,15 @@ const ManualStep1: React.FC<UseSheetFlowProps> = ({
   handleSnapToIndex,
   handleSnapToPosition,
 }) => {
+  useKeyboardListener({
+    onKeyboardWillShow: () => {
+      handleSnapToPosition("95%");
+    },
+    onKeyboardWillHide: () => {
+      handleSnapToIndex(0);
+    },
+  });
+
   const formValidators = {
     firstName: validators.firstName,
     lastName: validators.lastName,
@@ -64,61 +73,47 @@ const ManualStep1: React.FC<UseSheetFlowProps> = ({
       classification: form.state.classification.value,
     }));
   };
-
-  const onKeyboardWillShow = () => {
-    handleSnapToPosition("95%");
-  };
-
-  const onKeyboardWillHide = () => {
-    handleSnapToIndex(0);
-  };
-
   return (
-    <KeyboardListener
-      onKeyboardWillShow={onKeyboardWillShow}
-      onKeyboardWillHide={onKeyboardWillHide}
-    >
-      <View style={tw`gap-y-4`}>
-        <Headline
-          title="Basic Information"
-          subtitle="Enter the PNM's name and contact information"
-        />
+    <View style={tw`gap-y-4`}>
+      <Headline
+        title="Basic Information"
+        subtitle="Enter the PNM's name and contact information"
+      />
 
-        <FormField
-          placeholder="First Name"
-          value={form.state.firstName.value}
-          error={form.state.firstName.error}
-          onChangeText={form.setValue.bind(null, "firstName")}
-        />
-        <FormField
-          placeholder="Last Name"
-          value={form.state.lastName.value}
-          error={form.state.lastName.error}
-          onChangeText={form.setValue.bind(null, "lastName")}
-        />
-        <FormField
-          placeholder="Phone Number"
-          value={form.state.phoneNumber.value}
-          error={form.state.phoneNumber.error}
-          onChangeText={form.setValue.bind(null, "phoneNumber")}
-        />
-        <FormField
-          placeholder="Classification"
-          value={form.state.classification.value}
-          error={form.state.classification.error}
-          onChangeText={form.setValue.bind(null, "classification")}
-        />
+      <FormField
+        placeholder="First Name"
+        value={form.state.firstName.value}
+        error={form.state.firstName.error}
+        onChangeText={form.setValue.bind(null, "firstName")}
+      />
+      <FormField
+        placeholder="Last Name"
+        value={form.state.lastName.value}
+        error={form.state.lastName.error}
+        onChangeText={form.setValue.bind(null, "lastName")}
+      />
+      <FormField
+        placeholder="Phone Number"
+        value={form.state.phoneNumber.value}
+        error={form.state.phoneNumber.error}
+        onChangeText={form.setValue.bind(null, "phoneNumber")}
+      />
+      <FormField
+        placeholder="Classification"
+        value={form.state.classification.value}
+        error={form.state.classification.error}
+        onChangeText={form.setValue.bind(null, "classification")}
+      />
 
-        <ButtonGroup>
-          <Button size="sm" color="secondary" onPress={prevView}>
-            Go Back
-          </Button>
-          <Button size="sm" onPress={handleSubmission}>
-            Next
-          </Button>
-        </ButtonGroup>
-      </View>
-    </KeyboardListener>
+      <ButtonGroup>
+        <Button size="sm" color="secondary" onPress={prevView}>
+          Go Back
+        </Button>
+        <Button size="sm" onPress={handleSubmission}>
+          Next
+        </Button>
+      </ButtonGroup>
+    </View>
   );
 };
 

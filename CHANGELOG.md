@@ -11,3 +11,5 @@
 #### Changed
 
 #### Removed
+
+- Removed the KeyboardListener UI component, and replaced it with a hook.

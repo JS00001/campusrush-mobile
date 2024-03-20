@@ -33,8 +33,8 @@ import Button from "@/ui/Button";
 import TextInput from "@/ui/TextInput";
 import useSearch from "@/hooks/useSearch";
 import { BottomSheet } from "@/ui/BottomSheet";
-import KeyboardListener from "@/ui/KeyboardListener";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
+import useKeyboardListener from "@/hooks/useKeyboardListener";
 
 interface OptionSheetProps {
   placeholder: string;
@@ -53,8 +53,16 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
   onChange,
   handleCloseSheet,
 }) => {
-  const [selected, setSelected] = useState(value);
+  useKeyboardListener({
+    onKeyboardWillShow: () => {
+      innerRef.current?.snapToPosition("95%");
+    },
+    onKeyboardWillHide: () => {
+      innerRef.current?.snapToIndex(0);
+    },
+  });
 
+  const [selected, setSelected] = useState(value);
   const search = useSearch({
     data: options,
   });
@@ -73,69 +81,56 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
     handleCloseSheet();
   };
 
-  const onKeyboardWillShow = () => {
-    innerRef.current?.snapToPosition("95%");
-  };
-
-  const onKeyboardWillHide = () => {
-    innerRef.current?.snapToIndex(0);
-  };
-
   const inputPlaceholder = `Search ${options.length} options`;
 
   const containerStyles = tw.style("px-0 gap-3");
 
   return (
-    <KeyboardListener
-      onKeyboardWillShow={onKeyboardWillShow}
-      onKeyboardWillHide={onKeyboardWillHide}
-    >
-      <BottomSheet innerRef={innerRef} onChange={handleSheetChanges}>
-        <BottomSheetContainer style={containerStyles} disableScroll>
-          <View style={tw`px-6 gap-3`}>
-            <Text type="h1">{placeholder}</Text>
-            <TextInput
-              placeholder={inputPlaceholder}
-              value={search.query}
-              onChangeText={search.setQuery}
-            />
-          </View>
-
-          <FlatList
-            data={search.data}
-            style={tw`max-h-64`}
-            keyboardShouldPersistTaps="handled"
-            ListEmptyComponent={
-              <Text type="h2" style={tw`px-4.5 py-3 font-normal`}>
-                No results found
-              </Text>
-            }
-            renderItem={({ item, index }) => {
-              const isSelected = selected === item;
-
-              const handleOptionPress = () => {
-                setSelected(item);
-              };
-
-              return (
-                <Option
-                  value={item}
-                  key={index}
-                  selected={isSelected}
-                  onPress={handleOptionPress}
-                />
-              );
-            }}
+    <BottomSheet innerRef={innerRef} onChange={handleSheetChanges}>
+      <BottomSheetContainer style={containerStyles} disableScroll>
+        <View style={tw`px-6 gap-3`}>
+          <Text type="h1">{placeholder}</Text>
+          <TextInput
+            placeholder={inputPlaceholder}
+            value={search.query}
+            onChangeText={search.setQuery}
           />
+        </View>
 
-          <View style={tw`px-6`}>
-            <Button size="sm" onPress={onDonePress}>
-              Done
-            </Button>
-          </View>
-        </BottomSheetContainer>
-      </BottomSheet>
-    </KeyboardListener>
+        <FlatList
+          data={search.data}
+          style={tw`max-h-64`}
+          keyboardShouldPersistTaps="handled"
+          ListEmptyComponent={
+            <Text type="h2" style={tw`px-4.5 py-3 font-normal`}>
+              No results found
+            </Text>
+          }
+          renderItem={({ item, index }) => {
+            const isSelected = selected === item;
+
+            const handleOptionPress = () => {
+              setSelected(item);
+            };
+
+            return (
+              <Option
+                value={item}
+                key={index}
+                selected={isSelected}
+                onPress={handleOptionPress}
+              />
+            );
+          }}
+        />
+
+        <View style={tw`px-6`}>
+          <Button size="sm" onPress={onDonePress}>
+            Done
+          </Button>
+        </View>
+      </BottomSheetContainer>
+    </BottomSheet>
   );
 };
 
