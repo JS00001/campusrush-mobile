@@ -9,6 +9,7 @@
 #### Fixed
 
 - Fixed issue where opening the events sheet in the 'message all' screen would hide the text input.
+- Fixed issue where updating an event with an error would infintely show the loading status. [ISSUE MA-14]
 
 #### Changed
 

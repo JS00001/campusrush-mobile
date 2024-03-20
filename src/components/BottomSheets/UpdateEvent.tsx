@@ -100,13 +100,17 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
           setStatus("loading");
           const isValid = form.validateState();
 
-          if (!isValid) return;
+          if (!isValid) {
+            setStatus("idle");
+            return;
+          }
 
           const startDate = new Date(parseInt(form.state.startDate.value));
           const endDate = new Date(parseInt(form.state.endDate.value));
 
           if (startDate >= endDate) {
             form.setError("endDate", "End date must be after start date");
+            setStatus("idle");
             return;
           }
 

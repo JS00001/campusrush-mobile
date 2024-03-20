@@ -72,8 +72,6 @@ const MessagesView = () => {
     await conversationsQuery.fetchNextPage();
   };
 
-  // TODO: Add loading state when messages are sending etc, (Status state)
-
   return (
     <>
       <View style={tw`flex-row w-full gap-x-1`}>
