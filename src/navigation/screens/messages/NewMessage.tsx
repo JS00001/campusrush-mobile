@@ -25,6 +25,7 @@ import { useSendMassMessage } from "@/hooks/api/messaging";
 import { Layout } from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
 import MassMessageHeader from "@/components/Headers/MassMessage";
+import { View } from "react-native";
 
 interface NewMessageProps {
   route: any;
@@ -93,7 +94,9 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
         <MassMessageHeader pnms={pnms} onPnmRemove={onRemovePnm} />
       </Layout.CustomHeader>
 
-      <Layout.Content />
+      <Layout.Content>
+        <View />
+      </Layout.Content>
 
       <Layout.Footer keyboardAvoiding>
         <MessageBox onSend={onMessageSend} />
