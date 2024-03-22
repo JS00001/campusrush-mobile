@@ -326,6 +326,16 @@ type GetAdminChapterEntitlementsResponse = API.Response<
      */
     expires: number;
     /**
+     * Source of the purchase via which the entitlement was activated.
+     * Values:
+     * – appstore: App Store
+     * – playstore: Play Store
+     * – stripe: Stripe
+     * – unknown: unable to detect the source
+     * – manual: the entitlement was activated manually
+     */
+    source: 'appstore' | 'playstore' | 'stripe' | 'unknown' | 'manual';
+    /**
      * A product granted in the entitlement.
      */
     product: {
