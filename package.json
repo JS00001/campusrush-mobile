@@ -45,6 +45,7 @@
     "expo-updates": "~0.24.12",
     "lodash": "^4.17.21",
     "posthog-react-native": "^2.9.2",
+    "qonversion-sdk": "^1.0.5",
     "react": "18.2.0",
     "react-native": "0.73.4",
     "react-native-bidirectional-infinite-scroll": "^0.3.3",

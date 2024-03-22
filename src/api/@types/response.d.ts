@@ -16,6 +16,10 @@ type DeletePnmResponse = API.Response;
 
 type DeletePnmsResponse = API.Response;
 
+type GrantAdminChapterEntitlementsResponse = API.Response;
+
+type RevokeAdminChapterEntitlementsResponse = API.Response;
+
 type GetEntitlementsResponse = API.Response<EntitlementDetails>;
 
 type GetChaptersResponse = API.Response<{
@@ -299,3 +303,55 @@ type GetAdminChapterResponse = API.Response<{
    */
   chapter: Chapter;
 }>;
+
+type GetAdminChapterEntitlementsResponse = API.Response<
+  {
+    /**
+     * The entitlement ID. For example, premium or pro.
+     */
+    id: string;
+    /**
+     * "True" means a user has active entitlement.
+     * Please note, active = true does not mean that a subscription will be renewed.
+     * A user can have active entitlement, while auto-renewal for the subscription was switched off.
+     */
+    active: boolean;
+    /**
+     * Time at which the entitlement was started. Measured in seconds since the Unix epoch.
+     */
+    started: number;
+    /**
+     * 	The expiration time for the entitlement is measured in seconds since the
+     *  Unix epoch and denotes when the entitlement will no longer be available.
+     */
+    expires: number;
+    /**
+     * A product granted in the entitlement.
+     */
+    product: {
+      /**
+       * The product identifier in Qonversion.
+       */
+      product_id: string;
+      /**
+       * Subscription linked to the product. Exists only for subscription type products.
+       */
+      subscription?: {
+        /**
+         * Possible values:
+         * – normal: the product is in it's normal period
+         * – trial: free trial period
+         * – intro: introductory pricing period
+         */
+        current_period_type: 'normal' | 'trial' | 'intro';
+        /**
+         * A renewal state of the product. It can have the following values:
+         * – will_renew: subscription is active, and auto-renew status is on
+         * – canceled: auto-renew status is off
+         * – billing_issue: there was some billing issue.
+         */
+        renewal_state: 'will_renew' | 'canceled' | 'billing_issue';
+      };
+    };
+  }[]
+>;

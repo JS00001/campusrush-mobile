@@ -38,6 +38,7 @@ import useKeyboardListener from "@/hooks/useKeyboardListener";
 
 interface OptionSheetProps {
   placeholder: string;
+  searchable: boolean;
   value: string | null;
   options: string[];
   innerRef: React.RefObject<BottomSheetModal>;
@@ -47,6 +48,7 @@ interface OptionSheetProps {
 
 const OptionSheet: React.FC<OptionSheetProps> = ({
   placeholder,
+  searchable,
   value,
   options,
   innerRef,
@@ -90,11 +92,13 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
       <BottomSheetContainer style={containerStyles} disableScroll>
         <View style={tw`px-6 gap-3`}>
           <Text type="h1">{placeholder}</Text>
-          <TextInput
-            placeholder={inputPlaceholder}
-            value={search.query}
-            onChangeText={search.setQuery}
-          />
+          {searchable && (
+            <TextInput
+              placeholder={inputPlaceholder}
+              value={search.query}
+              onChangeText={search.setQuery}
+            />
+          )}
         </View>
 
         <FlatList

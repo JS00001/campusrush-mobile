@@ -6353,6 +6353,13 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.3.1.tgz#027422e2faec0b25e1549c3e1bd8309b9133b6e5"
   integrity sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==
 
+qonversion-sdk@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/qonversion-sdk/-/qonversion-sdk-1.0.5.tgz#96f1833f3b3fce412ce89aa3314a8f1d6185b6d7"
+  integrity sha512-V3I+Ct0ErbtQjzcCXbKm0pNwEyNzbTLm6mDdXVvsmcvY+ZPcsBjyVseKNYWaps5y5Is+d3hYDRVCHCg92H+O+A==
+  dependencies:
+    axios "^1.6.7"
+
 qrcode-terminal@0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/qrcode-terminal/-/qrcode-terminal-0.11.0.tgz#ffc6c28a2fc0bfb47052b47e23f4f446a5fbdb9e"
