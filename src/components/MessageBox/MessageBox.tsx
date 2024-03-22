@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View, Keyboard, TextInput as RNTextInput } from "react-native";
 import Animated, { useSharedValue, withTiming } from "react-native-reanimated";
 
@@ -67,7 +67,6 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
       const ANIMATION_DURATION = 200;
 
       animateMessageBox(1, ANIMATION_DURATION);
-      await waitFor(ANIMATION_DURATION);
 
       extensionPanelRef.current?.openPanel();
     }
@@ -140,6 +139,14 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
         suggestions={AppConstants.messagingKeywords}
       />
 
+      <ExtensionPanel
+        ref={extensionPanelRef}
+        visible={extensionsVisible}
+        setEvent={setEvent}
+        setVisible={setExtensionsVisible}
+        animateMessageBox={animateMessageBox}
+      />
+
       <Animated.View style={[containerClasses, { marginBottom: minHeight }]}>
         {event && <EventAttachment event={event} onPress={removeEvent} />}
 
@@ -168,14 +175,6 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
           />
         </View>
       </Animated.View>
-
-      <ExtensionPanel
-        ref={extensionPanelRef}
-        visible={extensionsVisible}
-        setEvent={setEvent}
-        setVisible={setExtensionsVisible}
-        animateMessageBox={animateMessageBox}
-      />
     </Walkthroughs.MessageBoxWalkthrough>
   );
 };

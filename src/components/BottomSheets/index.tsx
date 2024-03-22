@@ -15,7 +15,7 @@ import CreateEventSheet from "./CreateEvent";
 import CreatePnmSheet from "./CreatePnm";
 import EventSheet from "./Event";
 import PnmSheet from "./Pnm";
-import ChapterSheet from "./Chapter";
+import ChapterSheet from "./Chapter/index";
 import UpdatePnmSheet from "./UpdatePnm";
 import UpdateEventSheet from "./UpdateEvent";
 import PlanComparisonSheet from "./PlanComparison";

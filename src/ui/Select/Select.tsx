@@ -94,6 +94,7 @@ const Select: React.FC<SelectProps> = ({
       </View>
 
       <OptionSheet
+        searchable={!!searchable}
         innerRef={sheetRef}
         value={value}
         options={options}

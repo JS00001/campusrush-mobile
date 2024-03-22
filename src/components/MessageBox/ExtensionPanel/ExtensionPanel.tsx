@@ -20,11 +20,18 @@ import { EventCardLoader } from "./Extensions/Event/Card";
 import Tabs from "@/ui/Tabs";
 import tw from "@/lib/tailwind";
 import { useGetEvents } from "@/hooks/api/events";
-import KeyboardListener from "@/ui/KeyboardListener";
+import useKeyboardListener from "@/hooks/useKeyboardListener";
 import InfiniteHorizontaList from "@/components/InfiniteHorizontalList";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   ({ setVisible, setEvent, animateMessageBox }: ExtensionPanelProps, ref) => {
+    useKeyboardListener({
+      onKeyboardWillShow: () => {
+        closePanel();
+        animateMessageBox(0, 200);
+      },
+    });
+
     const [activeTab, setActiveTab] = useState(0);
 
     const eventsQuery = useGetEvents();
@@ -44,12 +51,6 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
       setVisible(false);
       bottomSheetRef.current?.close();
     };
-
-    const onKeyboardWillShow = () => {
-      closePanel();
-      animateMessageBox(0, 200);
-    };
-
     const onEventPress = (event: Event) => {
       setEvent(event);
     };
@@ -59,36 +60,34 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
     };
 
     return (
-      <KeyboardListener onKeyboardWillShow={onKeyboardWillShow}>
-        <BottomSheetModal
-          ref={bottomSheetRef}
-          index={0}
-          snapPoints={[328]}
-          enablePanDownToClose={false}
-          backgroundStyle={tw`rounded-none`}
-        >
-          <View style={tw`p-3 gap-4 flex-1 pb-20`}>
-            <Tabs
-              options={["Events", "Photos", "Videos"]}
-              currentIndex={activeTab}
-              disabledIndex={[1, 2]}
-              onChange={setActiveTab}
-            />
+      <BottomSheetModal
+        ref={bottomSheetRef}
+        index={0}
+        snapPoints={[328]}
+        enablePanDownToClose={false}
+        backgroundStyle={tw`rounded-none`}
+      >
+        <View style={tw`p-3 gap-4 flex-1 pb-20`}>
+          <Tabs
+            options={["Events", "Photos", "Videos"]}
+            currentIndex={activeTab}
+            disabledIndex={[1, 2]}
+            onChange={setActiveTab}
+          />
 
-            <InfiniteHorizontaList
-              data={eventsQuery.events}
-              loading={eventsQuery.isLoading}
-              onEndReached={onEndReached}
-              loadingComponent={<EventCardLoader />}
-              emptyListTitle="No Events Found"
-              emptyListSubtitle="Try creating a new event"
-              renderItem={({ item: event }) => (
-                <EventCard event={event} onPress={onEventPress} />
-              )}
-            />
-          </View>
-        </BottomSheetModal>
-      </KeyboardListener>
+          <InfiniteHorizontaList
+            data={eventsQuery.events}
+            loading={eventsQuery.isLoading}
+            onEndReached={onEndReached}
+            loadingComponent={<EventCardLoader />}
+            emptyListTitle="No Events Found"
+            emptyListSubtitle="Try creating a new event"
+            renderItem={({ item: event }) => (
+              <EventCard event={event} onPress={onEventPress} />
+            )}
+          />
+        </View>
+      </BottomSheetModal>
     );
   },
 );

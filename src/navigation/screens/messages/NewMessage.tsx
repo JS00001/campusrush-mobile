@@ -25,6 +25,7 @@ import { useSendMassMessage } from "@/hooks/api/messaging";
 import { Layout } from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
 import MassMessageHeader from "@/components/Headers/MassMessage";
+import { View } from "react-native";
 
 interface NewMessageProps {
   route: any;
@@ -85,15 +86,15 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
     setPnms((prev) => prev.filter((p) => p._id !== pnm._id));
   };
 
-  // TODO: When we first open the 'mass-message' screen, and do not click to focus the text input yet,
-  // The text input glitches out
   return (
     <Layout.Root>
       <Layout.CustomHeader>
         <MassMessageHeader pnms={pnms} onPnmRemove={onRemovePnm} />
       </Layout.CustomHeader>
 
-      <Layout.Content />
+      <Layout.Content>
+        <View />
+      </Layout.Content>
 
       <Layout.Footer keyboardAvoiding>
         <MessageBox onSend={onMessageSend} />

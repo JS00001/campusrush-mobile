@@ -312,3 +312,36 @@ interface GetAdminChapterRequest {
    */
   id: string;
 }
+
+interface GetAdminChapterEntitlementsRequest {
+  /**
+   * The ID of the chapter to retrieve entitlements
+   */
+  id: string;
+}
+
+interface GrantAdminChapterEntitlementRequest {
+  /**
+   * The ID of the chapter to grant entitlements
+   */
+  id: string;
+  /**
+   * The entitlement ID to grant
+   */
+  entitlementId: string;
+  /**
+   * When the grant should expire
+   */
+  expires: number;
+}
+
+interface RevokeAdminChapterEntitlementRequest {
+  /**
+   * The ID of the chapter to revoke entitlements
+   */
+  id: string;
+  /**
+   * The entitlement ID to revoke
+   */
+  entitlementId: string;
+}
