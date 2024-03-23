@@ -54,6 +54,7 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     (async () => {
       await checkEntitlements();
+
       setIsLoading(false);
     })();
   }, []);
