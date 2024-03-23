@@ -100,7 +100,7 @@ const UpdateBillingView = () => {
                 textStyle={tw`text-primary`}
                 onPress={onComparePlansPress}
               >
-                Compare Plans
+                View Features
               </Button>
             </View>
           </View>

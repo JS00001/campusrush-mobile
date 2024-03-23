@@ -22,7 +22,7 @@ import Icon, { IconType } from "@/ui/Icon";
 
 export type ButtonSize = "sm" | "lg";
 
-export type ButtonColor = "primary" | "secondary";
+export type ButtonColor = "primary" | "secondary" | "tertiary";
 
 interface ButtonProps extends TouchableOpacityProps {
   size?: ButtonSize;
@@ -46,6 +46,11 @@ const ButtonColors = {
   },
   secondary: {
     container: "bg-slate-100",
+    text: "text-primary",
+    icon: tw.color("primary"),
+  },
+  tertiary: {
+    container: "bg-slate-200",
     text: "text-primary",
     icon: tw.color("primary"),
   },

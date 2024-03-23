@@ -11,11 +11,10 @@
  */
 
 import { z } from "zod";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Toast from "react-native-toast-message";
 import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
-import Select from "@/ui/Select";
 import Button from "@/ui/Button";
 import useForm from "@/hooks/useForm";
 import ButtonGroup from "@/ui/ButtonGroup";
@@ -33,8 +32,6 @@ const ManageBilling: React.FC<ManageBillingProps> = ({
 }) => {
   const currentTime = new Date();
   const grantEntitlementMutation = useGrantAdminChapterEntitlement();
-
-  const [entitlement, setEntitlement] = useState<string | null>(null);
 
   const formValidators = {
     expires: z.any(),
@@ -67,7 +64,8 @@ const ManageBilling: React.FC<ManageBillingProps> = ({
 
     const data = {
       id: chapterId,
-      entitlementId: entitlement as string,
+      // TODO: This should be not hard coded technically
+      entitlementId: "pro",
       expires,
     };
 
@@ -96,14 +94,6 @@ const ManageBilling: React.FC<ManageBillingProps> = ({
 
   return (
     <>
-      <Select
-        searchable={false}
-        options={["Basic", "Pro"]}
-        placeholder="Entitlement"
-        value={entitlement}
-        onChange={setEntitlement}
-      />
-
       <DateTimePicker
         mode="datetime"
         label="Will Expire On"
@@ -120,11 +110,10 @@ const ManageBilling: React.FC<ManageBillingProps> = ({
 
         <Button
           size="sm"
-          disabled={!entitlement}
           loading={grantEntitlementMutation.isLoading}
           onPress={handleSubmission}
         >
-          Save
+          Grant Pro
         </Button>
       </ButtonGroup>
     </>

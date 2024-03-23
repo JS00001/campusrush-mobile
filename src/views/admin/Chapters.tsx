@@ -30,27 +30,11 @@ const ChaptersView = () => {
     filters: [
       {
         id: "ACTIVE_SUBSCRIPTIONS",
-        filterFn: (data) =>
-          data.filter((chapter) => chapter.entitlements.length > 0),
+        filterFn: (data) => data.filter((chapter) => chapter.isPro),
       },
       {
         id: "NO_SUBSCRIPTIONS",
-        filterFn: (data) =>
-          data.filter((chapter) => chapter.entitlements.length === 0),
-      },
-      {
-        id: "PRO_SUBSCRIPTIONS",
-        filterFn: (data) =>
-          data.filter((chapter) =>
-            chapter.entitlements.some((entitlement) => entitlement === "pro"),
-          ),
-      },
-      {
-        id: "BASIC_SUBSCRIPTIONS",
-        filterFn: (data) =>
-          data.filter((chapter) =>
-            chapter.entitlements.some((entitlement) => entitlement === "basic"),
-          ),
+        filterFn: (data) => data.filter((chapter) => !chapter.isPro),
       },
     ],
   });
@@ -79,20 +63,6 @@ const ChaptersView = () => {
       image: "xmark",
       state: search.filter === "NO_SUBSCRIPTIONS" ? "on" : "off",
       onPress: () => search.setFilter("NO_SUBSCRIPTIONS"),
-    },
-    {
-      id: "PRO_SUBSCRIPTIONS",
-      title: "Pro Subscriptions",
-      image: "checkmark",
-      state: search.filter === "PRO_SUBSCRIPTIONS" ? "on" : "off",
-      onPress: () => search.setFilter("PRO_SUBSCRIPTIONS"),
-    },
-    {
-      id: "BASIC_SUBSCRIPTIONS",
-      title: "Basic Subscriptions",
-      image: "checkmark",
-      state: search.filter === "BASIC_SUBSCRIPTIONS" ? "on" : "off",
-      onPress: () => search.setFilter("BASIC_SUBSCRIPTIONS"),
     },
   ];
 

@@ -10,7 +10,6 @@
  * Do not distribute
  */
 
-import { useMemo } from "react";
 import { View } from "react-native";
 
 import type { BottomSheetProps } from "./@types";
@@ -27,18 +26,6 @@ import BottomSheetContainer from "@/ui/BottomSheet/Container";
 const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   const entitlements = useEntitlementStore((state) => state.entitlements);
 
-  const packageDisplayNames = useMemo(() => {
-    const products = entitlements?.products;
-
-    if (!products) return [];
-
-    const displayNames = Object.values(products).map(
-      (product) => product.DISPLAY_NAME,
-    );
-
-    return displayNames;
-  }, [entitlements]);
-
   return (
     <BottomSheet
       innerRef={innerRef}
@@ -47,37 +34,13 @@ const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
           <Headline
             centerText
             style={tw`p-6`}
-            title="Plan Comparison"
+            title="Features"
             subtitle="CampusRush offers the best recruitment experience for greek chapters of all sizes."
           />
 
           <View style={tw`flex-1 w-full`}>
-            {/* The header row of the table */}
-            <FeatureRow
-              feature={{ name: "Feature", header: true }}
-              values={packageDisplayNames}
-            />
-
-            {Object.keys(entitlements?.productPerks || {}).map((perkKey, i) => {
-              // prettier-ignore
-              const perk = entitlements?.productPerks[perkKey as ProductPerkIds];
-
-              // prettier-ignore
-              const values = Object.keys(entitlements?.products || {}).map((productKey) => {
-                  const product = entitlements?.products[productKey as ProductId];
-                  return product?.ALL_PERKS?.[perkKey as ProductPerkIds] || false;
-                });
-
-              if (!perk) return null;
-
-              return (
-                <FeatureRow
-                  key={perkKey}
-                  index={i}
-                  feature={{ name: perk.name, description: perk.description }}
-                  values={values}
-                />
-              );
+            {(entitlements?.perks.all || []).map((perk, i) => {
+              return <FeatureRow key={i} index={i} feature={perk} />;
             })}
           </View>
         </BottomSheetContainer>
@@ -89,30 +52,23 @@ const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
 interface FeatureRowProps {
   index?: number;
   feature: {
-    name: string;
-    header?: boolean;
-    description?: string;
+    title: string;
+    description: string;
+    value: string | number | boolean;
   };
-  values: (boolean | string | number)[];
 }
 
-const FeatureRow: React.FC<FeatureRowProps> = ({
-  feature,
-  values,
-  index = 1,
-}) => {
-  const isEvenRow = index % 2 === 0;
+const FeatureRow: React.FC<FeatureRowProps> = ({ feature, index = 1 }) => {
+  const isOddRow = index % 2 === 1;
 
   const containerClasses = tw.style(
     `w-full p-4 flex-1 flex-row items-center`,
-    isEvenRow ? `bg-white` : "bg-slate-100",
+    isOddRow ? `bg-white` : "bg-slate-100",
     // Add a border bottom to all rows, add a border top to the header row
-    feature.header
+    index === 0
       ? `border-t border-b border-slate-200`
       : `border-b border-slate-200`,
   );
-
-  const featureNameTextType = feature.header ? "p2" : "p3";
 
   const booleanComponents = {
     true: (
@@ -131,30 +87,22 @@ const FeatureRow: React.FC<FeatureRowProps> = ({
         {feature.description && (
           <Information tooltip={feature.description} size="sm" />
         )}
-        <Text type={featureNameTextType} style={tw`text-slate-500 font-medium`}>
-          {feature.name}
+        <Text type="p3" style={tw`text-slate-500 font-medium`}>
+          {feature.title}
         </Text>
       </View>
 
-      {values.map((value, i) => {
-        // If the value is a boolean, show the boolean component
-        if (typeof value === "boolean") {
-          return (
-            <View key={i} style={tw`flex-1 items-center`}>
-              {booleanComponents[value.toString() as "true" | "false"]}
-            </View>
-          );
-        }
-
-        // If the value is a string or a number, show the value
-        return (
-          <View key={i} style={tw`flex-1 items-center`}>
-            <Text type={featureNameTextType} style={tw`text-center`}>
-              {value}
-            </Text>
-          </View>
-        );
-      })}
+      {typeof feature.value === "boolean" ? (
+        <View style={tw`flex-1 items-center`}>
+          {booleanComponents[feature.value.toString() as "true" | "false"]}
+        </View>
+      ) : (
+        <View style={tw`flex-1 items-center`}>
+          <Text type="p3" style={tw`text-center`}>
+            {feature.value}
+          </Text>
+        </View>
+      )}
     </View>
   );
 };

@@ -18,8 +18,6 @@ import Qonversion, { PurchaseModel } from "react-native-qonversion";
 import { createContext, useEffect, useState, useContext } from "react";
 
 interface IQonversionContext {
-  /** Whether or not the user has a pro subscription. */
-  isPro: boolean;
   /** Whether or not the Qonversion SDK is fetching its initial values. */
   isLoading: boolean;
   /** The ids of the active entitlements. */
@@ -127,15 +125,9 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  /**
-   * Whether or not the user has a pro subscription.
-   */
-  const isPro = entitlementIds.includes("pro");
-
   return (
     <QonversionContext.Provider
       value={{
-        isPro,
         isLoading,
         entitlements: entitlementState,
         entitlementIds,

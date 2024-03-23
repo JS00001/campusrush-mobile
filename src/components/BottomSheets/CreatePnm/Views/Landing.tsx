@@ -11,32 +11,15 @@
  */
 
 import { useModalStore } from "@/store";
-import { useQonversion } from "@/providers/Qonversion";
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
 import Headline from "@/ui/Headline";
-import Content from "@/constants/content";
 
-const Landing: React.FC<UseSheetFlowProps> = ({
-  nextView,
-  setView,
-  handleClose,
-}) => {
-  const { isPro } = useQonversion();
-  const { openModal } = useModalStore();
-
+const Landing: React.FC<UseSheetFlowProps> = ({ nextView, setView }) => {
   const onQrCodePress = () => {
-    if (isPro) {
-      setView(4);
-      return;
-    }
-
-    handleClose();
-    openModal("info", {
-      subtitle: Content.addPNM.shareQRCodeUpgrade,
-    });
+    setView(4);
   };
 
   return (
