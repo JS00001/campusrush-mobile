@@ -60,8 +60,8 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
       onPress: () => copy(chapter?.customerId || "", "Customer ID"),
     },
     {
-      id: "GRANT_ENTITLEMENTS",
-      title: "Grant Entitlements",
+      id: "GRANT_ENTITLEMENT",
+      title: "Grant Entitlement",
       image: "creditcard.fill",
       onPress: () => nextView(),
     },
@@ -126,7 +126,7 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
 
       <Headline
         title="Billing Information"
-        subtitle="Long press to revoke an entitlement"
+        subtitle="Long press to revoke entitlements"
       />
 
       {!entitlements.length && (
@@ -170,7 +170,11 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
               />
               <Detail.Item
                 title="Revokeable?"
-                value={entitlement.source === "manual" ? "Yes" : "No"}
+                value={
+                  entitlement.source === "manual"
+                    ? "Yes"
+                    : "No, Not Manually Granted"
+                }
               />
             </Detail.View>
           </Menu>

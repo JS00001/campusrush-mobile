@@ -27,7 +27,7 @@ interface Chapter {
   phoneNumberCreatedAt: Date;
 
   customerId: string;
-  entitlements: string[];
+  isPro: boolean;
 
   notificationsEnabled: boolean;
 

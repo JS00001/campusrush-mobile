@@ -10,89 +10,57 @@
  * Do not distribute
  */
 
-type Entitlement = 'basic' | 'pro';
-
-type ProductId = 'basicsubscription1' | 'prosubscription1';
-
-type ProductPerkIds =
-  | 'max_pnm_count'
-  | 'mass_message_cooldown'
-  | 'custom_phone_number'
-  | 'favorite_pnm'
-  | 'pnm_statistics'
-  | 'unlimited_individual_messages'
-  | 'mass_message'
-  | 'mass_message_uncontacted'
-  | 'mass_message_favorites'
-  | 'add_pnm_manually'
-  | 'add_pnm_from_qr';
-
 interface EntitlementDetails {
-  productPerks: {
-    [key in ProductPerkIds]: {
+  /**
+   * The configurable limits of CampusRush pro
+   */
+  limits: {
+    /**
+     * The maximum number of PNMs that a user can have.
+     */
+    maxPnmCount: number;
+    /**
+     * The cooldown for sending a mass message (any message to more than 1 PNM)
+     */
+    massMessageCooldown: number;
+  };
+  /**
+   * The perks of CampusRush pro (for display on the paywall)
+   */
+  perks: {
+    /**
+     * Directly on the paywall
+     */
+    featured: {
       /**
-       * The name of the perk.
+       * The title of the feature
        */
-      name: string;
+      title: string;
       /**
-       * A description of the perk.
+       * The description of the feature
        */
       description: string;
       /**
-       * Whether or not the perk is active or coming soon.
+       * The icon name, MUST BE a remix icon (not including the ri- prefix)
        */
-      active: boolean;
-    };
-  };
-  products: {
-    [key in ProductId]: {
+      icon: string;
+    }[];
+    /**
+     * When 'View All Perks' is clicked
+     */
+    all: {
       /**
-       * The display name of the plan.
+       * The title of the feature
        */
-      DISPLAY_NAME: string;
+      title: string;
       /**
-       * A list of all the perks and the access that this plan has to them.
+       * The description of the feature
        */
-      ALL_PERKS: {
-        [key in ProductPerkIds]: boolean | number | string;
-      };
+      description: string;
       /**
-       * A string list of featured perks that the plan has.
+       * The value of the feature
        */
-      FEATURED_PERKS: {
-        /**
-         * The name of the perk.
-         */
-        name: string;
-        /**
-         * A description of the perk.
-         */
-        description: string;
-        /**
-         * Whether or not the perk is active or coming soon.
-         */
-        active: boolean;
-      }[];
-    };
-  };
-  entitlements: {
-    [key in Entitlement]: {
-      /**
-       * The weight of the plan. This determines if the user can upgrade to a higher plan.
-       */
-      WEIGHT: number;
-      /**
-       * The maximum number of PNM's that a user can have.
-       */
-      MAX_PNM_COUNT: number;
-      /**
-       * The cooldown for sending a mass message (any message to more than 1 PNM)
-       */
-      MASS_MESSAGE_COOLDOWN: number;
-      /**
-       * A list of elements that are paywalled for this plan.
-       */
-      PAYWALLED_ELEMENTS: string[];
-    };
+      value: string | number | boolean;
+    }[];
   };
 }

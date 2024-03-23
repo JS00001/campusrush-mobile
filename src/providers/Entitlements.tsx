@@ -32,7 +32,7 @@ const EntitlementsProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (!query.data || "error" in query.data) return;
 
-    if (query.data.data.entitlements) {
+    if (query.data.data) {
       setEntitlements(query.data.data);
     }
   }, [query.data]);

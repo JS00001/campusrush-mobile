@@ -90,33 +90,8 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
         return;
       }
 
-      /** 403 - MISSING_ENTITLEMENT */
-      if (data.message === "MISSING_ENTITLEMENT") {
-        openModal("warning", {
-          title: Content.missingEntitlementError.message,
-          primaryActionLabel: Content.missingEntitlementError.primaryButton,
-          secondaryActionLabel: Content.missingEntitlementError.secondaryButton,
-        });
-        return;
-      }
-
-      /** 403 - UPGRADABLE_ENTITLEMENT_LIMIT_REACHED */
-      if (data.message === "UPGRADABLE_ENTITLEMENT_LIMIT_REACHED") {
-        openModal("info", {
-          title: "Upgrade for more",
-          subtitle: data.humanMessage,
-          primaryActionLabel: "Upgrade",
-          onPrimaryAction: () =>
-            (navigation.navigate as any)("HomeTab", {
-              screen: "UpdateBilling",
-              initial: false,
-            }),
-        });
-        return;
-      }
-
       /** 403 - MAXIMUM_ENTITLEMENT_LIMIT_REACHED */
-      if (data.message === "MAXIMUM_ENTITLEMENT_LIMIT_REACHED") {
+      if (data.message === "ENTITLEMENT_LIMIT_REACHED") {
         openModal("warning", {
           title: "Limit Reached",
           subtitle: data.humanMessage,

@@ -17,20 +17,15 @@ import { useNavigation } from "@react-navigation/native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
-import { useModalStore } from "@/store";
 import Content from "@/constants/content";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import HeadlineLoader from "@/ui/Loaders/Headline";
 
-import { useQonversion } from "@/providers/Qonversion";
 import { useGetContacts } from "@/hooks/api/messaging";
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
-  const { isPro } = useQonversion();
   const navigation = useNavigation();
-
-  const openModal = useModalStore((state) => state.openModal);
   const { all, starred, uncontacted, isLoading } = useGetContacts();
 
   /**
@@ -82,34 +77,14 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
    * When the user presses the message favorites button (option 3)
    */
   const onMessageFavoritesPress = () => {
-    if (isPro) {
-      onMassMessage(starred, Content.newMessage.noFavoritedPNMs);
-      return;
-    }
-
-    openModal("info", {
-      title: "Upgrade for more",
-      subtitle: Content.newMessage.favoritedPNMsUpgrade,
-    });
-
-    handleClose();
+    onMassMessage(starred, Content.newMessage.noFavoritedPNMs);
   };
 
   /**
    * When the user presses the message uncontacted button (option 4)
    */
   const onMessageUncontactedPress = () => {
-    if (isPro) {
-      onMassMessage(uncontacted, Content.newMessage.noUncontactedPNMs);
-      return;
-    }
-
-    openModal("info", {
-      title: "Upgrade for more",
-      subtitle: Content.newMessage.uncontactedPNMsUpgrade,
-    });
-
-    handleClose();
+    onMassMessage(uncontacted, Content.newMessage.noUncontactedPNMs);
   };
 
   if (isLoading) return <LoadingState />;
