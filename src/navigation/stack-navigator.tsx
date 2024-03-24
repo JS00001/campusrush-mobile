@@ -22,13 +22,10 @@ import ActionButtonScreen from "@/navigation/screens/admin/UIComponents/ActionBu
 import BadgeScreen from "@/navigation/screens/admin/UIComponents/Badge";
 import ButtonScreen from "@/navigation/screens/admin/UIComponents/Button";
 import ButtonGroupScreen from "@/navigation/screens/admin/UIComponents/ButtonGroup";
-import ChapterScreen from "@/navigation/screens/admin/UIComponents/Chapter";
-import ConversationScreen from "@/navigation/screens/admin/UIComponents/Conversation";
 import CopyActionScreen from "@/navigation/screens/admin/UIComponents/CopyAction";
 import CopyViewScreen from "@/navigation/screens/admin/UIComponents/CopyView";
 import DateTimePickerScreen from "@/navigation/screens/admin/UIComponents/DateTimePicker";
 import DetailViewScreen from "@/navigation/screens/admin/UIComponents/DetailView";
-import EventScreen from "@/navigation/screens/admin/UIComponents/Event";
 import FormFieldScreen from "@/navigation/screens/admin/UIComponents/FormField";
 import HeadlineScreen from "@/navigation/screens/admin/UIComponents/Headline";
 import HyperlinkScreen from "@/navigation/screens/admin/UIComponents/Hyperlink";
@@ -46,6 +43,7 @@ import SelectScreen from "@/navigation/screens/admin/UIComponents/Select";
 import SelectionCardScreen from "@/navigation/screens/admin/UIComponents/SelectionCard";
 import SkeletonScreen from "@/navigation/screens/admin/UIComponents/Skeleton";
 import SwipeableScreen from "@/navigation/screens/admin/UIComponents/Swipeable";
+import SwitchScreen from "@/navigation/screens/admin/UIComponents/Switch";
 import TabsScreen from "@/navigation/screens/admin/UIComponents/Tabs";
 import TextScreen from "@/navigation/screens/admin/UIComponents/Text";
 import TextInputScreen from "@/navigation/screens/admin/UIComponents/TextInput";
@@ -328,14 +326,6 @@ export const AdminStack = () => {
         component={ButtonGroupScreen}
       />
       <Stack.Screen
-        name="UIChapter"
-        component={ChapterScreen}
-      />
-      <Stack.Screen
-        name="UIConversation"
-        component={ConversationScreen}
-      />
-      <Stack.Screen
         name="UICopyAction"
         component={CopyActionScreen}
       />
@@ -350,10 +340,6 @@ export const AdminStack = () => {
       <Stack.Screen
         name="UIDetailView"
         component={DetailViewScreen}
-      />
-      <Stack.Screen
-        name="UIEvent"
-        component={EventScreen}
       />
       <Stack.Screen
         name="UIFormField"
@@ -422,6 +408,10 @@ export const AdminStack = () => {
       <Stack.Screen
         name="UISwipeable"
         component={SwipeableScreen}
+      />
+      <Stack.Screen
+        name="UISwitch"
+        component={SwitchScreen}
       />
       <Stack.Screen
         name="UITabs"
