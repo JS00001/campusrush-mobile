@@ -31,12 +31,13 @@ const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
       innerRef={innerRef}
       children={() => (
         <BottomSheetContainer style={tw`px-0`}>
-          <Headline
-            centerText
-            style={tw`p-6`}
-            title="Features"
-            subtitle="CampusRush offers the best recruitment experience for greek chapters of all sizes."
-          />
+          <View style={tw`items-center p-6 gap-y-1`}>
+            <Text type="h1">Features</Text>
+            <Text type="p1">
+              CampusRush offers the best recruitment experience for greek
+              chapters of all sizes.
+            </Text>
+          </View>
 
           <View style={tw`flex-1 w-full`}>
             {(entitlements?.perks.all || []).map((perk, i) => {

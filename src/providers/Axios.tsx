@@ -12,7 +12,6 @@
 
 import { useEffect } from "react";
 import Toast from "react-native-toast-message";
-import { useNavigation } from "@react-navigation/native";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 import AppConstants from "@/constants";
@@ -29,7 +28,6 @@ const axiosClient = axios.create({
 });
 
 const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
-  const navigation = useNavigation();
   const { openModal } = useModalStore();
   const { accessToken, clear } = useAuth();
 
@@ -59,56 +57,69 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
      * handle known API errors here, and pass the rejections down
      */
     const responseErrorInterceptor = (error: AxiosError) => {
-      const data = (error.response?.data as API.ErrorResponse).error;
+      const responseData = error.response?.data as API.ErrorResponse;
+      const errorDetails = (error.response?.data as API.ErrorResponse).error;
+
+      /**
+       * If we *successfully* handle a common error, we want to return the
+       * response. This is so we dont have to use catch blocks in every
+       * API call. Instead, we can add a check for errors:
+       * if ('error' in response) return;
+       */
+      const errorHandledResponse = {
+        data: responseData,
+      };
 
       /** 429 - RATE_LIMIT_EXCEEDED */
-      if (data.message === "RATE_LIMIT_EXCEEDED") {
+      if (errorDetails.message === "RATE_LIMIT_EXCEEDED") {
         Toast.show({
           type: "error",
           text1: Content.rateLimitError.title,
           text2: Content.rateLimitError.message,
         });
 
-        return;
+        return Promise.resolve(errorHandledResponse);
       }
 
       /** 401 - EXPIRED_TOKEN */
-      if (data.message === "EXPIRED_TOKEN") {
+      if (errorDetails.message === "EXPIRED_TOKEN") {
         // TODO: Add retry logic
-        return;
+        return Promise.resolve(errorHandledResponse);
       }
 
       /** 401 - UNAUTHORIZED */
-      if (data.message === "UNAUTHORIZED") {
+      if (errorDetails.message === "UNAUTHORIZED") {
         clear();
-        return;
+
+        return Promise.resolve(errorHandledResponse);
       }
 
       /** 403 - NO_ENTITLEMENTS */
-      if (data.message === "NO_ENTITLEMENTS") {
+      if (errorDetails.message === "NO_ENTITLEMENTS") {
         // TODO: manage this error
-        return;
+        return Promise.resolve(errorHandledResponse);
       }
 
       /** 403 - MAXIMUM_ENTITLEMENT_LIMIT_REACHED */
-      if (data.message === "ENTITLEMENT_LIMIT_REACHED") {
+      if (errorDetails.message === "ENTITLEMENT_LIMIT_REACHED") {
         openModal("warning", {
           title: "Limit Reached",
-          subtitle: data.humanMessage,
+          subtitle: errorDetails.humanMessage,
           primaryActionLabel: "Go Back",
         });
-        return;
+
+        return Promise.resolve(errorHandledResponse);
       }
 
       /** ANY STATUS CODE - If there is NO 'field' key, we need to display the error in a toast */
-      if (!data.field) {
+      if (!errorDetails.field) {
         Toast.show({
           type: "error",
           text1: "An error occurred",
-          text2: data.humanMessage,
+          text2: errorDetails.humanMessage,
         });
 
-        return;
+        return Promise.resolve(errorHandledResponse);
       }
 
       return Promise.reject(error);
