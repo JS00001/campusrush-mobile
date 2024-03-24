@@ -33,7 +33,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
 
   return (
     <TouchableOpacity style={containerStyles} {...props}>
-      <Icon name={icon} color="white" size={24} />
+      <Icon name={icon} color="white" size={28} />
     </TouchableOpacity>
   );
 };
