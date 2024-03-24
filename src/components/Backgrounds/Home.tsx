@@ -12,19 +12,18 @@
 
 import { View } from "react-native";
 
+import HeaderBackground from "./Header";
+
 import tw from "@/lib/tailwind";
-import HeaderSvg from "@/assets/HeaderSvg";
 
-interface HomeHeaderSvgProps {}
-
-const HomeHeaderSvg: React.FC<HomeHeaderSvgProps> = () => {
+const HomeBackground = () => {
   return (
     <View style={tw`absolute w-full h-full`}>
-      <HeaderSvg />
+      <HeaderBackground />
 
       <View style={tw`bg-white absolute h-48 z-10 w-full bottom-0`} />
     </View>
   );
 };
 
-export default HomeHeaderSvg;
+export default HomeBackground;

@@ -14,11 +14,10 @@ import { View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import tw from "@/lib/tailwind";
-import { Layout } from "@/ui/Layout";
 import Button from "@/ui/Button";
+import { Layout } from "@/ui/Layout";
 import Typewriter from "@/ui/Typewriter";
-import Logo64Svg from "@/assets/Logo64Svg";
-import LandingSvg from "@/assets/LandingSvg";
+import Logo64 from "@/components/Logos/Logo64";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 interface LandingProps {
@@ -41,7 +40,7 @@ const Landing: React.FC<LandingProps> = ({ navigation }) => {
         contentContainerStyle={tw`justify-between h-full`}
       >
         <View style={tw`items-center gap-y-10 justify-center flex-1`}>
-          <Logo64Svg />
+          <Logo64 />
           <Typewriter delay={20} type="h1" style={tw`text-white text-center`}>
             Elevate Recruitment With CampusRush
           </Typewriter>

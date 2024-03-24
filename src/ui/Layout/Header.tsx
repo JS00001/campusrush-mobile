@@ -17,7 +17,7 @@ import Text from "@/ui/Text";
 import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
 import IconButton from "@/ui/IconButton";
-import HeaderSvg from "@/assets/HeaderSvg";
+import HeaderBackground from "@/components/Backgrounds/Header";
 
 interface HeaderProps {
   title: string;
@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({
     <>
       {/* Background Circles */}
       <View style={tw`absolute w-full h-full`}>
-        <HeaderSvg />
+        <HeaderBackground />
       </View>
 
       {/* Header Content */}

@@ -1,20 +1,18 @@
 /*
- * Created on Thu Aug 10 2023
+ * Created on Sun Mar 24 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
  * of this software, in whole or in part, is strictly prohibited.
  * For licensing information contact CampusRush.
  *
- * Copyright (c) 2023 CampusRush
+ * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
 
 import Svg, { Path, Defs, LinearGradient, Stop } from "react-native-svg";
 
-interface Logo64SvgProps {}
-
-const Logo64Svg: React.FC<Logo64SvgProps> = () => {
+const Logo64 = () => {
   return (
     <Svg width={107} height={64} fill="none">
       <Path
@@ -48,4 +46,4 @@ const Logo64Svg: React.FC<Logo64SvgProps> = () => {
   );
 };
 
-export default Logo64Svg;
+export default Logo64;

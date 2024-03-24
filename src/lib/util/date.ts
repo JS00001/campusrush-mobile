@@ -10,6 +10,9 @@
  * Do not distribute
  */
 
+// TODO: Make these use export const rather than default exports,
+// All other util files use export const
+
 /**
  * Convert a date to a string in the format "time ago"
  */
