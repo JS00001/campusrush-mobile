@@ -11,6 +11,29 @@
  */
 
 import { Layout } from "@/ui/Layout";
+import DateTimePicker from "@/ui/DateTimePicker";
+import { Documentation } from "@/components/Documentation";
+
+const options = [
+  [
+    {
+      title: "Mode",
+      value: "date",
+    },
+  ],
+  [
+    {
+      title: "Mode",
+      value: "time",
+    },
+  ],
+  [
+    {
+      title: "Mode",
+      value: "datetime",
+    },
+  ],
+];
 
 const DateTimePickerScreen = () => {
   return (
@@ -21,7 +44,17 @@ const DateTimePickerScreen = () => {
         subtitle="A date and time picker for user input"
       />
 
-      <Layout.Content></Layout.Content>
+      <Layout.Content scrollable gap={16}>
+        {options.map((option, index) => (
+          <Documentation.Section key={index} options={option}>
+            <DateTimePicker
+              value={new Date()}
+              label={"Date Picker"}
+              mode={option[0].value as any}
+            />
+          </Documentation.Section>
+        ))}
+      </Layout.Content>
     </Layout.Root>
   );
 };

@@ -25,6 +25,14 @@ const ButtonGroupScreen = () => {
       />
 
       <Layout.Content scrollable gap={16}>
+        <Documentation.Section options={[{ title: "Button Count", value: 1 }]}>
+          <ButtonGroup>
+            <Button size="sm" color="primary">
+              Button 1
+            </Button>
+          </ButtonGroup>
+        </Documentation.Section>
+
         <Documentation.Section options={[{ title: "Button Count", value: 2 }]}>
           <ButtonGroup>
             <Button size="sm" color="secondary">
@@ -32,6 +40,20 @@ const ButtonGroupScreen = () => {
             </Button>
             <Button size="sm" color="primary">
               Button 2
+            </Button>
+          </ButtonGroup>
+        </Documentation.Section>
+
+        <Documentation.Section options={[{ title: "Button Count", value: 3 }]}>
+          <ButtonGroup>
+            <Button size="sm" color="secondary">
+              Button 1
+            </Button>
+            <Button size="sm" color="primary">
+              Button 2
+            </Button>
+            <Button size="sm" color="secondary">
+              Button 3
             </Button>
           </ButtonGroup>
         </Documentation.Section>

@@ -19,6 +19,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface DateTimePickerProps extends RNDateTimePickerProps {
+  mode: "date" | "time" | "datetime";
   label: string;
   error?: string;
 }
@@ -42,7 +43,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     error && "text-red",
   );
 
-  const datePickerStyles = tw.style("-mx-28 w-full", {
+  const datePickerStyles = tw.style("w-full items-start -mx-6", {
     transform: [{ scale: 0.8 }],
   });
 

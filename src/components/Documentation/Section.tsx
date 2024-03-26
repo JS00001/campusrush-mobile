@@ -25,7 +25,7 @@ interface SectionProps {
 
 const Section: React.FC<SectionProps> = ({ options, children }) => {
   return (
-    <View style={tw`border-b border-slate-200 pb-4 gap-y-2`}>
+    <View style={tw`border-b border-slate-200 pb-4 gap-y-2 w-full`}>
       {options.map((option, index) => (
         <View style={tw`flex-row justify-between w-full`} key={index}>
           <Text type="p2">{option.title}</Text>

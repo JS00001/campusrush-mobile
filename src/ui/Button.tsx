@@ -71,7 +71,6 @@ const ButtonSizes = {
     icon: 20,
   },
 };
-
 const Button: React.FC<ButtonProps> = ({
   size = "lg",
   color = "primary",
