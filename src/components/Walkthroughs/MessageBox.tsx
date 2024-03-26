@@ -27,7 +27,9 @@ const MessageBoxWalkthrough: React.FC<MessageBoxWalkthroughProps> = ({
   onClose,
 }) => {
   const content = (
-    <Text style={tw`text-white`}>Use "@" to view text replacements</Text>
+    <Text style={tw`text-white text-center`}>
+      Use "@" to view text replacements
+    </Text>
   );
 
   return (
@@ -38,8 +40,7 @@ const MessageBoxWalkthrough: React.FC<MessageBoxWalkthroughProps> = ({
       content={content}
       isVisible={isVisible}
       backgroundColor="transparent"
-      allowChildInteraction={false}
-      contentStyle={tw`rounded-lg p-2 bg-gray-800 w-64 items-center`}
+      contentStyle={tw`rounded-lg bg-gray-800 h-10 `}
     >
       {children}
     </Tooltip>
