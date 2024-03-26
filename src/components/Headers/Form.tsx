@@ -30,15 +30,11 @@ const FormHeader: React.FC<FormHeaderProps> = ({ onCancel, onSave, style }) => {
   return (
     <View style={containerStyles}>
       <TouchableOpacity onPress={onCancel}>
-        <Text type="p3" style={tw`text-primary`}>
-          Cancel
-        </Text>
+        <Text style={tw`text-primary`}>Cancel</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={onSave}>
-        <Text type="p3" style={tw`text-blue-600`}>
-          Save
-        </Text>
+        <Text style={tw`text-blue-600`}>Save</Text>
       </TouchableOpacity>
     </View>
   );
