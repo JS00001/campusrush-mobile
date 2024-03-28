@@ -55,3 +55,5 @@ const Tooltip: React.FC<TooltipProps> = ({
     </RNTooltip>
   );
 };
+
+export default Tooltip;

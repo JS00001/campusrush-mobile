@@ -10,14 +10,13 @@
  * Do not distribute
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { View, Keyboard, TextInput as RNTextInput } from "react-native";
 import Animated, { useSharedValue, withTiming } from "react-native-reanimated";
 
 import TextInput from "./TextInput";
 import ExtensionPanel from "./ExtensionPanel";
 import TextSuggestions from "./TextSuggestions";
-
 import EventAttachment from "./ExtensionPanel/Extensions/Event/Attachment";
 
 import tw from "@/lib/tailwind";
