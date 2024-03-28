@@ -17,10 +17,11 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";
 import ListItem from "@/ui/ListItem";
+import FlatList from "@/ui/FlatList";
 import IconButton from "@/ui/IconButton";
 import { useAuth } from "@/providers/Auth";
-import RecentPnms from "@/components/RecentPnms";
 import ListItemLoader from "@/ui/Loaders/ListItem";
+import { formatPhoneNumber } from "@/lib/util/string";
 import { useBottomSheets } from "@/providers/BottomSheet";
 import { useGetChapterStatistics } from "@/hooks/api/chapter";
 
@@ -103,9 +104,22 @@ const HomeView = () => {
 
         {/* Recently Added PNMs */}
         <Text type="h2">Recently Added PNMs</Text>
-        <RecentPnms
-          pnms={statisticsQuery.recentPnms}
-          onPress={onRecentPnmPress}
+
+        <FlatList
+          data={statisticsQuery.recentPnms}
+          loading={statisticsQuery.isLoading}
+          emptyListTitle="No Recent PNMs"
+          emptyListSubtitle="Add a new PNM to get started"
+          renderItem={({ item: pnm }) => (
+            <ListItem
+              key={pnm._id}
+              iconColor={tw.color("yellow")}
+              icon={pnm.starred ? "star-fill" : undefined}
+              title={`${pnm.firstName} ${pnm.lastName}`}
+              subtitle={formatPhoneNumber(pnm.phoneNumber)}
+              onPress={onRecentPnmPress.bind(null, pnm)}
+            />
+          )}
         />
       </View>
     </>

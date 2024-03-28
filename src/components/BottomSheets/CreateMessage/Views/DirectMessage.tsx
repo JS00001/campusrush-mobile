@@ -18,8 +18,10 @@ import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import FlatList from "@/ui/FlatList";
+import ListItem from "@/ui/ListItem";
 import TextInput from "@/ui/TextInput";
-import RecentPnms from "@/components/RecentPnms";
+import { formatPhoneNumber } from "@/lib/util/string";
 import { useGetContacts } from "@/hooks/api/messaging";
 
 const DirectMessage: React.FC<UseSheetFlowProps> = ({
@@ -27,8 +29,12 @@ const DirectMessage: React.FC<UseSheetFlowProps> = ({
   handleSnapToPosition,
 }) => {
   const navigation = useNavigation();
-  const { all, isLoading } = useGetContacts();
-  const search = useSearch({ data: all });
+  const { all, suggested, isLoading } = useGetContacts();
+
+  const search = useSearch({
+    data: all,
+    fields: ["firstName", "lastName", "phoneNumber"],
+  });
 
   const onPnmPress = (pnm: PNM) => {
     (navigation.navigate as any)("Chat", {
@@ -39,6 +45,8 @@ const DirectMessage: React.FC<UseSheetFlowProps> = ({
   };
 
   const directMessageHeader = search.query ? "Results" : "Suggested Contacts";
+
+  const pnms = search.query ? search.data : suggested;
 
   return (
     <View style={tw`gap-y-4 flex-1`}>
@@ -60,10 +68,22 @@ const DirectMessage: React.FC<UseSheetFlowProps> = ({
 
       <View style={tw`gap-y-3 flex-1`}>
         <Text type="p3">{directMessageHeader}</Text>
-        <RecentPnms
-          pnms={search.data}
+
+        <FlatList
+          data={pnms}
           loading={isLoading}
-          onPress={onPnmPress}
+          emptyListTitle="No Contacts Found"
+          emptyListSubtitle="Start by adding a new PNM"
+          renderItem={({ item: pnm }) => (
+            <ListItem
+              key={pnm._id}
+              iconColor={tw.color("yellow")}
+              icon={pnm.starred ? "star-fill" : undefined}
+              title={`${pnm.firstName} ${pnm.lastName}`}
+              subtitle={formatPhoneNumber(pnm.phoneNumber)}
+              onPress={onPnmPress.bind(null, pnm)}
+            />
+          )}
         />
       </View>
     </View>
