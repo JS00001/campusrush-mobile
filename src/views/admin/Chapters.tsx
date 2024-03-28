@@ -70,7 +70,7 @@ const ChaptersView = () => {
     await getAdminChaptersQuery.refetch();
   };
 
-  const inputPlaceholder = `Search ${search.data.length || 0} chapters`;
+  const inputPlaceholder = `Search ${search.data.length || ""} chapters`;
 
   return (
     <>

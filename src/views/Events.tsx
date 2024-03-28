@@ -110,21 +110,7 @@ const EventsView = () => {
     },
   ];
 
-  const placeholder = `Search ${eventsQuery.events.length || 0} Events`;
-
-  const onDeleteEvent = async (event: Event) => {
-    const res = await deleteEventMutation.mutateAsync({ id: event._id });
-
-    if ("error" in res) return;
-
-    await eventsQuery.refetch();
-
-    Toast.show({
-      type: "success",
-      text1: "Deleted Event",
-      text2: `${event.title} has been deleted`,
-    });
-  };
+  const placeholder = `Search ${eventsQuery.events.length || ""} Events`;
 
   const onNewEventPress = () => {
     openBottomSheet("CREATE_EVENT");

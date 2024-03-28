@@ -44,6 +44,8 @@ const DirectMessage: React.FC<UseSheetFlowProps> = ({
     handleClose();
   };
 
+  const placeholder = `Search ${all.length || ""} contacts`;
+
   const directMessageHeader = search.query ? "Results" : "Suggested Contacts";
 
   const pnms = search.query ? search.data : suggested;
@@ -58,8 +60,8 @@ const DirectMessage: React.FC<UseSheetFlowProps> = ({
       <TextInput
         autoCorrect={false}
         icon="search-line"
-        placeholder="Search"
         value={search.query}
+        placeholder={placeholder}
         onChangeText={search.setQuery}
         onFocus={() => {
           handleSnapToPosition?.("95%");

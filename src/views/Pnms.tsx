@@ -99,7 +99,7 @@ const PnmsView = () => {
     },
   ];
 
-  const placeholder = `Search ${pnmsQuery.pnms.length || 0} PNMs`;
+  const placeholder = `Search ${pnmsQuery.pnms.length || ""} PNMs`;
 
   const onRefetch = async () => {
     await pnmsQuery.refetch();

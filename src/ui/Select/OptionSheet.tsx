@@ -83,7 +83,7 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
     handleCloseSheet();
   };
 
-  const inputPlaceholder = `Search ${options.length} options`;
+  const inputPlaceholder = `Search ${options.length || ""} options`;
 
   const containerStyles = tw.style("px-0 gap-3");
 
