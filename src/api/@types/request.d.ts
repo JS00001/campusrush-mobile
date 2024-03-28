@@ -228,13 +228,6 @@ interface DeletePnmRequest {
   id: string;
 }
 
-interface GetEventsRequest {
-  /**
-   * Offset for retrieving events
-   */
-  offset: number;
-}
-
 interface CreateEventRequest {
   /**
    * Title of the event to be created

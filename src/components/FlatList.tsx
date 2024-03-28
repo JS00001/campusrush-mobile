@@ -10,15 +10,15 @@
  * Do not distribute
  */
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
+import { FlatList as RNFlatList } from "react-native";
 
 import tw from "@/lib/tailwind";
 import Headline from "@/ui/Headline";
-import { Infinite } from "@/ui/InfiniteScroll";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import DeleteSwipable from "@/ui/Swipeable/Delete";
 
-interface InfiniteListProps<T> {
+interface FlatListProps<T> {
   data: T[];
   loading: boolean;
 
@@ -28,14 +28,13 @@ interface InfiniteListProps<T> {
   emptyListSubtitle?: string;
 
   onRefresh: () => Promise<void>;
-  onEndReached: () => Promise<void>;
   renderItem: ({ item }: { item: T }) => React.ReactElement;
 
   elementsDeletable?: boolean;
   onDeleteElement?: (item: T) => void;
 }
 
-const InfiniteList = <T,>({
+const FlatList = <T,>({
   data,
   loading,
   loadingComponent,
@@ -43,10 +42,11 @@ const InfiniteList = <T,>({
   emptyListTitle,
   emptyListSubtitle,
   onRefresh,
-  onEndReached,
   renderItem,
   onDeleteElement,
-}: InfiniteListProps<T>) => {
+}: FlatListProps<T>) => {
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
   const LoadingComponent = useMemo(() => {
     const Component = loadingComponent || <ListItemLoader />;
 
@@ -110,11 +110,19 @@ const InfiniteList = <T,>({
     return renderItem({ item });
   };
 
+  const handleRefresh = async () => {
+    if (isRefreshing) return;
+
+    setIsRefreshing(true);
+    await onRefresh();
+    setIsRefreshing(false);
+  };
+
   return (
-    <Infinite.Scroll
+    <RNFlatList
       data={data}
-      onRefresh={onRefresh}
-      onEndReached={onEndReached}
+      onRefresh={handleRefresh}
+      refreshing={isRefreshing}
       renderItem={renderItemWithActions}
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={ListEmptyComponent}
@@ -123,4 +131,4 @@ const InfiniteList = <T,>({
   );
 };
 
-export default InfiniteList;
+export default FlatList;

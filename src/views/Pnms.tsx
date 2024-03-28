@@ -31,6 +31,7 @@ const PnmsView = () => {
 
   const search = useSearch({
     data: pnmsQuery.pnms,
+    fields: ["firstName", "lastName", "phoneNumber"],
     filters: [
       {
         id: "STARRED",
