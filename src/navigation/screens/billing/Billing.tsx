@@ -13,6 +13,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SafeAreaView, View } from "react-native";
+import { usePostHog } from "posthog-react-native";
 import Qonversion, { PurchaseModel } from "react-native-qonversion";
 
 import Text from "@/ui/Text";
@@ -30,6 +31,7 @@ import { useBottomSheets } from "@/providers/BottomSheet";
 import HeaderBackground from "@/components/Backgrounds/Header";
 
 const BillingScreen = () => {
+  const posthog = usePostHog();
   const logoutMutation = useLogout();
   const { chapter, clear } = useAuth();
   const { openBottomSheet } = useBottomSheets();
@@ -123,6 +125,11 @@ const BillingScreen = () => {
    * When the feature button is pressed, open the plan comparison bottom sheet
    */
   const onFeaturePress = () => {
+    posthog?.capture("compare_plans_button_pressed", {
+      chapter_name: chapter.name,
+      chapter_email: chapter.email,
+    });
+
     openBottomSheet("PLAN_COMPARISON");
   };
 

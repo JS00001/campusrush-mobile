@@ -13,13 +13,20 @@
 import { PostHogProvider } from "posthog-react-native";
 
 import AppConstants from "@/constants";
+import { useAuth } from "@/providers/Auth";
 
 interface PosthogProviderProps {
   children: React.ReactNode;
 }
 
 const PosthogProvider: React.FC<PosthogProviderProps> = ({ children }) => {
-  if (!AppConstants.isProduction) return <>{children}</>;
+  const { chapter } = useAuth();
+
+  // Do not track admin events
+  if (chapter?.role === "admin") return children;
+
+  // Do not track events in development
+  if (!AppConstants.isProduction) return children;
 
   return (
     <PostHogProvider
