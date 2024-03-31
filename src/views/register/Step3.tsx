@@ -11,6 +11,7 @@
  */
 
 import { z } from "zod";
+import { usePostHog } from "posthog-react-native";
 
 import Button from "@/ui/Button";
 import FormField from "@/ui/FormField";
@@ -22,6 +23,7 @@ import useFormMutation from "@/hooks/useFormMutation";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep3View = () => {
+  const posthog = usePostHog();
   const { register } = useAuth();
   const mutation = useRegister();
   const store = useRegistrationStore();
@@ -50,6 +52,12 @@ const RegistrationStep3View = () => {
     },
     onSuccess: async (data) => {
       await register(data);
+
+      posthog?.capture("chapter_registered", {
+        chapter_name: data.data.chapter.name,
+        chapter_email: data.data.chapter.email,
+      });
+
       store.clear();
     },
   });

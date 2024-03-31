@@ -12,6 +12,7 @@
 
 import PnmsView from "@/views/Pnms";
 import { Layout } from "@/ui/Layout";
+import tw from "@/lib/tailwind";
 
 const PnmsScreen = () => {
   return (
@@ -21,7 +22,7 @@ const PnmsScreen = () => {
         subtitle="View and manage all potential new members"
       />
 
-      <Layout.Content gap={8}>
+      <Layout.Content gap={8} contentContainerStyle={tw`pb-0`}>
         <PnmsView />
       </Layout.Content>
     </Layout.Root>

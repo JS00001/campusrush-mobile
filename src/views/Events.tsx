@@ -30,7 +30,7 @@ import Content from "@/constants/content";
 import EventLoader from "@/ui/Loaders/Event";
 import ActionButton from "@/ui/ActionButton";
 import Menu, { MenuAction } from "@/ui/Menu";
-import InfiniteList from "@/components/InfiniteList";
+import FlatList from "@/ui/FlatList";
 
 const EventsView = () => {
   const { openModal } = useModalStore();
@@ -110,21 +110,7 @@ const EventsView = () => {
     },
   ];
 
-  const placeholder = `Search ${eventsQuery.events.length || 0} Events`;
-
-  const onDeleteEvent = async (event: Event) => {
-    const res = await deleteEventMutation.mutateAsync({ id: event._id });
-
-    if ("error" in res) return;
-
-    await eventsQuery.refetch();
-
-    Toast.show({
-      type: "success",
-      text1: "Deleted Event",
-      text2: `${event.title} has been deleted`,
-    });
-  };
+  const placeholder = `Search ${eventsQuery.events.length || ""} Events`;
 
   const onNewEventPress = () => {
     openBottomSheet("CREATE_EVENT");
@@ -132,10 +118,6 @@ const EventsView = () => {
 
   const onRefresh = async () => {
     await eventsQuery.refetch();
-  };
-
-  const onEndReached = async () => {
-    await eventsQuery.fetchNextPage();
   };
 
   return (
@@ -167,12 +149,9 @@ const EventsView = () => {
         </Menu>
       </View>
 
-      <InfiniteList
-        elementsDeletable
+      <FlatList
         data={search.data}
         onRefresh={onRefresh}
-        onEndReached={onEndReached}
-        onDeleteElement={onDeleteEvent}
         loadingComponent={<EventLoader />}
         loading={eventsQuery.isLoading}
         emptyListTitle="No Events Found"

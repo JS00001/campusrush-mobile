@@ -71,7 +71,6 @@ const ButtonSizes = {
     icon: 20,
   },
 };
-
 const Button: React.FC<ButtonProps> = ({
   size = "lg",
   color = "primary",
@@ -109,7 +108,12 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <TouchableOpacity style={containerStyles} disabled={disabled} {...props}>
       {iconLeft && (
-        <Icon name={iconLeft} color={colorStyle.icon} size={sizeStyle.icon} />
+        <Icon
+          name={iconLeft}
+          color={colorStyle.icon}
+          size={sizeStyle.icon}
+          style={textStyles}
+        />
       )}
 
       <Text type={textType} style={textStyles}>

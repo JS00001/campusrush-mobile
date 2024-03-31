@@ -97,8 +97,10 @@ const Modal: React.FC<ModalProps> = ({
       animationOut="zoomOut"
     >
       <View style={containerClasses}>
-        <View style={tw`gap-y-2`}>
-          <Text type="h1">{title}</Text>
+        <View style={tw`gap-y-1`}>
+          <Text type="h1" style={tw`text-[26px]`}>
+            {title}
+          </Text>
           <Text style={tw`text-black`}>{subtitle}</Text>
         </View>
 

@@ -10,6 +10,12 @@
  * Do not distribute
  */
 
+// hi, i love you. you are the besty boyfriend that i could ask for.
+// you are so sexy and its not in a sex way either. i mean yes sex way sometimes but not always.
+// you will be a great husband and father one day. i love the future that we have planned but i
+// also always enjoy the present with you. you are so smart, kind, and caring.
+// ###daddy ###i love you with my fingers, nose, and toes <3.
+
 import RNTooltip from "react-native-walkthrough-tooltip";
 import type { TooltipProps as RNTooltipProps } from "react-native-walkthrough-tooltip";
 

@@ -16,12 +16,12 @@ import useSearch from "@/hooks/useSearch";
 import { useBottomSheets } from "@/providers/BottomSheet";
 
 import tw from "@/lib/tailwind";
+import FlatList from "@/ui/FlatList";
 import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
 import Menu, { MenuAction } from "@/ui/Menu";
 import ActionButton from "@/ui/ActionButton";
 import Conversation from "@/ui/Conversation";
-import InfiniteList from "@/components/InfiniteList";
 import ConversationLoader from "@/ui/Loaders/Conversation";
 import { useGetConversations } from "@/hooks/api/messaging";
 
@@ -94,14 +94,14 @@ const MessagesView = () => {
       </View>
 
       {/* The conversations that exist */}
-      <InfiniteList
+      <FlatList
         data={search.data}
-        onRefresh={onRefresh}
-        onEndReached={onEndReached}
+        loadingComponent={<ConversationLoader />}
         loading={conversationsQuery.isLoading}
         emptyListTitle="No Conversations Found"
         emptyListSubtitle="Try changing your filters or sending a new message"
-        loadingComponent={<ConversationLoader />}
+        onRefresh={onRefresh}
+        onEndReached={onEndReached}
         renderItem={({ item: conversation }) => (
           <Conversation conversation={conversation} />
         )}

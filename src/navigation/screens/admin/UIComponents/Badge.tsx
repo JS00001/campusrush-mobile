@@ -10,9 +10,37 @@
  * Do not distribute
  */
 
+import { useState } from "react";
+
+import Badge from "@/ui/Badge";
+import Switch from "@/ui/Switch";
 import { Layout } from "@/ui/Layout";
+import { Documentation } from "@/components/Documentation";
+
+const options = [
+  [
+    {
+      title: "Size",
+      value: "sm",
+    },
+  ],
+  [
+    {
+      title: "Size",
+      value: "md",
+    },
+  ],
+  [
+    {
+      title: "Size",
+      value: "lg",
+    },
+  ],
+];
 
 const BadgeScreen = () => {
+  const [removable, setRemovable] = useState(false);
+
   return (
     <Layout.Root>
       <Layout.Header
@@ -21,7 +49,22 @@ const BadgeScreen = () => {
         subtitle="A chip to display a small amount of information"
       />
 
-      <Layout.Content></Layout.Content>
+      <Layout.Content scrollable gap={16}>
+        <Documentation.Header
+          options={[
+            {
+              title: "Removable",
+              value: <Switch value={removable} onValueChange={setRemovable} />,
+            },
+          ]}
+        />
+
+        {options.map((option, index) => (
+          <Documentation.Section key={index} options={option}>
+            <Badge removable={removable}>Badge</Badge>
+          </Documentation.Section>
+        ))}
+      </Layout.Content>
     </Layout.Root>
   );
 };

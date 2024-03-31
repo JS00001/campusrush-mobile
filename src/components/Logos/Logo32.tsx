@@ -1,5 +1,5 @@
 /*
- * Created on Sat Mar 23 2024
+ * Created on Sun Mar 24 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -12,7 +12,7 @@
 
 import Svg, { Path, Defs, LinearGradient, Stop } from "react-native-svg";
 
-const Logo32Svg = () => (
+const Logo32 = () => (
   <Svg width={54} height={32} fill="none">
     <Path
       fill="url(#a)"
@@ -43,4 +43,4 @@ const Logo32Svg = () => (
     </Defs>
   </Svg>
 );
-export default Logo32Svg;
+export default Logo32;

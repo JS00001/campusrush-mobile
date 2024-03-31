@@ -28,18 +28,8 @@ const UIComponents = [
   },
   {
     name: 'Button Group',
-    description: 'A set of radio buttons or toggle buttons',
+    description: 'Groups buttons and makes them evenly spaced and sized',
     screenName: 'UIBtnGroup',
-  },
-  {
-    name: 'Chapter',
-    description: 'A section within content hierarchy',
-    screenName: 'UIChapter',
-  },
-  {
-    name: 'Conversation',
-    description: 'List of messages between users',
-    screenName: 'UIConversation',
   },
   {
     name: 'Copy Action',
@@ -60,11 +50,6 @@ const UIComponents = [
     name: 'Detail View',
     description: 'Detailed information about an item',
     screenName: 'UIDetailView',
-  },
-  {
-    name: 'Event',
-    description: 'A scheduled occurrence or notification',
-    screenName: 'UIEvent',
   },
   {
     name: 'Form Field',
@@ -150,6 +135,11 @@ const UIComponents = [
     name: 'Swipeable',
     description: 'An item that can be swiped to reveal actions',
     screenName: 'UISwipeable',
+  },
+  {
+    name: 'Switch',
+    description: 'A toggleable switch',
+    screenName: 'UISwitch',
   },
   {
     name: 'Tabs',

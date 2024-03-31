@@ -13,12 +13,12 @@
 import tw from "@/lib/tailwind";
 import HomeView from "@/views/Home";
 import { Layout } from "@/ui/Layout";
-import HomeHeaderSvg from "@/assets/HomeHeaderSvg";
+import HomeBackground from "@/components/Backgrounds/Home";
 
 const HomeScreen = () => {
   return (
     <>
-      <HomeHeaderSvg />
+      <HomeBackground />
 
       <Layout.Root>
         <Layout.Content

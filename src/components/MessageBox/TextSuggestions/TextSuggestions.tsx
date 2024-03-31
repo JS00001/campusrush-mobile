@@ -18,7 +18,7 @@ import tw from "@/lib/tailwind";
 
 interface TextSuggestionsProps {
   value: string;
-  suggestions: Suggestion[];
+  suggestions: TextSuggestion[];
   setValue: (value: string) => void;
 }
 
@@ -78,7 +78,7 @@ const TextSuggestions: React.FC<TextSuggestionsProps> = ({
 
   return (
     <ScrollView style={containerStyles} keyboardShouldPersistTaps="always">
-      {keywords.map((suggestion: Suggestion, index: number) => {
+      {keywords.map((suggestion: TextSuggestion, index: number) => {
         const onPress = () => {
           onKeywordPress(suggestion.keyword);
         };

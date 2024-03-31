@@ -10,5 +10,10 @@
  * Do not distribute
  */
 
-export const waitFor = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
+/**
+ * Waits for a specified amount of time when
+ * awaited in an async function.
+ */
+export const waitFor = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};

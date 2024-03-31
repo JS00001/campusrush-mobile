@@ -19,7 +19,7 @@ import IconButton from "@/ui/IconButton";
 import useSearch from "@/hooks/useSearch";
 import Menu, { MenuAction } from "@/ui/Menu";
 import ChapterLoader from "@/ui/Loaders/Chapter";
-import InfiniteList from "@/components/InfiniteList";
+import FlatList from "@/ui/FlatList";
 import { useGetAdminChapters } from "@/hooks/api/admin";
 
 const ChaptersView = () => {
@@ -70,7 +70,7 @@ const ChaptersView = () => {
     await getAdminChaptersQuery.refetch();
   };
 
-  const inputPlaceholder = `Search ${search.data.length || 0} chapters`;
+  const inputPlaceholder = `Search ${search.data.length || ""} chapters`;
 
   return (
     <>
@@ -92,11 +92,9 @@ const ChaptersView = () => {
           />
         </Menu>
       </View>
-
-      <InfiniteList
+      <FlatList
         data={search.data}
         onRefresh={onRefresh}
-        onEndReached={async () => {}}
         loadingComponent={<ChapterLoader />}
         loading={getAdminChaptersQuery.isLoading}
         emptyListTitle="No Chapters Found"

@@ -11,7 +11,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { useEventStore } from "@/store";
 import { useAuth } from "@/providers/Auth";
@@ -24,34 +24,19 @@ export const useGetEvents = () => {
   const events = useEventStore((s) => s.events);
   const setEvents = useEventStore((s) => s.setEvents);
 
-  const query = useInfiniteQuery(["events", accessToken], {
-    queryFn: ({ pageParam = 0 }) => {
-      return getEvents({ offset: pageParam });
-    },
-    getNextPageParam: (lastPage) => {
-      if ("error" in lastPage) return undefined;
-
-      const hasNextPage = lastPage.data.hasNextPage;
-
-      if (!hasNextPage) return undefined;
-
-      return lastPage.data.nextOffset;
+  const query = useQuery(["events", accessToken], {
+    queryFn: () => {
+      return getEvents();
     },
   });
 
   useEffect(() => {
-    if (!query.data) {
+    if (!query.data || "error" in query.data) {
       setIsLoading(query.isLoading);
       return;
     }
 
-    const combinedEvents = query.data.pages.flatMap((page) => {
-      if ("error" in page) return [];
-
-      return page.data.events;
-    });
-
-    setEvents(combinedEvents);
+    setEvents(query.data.data.events);
     setIsLoading(query.isLoading);
   }, [query.data]);
 

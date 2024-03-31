@@ -19,7 +19,7 @@ export type DetailItemLayout = "horizontal" | "vertical";
 
 interface DetailItemProps {
   title: string;
-  value: string;
+  value: string | React.ReactNode;
   layout?: DetailItemLayout;
 }
 

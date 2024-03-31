@@ -13,7 +13,7 @@
 /**
  * Convert a date to a string in the format "time ago"
  */
-const timeAgo = (date: Date | string): string => {
+export const timeAgo = (date: Date | string): string => {
   const seconds = Math.floor((+new Date() - +new Date(date)) / 1000);
   if (seconds < 29) return 'Just now';
 
@@ -43,7 +43,7 @@ const timeAgo = (date: Date | string): string => {
 /**
  * Convert a date to a string in the format Month Name Day, Year
  */
-const toString = (date: Date | string): string => {
+export const toString = (date: Date | string): string => {
   if (!date) return '';
 
   // Check to ensure the date can be parsed
@@ -62,7 +62,7 @@ const toString = (date: Date | string): string => {
 /**
  * Check whether the date has passed
  */
-const hasPassed = (date: Date | string) => {
+export const hasPassed = (date: Date | string) => {
   return new Date(date) < new Date();
 };
 

@@ -19,9 +19,9 @@ import { EventCardLoader } from "./Extensions/Event/Card";
 
 import Tabs from "@/ui/Tabs";
 import tw from "@/lib/tailwind";
+import FlatList from "@/ui/FlatList";
 import { useGetEvents } from "@/hooks/api/events";
 import useKeyboardListener from "@/hooks/useKeyboardListener";
-import InfiniteHorizontaList from "@/components/InfiniteHorizontalList";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   ({ setVisible, setEvent, animateMessageBox }: ExtensionPanelProps, ref) => {
@@ -51,12 +51,9 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
       setVisible(false);
       bottomSheetRef.current?.close();
     };
+
     const onEventPress = (event: Event) => {
       setEvent(event);
-    };
-
-    const onEndReached = async () => {
-      await eventsQuery.fetchNextPage();
     };
 
     return (
@@ -67,7 +64,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
         enablePanDownToClose={false}
         backgroundStyle={tw`rounded-none`}
       >
-        <View style={tw`p-3 gap-4 flex-1 pb-20`}>
+        <View style={tw`pl-3 pt-3 gap-4 flex-1 pb-12`}>
           <Tabs
             options={["Events", "Photos", "Videos"]}
             currentIndex={activeTab}
@@ -75,10 +72,11 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
             onChange={setActiveTab}
           />
 
-          <InfiniteHorizontaList
+          <FlatList
+            horizontal
+            style={tw`flex-1 bg-pink-500`}
             data={eventsQuery.events}
             loading={eventsQuery.isLoading}
-            onEndReached={onEndReached}
             loadingComponent={<EventCardLoader />}
             emptyListTitle="No Events Found"
             emptyListSubtitle="Try creating a new event"

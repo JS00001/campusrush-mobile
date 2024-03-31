@@ -81,6 +81,7 @@ const groupByDate = (messages: Message[]): TimestampedMessage[] => {
   return timestampedMessages;
 };
 
+// TODO: Make this function a part of the date utility file
 /*
   Define a function called parseDate that takes a Date object as input and returns a formatted date string.
 */

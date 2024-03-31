@@ -11,6 +11,31 @@
  */
 
 import { Layout } from "@/ui/Layout";
+import CopyView from "@/ui/CopyView";
+import { Documentation } from "@/components/Documentation";
+
+const options = [
+  [
+    {
+      title: "Title",
+      value: "Phone Number",
+    },
+    {
+      title: "Content",
+      value: "(706) 123-456",
+    },
+  ],
+  [
+    {
+      title: "Title",
+      value: "Email",
+    },
+    {
+      title: "Content",
+      value: "jonsnow@gmail.com",
+    },
+  ],
+];
 
 const CopyViewScreen = () => {
   return (
@@ -21,7 +46,13 @@ const CopyViewScreen = () => {
         subtitle="Shows what will be copied, and a copy button"
       />
 
-      <Layout.Content></Layout.Content>
+      <Layout.Content scrollable gap={16}>
+        {options.map((option, index) => (
+          <Documentation.Section key={index} options={option}>
+            <CopyView title={option[0].value} content={option[1].value} />
+          </Documentation.Section>
+        ))}
+      </Layout.Content>
     </Layout.Root>
   );
 };

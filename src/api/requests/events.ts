@@ -18,10 +18,10 @@ const PREFIX = '/api/v1/consumer/events';
  * Request:     GET /api/v1/consumer/events/list
  * Description: Get all events
  */
-export const getEvents = async (data: GetEventsRequest) => {
+export const getEvents = async () => {
   const url = `${PREFIX}/list`;
 
-  const { data: responseData } = await axiosClient.get(url, { params: data });
+  const { data: responseData } = await axiosClient.get(url);
 
   return responseData as GetEventsResponse;
 };

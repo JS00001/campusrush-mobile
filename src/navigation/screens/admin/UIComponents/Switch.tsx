@@ -1,5 +1,5 @@
 /*
- * Created on Fri Mar 15 2024
+ * Created on Sun Mar 24 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -12,13 +12,13 @@
 
 import { Layout } from "@/ui/Layout";
 
-const EventScreen = () => {
+const SwitchScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
         hasBackButton
-        title="Event"
-        subtitle="Displays information about an event"
+        title="Switch"
+        subtitle="A toggleable switch"
       />
 
       <Layout.Content></Layout.Content>
@@ -26,4 +26,4 @@ const EventScreen = () => {
   );
 };
 
-export default EventScreen;
+export default SwitchScreen;

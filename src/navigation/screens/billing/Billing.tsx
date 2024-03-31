@@ -13,6 +13,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SafeAreaView, View } from "react-native";
+import { usePostHog } from "posthog-react-native";
 import Qonversion, { PurchaseModel } from "react-native-qonversion";
 
 import Text from "@/ui/Text";
@@ -20,16 +21,17 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import { Layout } from "@/ui/Layout";
 import Hyperlink from "@/ui/Hyperlink";
-import HeaderSvg from "@/assets/HeaderSvg";
-import Logo32Svg from "@/assets/Logo32Svg";
 import Icon, { IconType } from "@/ui/Icon";
 import { useAuth } from "@/providers/Auth";
 import { useLogout } from "@/hooks/api/auth";
 import { useEntitlementStore } from "@/store";
+import Logo32 from "@/components/Logos/Logo32";
 import { useQonversion } from "@/providers/Qonversion";
 import { useBottomSheets } from "@/providers/BottomSheet";
+import HeaderBackground from "@/components/Backgrounds/Header";
 
 const BillingScreen = () => {
+  const posthog = usePostHog();
   const logoutMutation = useLogout();
   const { chapter, clear } = useAuth();
   const { openBottomSheet } = useBottomSheets();
@@ -123,6 +125,11 @@ const BillingScreen = () => {
    * When the feature button is pressed, open the plan comparison bottom sheet
    */
   const onFeaturePress = () => {
+    posthog?.capture("compare_plans_button_pressed", {
+      chapter_name: chapter.name,
+      chapter_email: chapter.email,
+    });
+
     openBottomSheet("PLAN_COMPARISON");
   };
 
@@ -169,13 +176,13 @@ const BillingScreen = () => {
       <Layout.CustomHeader>
         {/* Background Circles */}
         <View style={tw`absolute w-full h-full`}>
-          <HeaderSvg />
+          <HeaderBackground />
         </View>
 
         {/* Header */}
         <View style={tw`px-6 py-10 z-10`}>
           <SafeAreaView style={tw`items-center justify-center gap-y-3 mt-6`}>
-            <Logo32Svg />
+            <Logo32 />
 
             <Text type="h1" style={tw`text-center text-white`}>
               Get Started with CampusRush
