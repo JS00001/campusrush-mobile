@@ -53,11 +53,18 @@ const Step2: React.FC<UseSheetFlowProps> = ({
     const now = new Date();
 
     // We add a minute so that the start date is 'after' the current time
-    const minuteFromNow = new Date(now.getTime() + 60 * 1000);
+    const fiveMinutesFromNow = new Date(now.getTime() + 5 * 60 * 1000);
     const hourFromNow = new Date(now.getTime() + 60 * 60 * 1000);
 
-    form.setValue("startDate", minuteFromNow.getTime().toString());
-    form.setValue("endDate", hourFromNow.getTime().toString());
+    // Check if the current state of the start date is before the current time. If so, re-set it to a minute from now
+    if (startDate < now) {
+      form.setValue("startDate", fiveMinutesFromNow.getTime().toString());
+    }
+
+    // Check if the current state of the end date is before the current time. If so, re-set it to an hour from now
+    if (endDate < now) {
+      form.setValue("endDate", hourFromNow.getTime().toString());
+    }
   }, []);
 
   const handleSubmission = () => {
@@ -92,7 +99,7 @@ const Step2: React.FC<UseSheetFlowProps> = ({
   ) => {
     const time = date?.getTime();
 
-    if (!time) return;
+    if (!time) return console.error("No time provided");
 
     form.setValue(field, time.toString());
   };

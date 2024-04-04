@@ -70,7 +70,7 @@ const Step3: React.FC<UseSheetFlowProps> = ({
   const formattedEndDate = `${endDate.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
-  })} on ${startDate.toLocaleDateString([], {
+  })} on ${endDate.toLocaleDateString([], {
     month: "long",
     day: "numeric",
     year: "numeric",
