@@ -74,7 +74,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
 
           <FlatList
             horizontal
-            style={tw`flex-1 bg-pink-500`}
+            style={tw`flex-1`}
             data={eventsQuery.events}
             loading={eventsQuery.isLoading}
             loadingComponent={<EventCardLoader />}

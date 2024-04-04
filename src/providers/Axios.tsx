@@ -119,7 +119,7 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
           text2: errorDetails.humanMessage,
         });
 
-        return Promise.resolve(errorHandledResponse);
+        return Promise.reject(error);
       }
 
       return Promise.reject(error);
