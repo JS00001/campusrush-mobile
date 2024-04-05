@@ -16,10 +16,12 @@ import StaticSafeAreaInsets from "react-native-static-safe-area-insets";
 
 interface SafeAreaViewProps extends ViewProps {
   style?: any;
+  position?: "top" | "bottom" | "left" | "right";
 }
 
 const SafeAreaView: React.FC<SafeAreaViewProps> = ({
   children,
+  position = "top",
   style,
   ...props
 }) => {
@@ -50,10 +52,8 @@ const SafeAreaView: React.FC<SafeAreaViewProps> = ({
       {...props}
       style={{
         ...style,
-        marginTop: insets.top,
-        marginBottom: insets.bottom,
-        marginLeft: insets.left,
-        marginRight: insets.right,
+        marginTop: position === "top" ? insets.top : 0,
+        marginBottom: position === "bottom" ? insets.bottom : 0,
       }}
     >
       {children}
