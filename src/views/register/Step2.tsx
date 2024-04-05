@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { usePostHog } from "posthog-react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Button from "@/ui/Button";
@@ -21,6 +22,7 @@ import useFormMutation from "@/hooks/useFormMutation";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep2 = () => {
+  const posthog = usePostHog();
   const mutation = useCheckEmail();
   const navigation = useNavigation();
   const store = useRegistrationStore();
@@ -48,6 +50,14 @@ const RegistrationStep2 = () => {
       store.setField("email", form.state.email.value);
       store.setField("firstName", form.state.firstName.value);
       store.setField("lastName", form.state.lastName.value);
+
+      posthog?.capture("REGISTRATION_STEP_2_COMPLETED", {
+        chapter_name: form.state.name.value,
+        chapter_email: form.state.email.value,
+        chapter_first_name: form.state.firstName.value,
+        chapter_last_name: form.state.lastName.value,
+      });
+
       (navigation.navigate as any)("RegistrationStep3");
     },
   });

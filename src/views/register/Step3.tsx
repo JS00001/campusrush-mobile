@@ -53,9 +53,11 @@ const RegistrationStep3View = () => {
     onSuccess: async (data) => {
       await register(data);
 
-      posthog?.capture("chapter_registered", {
+      posthog?.capture("REGISTRATION_COMPLETED", {
         chapter_name: data.data.chapter.name,
         chapter_email: data.data.chapter.email,
+        chapter_first_name: data.data.chapter.firstName,
+        chapter_last_name: data.data.chapter.lastName,
       });
 
       store.clear();

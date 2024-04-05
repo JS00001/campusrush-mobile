@@ -69,14 +69,14 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
     data: options,
   });
 
-  const handleSheetChanges = useCallback((index: number) => {
+  const handleSheetChanges = (index: number) => {
     // When the sheet closes...
     if (index === -1) {
       search.setQuery("");
       handleCloseSheet();
       setSelected(value);
     }
-  }, []);
+  };
 
   const onDonePress = () => {
     onChange(selected);

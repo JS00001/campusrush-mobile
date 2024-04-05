@@ -46,7 +46,7 @@ const VerificationView = () => {
     onSuccess: async ({ data }) => {
       setChapter(data.chapter);
 
-      posthog?.capture("chapter_verified", {
+      posthog?.capture("CHAPTER_VERIFIED", {
         chapter_name: data.chapter.name,
         chapter_email: data.chapter.email,
       });

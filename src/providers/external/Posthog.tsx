@@ -22,11 +22,11 @@ interface PosthogProviderProps {
 const PosthogProvider: React.FC<PosthogProviderProps> = ({ children }) => {
   const { chapter } = useAuth();
 
-  // Do not track admin events
-  if (chapter?.role === "admin") return children;
+  // // Do not track admin events
+  // if (chapter?.role === "admin") return children;
 
-  // Do not track events in development
-  if (!AppConstants.isProduction) return children;
+  // // Do not track events in development
+  // if (!AppConstants.isProduction) return children;
 
   return (
     <PostHogProvider
