@@ -33,6 +33,7 @@ import SocketInput from "@/lib/socketInput";
 import MessageBubble from "@/ui/MessageBubble";
 import { useWebsocket } from "@/providers/Websocket";
 import DirectMessageHeader from "@/components/Headers/DirectMessage";
+import { Keyboard } from "react-native";
 
 interface ChatProps {
   route: any;
@@ -150,6 +151,14 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
     contactStore.removeContacts("uncontacted", pnm);
   };
 
+  /**
+   * When the user begins scrolling, we want to close the message box
+   * or dismiss the keyboard
+   */
+  const onMomentumScrollBegin = () => {
+    Keyboard.dismiss();
+  };
+
   const onEndReached = async () => {
     await conversationQuery.fetchNextPage();
   };
@@ -178,6 +187,7 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
           contentContainerStyle={tw`pt-6 pb-0`}
           ListEmptyComponent={<></>}
           onEndReached={onEndReached}
+          onMomentumScrollBegin={onMomentumScrollBegin}
           renderItem={({ item }) => (
             <MessageBubble
               key={item._id}
