@@ -10,13 +10,14 @@
  * Do not distribute
  */
 
-import { SafeAreaView, View, ViewProps } from "react-native";
+import { View, ViewProps } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Progress from "@/ui/Progress";
 import IconButton from "@/ui/IconButton";
+import SafeAreaView from "@/ui/SafeAreaView";
 import { hiddenContent } from "@/lib/util/layout";
 
 interface HeaderProps extends ViewProps {

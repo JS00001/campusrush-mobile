@@ -11,8 +11,8 @@
  */
 
 import { useState } from "react";
+import { View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { SafeAreaView, View } from "react-native";
 import { usePostHog } from "posthog-react-native";
 import Qonversion, { PurchaseModel } from "react-native-qonversion";
 
@@ -24,6 +24,7 @@ import Hyperlink from "@/ui/Hyperlink";
 import Icon, { IconType } from "@/ui/Icon";
 import { useAuth } from "@/providers/Auth";
 import { useLogout } from "@/hooks/api/auth";
+import SafeAreaView from "@/ui/SafeAreaView";
 import { useEntitlementStore } from "@/store";
 import Logo32 from "@/components/Logos/Logo32";
 import { useQonversion } from "@/providers/Qonversion";
