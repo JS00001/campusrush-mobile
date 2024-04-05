@@ -15,6 +15,7 @@ import { usePostHog } from "posthog-react-native";
 
 import Button from "@/ui/Button";
 import FormField from "@/ui/FormField";
+import { handle } from "@/lib/util/error";
 import { useAuth } from "@/providers/Auth";
 import { useRegistrationStore } from "@/store";
 import { useRegister } from "@/hooks/api/auth";
@@ -53,9 +54,13 @@ const RegistrationStep3View = () => {
     onSuccess: async (data) => {
       await register(data);
 
-      posthog?.capture("chapter_registered", {
-        chapter_name: data.data.chapter.name,
-        chapter_email: data.data.chapter.email,
+      handle(() => {
+        posthog?.capture("REGISTRATION_COMPLETED", {
+          chapter_name: data.data.chapter.name,
+          chapter_email: data.data.chapter.email,
+          chapter_first_name: data.data.chapter.firstName,
+          chapter_last_name: data.data.chapter.lastName,
+        });
       });
 
       store.clear();

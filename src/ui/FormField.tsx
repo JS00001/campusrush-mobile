@@ -108,7 +108,7 @@ const FormField: React.FC<FormFieldProps> = ({
   );
 
   const placeholderStyles = tw.style(
-    "absolute left-4 z-10 px-1 bg-slate-100 text-slate-500",
+    "absolute z-10 px-4 bg-slate-100 left-1 text-slate-500 flex-1",
     disabled && "disabled",
     error && "text-red",
   );
@@ -141,6 +141,7 @@ const FormField: React.FC<FormFieldProps> = ({
       </TextInputWithNoFontScaling>
 
       <Animated.Text
+        numberOfLines={1}
         style={[
           placeholderStyles,
           { top: placeholderY, fontSize: placeholderSize },

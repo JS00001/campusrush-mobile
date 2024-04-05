@@ -11,8 +11,8 @@
  */
 
 import { useState } from "react";
+import { View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { SafeAreaView, View } from "react-native";
 import { usePostHog } from "posthog-react-native";
 import Qonversion, { PurchaseModel } from "react-native-qonversion";
 
@@ -21,9 +21,11 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import { Layout } from "@/ui/Layout";
 import Hyperlink from "@/ui/Hyperlink";
+import { handle } from "@/lib/util/error";
 import Icon, { IconType } from "@/ui/Icon";
 import { useAuth } from "@/providers/Auth";
 import { useLogout } from "@/hooks/api/auth";
+import SafeAreaView from "@/ui/SafeAreaView";
 import { useEntitlementStore } from "@/store";
 import Logo32 from "@/components/Logos/Logo32";
 import { useQonversion } from "@/providers/Qonversion";
@@ -125,9 +127,11 @@ const BillingScreen = () => {
    * When the feature button is pressed, open the plan comparison bottom sheet
    */
   const onFeaturePress = () => {
-    posthog?.capture("compare_plans_button_pressed", {
-      chapter_name: chapter.name,
-      chapter_email: chapter.email,
+    handle(() => {
+      posthog?.capture("COMPARE_PLANS_BUTTON_PRESSED", {
+        chapter_name: chapter.name,
+        chapter_email: chapter.email,
+      });
     });
 
     openBottomSheet("PLAN_COMPARISON");

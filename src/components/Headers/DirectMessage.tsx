@@ -11,12 +11,13 @@
  */
 
 import { useEffect } from "react";
-import { SafeAreaView, View } from "react-native";
+import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import tw from "@/lib/tailwind";
 import Header from "@/ui/Header";
 import Skeleton from "@/ui/Skeleton";
+import SafeAreaView from "@/ui/SafeAreaView";
 import { useGetPnm } from "@/hooks/api/pnms";
 import { useBottomSheets } from "@/providers/BottomSheet";
 

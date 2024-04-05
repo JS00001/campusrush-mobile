@@ -21,7 +21,7 @@ import { useWebsocket } from "@/providers/Websocket";
 interface WebsocketProps {}
 
 const Websocket: React.FC<WebsocketProps> = () => {
-  const { data: websocket } = useWebsocket();
+  const websocket = useWebsocket();
 
   return (
     <View style={tw`gap-y-2`}>

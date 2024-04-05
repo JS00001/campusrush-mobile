@@ -46,6 +46,12 @@ interface FlatListProps<T> extends Omit<RNFlatListProps<T>, "renderItem"> {
   /* The subtitle of the empty list, defaults to "Try changing your filters" */
   emptyListSubtitle?: string;
 
+  /* Disable the onEndReached function */
+  disableOnEndReached?: boolean;
+
+  /* Disable the onRefresh function */
+  disableOnRefresh?: boolean;
+
   /* Only used if the list is refreshable, the action on refresh */
   onRefresh?: () => Promise<void>;
 
@@ -63,6 +69,8 @@ const FlatList = <T,>({
   loadingComponent,
   emptyListTitle = "No Content Found",
   emptyListSubtitle = "Try changing your filters",
+  disableOnEndReached,
+  disableOnRefresh,
   onRefresh,
   onEndReached,
   ...props
@@ -77,6 +85,8 @@ const FlatList = <T,>({
   const handleEndReached = async () => {
     if (!onEndReached) return;
 
+    if (disableOnEndReached) return;
+
     if (isFetching) return;
 
     setIsFetching(true);
@@ -90,6 +100,8 @@ const FlatList = <T,>({
    */
   const handleRefresh = async () => {
     if (!onRefresh) return;
+
+    if (disableOnRefresh) return;
 
     if (isRefreshing) return;
 

@@ -22,6 +22,7 @@ import {
 
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
+import TabBarIcon from "@/ui/TabBarIcon";
 import { useAuth } from "@/providers/Auth";
 import { useConversationStore } from "@/store";
 import { useBottomSheets } from "@/providers/BottomSheet";
@@ -39,8 +40,9 @@ export const TabNavigator = () => {
   const { openBottomSheet } = useBottomSheets();
   const conversationStore = useConversationStore();
 
-  const hasUnreadConversation =
-    conversationStore.conversations.filter((c) => !c.read).length > 0;
+  const unreadConverstions = conversationStore.conversations.filter(
+    (c) => !c.read,
+  ).length;
 
   const onAddTabPress = () => {
     openBottomSheet("CREATE_PNM");
@@ -66,20 +68,14 @@ export const TabNavigator = () => {
         component={HomeStack}
         options={{
           tabBarLabel: "Home",
-          tabBarIcon: ({ color, focused }) =>
-            focused ? (
-              <Icon
-                name="home-fill"
-                size={26}
-                color={color}
-              />
-            ) : (
-              <Icon
-                name="home-line"
-                size={26}
-                color={color}
-              />
-            ),
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              color={color}
+              focused={focused}
+              focusedIcon="home-fill"
+              unfocusedIcon="home-line"
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -87,20 +83,14 @@ export const TabNavigator = () => {
         component={PNMsStack}
         options={{
           tabBarLabel: "PNMs",
-          tabBarIcon: ({ color, focused }) =>
-            focused ? (
-              <Icon
-                name="contacts-book-2-fill"
-                size={26}
-                color={color}
-              />
-            ) : (
-              <Icon
-                name="contacts-book-2-line"
-                size={26}
-                color={color}
-              />
-            ),
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              color={color}
+              focused={focused}
+              focusedIcon="contacts-book-2-fill"
+              unfocusedIcon="contacts-book-2-line"
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -122,36 +112,22 @@ export const TabNavigator = () => {
             />
           ),
         }}
-      ></Tab.Screen>
+      />
       <Tab.Screen
         name="MessagesTab"
         component={MessagesStack}
         options={{
           tabBarLabel: "Messages",
-          tabBarBadge: hasUnreadConversation ? "" : undefined,
-          tabBarBadgeStyle: {
-            top: 4,
-            minWidth: 10,
-            maxHeight: 10,
-            borderRadius: 5,
-            fontSize: 10,
-            lineHeight: 13,
-            alignSelf: undefined,
-          },
-          tabBarIcon: ({ color, focused }) =>
-            focused ? (
-              <Icon
-                name="chat-1-fill"
-                size={26}
-                color={color}
-              />
-            ) : (
-              <Icon
-                name="chat-1-line"
-                size={26}
-                color={color}
-              />
-            ),
+
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              color={color}
+              focused={focused}
+              focusedIcon="chat-1-fill"
+              unfocusedIcon="chat-1-line"
+              badgeCount={unreadConverstions}
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -159,20 +135,14 @@ export const TabNavigator = () => {
         component={EventsStack}
         options={{
           tabBarLabel: "Events",
-          tabBarIcon: ({ color, focused }) =>
-            focused ? (
-              <Icon
-                name="calendar-2-fill"
-                size={26}
-                color={color}
-              />
-            ) : (
-              <Icon
-                name="calendar-2-line"
-                size={26}
-                color={color}
-              />
-            ),
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              color={color}
+              focused={focused}
+              focusedIcon="calendar-2-fill"
+              unfocusedIcon="calendar-2-line"
+            />
+          ),
         }}
       />
 
@@ -182,20 +152,14 @@ export const TabNavigator = () => {
           component={AdminStack}
           options={{
             tabBarLabel: "Admin",
-            tabBarIcon: ({ color, focused }) =>
-              focused ? (
-                <Icon
-                  name="admin-fill"
-                  size={26}
-                  color={color}
-                />
-              ) : (
-                <Icon
-                  name="admin-line"
-                  size={26}
-                  color={color}
-                />
-              ),
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon
+                color={color}
+                focused={focused}
+                focusedIcon="admin-fill"
+                unfocusedIcon="admin-line"
+              />
+            ),
           }}
         />
       )}

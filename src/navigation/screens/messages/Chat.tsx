@@ -15,7 +15,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { Layout } from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
-import MessageList from "@/components/MessageList";
 
 import {
   useGetConversation,
@@ -26,21 +25,27 @@ import {
   useMessageStore,
   useConversationStore,
 } from "@/store";
+import tw from "@/lib/tailwind";
+import FlatList from "@/ui/FlatList";
+import messaging from "@/lib/messages";
 import { useAuth } from "@/providers/Auth";
+import SocketInput from "@/lib/socketInput";
+import MessageBubble from "@/ui/MessageBubble";
 import { useWebsocket } from "@/providers/Websocket";
 import DirectMessageHeader from "@/components/Headers/DirectMessage";
+import { Keyboard } from "react-native";
 
 interface ChatProps {
   route: any;
   navigation: NativeStackNavigationProp<any>;
 }
 
-const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
+const Chat: React.FC<ChatProps> = ({ route }) => {
   const pnm = route.params.pnm as PNM;
   const pnmId = pnm._id;
 
+  const { ws } = useWebsocket();
   const { chapter } = useAuth();
-  const websocket = useWebsocket();
 
   const contactStore = useContactStore();
   const messageStore = useMessageStore();
@@ -49,17 +54,27 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
   const sendMessageMutation = useSendDirectMessage();
   const conversationQuery = useGetConversation(pnmId);
 
-  const messages = messageStore.getMessages(pnmId) || [];
   const conversation = conversationStore.getConversation(pnmId);
+  const messages =
+    messageStore.getMessages(pnmId) || conversation?.messages || [];
 
   /**
    * On the first render, set the conversation as opened
    * in the websocket
    */
   useEffect(() => {
-    websocket.onConversationOpen(pnmId);
+    const message = new SocketInput({
+      type: "READ_CONVERSATION",
+      data: { id: pnmId },
+    });
 
-    return () => websocket.onConversationClose();
+    ws?.send(message.toString());
+
+    if (!conversation) return;
+
+    conversationStore.updateConversation({ ...conversation, read: true });
+
+    return () => {};
   }, []);
 
   /**
@@ -136,6 +151,14 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
     contactStore.removeContacts("uncontacted", pnm);
   };
 
+  /**
+   * When the user begins scrolling, we want to close the message box
+   * or dismiss the keyboard
+   */
+  const onMomentumScrollBegin = () => {
+    Keyboard.dismiss();
+  };
+
   const onEndReached = async () => {
     await conversationQuery.fetchNextPage();
   };
@@ -154,10 +177,28 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
       </Layout.CustomHeader>
 
       <Layout.Content gap={8} removePadding>
-        <MessageList
-          messages={messages}
+        <FlatList
+          inverted
+          disableOnRefresh
+          disableOnEndReached={!conversationQuery.hasNextPage}
+          data={messaging.groupByDate(messages ?? [])}
+          style={tw`w-full px-4`}
+          // We need to add "padding top" because the flatlist is inverted
+          contentContainerStyle={tw`pt-6 pb-0`}
+          ListEmptyComponent={<></>}
           onEndReached={onEndReached}
-          onStartReached={async () => {}}
+          onMomentumScrollBegin={onMomentumScrollBegin}
+          renderItem={({ item }) => (
+            <MessageBubble
+              key={item._id}
+              content={item.content}
+              sent={item.sent}
+              date={item.showDate ? item.date : undefined}
+              createdAt={
+                item.showTimestamp ? item.createdAt.toString() : undefined
+              }
+            />
+          )}
         />
       </Layout.Content>
 

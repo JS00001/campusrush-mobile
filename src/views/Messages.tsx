@@ -78,7 +78,7 @@ const MessagesView = () => {
         <TextInput
           autoCorrect={false}
           icon="search-line"
-          placeholder="Search Conversations"
+          placeholder={"Search Conversations"}
           value={search.query}
           onChangeText={search.setQuery}
           contentContainerStyle={tw`flex-shrink`}
@@ -98,6 +98,7 @@ const MessagesView = () => {
         data={search.data}
         loadingComponent={<ConversationLoader />}
         loading={conversationsQuery.isLoading}
+        disableOnEndReached={!conversationsQuery.hasNextPage}
         emptyListTitle="No Conversations Found"
         emptyListSubtitle="Try changing your filters or sending a new message"
         onRefresh={onRefresh}
