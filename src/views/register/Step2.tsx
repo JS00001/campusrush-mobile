@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import Button from "@/ui/Button";
 import FormField from "@/ui/FormField";
+import { handle } from "@/lib/util/error";
 import { useRegistrationStore } from "@/store";
 import validators from "@/constants/validators";
 import { useCheckEmail } from "@/hooks/api/auth";
@@ -51,11 +52,13 @@ const RegistrationStep2 = () => {
       store.setField("firstName", form.state.firstName.value);
       store.setField("lastName", form.state.lastName.value);
 
-      posthog?.capture("REGISTRATION_STEP_2_COMPLETED", {
-        chapter_name: form.state.name.value,
-        chapter_email: form.state.email.value,
-        chapter_first_name: form.state.firstName.value,
-        chapter_last_name: form.state.lastName.value,
+      handle(() => {
+        posthog?.capture("REGISTRATION_STEP_2_COMPLETED", {
+          chapter_name: store.name,
+          chapter_email: form.state.email.value,
+          chapter_first_name: form.state.firstName.value,
+          chapter_last_name: form.state.lastName.value,
+        });
       });
 
       (navigation.navigate as any)("RegistrationStep3");

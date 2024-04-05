@@ -26,6 +26,7 @@ import Button from "@/ui/Button";
 import Hyperlink from "@/ui/Hyperlink";
 import FormField from "@/ui/FormField";
 import Content from "@/constants/content";
+import { handle } from "@/lib/util/error";
 import { useAuth } from "@/providers/Auth";
 import useFormMutation from "@/hooks/useFormMutation";
 
@@ -46,9 +47,11 @@ const VerificationView = () => {
     onSuccess: async ({ data }) => {
       setChapter(data.chapter);
 
-      posthog?.capture("CHAPTER_VERIFIED", {
-        chapter_name: data.chapter.name,
-        chapter_email: data.chapter.email,
+      handle(() => {
+        posthog?.capture("CHAPTER_VERIFIED", {
+          chapter_name: data.chapter.name,
+          chapter_email: data.chapter.email,
+        });
       });
 
       Toast.show({
