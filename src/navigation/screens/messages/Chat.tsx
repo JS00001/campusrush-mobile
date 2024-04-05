@@ -26,6 +26,7 @@ import {
   useMessageStore,
   useConversationStore,
 } from "@/store";
+import SocketInput from "@/lib/socketInput";
 import { useAuth } from "@/providers/Auth";
 import { useWebsocket } from "@/providers/Websocket";
 import DirectMessageHeader from "@/components/Headers/DirectMessage";
@@ -35,12 +36,12 @@ interface ChatProps {
   navigation: NativeStackNavigationProp<any>;
 }
 
-const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
+const Chat: React.FC<ChatProps> = ({ route }) => {
   const pnm = route.params.pnm as PNM;
   const pnmId = pnm._id;
 
+  const { ws } = useWebsocket();
   const { chapter } = useAuth();
-  const websocket = useWebsocket();
 
   const contactStore = useContactStore();
   const messageStore = useMessageStore();
@@ -57,9 +58,18 @@ const Chat: React.FC<ChatProps> = ({ route, navigation }) => {
    * in the websocket
    */
   useEffect(() => {
-    websocket.onConversationOpen(pnmId);
+    const message = new SocketInput({
+      type: "READ_CONVERSATION",
+      data: { id: pnmId },
+    });
 
-    return () => websocket.onConversationClose();
+    ws?.send(message.toString());
+
+    if (!conversation) return;
+
+    conversationStore.updateConversation({ ...conversation, read: true });
+
+    return () => {};
   }, []);
 
   /**

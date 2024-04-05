@@ -28,19 +28,15 @@ export interface SocketMessage {
   };
 }
 
-export interface LoggedMessage {
+export interface SocketLog {
   timestamp: number;
   message: string;
 }
 
 interface WebsocketContextProps {
-  data: {
-    connected: boolean;
-    messages: LoggedMessage[];
-  };
-
-  onConversationClose: () => void;
-  onConversationOpen: (conversationId: string) => void;
+  ws: WebSocket | null;
+  connected: boolean;
+  messages: SocketLog[];
 
   disconnect: () => void;
   connect: (accessToken: string) => void;
@@ -53,28 +49,21 @@ const WebsocketContext = createContext<WebsocketContextProps>(
 const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  // Create state to store the websocket and messages
   const [ws, setWs] = useState<WebSocket | null>(null);
-  const [messages, setMessages] = useState<LoggedMessage[]>([]);
-  const [currentConversation, setCurrentConversation] = useState<string>("");
+  const [messages, setMessages] = useState<SocketLog[]>([]);
 
-  // Get the addMessage function from the messages store
   const messageStore = useMessageStore();
   const conversationStore = useConversationStore();
 
   /**
    * Connects to the websocket with the given access token
-   * @param accessToken The access token to connect with
    */
   const connect = (accessToken: string) => {
     let reconnectAttempts = 0;
 
     // If there is an existing websocket that is OPEN, return
     if (ws && ws.readyState === WebSocket.OPEN) {
-      console.info(
-        "[WEBSOCKET] Already connected to %s",
-        AppConstants.websocketUrl,
-      );
+      console.info("[WEBSOCKET] Already connected");
       return;
     }
 
@@ -88,15 +77,16 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
     // When the websocket is opened, set the websocket and reset the reconnectAttempts
     newWs.onopen = () => {
-      console.info("[WEBSOCKET] Connected to %s", AppConstants.websocketUrl);
+      console.info("[WEBSOCKET] Connected");
 
       const connectionLog = {
         timestamp: Date.now(),
         message: "Connected to WS",
       };
 
-      setMessages((messages) => [connectionLog, ...messages]);
       setWs(newWs);
+      setMessages((messages) => [connectionLog, ...messages]);
+
       reconnectAttempts = 0;
     };
 
@@ -105,10 +95,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
      */
     const reconnect = () => {
       if (reconnectAttempts > 5) {
-        console.info(
-          "[WEBSOCKET] Failed to connect to %s after 5 attempts",
-          AppConstants.websocketUrl,
-        );
+        console.info("[WEBSOCKET] Failed to connect after 5 attempts");
         return;
       }
 
@@ -122,14 +109,14 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
      * Manage websocket.onerror
      */
     newWs.onerror = (event: Event) => {
-      console.log("Websocket error", event);
+      console.log("[WEBSOCKET] Error", event);
     };
 
     /**
      * Manage websocket.onmessage
      */
     newWs.onmessage = (message: MessageEvent<any>) => {
-      // Get the data from the message
+      // Get the data from the message (payload)
       const data = message.data;
 
       // Ensure that the data is a valid JSON string
@@ -175,13 +162,14 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
      * Manage when a websocket is closed
      */
     newWs.onclose = (event) => {
-      console.info(
-        "[WEBSOCKET] Disconnected from %s",
-        AppConstants.websocketUrl,
-      );
+      console.info("[WEBSOCKET] Disconnected");
 
       const { code, reason } = event;
 
+      /**
+       * If the client did not disconnect, there was an error, so
+       * we should reconnect
+       */
       if (code !== 1000 && reason !== "CLIENT_CLOSE") {
         reconnect();
         return;
@@ -206,59 +194,13 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
     if (ws) ws.close(1000, "CLIENT_CLOSE");
   };
 
-  /**
-   * Function for when a conversation is opened
-   */
-  const onConversationOpen = (conversationId: string) => {
-    setCurrentConversation(conversationId);
-  };
-
-  /**
-   * Function to test
-   */
-  // const markAsRead = (pnmId: string, conversation: Conversation) => {
-  //   console.log("Marking as read", pnmId, currentConversation);
-  //   if (!ws || ws.readyState !== WebSocket.OPEN) return;
-
-  //   if (pnmId == currentConversation) {
-  //     const payload = new SocketInput({
-  //       type: "READ_CONVERSATION",
-  //       data: { id: pnmId },
-  //     });
-
-  //     ws?.send(payload.toString());
-
-  //     addConversations([
-  //       {
-  //         ...conversation,
-  //         read: true,
-  //       },
-  //     ]);
-
-  //     return;
-  //   }
-
-  //   addConversations([conversation]);
-  // };
-
-  /**
-   * Function for when a conversation is closed
-   */
-  const onConversationClose = () => {
-    setCurrentConversation("");
-  };
-
   return (
     <WebsocketContext.Provider
       value={{
-        data: {
-          connected: ws?.readyState === WebSocket.OPEN,
-          messages,
-        },
+        connected: ws?.readyState === WebSocket.OPEN,
+        messages,
 
-        onConversationOpen,
-        onConversationClose,
-
+        ws,
         connect,
         disconnect,
       }}
