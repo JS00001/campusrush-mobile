@@ -53,8 +53,9 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
   const sendMessageMutation = useSendDirectMessage();
   const conversationQuery = useGetConversation(pnmId);
 
-  const messages = messageStore.getMessages(pnmId) || [];
   const conversation = conversationStore.getConversation(pnmId);
+  const messages =
+    messageStore.getMessages(pnmId) || conversation?.messages || [];
 
   /**
    * On the first render, set the conversation as opened
