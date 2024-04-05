@@ -15,7 +15,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { Layout } from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
-import MessageList from "@/components/MessageList";
 
 import {
   useGetConversation,
@@ -26,8 +25,12 @@ import {
   useMessageStore,
   useConversationStore,
 } from "@/store";
-import SocketInput from "@/lib/socketInput";
+import tw from "@/lib/tailwind";
+import FlatList from "@/ui/FlatList";
+import messaging from "@/lib/messages";
 import { useAuth } from "@/providers/Auth";
+import SocketInput from "@/lib/socketInput";
+import MessageBubble from "@/ui/MessageBubble";
 import { useWebsocket } from "@/providers/Websocket";
 import DirectMessageHeader from "@/components/Headers/DirectMessage";
 
@@ -164,10 +167,27 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
       </Layout.CustomHeader>
 
       <Layout.Content gap={8} removePadding>
-        <MessageList
-          messages={messages}
+        <FlatList
+          inverted
+          disableOnRefresh
+          disableOnEndReached={!conversationQuery.hasNextPage}
+          data={messaging.groupByDate(messages ?? [])}
+          style={tw`w-full px-4`}
+          // We need to add "padding top" because the flatlist is inverted
+          contentContainerStyle={tw`pt-6 pb-0`}
+          ListEmptyComponent={<></>}
           onEndReached={onEndReached}
-          onStartReached={async () => {}}
+          renderItem={({ item }) => (
+            <MessageBubble
+              key={item._id}
+              content={item.content}
+              sent={item.sent}
+              date={item.showDate ? item.date : undefined}
+              createdAt={
+                item.showTimestamp ? item.createdAt.toString() : undefined
+              }
+            />
+          )}
         />
       </Layout.Content>
 

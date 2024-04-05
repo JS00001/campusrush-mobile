@@ -52,7 +52,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   );
 
   const timestampStyles = tw.style(
-    "text-gray-500 pt-1",
+    "text-gray-500 pt-2",
     sent && "self-end",
     !sent && "self-start",
   );

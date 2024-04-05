@@ -24,6 +24,7 @@ import ActionButton from "@/ui/ActionButton";
 import Conversation from "@/ui/Conversation";
 import ConversationLoader from "@/ui/Loaders/Conversation";
 import { useGetConversations } from "@/hooks/api/messaging";
+import { useEffect } from "react";
 
 const MessagesView = () => {
   const { openBottomSheet } = useBottomSheets();
@@ -72,13 +73,15 @@ const MessagesView = () => {
     await conversationsQuery.fetchNextPage();
   };
 
+  const placeholder = `Search ${conversationsQuery.conversations.length} Conversations`;
+
   return (
     <>
       <View style={tw`flex-row w-full gap-x-1`}>
         <TextInput
           autoCorrect={false}
           icon="search-line"
-          placeholder="Search Conversations"
+          placeholder={placeholder}
           value={search.query}
           onChangeText={search.setQuery}
           contentContainerStyle={tw`flex-shrink`}
@@ -98,6 +101,7 @@ const MessagesView = () => {
         data={search.data}
         loadingComponent={<ConversationLoader />}
         loading={conversationsQuery.isLoading}
+        disableOnEndReached={!conversationsQuery.hasNextPage}
         emptyListTitle="No Conversations Found"
         emptyListSubtitle="Try changing your filters or sending a new message"
         onRefresh={onRefresh}
