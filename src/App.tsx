@@ -25,6 +25,7 @@ import queryClient from "@/lib/queryClient";
 import AuthProvider from "@/providers/Auth";
 import qonversionConfig from "@/lib/qonversion";
 import AxiosIntercepter from "@/providers/Axios";
+import NetworkProvider from "@/providers/Network";
 import DeveloperTools from "@/components/DevTools";
 import WebsocketProvider from "@/providers/Websocket";
 import StatusOverlay from "@/components/StatusOverlay";
@@ -54,38 +55,40 @@ Qonversion.initialize(qonversionConfig);
 const App = () => {
   return (
     <SentryProvider>
-      <QueryClientProvider client={queryClient}>
-        <QonversionProvider>
-          <WebsocketProvider>
-            <AuthProvider>
-              <NavigationProvider>
-                <AxiosIntercepter>
-                  <PreferencesProvider>
-                    <PosthogProvider>
-                      <NotificationsProvider>
-                        <GestureHandlerRootView style={{ flex: 1 }}>
-                          <BottomSheetModalProvider>
-                            <BottomSheetProvider>
-                              <EntitlementsProvider>
-                                <Modals />
-                                <DeveloperTools />
-                                <RootNavigator />
-                                <StatusOverlay />
-                              </EntitlementsProvider>
-                            </BottomSheetProvider>
-                          </BottomSheetModalProvider>
-                          {/* We need the toast outside of the bottom sheet modal provider so it shows up on top of bottom sheets */}
-                          <Toast config={toastConfig} />
-                        </GestureHandlerRootView>
-                      </NotificationsProvider>
-                    </PosthogProvider>
-                  </PreferencesProvider>
-                </AxiosIntercepter>
-              </NavigationProvider>
-            </AuthProvider>
-          </WebsocketProvider>
-        </QonversionProvider>
-      </QueryClientProvider>
+      <NetworkProvider>
+        <QueryClientProvider client={queryClient}>
+          <QonversionProvider>
+            <WebsocketProvider>
+              <AuthProvider>
+                <NavigationProvider>
+                  <AxiosIntercepter>
+                    <PreferencesProvider>
+                      <PosthogProvider>
+                        <NotificationsProvider>
+                          <GestureHandlerRootView style={{ flex: 1 }}>
+                            <BottomSheetModalProvider>
+                              <BottomSheetProvider>
+                                <EntitlementsProvider>
+                                  <Modals />
+                                  <DeveloperTools />
+                                  <RootNavigator />
+                                  <StatusOverlay />
+                                </EntitlementsProvider>
+                              </BottomSheetProvider>
+                            </BottomSheetModalProvider>
+                            {/* We need the toast outside of the bottom sheet modal provider so it shows up on top of bottom sheets */}
+                            <Toast config={toastConfig} />
+                          </GestureHandlerRootView>
+                        </NotificationsProvider>
+                      </PosthogProvider>
+                    </PreferencesProvider>
+                  </AxiosIntercepter>
+                </NavigationProvider>
+              </AuthProvider>
+            </WebsocketProvider>
+          </QonversionProvider>
+        </QueryClientProvider>
+      </NetworkProvider>
     </SentryProvider>
   );
 };
