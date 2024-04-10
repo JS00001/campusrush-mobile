@@ -13,9 +13,14 @@
 import * as Network from "expo-network";
 import { createContext, useContext, useEffect, useState } from "react";
 
+import tw from "@/lib/tailwind";
+import Button from "@/ui/Button";
+import { Layout } from "@/ui/Layout";
+import Headline from "@/ui/Headline";
+
 interface NetworkContext {
   isConnected: boolean;
-  retryConnection(): void;
+  verifyConnection: () => Promise<boolean>;
 }
 
 interface NetworkProviderProps {
@@ -28,17 +33,44 @@ const NetworkProvider: React.FC<NetworkProviderProps> = ({ children }) => {
   const [isConnected, setIsConnected] = useState(true);
 
   useEffect(() => {
-    retryConnection();
+    verifyConnection();
   }, []);
 
-  const retryConnection = async () => {
+  const verifyConnection = async () => {
     const { isInternetReachable } = await Network.getNetworkStateAsync();
 
     setIsConnected(isInternetReachable ?? false);
+
+    return isInternetReachable ?? false;
   };
 
+  if (!isConnected) {
+    return (
+      <NetworkContext.Provider value={{ isConnected, verifyConnection }}>
+        <Layout.Root>
+          <Layout.Content contentContainerStyle={tw`justify-center`}>
+            <Headline
+              centerText
+              title="Uh Oh, You're Offline..."
+              subtitle="Sorry, we couldn't connect to the internet. Please check your connection and try again!"
+            />
+
+            <Button
+              size="sm"
+              color="secondary"
+              iconLeft="refresh-line"
+              onPress={verifyConnection}
+            >
+              Retry
+            </Button>
+          </Layout.Content>
+        </Layout.Root>
+      </NetworkContext.Provider>
+    );
+  }
+
   return (
-    <NetworkContext.Provider value={{ isConnected, retryConnection }}>
+    <NetworkContext.Provider value={{ isConnected, verifyConnection }}>
       {children}
     </NetworkContext.Provider>
   );
