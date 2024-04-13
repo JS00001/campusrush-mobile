@@ -17,7 +17,7 @@ import * as Sentry from '@sentry/react-native';
 import Toast from 'react-native-toast-message';
 import type { UseMutationResult } from '@tanstack/react-query';
 
-interface IUseFormMutation<TResponse, TRequest> {
+interface IUseFormMutation<TResponse, TRequest, TValues> {
   /** The mutation hook from react-query */
   mutation: UseMutationResult<
     API.Response<TResponse>,
@@ -27,7 +27,7 @@ interface IUseFormMutation<TResponse, TRequest> {
   >;
 
   /** The zod-ready validation schema for the request (will be passed to zod.object) */
-  validators: Record<string, any>;
+  validators: Record<keyof TValues, any>;
 
   /** The callback to be executed on success */
   onSuccess?: (data: API.SuccessResponse<TResponse>) => Promise<void>;
@@ -36,12 +36,16 @@ interface IUseFormMutation<TResponse, TRequest> {
   initialValues?: Record<string, any>;
 }
 
-const useFormMutation = <TResponse = any, TRequest = any>({
+const useFormMutation = <
+  TResponse,
+  TRequest,
+  TValues extends Record<string, any>,
+>({
   mutation,
   validators,
   onSuccess,
   initialValues,
-}: IUseFormMutation<TResponse, TRequest>) => {
+}: IUseFormMutation<TResponse, TRequest, TValues>) => {
   /**
    * Create types for the fields and state so that it
    * auto-completes the fields and their values when typing (based on the validators object)
@@ -155,7 +159,8 @@ const useFormMutation = <TResponse = any, TRequest = any>({
     } catch (err) {
       if (err instanceof AxiosError) {
         const error = (err.response?.data as API.ErrorResponse).error;
-        const errorField = error.field as TFields; // We can assume the field will be defined, because we catch all errors with no field in the Axios Provider
+        const errorField = error.field as string; // We can assume the field will be defined, because we catch all errors with no field in the Axios Provider
+
         const isFieldInState = Object.keys(state).includes(errorField);
 
         if (!isFieldInState) {
