@@ -35,7 +35,8 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
   style,
   ...props
 }) => {
-  const height = useRef(new Animated.Value(0));
+  const LOADING_CARD_HEIGHT = 64;
+  const PREVIEW_CARD_HEIGHT = 212;
 
   /**
    * Fetch the metadata for the URL
@@ -47,14 +48,21 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
     },
   });
 
+  // If there is a cached value, we dont want the card to wierdly animate
+  const initialHeight = query.isFetched
+    ? PREVIEW_CARD_HEIGHT
+    : LOADING_CARD_HEIGHT;
+
+  const height = useRef(new Animated.Value(initialHeight));
+
   /**
    * When the isLoading changes, we want to animate the height of the container
    * so the transition from loader to content is smooth
    */
   useEffect(() => {
     Animated.timing(height.current, {
-      toValue: query.isLoading ? 48 : 212,
-      duration: 200,
+      toValue: query.isLoading ? LOADING_CARD_HEIGHT : PREVIEW_CARD_HEIGHT,
+      duration: 300,
       useNativeDriver: false,
     }).start();
   }, [query.isLoading]);
