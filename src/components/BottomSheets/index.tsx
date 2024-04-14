@@ -10,28 +10,28 @@
  * Do not distribute
  */
 
+import ChapterSheet from "./Chapter/index";
 import CreateMessageSheet from "./CreateMessage";
 import CreateEventSheet from "./CreateEvent";
 import CreatePnmSheet from "./CreatePnm";
 import EventSheet from "./Event";
 import PnmSheet from "./Pnm";
-import ChapterSheet from "./Chapter/index";
-import UpdatePnmSheet from "./UpdatePnm";
-import UpdateEventSheet from "./UpdateEvent";
 import PlanComparisonSheet from "./PlanComparison";
 import PrivacyPolicySheet from "./PrivacyPolicy";
 import TermsOfServiceSheet from "./TermsOfService";
+import UpdatePnmSheet from "./UpdatePnm";
+import UpdateEventSheet from "./UpdateEvent";
 
 export default {
-  CreateMessageSheet,
-  CreateEventSheet,
-  CreatePnmSheet,
-  ChapterSheet,
-  EventSheet,
-  PnmSheet,
-  UpdatePnmSheet,
-  UpdateEventSheet,
-  PlanComparisonSheet,
-  PrivacyPolicySheet,
-  TermsOfServiceSheet,
+  CHAPTER: ChapterSheet,
+  CREATE_MESSAGE: CreateMessageSheet,
+  CREATE_EVENT: CreateEventSheet,
+  CREATE_PNM: CreatePnmSheet,
+  EVENT: EventSheet,
+  PNM: PnmSheet,
+  PLAN_COMPARISON: PlanComparisonSheet,
+  PRIVACY_POLICY: PrivacyPolicySheet,
+  TERMS_OF_SERVICE: TermsOfServiceSheet,
+  UPDATE_PNM: UpdatePnmSheet,
+  UPDATE_EVENT: UpdateEventSheet,
 };

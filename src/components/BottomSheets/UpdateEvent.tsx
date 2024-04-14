@@ -35,6 +35,7 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
     <FormSheet
       innerRef={innerRef}
       children={(data) => {
+        const currentDate = new Date();
         const eventId = data?.data.eventId as string;
 
         const eventStore = useEventStore();
@@ -42,20 +43,15 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
         const updateEventMutation = useUpdateEvent();
         const setStatus = useStatusStore((s) => s.setStatus);
 
-        const currentDate = new Date();
-        const startDate = new Date(eventQuery.event?.startDate || "")
-          .getTime()
-          .toString();
-        const endDate = new Date(eventQuery.event?.endDate || "")
-          .getTime()
-          .toString();
+        const startDate = eventQuery.event?.startDate || new Date();
+        const endDate = eventQuery.event?.endDate || new Date();
 
         const formValidators = {
           id: validators.objectId,
           title: validators.shortContentString,
           location: validators.shortContentString,
-          startDate: z.any(),
-          endDate: z.any(),
+          startDate: z.string().datetime({ offset: true }),
+          endDate: z.string().datetime({ offset: true }),
           description: validators.longContentString,
         };
 
@@ -71,14 +67,14 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
             id: eventId,
             title: eventQuery.event?.title,
             location: eventQuery.event?.location,
-            startDate: startDate,
-            endDate: endDate,
             description: eventQuery.event?.description,
+            startDate: new Date(startDate).toISOString(),
+            endDate: new Date(endDate).toISOString(),
           },
         });
 
-        const newStartDate = new Date(parseInt(form.state.startDate.value));
-        const newEndDate = new Date(parseInt(form.state.endDate.value));
+        const newStartDate = new Date(form.state.startDate.value);
+        const newEndDate = new Date(form.state.endDate.value);
 
         const onDateTimeChange = (
           event: DateTimePickerEvent,
@@ -88,11 +84,9 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
           const { type } = event;
 
           if (type === "set") {
-            const time = date?.getTime();
+            if (!date) return;
 
-            if (!time) return;
-
-            form.setValue(field, time.toString());
+            form.setValue(field, date.toISOString());
           }
         };
 
@@ -105,8 +99,8 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
             return;
           }
 
-          const startDate = new Date(parseInt(form.state.startDate.value));
-          const endDate = new Date(parseInt(form.state.endDate.value));
+          const startDate = new Date(form.state.startDate.value);
+          const endDate = new Date(form.state.endDate.value);
 
           if (startDate >= endDate) {
             form.setError("endDate", "End date must be after start date");
@@ -121,9 +115,9 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
         return (
           <Layout.Root>
             <Layout.Content
+              gap={12}
               scrollable
               contentContainerStyle={tw`pt-0 items-start`}
-              gap={12}
             >
               <FormHeader onSave={handleSubmission} onCancel={handleClose} />
 

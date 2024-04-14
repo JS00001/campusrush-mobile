@@ -15,14 +15,14 @@ import { View } from "react-native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Hyperlink from "@/ui/Hyperlink";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheet } from "@/providers/BottomSheet";
 
 interface TermsAndConditionsProps {
   color?: "primary" | "secondary";
 }
 
 const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ color }) => {
-  const { openBottomSheet } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheet();
 
   const onTermsOfServicePress = () => {
     openBottomSheet("TERMS_OF_SERVICE");

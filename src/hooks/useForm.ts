@@ -13,15 +13,18 @@
 import { z } from 'zod';
 import { useState } from 'react';
 
-interface IUseForm {
+interface IUseForm<T> {
   /** The zod-ready validation schema for the request (will be passed to zod.object) */
-  validators: Record<string, any>;
+  validators: Record<keyof T, any>;
 
   /** The initial values for a form (optional) */
   initialValues?: Record<string, any>;
 }
 
-const useForm = ({ validators, initialValues }: IUseForm) => {
+const useForm = <T extends Record<string, any>>({
+  validators,
+  initialValues,
+}: IUseForm<T>) => {
   /**
    * Create types for the fields and state so that it
    * auto-completes the fields and their values when typing (based on the validators object)

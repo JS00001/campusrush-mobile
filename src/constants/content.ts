@@ -158,11 +158,6 @@ const Content = {
     primaryButton: 'Upgrade',
     secondaryButton: 'No Thanks',
   },
-  /**
-   * Event invitations
-   */
-  eventInvitation:
-    'We have an event coming up and would love to see you.\n\nEvent: {{title}}\nLocation: {{location}}\nDate: {{date}}\nTime: {{time}}\n\nPlease RSVP at {{link}}',
 };
 
 export default Content;

@@ -55,8 +55,8 @@ const Step3: React.FC<UseSheetFlowProps> = ({
     handleClose();
   };
 
-  const startDate = new Date(parseInt(state.startDate));
-  const endDate = new Date(parseInt(state.endDate));
+  const startDate = new Date(state.startDate);
+  const endDate = new Date(state.endDate);
 
   const formattedStartDate = `${startDate.toLocaleTimeString([], {
     hour: "2-digit",

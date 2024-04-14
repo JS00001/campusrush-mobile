@@ -16,14 +16,14 @@ import tw from "@/lib/tailwind";
 import Headline from "@/ui/Headline";
 import dateUtil from "@/lib/util/date";
 import IconLabel from "@/ui/IconLabel";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheet } from "@/providers/BottomSheet";
 
 interface ChapterProps extends TouchableOpacityProps {
   chapter: Chapter;
 }
 
 const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
-  const { openBottomSheet } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheet();
 
   const containerStyles = tw.style("bg-slate-100 rounded-xl p-5 gap-y-3");
 

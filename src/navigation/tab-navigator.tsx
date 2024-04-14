@@ -25,7 +25,7 @@ import tw from "@/lib/tailwind";
 import TabBarIcon from "@/ui/TabBarIcon";
 import { useAuth } from "@/providers/Auth";
 import { useConversationStore } from "@/store";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheet } from "@/providers/BottomSheet";
 
 export const Tab = createBottomTabNavigator();
 
@@ -37,7 +37,7 @@ export const Tab = createBottomTabNavigator();
  */
 export const TabNavigator = () => {
   const { chapter } = useAuth();
-  const { openBottomSheet } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheet();
   const conversationStore = useConversationStore();
 
   const unreadConverstions = conversationStore.conversations.filter(

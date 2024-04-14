@@ -25,8 +25,8 @@ import BottomSheetContainer from "@/ui/BottomSheet/Container";
 const CreatePnmSheet: React.FC<BottomSheetProps> = ({
   innerRef,
   handleClose,
-  handleSnapToIndex,
-  handleSnapToPosition,
+  snapToIndex,
+  snapToPosition,
 }) => {
   const views = [Landing, ManualStep1, ManualStep2, ManualStep3, QrCode];
 
@@ -41,8 +41,8 @@ const CreatePnmSheet: React.FC<BottomSheetProps> = ({
     },
     views,
     handleClose,
-    handleSnapToIndex,
-    handleSnapToPosition,
+    snapToIndex,
+    snapToPosition,
   });
 
   const CurrentView = sheetFlow.currentView;

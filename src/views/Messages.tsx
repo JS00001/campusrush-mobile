@@ -13,7 +13,7 @@
 import { View } from "react-native";
 
 import useSearch from "@/hooks/useSearch";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheet } from "@/providers/BottomSheet";
 
 import tw from "@/lib/tailwind";
 import FlatList from "@/ui/FlatList";
@@ -26,7 +26,7 @@ import ConversationLoader from "@/ui/Loaders/Conversation";
 import { useGetConversations } from "@/hooks/api/messaging";
 
 const MessagesView = () => {
-  const { openBottomSheet } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheet();
   const conversationsQuery = useGetConversations();
 
   const search = useSearch({

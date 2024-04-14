@@ -13,7 +13,8 @@
 import RNDateTimePicker, {
   IOSNativeProps as RNDateTimePickerProps,
 } from "@react-native-community/datetimepicker";
-import { View } from "react-native";
+import { useRef, useState } from "react";
+import { LayoutChangeEvent, View } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -30,8 +31,17 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
   disabled,
   ...props
 }) => {
+  const viewRef = useRef<View>(null);
+  const [rightOffset, setRightOffset] = useState(0);
+
+  const onDatePickerLayout = (event: LayoutChangeEvent) => {
+    const { width } = event.nativeEvent.layout;
+
+    setRightOffset(width);
+  };
+
   const containerStyles = tw.style(
-    "pt-7 pb-2 w-full h-16 rounded-xl",
+    "w-full h-16 rounded-xl p-3 -gap-8",
     "flex-row items-center justify-between",
     "border-2 bg-slate-100 border-slate-100",
     disabled && "disabled",
@@ -39,12 +49,22 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
   );
 
   const labelStyles = tw.style(
-    "text-xs text-slate-400 shrink absolute top-1 left-4",
+    "text-base text-slate-400 shrink",
     error && "text-red",
   );
 
-  const datePickerStyles = tw.style("w-full items-start -mx-6", {
+  const datePickerStyles = tw.style({
+    // This gets the color more accurate to the design
+    // (we cant directly edit the background color of the date picker component)
+    opacity: 0.8,
+    // This makes the date picker smaller and more accurate to the design
+    // (we cant directly edit the size of the date picker component)
     transform: [{ scale: 0.8 }],
+    // This makes the date picker go to the right side of the screen and not have wierd
+    // padding due to the scaling. We need to use a custom right padding for each type of
+    // date picker (date, time, datetime) because the scale messes with the width of each type
+    // of date picker, so we need to adjust the right padding accordingly
+    right: -rightOffset * 0.1,
   });
 
   return (
@@ -54,7 +74,11 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
           {error || label}
         </Text>
 
-        <View style={datePickerStyles}>
+        <View
+          ref={viewRef}
+          style={datePickerStyles}
+          onLayout={onDatePickerLayout}
+        >
           <RNDateTimePicker
             disabled={disabled}
             accentColor={tw.color("primary")}

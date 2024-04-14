@@ -26,7 +26,7 @@ import { useGetContacts } from "@/hooks/api/messaging";
 
 const DirectMessage: React.FC<UseSheetFlowProps> = ({
   handleClose,
-  handleSnapToPosition,
+  snapToPosition,
 }) => {
   const navigation = useNavigation();
   const { all, suggested, isLoading } = useGetContacts();
@@ -64,7 +64,7 @@ const DirectMessage: React.FC<UseSheetFlowProps> = ({
         placeholder={placeholder}
         onChangeText={search.setQuery}
         onFocus={() => {
-          handleSnapToPosition?.("95%");
+          snapToPosition?.("95%");
         }}
       />
 

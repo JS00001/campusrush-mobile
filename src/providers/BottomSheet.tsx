@@ -1,5 +1,5 @@
 /*
- * Created on Sun Feb 25 2024
+ * Created on Sun Apr 14 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -13,149 +13,108 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { createContext, useCallback, useContext, useRef } from "react";
 
-import BottomSheetComponents from "@/components/BottomSheets";
+import BottomSheets from "@/components/BottomSheets";
 
-/**
- * All bottom sheets that can be opened
- *
- * MUST add new bottom sheets here for them to be accessible
- * Put all bottom sheets in the @/components/BottomSheets folder
- */
-const BottomSheets = [
-  { name: "CHAPTER", component: BottomSheetComponents.ChapterSheet },
-
-  {
-    name: "CREATE_MESSAGE",
-    component: BottomSheetComponents.CreateMessageSheet,
-  },
-  { name: "CREATE_EVENT", component: BottomSheetComponents.CreateEventSheet },
-  { name: "CREATE_PNM", component: BottomSheetComponents.CreatePnmSheet },
-  { name: "EVENT", component: BottomSheetComponents.EventSheet },
-
-  { name: "PNM", component: BottomSheetComponents.PnmSheet },
-  {
-    name: "PLAN_COMPARISON",
-    component: BottomSheetComponents.PlanComparisonSheet,
-  },
-  {
-    name: "PRIVACY_POLICY",
-    component: BottomSheetComponents.PrivacyPolicySheet,
-  },
-  {
-    name: "TERMS_OF_SERVICE",
-    component: BottomSheetComponents.TermsOfServiceSheet,
-  },
-  { name: "UPDATE_PNM", component: BottomSheetComponents.UpdatePnmSheet },
-  {
-    name: "UPDATE_EVENT",
-    component: BottomSheetComponents.UpdateEventSheet,
-  },
-];
+type BottomSheetName = keyof typeof BottomSheets;
 
 interface BottomSheetContextProps {
-  openBottomSheet: (
-    name: (typeof BottomSheets)[number]["name"],
-    props?: any,
-  ) => void;
-  handleSnapToIndex: (
-    name: (typeof BottomSheets)[number]["name"],
-    index: number,
-  ) => void;
-  handleSnapToPosition: (
-    name: (typeof BottomSheets)[number]["name"],
-    position: string,
-  ) => void;
+  /* Open a bottom sheet  from the list of registered bottom sheets */
+  openBottomSheet: (name: BottomSheetName, props?: any) => void;
 
-  handleCloseModalPress: (name: (typeof BottomSheets)[number]["name"]) => void;
+  /* Snap the bottom sheet to a specific index */
+  snapToIndex: (name: BottomSheetName, i: number) => void;
+
+  /* Snap the bottom sheet to a specific position */
+  snapToPosition: (name: BottomSheetName, pos: string) => void;
+
+  /* Close the bottom sheet */
+  closeBottomSheet: (name: BottomSheetName) => void;
 }
 
 const BottomSheetContext = createContext<BottomSheetContextProps>(
   {} as BottomSheetContextProps,
 );
 
-const BottomSheetProvider: React.FC<{ children?: React.ReactNode }> = ({
+const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  // Create a ref to the bottom sheet modal so we can programmatically open it
-  const bottomSheetModalRef = useRef<BottomSheetModal[]>([]);
+  const bottomSheetRefs = useRef<BottomSheetModal[]>([]);
 
-  const openBottomSheet = useCallback(
-    (name: (typeof BottomSheets)[number]["name"], props?: any) => {
-      // Find the index of the bottom sheet we want to open
-      const index = BottomSheets.findIndex((sheet) => sheet.name === name);
-      // Open the bottom sheet modal
-      bottomSheetModalRef.current[index]?.present(props);
-    },
-    [],
-  );
+  /**
+   * Open a bottom sheet from the list of registered bottom sheets
+   */
+  const openBottomSheet = useCallback((name: BottomSheetName, props?: any) => {
+    const index = Object.keys(BottomSheets).indexOf(name);
+    const ref = bottomSheetRefs.current[index];
 
-  const handleCloseModalPress = useCallback(
-    (name: (typeof BottomSheets)[number]["name"]) => {
-      // Find the index of the bottom sheet we want to close
-      const index = BottomSheets.findIndex((sheet) => sheet.name === name);
-      // Close the bottom sheet modal
-      bottomSheetModalRef.current[index]?.dismiss();
-    },
-    [],
-  );
+    ref.present(props);
+  }, []);
 
-  const handleSnapToIndex = useCallback(
-    (name: (typeof BottomSheets)[number]["name"], index: number) => {
-      // Find the index of the bottom sheet we want to close
-      const sheetIndex = BottomSheets.findIndex((sheet) => sheet.name === name);
-      // Close the bottom sheet modal
-      bottomSheetModalRef.current[sheetIndex]?.snapToIndex(index);
-    },
-    [],
-  );
+  /**
+   * Snap a specific bottom sheet to a specific index
+   */
+  const snapToIndex = useCallback((name: BottomSheetName, i: number) => {
+    const index = Object.keys(BottomSheets).indexOf(name);
+    const ref = bottomSheetRefs.current[index];
 
-  const handleSnapToPosition = useCallback(
-    (name: (typeof BottomSheets)[number]["name"], position: string) => {
-      // Find the index of the bottom sheet we want to close
-      const sheetIndex = BottomSheets.findIndex((sheet) => sheet.name === name);
-      // Close the bottom sheet modal
-      bottomSheetModalRef.current[sheetIndex]?.snapToPosition(position);
-    },
-    [],
-  );
+    ref.snapToIndex(i);
+  }, []);
+
+  /**
+   * Snap a specific bottom sheet to a specific position
+   */
+  const snapToPosition = useCallback((name: BottomSheetName, pos: string) => {
+    const index = Object.keys(BottomSheets).indexOf(name);
+    const ref = bottomSheetRefs.current[index];
+
+    ref.snapToPosition(pos);
+  }, []);
+
+  /**
+   * Close a specific bottom sheet
+   */
+  const closeBottomSheet = useCallback((name: BottomSheetName) => {
+    const index = Object.keys(BottomSheets).indexOf(name);
+    const ref = bottomSheetRefs.current[index];
+
+    ref.dismiss();
+  }, []);
 
   return (
     <BottomSheetContext.Provider
       value={{
-        handleSnapToIndex,
-        handleSnapToPosition,
         openBottomSheet,
-        handleCloseModalPress,
+        snapToIndex,
+        snapToPosition,
+        closeBottomSheet,
       }}
     >
       {children}
-      {BottomSheets.map((sheet, index) => {
-        // Create props
+
+      {/* Render each bottom sheet (closed) */}
+      {Object.keys(BottomSheets).map((key, index) => {
+        const name: BottomSheetName = key as BottomSheetName;
+        const BottomSheet = BottomSheets[name];
+
         const props = {
-          key: sheet.name,
-          openBottomSheet: (name: string, props?: any) =>
-            openBottomSheet(name, props),
-          handleClose: () => handleCloseModalPress(sheet.name),
-          handleSnapToIndex: (index: number) =>
-            handleSnapToIndex(sheet.name, index),
-          handleSnapToPosition: (position: string) =>
-            handleSnapToPosition(sheet.name, position),
-          innerRef: (ref: BottomSheetModal) =>
-            (bottomSheetModalRef.current[index] = ref),
+          key: name,
+          openBottomSheet,
+          handleClose: () => closeBottomSheet(name),
+          snapToIndex: (i: number) => snapToIndex(name, i),
+          snapToPosition: (pos: string) => snapToPosition(name, pos),
+          innerRef: (ref: BottomSheetModal) => {
+            return (bottomSheetRefs.current[index] = ref);
+          },
         };
 
-        const ComponentToRender = sheet.component as any;
+        if (!BottomSheet) return null;
 
-        if (!ComponentToRender) {
-          return null;
-        }
-
-        return <ComponentToRender {...props} />;
+        return <BottomSheet {...props} />;
       })}
     </BottomSheetContext.Provider>
   );
 };
 
-export const useBottomSheets = () => useContext(BottomSheetContext);
+export const useBottomSheet = () => useContext(BottomSheetContext);
 
 export default BottomSheetProvider;

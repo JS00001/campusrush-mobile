@@ -18,9 +18,9 @@ interface IUseSheetFlow {
   /** The state of the flow */
   state: Record<string, any>;
   /** Function to snap to a specific index */
-  handleSnapToIndex: (index: number) => void;
+  snapToIndex: (index: number) => void;
   /** Function to snap to a specific position */
-  handleSnapToPosition: (position: string) => void;
+  snapToPosition: (position: string) => void;
   /** Function to close the bottom sheet */
   handleClose: () => void;
 }
@@ -39,16 +39,16 @@ export interface UseSheetFlowProps {
   /** Function to close the bottom sheet */
   handleClose: () => void;
   /** Function to snap to a specific index */
-  handleSnapToIndex: (index: number) => void;
+  snapToIndex: (index: number) => void;
   /** Function to snap to a specific position */
-  handleSnapToPosition: (position: string) => void;
+  snapToPosition: (position: string) => void;
 }
 
 const useSheetFlow = ({
   views,
   state,
-  handleSnapToIndex,
-  handleSnapToPosition,
+  snapToIndex,
+  snapToPosition,
   handleClose,
 }: IUseSheetFlow) => {
   const [currentView, setCurrentView] = useState(0);
@@ -93,8 +93,8 @@ const useSheetFlow = ({
     setState: setHandledState,
     setView: setCurrentView,
     handleClose,
-    handleSnapToIndex,
-    handleSnapToPosition,
+    snapToIndex,
+    snapToPosition,
   };
 
   return {

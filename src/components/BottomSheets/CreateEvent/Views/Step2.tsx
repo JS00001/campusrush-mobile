@@ -33,20 +33,20 @@ const Step2: React.FC<UseSheetFlowProps> = ({
   const currentTime = new Date();
 
   const formValidators = {
-    startDate: z.any(),
-    endDate: z.any(),
+    startDate: z.string().datetime({ offset: true }),
+    endDate: z.string().datetime({ offset: true }),
   };
 
   const form = useForm({
     validators: formValidators,
     initialValues: {
-      startDate: state.startDate ?? new Date().getTime().toString(),
-      endDate: state.endDate ?? new Date().getTime().toString(),
+      startDate: state.startDate ?? new Date().toISOString(),
+      endDate: state.endDate ?? new Date().toISOString(),
     },
   });
 
-  const startDate = new Date(parseInt(form.state.startDate.value));
-  const endDate = new Date(parseInt(form.state.endDate.value));
+  const startDate = new Date(form.state.startDate.value);
+  const endDate = new Date(form.state.endDate.value);
 
   // We need to make sure that the start date is always up to date when the component mounts
   useEffect(() => {
@@ -58,12 +58,12 @@ const Step2: React.FC<UseSheetFlowProps> = ({
 
     // Check if the current state of the start date is before the current time. If so, re-set it to a minute from now
     if (startDate < now) {
-      form.setValue("startDate", fiveMinutesFromNow.getTime().toString());
+      form.setValue("startDate", fiveMinutesFromNow.toISOString());
     }
 
     // Check if the current state of the end date is before the current time. If so, re-set it to an hour from now
     if (endDate < now) {
-      form.setValue("endDate", hourFromNow.getTime().toString());
+      form.setValue("endDate", hourFromNow.toISOString());
     }
   }, []);
 
@@ -74,8 +74,8 @@ const Step2: React.FC<UseSheetFlowProps> = ({
       return;
     }
 
-    const startDate = new Date(parseInt(form.state.startDate.value));
-    const endDate = new Date(parseInt(form.state.endDate.value));
+    const startDate = new Date(form.state.startDate.value);
+    const endDate = new Date(form.state.endDate.value);
 
     if (startDate >= endDate) {
       form.setError("endDate", "End date must be after start date");
@@ -97,11 +97,9 @@ const Step2: React.FC<UseSheetFlowProps> = ({
     field: "startDate" | "endDate",
     date?: Date,
   ) => {
-    const time = date?.getTime();
+    if (!date) return console.error("No date provided");
 
-    if (!time) return console.error("No time provided");
-
-    form.setValue(field, time.toString());
+    form.setValue(field, date.toISOString());
   };
 
   return (

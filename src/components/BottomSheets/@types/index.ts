@@ -12,10 +12,14 @@
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
+import BottomSheets from '@/components/BottomSheets';
+
+type BottomSheetName = keyof typeof BottomSheets;
+
 export interface BottomSheetProps {
-  innerRef: React.RefObject<BottomSheetModal>;
+  innerRef: (ref: BottomSheetModal) => void;
   handleClose: () => void;
-  handleSnapToIndex: (index: number) => void;
-  handleSnapToPosition: (position: string) => void;
-  openBottomSheet: (name: string, props?: any) => void;
+  snapToIndex: (index: number) => void;
+  snapToPosition: (position: string) => void;
+  openBottomSheet: (name: BottomSheetName, props?: any) => void;
 }

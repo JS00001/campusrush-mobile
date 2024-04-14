@@ -31,7 +31,7 @@ import { usePreferences } from "@/providers/Preferences";
 
 interface MessageBoxProps {
   disableSend?: boolean;
-  onSend: (message: string) => void;
+  onSend: (messages: string[]) => void;
 }
 
 const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
@@ -83,27 +83,19 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
 
   // When the send button is pressed, send the message and clear the input
   const onSendPress = () => {
-    let message = value;
+    let messages = [value];
 
     // If an event is attached, add it to the message
     if (event) {
-      const formattedEvent = formatEvent(event);
-
-      // prettier-ignore
-      const eventMessage = Content.eventInvitation
-        .replace('{{title}}', formattedEvent.title)
-        .replace('{{location}}', formattedEvent.location)
-        .replace('{{date}}', `${formattedEvent.dateString}`)
-        .replace('{{time}}', `${formattedEvent.start.time} - ${formattedEvent.end.time}`)
-        .replace('{{link}}',  `${AppConstants.eventUrl}/${event._id}`)
-
-      // If there is a message, we want to separate the event message from the message
-      const newLine = message ? "\n\n" : "";
-
-      message = eventMessage + newLine + message;
+      messages = [`${AppConstants.eventUrl}/${event._id}`, ...messages];
     }
 
-    onSend(message);
+    // Check if any entries in the array are empty, if so, remove them, if all are empty, return
+    messages = messages.filter((message) => message.length);
+
+    if (!messages.length) return;
+
+    onSend(messages);
     setValue("");
     setEvent(null);
   };

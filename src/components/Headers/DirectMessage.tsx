@@ -19,7 +19,7 @@ import Header from "@/ui/Header";
 import Skeleton from "@/ui/Skeleton";
 import SafeAreaView from "@/ui/SafeAreaView";
 import { useGetPnm } from "@/hooks/api/pnms";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheet } from "@/providers/BottomSheet";
 
 interface DirectMessageHeaderProps {
   pnm: PNM;
@@ -31,7 +31,7 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({
   loading,
 }) => {
   const navigation = useNavigation();
-  const { openBottomSheet } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheet();
 
   const pnmQuery = useGetPnm(pnm._id);
   const title = `${pnmQuery.pnm?.firstName} ${pnmQuery.pnm?.lastName}`;

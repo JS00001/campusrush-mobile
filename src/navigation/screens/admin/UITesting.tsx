@@ -10,9 +10,11 @@
  * Do not distribute
  */
 
+import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import Switch from "@/ui/Switch";
+import WebsitePreview from "@/ui/WebsitePreview";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
 
@@ -25,12 +27,8 @@ const UITestingScreen: React.FC<UITestingScreenProps> = ({ navigation }) => {
 
   return (
     <Layout.Root>
-      <Layout.Content>
-        <ListItemLoader size="sm" />
-        <ListItemLoader size="md" />
-        <ListItemLoader size="lg" />
-
-        <Switch value={value} onValueChange={setValue} />
+      <Layout.Content scrollable>
+        <WebsitePreview style={tw`self-end`} url="https://campusrush.app" />
       </Layout.Content>
     </Layout.Root>
   );

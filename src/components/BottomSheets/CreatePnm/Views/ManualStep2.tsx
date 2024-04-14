@@ -28,15 +28,15 @@ const ManualStep2: React.FC<UseSheetFlowProps> = ({
   nextView,
   prevView,
   setState,
-  handleSnapToIndex,
-  handleSnapToPosition,
+  snapToIndex,
+  snapToPosition,
 }) => {
   useKeyboardListener({
     onKeyboardWillShow: () => {
-      handleSnapToPosition("85%");
+      snapToPosition("85%");
     },
     onKeyboardWillHide: () => {
-      handleSnapToIndex(0);
+      snapToIndex(0);
     },
   });
 

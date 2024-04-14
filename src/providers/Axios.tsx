@@ -18,6 +18,7 @@ import AppConstants from "@/constants";
 import { useModalStore } from "@/store";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
+import { useNetwork } from "@/providers/Network";
 
 interface AxiosInterceptorProps {
   children?: React.ReactNode;
@@ -30,13 +31,21 @@ const axiosClient = axios.create({
 const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
   const { openModal } = useModalStore();
   const { accessToken, clear } = useAuth();
+  const { verifyConnection } = useNetwork();
 
   useEffect(() => {
     /**
      * All axios requests run through this interceptor, we
      * add an authorization header if the user is logged in
      */
-    const requestInterceptor = (config: InternalAxiosRequestConfig) => {
+    const requestInterceptor = async (config: InternalAxiosRequestConfig) => {
+      const controller = new AbortController();
+      const isInternetReachable = await verifyConnection();
+
+      if (!isInternetReachable) {
+        controller.abort();
+      }
+
       if (accessToken && !config.headers.Authorization) {
         config.headers["Authorization"] = `Bearer ${accessToken}`;
       }

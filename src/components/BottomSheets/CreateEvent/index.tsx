@@ -23,8 +23,8 @@ import BottomSheetContainer from "@/ui/BottomSheet/Container";
 const CreateEventSheet: React.FC<BottomSheetProps> = ({
   innerRef,
   handleClose,
-  handleSnapToIndex,
-  handleSnapToPosition,
+  snapToIndex,
+  snapToPosition,
 }) => {
   const views = [Step1, Step2, Step3];
 
@@ -33,13 +33,13 @@ const CreateEventSheet: React.FC<BottomSheetProps> = ({
       title: undefined,
       description: undefined,
       location: undefined,
-      startDate: new Date().getTime().toString(),
-      endDate: new Date().getTime().toString(),
+      startDate: new Date().toISOString(),
+      endDate: new Date().toISOString(),
     },
     views,
     handleClose,
-    handleSnapToIndex,
-    handleSnapToPosition,
+    snapToIndex,
+    snapToPosition,
   });
 
   const CurrentView = sheetFlow.currentView;
