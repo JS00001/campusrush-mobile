@@ -11,6 +11,7 @@
  */
 
 import { useState } from "react";
+import { View } from "react-native";
 import Toast from "react-native-toast-message";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -25,7 +26,6 @@ import { useSendMassMessage } from "@/hooks/api/messaging";
 import { Layout } from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
 import MassMessageHeader from "@/components/Headers/MassMessage";
-import { View } from "react-native";
 
 interface NewMessageProps {
   route: any;
@@ -43,35 +43,37 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
   const sendMassMessageMutation = useSendMassMessage();
   const setStatus = useStatusStore((s) => s.setStatus);
 
-  const onMessageSend = async (message: string) => {
-    const payload = {
-      message,
-      pnms: pnms.map((pnm) => pnm._id),
-    };
-
+  const onMessageSend = async (messages: string[]) => {
     (navigation.navigate as any)("Messages");
 
     setStatus("loading");
 
-    const res = await sendMassMessageMutation.mutateAsync(payload);
+    for (const message of messages) {
+      const payload = {
+        message,
+        pnms: pnms.map((pnm) => pnm._id),
+      };
 
-    if ("error" in res) return setStatus("idle");
+      const res = await sendMassMessageMutation.mutateAsync(payload);
 
-    const messages = res.data.messages;
-    const conversations = res.data.conversations;
+      if ("error" in res) return setStatus("idle");
 
-    /**
-     * The API will return the conversations in a 'backwards' order so we need to reverse
-     * them to get them in chronological order
-     */
-    conversations.reverse();
+      const messages = res.data.messages;
+      const conversations = res.data.conversations;
 
-    conversationStore.addConversations(conversations);
-    contactStore.removeContacts("uncontacted", pnms);
+      /**
+       * The API will return the conversations in a 'backwards' order so we need to reverse
+       * them to get them in chronological order
+       */
+      conversations.reverse();
 
-    messages.forEach((message) => {
-      messageStore.addMessages(message.pnm, message);
-    });
+      conversationStore.addConversations(conversations);
+      contactStore.removeContacts("uncontacted", pnms);
+
+      messages.forEach((message) => {
+        messageStore.addMessages(message.pnm, message);
+      });
+    }
 
     Toast.show({
       type: "success",
