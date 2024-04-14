@@ -22,8 +22,8 @@ import BottomSheetContainer from "@/ui/BottomSheet/Container";
 const CreateMessageSheet: React.FC<BottomSheetProps> = ({
   innerRef,
   handleClose,
-  handleSnapToIndex,
-  handleSnapToPosition,
+  snapToIndex,
+  snapToPosition,
 }) => {
   const views = [Landing, DirectMessage];
 
@@ -31,8 +31,8 @@ const CreateMessageSheet: React.FC<BottomSheetProps> = ({
     state: {},
     views,
     handleClose,
-    handleSnapToIndex,
-    handleSnapToPosition,
+    snapToIndex,
+    snapToPosition,
   });
 
   const CurrentView = sheetFlow.currentView;

@@ -21,12 +21,12 @@ import IconLabel from "@/ui/IconLabel";
 import Hyperlink from "@/ui/Hyperlink";
 import { titleCase } from "@/lib/util/string";
 import { useQonversion } from "@/providers/Qonversion";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheet } from "@/providers/BottomSheet";
 
 const UpdateBillingView = () => {
   const URL = "https://apps.apple.com/account/subscriptions";
 
-  const { openBottomSheet } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheet();
   const { entitlements, restorePurchases } = useQonversion();
 
   const containerStyles = tw.style(

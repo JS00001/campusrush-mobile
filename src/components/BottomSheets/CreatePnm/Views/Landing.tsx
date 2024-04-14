@@ -10,7 +10,6 @@
  * Do not distribute
  */
 
-import { useModalStore } from "@/store";
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import tw from "@/lib/tailwind";

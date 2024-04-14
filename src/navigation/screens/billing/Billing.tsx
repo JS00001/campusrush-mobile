@@ -29,14 +29,14 @@ import SafeAreaView from "@/ui/SafeAreaView";
 import { useEntitlementStore } from "@/store";
 import Logo32 from "@/components/Logos/Logo32";
 import { useQonversion } from "@/providers/Qonversion";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheet } from "@/providers/BottomSheet";
 import HeaderBackground from "@/components/Backgrounds/Header";
 
 const BillingScreen = () => {
   const posthog = usePostHog();
   const logoutMutation = useLogout();
   const { chapter, clear } = useAuth();
-  const { openBottomSheet } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheet();
   const entitlementStore = useEntitlementStore();
   const { purchaseProduct, restorePurchases } = useQonversion();
 

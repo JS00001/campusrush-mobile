@@ -23,7 +23,7 @@ import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import { useLogout } from "@/hooks/api/auth";
 import { useDeleteChapter } from "@/hooks/api/chapter";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheet } from "@/providers/BottomSheet";
 
 const SettingsView = () => {
   const navigation = useNavigation();
@@ -32,7 +32,7 @@ const SettingsView = () => {
   const logoutMutation = useLogout();
   const { chapter, clear } = useAuth();
   const { openModal } = useModalStore();
-  const { openBottomSheet } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheet();
 
   const onTermsOfServicePress = () => {
     openBottomSheet("TERMS_OF_SERVICE");

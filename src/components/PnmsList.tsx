@@ -24,7 +24,7 @@ import ListItem from "@/ui/ListItem";
 import Headline from "@/ui/Headline";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import { formatPhoneNumber } from "@/lib/util/string";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheet } from "@/providers/BottomSheet";
 
 interface PnmsListProps {
   pnms: PNM[];
@@ -33,7 +33,7 @@ interface PnmsListProps {
 }
 
 const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
-  const { openBottomSheet } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheet();
   // Create a ref to the sectionlist so we can scroll to a specific index programatically
   const sectionListRef = useRef<SectionList>(null);
   // Whether or not the list is refreshing

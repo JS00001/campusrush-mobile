@@ -24,16 +24,16 @@ import useKeyboardListener from "@/hooks/useKeyboardListener";
 const Step1: React.FC<UseSheetFlowProps> = ({
   state,
   setState,
-  handleSnapToIndex,
-  handleSnapToPosition,
+  snapToIndex,
+  snapToPosition,
   nextView,
 }) => {
   useKeyboardListener({
     onKeyboardWillShow: () => {
-      handleSnapToPosition("95%");
+      snapToPosition("95%");
     },
     onKeyboardWillHide: () => {
-      handleSnapToIndex(0);
+      snapToIndex(0);
     },
   });
 

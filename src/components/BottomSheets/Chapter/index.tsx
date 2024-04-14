@@ -22,8 +22,8 @@ import BottomSheetContainer from "@/ui/BottomSheet/Container";
 const ChapterSheet: React.FC<BottomSheetProps> = ({
   innerRef,
   handleClose,
-  handleSnapToIndex,
-  handleSnapToPosition,
+  snapToIndex,
+  snapToPosition,
 }) => {
   const views = [Landing, ManageBilling];
 
@@ -31,8 +31,8 @@ const ChapterSheet: React.FC<BottomSheetProps> = ({
     state: {},
     views,
     handleClose,
-    handleSnapToIndex,
-    handleSnapToPosition,
+    snapToIndex,
+    snapToPosition,
   });
 
   const CurrentView = sheetFlow.currentView;

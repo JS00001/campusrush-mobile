@@ -20,7 +20,7 @@ import {
 } from "@/hooks/api/events";
 import useSearch from "@/hooks/useSearch";
 import { useEventStore, useModalStore } from "@/store";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheet } from "@/providers/BottomSheet";
 
 import Event from "@/ui/Event";
 import tw from "@/lib/tailwind";
@@ -34,7 +34,7 @@ import FlatList from "@/ui/FlatList";
 
 const EventsView = () => {
   const { openModal } = useModalStore();
-  const { openBottomSheet } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheet();
 
   const eventStore = useEventStore();
   const eventsQuery = useGetEvents();

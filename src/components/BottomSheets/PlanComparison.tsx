@@ -17,7 +17,6 @@ import type { BottomSheetProps } from "./@types";
 import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Headline from "@/ui/Headline";
 import Information from "@/ui/Information";
 import { useEntitlementStore } from "@/store";
 import { BottomSheet } from "@/ui/BottomSheet";

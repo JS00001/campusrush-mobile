@@ -22,13 +22,13 @@ import IconButton from "@/ui/IconButton";
 import { useAuth } from "@/providers/Auth";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import { formatPhoneNumber } from "@/lib/util/string";
-import { useBottomSheets } from "@/providers/BottomSheet";
+import { useBottomSheet } from "@/providers/BottomSheet";
 import { useGetChapterStatistics } from "@/hooks/api/chapter";
 
 const HomeView = () => {
   const { chapter } = useAuth();
   const navigation = useNavigation();
-  const { openBottomSheet } = useBottomSheets();
+  const { openBottomSheet } = useBottomSheet();
   const statisticsQuery = useGetChapterStatistics();
 
   const onSettingsPress = () => {

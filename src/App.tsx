@@ -76,6 +76,7 @@ const App = () => {
                                 </EntitlementsProvider>
                               </BottomSheetProvider>
                             </BottomSheetModalProvider>
+
                             {/* We need the toast outside of the bottom sheet modal provider so it shows up on top of bottom sheets */}
                             <Toast config={toastConfig} />
                           </GestureHandlerRootView>
