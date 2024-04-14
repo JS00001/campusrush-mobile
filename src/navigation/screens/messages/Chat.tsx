@@ -11,6 +11,7 @@
  */
 
 import { useEffect } from "react";
+import { Keyboard } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { Layout } from "@/ui/Layout";
@@ -33,7 +34,6 @@ import SocketInput from "@/lib/socketInput";
 import MessageBubble from "@/ui/MessageBubble";
 import { useWebsocket } from "@/providers/Websocket";
 import DirectMessageHeader from "@/components/Headers/DirectMessage";
-import { Keyboard } from "react-native";
 
 interface ChatProps {
   route: any;
@@ -122,33 +122,47 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
   }, [conversationQuery.data]);
 
   /**
-   * Send a direct message
+   * Send direct messages to the server and update the message store
    */
-  const sendDirectMessage = async (message: string) => {
-    const payload = {
-      message,
-      pnm: pnmId,
-    };
+  const sendDirectMessages = async (messages: string[]) => {
+    // First, add ALL messages to the message store (so the UI gets updated immediately
+    // with ALL of the messages, even if they haven't been sent yet)
+    for (let i = 0; i < messages.length; i++) {
+      if (!messages[i].length) return;
 
-    const newMessage: Message = {
-      _id: "temp",
-      sent: true,
-      pnm: pnmId,
-      content: message,
-      chapter: chapter._id,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+      const messageId = `temp-${i}`;
 
-    messageStore.addMessages(pnmId, newMessage);
+      const newMessage: Message = {
+        _id: messageId,
+        sent: true,
+        pnm: pnmId,
+        content: messages[i],
+        chapter: chapter._id,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
 
-    const res = await sendMessageMutation.mutateAsync(payload);
+      messageStore.addMessages(pnmId, newMessage);
+    }
 
-    if ("error" in res) return messageStore.removeMessage(pnmId, "temp");
+    // Then, send each message to the server, and replace it in the message store
+    // as the requests complete
+    for (let i = 0; i < messages.length; i++) {
+      const messageId = `temp-${i}`;
 
-    conversationStore.addConversations(res.data.conversation);
-    messageStore.replaceMessage(pnmId, "temp", res.data.message);
-    contactStore.removeContacts("uncontacted", pnm);
+      const payload = {
+        message: messages[i],
+        pnm: pnmId,
+      };
+
+      const res = await sendMessageMutation.mutateAsync(payload);
+
+      if ("error" in res) return messageStore.removeMessage(pnmId, messageId);
+
+      conversationStore.addConversations(res.data.conversation);
+      messageStore.replaceMessage(pnmId, messageId, res.data.message);
+      contactStore.removeContacts("uncontacted", pnm);
+    }
   };
 
   /**
@@ -159,12 +173,12 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
     Keyboard.dismiss();
   };
 
+  /**
+   * When the user reaches the end of the list, we want to fetch more
+   * messages
+   */
   const onEndReached = async () => {
     await conversationQuery.fetchNextPage();
-  };
-
-  const onSend = async (message: string) => {
-    await sendDirectMessage(message);
   };
 
   return (
@@ -204,7 +218,7 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
 
       <Layout.Footer keyboardAvoiding>
         <MessageBox
-          onSend={onSend}
+          onSend={sendDirectMessages}
           disableSend={sendMessageMutation.isLoading}
         />
       </Layout.Footer>

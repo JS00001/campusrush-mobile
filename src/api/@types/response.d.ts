@@ -365,3 +365,18 @@ type GetAdminChapterEntitlementsResponse = API.Response<
     };
   }[]
 >;
+
+type GetMetadataResponse = {
+  /**
+   * The title of the website
+   */
+  title: string;
+  /**
+   * The description of the website
+   */
+  description: string;
+  /**
+   * The image URL of the website
+   */
+  image?: string;
+};
