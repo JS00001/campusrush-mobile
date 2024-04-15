@@ -18,12 +18,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useEffect, useRef } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { TouchableOpacityProps, View } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import { getMetadata } from "@/api/requests/third-party/metadata";
+import useMetadata from "@/hooks/useMetadata";
 
 interface WebsitePreviewProps extends TouchableOpacityProps {
   url: string;
@@ -41,12 +40,7 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
   /**
    * Fetch the metadata for the URL
    */
-  const query = useQuery({
-    queryKey: ["websitePreview", url],
-    queryFn: async () => {
-      return getMetadata(url);
-    },
-  });
+  const query = useMetadata(url);
 
   // If there is a cached value, we dont want the card to wierdly animate
   const initialHeight = query.isFetched
@@ -67,18 +61,6 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
     }).start();
   }, [query.isLoading]);
 
-  // Returns JUST the domain of the URL
-  // IE: https://campusrush.app -> campusrush.app
-  // OR: https://google.com/search?q=hello -> google.com
-  const rawUrl = (() => {
-    const urlParts = url.split("/");
-    const domain = urlParts[2];
-
-    return domain;
-  })();
-
-  const { image, title } = query.data || {};
-
   const onClick = () => {
     Linking.openURL(url);
   };
@@ -87,6 +69,8 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
     "w-3/4 rounded-xl overflow-hidden bg-gray-100",
     style,
   );
+
+  const { image, title, rawUrl } = query;
 
   if (query.isLoading) {
     return (
