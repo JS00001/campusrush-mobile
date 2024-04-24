@@ -15,6 +15,7 @@ import { ScrollView } from "react-native";
 import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
 import Header from "@/ui/Header";
+import FilterChip from "@/ui/FilterChip";
 
 interface MassMessageHeaderProps {
   pnms: PNM[];
@@ -40,16 +41,28 @@ const MassMessageHeader: React.FC<MassMessageHeaderProps> = ({
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={tw`flex-row gap-0.5 pl-6 pb-3`}
       >
-        {pnms.map((pnm, index) => (
-          <Badge
-            key={index}
-            size="md"
-            removable={pnms.length > 2}
-            onRemove={onRemove.bind(null, pnm)}
-          >
-            {`${pnm.firstName} ${pnm.lastName}`}
-          </Badge>
-        ))}
+        {pnms.map((pnm, index) => {
+          const pnmsRemovable = pnms.length > 2;
+
+          if (pnmsRemovable) {
+            return (
+              <FilterChip
+                key={index}
+                size="md"
+                color="primary"
+                onRemove={onRemove.bind(null, pnm)}
+              >
+                {`${pnm.firstName} ${pnm.lastName}`}
+              </FilterChip>
+            );
+          }
+
+          return (
+            <Badge key={index} size="md">
+              {`${pnm.firstName} ${pnm.lastName}`}
+            </Badge>
+          );
+        })}
       </ScrollView>
     </Header>
   );

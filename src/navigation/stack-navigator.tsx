@@ -26,6 +26,7 @@ import CopyActionScreen from "@/navigation/screens/admin/UIComponents/CopyAction
 import CopyViewScreen from "@/navigation/screens/admin/UIComponents/CopyView";
 import DateTimePickerScreen from "@/navigation/screens/admin/UIComponents/DateTimePicker";
 import DetailViewScreen from "@/navigation/screens/admin/UIComponents/DetailView";
+import FilterChipScreen from "@/navigation/screens/admin/UIComponents/FilterChip";
 import FormFieldScreen from "@/navigation/screens/admin/UIComponents/FormField";
 import HeadlineScreen from "@/navigation/screens/admin/UIComponents/Headline";
 import HyperlinkScreen from "@/navigation/screens/admin/UIComponents/Hyperlink";
@@ -340,6 +341,10 @@ export const AdminStack = () => {
       <Stack.Screen
         name="UIDetailView"
         component={DetailViewScreen}
+      />
+      <Stack.Screen
+        name="UIFilterChip"
+        component={FilterChipScreen}
       />
       <Stack.Screen
         name="UIFormField"

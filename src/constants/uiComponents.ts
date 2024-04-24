@@ -52,6 +52,11 @@ const UIComponents = [
     screenName: 'UIDetailView',
   },
   {
+    name: 'Filter Chip',
+    description: 'A chip for filtering content',
+    screenName: 'UIFilterChip',
+  },
+  {
     name: 'Form Field',
     description: 'Input field for user data',
     screenName: 'UIFormField',

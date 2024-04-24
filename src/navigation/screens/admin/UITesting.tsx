@@ -14,6 +14,7 @@ import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import Switch from "@/ui/Switch";
+import ToggleChip from "@/ui/ToggleChip";
 import WebsitePreview from "@/ui/WebsitePreview";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
@@ -28,7 +29,9 @@ const UITestingScreen: React.FC<UITestingScreenProps> = ({ navigation }) => {
   return (
     <Layout.Root>
       <Layout.Content scrollable>
-        <WebsitePreview style={tw`self-end`} url="https://campusrush.app" />
+        <ToggleChip value={value} size="sm" onChange={setValue}>
+          Toggle Chip
+        </ToggleChip>
       </Layout.Content>
     </Layout.Root>
   );
