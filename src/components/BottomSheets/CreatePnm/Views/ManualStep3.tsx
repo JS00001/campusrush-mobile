@@ -10,96 +10,93 @@
  * Do not distribute
  */
 
-import Toast from "react-native-toast-message";
+import { View } from "react-native";
 
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
+import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
-import ListItem from "@/ui/ListItem";
 import Headline from "@/ui/Headline";
-import { useGlobalStore } from "@/store";
-import Content from "@/constants/content";
+import useForm from "@/hooks/useForm";
+import FormField from "@/ui/FormField";
 import ButtonGroup from "@/ui/ButtonGroup";
-import { useCreatePnm } from "@/hooks/api/pnms";
+import validators from "@/constants/validators";
+import useKeyboardListener from "@/hooks/useKeyboardListener";
 
 const ManualStep3: React.FC<UseSheetFlowProps> = ({
   state,
-  setState,
+  nextView,
   prevView,
-  handleClose,
+  setState,
+  snapToIndex,
+  snapToPosition,
 }) => {
-  const fields = {
-    firstName: "First Name",
-    lastName: "Last Name",
-    phoneNumber: "Phone Number",
-    instagram: "Instagram",
-    snapchat: "Snapchat",
+  useKeyboardListener({
+    onKeyboardWillShow: () => {
+      snapToPosition("85%");
+    },
+    onKeyboardWillHide: () => {
+      snapToIndex(0);
+    },
+  });
+
+  const formValidators = {
+    instagram: validators.shortContentString.optional(),
+    snapchat: validators.shortContentString.optional(),
   };
 
-  const mutation = useCreatePnm();
-  const globalStore = useGlobalStore();
+  const form = useForm({
+    validators: formValidators,
+    initialValues: {
+      instagram: state.instagram,
+      snapchat: state.snapchat,
+    },
+  });
 
-  const handleSubmission = async () => {
-    const res = await mutation.mutateAsync(state as CreatePnmRequest);
+  const handleSubmission = () => {
+    const isValid = form.validateState();
 
-    if ("error" in res) {
+    if (!isValid) {
       return;
     }
 
-    setState({
-      firstName: undefined,
-      lastName: undefined,
-      phoneNumber: undefined,
-      instagram: undefined,
-      snapchat: undefined,
-    });
-
-    globalStore.addPnm(res.data.pnm);
-
-    Toast.show({
-      type: "success",
-      text1: Content.createPNMSuccess.title,
-      text2: Content.createPNMSuccess.message,
-    });
-
-    handleClose();
+    nextView();
+    setState((prevState: any) => ({
+      ...prevState,
+      instagram: form.state.instagram.value,
+      snapchat: form.state.snapchat.value,
+    }));
   };
 
   return (
-    <>
-      <Headline title="Finalize" subtitle="Does this look correct?" />
+    <View style={tw`gap-y-4`}>
+      <Headline
+        title="Social Media"
+        subtitle="Enter the PNM's known social media. This step is optional."
+      />
 
-      {Object.keys(fields).map((key) => {
-        const value = state[key as keyof CreatePnmRequest];
-
-        return (
-          <ListItem
-            key={key}
-            pressable={false}
-            title={fields[key as keyof typeof fields]}
-            subtitle={(value as string) || "N/A"}
-          />
-        );
-      })}
+      <FormField
+        placeholder="Instagram"
+        value={form.state.instagram.value}
+        error={form.state.instagram.error}
+        onChangeText={form.setValue.bind(null, "instagram")}
+      />
+      <FormField
+        placeholder="Snapchat"
+        value={form.state.snapchat.value}
+        error={form.state.snapchat.error}
+        onChangeText={form.setValue.bind(null, "snapchat")}
+      />
 
       <ButtonGroup>
-        <Button
-          size="sm"
-          color="secondary"
-          onPress={prevView}
-          disabled={mutation.isLoading}
-        >
-          No, Go Back
+        <Button size="sm" color="secondary" onPress={prevView}>
+          Go Back
         </Button>
-        <Button
-          size="sm"
-          onPress={handleSubmission}
-          loading={mutation.isLoading}
-        >
-          Yes, Create
+        <Button size="sm" onPress={handleSubmission}>
+          Next
         </Button>
       </ButtonGroup>
-    </>
+    </View>
   );
 };
 

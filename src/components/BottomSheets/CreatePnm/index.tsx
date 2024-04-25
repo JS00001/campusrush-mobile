@@ -15,8 +15,9 @@ import type { BottomSheetProps } from "../@types";
 import QrCode from "./Views/QrCode";
 import Landing from "./Views/Landing";
 import ManualStep1 from "./Views/ManualStep1";
-import ManualStep3 from "./Views/ManualStep3";
 import ManualStep2 from "./Views/ManualStep2";
+import ManualStep3 from "./Views/ManualStep3";
+import ManualStep4 from "./Views/ManualStep4";
 
 import { BottomSheet } from "@/ui/BottomSheet";
 import useSheetFlow from "@/hooks/useSheetFlow";
@@ -28,13 +29,21 @@ const CreatePnmSheet: React.FC<BottomSheetProps> = ({
   snapToIndex,
   snapToPosition,
 }) => {
-  const views = [Landing, ManualStep1, ManualStep2, ManualStep3, QrCode];
+  const views = [
+    Landing,
+    ManualStep1,
+    ManualStep2,
+    ManualStep3,
+    ManualStep4,
+    QrCode,
+  ];
 
   const sheetFlow = useSheetFlow({
     state: {
       firstName: undefined,
       lastName: undefined,
       phoneNumber: undefined,
+      tags: [],
       instagram: undefined,
       snapchat: undefined,
     },

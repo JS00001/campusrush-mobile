@@ -33,7 +33,7 @@ const ManualStep1: React.FC<UseSheetFlowProps> = ({
 }) => {
   useKeyboardListener({
     onKeyboardWillShow: () => {
-      snapToPosition("95%");
+      snapToPosition("90%");
     },
     onKeyboardWillHide: () => {
       snapToIndex(0);

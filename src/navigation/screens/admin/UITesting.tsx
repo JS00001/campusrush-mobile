@@ -10,6 +10,8 @@
  * Do not distribute
  */
 
+import TagSelector from "@/components/TagSelector";
+import TagView from "@/components/TagView";
 import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
 import ListItemLoader from "@/ui/Loaders/ListItem";
@@ -26,12 +28,18 @@ interface UITestingScreenProps {
 const UITestingScreen: React.FC<UITestingScreenProps> = ({ navigation }) => {
   const [value, setValue] = useState(false);
 
+  const onChange = (values: string[]) => {};
+
   return (
     <Layout.Root>
       <Layout.Content scrollable>
-        <ToggleChip value={value} size="sm" onChange={setValue}>
-          Toggle Chip
-        </ToggleChip>
+        <TagView
+          disabled
+          onPress={() => {
+            console.log("TagView Pressed");
+          }}
+          tags={["tag1", "tag2", "tag3", "Sports", "Testing"]}
+        />
       </Layout.Content>
     </Layout.Root>
   );
