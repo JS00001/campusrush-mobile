@@ -35,7 +35,6 @@ const CreatePnmSheet: React.FC<BottomSheetProps> = ({
       firstName: undefined,
       lastName: undefined,
       phoneNumber: undefined,
-      classification: undefined,
       instagram: undefined,
       snapchat: undefined,
     },

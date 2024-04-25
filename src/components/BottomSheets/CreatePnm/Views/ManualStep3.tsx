@@ -32,7 +32,6 @@ const ManualStep3: React.FC<UseSheetFlowProps> = ({
     firstName: "First Name",
     lastName: "Last Name",
     phoneNumber: "Phone Number",
-    classification: "Classification",
     instagram: "Instagram",
     snapchat: "Snapchat",
   };
@@ -51,7 +50,6 @@ const ManualStep3: React.FC<UseSheetFlowProps> = ({
       firstName: undefined,
       lastName: undefined,
       phoneNumber: undefined,
-      classification: undefined,
       instagram: undefined,
       snapchat: undefined,
     });

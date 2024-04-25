@@ -43,7 +43,6 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
           firstName: validators.firstName.optional(),
           lastName: validators.lastName.optional(),
           phoneNumber: validators.phoneNumber.optional(),
-          classification: validators.shortContentString.optional(),
           instagram: validators.shortContentString.optional(),
           snapchat: validators.shortContentString.optional(),
         };
@@ -61,7 +60,6 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
             firstName: pnmQuery.pnm?.firstName,
             lastName: pnmQuery.pnm?.lastName,
             phoneNumber: pnmQuery.pnm?.phoneNumber,
-            classification: pnmQuery.pnm?.classification,
             instagram: pnmQuery.pnm?.instagram,
             snapchat: pnmQuery.pnm?.snapchat,
           },
@@ -103,12 +101,6 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
                 value={form.state.phoneNumber.value}
                 error={form.state.phoneNumber.error}
                 onChangeText={form.setValue.bind(null, "phoneNumber")}
-              />
-              <FormField
-                placeholder="Classification"
-                value={form.state.classification.value}
-                error={form.state.classification.error}
-                onChangeText={form.setValue.bind(null, "classification")}
               />
               <FormField
                 placeholder="Instagram"

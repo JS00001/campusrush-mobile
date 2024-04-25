@@ -51,11 +51,11 @@ interface PNM {
   lastName: string;
   phoneNumber: string;
 
+  tags: string[];
   instagram: string;
   snapchat: string;
 
   starred: boolean;
-  classification: string;
 
   createdAt: Date;
   updatedAt: Date;

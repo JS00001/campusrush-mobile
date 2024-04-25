@@ -173,9 +173,9 @@ interface CreatePnmRequest {
    */
   phoneNumber: string;
   /**
-   * Classification of the potential new member (PNM)
+   * Tag(s) associated with the potential new member (PNM)
    */
-  classification?: string;
+  tags?: string[];
   /**
    * Instagram handle of the potential new member (PNM)
    */
@@ -204,9 +204,9 @@ interface UpdatePnmRequest {
    */
   phoneNumber?: string;
   /**
-   * Updated classification of the potential new member (PNM)
+   * Updated tag(s) associated with the potential new member (PNM)
    */
-  classification?: string;
+  tags?: string[];
   /**
    * Updated Instagram handle of the potential new member (PNM)
    */
