@@ -103,3 +103,15 @@ interface Event {
   createdAt: Date;
   updatedAt: Date;
 }
+
+interface TagCategory {
+  id: string;
+  name: string;
+  tags: string[];
+}
+
+interface Metadata {
+  version: string;
+  tags: TagCategory[];
+  entitlements: EntitlementDetails;
+}

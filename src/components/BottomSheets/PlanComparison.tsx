@@ -18,12 +18,12 @@ import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Information from "@/ui/Information";
-import { useEntitlementStore } from "@/store";
+import { useMetadataStore } from "@/store";
 import { BottomSheet } from "@/ui/BottomSheet";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
-  const entitlements = useEntitlementStore((state) => state.entitlements);
+  const entitlements = useMetadataStore((state) => state.metadata.entitlements);
 
   return (
     <BottomSheet

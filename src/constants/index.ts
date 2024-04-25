@@ -36,6 +36,11 @@ const AppConstants = {
    */
   isProduction,
   /**
+   * The app store URL for the app
+   */
+  appStoreUrl:
+    'https://apps.apple.com/us/app/campus-rush-recruitment/id6462791621',
+  /**
    * The version of the app
    */
   version: ExpoConstants.expoConfig?.version,

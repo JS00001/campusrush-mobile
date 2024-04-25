@@ -24,7 +24,7 @@ import Text from "@/ui/Text";
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import AppConstants from "@/constants";
-import useMetadata from "@/hooks/useMetadata";
+import useWebsiteMetadata from "@/hooks/useWebsiteMetadata";
 
 interface EventAttachmentProps extends ViewProps {
   event: Event;
@@ -47,7 +47,7 @@ const EventAttachment: React.FC<EventAttachmentProps> = ({
   /**
    * Fetch the metadata for the URL
    */
-  const query = useMetadata(EVENT_URL);
+  const query = useWebsiteMetadata(EVENT_URL);
 
   // If there is a cached value, we dont want the card to wierdly animate
   const initialHeight = query.isFetched

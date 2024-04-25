@@ -11,7 +11,7 @@
  */
 export * from './GlobalStore';
 
-export * from './EntitlementStore';
+export * from './MetadataStore';
 export * from './EventStore';
 export * from './ModalStore';
 export * from './PNMStore';

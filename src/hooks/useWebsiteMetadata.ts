@@ -11,16 +11,16 @@
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { getMetadata } from '@/api/requests/third-party/metadata';
+import { getWebsiteMetadata } from '@/api/requests/third-party/metadata';
 
-const useMetadata = (url: string) => {
+const useWebsiteMetadata = (url: string) => {
   /**
    * Fetch the metadata for the URL
    */
   const query = useQuery({
-    queryKey: ['metadata', url],
+    queryKey: ['website_metadata', url],
     queryFn: async () => {
-      return getMetadata(url);
+      return getWebsiteMetadata(url);
     },
   });
 
@@ -45,4 +45,4 @@ const useMetadata = (url: string) => {
   };
 };
 
-export default useMetadata;
+export default useWebsiteMetadata;

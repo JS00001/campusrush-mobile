@@ -22,7 +22,7 @@ import { TouchableOpacityProps, View } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import useMetadata from "@/hooks/useMetadata";
+import useWebsiteMetadata from "@/hooks/useWebsiteMetadata";
 
 interface WebsitePreviewProps extends TouchableOpacityProps {
   url: string;
@@ -40,7 +40,7 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
   /**
    * Fetch the metadata for the URL
    */
-  const query = useMetadata(url);
+  const query = useWebsiteMetadata(url);
 
   // If there is a cached value, we dont want the card to wierdly animate
   const initialHeight = query.isFetched

@@ -12,12 +12,12 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getVersion } from "@/api";
+import { getMetadata } from "@/api";
 
-export const useGetVersion = () => {
-  return useQuery(["version"], {
+export const useGetMetadata = () => {
+  return useQuery(["metadata"], {
     queryFn: () => {
-      return getVersion();
+      return getMetadata();
     },
   });
 };

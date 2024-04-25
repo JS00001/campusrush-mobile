@@ -18,8 +18,8 @@ const BASE_URL = 'https://api.dub.co/metatags?url=';
  * Request:     GET /api/v1/consumer/admin/chapters
  * Description: Get all chapters
  */
-export const getMetadata = async (url: string) => {
+export const getWebsiteMetadata = async (url: string) => {
   const { data } = await axios.get(`${BASE_URL}${url}`);
 
-  return data as GetMetadataResponse;
+  return data as GetWebsiteMetadataResponse;
 };
