@@ -10,13 +10,9 @@
  * Do not distribute
  */
 
-import {
-  View,
-  TouchableOpacity,
-  SectionList,
-  RefreshControl,
-} from "react-native";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
+import { FlashList } from "@shopify/flash-list";
+import { View, RefreshControl } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -34,138 +30,95 @@ interface PnmsListProps {
 
 const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
   const { openBottomSheet } = useBottomSheet();
-  // Create a ref to the sectionlist so we can scroll to a specific index programatically
-  const sectionListRef = useRef<SectionList>(null);
-  // Whether or not the list is refreshing
   const [isRefetching, setIsRefetching] = useState(false);
-  // Store the current letter from the alphabet list
-  const [currentLetter, setCurrentLetter] = useState("A");
-  // Whether or not the list is scrolling, used to prevent the alphabet list from changing the current letter
-  const [isScrolling, setIsScrolling] = useState(false);
 
-  // When pnms change, create a new list like this
-  // [ {title: "A", data: {pnms starting with A}}, {title: "B", data: {pnms starting with B}}, ...}}]
-  // Only have an entry if there are pnms with that letter first name
-  // Memoize so it only updates when pnms change
-  const data = useMemo(() => {
-    // Reduce the pnms to an object with keys of the first letter of the first name
+  /**
+   * When pnms change, create a new list like this
+   * [ "A", ...PNMs with first name starting with A, "B", ...PNMs with first name starting with B, ...]
+   * Only have an entry if there are pnms with that letter first name
+   */
+  const [data, indices] = useMemo(() => {
+    /**
+     * Takes the list of pnms and reduces them into a list that looks like this
+     * {
+     *  "A": ["A", PNM, PNM, ...],
+     *  "B": ["B", PNM, PNM, ...],
+     * }
+     */
     const reduction = pnms.reduce(
       (acc, pnm) => {
         // Get the first letter of the first name
         const firstLetter = pnm.firstName[0].toUpperCase();
 
-        // If the accumulator does not have an entry for that letter, create one
+        // If no entry exists for the first letter, create one
         if (!acc[firstLetter]) {
-          acc[firstLetter] = {
-            title: firstLetter,
-            data: [],
-          };
+          acc[firstLetter] = [firstLetter];
         }
-        // Add the pnm to that letter's data
-        acc[firstLetter].data.push(pnm);
 
-        // Return the accumulator
+        acc[firstLetter].push(pnm);
+
         return acc;
       },
-      {} as Record<string, { title: string; data: PNM[] }>,
+      {} as Record<string, Array<string | PNM>>,
     );
 
-    // Ensure the objects are in order based on their title (alphabetical order)
-    return Object.values(reduction).sort((a, b) =>
-      a.title.localeCompare(b.title),
-    );
+    // Sort the keys and flatten the list
+    const res = Object.keys(reduction)
+      .sort((a, b) => a.localeCompare(b))
+      .flatMap((key) => {
+        return reduction[key];
+      });
+
+    // Get the indices of the header entries
+    const stickyHeaderIndices = res.reduce((acc, item, index) => {
+      if (typeof item === "string") {
+        acc.push(index);
+      }
+
+      return acc;
+    }, [] as number[]);
+
+    return [res, stickyHeaderIndices];
   }, [pnms]);
 
-  // When the current letter changes, scroll to the section with that letter
-  // If the letter is not found, find the closest letter
-  const onLetterChange = (letter: string) => {
-    // Set the current letter
-    setCurrentLetter(letter);
-
-    // Check if there is more than one pnm in the list
-    if (pnms.length <= 1) {
-      return;
-    }
-
-    // Get the index of the section with that letter
-    const index = data.findIndex((section) => section.title === letter);
-
-    // If the letter is not found, find the closest letter
-    if (index === -1) {
-      // Get the index of the closest letter
-      const closestIndex = data.findIndex((section) => {
-        // Get the first letter of the section title
-        const firstLetter = section.title[0];
-
-        // If the current letter is less than the first letter, return true
-        return letter < firstLetter;
-      });
-
-      // Scroll to the closest letter
-      sectionListRef.current?.scrollToLocation({
-        sectionIndex: closestIndex,
-        // We use 1 because this WILL NOT WORK if we use 0
-        // Using 0 scrolls to "A" all the time (not sure why)
-        itemIndex: 1,
-      });
-    } else {
-      // Scroll to the letter index
-      sectionListRef.current?.scrollToLocation({
-        sectionIndex: index,
-        // We use 1 because this WILL NOT WORK if we use 0
-        // Using 0 scrolls to "A" all the time (not sure why)
-        itemIndex: 1,
-      });
-    }
-  };
-
-  // When the viewable items change, get the first item and set the current letter to the first letter of the first item
-  const onViewableItemsChanged = (info: any) => {
-    // Get the first item
-    const firstItem = info.viewableItems[0];
-
-    // If there is a first item, set the current letter to the section title
-    // The section title is the first letter of the first name
-    if (firstItem) {
-      setCurrentLetter(firstItem.section.title);
-    }
-
-    // Set is scrolling to false
-    setIsScrolling(false);
-  };
-
-  // When the list is scrolling, set is scrolling to true
-  const handleScroll = () => {
-    if (!isScrolling) {
-      setIsScrolling(true);
-    }
-  };
-
-  // On refresh, set is refetching to true and call the on refetch prop
+  /**
+   * When the list is refreshed, refetch the data
+   */
   const onRefresh = async () => {
     setIsRefetching(true);
     await onRefetch?.();
     setIsRefetching(false);
   };
 
-  // The components for each item in teh section list
-  const ItemComponent = ({ item: pnm }: { item: PNM }) => {
+  /**
+   * Conditionally renders either a header entry or a PNM entry
+   * based on the type of data passed
+   */
+  const ItemComponent = ({ item: data }: { item: PNM | string }) => {
+    if (typeof data === "string") {
+      return <Text style={tw`bg-white w-full font-medium`}>{data}</Text>;
+    }
+
     const onPress = () => {
-      openBottomSheet("PNM", { pnmId: pnm._id });
+      openBottomSheet("PNM", { pnmId: data._id });
     };
 
     return (
       <ListItem
-        key={pnm._id}
-        title={`${pnm.firstName} ${pnm.lastName}`}
-        subtitle={formatPhoneNumber(pnm.phoneNumber)}
-        icon={pnm.starred ? "star-fill" : undefined}
+        style={tw`my-1`}
+        key={data._id}
+        title={`${data.firstName} ${data.lastName}`}
+        subtitle={formatPhoneNumber(data.phoneNumber)}
+        icon={data.starred ? "star-fill" : undefined}
         iconColor={tw.color("yellow")}
         onPress={onPress}
       />
     );
   };
 
+  /**
+   * Renders a loader if the list is loading, or a message if the list is empty
+   */
   const ListEmptyComponent = () => {
     if (loading) {
       return new Array(20).fill(0).map((_, i) => <ListItemLoader key={i} />);
@@ -181,88 +134,20 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
   };
 
   return (
-    <View style={tw`flex-row gap-x-2 flex-1`}>
-      {/* The contacts */}
-      <SectionList
-        sections={data}
-        ref={sectionListRef}
-        onScroll={handleScroll}
-        contentContainerStyle={tw`gap-y-2`}
-        showsVerticalScrollIndicator={false}
+    <View style={tw`flex-row flex-1`}>
+      <FlashList
+        data={data}
+        // Used for optimization
+        estimatedItemSize={84}
+        // Sticks the letters to the top of the list
         renderItem={ItemComponent}
-        // If there is no data, it is probably loading so show skeletons
+        stickyHeaderIndices={indices}
         ListEmptyComponent={ListEmptyComponent}
-        // When the viewable items change, this updates the current letter
-        onViewableItemsChanged={onViewableItemsChanged}
-        // The viewability config is set to 100% so that the section header is visible when the first item is fully visible
-        viewabilityConfig={{
-          itemVisiblePercentThreshold: 100,
-        }}
-        // Create a header for each letter
-        renderSectionHeader={({ section: { title } }) => (
-          <Text style={tw`bg-white w-full font-medium`}>{title}</Text>
-        )}
+        showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={isRefetching} onRefresh={onRefresh} />
         }
       />
-
-      {
-        // If there are any pnms, show the alphabet list
-        pnms.length >= 1 && (
-          <AlphabetList
-            currentLetter={currentLetter}
-            setCurrentLetter={onLetterChange}
-          />
-        )
-      }
-    </View>
-  );
-};
-
-interface AlphabetListProps {
-  currentLetter?: string;
-  setCurrentLetter?: (letter: string) => void;
-}
-
-const AlphabetList: React.FC<AlphabetListProps> = ({
-  currentLetter,
-  setCurrentLetter = () => {},
-}) => {
-  const alphabetChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-  return (
-    <View style={tw`mb-6`}>
-      <View
-        style={tw`bg-slate-100 rounded-full justify-between py-1 items-center`}
-      >
-        {alphabetChars.map((char, i) => {
-          const textClasses = tw.style(
-            "text-slate-400",
-            currentLetter === char && "text-primary font-medium",
-          );
-
-          const containerClasses = tw.style("w-full items-center px-1");
-
-          const handlePress = () => {
-            requestAnimationFrame(() => {
-              setCurrentLetter(char);
-            });
-          };
-
-          return (
-            <TouchableOpacity
-              key={i}
-              onPress={handlePress}
-              style={containerClasses}
-            >
-              <Text type="p4" style={textClasses}>
-                {char}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
     </View>
   );
 };
