@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { z } from "zod";
 import { View } from "react-native";
 
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
@@ -18,11 +19,7 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import Headline from "@/ui/Headline";
 import useForm from "@/hooks/useForm";
-import FormField from "@/ui/FormField";
 import ButtonGroup from "@/ui/ButtonGroup";
-import validators from "@/constants/validators";
-import useKeyboardListener from "@/hooks/useKeyboardListener";
-import { z } from "zod";
 import TagSelector from "@/components/TagSelector";
 
 const ManualStep2: React.FC<UseSheetFlowProps> = ({
@@ -30,8 +27,6 @@ const ManualStep2: React.FC<UseSheetFlowProps> = ({
   nextView,
   prevView,
   setState,
-  snapToIndex,
-  snapToPosition,
 }) => {
   const formValidators = {
     tags: z.array(z.string()).optional(),
