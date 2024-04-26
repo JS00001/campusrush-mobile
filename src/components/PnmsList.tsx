@@ -140,9 +140,10 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
         // Used for optimization
         estimatedItemSize={84}
         // Sticks the letters to the top of the list
-        stickyHeaderIndices={indices}
         renderItem={ItemComponent}
+        stickyHeaderIndices={indices}
         ListEmptyComponent={ListEmptyComponent}
+        showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={isRefetching} onRefresh={onRefresh} />
         }

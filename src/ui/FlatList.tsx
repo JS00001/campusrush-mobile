@@ -15,7 +15,6 @@ import {
   FlatListProps as RNFlatListProps,
   View,
 } from "react-native";
-import { FlashList } from "@shopify/flash-list";
 import React, { useState } from "react";
 
 import tw from "@/lib/tailwind";
