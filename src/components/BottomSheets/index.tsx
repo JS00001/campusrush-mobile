@@ -18,6 +18,7 @@ import EventSheet from "./Event";
 import PnmSheet from "./Pnm";
 import PlanComparisonSheet from "./PlanComparison";
 import PrivacyPolicySheet from "./PrivacyPolicy";
+import TagSelectorSheet from "./TagSelector";
 import TermsOfServiceSheet from "./TermsOfService";
 import UpdatePnmSheet from "./UpdatePnm";
 import UpdateEventSheet from "./UpdateEvent";
@@ -31,6 +32,7 @@ export default {
   PNM: PnmSheet,
   PLAN_COMPARISON: PlanComparisonSheet,
   PRIVACY_POLICY: PrivacyPolicySheet,
+  TAG_SELECTOR: TagSelectorSheet,
   TERMS_OF_SERVICE: TermsOfServiceSheet,
   UPDATE_PNM: UpdatePnmSheet,
   UPDATE_EVENT: UpdateEventSheet,

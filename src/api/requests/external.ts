@@ -15,13 +15,13 @@ import { axiosClient } from '@/providers/Axios';
 const PREFIX = '/api/v1/consumer/external';
 
 /**
- * Request:     GET /api/v1/consumer/external/version
- * Description: Get the minimum required version for the app to use the API
+ * Request:     GET /api/v1/consumer/external/metadata
+ * Description: Get the metadata of the application
  */
-export const getVersion = async () => {
-  const url = `${PREFIX}/version`;
+export const getMetadata = async () => {
+  const url = `${PREFIX}/metadata`;
 
   const { data } = await axiosClient.get(url);
 
-  return data as GetVersionResponse;
+  return data as GetMetadataResponse;
 };

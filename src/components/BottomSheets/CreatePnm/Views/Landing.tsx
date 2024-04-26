@@ -18,7 +18,7 @@ import Headline from "@/ui/Headline";
 
 const Landing: React.FC<UseSheetFlowProps> = ({ nextView, setView }) => {
   const onQrCodePress = () => {
-    setView(4);
+    setView(5);
   };
 
   return (

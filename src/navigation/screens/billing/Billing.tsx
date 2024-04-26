@@ -24,9 +24,9 @@ import Hyperlink from "@/ui/Hyperlink";
 import { handle } from "@/lib/util/error";
 import Icon, { IconType } from "@/ui/Icon";
 import { useAuth } from "@/providers/Auth";
+import { useMetadataStore } from "@/store";
 import { useLogout } from "@/hooks/api/auth";
 import SafeAreaView from "@/ui/SafeAreaView";
-import { useEntitlementStore } from "@/store";
 import Logo32 from "@/components/Logos/Logo32";
 import { useQonversion } from "@/providers/Qonversion";
 import { useBottomSheet } from "@/providers/BottomSheet";
@@ -36,8 +36,8 @@ const BillingScreen = () => {
   const posthog = usePostHog();
   const logoutMutation = useLogout();
   const { chapter, clear } = useAuth();
+  const metadataStore = useMetadataStore();
   const { openBottomSheet } = useBottomSheet();
-  const entitlementStore = useEntitlementStore();
   const { purchaseProduct, restorePurchases } = useQonversion();
 
   const [purchaseLoading, setPurchaseLoading] = useState(false);
@@ -201,7 +201,7 @@ const BillingScreen = () => {
 
       <Layout.Content scrollable gap={18}>
         <View style={featuresContainerStyle}>
-          {entitlementStore.entitlements?.perks.featured.map(
+          {metadataStore.metadata.entitlements?.perks.featured.map(
             (feature, index) => {
               const containerStyles = tw.style("w-full gap-x-3 flex-row");
 

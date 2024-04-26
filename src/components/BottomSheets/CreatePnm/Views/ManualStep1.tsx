@@ -33,7 +33,7 @@ const ManualStep1: React.FC<UseSheetFlowProps> = ({
 }) => {
   useKeyboardListener({
     onKeyboardWillShow: () => {
-      snapToPosition("95%");
+      snapToPosition("90%");
     },
     onKeyboardWillHide: () => {
       snapToIndex(0);
@@ -44,7 +44,6 @@ const ManualStep1: React.FC<UseSheetFlowProps> = ({
     firstName: validators.firstName,
     lastName: validators.lastName,
     phoneNumber: validators.phoneNumber,
-    classification: validators.shortContentString.optional(),
   };
 
   const form = useForm({
@@ -53,7 +52,6 @@ const ManualStep1: React.FC<UseSheetFlowProps> = ({
       firstName: state.firstName,
       lastName: state.lastName,
       phoneNumber: state.phoneNumber,
-      classification: state.classification,
     },
   });
 
@@ -70,7 +68,6 @@ const ManualStep1: React.FC<UseSheetFlowProps> = ({
       firstName: form.state.firstName.value,
       lastName: form.state.lastName.value,
       phoneNumber: form.state.phoneNumber.value,
-      classification: form.state.classification.value,
     }));
   };
   return (
@@ -97,12 +94,6 @@ const ManualStep1: React.FC<UseSheetFlowProps> = ({
         value={form.state.phoneNumber.value}
         error={form.state.phoneNumber.error}
         onChangeText={form.setValue.bind(null, "phoneNumber")}
-      />
-      <FormField
-        placeholder="Classification"
-        value={form.state.classification.value}
-        error={form.state.classification.error}
-        onChangeText={form.setValue.bind(null, "classification")}
       />
 
       <ButtonGroup>

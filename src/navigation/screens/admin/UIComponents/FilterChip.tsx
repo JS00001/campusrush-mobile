@@ -1,5 +1,5 @@
 /*
- * Created on Fri Mar 15 2024
+ * Created on Wed Apr 24 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,8 +10,8 @@
  * Do not distribute
  */
 
-import Badge from "@/ui/Badge";
 import { Layout } from "@/ui/Layout";
+import FilterChip from "@/ui/FilterChip";
 import { Documentation } from "@/components/Documentation";
 
 const options = [
@@ -77,21 +77,24 @@ const options = [
   ],
 ];
 
-const BadgeScreen = () => {
+const FilterChipScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
         hasBackButton
-        title="Badge"
-        subtitle="A chip to display a small amount of information"
+        title="Filter Chip"
+        subtitle="A chip to display a small amount of information (can be removed)"
       />
 
       <Layout.Content scrollable gap={16}>
         {options.map((option, index) => (
           <Documentation.Section key={index} options={option}>
-            <Badge size={option[0].value as any} color={option[1].value as any}>
-              Badge
-            </Badge>
+            <FilterChip
+              color={option[1].value as any}
+              size={option[0].value as any}
+            >
+              Filter Chip
+            </FilterChip>
           </Documentation.Section>
         ))}
       </Layout.Content>
@@ -99,4 +102,4 @@ const BadgeScreen = () => {
   );
 };
 
-export default BadgeScreen;
+export default FilterChipScreen;

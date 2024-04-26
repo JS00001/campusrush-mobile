@@ -226,12 +226,7 @@ type UpdatePnmResponse = API.Response<{
   pnm: PNM;
 }>;
 
-type GetVersionResponse = API.Response<{
-  /**
-   * Version information
-   */
-  version: string;
-}>;
+type GetMetadataResponse = API.Response<Metadata>;
 
 type DeleteChapterResponse = API.Response<{
   /**
@@ -366,7 +361,7 @@ type GetAdminChapterEntitlementsResponse = API.Response<
   }[]
 >;
 
-type GetMetadataResponse = {
+type GetWebsiteMetadataResponse = {
   /**
    * The title of the website
    */

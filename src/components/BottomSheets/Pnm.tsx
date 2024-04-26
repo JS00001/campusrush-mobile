@@ -130,10 +130,6 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
                 title="Phone Number"
                 value={formatPhoneNumber(pnm.phoneNumber) || "N/A"}
               />
-              <Detail.Item
-                title="Classification"
-                value={pnm.classification || "N/A"}
-              />
               <Detail.Item title="Instagram" value={pnm.instagram || "N/A"} />
               <Detail.Item title="Snapchat" value={pnm.snapchat || "N/A"} />
             </Detail.View>

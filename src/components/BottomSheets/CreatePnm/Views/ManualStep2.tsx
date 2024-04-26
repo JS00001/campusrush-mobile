@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { z } from "zod";
 import { View } from "react-native";
 
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
@@ -18,38 +19,23 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import Headline from "@/ui/Headline";
 import useForm from "@/hooks/useForm";
-import FormField from "@/ui/FormField";
 import ButtonGroup from "@/ui/ButtonGroup";
-import validators from "@/constants/validators";
-import useKeyboardListener from "@/hooks/useKeyboardListener";
+import TagSelector from "@/components/TagSelector";
 
 const ManualStep2: React.FC<UseSheetFlowProps> = ({
   state,
   nextView,
   prevView,
   setState,
-  snapToIndex,
-  snapToPosition,
 }) => {
-  useKeyboardListener({
-    onKeyboardWillShow: () => {
-      snapToPosition("85%");
-    },
-    onKeyboardWillHide: () => {
-      snapToIndex(0);
-    },
-  });
-
   const formValidators = {
-    instagram: validators.shortContentString.optional(),
-    snapchat: validators.shortContentString.optional(),
+    tags: z.array(z.string()).optional(),
   };
 
   const form = useForm({
     validators: formValidators,
     initialValues: {
-      instagram: state.instagram,
-      snapchat: state.snapchat,
+      tags: state.tags,
     },
   });
 
@@ -63,29 +49,20 @@ const ManualStep2: React.FC<UseSheetFlowProps> = ({
     nextView();
     setState((prevState: any) => ({
       ...prevState,
-      instagram: form.state.instagram.value,
-      snapchat: form.state.snapchat.value,
+      tags: form.state.tags.value,
     }));
   };
 
   return (
     <View style={tw`gap-y-4`}>
       <Headline
-        title="Social Media"
-        subtitle="Enter the PNM's known social media"
+        title="Add Tags"
+        subtitle="Add some tags to this PNM. This step is optional."
       />
 
-      <FormField
-        placeholder="Instagram"
-        value={form.state.instagram.value}
-        error={form.state.instagram.error}
-        onChangeText={form.setValue.bind(null, "instagram")}
-      />
-      <FormField
-        placeholder="Snapchat"
-        value={form.state.snapchat.value}
-        error={form.state.snapchat.error}
-        onChangeText={form.setValue.bind(null, "snapchat")}
+      <TagSelector
+        values={form.state.tags.value}
+        onChange={(values) => form.setValue("tags", values)}
       />
 
       <ButtonGroup>

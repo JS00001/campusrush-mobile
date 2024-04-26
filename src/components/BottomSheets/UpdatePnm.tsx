@@ -10,12 +10,15 @@
  * Do not distribute
  */
 
+import { z } from "zod";
+
 import type { BottomSheetProps } from "./@types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
 import FormField from "@/ui/FormField";
+import TagView from "@/components/TagView";
 import { FormSheet } from "@/ui/BottomSheet";
 import validators from "@/constants/validators";
 import FormHeader from "@/components/Headers/Form";
@@ -25,6 +28,7 @@ import { useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
 const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
   innerRef,
+  openBottomSheet,
   handleClose,
 }) => {
   return (
@@ -43,9 +47,9 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
           firstName: validators.firstName.optional(),
           lastName: validators.lastName.optional(),
           phoneNumber: validators.phoneNumber.optional(),
-          classification: validators.shortContentString.optional(),
           instagram: validators.shortContentString.optional(),
           snapchat: validators.shortContentString.optional(),
+          tags: z.array(z.string()).optional(),
         };
 
         const form = useFormMutation({
@@ -61,11 +65,17 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
             firstName: pnmQuery.pnm?.firstName,
             lastName: pnmQuery.pnm?.lastName,
             phoneNumber: pnmQuery.pnm?.phoneNumber,
-            classification: pnmQuery.pnm?.classification,
             instagram: pnmQuery.pnm?.instagram,
             snapchat: pnmQuery.pnm?.snapchat,
+            tags: pnmQuery.pnm?.tags || [],
           },
         });
+
+        const onTagsPress = () => {
+          openBottomSheet("TAG_SELECTOR", {
+            onTagChange: form.setValue.bind(null, "tags"),
+          });
+        };
 
         const handleSubmission = async () => {
           setStatus("loading");
@@ -105,12 +115,6 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
                 onChangeText={form.setValue.bind(null, "phoneNumber")}
               />
               <FormField
-                placeholder="Classification"
-                value={form.state.classification.value}
-                error={form.state.classification.error}
-                onChangeText={form.setValue.bind(null, "classification")}
-              />
-              <FormField
                 placeholder="Instagram"
                 value={form.state.instagram.value}
                 error={form.state.instagram.error}
@@ -122,6 +126,7 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
                 error={form.state.snapchat.error}
                 onChangeText={form.setValue.bind(null, "snapchat")}
               />
+              <TagView tags={form.state.tags.value} onPress={onTagsPress} />
             </Layout.Content>
           </Layout.Root>
         );

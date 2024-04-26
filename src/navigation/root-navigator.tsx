@@ -27,11 +27,10 @@ import {
   VerificationStack,
 } from "@/navigation/stack-navigator";
 import { useAuth } from "@/providers/Auth";
-import useVersioning from "@/hooks/useVersioning";
+import { useMetadata } from "@/providers/Metadata";
 import { useQonversion } from "@/providers/Qonversion";
 import { usePreferences } from "@/providers/Preferences";
 import { TabNavigator } from "@/navigation/tab-navigator";
-import { useEntitlements } from "@/providers/Entitlements";
 
 const RootNavigator = () => {
   const [fontsLoaded] = useFonts({
@@ -40,10 +39,9 @@ const RootNavigator = () => {
     DMSans_700Bold,
   });
 
-  const versioning = useVersioning();
   const { isLoading: isAuthLoading, chapter } = useAuth();
   const { isLoading: isPreferencesLoading } = usePreferences();
-  const { isLoading: isEntitlementsLoading } = useEntitlements();
+  const { isLoading: isMetadataLoading } = useMetadata();
   const { isLoading: isQonversionLoading, entitlements } = useQonversion();
 
   const shouldHideSplashScreen = () => {
@@ -51,12 +49,11 @@ const RootNavigator = () => {
       fontsLoaded &&
       !isAuthLoading &&
       !isPreferencesLoading &&
-      !isEntitlementsLoading &&
-      versioning.isValidVersion &&
-      !versioning.isLoading &&
+      !isMetadataLoading &&
       !isQonversionLoading
     );
   };
+
   // Hide the splash screen when the app is fully loaded
   useEffect(() => {
     if (shouldHideSplashScreen()) {
@@ -66,18 +63,9 @@ const RootNavigator = () => {
     fontsLoaded,
     isAuthLoading,
     isPreferencesLoading,
-    isEntitlementsLoading,
-    versioning.isValidVersion,
-    versioning.isLoading,
+    isMetadataLoading,
     isQonversionLoading,
   ]);
-
-  // If the user is not on the latest version, we show an alert
-  useEffect(() => {
-    if (!versioning.isValidVersion && !versioning.isLoading) {
-      versioning.forceUpdateAlert();
-    }
-  }, [versioning.isValidVersion, versioning.isLoading]);
 
   // If the user is loading, we can't render the app
   if (isAuthLoading && lodash.isEmpty(chapter)) return null;

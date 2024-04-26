@@ -32,10 +32,17 @@ const NetworkContext = createContext<NetworkContext>({} as NetworkContext);
 const NetworkProvider: React.FC<NetworkProviderProps> = ({ children }) => {
   const [isConnected, setIsConnected] = useState(true);
 
+  /**
+   * On initial render, verify the internet connection
+   */
   useEffect(() => {
     verifyConnection();
   }, []);
 
+  /**
+   * Ensure the device is connected to the internet, and update
+   * the state to reflect the connection status
+   */
   const verifyConnection = async () => {
     const { isInternetReachable } = await Network.getNetworkStateAsync();
 
