@@ -24,8 +24,8 @@ import { useBottomSheet } from "@/providers/BottomSheet";
 
 interface PnmsListProps {
   pnms: PNM[];
-  loading?: boolean;
-  onRefetch?: () => Promise<void>;
+  loading: boolean;
+  onRefetch: () => Promise<void>;
 }
 
 const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
@@ -107,10 +107,10 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
       <ListItem
         style={tw`my-1`}
         key={data._id}
+        iconColor={tw.color("yellow")}
+        icon={data.starred ? "star-fill" : undefined}
         title={`${data.firstName} ${data.lastName}`}
         subtitle={formatPhoneNumber(data.phoneNumber)}
-        icon={data.starred ? "star-fill" : undefined}
-        iconColor={tw.color("yellow")}
         onPress={onPress}
       />
     );
@@ -121,7 +121,9 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
    */
   const ListEmptyComponent = () => {
     if (loading) {
-      return new Array(20).fill(0).map((_, i) => <ListItemLoader key={i} />);
+      return new Array(20)
+        .fill(0)
+        .map((_, i) => <ListItemLoader key={i} style={tw.style("my-2")} />);
     }
 
     return (

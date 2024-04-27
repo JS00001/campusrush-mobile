@@ -140,12 +140,11 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
       switch (payload.type) {
         case "NEW_MESSAGE":
           const conversation = payload.data.conversation as Conversation;
-          const pnmId = conversation?.pnm._id;
 
-          if (!conversation || !pnmId) return;
+          if (!conversation) return;
 
           conversationStore.addConversations(conversation);
-          messageStore.addMessages(pnmId, conversation.messages[0] || {});
+          messageStore.addMessages(conversation.messages[0] || {});
           break;
       }
 

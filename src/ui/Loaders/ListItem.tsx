@@ -19,14 +19,19 @@ import HeadlineLoader from "@/ui/Loaders/Headline";
 
 interface ListItemLoaderProps {
   size?: ListItemSize;
+  style?: any;
 }
 
-const ListItemLoader: React.FC<ListItemLoaderProps> = ({ size = "md" }) => {
+const ListItemLoader: React.FC<ListItemLoaderProps> = ({
+  size = "md",
+  style,
+}) => {
   const containerStyles = tw.style(
     "bg-slate-100 rounded-xl gap-4",
     size === "sm" && "p-4 gap-y-2 flex-col",
     size === "md" && "px-3 py-4 justify-between items-center flex-row w-full",
     size === "lg" && "px-7 py-4 justify-between items-center flex-row w-full",
+    style,
   );
 
   const contentContainerStyles = tw.style(

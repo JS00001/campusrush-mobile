@@ -78,13 +78,17 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
   }, []);
 
   /**
-   * On the first render, we want the initial message data
-   * to be 'fetched' from the conversation and added to the
-   * message store
+   * If the conversation becomes unread when the conversation is OPEN,
+   * we want to re-set the conversation as read as we are currently
+   * viewing it
    */
   useEffect(() => {
-    messageStore.setMessages(pnmId, conversation?.messages || []);
-  }, []);
+    if (!conversation) return;
+
+    if (conversation.read) return;
+
+    conversationStore.updateConversation({ ...conversation, read: true });
+  }, [conversation]);
 
   /**
    * Whenever the conversation query is updated/new pages are
@@ -92,33 +96,24 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
    */
   useEffect(() => {
     if (!conversationQuery.data) return;
+    if (conversationQuery.isLoading) return;
 
     const fetchedConversation = (conversationQuery.data.pages[0] as any).data
       .conversation;
 
+    // All of the messages that have been fetched in the conversation query are
+    // combined into one array
     const fetchedMessages = conversationQuery.data.pages.flatMap((page) => {
       if ("error" in page) return [];
 
       const messages = page.data.conversation?.messages || [];
       const filteredMessages = messages.filter(Boolean);
+
       return filteredMessages;
     });
 
-    const storedMessages = messageStore.getMessages(pnmId) || [];
-    const storedMessagesLength = storedMessages.length;
-    const fetchedMessagesLength = fetchedMessages.length;
-
-    const isQueryBehind = fetchedMessagesLength < storedMessagesLength;
-
-    if (conversationQuery.data.pages.length === 1) {
-      if (fetchedConversation && !isQueryBehind) {
-        conversationStore.updateConversation(fetchedConversation);
-      }
-    }
-
-    if (!isQueryBehind) {
-      messageStore.setMessages(pnmId, fetchedMessages);
-    }
+    conversationStore.updateConversation(fetchedConversation);
+    messageStore.setMessages(pnmId, fetchedMessages);
   }, [conversationQuery.data]);
 
   /**
@@ -142,7 +137,7 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
         updatedAt: new Date(),
       };
 
-      messageStore.addMessages(pnmId, newMessage);
+      messageStore.addMessages(newMessage);
     }
 
     // Then, send each message to the server, and replace it in the message store
@@ -159,6 +154,7 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
 
       if ("error" in res) return messageStore.removeMessage(pnmId, messageId);
 
+      // TODO: Performance bottleneck - Takes 1453.159ms to update all of this state
       conversationStore.addConversations(res.data.conversation);
       messageStore.replaceMessage(pnmId, messageId, res.data.message);
       contactStore.removeContacts("uncontacted", pnm);

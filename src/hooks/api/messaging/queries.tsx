@@ -56,6 +56,7 @@ export const useGetConversation = (pnmId: string) => {
   const { accessToken } = useAuth();
 
   return useInfiniteQuery({
+    cacheTime: 0,
     queryKey: ["conversation", accessToken, pnmId],
     queryFn: ({ pageParam = 0 }) => {
       return getConversation({ offset: pageParam, pnmId });
@@ -80,6 +81,7 @@ export const useGetConversations = () => {
   const setConversations = useConversationStore((s) => s.setConversations);
 
   const query = useInfiniteQuery(["conversations", accessToken], {
+    cacheTime: 0,
     queryFn: ({ pageParam = 0 }) => {
       return getConversations({ offset: pageParam });
     },
