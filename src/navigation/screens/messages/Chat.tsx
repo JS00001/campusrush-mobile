@@ -142,7 +142,7 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
         updatedAt: new Date(),
       };
 
-      messageStore.addMessages(pnmId, newMessage);
+      messageStore.addMessages(newMessage);
     }
 
     // Then, send each message to the server, and replace it in the message store

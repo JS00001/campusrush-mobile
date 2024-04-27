@@ -70,9 +70,7 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
       conversationStore.addConversations(conversations);
       contactStore.removeContacts("uncontacted", pnms);
 
-      messages.forEach((message) => {
-        messageStore.addMessages(message.pnm, message);
-      });
+      messageStore.addMessages(messages);
     }
 
     Toast.show({

@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import "react-native-console-time-polyfill";
 import { registerRootComponent } from "expo";
 import Toast from "react-native-toast-message";
 import Qonversion from "react-native-qonversion";

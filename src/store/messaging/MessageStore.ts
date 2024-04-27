@@ -19,7 +19,7 @@ interface IMessageStore {
 
   getMessages: (pnmId: string) => Message[] | undefined;
   setMessages: (pnmId: string, messages: Message[]) => void;
-  addMessages: (pnmId: string, messages: Message[] | Message) => void;
+  addMessages: (messages: Message[] | Message) => void;
   removeMessage: (pnmId: string, messageId: string) => void;
   replaceMessage: (pnmId: string, messageId: string, message: Message) => void;
 }
@@ -64,20 +64,30 @@ export const useMessageStore = create<IMessageStore>()((set, get) => {
    * Adds messages to the store, but does not add duplicate
    * message ids
    */
-  const addMessages = (pnmId: string, messages: Message[] | Message) => {
+  const addMessages = (messages: Message[] | Message) => {
     return set((state) => {
-      const newMessages = Array.isArray(messages) ? messages : [messages];
-      const newMessageIds = newMessages.map((message) => message._id);
+      const messagesArray = Array.isArray(messages) ? messages : [messages];
 
-      const currentMessages = state.messages[pnmId] || [];
-      const filteredCurrentMessages = currentMessages.filter((message) => {
-        return !newMessageIds.includes(message._id);
-      });
+      // Group messages by pnmId
+      const groupedMessages = messagesArray.reduce((acc, message) => {
+        const pnmId = message.pnm;
 
+        const existingMessages = state.messages[pnmId] || [];
+        const currentMessages = acc[pnmId] || [];
+
+        console.log('existingMessages', existingMessages);
+
+        return {
+          ...acc,
+          [pnmId]: [...existingMessages, ...currentMessages, message],
+        };
+      }, {});
+
+      // Add the grouped messages to the store
       return {
         messages: {
           ...state.messages,
-          [pnmId]: [...newMessages, ...filteredCurrentMessages],
+          ...groupedMessages,
         },
       };
     });
