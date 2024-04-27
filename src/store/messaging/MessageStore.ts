@@ -75,8 +75,6 @@ export const useMessageStore = create<IMessageStore>()((set, get) => {
         const existingMessages = state.messages[pnmId] || [];
         const currentMessages = acc[pnmId] || [];
 
-        console.log('existingMessages', existingMessages);
-
         return {
           ...acc,
           [pnmId]: [...existingMessages, ...currentMessages, message],

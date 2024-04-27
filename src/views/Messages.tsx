@@ -60,6 +60,12 @@ const MessagesView = () => {
     },
   ];
 
+  // Disable refresh if we search or filter or no next page. This is because
+  // if there is 1 result for a search, the list will keep trying to refresh and
+  // will fetch all of the pages without needing to
+  const isRefetchDisabled =
+    !conversationsQuery.hasNextPage || !!search.query || !!search.filter;
+
   const onNewChatPress = () => {
     openBottomSheet("CREATE_MESSAGE");
   };
@@ -98,7 +104,7 @@ const MessagesView = () => {
         data={search.data}
         loadingComponent={<ConversationLoader />}
         loading={conversationsQuery.isLoading}
-        disableOnEndReached={!conversationsQuery.hasNextPage}
+        disableOnEndReached={isRefetchDisabled}
         emptyListTitle="No Conversations Found"
         emptyListSubtitle="Try changing your filters or sending a new message"
         onRefresh={onRefresh}
