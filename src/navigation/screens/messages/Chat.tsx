@@ -91,33 +91,12 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
   }, [conversation]);
 
   /**
-   * On the first render, we want the initial message data
-   * to be 'fetched' from the conversation and added to the
-   * message store
-   */
-  useEffect(() => {
-    // Check if the conversation.messages is behind the message store by checking if there
-    // the most recent message id in the message store is not in the conversation.messages
-    const conversationMessages = conversation?.messages || [];
-    const storedMessages = messageStore.getMessages(pnmId) || [];
-
-    const isQueryBehind =
-      storedMessages.length > 0 &&
-      !conversationMessages.some(
-        (message) => message._id === storedMessages[0]._id,
-      );
-
-    if (isQueryBehind) {
-      messageStore.setMessages(pnmId, conversationMessages);
-    }
-  }, []);
-
-  /**
    * Whenever the conversation query is updated/new pages are
    * fetched, we need to update the conversation and message store
    */
   useEffect(() => {
     if (!conversationQuery.data) return;
+    if (conversationQuery.isLoading) return;
 
     const fetchedConversation = (conversationQuery.data.pages[0] as any).data
       .conversation;
@@ -129,24 +108,12 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
 
       const messages = page.data.conversation?.messages || [];
       const filteredMessages = messages.filter(Boolean);
+
       return filteredMessages;
     });
 
-    const storedMessages = messageStore.getMessages(pnmId) || [];
-    const storedMessagesLength = storedMessages.length;
-    const fetchedMessagesLength = fetchedMessages.length;
-
-    const isQueryBehind = fetchedMessagesLength < storedMessagesLength;
-
-    if (conversationQuery.data.pages.length === 1) {
-      if (fetchedConversation && !isQueryBehind) {
-        conversationStore.updateConversation(fetchedConversation);
-      }
-    }
-
-    if (!isQueryBehind) {
-      messageStore.setMessages(pnmId, fetchedMessages);
-    }
+    conversationStore.updateConversation(fetchedConversation);
+    messageStore.setMessages(pnmId, fetchedMessages);
   }, [conversationQuery.data]);
 
   /**
@@ -187,6 +154,7 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
 
       if ("error" in res) return messageStore.removeMessage(pnmId, messageId);
 
+      // TODO: Performance bottleneck - Takes 1453.159ms to update all of this state
       conversationStore.addConversations(res.data.conversation);
       messageStore.replaceMessage(pnmId, messageId, res.data.message);
       contactStore.removeContacts("uncontacted", pnm);
