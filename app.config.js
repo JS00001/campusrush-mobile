@@ -15,6 +15,7 @@ export default {
   assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: false,
+    buildNumber: '2',
     bundleIdentifier: IS_DEV ? 'app.campusrush.dev' : 'app.campusrush',
     config: {
       usesNonExemptEncryption: false,
