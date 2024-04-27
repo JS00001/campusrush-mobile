@@ -78,12 +78,38 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
   }, []);
 
   /**
+   * If the conversation becomes unread when the conversation is OPEN,
+   * we want to re-set the conversation as read as we are currently
+   * viewing it
+   */
+  useEffect(() => {
+    if (!conversation) return;
+
+    if (conversation.read) return;
+
+    conversationStore.updateConversation({ ...conversation, read: true });
+  }, [conversation]);
+
+  /**
    * On the first render, we want the initial message data
    * to be 'fetched' from the conversation and added to the
    * message store
    */
   useEffect(() => {
-    messageStore.setMessages(pnmId, conversation?.messages || []);
+    // Check if the conversation.messages is behind the message store by checking if there
+    // the most recent message id in the message store is not in the conversation.messages
+    const conversationMessages = conversation?.messages || [];
+    const storedMessages = messageStore.getMessages(pnmId) || [];
+
+    const isQueryBehind =
+      storedMessages.length > 0 &&
+      !conversationMessages.some(
+        (message) => message._id === storedMessages[0]._id,
+      );
+
+    if (isQueryBehind) {
+      messageStore.setMessages(pnmId, conversationMessages);
+    }
   }, []);
 
   /**
@@ -96,6 +122,8 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
     const fetchedConversation = (conversationQuery.data.pages[0] as any).data
       .conversation;
 
+    // All of the messages that have been fetched in the conversation query are
+    // combined into one array
     const fetchedMessages = conversationQuery.data.pages.flatMap((page) => {
       if ("error" in page) return [];
 

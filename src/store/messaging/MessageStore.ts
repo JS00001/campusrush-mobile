@@ -77,7 +77,7 @@ export const useMessageStore = create<IMessageStore>()((set, get) => {
 
         return {
           ...acc,
-          [pnmId]: [...existingMessages, ...currentMessages, message],
+          [pnmId]: [message, ...currentMessages, ...existingMessages],
         };
       }, {});
 
