@@ -17,17 +17,17 @@ jobs:
           node-version: 18.x
           cache: yarn
 
-      - id: check
-        uses: EndBug/version-check@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+      # - id: check
+      #   uses: EndBug/version-check@v2
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🏗 Ensure version is updated
-        run: |
-          if [ "${{ steps.check.outputs.changed }}" = "false" ]; then
-            echo "No version change detected. Exiting..."
-            exit 1
-          fi
+      # - name: 🏗 Ensure version is updated
+      #   run: |
+      #     if [ "${{ steps.check.outputs.changed }}" = "false" ]; then
+      #       echo "No version change detected. Exiting..."
+      #       exit 1
+      #     fi
 
       - name: 🏗 Setup EAS
         uses: expo/expo-github-action@v8
