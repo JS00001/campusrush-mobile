@@ -1,11 +1,11 @@
-name: Deploy (Production)
+name: Validate Build Number
 on:
   pull_request:
     branches:
       - main
 
 jobs:
-  deploy-production:
+  validate-build-number:
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup repo
