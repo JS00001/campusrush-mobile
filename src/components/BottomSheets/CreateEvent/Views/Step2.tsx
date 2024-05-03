@@ -15,8 +15,10 @@ import { useEffect } from "react";
 import { View } from "react-native";
 import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
+import type { CreateEventState } from "..";
+
 import useForm from "@/hooks/useForm";
-import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
+import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
@@ -24,7 +26,7 @@ import Headline from "@/ui/Headline";
 import ButtonGroup from "@/ui/ButtonGroup";
 import DateTimePicker from "@/ui/DateTimePicker";
 
-const Step2: React.FC<UseSheetFlowProps> = ({
+const Step2: React.FC<UseSheetFlowProps<CreateEventState>> = ({
   state,
   setState,
   nextView,

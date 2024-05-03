@@ -13,14 +13,13 @@
 import React from "react";
 import { Dimensions } from "react-native";
 import { BottomSheetModal, BottomSheetModalProps } from "@gorhom/bottom-sheet";
-import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 
 import BottomSheetBackdrop from "./Backdrop";
 
 import tw from "@/lib/tailwind";
 
 interface BottomSheetProps extends BottomSheetModalProps {
-  innerRef?: React.Ref<BottomSheetModalMethods>;
+  innerRef?: React.Ref<BottomSheetModal>;
 }
 
 const BottomSheet: React.FC<BottomSheetProps> = ({ children, ...props }) => {

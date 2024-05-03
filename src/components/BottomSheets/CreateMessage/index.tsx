@@ -19,7 +19,7 @@ import { BottomSheet } from "@/ui/BottomSheet";
 import useSheetFlow from "@/hooks/useSheetFlow";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
-const CreateMessageSheet: React.FC<BottomSheetProps> = ({
+export const CreateMessageSheet: React.FC<BottomSheetProps> = ({
   innerRef,
   handleClose,
   snapToIndex,
