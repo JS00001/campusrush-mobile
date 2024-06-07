@@ -13,18 +13,37 @@
 import ExpoConstants from 'expo-constants';
 import RNTestFlight from 'react-native-test-flight';
 
-// Whether or not we are in a production environment
-const isProduction = !__DEV__ && !RNTestFlight.isTestFlight;
+type Environment = 'development' | 'staging' | 'production';
 
-// Staging URLs
-export const STAGING_URL = 'https://greek-api.in-staging.space';
-export const STAGING_WEB_URL = 'https://campusrush.in-staging.space';
-export const STAGING_WEBSOCKET_URL = 'wss://greek-api.in-staging.space';
+// Get the current environment of the app
+const environment = (() => {
+  if (__DEV__) {
+    return 'development';
+  } else if (RNTestFlight.isTestFlight) {
+    return 'staging';
+  } else {
+    return 'production';
+  }
+})() as Environment;
 
-// Production URLs
-export const PRODUCTION_WEB_URL = 'https://campusrush.app';
-export const PRODUCTION_URL = 'https://api.campusrush.app';
-export const PRODUCTION_WEBSOCKET_URL = 'wss://api.campusrush.app';
+// All urls for all environments
+const urls = {
+  development: {
+    apiUrl: 'https://donkey-pretty-initially.ngrok-free.app',
+    webUrl: 'https://campusrush.in-staging.space',
+    websocketUrl: 'wss://donkey-pretty-initially.ngrok-free.app',
+  },
+  staging: {
+    apiUrl: 'https://greek-api.in-staging.space',
+    webUrl: 'https://campusrush.in-staging.space',
+    websocketUrl: 'wss://greek-api.in-staging.space',
+  },
+  production: {
+    apiUrl: 'https://api.campusrush.app',
+    webUrl: 'https://campusrush.app',
+    websocketUrl: 'wss://api.campusrush.app',
+  },
+}[environment];
 
 // Endpoints for the web
 export const SHARING_URL = '/sharing';
@@ -32,9 +51,9 @@ export const EVENT_URL = '/events';
 
 const AppConstants = {
   /**
-   * Whether or not we are in a production environment
+   * The current environment of the app
    */
-  isProduction,
+  environment,
   /**
    * The app store URL for the app
    */
@@ -67,27 +86,23 @@ const AppConstants = {
   /**
    * The API url for the backend
    */
-  apiUrl: isProduction ? PRODUCTION_URL : STAGING_URL,
+  apiUrl: urls.apiUrl,
   /**
    * The website url
    */
-  webUrl: isProduction ? PRODUCTION_WEB_URL : STAGING_WEB_URL,
+  webUrl: urls.webUrl,
   /**
    * The websocket url for the backend
    */
-  websocketUrl: isProduction ? PRODUCTION_WEBSOCKET_URL : STAGING_WEBSOCKET_URL,
+  websocketUrl: urls.websocketUrl,
   /**
    * The url to sharing
    */
-  sharingUrl: isProduction
-    ? PRODUCTION_WEB_URL + SHARING_URL
-    : STAGING_WEB_URL + SHARING_URL,
+  sharingUrl: urls.webUrl + SHARING_URL,
   /**
    * The url to events
    */
-  eventUrl: isProduction
-    ? PRODUCTION_WEB_URL + EVENT_URL
-    : STAGING_WEB_URL + EVENT_URL,
+  eventUrl: urls.webUrl + EVENT_URL,
   /**
    * The CMS/content url
    */
