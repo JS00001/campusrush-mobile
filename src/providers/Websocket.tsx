@@ -15,6 +15,7 @@ import { createContext, useContext, useState } from "react";
 
 import AppConstants from "@/constants";
 import { isJSON } from "@/lib/util/string";
+import { websocketLogger } from "@/lib/logger";
 import { useConversationStore, useMessageStore } from "@/store";
 
 export type MessageType = "NEW_MESSAGE";
@@ -63,7 +64,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
     // If there is an existing websocket that is OPEN, return
     if (ws && ws.readyState === WebSocket.OPEN) {
-      console.info("[WEBSOCKET] Already connected");
+      websocketLogger.info("Already connected");
       return;
     }
 
@@ -77,7 +78,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
     // When the websocket is opened, set the websocket and reset the reconnectAttempts
     newWs.onopen = () => {
-      console.info("[WEBSOCKET] Connected");
+      websocketLogger.info("Connected");
 
       const connectionLog = {
         timestamp: Date.now(),
@@ -95,7 +96,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
      */
     const reconnect = () => {
       if (reconnectAttempts > 5) {
-        console.info("[WEBSOCKET] Failed to connect after 5 attempts");
+        websocketLogger.info("Failed to connect after 5 attempts");
         return;
       }
 
@@ -109,26 +110,22 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
      * Manage websocket.onerror
      */
     newWs.onerror = (event: Event) => {
-      console.log("[WEBSOCKET] Error", event);
+      websocketLogger.error("Error", event);
     };
 
     /**
      * Manage websocket.onmessage
      */
     newWs.onmessage = (message: MessageEvent<any>) => {
-      // Get the data from the message (payload)
       const data = message.data;
 
-      // Ensure that the data is a valid JSON string
       const { isValid, parsedJSON } = isJSON(data);
 
-      // If the data is not a valid JSON string, return
       if (!isValid) return;
 
       // Ensure that the parsedData matches with SocketMessage
       const payload = parsedJSON as SocketMessage;
 
-      // Create the message log
       const messageLog = {
         timestamp: Date.now(),
         message: data,
@@ -136,6 +133,8 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
       // Add the message to the messages state
       setMessages((messages) => [messageLog, ...messages]);
+
+      websocketLogger.info("New Message:", payload.type);
 
       switch (payload.type) {
         case "NEW_MESSAGE":
@@ -161,7 +160,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
      * Manage when a websocket is closed
      */
     newWs.onclose = (event) => {
-      console.info("[WEBSOCKET] Disconnected");
+      websocketLogger.info("Disconnected");
 
       const { code, reason } = event;
 

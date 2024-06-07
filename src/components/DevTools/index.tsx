@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { LogBox, View } from "react-native";
+import { View } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
@@ -77,12 +77,13 @@ const DeveloperTools = () => {
 
   const CurrentSegment = Segments[currentScreenIndex];
 
+  // Disable the first screen from scrolling, so we dont get the 'nested virtualized lists' warning
+  const disableScroll = currentScreenIndex === 0;
+
   /**
    * When the screen is shaken, open the developer tools
    */
   useEffect(() => {
-    LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
-
     if (__DEV__ || chapter.role === "admin") {
       const subscription = listenForShake(() => {
         openDeveloperTools();
@@ -96,7 +97,10 @@ const DeveloperTools = () => {
 
   return (
     <BottomSheet enablePanDownToClose={false} innerRef={sheetRef}>
-      <BottomSheetContainer contentContainerStyle={tw`gap-y-6`}>
+      <BottomSheetContainer
+        disableScroll={disableScroll}
+        contentContainerStyle={tw`gap-y-6`}
+      >
         <SegmentedControl
           values={Segments.map((segment) => segment.label)}
           selectedIndex={currentScreenIndex}

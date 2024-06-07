@@ -106,6 +106,7 @@ const HomeView = () => {
         <Text type="h2">Recently Added PNMs</Text>
 
         <FlatList
+          scrollEnabled={false}
           data={statisticsQuery.recentPnms}
           loading={statisticsQuery.isLoading}
           emptyListTitle="No Recent PNMs"
