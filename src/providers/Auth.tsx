@@ -18,7 +18,7 @@ import { createContext, useEffect, useState, useContext } from "react";
 
 import AppConstants from "@/constants";
 import { useGlobalStore } from "@/store";
-import { useWebsocket } from "@/providers/Websocket";
+import { useWebsocket } from "@/providers/websocket";
 import { useQonversion } from "@/providers/Qonversion";
 
 interface IAuthContext {

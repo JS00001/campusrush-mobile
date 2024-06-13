@@ -11,7 +11,7 @@
  */
 import { logger as RNLogger } from 'react-native-logs';
 
-type LogLevels = 'debug' | 'info' | 'warn' | 'error';
+export type LogLevels = 'debug' | 'info' | 'warn' | 'error';
 
 // TODO: Add file transport that can be viewed
 export const logger = RNLogger.createLogger<LogLevels>({

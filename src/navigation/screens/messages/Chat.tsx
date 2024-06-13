@@ -32,7 +32,7 @@ import messaging from "@/lib/messages";
 import { useAuth } from "@/providers/Auth";
 import SocketInput from "@/lib/socketInput";
 import MessageBubble from "@/ui/MessageBubble";
-import { useWebsocket } from "@/providers/Websocket";
+import { useWebsocket } from "@/providers/websocket";
 import DirectMessageHeader from "@/components/Headers/DirectMessage";
 
 interface ChatProps {
