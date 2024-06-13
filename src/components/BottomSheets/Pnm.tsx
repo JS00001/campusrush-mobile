@@ -22,6 +22,7 @@ import Skeleton from "@/ui/Skeleton";
 import Headline from "@/ui/Headline";
 import { Detail } from "@/ui/DetailView";
 import IconButton from "@/ui/IconButton";
+import TagView from "@/components/TagView";
 import { BottomSheet } from "@/ui/BottomSheet";
 import { useGlobalStore, usePnmStore } from "@/store";
 import { formatPhoneNumber } from "@/lib/util/string";
@@ -132,6 +133,11 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
               />
               <Detail.Item title="Instagram" value={pnm.instagram || "N/A"} />
               <Detail.Item title="Snapchat" value={pnm.snapchat || "N/A"} />
+              <Detail.Item
+                title="Tags"
+                layout="vertical"
+                value={<TagView disabled hideContainer tags={pnm.tags} />}
+              />
             </Detail.View>
 
             <Button size="sm" onPress={onEditPress}>
