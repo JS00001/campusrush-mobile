@@ -18,6 +18,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import FlatList from "@/ui/FlatList";
 import ListItem from "@/ui/ListItem";
+import Skeleton from "@/ui/Skeleton";
 import TextInput from "@/ui/TextInput";
 import { Action } from "@/ui/ActionList";
 import Content from "@/constants/content";
@@ -28,7 +29,6 @@ import { formatPhoneNumber } from "@/lib/util/string";
 import useSearch from "@/hooks/useSearch";
 import { useGetContacts } from "@/hooks/api/messaging";
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
-import Skeleton from "@/ui/Skeleton";
 
 const Landing: React.FC<UseSheetFlowProps> = ({
   handleClose,
