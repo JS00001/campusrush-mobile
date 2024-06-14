@@ -10,10 +10,10 @@
  * Do not distribute
  */
 
-import DetailView from "./DetailView";
+import DetailList from "./DetailList";
 import DetailItem from "./DetailItem";
 
 export const Detail = {
-  View: DetailView,
+  List: DetailList,
   Item: DetailItem,
 };

@@ -18,6 +18,7 @@ import DirectMessage from "./Views/DirectMessage";
 import { BottomSheet } from "@/ui/BottomSheet";
 import useSheetFlow from "@/hooks/useSheetFlow";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
+import tw from "@/lib/tailwind";
 
 export const CreateMessageSheet: React.FC<BottomSheetProps> = ({
   innerRef,

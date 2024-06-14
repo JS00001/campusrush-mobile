@@ -29,8 +29,8 @@ const DetailItem: React.FC<DetailItemProps> = ({
   layout = "horizontal",
 }) => {
   const containerStyles = tw.style(
-    "items-center bg-slate-100 p-4 justify-between",
-    layout === "vertical" && "flex-col gap-4 items-start",
+    "bg-slate-100 p-4 justify-between",
+    layout === "vertical" && "flex-col gap-4",
     layout === "horizontal" && "flex-row gap-4",
   );
 
@@ -42,14 +42,21 @@ const DetailItem: React.FC<DetailItemProps> = ({
     layout === "horizontal" && "flex-1 text-right",
   );
 
+  const isValueText = typeof value === "string";
+
   return (
     <View style={containerStyles}>
       <Text type="p3" style={titleStyles}>
         {title}
       </Text>
-      <Text type="p3" style={valueStyles}>
-        {value}
-      </Text>
+
+      {isValueText && (
+        <Text type="p3" style={valueStyles}>
+          {value}
+        </Text>
+      )}
+
+      {!isValueText && value}
     </View>
   );
 };

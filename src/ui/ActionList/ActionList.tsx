@@ -1,5 +1,5 @@
 /*
- * Created on Fri Mar 15 2024
+ * Created on Thu Jun 13 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -14,11 +14,11 @@ import { View, ViewProps } from "react-native";
 
 import tw from "@/lib/tailwind";
 
-interface DetailViewProps extends ViewProps {
+interface ActionListProps extends ViewProps {
   style?: any;
 }
 
-const DetailView: React.FC<DetailViewProps> = ({
+const ActionList: React.FC<ActionListProps> = ({
   children,
   style,
   ...props
@@ -32,4 +32,4 @@ const DetailView: React.FC<DetailViewProps> = ({
   );
 };
 
-export default DetailView;
+export default ActionList;

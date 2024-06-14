@@ -16,24 +16,38 @@ import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import FlatList from "@/ui/FlatList";
 import ListItem from "@/ui/ListItem";
+import TextInput from "@/ui/TextInput";
+import { Action } from "@/ui/ActionList";
 import Content from "@/constants/content";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import HeadlineLoader from "@/ui/Loaders/Headline";
+import { formatPhoneNumber } from "@/lib/util/string";
 
+import useSearch from "@/hooks/useSearch";
 import { useGetContacts } from "@/hooks/api/messaging";
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
+import Skeleton from "@/ui/Skeleton";
 
-const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
+const Landing: React.FC<UseSheetFlowProps> = ({
+  handleClose,
+  snapToPosition,
+  snapToIndex,
+}) => {
   const navigation = useNavigation();
-  const { all, starred, uncontacted, isLoading } = useGetContacts();
+  const { all, starred, uncontacted, suggested, isLoading } = useGetContacts();
+
+  const search = useSearch({
+    data: all,
+    fields: ["firstName", "lastName", "phoneNumber"],
+  });
 
   /**
    * Helper function for mass messaging (all uncontacted, all favorites, etc)
    */
   // prettier-ignore
   const onMassMessage = (pnms: PNM[], error: {title: string, message: string}) => {
-    // If no PNMs, show error
     if (!pnms.length) {
       Toast.show({
         type: 'error',
@@ -60,13 +74,6 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
   }
 
   /**
-   * When the user presses the direct message button (option 1)
-   */
-  const onDirectMessagePress = () => {
-    nextView();
-  };
-
-  /**
    * When the user presses the message all button (option 2)
    */
   const onMessageAllPress = () => {
@@ -87,57 +94,107 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, handleClose }) => {
     onMassMessage(uncontacted, Content.newMessage.noUncontactedPNMs);
   };
 
+  /**
+   * When the user presses a suggested or searched contact
+   */
+  const onDirectMessagePress = (pnm: PNM) => {
+    (navigation.navigate as any)("Chat", {
+      pnm,
+    });
+
+    handleClose();
+  };
+
+  const placeholder = `Search ${all.length || ""} contacts`;
+
+  const directMessageHeader = search.query ? "Results" : "Suggested Contacts";
+
+  const pnms = search.query ? search.data : suggested;
+
   if (isLoading) return <LoadingState />;
 
   return (
-    <>
-      <View style={tw`pb-4`}>
+    <View style={tw`gap-y-6 flex-1`}>
+      <View>
         <Text type="h2">New Message</Text>
         <Text>Start a new message with potential members</Text>
       </View>
 
-      <ListItem
-        size="lg"
-        title="Direct Message"
-        subtitle="Send a message to a PNM"
-        icon="chat-private-fill"
-        onPress={onDirectMessagePress}
+      <TextInput
+        autoCorrect={false}
+        icon="search-line"
+        placeholder={placeholder}
+        onChangeText={search.setQuery}
+        onFocus={() => snapToPosition?.("95%")}
+        onBlur={() => snapToIndex?.(0)}
       />
-      <ListItem
-        size="lg"
-        title="Message All"
-        subtitle="Send a message to all PNMs"
-        icon="chat-voice-fill"
-        onPress={onMessageAllPress}
+
+      {search.query.length === 0 && (
+        <>
+          <Text type="p4" style={tw`font-bold uppercase`}>
+            Shortcuts
+          </Text>
+
+          <Action.List>
+            <Action.Item
+              title="Message All"
+              icon="group-fill"
+              onPress={onMessageAllPress}
+            />
+            <Action.Item
+              title="Message Favorites"
+              icon="user-star-fill"
+              onPress={onMessageFavoritesPress}
+            />
+            <Action.Item
+              title="Message Uncontacted"
+              icon="user-voice-fill"
+              onPress={onMessageUncontactedPress}
+            />
+          </Action.List>
+        </>
+      )}
+
+      <Text type="p4" style={tw`font-bold uppercase`}>
+        {directMessageHeader}
+      </Text>
+
+      <FlatList
+        scrollEnabled={false}
+        data={pnms}
+        loading={isLoading}
+        emptyListTitle="No Contacts Found"
+        emptyListSubtitle="Start by adding a new PNM"
+        renderItem={({ item: pnm }) => (
+          <ListItem
+            key={pnm._id}
+            iconColor={tw.color("yellow")}
+            icon={pnm.starred ? "star-fill" : undefined}
+            title={`${pnm.firstName} ${pnm.lastName}`}
+            subtitle={formatPhoneNumber(pnm.phoneNumber)}
+            onPress={onDirectMessagePress.bind(null, pnm)}
+          />
+        )}
       />
-      <ListItem
-        size="lg"
-        title="Message New PNMS"
-        subtitle="Send a message to all PNMs you have not contacted"
-        icon="chat-history-fill"
-        onPress={onMessageUncontactedPress}
-      />
-      <ListItem
-        size="lg"
-        title="Message Favorite PNMS"
-        subtitle="Send a message to all PNMs you have favorited"
-        icon="star-fill"
-        onPress={onMessageFavoritesPress}
-      />
-    </>
+    </View>
   );
 };
 
 const LoadingState = () => {
   return (
-    <>
+    <View style={tw`gap-y-6`}>
       <HeadlineLoader style={tw`pb-4`} />
+      <Skeleton height={52} borderRadius={999} />
+      <Skeleton height={16} width={"50%"} />
+      <Skeleton height={200} />
+      <Skeleton height={16} width={"50%"} />
 
-      <ListItemLoader size="lg" />
-      <ListItemLoader size="lg" />
-      <ListItemLoader size="lg" />
-      <ListItemLoader size="lg" />
-    </>
+      <View style={tw`gap-y-1`}>
+        {new Array(5).fill(0).map((_, i) => (
+          <ListItemLoader key={i} />
+        ))}
+      </View>
+    </View>
   );
 };
 

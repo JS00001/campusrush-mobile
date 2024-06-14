@@ -101,6 +101,8 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
     const fetchedConversation = (conversationQuery.data.pages[0] as any).data
       .conversation;
 
+    if (!fetchedConversation) return;
+
     // All of the messages that have been fetched in the conversation query are
     // combined into one array
     const fetchedMessages = conversationQuery.data.pages.flatMap((page) => {

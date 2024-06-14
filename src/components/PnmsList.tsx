@@ -11,8 +11,8 @@
  */
 
 import { useMemo, useState } from "react";
-import { FlashList } from "@shopify/flash-list";
-import { View, RefreshControl } from "react-native";
+import { FlashList, FlashListProps } from "@shopify/flash-list";
+import { View, RefreshControl, Dimensions } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -22,15 +22,25 @@ import ListItemLoader from "@/ui/Loaders/ListItem";
 import { formatPhoneNumber } from "@/lib/util/string";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
-interface PnmsListProps {
+type ListDataTypes = PNM | string;
+
+interface PnmsListProps extends Partial<FlashListProps<ListDataTypes>> {
   pnms: PNM[];
   loading: boolean;
   onRefetch: () => Promise<void>;
 }
 
-const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
+const PnmsList: React.FC<PnmsListProps> = ({
+  pnms,
+  onRefetch,
+  loading,
+  ...props
+}) => {
   const { openBottomSheet } = useBottomSheet();
   const [isRefetching, setIsRefetching] = useState(false);
+
+  const screenHeight = useMemo(() => Dimensions.get("window").height, []);
+  const screenWidth = useMemo(() => Dimensions.get("window").width, []);
 
   /**
    * When pnms change, create a new list like this
@@ -94,7 +104,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
    * Conditionally renders either a header entry or a PNM entry
    * based on the type of data passed
    */
-  const ItemComponent = ({ item: data }: { item: PNM | string }) => {
+  const ItemComponent = ({ item: data }: { item: ListDataTypes }) => {
     if (typeof data === "string") {
       return <Text style={tw`bg-white w-full font-medium`}>{data}</Text>;
     }
@@ -136,7 +146,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
   };
 
   return (
-    <View style={tw`flex-row flex-1`}>
+    <View style={tw`flex-row`}>
       <FlashList
         data={data}
         // Used for optimization
@@ -149,6 +159,7 @@ const PnmsList: React.FC<PnmsListProps> = ({ pnms, onRefetch, loading }) => {
         refreshControl={
           <RefreshControl refreshing={isRefetching} onRefresh={onRefresh} />
         }
+        {...props}
       />
     </View>
   );

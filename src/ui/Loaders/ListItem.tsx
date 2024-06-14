@@ -27,7 +27,7 @@ const ListItemLoader: React.FC<ListItemLoaderProps> = ({
   style,
 }) => {
   const containerStyles = tw.style(
-    "bg-slate-100 rounded-xl gap-4",
+    "bg-slate-200 rounded-xl gap-4",
     size === "sm" && "p-4 gap-y-2 flex-col",
     size === "md" && "px-3 py-4 justify-between items-center flex-row w-full",
     size === "lg" && "px-7 py-4 justify-between items-center flex-row w-full",
@@ -42,7 +42,7 @@ const ListItemLoader: React.FC<ListItemLoaderProps> = ({
   );
 
   const iconStyles = tw.style(
-    size === "sm" && "rounded-lg p-2 bg-slate-200 self-start",
+    size === "sm" && "rounded-lg p-2 bg-slate-100 self-start",
   );
 
   return (
