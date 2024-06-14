@@ -53,6 +53,7 @@
     "react-native-console-time-polyfill": "^1.2.3",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-logs": "^5.1.0",
     "react-native-modal": "^13.0.1",
     "react-native-network-logger": "^1.15.0",
     "react-native-qonversion": "^7.1.0",

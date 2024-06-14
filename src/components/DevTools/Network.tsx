@@ -10,17 +10,22 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
 import NetworkLogger from "react-native-network-logger";
+
+import tw from "@/lib/tailwind";
 
 const Network = () => {
   return (
-    <NetworkLogger
-      theme={{
-        colors: {
-          background: "white",
-        },
-      }}
-    />
+    <View style={tw`h-96`}>
+      <NetworkLogger
+        theme={{
+          colors: {
+            background: "white",
+          },
+        }}
+      />
+    </View>
   );
 };
 

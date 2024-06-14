@@ -25,7 +25,7 @@ import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 import Headline from "@/ui/Headline";
 import Skeleton from "@/ui/Skeleton";
-import { Detail } from "@/ui/DetailView";
+import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import Menu, { MenuAction } from "@/ui/Menu";
 import { formatPhoneNumber, titleCase } from "@/lib/util/string";
@@ -102,7 +102,7 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
         </Menu>
       </View>
 
-      <Detail.View>
+      <Detail.List>
         <Detail.Item title="Email" value={chapter.email} />
         <Detail.Item title="First Name" value={chapter.firstName} />
         <Detail.Item title="Last Name" value={chapter.lastName} />
@@ -122,7 +122,7 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
           title="Created On"
           value={date.toString(chapter.createdAt)}
         />
-      </Detail.View>
+      </Detail.List>
 
       <Headline
         title="Billing Information"
@@ -155,7 +155,7 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
 
         return (
           <Menu key={entitlement.id} actions={entitlementActions}>
-            <Detail.View>
+            <Detail.List>
               <Detail.Item
                 title="Entitlement ID"
                 value={titleCase(entitlement.id)}
@@ -176,7 +176,7 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
                     : "No, Not Manually Granted"
                 }
               />
-            </Detail.View>
+            </Detail.List>
           </Menu>
         );
       })}

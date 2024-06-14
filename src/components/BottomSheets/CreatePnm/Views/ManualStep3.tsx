@@ -12,6 +12,8 @@
 
 import { View } from "react-native";
 
+import type { CreatePnmState } from "..";
+
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import tw from "@/lib/tailwind";
@@ -23,7 +25,7 @@ import ButtonGroup from "@/ui/ButtonGroup";
 import validators from "@/constants/validators";
 import useKeyboardListener from "@/hooks/useKeyboardListener";
 
-const ManualStep3: React.FC<UseSheetFlowProps> = ({
+const ManualStep3: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
   state,
   nextView,
   prevView,
@@ -61,7 +63,7 @@ const ManualStep3: React.FC<UseSheetFlowProps> = ({
     }
 
     nextView();
-    setState((prevState: any) => ({
+    setState((prevState) => ({
       ...prevState,
       instagram: form.state.instagram.value,
       snapchat: form.state.snapchat.value,

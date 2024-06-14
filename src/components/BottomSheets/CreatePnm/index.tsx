@@ -23,6 +23,15 @@ import { BottomSheet } from "@/ui/BottomSheet";
 import useSheetFlow from "@/hooks/useSheetFlow";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
+export interface CreatePnmState {
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  tags: string[];
+  instagram?: string;
+  snapchat?: string;
+}
+
 const CreatePnmSheet: React.FC<BottomSheetProps> = ({
   innerRef,
   handleClose,

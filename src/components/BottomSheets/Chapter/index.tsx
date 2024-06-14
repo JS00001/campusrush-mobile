@@ -41,8 +41,8 @@ const ChapterSheet: React.FC<BottomSheetProps> = ({
     <BottomSheet
       innerRef={innerRef}
       onChange={sheetFlow.onBottomSheetChange}
-      children={(data) => {
-        const chapterId = data?.data.chapterId as string;
+      children={(props) => {
+        const chapterId = props?.data.chapterId as string;
 
         return (
           <BottomSheetContainer>

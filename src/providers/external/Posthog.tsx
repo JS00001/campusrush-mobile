@@ -25,8 +25,8 @@ const PosthogProvider: React.FC<PosthogProviderProps> = ({ children }) => {
   // Do not track admin events
   if (chapter?.role === "admin") return children;
 
-  // Do not track events in development
-  if (!AppConstants.isProduction) return children;
+  // Do not track events in development or staging
+  if (AppConstants.environment !== "production") return children;
 
   return (
     <PostHogProvider

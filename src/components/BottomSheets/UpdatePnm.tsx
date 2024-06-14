@@ -73,6 +73,7 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
 
         const onTagsPress = () => {
           openBottomSheet("TAG_SELECTOR", {
+            values: form.state.tags.value,
             onTagChange: form.setValue.bind(null, "tags"),
           });
         };

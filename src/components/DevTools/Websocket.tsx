@@ -14,17 +14,26 @@ import { View } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Button from "@/ui/Button";
 import Headline from "@/ui/Headline";
 import { formatJSON } from "@/lib/util/string";
-import { useWebsocket } from "@/providers/Websocket";
+import { useWebsocket } from "@/providers/websocket";
 
 interface WebsocketProps {}
 
 const Websocket: React.FC<WebsocketProps> = () => {
   const websocket = useWebsocket();
 
+  const onReconnect = () => {
+    websocket.connect();
+  };
+
   return (
     <View style={tw`gap-y-2`}>
+      <Button onPress={onReconnect} iconLeft="refresh-line">
+        Reconnect Websocket
+      </Button>
+
       <View style={tw`rounded-xl bg-slate-100 p-4`}>
         <Headline
           title="Websocket Connected?"
@@ -36,13 +45,13 @@ const Websocket: React.FC<WebsocketProps> = () => {
       <View style={tw`rounded-xl bg-slate-100 p-4 gap-y-2`}>
         <Text type="h2">Messages</Text>
 
-        {websocket.messages.length === 0 && (
+        {websocket.logs.length === 0 && (
           <Text>
             No messages yet. Receive a websocket message to see it here.
           </Text>
         )}
 
-        {websocket.messages.map((message, index) => {
+        {websocket.logs.map((message, index) => {
           // Format the message.timestamp as YYYY-MM-DD HH:MM:SS
           const date = new Date(message.timestamp);
           const formattedDate = date.toISOString().split("T")[0];

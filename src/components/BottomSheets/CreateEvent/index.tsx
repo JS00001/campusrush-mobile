@@ -20,6 +20,14 @@ import { BottomSheet } from "@/ui/BottomSheet";
 import useSheetFlow from "@/hooks/useSheetFlow";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
+export interface CreateEventState {
+  title?: string;
+  description?: string;
+  location?: string;
+  startDate: string;
+  endDate: string;
+}
+
 const CreateEventSheet: React.FC<BottomSheetProps> = ({
   innerRef,
   handleClose,

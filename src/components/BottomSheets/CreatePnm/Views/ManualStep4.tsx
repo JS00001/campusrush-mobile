@@ -12,6 +12,8 @@
 
 import Toast from "react-native-toast-message";
 
+import type { CreatePnmState } from "..";
+
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import tw from "@/lib/tailwind";
@@ -24,7 +26,7 @@ import ButtonGroup from "@/ui/ButtonGroup";
 import TagView from "@/components/TagView";
 import { useCreatePnm } from "@/hooks/api/pnms";
 
-const ManualStep4: React.FC<UseSheetFlowProps> = ({
+const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
   state,
   setState,
   prevView,

@@ -30,6 +30,7 @@ const useSearch = ({ data, filters = [], fields = [] }: IUseSearch) => {
   type FilterID = (typeof filters)[number]['id'] | 'NO_FILTER';
 
   const [query, setQuery] = useState('');
+  const [focused, setFocused] = useState(false);
   const [filteredData, setFilteredData] = useState(data);
   const [filter, setFilter] = useState<FilterID>('NO_FILTER');
 
@@ -76,9 +77,11 @@ const useSearch = ({ data, filters = [], fields = [] }: IUseSearch) => {
   return {
     filter,
     query,
+    focused,
     data: filteredData,
     setFilter,
     setQuery,
+    setFocused,
   };
 };
 

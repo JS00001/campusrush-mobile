@@ -12,16 +12,18 @@
 
 import { View } from "react-native";
 
+import type { CreateEventState } from "..";
+
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import Headline from "@/ui/Headline";
 import useForm from "@/hooks/useForm";
 import FormField from "@/ui/FormField";
 import validators from "@/constants/validators";
-import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
+import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 import useKeyboardListener from "@/hooks/useKeyboardListener";
 
-const Step1: React.FC<UseSheetFlowProps> = ({
+const Step1: React.FC<UseSheetFlowProps<CreateEventState>> = ({
   state,
   setState,
   snapToIndex,
@@ -60,7 +62,7 @@ const Step1: React.FC<UseSheetFlowProps> = ({
     }
 
     nextView();
-    setState((prevState: any) => ({
+    setState((prevState) => ({
       ...prevState,
       title: form.state.title.value,
       description: form.state.description.value,

@@ -29,7 +29,7 @@ import AxiosIntercepter from "@/providers/Axios";
 import NetworkProvider from "@/providers/Network";
 import DeveloperTools from "@/components/DevTools";
 import MetadataProvider from "@/providers/Metadata";
-import WebsocketProvider from "@/providers/Websocket";
+import WebsocketProvider from "@/providers/websocket";
 import StatusOverlay from "@/components/StatusOverlay";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";

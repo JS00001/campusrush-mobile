@@ -17,23 +17,32 @@ import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
 interface TagViewProps extends TouchableOpacityProps {
   tags: string[];
+  hideContainer?: boolean;
   style?: any;
 }
 
-const TagView: React.FC<TagViewProps> = ({ tags, style, ...props }) => {
+const TagView: React.FC<TagViewProps> = ({
+  tags,
+  style,
+  hideContainer,
+  ...props
+}) => {
   const isEmpty = tags.length === 0;
 
   const containerStyles = tw.style(
-    "px-5 py-2 rounded-xl bg-slate-100 w-full",
+    "w-full",
+    !hideContainer && "px-5 py-2 rounded-xl bg-slate-100",
     isEmpty ? "gap-y-0.5" : "gap-y-2",
     style,
   );
 
   return (
     <TouchableOpacity style={containerStyles} {...props}>
-      <Text type="p4" style={tw`text-slate-400`}>
-        Tags
-      </Text>
+      {!hideContainer && (
+        <Text type="p4" style={tw`text-slate-400`}>
+          Tags
+        </Text>
+      )}
 
       <View style={tw`gap-1 flex-row flex-wrap`}>
         {tags.map((tag) => (

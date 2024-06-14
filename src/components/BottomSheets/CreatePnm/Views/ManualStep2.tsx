@@ -13,6 +13,8 @@
 import { z } from "zod";
 import { View } from "react-native";
 
+import type { CreatePnmState } from "..";
+
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import tw from "@/lib/tailwind";
@@ -22,7 +24,7 @@ import useForm from "@/hooks/useForm";
 import ButtonGroup from "@/ui/ButtonGroup";
 import TagSelector from "@/components/TagSelector";
 
-const ManualStep2: React.FC<UseSheetFlowProps> = ({
+const ManualStep2: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
   state,
   nextView,
   prevView,
@@ -47,7 +49,7 @@ const ManualStep2: React.FC<UseSheetFlowProps> = ({
     }
 
     nextView();
-    setState((prevState: any) => ({
+    setState((prevState) => ({
       ...prevState,
       tags: form.state.tags.value,
     }));

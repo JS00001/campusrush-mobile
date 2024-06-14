@@ -20,8 +20,9 @@ import Button from "@/ui/Button";
 import date from "@/lib/util/date";
 import Skeleton from "@/ui/Skeleton";
 import Headline from "@/ui/Headline";
-import { Detail } from "@/ui/DetailView";
+import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
+import TagView from "@/components/TagView";
 import { BottomSheet } from "@/ui/BottomSheet";
 import { useGlobalStore, usePnmStore } from "@/store";
 import { formatPhoneNumber } from "@/lib/util/string";
@@ -125,14 +126,22 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
               </View>
             </View>
 
-            <Detail.View>
+            <Detail.List>
               <Detail.Item
                 title="Phone Number"
                 value={formatPhoneNumber(pnm.phoneNumber) || "N/A"}
               />
               <Detail.Item title="Instagram" value={pnm.instagram || "N/A"} />
               <Detail.Item title="Snapchat" value={pnm.snapchat || "N/A"} />
-            </Detail.View>
+              <Detail.Item
+                title="Tags"
+                // Same as below, make the view look like the other list items when no tags
+                layout={!pnm.tags.length ? "horizontal" : "vertical"}
+                // Make the tags view look like the other list items when no tags, otherwise render the tags list
+                // prettier-ignore
+                value={!pnm.tags.length ? "N/A" : <TagView disabled hideContainer tags={pnm.tags}/>}
+              />
+            </Detail.List>
 
             <Button size="sm" onPress={onEditPress}>
               Edit PNM

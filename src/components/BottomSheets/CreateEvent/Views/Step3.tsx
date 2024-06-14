@@ -12,9 +12,11 @@
 
 import Toast from "react-native-toast-message";
 
+import type { CreateEventState } from "..";
+
 import { useEventStore } from "@/store";
 import { useCreateEvent } from "@/hooks/api/events";
-import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
+import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import Button from "@/ui/Button";
 import ListItem from "@/ui/ListItem";
@@ -22,7 +24,7 @@ import Headline from "@/ui/Headline";
 import Content from "@/constants/content";
 import ButtonGroup from "@/ui/ButtonGroup";
 
-const Step3: React.FC<UseSheetFlowProps> = ({
+const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
   state,
   setState,
   prevView,
@@ -40,8 +42,8 @@ const Step3: React.FC<UseSheetFlowProps> = ({
       title: undefined,
       description: undefined,
       location: undefined,
-      startDate: undefined,
-      endDate: undefined,
+      startDate: new Date().toISOString(),
+      endDate: new Date().toISOString(),
     });
 
     eventStore.addOrUpdateEvent(res.data.event);

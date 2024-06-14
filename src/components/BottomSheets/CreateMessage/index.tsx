@@ -13,19 +13,18 @@
 import { BottomSheetProps } from "../@types";
 
 import Landing from "./Views/Landing";
-import DirectMessage from "./Views/DirectMessage";
 
 import { BottomSheet } from "@/ui/BottomSheet";
 import useSheetFlow from "@/hooks/useSheetFlow";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
-const CreateMessageSheet: React.FC<BottomSheetProps> = ({
+export const CreateMessageSheet: React.FC<BottomSheetProps> = ({
   innerRef,
   handleClose,
   snapToIndex,
   snapToPosition,
 }) => {
-  const views = [Landing, DirectMessage];
+  const views = [Landing];
 
   const sheetFlow = useSheetFlow({
     state: {},

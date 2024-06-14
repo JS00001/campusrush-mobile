@@ -32,7 +32,7 @@ import messaging from "@/lib/messages";
 import { useAuth } from "@/providers/Auth";
 import SocketInput from "@/lib/socketInput";
 import MessageBubble from "@/ui/MessageBubble";
-import { useWebsocket } from "@/providers/Websocket";
+import { useWebsocket } from "@/providers/websocket";
 import DirectMessageHeader from "@/components/Headers/DirectMessage";
 
 interface ChatProps {
@@ -100,6 +100,8 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
 
     const fetchedConversation = (conversationQuery.data.pages[0] as any).data
       .conversation;
+
+    if (!fetchedConversation) return;
 
     // All of the messages that have been fetched in the conversation query are
     // combined into one array

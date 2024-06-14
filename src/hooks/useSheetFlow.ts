@@ -11,12 +11,13 @@
  */
 
 import { useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
-interface IUseSheetFlow {
+interface IUseSheetFlow<T extends Record<string, any>> {
   /** The list of all of the views in the flow */
   views: React.FC<any>[];
   /** The state of the flow */
-  state: Record<string, any>;
+  state: T;
   /** Function to snap to a specific index */
   snapToIndex: (index: number) => void;
   /** Function to snap to a specific position */
@@ -25,11 +26,13 @@ interface IUseSheetFlow {
   handleClose: () => void;
 }
 
-export interface UseSheetFlowProps {
+export interface UseSheetFlowProps<
+  T extends Record<string, any> | undefined = undefined,
+> {
   /** The state of the flow */
-  state: Record<string, any>;
+  state: T;
   /** Function to set the state of the flow */
-  setState: (state: Record<string, any>) => void;
+  setState: Dispatch<SetStateAction<T>>;
   /** Function to set the current view */
   setView: (index: number) => void;
   /** Function to go to the next view */
@@ -44,13 +47,13 @@ export interface UseSheetFlowProps {
   snapToPosition: (position: string) => void;
 }
 
-const useSheetFlow = ({
+const useSheetFlow = <T extends Record<string, any>>({
   views,
   state,
   snapToIndex,
   snapToPosition,
   handleClose,
-}: IUseSheetFlow) => {
+}: IUseSheetFlow<T>) => {
   const [currentView, setCurrentView] = useState(0);
   const [handledState, setHandledState] = useState(state);
 
@@ -86,7 +89,7 @@ const useSheetFlow = ({
     });
   };
 
-  const props: UseSheetFlowProps = {
+  const props: UseSheetFlowProps<T> = {
     state: handledState,
     nextView,
     prevView,

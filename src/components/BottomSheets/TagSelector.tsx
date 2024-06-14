@@ -21,13 +21,14 @@ const TagSelectorSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   return (
     <BottomSheet
       innerRef={innerRef}
-      children={(data) => {
-        const onTagChange = data?.data.onTagChange as (tags: string[]) => void;
+      children={(props) => {
+        const values = props?.data.values as string[];
+        const onTagChange = props?.data.onTagChange as (tags: string[]) => void;
 
         return (
           <BottomSheetContainer>
             <Text type="h1">Select Tags</Text>
-            <TagSelector onChange={onTagChange} />
+            <TagSelector values={values} onChange={onTagChange} />
           </BottomSheetContainer>
         );
       }}

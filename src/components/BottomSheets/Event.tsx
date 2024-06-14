@@ -25,7 +25,7 @@ import date from "@/lib/util/date";
 import Headline from "@/ui/Headline";
 import Skeleton from "@/ui/Skeleton";
 import AppConstants from "@/constants";
-import { Detail } from "@/ui/DetailView";
+import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import ButtonGroup from "@/ui/ButtonGroup";
 import { BottomSheet } from "@/ui/BottomSheet";
@@ -111,7 +111,7 @@ const EventSheet: React.FC<BottomSheetProps> = ({
               </View>
             </View>
 
-            <Detail.View>
+            <Detail.List>
               <Detail.Item
                 layout="vertical"
                 title="Description"
@@ -132,7 +132,7 @@ const EventSheet: React.FC<BottomSheetProps> = ({
                 title="# Responded No"
                 value={formattedEvent.noCount.toString()}
               />
-            </Detail.View>
+            </Detail.List>
 
             <ButtonGroup>
               <Button size="sm" color="secondary" onPress={onEditPress}>

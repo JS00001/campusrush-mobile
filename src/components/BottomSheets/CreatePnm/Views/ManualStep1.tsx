@@ -12,6 +12,8 @@
 
 import { View } from "react-native";
 
+import type { CreatePnmState } from "..";
+
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import tw from "@/lib/tailwind";
@@ -23,7 +25,7 @@ import ButtonGroup from "@/ui/ButtonGroup";
 import validators from "@/constants/validators";
 import useKeyboardListener from "@/hooks/useKeyboardListener";
 
-const ManualStep1: React.FC<UseSheetFlowProps> = ({
+const ManualStep1: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
   state,
   nextView,
   prevView,
@@ -63,7 +65,7 @@ const ManualStep1: React.FC<UseSheetFlowProps> = ({
     }
 
     nextView();
-    setState((prevState: any) => ({
+    setState((prevState) => ({
       ...prevState,
       firstName: form.state.firstName.value,
       lastName: form.state.lastName.value,
