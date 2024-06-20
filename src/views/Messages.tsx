@@ -64,7 +64,12 @@ const MessagesView = () => {
   // if there is 1 result for a search, the list will keep trying to refresh and
   // will fetch all of the pages without needing to
   const isRefetchDisabled =
-    !conversationsQuery.hasNextPage || !!search.query || !!search.filter;
+    // Disable if there is no next page
+    !conversationsQuery.hasNextPage ||
+    // Disable if there is a search query (so if there is 1 result, it doesn't keep refreshing)
+    !!search.query ||
+    // Disable if there is a filter (so if there is 1 result, it doesn't keep refreshing)
+    search.filter !== "NO_FILTER";
 
   const onNewChatPress = () => {
     openBottomSheet("CREATE_MESSAGE");
