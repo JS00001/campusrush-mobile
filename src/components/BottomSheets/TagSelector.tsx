@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import type { BottomSheetProps } from "./@types";
+import type { BottomSheetProps, SheetData } from "./@types";
 
 import Text from "@/ui/Text";
 import { BottomSheet } from "@/ui/BottomSheet";
@@ -21,9 +21,9 @@ const TagSelectorSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   return (
     <BottomSheet
       innerRef={innerRef}
-      children={(props) => {
-        const values = props?.data.values as string[];
-        const onTagChange = props?.data.onTagChange as (tags: string[]) => void;
+      children={(data) => {
+        const props = data as SheetData<"TAG_SELECTOR">;
+        const { values, onTagChange } = props.data;
 
         return (
           <BottomSheetContainer>

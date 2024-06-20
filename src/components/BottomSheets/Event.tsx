@@ -13,7 +13,7 @@
 import { View } from "react-native";
 import { useEffect, useState } from "react";
 
-import { BottomSheetProps } from "./@types";
+import { BottomSheetProps, SheetData } from "./@types";
 
 import useCopy from "@/hooks/useCopy";
 import { useEventStore } from "@/store";
@@ -43,7 +43,8 @@ const EventSheet: React.FC<BottomSheetProps> = ({
     <BottomSheet
       innerRef={innerRef}
       children={(data) => {
-        const eventId = data?.data.eventId;
+        const props = data as SheetData<"EVENT">;
+        const { eventId } = props.data;
 
         const eventQuery = useGetEvent(eventId);
         const eventsStore = useEventStore();

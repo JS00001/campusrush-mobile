@@ -12,7 +12,7 @@
 import { z } from "zod";
 import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
-import { BottomSheetProps } from "./@types";
+import { BottomSheetProps, SheetData } from "./@types";
 
 import useFormMutation from "@/hooks/useFormMutation";
 import { useEventStore, useStatusStore } from "@/store";
@@ -35,8 +35,10 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
     <FormSheet
       innerRef={innerRef}
       children={(data) => {
+        const props = data as SheetData<"UPDATE_EVENT">;
+        const { eventId } = props.data;
+
         const currentDate = new Date();
-        const eventId = data?.data.eventId as string;
 
         const eventStore = useEventStore();
         const eventQuery = useGetEvent(eventId);

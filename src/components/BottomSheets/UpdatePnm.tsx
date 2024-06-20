@@ -12,7 +12,7 @@
 
 import { z } from "zod";
 
-import type { BottomSheetProps } from "./@types";
+import type { BottomSheetProps, SheetData } from "./@types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -35,7 +35,8 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
     <FormSheet
       innerRef={innerRef}
       children={(data) => {
-        const pnmId = data?.data.pnmId as string;
+        const props = data as SheetData<"UPDATE_PNM">;
+        const { pnmId } = props.data;
 
         const pnmStore = usePnmStore();
         const pnmQuery = useGetPnm(pnmId);

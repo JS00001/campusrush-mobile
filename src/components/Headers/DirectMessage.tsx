@@ -11,7 +11,7 @@
  */
 
 import { useEffect } from "react";
-import { View } from "react-native";
+import { Keyboard, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import tw from "@/lib/tailwind";
@@ -37,6 +37,8 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({
   const title = `${pnmQuery.pnm?.firstName} ${pnmQuery.pnm?.lastName}`;
 
   const onMenuButtonPress = () => {
+    Keyboard.dismiss();
+
     openBottomSheet("PNM", {
       pnmId: pnm._id,
     });

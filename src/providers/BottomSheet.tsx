@@ -13,22 +13,25 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { createContext, useCallback, useContext, useRef } from "react";
 
+import type {
+  IndividualSheetProps,
+  IndividualSheetName,
+} from "@/components/BottomSheets/@types";
 import BottomSheets from "@/components/BottomSheets";
-
-type BottomSheetName = keyof typeof BottomSheets;
 
 interface BottomSheetContextProps {
   /* Open a bottom sheet  from the list of registered bottom sheets */
-  openBottomSheet: (name: BottomSheetName, props?: any) => void;
+  // prettier-ignore
+  openBottomSheet: <T extends IndividualSheetName>(name: T, props?: IndividualSheetProps[T]) => void;
 
   /* Snap the bottom sheet to a specific index */
-  snapToIndex: (name: BottomSheetName, i: number) => void;
+  snapToIndex: (name: IndividualSheetName, i: number) => void;
 
   /* Snap the bottom sheet to a specific position */
-  snapToPosition: (name: BottomSheetName, pos: string) => void;
+  snapToPosition: (name: IndividualSheetName, pos: string) => void;
 
   /* Close the bottom sheet */
-  closeBottomSheet: (name: BottomSheetName) => void;
+  closeBottomSheet: (name: IndividualSheetName) => void;
 }
 
 const BottomSheetContext = createContext<BottomSheetContextProps>(
@@ -43,7 +46,8 @@ const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
   /**
    * Open a bottom sheet from the list of registered bottom sheets
    */
-  const openBottomSheet = useCallback((name: BottomSheetName, props?: any) => {
+  // prettier-ignore
+  const openBottomSheet = useCallback(<T extends IndividualSheetName>(name: T, props?: IndividualSheetProps[T]) => {
     const index = Object.keys(BottomSheets).indexOf(name);
     const ref = bottomSheetRefs.current[index];
 
@@ -53,7 +57,7 @@ const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
   /**
    * Snap a specific bottom sheet to a specific index
    */
-  const snapToIndex = useCallback((name: BottomSheetName, i: number) => {
+  const snapToIndex = useCallback((name: IndividualSheetName, i: number) => {
     const index = Object.keys(BottomSheets).indexOf(name);
     const ref = bottomSheetRefs.current[index];
 
@@ -63,17 +67,20 @@ const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
   /**
    * Snap a specific bottom sheet to a specific position
    */
-  const snapToPosition = useCallback((name: BottomSheetName, pos: string) => {
-    const index = Object.keys(BottomSheets).indexOf(name);
-    const ref = bottomSheetRefs.current[index];
+  const snapToPosition = useCallback(
+    (name: IndividualSheetName, pos: string) => {
+      const index = Object.keys(BottomSheets).indexOf(name);
+      const ref = bottomSheetRefs.current[index];
 
-    ref.snapToPosition(pos);
-  }, []);
+      ref.snapToPosition(pos);
+    },
+    [],
+  );
 
   /**
    * Close a specific bottom sheet
    */
-  const closeBottomSheet = useCallback((name: BottomSheetName) => {
+  const closeBottomSheet = useCallback((name: IndividualSheetName) => {
     const index = Object.keys(BottomSheets).indexOf(name);
     const ref = bottomSheetRefs.current[index];
 
@@ -93,7 +100,7 @@ const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
 
       {/* Render each bottom sheet (closed) */}
       {Object.keys(BottomSheets).map((key, index) => {
-        const name: BottomSheetName = key as BottomSheetName;
+        const name: IndividualSheetName = key as IndividualSheetName;
         const BottomSheet = BottomSheets[name];
 
         const props = {
