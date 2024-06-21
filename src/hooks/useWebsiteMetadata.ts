@@ -14,9 +14,6 @@ import { useQuery } from '@tanstack/react-query';
 import { getWebsiteMetadata } from '@/api/requests/third-party/metadata';
 
 const useWebsiteMetadata = (url: string) => {
-  /**
-   * Fetch the metadata for the URL
-   */
   const query = useQuery({
     queryKey: ['website_metadata', url],
     queryFn: async () => {
