@@ -145,7 +145,7 @@ const PnmsList: React.FC<PnmsListProps> = ({
   };
 
   return (
-    <View style={tw`flex-row`}>
+    <View style={tw`flex-row flex-1`}>
       <FlashList
         data={data}
         // Used for optimization
