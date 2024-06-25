@@ -11,8 +11,8 @@
  */
 
 import { useMemo, useState } from "react";
+import { View, RefreshControl } from "react-native";
 import { FlashList, FlashListProps } from "@shopify/flash-list";
-import { View, RefreshControl, Dimensions } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -39,15 +39,15 @@ const PnmsList: React.FC<PnmsListProps> = ({
   const { openBottomSheet } = useBottomSheet();
   const [isRefetching, setIsRefetching] = useState(false);
 
-  const screenHeight = useMemo(() => Dimensions.get("window").height, []);
-  const screenWidth = useMemo(() => Dimensions.get("window").width, []);
-
   /**
    * When pnms change, create a new list like this
    * [ "A", ...PNMs with first name starting with A, "B", ...PNMs with first name starting with B, ...]
    * Only have an entry if there are pnms with that letter first name
    */
   const [data, indices] = useMemo(() => {
+    // First, sort the pnms by first name
+    pnms.sort((a, b) => a.firstName.localeCompare(b.firstName));
+
     /**
      * Takes the list of pnms and reduces them into a list that looks like this
      * {
@@ -60,7 +60,6 @@ const PnmsList: React.FC<PnmsListProps> = ({
         // Get the first letter of the first name
         const firstLetter = pnm.firstName[0].toUpperCase();
 
-        // If no entry exists for the first letter, create one
         if (!acc[firstLetter]) {
           acc[firstLetter] = [firstLetter];
         }
@@ -146,13 +145,13 @@ const PnmsList: React.FC<PnmsListProps> = ({
   };
 
   return (
-    <View style={tw`flex-row`}>
+    <View style={tw`flex-row flex-1`}>
       <FlashList
         data={data}
         // Used for optimization
         estimatedItemSize={84}
-        // Sticks the letters to the top of the list
         renderItem={ItemComponent}
+        // Sticks the letters to the top of the list
         stickyHeaderIndices={indices}
         ListEmptyComponent={ListEmptyComponent}
         showsVerticalScrollIndicator={false}

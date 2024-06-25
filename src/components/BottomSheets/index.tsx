@@ -23,7 +23,9 @@ import TermsOfServiceSheet from "./TermsOfService";
 import UpdatePnmSheet from "./UpdatePnm";
 import UpdateEventSheet from "./UpdateEvent";
 
-export default {
+import { IndividualSheetName } from "./@types";
+
+const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   CHAPTER: ChapterSheet,
   CREATE_MESSAGE: CreateMessageSheet,
   CREATE_EVENT: CreateEventSheet,
@@ -37,3 +39,5 @@ export default {
   UPDATE_PNM: UpdatePnmSheet,
   UPDATE_EVENT: UpdateEventSheet,
 };
+
+export default BottomSheets;

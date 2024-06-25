@@ -26,6 +26,7 @@ import TabBarIcon from "@/ui/TabBarIcon";
 import { useAuth } from "@/providers/Auth";
 import { useConversationStore } from "@/store";
 import { useBottomSheet } from "@/providers/BottomSheet";
+import { useGetConversations } from "@/hooks/api/messaging";
 
 export const Tab = createBottomTabNavigator();
 
@@ -36,6 +37,9 @@ export const Tab = createBottomTabNavigator();
  * and contains five independent stack navigators
  */
 export const TabNavigator = () => {
+  // TODO: make this better, incorporate into store
+  useGetConversations();
+
   const { chapter } = useAuth();
   const { openBottomSheet } = useBottomSheet();
   const conversationStore = useConversationStore();

@@ -13,7 +13,7 @@
 import { View } from "react-native";
 import { useEffect, useState } from "react";
 
-import { BottomSheetProps } from "./@types";
+import { BottomSheetProps, SheetData } from "./@types";
 
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
@@ -38,7 +38,8 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
     <BottomSheet
       innerRef={innerRef}
       children={(data) => {
-        const pnmId = data?.data.pnmId as string;
+        const props = data as SheetData<"PNM">;
+        const { pnmId } = props.data;
 
         const pnmStore = usePnmStore();
         const globalStore = useGlobalStore();

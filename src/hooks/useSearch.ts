@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 interface IUseSearch<T = any> {
   /** The data to be filtered */
   data: T[];
+
   /** The filters to be applied */
   filters?: {
     /** The filter id */
@@ -22,6 +23,7 @@ interface IUseSearch<T = any> {
     /** The filter function */
     filterFn: (data: T[]) => T[];
   }[];
+
   /** The fields to search in (searches entire object values if not passed) */
   fields?: (keyof T)[];
 }

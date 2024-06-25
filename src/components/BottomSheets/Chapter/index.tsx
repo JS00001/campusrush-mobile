@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import type { BottomSheetProps } from "../@types";
+import type { BottomSheetProps, SheetData } from "../@types";
 
 import Landing from "./Views/Landing";
 import ManageBilling from "./Views/ManageBilling";
@@ -41,8 +41,9 @@ const ChapterSheet: React.FC<BottomSheetProps> = ({
     <BottomSheet
       innerRef={innerRef}
       onChange={sheetFlow.onBottomSheetChange}
-      children={(props) => {
-        const chapterId = props?.data.chapterId as string;
+      children={(data) => {
+        const props = data as SheetData<"CHAPTER">;
+        const chapterId = props.data.chapterId;
 
         return (
           <BottomSheetContainer>
