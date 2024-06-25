@@ -4,7 +4,7 @@ export default {
   name: IS_DEV ? 'Campus Rush (DEV)' : 'Campus Rush',
   slug: 'campusrush',
   // Change before committing
-  version: '1.0.67',
+  version: '1.0.68',
   orientation: 'portrait',
   icon: IS_DEV ? './assets/development-icon.png' : './assets/icon.png',
   userInterfaceStyle: 'light',
@@ -17,7 +17,7 @@ export default {
   ios: {
     supportsTablet: false,
     // Change before committing
-    buildNumber: '2',
+    buildNumber: '1',
     bundleIdentifier: IS_DEV ? 'app.campusrush.dev' : 'app.campusrush',
     config: {
       usesNonExemptEncryption: false,
