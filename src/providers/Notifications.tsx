@@ -12,7 +12,8 @@
 
 import lodash from "lodash";
 import * as RNNotifications from "expo-notifications";
-import { createContext, useContext, useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { createContext, useContext, useEffect, useRef } from "react";
 
 import { useAuth } from "@/providers/Auth";
 import { useUpdateChapter } from "@/hooks/api/chapter";
@@ -44,11 +45,12 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
 }) => {
   const { entitlements } = useQonversion();
   const { chapter, setChapter, accessToken } = useAuth();
+  const responseListener = useRef<RNNotifications.Subscription>();
 
-  // Get the notification status from the chapter
+  const navigation = useNavigation();
+
   const notificationsEnabled = chapter?.notificationsEnabled || false;
 
-  // The message to display in the selection card
   const enableNotificationsSubtitle = notificationsEnabled
     ? "Currently Selected"
     : "Click to enable notifications";
@@ -62,14 +64,37 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   // depending on the function called
   const mutation = useUpdateChapter();
 
+  useEffect(() => {
+    responseListener.current =
+      RNNotifications.addNotificationResponseReceivedListener((response) => {
+        const { data } = response.notification.request.content;
+
+        if (data.type === "NEW_MESSAGE") {
+          const pnm = data.conversation.pnm;
+
+          (navigation.navigate as any)("MessagesTab", {
+            screen: "Chat",
+            initial: false,
+            params: {
+              pnm,
+            },
+          });
+        }
+
+        // Add more cases here for different types of notifications
+      });
+
+    return () => {
+      responseListener.current?.remove();
+    };
+  }, []);
+
   // Every time the access token changes, we will check the notification status
   // This is so that we can update the notification token if the user logs in
   useEffect(() => {
-    // Declare an async function to check the notification status
     const notificationStatus = async () => {
       // If there is no logged in user, return
       if (lodash.isEmpty(chapter)) return;
-
       if (lodash.isEmpty(entitlements)) return;
 
       // Check if we have permission to send notifications
@@ -97,23 +122,20 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
       await setNotificationsEnabled(false);
     };
 
-    // Call the async function
     notificationStatus();
   }, [accessToken]);
 
   // Returns whether we have permission to send notifications to the user
   const hasNotificationPermission = async () => {
-    // Get the notification status
     const { status } = await RNNotifications.getPermissionsAsync();
-    // Return whether we have permission
+
     return status === "granted";
   };
 
   // Requests permission to send notifications to the user and returns the status
   const requestNotificationPermission = async () => {
-    // Request permission
     const { status } = await RNNotifications.requestPermissionsAsync();
-    // Return the status
+
     return status;
   };
 
@@ -121,7 +143,6 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   const setNotificationPushToken = async () => {
     // If there is no logged in user, return
     if (lodash.isEmpty(chapter)) return;
-
     if (lodash.isEmpty(entitlements)) return;
 
     // Generate the notification token, we pass the project id
@@ -140,31 +161,31 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   };
 
   // Sets the user's notification status in the server to either true or false
-  const setNotificationsEnabled = async (value: boolean) => {
+  const setNotificationsEnabled = async (
+    shouldEnableNotifications: boolean,
+  ) => {
     // If there is no logged in user, return
     if (lodash.isEmpty(chapter)) return;
-
     if (lodash.isEmpty(entitlements)) return;
 
-    // Check if we have permission to send notifications
     const hasPermission = await hasNotificationPermission();
 
     // If the value is false, update the notification status
     // We dont need to check for permission here because we are disabling
     // notifications
-    if (!value) {
-      await updateNotificationsEnabled(value);
+    if (!shouldEnableNotifications) {
+      await updateNotificationsEnabled(shouldEnableNotifications);
       return;
     }
 
     // If we dont have permission and the value is true, request permission
     // and update the notification status
-    if (!hasPermission && value) {
+    if (!hasPermission && shouldEnableNotifications) {
       const status = await requestNotificationPermission();
 
       // If we are granted permission, update the notification status
       if (status === "granted") {
-        await updateNotificationsEnabled(value);
+        await updateNotificationsEnabled(shouldEnableNotifications);
         return;
       }
 
@@ -173,8 +194,8 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     }
 
     // If we have permission and the value is true, update the notification status
-    if (hasPermission && value) {
-      await updateNotificationsEnabled(value);
+    if (hasPermission && shouldEnableNotifications) {
+      await updateNotificationsEnabled(shouldEnableNotifications);
     }
   };
 

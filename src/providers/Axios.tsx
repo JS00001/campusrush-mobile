@@ -16,6 +16,7 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 import AppConstants from "@/constants";
 import { useModalStore } from "@/store";
+import { httpLogger } from "@/lib/logger";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import { useNetwork } from "@/providers/Network";
@@ -41,6 +42,8 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
     const requestInterceptor = async (config: InternalAxiosRequestConfig) => {
       const controller = new AbortController();
       const isInternetReachable = await verifyConnection();
+
+      httpLogger.debug(config.method?.toUpperCase(), config.url);
 
       if (!isInternetReachable) {
         controller.abort();

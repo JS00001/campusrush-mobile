@@ -38,7 +38,6 @@ import SentryProvider from "@/providers/external/Sentry";
 import BottomSheetProvider from "@/providers/BottomSheet";
 import PreferencesProvider from "@/providers/Preferences";
 import PosthogProvider from "@/providers/external/Posthog";
-import NotificationsProvider from "@/providers/Notifications";
 
 // Prevent native splash screen from autohiding
 // when app/component is mounted
@@ -66,21 +65,19 @@ const App = () => {
                     <AxiosIntercepter>
                       <PreferencesProvider>
                         <PosthogProvider>
-                          <NotificationsProvider>
-                            <GestureHandlerRootView style={{ flex: 1 }}>
-                              <BottomSheetModalProvider>
-                                <BottomSheetProvider>
-                                  <Modals />
-                                  <DeveloperTools />
-                                  <RootNavigator />
-                                  <StatusOverlay />
-                                </BottomSheetProvider>
-                              </BottomSheetModalProvider>
+                          <GestureHandlerRootView style={{ flex: 1 }}>
+                            <BottomSheetModalProvider>
+                              <BottomSheetProvider>
+                                <Modals />
+                                <DeveloperTools />
+                                <RootNavigator />
+                                <StatusOverlay />
+                              </BottomSheetProvider>
+                            </BottomSheetModalProvider>
 
-                              {/* We need the toast outside of the bottom sheet modal provider so it shows up on top of bottom sheets */}
-                              <Toast config={toastConfig} />
-                            </GestureHandlerRootView>
-                          </NotificationsProvider>
+                            {/* We need the toast outside of the bottom sheet modal provider so it shows up on top of bottom sheets */}
+                            <Toast config={toastConfig} />
+                          </GestureHandlerRootView>
                         </PosthogProvider>
                       </PreferencesProvider>
                     </AxiosIntercepter>

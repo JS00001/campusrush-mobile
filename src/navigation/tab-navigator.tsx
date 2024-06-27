@@ -27,6 +27,7 @@ import { useAuth } from "@/providers/Auth";
 import { useConversationStore } from "@/store";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import { useGetConversations } from "@/hooks/api/messaging";
+import NotificationsProvider from "@/providers/Notifications";
 
 export const Tab = createBottomTabNavigator();
 
@@ -53,120 +54,122 @@ export const TabNavigator = () => {
   };
 
   return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarStyle: {
-          height: 90,
-        },
-        tabBarItemStyle: {
-          margin: 5,
-        },
-
-        headerShown: false,
-        tabBarActiveTintColor: tw.color("primary"),
-        tabBarInactiveTintColor: tw.color("gray-400"),
-      }}
-    >
-      <Tab.Screen
-        name="HomeTab"
-        component={HomeStack}
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              color={color}
-              focused={focused}
-              focusedIcon="home-fill"
-              unfocusedIcon="home-line"
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="PNMsTab"
-        component={PNMsStack}
-        options={{
-          tabBarLabel: "PNMs",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              color={color}
-              focused={focused}
-              focusedIcon="contacts-book-2-fill"
-              unfocusedIcon="contacts-book-2-line"
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="AddTab"
-        component={HomeStack}
-        listeners={() => ({
-          tabPress: (e) => {
-            e.preventDefault();
-            onAddTabPress();
+    <NotificationsProvider>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarStyle: {
+            height: 90,
           },
-        })}
-        options={{
-          tabBarLabel: "Add",
-          tabBarIcon: ({ color, focused }) => (
-            <Icon
-              name="add-line"
-              size={26}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="MessagesTab"
-        component={MessagesStack}
-        options={{
-          tabBarLabel: "Messages",
+          tabBarItemStyle: {
+            margin: 5,
+          },
 
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              color={color}
-              focused={focused}
-              focusedIcon="chat-1-fill"
-              unfocusedIcon="chat-1-line"
-              badgeCount={unreadConverstions}
-            />
-          ),
+          headerShown: false,
+          tabBarActiveTintColor: tw.color("primary"),
+          tabBarInactiveTintColor: tw.color("gray-400"),
         }}
-      />
-      <Tab.Screen
-        name="EventsTab"
-        component={EventsStack}
-        options={{
-          tabBarLabel: "Events",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              color={color}
-              focused={focused}
-              focusedIcon="calendar-2-fill"
-              unfocusedIcon="calendar-2-line"
-            />
-          ),
-        }}
-      />
-
-      {chapter.role == "admin" && (
+      >
         <Tab.Screen
-          name="AdminTab"
-          component={AdminStack}
+          name="HomeTab"
+          component={HomeStack}
           options={{
-            tabBarLabel: "Admin",
+            tabBarLabel: "Home",
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon
                 color={color}
                 focused={focused}
-                focusedIcon="admin-fill"
-                unfocusedIcon="admin-line"
+                focusedIcon="home-fill"
+                unfocusedIcon="home-line"
               />
             ),
           }}
         />
-      )}
-    </Tab.Navigator>
+        <Tab.Screen
+          name="PNMsTab"
+          component={PNMsStack}
+          options={{
+            tabBarLabel: "PNMs",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon
+                color={color}
+                focused={focused}
+                focusedIcon="contacts-book-2-fill"
+                unfocusedIcon="contacts-book-2-line"
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="AddTab"
+          component={HomeStack}
+          listeners={() => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              onAddTabPress();
+            },
+          })}
+          options={{
+            tabBarLabel: "Add",
+            tabBarIcon: ({ color, focused }) => (
+              <Icon
+                name="add-line"
+                size={26}
+                color={color}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="MessagesTab"
+          component={MessagesStack}
+          options={{
+            tabBarLabel: "Messages",
+
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon
+                color={color}
+                focused={focused}
+                focusedIcon="chat-1-fill"
+                unfocusedIcon="chat-1-line"
+                badgeCount={unreadConverstions}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="EventsTab"
+          component={EventsStack}
+          options={{
+            tabBarLabel: "Events",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon
+                color={color}
+                focused={focused}
+                focusedIcon="calendar-2-fill"
+                unfocusedIcon="calendar-2-line"
+              />
+            ),
+          }}
+        />
+
+        {chapter.role == "admin" && (
+          <Tab.Screen
+            name="AdminTab"
+            component={AdminStack}
+            options={{
+              tabBarLabel: "Admin",
+              tabBarIcon: ({ color, focused }) => (
+                <TabBarIcon
+                  color={color}
+                  focused={focused}
+                  focusedIcon="admin-fill"
+                  unfocusedIcon="admin-line"
+                />
+              ),
+            }}
+          />
+        )}
+      </Tab.Navigator>
+    </NotificationsProvider>
   );
 };
