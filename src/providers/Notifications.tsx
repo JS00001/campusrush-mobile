@@ -12,6 +12,7 @@
 
 import lodash from "lodash";
 import * as RNNotifications from "expo-notifications";
+import { useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { createContext, useContext, useEffect, useRef } from "react";
 
@@ -31,14 +32,9 @@ const NotificationsContext = createContext<NotificationsContextProps>(
   {} as NotificationsContextProps,
 );
 
-// Set the handler for notifications
-RNNotifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: true,
-  }),
-});
+// Notification handler WHEN THE APP IS OPEN
+// We do not want to show alerts, play sounds, or set badges
+RNNotifications.setNotificationHandler(null);
 
 const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
@@ -48,6 +44,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   const responseListener = useRef<RNNotifications.Subscription>();
 
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
 
   const notificationsEnabled = chapter?.notificationsEnabled || false;
 
@@ -70,7 +67,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
         const { data } = response.notification.request.content;
 
         if (data.type === "NEW_MESSAGE") {
-          const pnm = data.conversation.pnm;
+          const pnm: PNM = data.conversation.pnm;
 
           (navigation.navigate as any)("MessagesTab", {
             screen: "Chat",
@@ -79,9 +76,9 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
               pnm,
             },
           });
-        }
 
-        // Add more cases here for different types of notifications
+          queryClient.invalidateQueries(["conversation", accessToken, pnm._id]);
+        }
       });
 
     return () => {
