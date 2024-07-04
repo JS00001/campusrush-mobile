@@ -13,6 +13,7 @@
 import { View } from "react-native";
 
 import Text from "@/ui/Text";
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import Headline from "@/ui/Headline";
@@ -27,6 +28,19 @@ const Websocket: React.FC<WebsocketProps> = () => {
   const onReconnect = () => {
     websocket.connect();
   };
+
+  if (!Object.keys(websocket).length) {
+    return (
+      <View style={tw`gap-y-1 items-center`}>
+        <Icon name="alert-fill" size={36} color={tw.color("yellow")} />
+        <Headline
+          centerText
+          title="No Websocket Provider Found"
+          subtitle="Websocket provider is only available when logged in"
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={tw`gap-y-2`}>

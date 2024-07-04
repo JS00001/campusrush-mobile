@@ -59,11 +59,11 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
           <MetadataProvider>
             <QonversionProvider>
-              <WebsocketProvider>
-                <AuthProvider>
-                  <NavigationProvider>
-                    <AxiosIntercepter>
-                      <PreferencesProvider>
+              <AuthProvider>
+                <NavigationProvider>
+                  <AxiosIntercepter>
+                    <PreferencesProvider>
+                      <WebsocketProvider>
                         <PosthogProvider>
                           <GestureHandlerRootView style={{ flex: 1 }}>
                             <BottomSheetModalProvider>
@@ -79,11 +79,11 @@ const App = () => {
                             <Toast config={toastConfig} />
                           </GestureHandlerRootView>
                         </PosthogProvider>
-                      </PreferencesProvider>
-                    </AxiosIntercepter>
-                  </NavigationProvider>
-                </AuthProvider>
-              </WebsocketProvider>
+                      </WebsocketProvider>
+                    </PreferencesProvider>
+                  </AxiosIntercepter>
+                </NavigationProvider>
+              </AuthProvider>
             </QonversionProvider>
           </MetadataProvider>
         </QueryClientProvider>

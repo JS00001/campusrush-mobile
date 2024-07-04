@@ -11,10 +11,11 @@
  */
 
 import Toast from "react-native-toast-message";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import AppConstants from "@/constants";
 import { isJSON } from "@/lib/util/string";
+import { useAuth } from "@/providers/Auth";
 import { LogLevels, websocketLogger } from "@/lib/logger";
 import { useConversationStore, useMessageStore } from "@/store";
 
@@ -35,22 +36,38 @@ const WebsocketContext = createContext<WebsocketContextProps>(
 const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [logs, setLogs] = useState<WebsocketLog[]>([]);
+  const { accessToken } = useAuth();
   const [ws, setWs] = useState<WebSocket | null>(null);
-  const [accessToken, setAccessToken] = useState<string>("");
+  const [logs, setLogs] = useState<WebsocketLog[]>([]);
 
   const messageStore = useMessageStore();
   const conversationStore = useConversationStore();
 
   let reconnectAttempts = 0;
 
-  const connect = (token?: string) => {
-    if (!token && !accessToken) {
+  /**
+   * Keeps the websockets connection synced with the access token, when the
+   * user logs in or log out, perform the necessary actions to connect or
+   * disconnect the websocket
+   */
+  useEffect(() => {
+    if (!accessToken) {
+      disconnect();
+      return;
+    }
+
+    connect();
+  }, [accessToken]);
+
+  /**
+   * Attempt to connect to the websocket
+   */
+  const connect = () => {
+    if (!accessToken) {
       websocketLogger.error("No access token for connection");
       return;
     }
 
-    setAccessToken(token || accessToken);
     sendLog("Attempting to connect to websocket");
 
     // If we are already connected, don't try to connect again
@@ -64,7 +81,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
       ws.close();
     }
 
-    const connection = new WebSocket(AppConstants.websocketUrl, token);
+    const connection = new WebSocket(AppConstants.websocketUrl, accessToken);
 
     // Create all of the listeners for the websocket
     connection.onopen = onOpen;
@@ -73,6 +90,9 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
     connection.onclose = onClose;
   };
 
+  /**
+   * When the websocket opens its connection
+   */
   const onOpen = (event: Event) => {
     const websocket = event.target as WebSocket;
 
@@ -82,10 +102,16 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
     reconnectAttempts = 0;
   };
 
+  /**
+   * When the websocket encounters an error (e.g. connection error, etc.)
+   */
   const onError = (event: Event) => {
     websocketLogger.error(`Error connecting to websocket: ${event}`);
   };
 
+  /**
+   * When the websocket receives a message from the server, parse/handle it
+   */
   const onMessage = (message: MessageEvent<any>) => {
     const data = message.data;
 
@@ -119,6 +145,9 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
     sendLog(`Received '${payload.type}' message from websocket`);
   };
 
+  /**
+   * When the websocket connection is closed
+   */
   const onClose = (event: CloseEvent) => {
     const { code, reason } = event;
 
@@ -131,26 +160,37 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
     setWs(null);
   };
 
+  /**
+   * Attempt to reconnect to the websocket
+   */
   const reconnect = () => {
     if (reconnectAttempts > 5) {
       sendLog("Failed to reconnect to websocket after 5 attempts", "error");
+      reconnectAttempts = 0;
       return;
     }
 
     setTimeout(() => {
-      connect(accessToken);
+      connect();
       reconnectAttempts++;
     }, 2000);
   };
 
+  /**
+   * Close a websocket connection
+   */
   const disconnect = () => {
-    if (ws) {
-      ws.close(1000, "CLIENT_CLOSE");
+    if (!ws) {
+      return;
     }
 
+    ws.close(1000, "CLIENT_CLOSE");
     sendLog("Closing websocket connection");
   };
 
+  /**
+   * Send a log to the websocket and store it in the logs state
+   */
   const sendLog = (message: string, level: LogLevels = "info") => {
     const log = {
       timestamp: Date.now(),

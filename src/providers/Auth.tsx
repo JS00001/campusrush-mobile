@@ -18,7 +18,6 @@ import { createContext, useEffect, useState, useContext } from "react";
 
 import AppConstants from "@/constants";
 import { useGlobalStore } from "@/store";
-import { useWebsocket } from "@/providers/websocket";
 import { useQonversion } from "@/providers/Qonversion";
 
 interface IAuthContext {
@@ -38,7 +37,6 @@ const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const websocket = useWebsocket();
   const globalStore = useGlobalStore();
   const { checkEntitlements } = useQonversion();
 
@@ -124,8 +122,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       );
 
       await checkEntitlements();
-
-      websocket.connect(accessToken);
     } catch {
       setAccessToken("");
       setRefreshToken("");
@@ -157,8 +153,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       UserPropertyKey.EMAIL,
       chapter.email,
     );
-
-    websocket.connect(accessToken);
   };
 
   /**
@@ -183,8 +177,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       UserPropertyKey.EMAIL,
       chapter.email,
     );
-
-    websocket.connect(accessToken);
   };
 
   /**
@@ -200,8 +192,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setChapter({} as Chapter);
 
     Qonversion.getSharedInstance().logout();
-
-    websocket.disconnect();
   };
 
   return (
