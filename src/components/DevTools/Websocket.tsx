@@ -13,6 +13,7 @@
 import { View } from "react-native";
 
 import Text from "@/ui/Text";
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import Headline from "@/ui/Headline";
@@ -27,6 +28,19 @@ const Websocket: React.FC<WebsocketProps> = () => {
   const onReconnect = () => {
     websocket.connect();
   };
+
+  if (!Object.keys(websocket).length) {
+    return (
+      <View style={tw`gap-y-1 items-center`}>
+        <Icon name="alert-fill" size={36} color={tw.color("yellow")} />
+        <Headline
+          centerText
+          title="No Websocket Provider Found"
+          subtitle="Websocket provider is only available when logged in"
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={tw`gap-y-2`}>
@@ -52,16 +66,35 @@ const Websocket: React.FC<WebsocketProps> = () => {
         )}
 
         {websocket.logs.map((message, index) => {
-          // Format the message.timestamp as YYYY-MM-DD HH:MM:SS
+          // Format the message.timestamp as MMM DD, YYYY
           const date = new Date(message.timestamp);
-          const formattedDate = date.toISOString().split("T")[0];
+          const formattedDate = date.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          });
+
+          const formattedTime = date.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          });
+
+          const timeboxStyles = tw.style(
+            "flex-row items-center gap-2",
+            "p-2 rounded-md bg-slate-200",
+          );
 
           return (
-            <View key={index} style={tw`p-2 rounded-md bg-slate-200 flex-row`}>
-              <Text type="p4" style={tw`text-primary mt-0.5`}>
-                {formattedDate}:
-              </Text>
-              <Text type="p3" style={tw`ml-2 flex-1`}>
+            <View key={index} style={timeboxStyles}>
+              <View>
+                <Text type="p4" style={tw`text-primary`}>
+                  {formattedDate}
+                </Text>
+                <Text type="p4">{formattedTime}</Text>
+              </View>
+
+              <Text type="p3" style={tw`flex-1`}>
                 {formatJSON(message.message)}
               </Text>
             </View>

@@ -26,14 +26,16 @@ export const logger = RNLogger.createLogger<LogLevels>({
   transportOptions: {
     colors: {
       debug: 'gray',
-      info: 'blueBright',
+      info: 'gray',
       warn: 'yellowBright',
       error: 'redBright',
     },
     extensionColors: {
       Websocket: 'magentaBright',
+      Http: 'greenBright',
     },
   },
 });
 
+export const httpLogger = logger.extend('Http');
 export const websocketLogger = logger.extend('Websocket');
