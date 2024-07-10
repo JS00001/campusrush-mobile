@@ -24,17 +24,34 @@ interface IUseSearch<T = any> {
     filterFn: (data: T[]) => T[];
   }[];
 
+  /** Sorting methods to be applied */
+  sortingMethods?: {
+    /** The sort id */
+    id: string;
+    /** The key to sort by */
+    key: keyof T;
+    /** the direction to sort by */
+    direction: 'asc' | 'desc';
+  }[];
+
   /** The fields to search in (searches entire object values if not passed) */
   fields?: (keyof T)[];
 }
 
-const useSearch = ({ data, filters = [], fields = [] }: IUseSearch) => {
+const useSearch = ({
+  data,
+  filters = [],
+  sortingMethods = [],
+  fields = [],
+}: IUseSearch) => {
   type FilterID = (typeof filters)[number]['id'] | 'NO_FILTER';
+  type SortID = (typeof sortingMethods)[number]['id'] | 'NO_SORT';
 
   const [query, setQuery] = useState('');
   const [focused, setFocused] = useState(false);
   const [filteredData, setFilteredData] = useState(data);
   const [filter, setFilter] = useState<FilterID>('NO_FILTER');
+  const [sortingMethod, setSortingMethod] = useState<SortID>('NO_SORT');
 
   /**
    * When the query, data, or filter changes, filter the data
@@ -62,6 +79,29 @@ const useSearch = ({ data, filters = [], fields = [] }: IUseSearch) => {
       return values.includes(query.toLowerCase());
     });
 
+    // If there is a sorting method, sort the data
+    if (sortingMethod !== 'NO_SORT') {
+      matchedData.sort((a, b) => {
+        const sortMethod = sortingMethods.find((s) => s.id === sortingMethod);
+
+        if (!sortMethod) return 0;
+
+        const aValue = a[sortMethod.key];
+        const bValue = b[sortMethod.key];
+
+        if (sortMethod.direction === 'asc') {
+          if (aValue > bValue) return 1;
+          if (aValue < bValue) return -1;
+          return 0;
+        }
+
+        if (aValue > bValue) return -1;
+        if (aValue < bValue) return 1;
+        return 0;
+      });
+    }
+
+    // If there is a filter, apply the filter
     if (filter !== 'NO_FILTER') {
       const filterFn = filters.find((f) => f.id === filter)?.filterFn;
 
@@ -74,14 +114,16 @@ const useSearch = ({ data, filters = [], fields = [] }: IUseSearch) => {
     }
 
     setFilteredData(matchedData);
-  }, [query, filter, data]);
+  }, [query, filter, sortingMethod, data]);
 
   return {
     filter,
+    sortingMethod,
     query,
     focused,
     data: filteredData,
     setFilter,
+    setSortingMethod,
     setQuery,
     setFocused,
   };

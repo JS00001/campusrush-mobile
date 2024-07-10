@@ -14,12 +14,12 @@ import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
 import Chapter from "@/ui/Chapter";
+import FlatList from "@/ui/FlatList";
 import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
 import useSearch from "@/hooks/useSearch";
 import Menu, { MenuAction } from "@/ui/Menu";
 import ChapterLoader from "@/ui/Loaders/Chapter";
-import FlatList from "@/ui/FlatList";
 import { useGetAdminChapters } from "@/hooks/api/admin";
 
 const ChaptersView = () => {
@@ -35,6 +35,18 @@ const ChaptersView = () => {
       {
         id: "NO_SUBSCRIPTIONS",
         filterFn: (data) => data.filter((chapter) => !chapter.isPro),
+      },
+    ],
+    sortingMethods: [
+      {
+        id: "CREATED_AT",
+        key: "createdAt",
+        direction: "desc",
+      },
+      {
+        id: "LAST_ONLINE",
+        key: "lastOnline",
+        direction: "desc",
       },
     ],
   });
@@ -66,6 +78,33 @@ const ChaptersView = () => {
     },
   ];
 
+  /**
+   * Create the sort by menu actions
+   */
+  const sortingMenu: MenuAction[] = [
+    {
+      id: "NO_SORT",
+      title: "No Sort",
+      image: "xmark",
+      state: search.sortingMethod === "NO_SORT" ? "on" : "off",
+      onPress: () => search.setSortingMethod("NO_SORT"),
+    },
+    {
+      id: "CREATED_AT",
+      title: "Created At",
+      image: "calendar",
+      state: search.sortingMethod === "CREATED_AT" ? "on" : "off",
+      onPress: () => search.setSortingMethod("CREATED_AT"),
+    },
+    {
+      id: "LAST_ONLINE",
+      title: "Last Online",
+      image: "clock",
+      state: search.sortingMethod === "LAST_ONLINE" ? "on" : "off",
+      onPress: () => search.setSortingMethod("LAST_ONLINE"),
+    },
+  ];
+
   const onRefresh = async () => {
     await getAdminChaptersQuery.refetch();
   };
@@ -84,10 +123,17 @@ const ChaptersView = () => {
           contentContainerStyle={tw`shrink`}
         />
 
-        <Menu actions={filterMenu}>
+        <Menu title="Filter By" actions={filterMenu}>
           <IconButton
             color="secondary"
             iconName="filter-3-fill"
+            style={tw`flex-grow`}
+          />
+        </Menu>
+        <Menu title="Sort By" actions={sortingMenu}>
+          <IconButton
+            color="secondary"
+            iconName="sort-number-asc"
             style={tw`flex-grow`}
           />
         </Menu>
