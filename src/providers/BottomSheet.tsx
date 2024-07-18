@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import * as Haptic from "expo-haptics";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { createContext, useCallback, useContext, useRef } from "react";
 
@@ -50,6 +51,8 @@ const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
   const openBottomSheet = useCallback(<T extends IndividualSheetName>(name: T, props?: IndividualSheetProps[T]) => {
     const index = Object.keys(BottomSheets).indexOf(name);
     const ref = bottomSheetRefs.current[index];
+
+    Haptic.selectionAsync()
 
     ref.present(props);
   }, []);

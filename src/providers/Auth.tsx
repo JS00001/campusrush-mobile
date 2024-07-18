@@ -142,17 +142,18 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const accessToken = response.data.accessToken;
     const refreshToken = response.data.refreshToken;
 
-    await AsyncStorage.setItem("refreshToken", refreshToken);
-
-    setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
-    setChapter(chapter);
-
     Qonversion.getSharedInstance().identify(chapter.customerId);
     Qonversion.getSharedInstance().setUserProperty(
       UserPropertyKey.EMAIL,
       chapter.email,
     );
+
+    await checkEntitlements();
+    await AsyncStorage.setItem("refreshToken", refreshToken);
+
+    setAccessToken(accessToken);
+    setRefreshToken(refreshToken);
+    setChapter(chapter);
   };
 
   /**
@@ -166,17 +167,18 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const accessToken = response.data.accessToken;
     const refreshToken = response.data.refreshToken;
 
-    await AsyncStorage.setItem("refreshToken", refreshToken);
-
-    setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
-    setChapter(chapter);
-
     Qonversion.getSharedInstance().identify(chapter.customerId);
     Qonversion.getSharedInstance().setUserProperty(
       UserPropertyKey.EMAIL,
       chapter.email,
     );
+
+    await checkEntitlements();
+    await AsyncStorage.setItem("refreshToken", refreshToken);
+
+    setChapter(chapter);
+    setAccessToken(accessToken);
+    setRefreshToken(refreshToken);
   };
 
   /**
@@ -192,6 +194,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setChapter({} as Chapter);
 
     Qonversion.getSharedInstance().logout();
+    await checkEntitlements();
   };
 
   return (

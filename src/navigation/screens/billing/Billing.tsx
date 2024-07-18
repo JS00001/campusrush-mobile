@@ -10,13 +10,8 @@
  * Do not distribute
  */
 
-import {
-  Animated,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  View,
-} from "react-native";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { usePostHog } from "posthog-react-native";
 import Qonversion, { PurchaseModel } from "react-native-qonversion";
@@ -45,25 +40,7 @@ const BillingScreen = () => {
   const { openBottomSheet } = useBottomSheet();
   const { purchaseProduct, restorePurchases } = useQonversion();
 
-  const [compactMode, setCompactMode] = useState(false);
-  const [footerMaxHeight] = useState(new Animated.Value(0));
   const [purchaseLoading, setPurchaseLoading] = useState(false);
-
-  const maxHeight = footerMaxHeight.interpolate({
-    inputRange: [0, 1],
-    outputRange: [150, 70],
-  });
-
-  /**
-   * When the footer goes into compact mode, animate the height to compact form
-   */
-  useEffect(() => {
-    Animated.timing(footerMaxHeight, {
-      toValue: compactMode ? 1 : 0,
-      duration: 300,
-      useNativeDriver: false,
-    }).start();
-  }, [compactMode]);
 
   /**
    * Fetch all of the products from Qonversion and
@@ -145,9 +122,7 @@ const BillingScreen = () => {
     "w-full rounded-xl px-4 py-6 gap-y-6",
   );
 
-  const footerViewStyle = tw.style("px-6 pt-3 gap-y-3 items-center", {
-    maxHeight,
-  });
+  const footerViewStyle = tw.style("px-6 pt-3 gap-y-3 items-center");
 
   /**
    * When the feature button is pressed, open the plan comparison bottom sheet
@@ -195,11 +170,6 @@ const BillingScreen = () => {
     clear();
   };
 
-  const scrollFunc = async (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const newOffset = event.nativeEvent.contentOffset.y;
-    setCompactMode(newOffset > 0);
-  };
-
   // TODO: Add loading to this
   if (query.isLoading && query.isFetching) return null;
 
@@ -215,7 +185,7 @@ const BillingScreen = () => {
         </View>
 
         {/* Header */}
-        <View style={tw`px-6 py-10 z-10`}>
+        <View style={tw`px-6 py-6 z-10`}>
           <SafeAreaView style={tw`items-center justify-center gap-y-3 mt-6`}>
             <Logo32 />
 
@@ -230,12 +200,7 @@ const BillingScreen = () => {
         </View>
       </Layout.CustomHeader>
 
-      <Layout.Content
-        scrollable
-        gap={18}
-        onScroll={scrollFunc}
-        scrollEventThrottle={16}
-      >
+      <Layout.Content scrollable gap={18}>
         <View style={featuresContainerStyle}>
           {metadataStore.metadata.entitlements?.perks.featured.map(
             (feature, index) => {
@@ -264,18 +229,18 @@ const BillingScreen = () => {
           )}
 
           <View style={tw`mt-2 gap-y-2`}>
+            <Button size="sm" color="tertiary">
+              Take a Tour
+            </Button>
             <Button size="sm" color="tertiary" onPress={onFeaturePress}>
               View All Features
-            </Button>
-            <Button size="sm" color="primary">
-              Take a Tour
             </Button>
           </View>
         </View>
       </Layout.Content>
 
       <Layout.Footer style={tw`bg-white border-t border-slate-200`}>
-        <Animated.View style={footerViewStyle}>
+        <View style={footerViewStyle}>
           <Button size="lg" onPress={onPurchase} loading={purchaseLoading}>
             {buttonCTA}
           </Button>
@@ -294,7 +259,7 @@ const BillingScreen = () => {
               Restore Purchases
             </Hyperlink>
           </Text>
-        </Animated.View>
+        </View>
       </Layout.Footer>
     </Layout.Root>
   );

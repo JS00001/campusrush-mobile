@@ -11,6 +11,7 @@
  */
 
 import { View } from "react-native";
+import * as Haptic from "expo-haptics";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
@@ -44,6 +45,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
 
     const openPanel = () => {
       setVisible(true);
+      Haptic.selectionAsync();
       bottomSheetRef.current?.present();
     };
 
