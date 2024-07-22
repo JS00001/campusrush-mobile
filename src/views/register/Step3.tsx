@@ -25,9 +25,9 @@ import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep3View = () => {
   const posthog = usePostHog();
-  const { register } = useAuth();
   const mutation = useRegister();
   const store = useRegistrationStore();
+  const { authenticateUser } = useAuth();
 
   const formValidators = {
     name: z.any(),
@@ -52,14 +52,20 @@ const RegistrationStep3View = () => {
       confirmPassword: store.confirmPassword,
     },
     onSuccess: async (data) => {
-      await register(data);
+      const userData = {
+        chapter: data.data.chapter,
+        accessToken: data.data.accessToken,
+        refreshToken: data.data.refreshToken,
+      };
+
+      await authenticateUser(userData);
 
       handle(() => {
         posthog?.capture("REGISTRATION_COMPLETED", {
-          chapter_name: data.data.chapter.name,
-          chapter_email: data.data.chapter.email,
-          chapter_first_name: data.data.chapter.firstName,
-          chapter_last_name: data.data.chapter.lastName,
+          chapter_name: userData.chapter.name,
+          chapter_email: userData.chapter.email,
+          chapter_first_name: userData.chapter.firstName,
+          chapter_last_name: userData.chapter.lastName,
         });
       });
 

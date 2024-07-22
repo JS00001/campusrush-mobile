@@ -34,7 +34,7 @@ const VerificationView = () => {
   const posthog = usePostHog();
   const logoutMutation = useLogout();
   const verifyEmailMutation = useVerifyEmail();
-  const { clear, setChapter } = useAuth();
+  const { clearUserData, setChapter } = useAuth();
   const resendVerificationMutation = useResendVerification();
 
   const formValidators = {
@@ -77,7 +77,7 @@ const VerificationView = () => {
 
     if ("error" in res.data) return;
 
-    clear();
+    clearUserData();
   };
 
   return (
