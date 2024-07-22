@@ -31,8 +31,8 @@ const axiosClient = axios.create({
 
 const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
   const { openModal } = useModalStore();
-  const { accessToken, clear } = useAuth();
   const { verifyConnection } = useNetwork();
+  const { accessToken, clearUserData } = useAuth();
 
   useEffect(() => {
     /**
@@ -101,7 +101,7 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
 
       /** 401 - UNAUTHORIZED */
       if (errorDetails.message === "UNAUTHORIZED") {
-        clear();
+        clearUserData();
 
         return Promise.resolve(errorHandledResponse);
       }

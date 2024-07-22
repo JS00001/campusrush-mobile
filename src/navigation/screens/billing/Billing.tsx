@@ -35,8 +35,8 @@ import HeaderBackground from "@/components/Backgrounds/Header";
 const BillingScreen = () => {
   const posthog = usePostHog();
   const logoutMutation = useLogout();
-  const { chapter, clear } = useAuth();
   const metadataStore = useMetadataStore();
+  const { chapter, clearUserData } = useAuth();
   const { openBottomSheet } = useBottomSheet();
   const { purchaseProduct, restorePurchases } = useQonversion();
 
@@ -167,7 +167,7 @@ const BillingScreen = () => {
 
     if ("error" in res.data) return;
 
-    clear();
+    clearUserData();
   };
 
   // TODO: Add loading to this

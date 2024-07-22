@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import * as Haptic from "expo-haptics";
 import { useRef, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { TouchableOpacity, View, ViewProps } from "react-native";
@@ -57,6 +58,7 @@ const Select: React.FC<SelectProps> = ({
 
   const handleOpenSheet = () => {
     setExpanded(true);
+    Haptic.selectionAsync();
     sheetRef.current?.present();
   };
 

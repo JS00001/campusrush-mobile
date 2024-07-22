@@ -30,8 +30,8 @@ const SettingsView = () => {
   const mutation = useDeleteChapter();
 
   const logoutMutation = useLogout();
-  const { chapter, clear } = useAuth();
   const { openModal } = useModalStore();
+  const { chapter, clearUserData } = useAuth();
   const { openBottomSheet } = useBottomSheet();
 
   const onTermsOfServicePress = () => {
@@ -63,7 +63,7 @@ const SettingsView = () => {
 
     if ("error" in res.data) return;
 
-    clear();
+    clearUserData();
   };
 
   const onDeleteAccount = () => {
