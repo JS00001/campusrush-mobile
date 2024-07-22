@@ -136,6 +136,10 @@ const AppConstants = {
      * Whether user has seen the "tutorial" tooltip telling a user to type "@" to see text replacements
      */
     messagingTooltipSeen: false,
+    /**
+     * Whether the user has finished the onboarding process
+     */
+    onboardingComplete: false,
   },
 };
 

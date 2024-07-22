@@ -59,6 +59,12 @@ import MessagesScreen from "@/navigation/screens/messages/Messages";
 import NewMessageScreen from "@/navigation/screens/messages/NewMessage";
 
 import BillingScreen from "@/navigation/screens/billing/Billing";
+import BillingTourStep1 from "@/navigation/screens/billing/tour/Step1";
+import BillingTourStep2 from "@/navigation/screens/billing/tour/Step2";
+import BillingTourStep3 from "@/navigation/screens/billing/tour/Step3";
+import BillingTourStep4 from "@/navigation/screens/billing/tour/Step4";
+import BillingTourStep5 from "@/navigation/screens/billing/tour/Step5";
+import BillingTourStep6 from "@/navigation/screens/billing/tour/Step6";
 
 import VerificationScreen from "@/navigation/screens/verification/Verification";
 
@@ -79,6 +85,7 @@ import UpdateSecurityScreen from "@/navigation/screens/settings/chapter/UpdateSe
 import UpdateChapterScreen from "@/navigation/screens/settings/chapter/UpdateChapter";
 
 import EventsScreen from "@/navigation/screens/events/Events";
+import { usePreferences } from "@/providers/Preferences";
 
 export const Stack = createNativeStackNavigator();
 
@@ -150,19 +157,46 @@ export const VerificationStack = () => {
  * Stack Navigator for Billing Screens
  *
  * This is a seperate stack navigator as the billing
- * process should be fully isolated from the rest of the app
- * and the authentication process
- * and the verification process
+ * process should be fully isolated from the rest of the app.
+ * If the user has not completed the onboarding process, they will be brought
+ * to the onboarding process first. Else, straight to the billing screen.
  */
 export const BillingStack = () => {
+  const { onboardingComplete } = usePreferences();
+  const initialRouteName = onboardingComplete ? "Billing" : "BillingTourStep1";
+
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{ headerShown: false, animation: "fade" }}
+      initialRouteName={initialRouteName}
+    >
       <Stack.Screen
         name="Billing"
         component={BillingScreen}
-        options={{
-          headerShown: false,
-        }}
+      />
+      <Stack.Screen
+        name="BillingTourStep1"
+        component={BillingTourStep1}
+      />
+      <Stack.Screen
+        name="BillingTourStep2"
+        component={BillingTourStep2}
+      />
+      <Stack.Screen
+        name="BillingTourStep3"
+        component={BillingTourStep3}
+      />
+      <Stack.Screen
+        name="BillingTourStep4"
+        component={BillingTourStep4}
+      />
+      <Stack.Screen
+        name="BillingTourStep5"
+        component={BillingTourStep5}
+      />
+      <Stack.Screen
+        name="BillingTourStep6"
+        component={BillingTourStep6}
       />
     </Stack.Navigator>
   );

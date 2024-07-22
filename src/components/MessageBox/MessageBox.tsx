@@ -23,9 +23,7 @@ import tw from "@/lib/tailwind";
 import { waitFor } from "@/lib/util";
 import AppConstants from "@/constants";
 import IconButton from "@/ui/IconButton";
-import Content from "@/constants/content";
 import { eventsRegex } from "@/constants/regex";
-import { formatEvent } from "@/lib/util/format";
 import Walkthroughs from "@/components/Walkthroughs";
 import { usePreferences } from "@/providers/Preferences";
 
@@ -73,7 +71,6 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
 
   const animateMessageBox = (toValue: number, duration?: number) => {
     const BOTTOM_SHEET_HEIGHT = 240;
-
     const adjustedValue = toValue * BOTTOM_SHEET_HEIGHT;
 
     minHeight.value = withTiming(adjustedValue, {
@@ -81,7 +78,6 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
     });
   };
 
-  // When the send button is pressed, send the message and clear the input
   const onSendPress = () => {
     let messages = [value];
 

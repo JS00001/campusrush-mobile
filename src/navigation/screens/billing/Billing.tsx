@@ -229,9 +229,6 @@ const BillingScreen = () => {
           )}
 
           <View style={tw`mt-2 gap-y-2`}>
-            <Button size="sm" color="tertiary">
-              Take a Tour
-            </Button>
             <Button size="sm" color="tertiary" onPress={onFeaturePress}>
               View All Features
             </Button>
