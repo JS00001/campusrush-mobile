@@ -9,68 +9,44 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+import Onboarding from "@/components/Onboarding";
 
-import { View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-import Text from "@/ui/Text";
-import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
-import Stepper from "@/ui/Stepper";
-import ButtonGroup from "@/ui/ButtonGroup";
-
-interface BillingTourStep1Props {}
-
-const BillingTourStep1: React.FC<BillingTourStep1Props> = () => {
-  const navigation = useNavigation();
-
-  const handleBackPress = () => {
-    (navigation.navigate as any)("BillingTourStep2");
-  };
-
-  const handleNextPress = () => {
-    (navigation.navigate as any)("BillingTourStep4");
-  };
+const BillingTourStep3: React.FC = () => {
+  const largeBentoContent: React.ReactNode = <LargeBentoCell />;
+  const smallBentoContent: [React.ReactNode, React.ReactNode] = [
+    <FirstSmallBentoCell />,
+    <SecondSmallBentoCell />,
+  ];
 
   return (
-    <SafeAreaView style={tw`flex-1 bg-slate-50 px-6 pt-12`}>
-      <View style={tw`flex-1 gap-10`}>
-        <View style={tw`gap-3`}>
-          <View style={tw`gap-3 h-40 flex-row`}>
-            <View style={tw`bg-slate-200 flex-1 rounded-xl`}></View>
-            <View style={tw`bg-slate-200 flex-1 rounded-xl`}></View>
-          </View>
-
-          <View style={tw`gap-3 h-40 flex-row`}>
-            <View style={tw`bg-slate-200 flex-1 rounded-xl`}></View>
-          </View>
-        </View>
-
-        <View style={tw`items-center gap-y-2`}>
-          <Text type="h1">Messaging, Simplified</Text>
-          <Text type="p1" style={tw`text-center text-primary`}>
-            Manage all of your messages in one place. Send messages that PNMs
-            receive as regular texts - no downloads required.
-          </Text>
-        </View>
-      </View>
-
-      {/* Bottom Navigation */}
-      <View style={tw`gap-y-4 items-center`}>
-        <Stepper activeStep={3} stepCount={6} />
-
-        <ButtonGroup>
-          <Button size="sm" color="tertiary" onPress={handleBackPress}>
-            Back
-          </Button>
-          <Button size="sm" color="primary" onPress={handleNextPress}>
-            Next
-          </Button>
-        </ButtonGroup>
-      </View>
-    </SafeAreaView>
+    <Onboarding
+      currentStep={3}
+      title="Messaging, Simplified"
+      description="Manage all of your messages in one place. Send messages that PNMs receive as regular texts - no downloads required."
+      pages={[
+        "BillingTourStep1",
+        "BillingTourStep2",
+        "BillingTourStep3",
+        "BillingTourStep4",
+        "BillingTourStep5",
+        "BillingTourStep6",
+      ]}
+      largeBentoContent={largeBentoContent}
+      smallBentoContent={smallBentoContent}
+    />
   );
 };
 
-export default BillingTourStep1;
+const LargeBentoCell: React.FC = () => {
+  return <></>;
+};
+
+const FirstSmallBentoCell: React.FC = () => {
+  return <></>;
+};
+
+const SecondSmallBentoCell: React.FC = () => {
+  return <></>;
+};
+
+export default BillingTourStep3;

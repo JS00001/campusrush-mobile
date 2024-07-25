@@ -9,68 +9,44 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+import Onboarding from "@/components/Onboarding";
 
-import { View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-import Text from "@/ui/Text";
-import tw from "@/lib/tailwind";
-import Button from "@/ui/Button";
-import Stepper from "@/ui/Stepper";
-import ButtonGroup from "@/ui/ButtonGroup";
-
-interface BillingTourStep2Props {}
-
-const BillingTourStep2: React.FC<BillingTourStep2Props> = () => {
-  const navigation = useNavigation();
-
-  const handleBackPress = () => {
-    (navigation.navigate as any)("BillingTourStep1");
-  };
-
-  const handleNextPress = () => {
-    (navigation.navigate as any)("BillingTourStep3");
-  };
+const BillingTourStep2: React.FC = () => {
+  const largeBentoContent: React.ReactNode = <LargeBentoCell />;
+  const smallBentoContent: [React.ReactNode, React.ReactNode] = [
+    <FirstSmallBentoCell />,
+    <SecondSmallBentoCell />,
+  ];
 
   return (
-    <SafeAreaView style={tw`flex-1 bg-slate-50 px-6 pt-12`}>
-      <View style={tw`flex-1 gap-10`}>
-        <View style={tw`gap-3`}>
-          <View style={tw`gap-3 h-40 flex-row`}>
-            <View style={tw`bg-slate-200 flex-1 rounded-xl`}></View>
-            <View style={tw`bg-slate-200 flex-1 rounded-xl`}></View>
-          </View>
-
-          <View style={tw`gap-3 h-40 flex-row`}>
-            <View style={tw`bg-slate-200 flex-1 rounded-xl`}></View>
-          </View>
-        </View>
-
-        <View style={tw`items-center gap-y-2`}>
-          <Text type="h1">PNM Profiles</Text>
-          <Text type="p1" style={tw`text-center text-primary`}>
-            Keep track of every PNM with favorites, tags, social media, and
-            more; all in one streamlined profile
-          </Text>
-        </View>
-      </View>
-
-      {/* Bottom Navigation */}
-      <View style={tw`gap-y-4 items-center`}>
-        <Stepper activeStep={2} stepCount={6} />
-
-        <ButtonGroup>
-          <Button size="sm" color="tertiary" onPress={handleBackPress}>
-            Back
-          </Button>
-          <Button size="sm" color="primary" onPress={handleNextPress}>
-            Next
-          </Button>
-        </ButtonGroup>
-      </View>
-    </SafeAreaView>
+    <Onboarding
+      currentStep={2}
+      title="PNM Profiles"
+      description="Keep track of every PNM with favorites, tags, social media, and more; all in one streamlined profile"
+      pages={[
+        "BillingTourStep1",
+        "BillingTourStep2",
+        "BillingTourStep3",
+        "BillingTourStep4",
+        "BillingTourStep5",
+        "BillingTourStep6",
+      ]}
+      largeBentoContent={largeBentoContent}
+      smallBentoContent={smallBentoContent}
+    />
   );
+};
+
+const LargeBentoCell: React.FC = () => {
+  return <></>;
+};
+
+const FirstSmallBentoCell: React.FC = () => {
+  return <></>;
+};
+
+const SecondSmallBentoCell: React.FC = () => {
+  return <></>;
 };
 
 export default BillingTourStep2;
