@@ -50,10 +50,11 @@ const BillingTourStep6: React.FC<BillingTourStep6Props> = () => {
           </View>
         </View>
 
-        <View style={tw`items-center`}>
-          <Text type="h1">Header</Text>
+        <View style={tw`items-center gap-y-2`}>
+          <Text type="h1">Plan Events</Text>
           <Text type="p1" style={tw`text-center text-primary`}>
-            Title
+            Plan, share, and manage your rush events. Send event details and
+            RSVP links to PNMs to keep track of attendance.
           </Text>
         </View>
       </View>

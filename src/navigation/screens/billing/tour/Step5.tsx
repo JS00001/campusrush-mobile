@@ -47,10 +47,12 @@ const BillingTourStep5: React.FC<BillingTourStep5Props> = () => {
           </View>
         </View>
 
-        <View style={tw`items-center`}>
-          <Text type="h1">Header</Text>
+        <View style={tw`items-center gap-y-2`}>
+          <Text type="h1">Mass Messaging</Text>
           <Text type="p1" style={tw`text-center text-primary`}>
-            Title
+            Reach all of your PNMs at once. Send personalized messages they
+            receive as regular texts. Target groups like favorites and
+            uncontacted PNMs.
           </Text>
         </View>
       </View>

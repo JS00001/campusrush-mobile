@@ -47,10 +47,11 @@ const BillingTourStep1: React.FC<BillingTourStep1Props> = () => {
           </View>
         </View>
 
-        <View style={tw`items-center`}>
-          <Text type="h1">Header</Text>
+        <View style={tw`items-center gap-y-2`}>
+          <Text type="h1">Messaging, Simplified</Text>
           <Text type="p1" style={tw`text-center text-primary`}>
-            Title
+            Manage all of your messages in one place. Send messages that PNMs
+            receive as regular texts - no downloads required.
           </Text>
         </View>
       </View>

@@ -47,10 +47,11 @@ const BillingTourStep2: React.FC<BillingTourStep2Props> = () => {
           </View>
         </View>
 
-        <View style={tw`items-center`}>
-          <Text type="h1">Header</Text>
+        <View style={tw`items-center gap-y-2`}>
+          <Text type="h1">PNM Profiles</Text>
           <Text type="p1" style={tw`text-center text-primary`}>
-            Title
+            Keep track of every PNM with favorites, tags, social media, and
+            more; all in one streamlined profile
           </Text>
         </View>
       </View>

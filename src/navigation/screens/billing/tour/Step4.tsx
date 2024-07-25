@@ -34,7 +34,7 @@ const BillingTourStep4: React.FC<BillingTourStep4Props> = () => {
   };
 
   return (
-    <SafeAreaView style={tw`flex-1 bg-slate-50 px-6 pt-12`}>
+    <SafeAreaView style={tw`flex-1 bg-slate-50 px-4 pt-12`}>
       <View style={tw`flex-1 gap-10`}>
         <View style={tw`gap-3`}>
           <View style={tw`gap-3 h-40 flex-row`}>
@@ -47,10 +47,11 @@ const BillingTourStep4: React.FC<BillingTourStep4Props> = () => {
           </View>
         </View>
 
-        <View style={tw`items-center`}>
-          <Text type="h1">Header</Text>
+        <View style={tw`items-center gap-y-2`}>
+          <Text type="h1">Custom Number</Text>
           <Text type="p1" style={tw`text-center text-primary`}>
-            Title
+            Sign-up and get a unique phone number for your org. PNMs text you
+            directly, and you reply from the app. Simple as that.
           </Text>
         </View>
       </View>

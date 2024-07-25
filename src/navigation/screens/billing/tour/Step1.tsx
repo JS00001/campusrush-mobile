@@ -11,12 +11,12 @@
  */
 
 import { View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
-import { useNavigation } from "@react-navigation/native";
 import Stepper from "@/ui/Stepper";
 
 interface BillingTourStep1Props {}
@@ -42,7 +42,7 @@ const BillingTourStep1: React.FC<BillingTourStep1Props> = () => {
           </View>
         </View>
 
-        <View style={tw`items-center`}>
+        <View style={tw`items-center gap-y-2`}>
           <Text type="h1">Welcome</Text>
           <Text type="p1" style={tw`text-center text-primary`}>
             Subtitle
@@ -55,7 +55,7 @@ const BillingTourStep1: React.FC<BillingTourStep1Props> = () => {
         <Stepper activeStep={1} stepCount={6} />
 
         <Button size="sm" color="primary" onPress={handleNextPress}>
-          Let's Go!
+          Start Tour
         </Button>
       </View>
     </SafeAreaView>
