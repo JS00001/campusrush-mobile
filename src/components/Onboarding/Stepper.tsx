@@ -16,16 +16,16 @@ import tw from "@/lib/tailwind";
 
 interface StepperProps {
   stepCount: number;
-  activeStep: number;
+  currentStep: number;
 }
 
-const Stepper: React.FC<StepperProps> = ({ activeStep, stepCount }) => {
+const Stepper: React.FC<StepperProps> = ({ currentStep, stepCount }) => {
   return (
     <View style={tw`gap-2 p-1 flex-row`}>
       {Array.from({ length: stepCount }).map((_, index) => {
         const stepStyles = tw.style(
           "h-1.5 w-1.5 rounded-full",
-          index === activeStep - 1 ? "bg-primary" : "bg-slate-300",
+          index === currentStep - 1 ? "bg-primary" : "bg-slate-300",
         );
 
         return <View key={index} style={stepStyles} />;
