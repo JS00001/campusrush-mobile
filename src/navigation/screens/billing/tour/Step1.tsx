@@ -17,7 +17,7 @@ const BillingTourStep1: React.FC = () => {
     <Onboarding
       currentStep={1}
       title="Welcome"
-      description="Description"
+      description="Let’s dive into how our platform makes recruitment management a breeze. Discover why we are the top choice for seamless, efficient, and effective recruitment."
       pages={[
         "BillingTourStep1",
         "BillingTourStep2",

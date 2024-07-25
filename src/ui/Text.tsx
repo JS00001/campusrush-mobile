@@ -22,7 +22,15 @@ const TextWithNoFontScaling = Object.assign(RNText, {
   },
 });
 
-export type TextType = "h1" | "h2" | "p1" | "p2" | "p3" | "p4" | "p5";
+export type TextType =
+  | "h1"
+  | "h2"
+  | "p1"
+  | "p2"
+  | "p3"
+  | "p4"
+  | "p5"
+  | "custom";
 
 export interface TextProps extends RNTextProps {
   type?: TextType;
@@ -37,6 +45,7 @@ const TextTypes = {
   p3: tw.style("text-sm text-slate-500"),
   p4: tw.style("text-xs text-slate-500"),
   p5: tw.style("text-[10px] text-slate-500"),
+  custom: tw.style(""),
 };
 
 const Text: React.FC<TextProps> = ({

@@ -9,6 +9,12 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import { Image } from "expo-image";
+import { View } from "react-native";
+
+import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
 import Onboarding from "@/components/Onboarding";
 
 const BillingTourStep6: React.FC = () => {
@@ -38,15 +44,51 @@ const BillingTourStep6: React.FC = () => {
 };
 
 const LargeBentoCell: React.FC = () => {
-  return <></>;
+  const badgeContainerStyles = tw.style(
+    "border-[#18C839] border self-start",
+    "rounded-full py-0.5 px-2",
+  );
+
+  return (
+    <View style={tw`flex-1 p-8 justify-between flex-row items-center`}>
+      <View style={tw`flex-1 justify-center`}>
+        <View style={badgeContainerStyles}>
+          <Text type="custom" style={tw`text-[10px] text-[#18C839]`}>
+            Seamless Planning
+          </Text>
+        </View>
+
+        <Text type="h2">RSVPs, Simplified.</Text>
+        <Text type="h2">Events, Managed.</Text>
+      </View>
+
+      <Image
+        style={tw`h-32 w-32 mt-6 shadow-xl overflow-visible`}
+        contentFit="none"
+        source={require("@/../assets/onboarding/icons/event.svg")}
+      />
+    </View>
+  );
 };
 
 const FirstSmallBentoCell: React.FC = () => {
-  return <></>;
+  return (
+    <Image
+      contentFit="scale-down"
+      style={tw`flex-1 -mb-8`}
+      source={require("@/../assets/onboarding/onboarding_6_events.svg")}
+    />
+  );
 };
 
 const SecondSmallBentoCell: React.FC = () => {
-  return <></>;
+  return (
+    <Image
+      contentFit="scale-down"
+      style={tw`flex-1 -mt-6`}
+      source={require("@/../assets/onboarding/onboarding_6_events.svg")}
+    />
+  );
 };
 
 export default BillingTourStep6;

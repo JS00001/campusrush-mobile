@@ -44,7 +44,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
   smallBentoContent,
 }) => {
   return (
-    <SafeAreaView style={tw`flex-1 bg-slate-50 px-6 pt-12`}>
+    <SafeAreaView style={tw`flex-1 bg-slate-50 px-4 pt-12`}>
       {/* Bento grid and title */}
       <View style={tw`flex-1 gap-10`}>
         <OnboardingBentoGrid

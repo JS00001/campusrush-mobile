@@ -39,11 +39,13 @@ const OnboardingBentoGrid: React.FC<OnboardingBentoProps> = ({
   if (isLargeBentoOnTop) {
     return (
       <View style={tw`gap-3`}>
-        <View style={tw`bg-slate-200 rounded-xl h-40 rounded-xl`}>
+        <View
+          style={tw`bg-slate-200 rounded-xl h-40 rounded-xl overflow-hidden`}
+        >
           {largeBentoContent}
         </View>
 
-        <View style={tw`gap-3 h-40 flex-row`}>
+        <View style={tw`gap-3 h-40 flex-row overflow-hidden`}>
           {smallBentoContent.map((content, index) => (
             <View key={index} style={tw`bg-slate-200 flex-1 rounded-xl`}>
               {content}
