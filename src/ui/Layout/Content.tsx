@@ -53,23 +53,12 @@ interface ContentProps extends ViewProps {
    * Whether or not to remove the padding from the inner container
    */
   removePadding?: boolean;
-  /**
-   * Scroll event throttled to 16ms, ONLY if the inner container is a ScrollView
-   */
-  scrollEventThrottle?: number;
-  /**
-   * A method for when the user begins scrolling, ONLY if the inner
-   * container is a ScrollView
-   */
-  onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
 }
 
 const Content: React.FC<ContentProps> = ({
   style,
   children,
   contentContainerStyle,
-  onScroll,
-  scrollEventThrottle,
   gap = 24,
   scrollable = false,
   keyboardAvoiding = false,
@@ -109,8 +98,6 @@ const Content: React.FC<ContentProps> = ({
   const ContentContainer = {
     KeyboardAwareScrollView: (
       <KeyboardAwareScrollView
-        onScroll={onScroll}
-        scrollEventThrottle={scrollEventThrottle}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={contentContainerStyles}
       >
@@ -119,8 +106,6 @@ const Content: React.FC<ContentProps> = ({
     ),
     ScrollView: (
       <ScrollView
-        onScroll={onScroll}
-        scrollEventThrottle={scrollEventThrottle}
         automaticallyAdjustKeyboardInsets
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={contentContainerStyles}
