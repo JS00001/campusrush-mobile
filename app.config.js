@@ -23,15 +23,8 @@ export default {
       usesNonExemptEncryption: false,
     },
   },
-  android: {
-    adaptiveIcon: {
-      foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor: '#ffffff',
-    },
-  },
-  web: {
-    favicon: './assets/favicon.png',
-  },
+  android: {},
+  web: {},
   extra: {
     eas: {
       projectId: '9e0d874e-cc30-4dca-ae7e-9609b121b1ae',
