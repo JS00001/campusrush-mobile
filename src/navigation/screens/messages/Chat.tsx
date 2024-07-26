@@ -167,7 +167,7 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
    * When the user begins scrolling, we want to close the message box
    * or dismiss the keyboard
    */
-  const onMomentumScrollBegin = () => {
+  const onScrollBeginDrag = () => {
     Keyboard.dismiss();
   };
 
@@ -199,7 +199,7 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
           contentContainerStyle={tw`pt-6 pb-0`}
           ListEmptyComponent={<></>}
           onEndReached={onEndReached}
-          onMomentumScrollBegin={onMomentumScrollBegin}
+          onScrollBeginDrag={onScrollBeginDrag}
           renderItem={({ item }) => (
             <MessageBubble
               key={item._id}
