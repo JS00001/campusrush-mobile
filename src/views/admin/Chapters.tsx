@@ -39,14 +39,24 @@ const ChaptersView = () => {
     ],
     sortingMethods: [
       {
-        id: "CREATED_AT",
+        id: "CREATED_AT_DESC",
         key: "createdAt",
         direction: "desc",
       },
       {
-        id: "LAST_ONLINE",
+        id: "CREATED_AT_ASC",
+        key: "createdAt",
+        direction: "asc",
+      },
+      {
+        id: "LAST_ONLINE_DESC",
         key: "lastOnline",
         direction: "desc",
+      },
+      {
+        id: "LAST_ONLINE_ASC",
+        key: "lastOnline",
+        direction: "asc",
       },
     ],
   });
@@ -90,18 +100,32 @@ const ChaptersView = () => {
       onPress: () => search.setSortingMethod("NO_SORT"),
     },
     {
-      id: "CREATED_AT",
-      title: "Created At",
+      id: "CREATED_AT_DESC",
+      title: "Created At (Desc)",
       image: "calendar",
-      state: search.sortingMethod === "CREATED_AT" ? "on" : "off",
-      onPress: () => search.setSortingMethod("CREATED_AT"),
+      state: search.sortingMethod === "CREATED_AT_DESC" ? "on" : "off",
+      onPress: () => search.setSortingMethod("CREATED_AT_DESC"),
     },
     {
-      id: "LAST_ONLINE",
-      title: "Last Online",
+      id: "CREATED_AT_ASC",
+      title: "Created At (Asc)",
+      image: "calendar",
+      state: search.sortingMethod === "CREATED_AT_ASC" ? "on" : "off",
+      onPress: () => search.setSortingMethod("CREATED_AT_ASC"),
+    },
+    {
+      id: "LAST_ONLINE_DESC",
+      title: "Last Online (Desc)",
       image: "clock",
-      state: search.sortingMethod === "LAST_ONLINE" ? "on" : "off",
-      onPress: () => search.setSortingMethod("LAST_ONLINE"),
+      state: search.sortingMethod === "LAST_ONLINE_DESC" ? "on" : "off",
+      onPress: () => search.setSortingMethod("LAST_ONLINE_DESC"),
+    },
+    {
+      id: "LAST_ONLINE_ASC",
+      title: "Last Online (Asc)",
+      image: "clock",
+      state: search.sortingMethod === "LAST_ONLINE_ASC" ? "on" : "off",
+      onPress: () => search.setSortingMethod("LAST_ONLINE_ASC"),
     },
   ];
 
