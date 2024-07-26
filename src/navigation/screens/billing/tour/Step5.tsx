@@ -11,14 +11,11 @@
  */
 
 import { Image } from "expo-image";
-import { View } from "react-native";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Onboarding from "@/components/Onboarding";
 
 const BillingTourStep5: React.FC = () => {
-  const largeBentoContent: React.ReactNode = <LargeBentoCell />;
   const smallBentoContent: [React.ReactNode, React.ReactNode] = [
     <FirstSmallBentoCell />,
     <SecondSmallBentoCell />,
@@ -27,8 +24,9 @@ const BillingTourStep5: React.FC = () => {
   return (
     <Onboarding
       currentStep={5}
+      themeColor="#EA6C04"
       title="Mass Messaging"
-      description="Reach all of your PNMs at once. Send personalized messages they receive as regular texts. Target groups like favorites and uncontacted PNMs."
+      description="Save time and reach all of your PNMs at once. Send personalized messages they receive as regular texts. Target groups like favorites and uncontacted PNMs."
       pages={[
         "BillingTourStep1",
         "BillingTourStep2",
@@ -37,37 +35,10 @@ const BillingTourStep5: React.FC = () => {
         "BillingTourStep5",
         "BillingTourStep6",
       ]}
-      largeBentoContent={largeBentoContent}
+      largeBentoSvg={require("@/../assets/onboarding/icons/timer-line.svg")}
+      largeBentoContent={["One Click.", "100+ People in the Loop."]}
       smallBentoContent={smallBentoContent}
     />
-  );
-};
-
-const LargeBentoCell: React.FC = () => {
-  const badgeContainerStyles = tw.style(
-    "border-[#EA6C04] border self-start",
-    "rounded-full py-0.5 px-2",
-  );
-
-  return (
-    <View style={tw`flex-1 p-8 justify-between flex-row items-center`}>
-      <View style={tw`flex-1 justify-center`}>
-        <View style={badgeContainerStyles}>
-          <Text type="custom" style={tw`text-[10px] text-[#EA6C04]`}>
-            Save Time
-          </Text>
-        </View>
-
-        <Text type="h2">One Click. </Text>
-        <Text type="h2">100+ People in the Loop.</Text>
-      </View>
-
-      <Image
-        style={tw` h-16 w-16`}
-        contentFit="scale-down"
-        source={require("@/../assets/onboarding/icons/timer.svg")}
-      />
-    </View>
   );
 };
 

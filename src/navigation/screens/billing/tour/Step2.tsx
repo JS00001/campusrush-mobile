@@ -11,14 +11,11 @@
  */
 
 import { Image } from "expo-image";
-import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
-import Text from "@/ui/Text";
 import Onboarding from "@/components/Onboarding";
 
 const BillingTourStep2: React.FC = () => {
-  const largeBentoContent: React.ReactNode = <LargeBentoCell />;
   const smallBentoContent: [React.ReactNode, React.ReactNode] = [
     <FirstSmallBentoCell />,
     <SecondSmallBentoCell />,
@@ -27,6 +24,7 @@ const BillingTourStep2: React.FC = () => {
   return (
     <Onboarding
       currentStep={2}
+      themeColor="#E94256"
       title="PNM Profiles"
       description="Keep track of every PNM with favorites, tags, social media, and more; all in one streamlined profile"
       pages={[
@@ -37,29 +35,10 @@ const BillingTourStep2: React.FC = () => {
         "BillingTourStep5",
         "BillingTourStep6",
       ]}
-      largeBentoContent={largeBentoContent}
+      largeBentoSvg={require("@/../assets/onboarding/icons/user-star-line.svg")}
+      largeBentoContent={["Profile Perfection.", "All-in-one PNM Hub."]}
       smallBentoContent={smallBentoContent}
     />
-  );
-};
-
-const LargeBentoCell: React.FC = () => {
-  return (
-    <View style={tw`flex-1`}>
-      <Image
-        style={tw`w-22 h-22 right-0 absolute`}
-        source={require("@/../assets/onboarding/icons/instagram.svg")}
-      />
-      <Image
-        style={tw`w-28 h-22 bottom-0 right-4 absolute`}
-        source={require("@/../assets/onboarding/icons/snapchat.svg")}
-      />
-
-      <View style={tw`flex-1 px-10 justify-center`}>
-        <Text type="h1">Profile</Text>
-        <Text type="h1">Perfection.</Text>
-      </View>
-    </View>
   );
 };
 

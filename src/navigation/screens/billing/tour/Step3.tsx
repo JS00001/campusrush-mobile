@@ -18,7 +18,6 @@ import tw from "@/lib/tailwind";
 import Onboarding from "@/components/Onboarding";
 
 const BillingTourStep3: React.FC = () => {
-  const largeBentoContent: React.ReactNode = <LargeBentoCell />;
   const smallBentoContent: [React.ReactNode, React.ReactNode] = [
     <FirstSmallBentoCell />,
     <SecondSmallBentoCell />,
@@ -27,6 +26,7 @@ const BillingTourStep3: React.FC = () => {
   return (
     <Onboarding
       currentStep={3}
+      themeColor="#622AFF"
       title="Messaging, Simplified"
       description="Manage all of your messages in one place. Send messages that PNMs receive as regular texts - no downloads required."
       pages={[
@@ -37,42 +37,10 @@ const BillingTourStep3: React.FC = () => {
         "BillingTourStep5",
         "BillingTourStep6",
       ]}
-      largeBentoContent={largeBentoContent}
+      largeBentoSvg={require("@/../assets/onboarding/icons/chat-1-line.svg")}
+      largeBentoContent={["PNMs Text.", "We Handle the Rest."]}
       smallBentoContent={smallBentoContent}
     />
-  );
-};
-
-const LargeBentoCell: React.FC = () => {
-  return (
-    <View style={tw`flex-1 flex-row px-10`}>
-      {/* Text Column */}
-      <View style={tw`h-full justify-center gap-y-1`}>
-        {/* Row One */}
-        <View style={tw`flex-row items-center gap-2`}>
-          <View style={tw`bg-blue-600 rounded-lg px-2 py-0.5`}>
-            <Text type="h2" style={tw`text-white`}>
-              PNMs
-            </Text>
-          </View>
-          <Text type="h2" style={tw`text-navy-50`}>
-            Text...
-          </Text>
-        </View>
-
-        {/* Row Two */}
-        <Text type="h2" style={tw`text-navy-50`}>
-          We Handle the Rest.
-        </Text>
-      </View>
-
-      {/* Messaging Icon */}
-      <Image
-        style={tw`flex-1 -mr-10 mb-2`}
-        contentFit="scale-down"
-        source={require("@/../assets/onboarding/icons/messaging.svg")}
-      />
-    </View>
   );
 };
 
