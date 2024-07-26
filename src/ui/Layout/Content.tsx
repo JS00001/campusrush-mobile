@@ -12,8 +12,6 @@
 
 import {
   KeyboardAvoidingView,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
   SafeAreaView,
   ScrollView,
   View,
