@@ -30,11 +30,11 @@ const LoginView = () => {
   const form = useFormMutation({
     mutation,
     validators: formValidators,
-    onSuccess: async (data) => {
+    onSuccess: async ({ data }) => {
       const userData = {
-        chapter: data.data.chapter,
-        accessToken: data.data.accessToken,
-        refreshToken: data.data.refreshToken,
+        chapter: data.chapter,
+        accessToken: data.accessToken,
+        refreshToken: data.refreshToken,
       };
 
       await authenticateUser(userData);
