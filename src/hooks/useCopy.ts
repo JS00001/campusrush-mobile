@@ -18,7 +18,7 @@ const useCopy = () => {
   const copy = (value: string, label?: string) => {
     label = label || 'Value';
 
-    Haptics.selectionAsync();
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     Clipboard.setStringAsync(value);
 
     Toast.show({

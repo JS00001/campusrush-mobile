@@ -14,12 +14,12 @@ import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
 import Chapter from "@/ui/Chapter";
+import FlatList from "@/ui/FlatList";
 import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
 import useSearch from "@/hooks/useSearch";
 import Menu, { MenuAction } from "@/ui/Menu";
 import ChapterLoader from "@/ui/Loaders/Chapter";
-import FlatList from "@/ui/FlatList";
 import { useGetAdminChapters } from "@/hooks/api/admin";
 
 const ChaptersView = () => {
@@ -35,6 +35,28 @@ const ChaptersView = () => {
       {
         id: "NO_SUBSCRIPTIONS",
         filterFn: (data) => data.filter((chapter) => !chapter.isPro),
+      },
+    ],
+    sortingMethods: [
+      {
+        id: "CREATED_AT_DESC",
+        key: "createdAt",
+        direction: "desc",
+      },
+      {
+        id: "CREATED_AT_ASC",
+        key: "createdAt",
+        direction: "asc",
+      },
+      {
+        id: "LAST_ONLINE_DESC",
+        key: "lastOnline",
+        direction: "desc",
+      },
+      {
+        id: "LAST_ONLINE_ASC",
+        key: "lastOnline",
+        direction: "asc",
       },
     ],
   });
@@ -66,6 +88,47 @@ const ChaptersView = () => {
     },
   ];
 
+  /**
+   * Create the sort by menu actions
+   */
+  const sortingMenu: MenuAction[] = [
+    {
+      id: "NO_SORT",
+      title: "No Sort",
+      image: "xmark",
+      state: search.sortingMethod === "NO_SORT" ? "on" : "off",
+      onPress: () => search.setSortingMethod("NO_SORT"),
+    },
+    {
+      id: "CREATED_AT_DESC",
+      title: "Created At (Desc)",
+      image: "calendar",
+      state: search.sortingMethod === "CREATED_AT_DESC" ? "on" : "off",
+      onPress: () => search.setSortingMethod("CREATED_AT_DESC"),
+    },
+    {
+      id: "CREATED_AT_ASC",
+      title: "Created At (Asc)",
+      image: "calendar",
+      state: search.sortingMethod === "CREATED_AT_ASC" ? "on" : "off",
+      onPress: () => search.setSortingMethod("CREATED_AT_ASC"),
+    },
+    {
+      id: "LAST_ONLINE_DESC",
+      title: "Last Online (Desc)",
+      image: "clock",
+      state: search.sortingMethod === "LAST_ONLINE_DESC" ? "on" : "off",
+      onPress: () => search.setSortingMethod("LAST_ONLINE_DESC"),
+    },
+    {
+      id: "LAST_ONLINE_ASC",
+      title: "Last Online (Asc)",
+      image: "clock",
+      state: search.sortingMethod === "LAST_ONLINE_ASC" ? "on" : "off",
+      onPress: () => search.setSortingMethod("LAST_ONLINE_ASC"),
+    },
+  ];
+
   const onRefresh = async () => {
     await getAdminChaptersQuery.refetch();
   };
@@ -84,10 +147,17 @@ const ChaptersView = () => {
           contentContainerStyle={tw`shrink`}
         />
 
-        <Menu actions={filterMenu}>
+        <Menu title="Filter By" actions={filterMenu}>
           <IconButton
             color="secondary"
             iconName="filter-3-fill"
+            style={tw`flex-grow`}
+          />
+        </Menu>
+        <Menu title="Sort By" actions={sortingMenu}>
+          <IconButton
+            color="secondary"
+            iconName="sort-number-asc"
             style={tw`flex-grow`}
           />
         </Menu>

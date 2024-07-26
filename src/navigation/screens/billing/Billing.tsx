@@ -13,7 +13,6 @@
 import { useState } from "react";
 import { View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { usePostHog } from "posthog-react-native";
 import Qonversion, { PurchaseModel } from "react-native-qonversion";
 
 import Text from "@/ui/Text";
@@ -21,10 +20,10 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import { Layout } from "@/ui/Layout";
 import Hyperlink from "@/ui/Hyperlink";
-import { handle } from "@/lib/util/error";
 import Icon, { IconType } from "@/ui/Icon";
 import { useAuth } from "@/providers/Auth";
 import { useMetadataStore } from "@/store";
+import usePosthog from "@/hooks/usePosthog";
 import { useLogout } from "@/hooks/api/auth";
 import SafeAreaView from "@/ui/SafeAreaView";
 import Logo32 from "@/components/Logos/Logo32";
@@ -33,10 +32,10 @@ import { useBottomSheet } from "@/providers/BottomSheet";
 import HeaderBackground from "@/components/Backgrounds/Header";
 
 const BillingScreen = () => {
-  const posthog = usePostHog();
+  const posthog = usePosthog();
   const logoutMutation = useLogout();
-  const { chapter, clear } = useAuth();
   const metadataStore = useMetadataStore();
+  const { chapter, clearUserData } = useAuth();
   const { openBottomSheet } = useBottomSheet();
   const { purchaseProduct, restorePurchases } = useQonversion();
 
@@ -95,7 +94,6 @@ const BillingScreen = () => {
    */
   const buttonCTA = (() => {
     let ctaString: string[];
-
     if (!subscription) return null;
 
     // If there is a trial period, tell the user about it
@@ -123,17 +121,13 @@ const BillingScreen = () => {
     "w-full rounded-xl px-4 py-6 gap-y-6",
   );
 
+  const footerViewStyle = tw.style("px-6 pt-3 gap-y-3 items-center");
+
   /**
    * When the feature button is pressed, open the plan comparison bottom sheet
    */
   const onFeaturePress = () => {
-    handle(() => {
-      posthog?.capture("COMPARE_PLANS_BUTTON_PRESSED", {
-        chapter_name: chapter.name,
-        chapter_email: chapter.email,
-      });
-    });
-
+    posthog.capture("COMPARE_PLANS_BUTTON_PRESSED");
     openBottomSheet("PLAN_COMPARISON");
   };
 
@@ -166,7 +160,7 @@ const BillingScreen = () => {
 
     if ("error" in res.data) return;
 
-    clear();
+    clearUserData();
   };
 
   // TODO: Add loading to this
@@ -184,7 +178,7 @@ const BillingScreen = () => {
         </View>
 
         {/* Header */}
-        <View style={tw`px-6 py-10 z-10`}>
+        <View style={tw`px-6 py-6 z-10`}>
           <SafeAreaView style={tw`items-center justify-center gap-y-3 mt-6`}>
             <Logo32 />
 
@@ -227,19 +221,16 @@ const BillingScreen = () => {
             },
           )}
 
-          <Button
-            size="sm"
-            color="tertiary"
-            style={tw`mt-2`}
-            onPress={onFeaturePress}
-          >
-            View All Features
-          </Button>
+          <View style={tw`mt-2 gap-y-2`}>
+            <Button size="sm" color="tertiary" onPress={onFeaturePress}>
+              View All Features
+            </Button>
+          </View>
         </View>
       </Layout.Content>
 
       <Layout.Footer style={tw`bg-white border-t border-slate-200`}>
-        <View style={tw`px-6 pt-3 gap-y-3 items-center`}>
+        <View style={footerViewStyle}>
           <Button size="lg" onPress={onPurchase} loading={purchaseLoading}>
             {buttonCTA}
           </Button>

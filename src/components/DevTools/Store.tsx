@@ -21,6 +21,7 @@ import Button from "@/ui/Button";
 import Headline from "@/ui/Headline";
 import Menu, { MenuAction } from "@/ui/Menu";
 import { formatJSON, titleCase } from "@/lib/util/string";
+import Expandable from "@/ui/Expandable";
 
 const Store = () => {
   const [store, setStore] = useState({} as any);
@@ -46,18 +47,22 @@ const Store = () => {
   }, []);
 
   useEffect(() => {
-    const bytes = JSON.stringify(store).length;
+    const size = calculateStringSize(JSON.stringify(store));
 
+    setStoreSize(size);
+  }, [store]);
+
+  const calculateStringSize = (str: string) => {
+    const bytes = str.length;
     const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
 
-    if (bytes === 0) return setStoreSize("0 Bytes");
+    if (bytes === 0) return "0 Bytes";
 
     const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString());
-
     const result = Math.round(bytes / Math.pow(1024, i)) + " " + sizes[i];
 
-    setStoreSize(result);
-  }, [store]);
+    return result;
+  };
 
   return (
     <>
@@ -83,12 +88,14 @@ const Store = () => {
             },
           ];
 
+          const size = calculateStringSize(JSON.stringify(store[key]));
+          const title = `${titleCase(key.replace("-", " "))} (${size})`;
+
           return (
             <Menu key={key} shouldOpenOnLongPress actions={actions}>
-              <View style={tw`rounded-xl bg-slate-100 p-4`}>
-                <Text type="h2">{titleCase(key.replace("-", " "))}</Text>
+              <Expandable title={title}>
                 <Text type="p4">{formatJSON(store[key])}</Text>
-              </View>
+              </Expandable>
             </Menu>
           );
         })}

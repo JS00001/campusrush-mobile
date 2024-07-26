@@ -9,25 +9,17 @@
  * Copyright (c) 2023 CampusRush
  * Do not distribute
  */
-
-import { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import AppConstants from "@/constants";
 
-/**
- * All locally stored user preferences with their types
- */
 type Preferences = (typeof AppConstants)["preferences"];
 
 interface PreferencesContextProps extends Preferences {
-  /**
-   * Whether the preferences are loading
-   */
+  /** Whether the preferences are loading */
   isLoading: boolean;
-  /**
-   * Updates the preferences object
-   */
+  /** Updates the preferences object */
   updatePreferences: (newPreferences: Partial<Preferences>) => void;
 }
 
@@ -47,7 +39,6 @@ const PreferencesProvider: React.FC<{ children?: React.ReactNode }> = ({
   // If one doesnt exist, set its async storage value to the default value
   useEffect(() => {
     const loadPreferences = async () => {
-      // Get preferences from async storage
       const asyncPreferences = await AsyncStorage.getItem("preferences");
 
       // If there are no preferences, set the default preferences
@@ -59,12 +50,10 @@ const PreferencesProvider: React.FC<{ children?: React.ReactNode }> = ({
 
         setPreferences(AppConstants.preferences);
 
-        // Set loading to false
         setIsLoading(false);
         return;
       }
 
-      // Parse the preferences from async storage
       const parsedPreferences = JSON.parse(asyncPreferences);
 
       // Ensure that all preferences are present, if not, add the missing ones with their default values
@@ -77,16 +66,12 @@ const PreferencesProvider: React.FC<{ children?: React.ReactNode }> = ({
         }
       }
 
-      // Update the preferences state
-      setPreferences(parsedPreferences);
-
-      // Save the preferences to async storage
       await AsyncStorage.setItem(
         "preferences",
         JSON.stringify(parsedPreferences),
       );
 
-      // Set loading to false
+      setPreferences(parsedPreferences);
       setIsLoading(false);
     };
 
@@ -94,16 +79,14 @@ const PreferencesProvider: React.FC<{ children?: React.ReactNode }> = ({
   }, []);
 
   /**
-   * Method to update the preferences object
+   * Method to update the preferences object, and save it to async storage
    */
   const updatePreferences = async (newPreferences: Partial<Preferences>) => {
-    // Update the preferences state
     setPreferences((preferences) => ({
       ...preferences,
       ...newPreferences,
     }));
 
-    // Save the preferences to async storage
     await AsyncStorage.setItem(
       "preferences",
       JSON.stringify({

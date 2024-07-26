@@ -11,21 +11,20 @@
  */
 
 import { z } from "zod";
-import { usePostHog } from "posthog-react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Button from "@/ui/Button";
 import Select from "@/ui/Select";
 import useForm from "@/hooks/useForm";
-import { handle } from "@/lib/util/error";
 import { useRegistrationStore } from "@/store";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 import schools from "@/constants/schools";
 import chapters from "@/constants/chapters";
+import usePosthog from "@/hooks/usePosthog";
 
 const RegistrationStep1View = () => {
-  const posthog = usePostHog();
+  const posthog = usePosthog();
   const navigation = useNavigation();
   const store = useRegistrationStore();
 
@@ -56,11 +55,9 @@ const RegistrationStep1View = () => {
     store.setField("name", form.state.name.value);
     store.setField("school", form.state.school.value);
 
-    handle(() => {
-      posthog?.capture("REGISTRATION_STEP_1_COMPLETED", {
-        chapter_name: form.state.name.value,
-        chapter_school: form.state.school.value,
-      });
+    posthog.capture("REGISTRATION_STEP_1_COMPLETED", {
+      chapter_name: form.state.name.value,
+      chapter_school: form.state.school.value,
     });
 
     (navigation.navigate as any)("RegistrationStep2");

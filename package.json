@@ -1,6 +1,6 @@
 {
   "name": "campusrush-mobile",
-  "version": "1.0.69",
+  "version": "1.0.70",
   "main": "src/App.tsx",
   "license": "All Rights Reserved",
   "scripts": {
@@ -37,6 +37,7 @@
     "expo-file-system": "~16.0.9",
     "expo-font": "~11.10.3",
     "expo-haptics": "~12.8.1",
+    "expo-image": "~1.10.6",
     "expo-linear-gradient": "~12.7.2",
     "expo-localization": "~14.8.4",
     "expo-network": "~5.8.0",

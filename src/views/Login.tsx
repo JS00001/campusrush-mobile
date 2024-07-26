@@ -20,7 +20,7 @@ import TermsAndConditions from "@/components/TermsAndConditions";
 
 const LoginView = () => {
   const mutation = useLogin();
-  const { login } = useAuth();
+  const { authenticateUser } = useAuth();
 
   const formValidators = {
     email: validators.email,
@@ -30,8 +30,14 @@ const LoginView = () => {
   const form = useFormMutation({
     mutation,
     validators: formValidators,
-    onSuccess: async (data) => {
-      await login(data);
+    onSuccess: async ({ data }) => {
+      const userData = {
+        chapter: data.chapter,
+        accessToken: data.accessToken,
+        refreshToken: data.refreshToken,
+      };
+
+      await authenticateUser(userData);
     },
   });
 

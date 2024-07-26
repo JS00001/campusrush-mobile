@@ -20,16 +20,27 @@ import AppConstants from "@/constants";
 import { useGlobalStore } from "@/store";
 import { useQonversion } from "@/providers/Qonversion";
 
-interface IAuthContext {
-  isLoading: boolean;
+interface IUserData {
   chapter: Chapter;
-  accessToken: string;
-  refreshToken: string;
+  accessToken: string | null;
+  refreshToken: string | null;
+}
 
-  clear(): void;
-  setChapter(chapter: Chapter): void;
-  login: (response: LoginResponse) => Promise<void>;
-  register: (response: RegisterResponse) => Promise<void>;
+interface IAuthContext {
+  /** Whether the initial auth data is still being fetched */
+  isLoading: boolean;
+  /** The currently logged in chapter */
+  chapter: Chapter;
+  /** The currently logged in chapter's access token */
+  accessToken: string | null;
+  /** The currently logged in chapter's refresh token */
+  refreshToken: string | null;
+  /** Clear all caches and local user data */
+  clearUserData: () => void;
+  /** Set the currently logged in chapter */
+  setChapter: (chapter: Chapter) => void;
+  /** Authenticate a user with the given data */
+  authenticateUser: (data: IUserData) => Promise<void>;
 }
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);
@@ -39,11 +50,12 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const globalStore = useGlobalStore();
   const { checkEntitlements } = useQonversion();
-
   const [isLoading, setIsLoading] = useState(true);
-  const [accessToken, setAccessToken] = useState("");
-  const [refreshToken, setRefreshToken] = useState("");
-  const [chapter, setChapter] = useState<Chapter>({} as Chapter);
+  const [userData, setUserData] = useState<IUserData>({
+    accessToken: null,
+    refreshToken: null,
+    chapter: {} as Chapter,
+  });
 
   const refreshTokenMutation = useMutation({
     mutationFn: async (refreshToken: string) => {
@@ -76,24 +88,36 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     },
   });
 
-  useEffect(() => {
-    fetchChapterData();
-  }, []);
+  // const getChapterQuery = useQuery({
+  //   queryKey: ["chapter", userData.accessToken],
+  //   enabled: !!userData.accessToken,
+  //   queryFn: async () => {
+  //     const url = `${AppConstants.apiUrl}/api/v1/consumer/auth/chapter`;
+
+  //     const { data } = await axios.get(url, {
+  //       headers: {
+  //         Authorization: `Bearer ${userData.accessToken}`,
+  //       },
+  //     });
+
+  //     return data as GetChapterResponse;
+  //   },
+  // });
 
   /**
-   * Using a stored refresh token, get a new access token and
-   * then access the chapter data
+   * When the app first loads, fetch the refresh token, then use
+   * it to refresh the access token, then use the access token to
+   * fetch the chapter data, then authenticate the user with the
+   * chapter data.
    */
-  const fetchChapterData = async () => {
-    try {
-      // Get the refresh token from async storage
+  useEffect(() => {
+    const fetchChapterData = async () => {
       const refreshToken = await AsyncStorage.getItem("refreshToken");
 
       if (!refreshToken) {
         throw new Error("No refresh token found");
       }
 
-      // Use the refresh token to get a new access token
       const response = await refreshTokenMutation.mutateAsync(refreshToken);
 
       if ("error" in response) {
@@ -102,7 +126,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const accessToken = response.data.accessToken;
 
-      // Use the access token to get the chapter data
       const chapterResponse = await getChapterMutation.mutateAsync(accessToken);
 
       if ("error" in chapterResponse) {
@@ -111,100 +134,71 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const chapter = chapterResponse.data.chapter;
 
-      setChapter(chapter);
-      setAccessToken(accessToken);
-      setRefreshToken(refreshToken);
+      await authenticateUser({ accessToken, refreshToken, chapter });
+    };
 
-      Qonversion.getSharedInstance().identify(chapter.customerId);
-      Qonversion.getSharedInstance().setUserProperty(
-        UserPropertyKey.EMAIL,
-        chapter.email,
-      );
+    fetchChapterData()
+      .catch(() => clearUserData())
+      .finally(() => setIsLoading(false));
+  }, []);
 
-      await checkEntitlements();
-    } catch {
-      setAccessToken("");
-      setRefreshToken("");
-      setChapter({} as Chapter);
-    } finally {
-      setIsLoading(false);
+  /**
+   * Fired on login and registration and when the app first loads. Takes
+   * user data, verifies entitlements, and sets the user data in the context.
+   */
+  const authenticateUser = async (data: IUserData) => {
+    const { accessToken, refreshToken, chapter } = data;
+
+    if (!accessToken || !refreshToken || !chapter) {
+      return;
     }
-  };
-
-  /**
-   * Take a response from the login mutation and set the store
-   * to the new chapter and access token
-   */
-  const login = async (response: LoginResponse) => {
-    if ("error" in response) return;
-
-    const chapter = response.data.chapter;
-    const accessToken = response.data.accessToken;
-    const refreshToken = response.data.refreshToken;
-
-    await AsyncStorage.setItem("refreshToken", refreshToken);
-
-    setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
-    setChapter(chapter);
 
     Qonversion.getSharedInstance().identify(chapter.customerId);
     Qonversion.getSharedInstance().setUserProperty(
       UserPropertyKey.EMAIL,
       chapter.email,
     );
-  };
 
-  /**
-   * Take a response from the register mutation and set the store
-   * to the new chapter and access token
-   */
-  const register = async (response: RegisterResponse) => {
-    if ("error" in response) return;
-
-    const chapter = response.data.chapter;
-    const accessToken = response.data.accessToken;
-    const refreshToken = response.data.refreshToken;
-
+    await checkEntitlements();
     await AsyncStorage.setItem("refreshToken", refreshToken);
 
-    setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
-    setChapter(chapter);
-
-    Qonversion.getSharedInstance().identify(chapter.customerId);
-    Qonversion.getSharedInstance().setUserProperty(
-      UserPropertyKey.EMAIL,
-      chapter.email,
-    );
+    setUserData({ accessToken, refreshToken, chapter });
   };
 
   /**
-   * Clear all of the users data from the store and the
-   * async storage
+   * Wrapper around setUserData to make it easier to set the chapter
    */
-  const clear = async () => {
+  const setChapter = async (chapter: Chapter) => {
+    setUserData({ ...userData, chapter });
+  };
+
+  /**
+   * Clear all caches and local user data, along with logging out
+   * of Qonversion.
+   */
+  const clearUserData = async () => {
     await globalStore.clear();
     await AsyncStorage.removeItem("refreshToken");
 
-    setAccessToken("");
-    setRefreshToken("");
-    setChapter({} as Chapter);
+    setUserData({
+      accessToken: null,
+      refreshToken: null,
+      chapter: {} as Chapter,
+    });
 
     Qonversion.getSharedInstance().logout();
+    await checkEntitlements();
   };
 
   return (
     <AuthContext.Provider
       value={{
         isLoading,
-        chapter,
-        accessToken,
-        refreshToken,
-        clear,
+        ...userData,
+
         setChapter,
-        login,
-        register,
+        clearUserData,
+        authenticateUser,
       }}
     >
       {children}

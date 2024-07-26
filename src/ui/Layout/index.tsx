@@ -14,10 +14,10 @@ import Content from "./Content";
 import CustomHeader from "./CustomHeader";
 import Footer from "./Footer";
 import Header from "./Header";
-import LayoutRoot from "./Layout";
+import Root from "./Root";
 
 export const Layout = {
-  Root: LayoutRoot,
+  Root: Root,
   Header: Header,
   CustomHeader: CustomHeader,
   Content: Content,
