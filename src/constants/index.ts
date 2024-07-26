@@ -140,6 +140,10 @@ const AppConstants = {
      * Whether the user has finished the onboarding process
      */
     onboardingComplete: false,
+    /**
+     * The last time the user was alerted to update the app
+     */
+    lastUpdateAlert: 0,
   },
 };
 

@@ -4,7 +4,7 @@ export default {
   name: IS_DEV ? 'Campus Rush (DEV)' : 'Campus Rush',
   slug: 'campusrush',
   // Change before committing
-  version: '1.0.70',
+  version: '1.0.71',
   orientation: 'portrait',
   icon: IS_DEV ? './assets/development-icon.png' : './assets/icon.png',
   userInterfaceStyle: 'light',
@@ -23,15 +23,8 @@ export default {
       usesNonExemptEncryption: false,
     },
   },
-  android: {
-    adaptiveIcon: {
-      foregroundImage: './assets/adaptive-icon.png',
-      backgroundColor: '#ffffff',
-    },
-  },
-  web: {
-    favicon: './assets/favicon.png',
-  },
+  android: {},
+  web: {},
   extra: {
     eas: {
       projectId: '9e0d874e-cc30-4dca-ae7e-9609b121b1ae',

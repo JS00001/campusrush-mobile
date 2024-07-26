@@ -64,7 +64,7 @@ export const isJSON = (string: string) => {
 /**
  * Take a version like "1.0.0" and convert it to "010000"
  */
-export const stringifyVersion = (version: string) => {
+export const getComparableVersion = (version: string) => {
   const parts = version.split('.');
 
   const paddedParts = parts.map((part, index) => {
@@ -81,7 +81,7 @@ export const stringifyVersion = (version: string) => {
     return part;
   });
 
-  return paddedParts.join('');
+  return parseInt(paddedParts.join(''));
 };
 
 /**

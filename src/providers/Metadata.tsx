@@ -9,7 +9,7 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
-import { Linking } from "react-native";
+import { Linking, Alert } from "react-native";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { useEffect, useContext, createContext, useState } from "react";
 
@@ -19,8 +19,9 @@ import { Layout } from "@/ui/Layout";
 import Headline from "@/ui/Headline";
 import AppConstants from "@/constants";
 import { useMetadataStore } from "@/store";
-import { stringifyVersion } from "@/lib/util/string";
 import { useGetMetadata } from "@/hooks/api/external";
+import { getComparableVersion } from "@/lib/util/string";
+import { usePreferences } from "@/providers/Preferences";
 
 interface MetadataContextProps {
   isLoading: boolean;
@@ -34,32 +35,64 @@ const MetadataContext = createContext<MetadataContextProps>(
 const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isValidVersion, setIsValidVersion] = useState(true);
-
   const query = useGetMetadata();
+  const { lastUpdateAlert, updatePreferences } = usePreferences();
   const setMetadata = useMetadataStore((state) => state.setMetadata);
+
+  const [isValidVersion, setIsValidVersion] = useState(true);
 
   /**
    * When the metadata is loaded, check if the version is valid
+   *
+   * If the user's client version is less than the minimum client version, then their
+   * API Calls wont work, so we need to force them to update
+   *
+   * If the user's client version is less than the latest client version, then we should
+   * Give a 'gentle' reminder to update, and update their preferences to reflect that they
+   * have seen the update alert
    */
   useEffect(() => {
     if (!query.data || "error" in query.data) return;
 
-    const validVersions = parseInt(
-      stringifyVersion(query.data.data.version || "0.0.0"),
-    );
+    const { version, latestVersion } = query.data.data;
 
-    const currentVersion = parseInt(
-      stringifyVersion(AppConstants.version || "0.0.0"),
-    );
+    const minimumClientVersion = getComparableVersion(version || "0.0.0");
+    const latestClientVersion = getComparableVersion(latestVersion || "0.0.0");
+    const userVersion = getComparableVersion(AppConstants.version || "0.0.0");
 
-    if (currentVersion === 0 || validVersions === 0) {
+    if (userVersion === 0 || minimumClientVersion === 0) {
       setIsValidVersion(true);
     }
 
-    if (validVersions > currentVersion) {
+    // If the user's client version is less than the minimum client version, then their
+    // API Calls wont work, so we need to force them to update
+    if (userVersion < minimumClientVersion) {
       setIsValidVersion(false);
       ExpoSplashScreen.hideAsync();
+    }
+
+    // If the user's client version is less than the latest client version, then we should
+    // Give a 'gentle' reminder to update (not forceful)
+    if (latestClientVersion > userVersion) {
+      if (lastUpdateAlert == latestClientVersion) return;
+
+      Alert.alert(
+        "Update Available",
+        "A new version of CampusRush is available! Update now to get the latest features and bug fixes.",
+        [
+          {
+            text: "Maybe Later",
+            style: "cancel",
+          },
+          {
+            text: "Update",
+            isPreferred: true,
+            onPress: onUpdatePress,
+          },
+        ],
+      );
+
+      updatePreferences({ lastUpdateAlert: latestClientVersion });
     }
 
     setMetadata(query.data);

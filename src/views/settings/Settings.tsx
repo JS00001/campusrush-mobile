@@ -16,9 +16,9 @@ import { useNavigation } from "@react-navigation/native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import { alert } from "@/lib/util";
 import ListItem from "@/ui/ListItem";
 import AppConstants from "@/constants";
-import { useModalStore } from "@/store";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import { useLogout } from "@/hooks/api/auth";
@@ -30,7 +30,6 @@ const SettingsView = () => {
   const mutation = useDeleteChapter();
 
   const logoutMutation = useLogout();
-  const { openModal } = useModalStore();
   const { chapter, clearUserData } = useAuth();
   const { openBottomSheet } = useBottomSheet();
 
@@ -67,15 +66,22 @@ const SettingsView = () => {
   };
 
   const onDeleteAccount = () => {
-    openModal("error", {
+    alert({
       title: Content.confirmDeleteAccount.title,
-      subtitle: Content.confirmDeleteAccount.subtitle,
-      primaryActionLabel: "Yes, Delete",
-      secondaryActionLabel: "No, Cancel",
-
-      onPrimaryAction: async () => {
-        await mutation.mutateAsync();
-      },
+      message: Content.confirmDeleteAccount.subtitle,
+      buttons: [
+        {
+          style: "cancel",
+          text: "No, Cancel",
+        },
+        {
+          style: "destructive",
+          text: "Yes, Delete",
+          onPress: async () => {
+            await mutation.mutateAsync();
+          },
+        },
+      ],
     });
   };
 

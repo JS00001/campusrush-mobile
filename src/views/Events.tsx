@@ -11,34 +11,28 @@
  */
 
 import { View } from "react-native";
-import Toast from "react-native-toast-message";
 
-import {
-  useDeleteEvent,
-  useDeleteEvents,
-  useGetEvents,
-} from "@/hooks/api/events";
+import tw from "@/lib/tailwind";
+import { alert } from "@/lib/util";
+import { useEventStore } from "@/store";
 import useSearch from "@/hooks/useSearch";
-import { useEventStore, useModalStore } from "@/store";
+import Content from "@/constants/content";
 import { useBottomSheet } from "@/providers/BottomSheet";
+import { useDeleteEvents, useGetEvents } from "@/hooks/api/events";
 
 import Event from "@/ui/Event";
-import tw from "@/lib/tailwind";
+import FlatList from "@/ui/FlatList";
 import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
-import Content from "@/constants/content";
 import EventLoader from "@/ui/Loaders/Event";
 import ActionButton from "@/ui/ActionButton";
 import Menu, { MenuAction } from "@/ui/Menu";
-import FlatList from "@/ui/FlatList";
 
 const EventsView = () => {
-  const { openModal } = useModalStore();
   const { openBottomSheet } = useBottomSheet();
 
   const eventStore = useEventStore();
   const eventsQuery = useGetEvents();
-  const deleteEventMutation = useDeleteEvent();
   const deleteAllEventsMutation = useDeleteEvents();
 
   const search = useSearch({
@@ -94,17 +88,24 @@ const EventsView = () => {
       image: "trash",
       attributes: { destructive: true },
       onPress: () => {
-        openModal("error", {
+        alert({
           title: Content.confirmDeleteAllEvents.title,
-          subtitle: Content.confirmDeleteAllEvents.subtitle,
-          primaryActionLabel: "Yes, Delete",
-          secondaryActionLabel: "No, Cancel",
-          onPrimaryAction: async () => {
-            await deleteAllEventsMutation.mutateAsync();
-            await eventsQuery.refetch();
-            // Empty the stores cache
-            eventStore.clear();
-          },
+          message: Content.confirmDeleteAllEvents.subtitle,
+          buttons: [
+            {
+              style: "cancel",
+              text: "No, Cancel",
+            },
+            {
+              text: "Yes, Delete",
+              style: "destructive",
+              onPress: async () => {
+                await deleteAllEventsMutation.mutateAsync();
+                await eventsQuery.refetch();
+                eventStore.clear();
+              },
+            },
+          ],
         });
       },
     },

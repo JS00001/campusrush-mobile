@@ -14,8 +14,8 @@ import { useEffect } from "react";
 import Toast from "react-native-toast-message";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
+import { alert } from "@/lib/util";
 import AppConstants from "@/constants";
-import { useModalStore } from "@/store";
 import { httpLogger } from "@/lib/logger";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
@@ -30,7 +30,6 @@ const axiosClient = axios.create({
 });
 
 const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
-  const { openModal } = useModalStore();
   const { verifyConnection } = useNetwork();
   const { accessToken, clearUserData } = useAuth();
 
@@ -114,10 +113,9 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
 
       /** 403 - MAXIMUM_ENTITLEMENT_LIMIT_REACHED */
       if (errorDetails.message === "ENTITLEMENT_LIMIT_REACHED") {
-        openModal("warning", {
+        alert({
           title: "Limit Reached",
-          subtitle: errorDetails.humanMessage,
-          primaryActionLabel: "Go Back",
+          message: errorDetails.humanMessage,
         });
 
         return Promise.resolve(errorHandledResponse);

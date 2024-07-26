@@ -13,18 +13,19 @@
 import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
-import TextInput from "@/ui/TextInput";
-import IconButton from "@/ui/IconButton";
+import { alert } from "@/lib/util";
+import { useGlobalStore } from "@/store";
 import useSearch from "@/hooks/useSearch";
 import Content from "@/constants/content";
-import Menu, { MenuAction } from "@/ui/Menu";
 import PnmsList from "@/components/PnmsList";
-import { useGlobalStore, useModalStore } from "@/store";
 import { useDeletePnms, useGetPnms } from "@/hooks/api/pnms";
+
+import TextInput from "@/ui/TextInput";
+import IconButton from "@/ui/IconButton";
+import Menu, { MenuAction } from "@/ui/Menu";
 
 const PnmsView = () => {
   const globalStore = useGlobalStore();
-  const { openModal } = useModalStore();
 
   const pnmsQuery = useGetPnms();
   const deleteAllPnmsMutation = useDeletePnms();
@@ -83,17 +84,24 @@ const PnmsView = () => {
         destructive: true,
       },
       onPress: () => {
-        openModal("error", {
+        alert({
           title: Content.confirmDeleteAllPNMs.title,
-          subtitle: Content.confirmDeleteAllPNMs.subtitle,
-          primaryActionLabel: "Yes, Delete",
-          secondaryActionLabel: "No, Cancel",
-          onPrimaryAction: async () => {
-            await deleteAllPnmsMutation.mutateAsync();
-            await pnmsQuery.refetch();
-
-            globalStore.resetPnmStores();
-          },
+          message: Content.confirmDeleteAllPNMs.subtitle,
+          buttons: [
+            {
+              style: "cancel",
+              text: "No, Cancel",
+            },
+            {
+              text: "Yes, Delete",
+              style: "destructive",
+              onPress: async () => {
+                await deleteAllPnmsMutation.mutateAsync();
+                await pnmsQuery.refetch();
+                globalStore.resetPnmStores();
+              },
+            },
+          ],
         });
       },
     },
