@@ -13,7 +13,6 @@
 import { z } from "zod";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
-import { usePostHog } from "posthog-react-native";
 
 import {
   useLogout,
@@ -26,12 +25,12 @@ import Button from "@/ui/Button";
 import Hyperlink from "@/ui/Hyperlink";
 import FormField from "@/ui/FormField";
 import Content from "@/constants/content";
-import { handle } from "@/lib/util/error";
 import { useAuth } from "@/providers/Auth";
+import usePosthog from "@/hooks/usePosthog";
 import useFormMutation from "@/hooks/useFormMutation";
 
 const VerificationView = () => {
-  const posthog = usePostHog();
+  const posthog = usePosthog();
   const logoutMutation = useLogout();
   const verifyEmailMutation = useVerifyEmail();
   const { clearUserData, setChapter } = useAuth();
@@ -46,13 +45,7 @@ const VerificationView = () => {
     validators: formValidators,
     onSuccess: async ({ data }) => {
       setChapter(data.chapter);
-
-      handle(() => {
-        posthog?.capture("CHAPTER_VERIFIED", {
-          chapter_name: data.chapter.name,
-          chapter_email: data.chapter.email,
-        });
-      });
+      posthog.capture("CHAPTER_VERIFIED");
 
       Toast.show({
         type: "success",

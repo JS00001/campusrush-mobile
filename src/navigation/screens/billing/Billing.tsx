@@ -13,7 +13,6 @@
 import { useState } from "react";
 import { View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { usePostHog } from "posthog-react-native";
 import Qonversion, { PurchaseModel } from "react-native-qonversion";
 
 import Text from "@/ui/Text";
@@ -21,10 +20,10 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import { Layout } from "@/ui/Layout";
 import Hyperlink from "@/ui/Hyperlink";
-import { handle } from "@/lib/util/error";
 import Icon, { IconType } from "@/ui/Icon";
 import { useAuth } from "@/providers/Auth";
 import { useMetadataStore } from "@/store";
+import usePosthog from "@/hooks/usePosthog";
 import { useLogout } from "@/hooks/api/auth";
 import SafeAreaView from "@/ui/SafeAreaView";
 import Logo32 from "@/components/Logos/Logo32";
@@ -33,7 +32,7 @@ import { useBottomSheet } from "@/providers/BottomSheet";
 import HeaderBackground from "@/components/Backgrounds/Header";
 
 const BillingScreen = () => {
-  const posthog = usePostHog();
+  const posthog = usePosthog();
   const logoutMutation = useLogout();
   const metadataStore = useMetadataStore();
   const { chapter, clearUserData } = useAuth();
@@ -128,13 +127,7 @@ const BillingScreen = () => {
    * When the feature button is pressed, open the plan comparison bottom sheet
    */
   const onFeaturePress = () => {
-    handle(() => {
-      posthog?.capture("COMPARE_PLANS_BUTTON_PRESSED", {
-        chapter_name: chapter.name,
-        chapter_email: chapter.email,
-      });
-    });
-
+    posthog.capture("COMPARE_PLANS_BUTTON_PRESSED");
     openBottomSheet("PLAN_COMPARISON");
   };
 

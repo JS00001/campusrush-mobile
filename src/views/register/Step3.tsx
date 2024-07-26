@@ -11,12 +11,11 @@
  */
 
 import { z } from "zod";
-import { usePostHog } from "posthog-react-native";
 
 import Button from "@/ui/Button";
 import FormField from "@/ui/FormField";
-import { handle } from "@/lib/util/error";
 import { useAuth } from "@/providers/Auth";
+import usePosthog from "@/hooks/usePosthog";
 import { useRegistrationStore } from "@/store";
 import { useRegister } from "@/hooks/api/auth";
 import validators from "@/constants/validators";
@@ -24,7 +23,7 @@ import useFormMutation from "@/hooks/useFormMutation";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep3View = () => {
-  const posthog = usePostHog();
+  const posthog = usePosthog();
   const mutation = useRegister();
   const store = useRegistrationStore();
   const { authenticateUser } = useAuth();
@@ -60,13 +59,11 @@ const RegistrationStep3View = () => {
 
       await authenticateUser(userData);
 
-      handle(() => {
-        posthog?.capture("REGISTRATION_COMPLETED", {
-          chapter_name: userData.chapter.name,
-          chapter_email: userData.chapter.email,
-          chapter_first_name: userData.chapter.firstName,
-          chapter_last_name: userData.chapter.lastName,
-        });
+      posthog.capture("REGISTRATION_COMPLETED", {
+        chapter_name: userData.chapter.name,
+        chapter_email: userData.chapter.email,
+        chapter_first_name: userData.chapter.firstName,
+        chapter_last_name: userData.chapter.lastName,
       });
 
       store.clear();

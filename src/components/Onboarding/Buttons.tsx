@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import Button from "@/ui/Button";
 import ButtonGroup from "@/ui/ButtonGroup";
+import usePosthog from "@/hooks/usePosthog";
 import { usePreferences } from "@/providers/Preferences";
 
 interface OnboardingButtonsProps {
@@ -29,11 +30,13 @@ const OnboardingButtons: React.FC<OnboardingButtonsProps> = ({
   pages,
   currentStep,
 }) => {
+  const posthog = usePosthog();
   const navigation = useNavigation();
   const { updatePreferences } = usePreferences();
 
   const isFirstStep = currentStep === 1;
   const isLastStep = currentStep === pages.length;
+
   const navigate = navigation.navigate as any;
   const primaryText = isLastStep ? "Let's Go!" : "Next";
 
@@ -41,10 +44,19 @@ const OnboardingButtons: React.FC<OnboardingButtonsProps> = ({
     if (isLastStep) {
       navigate("Billing");
       updatePreferences({ onboardingComplete: true });
+
+      posthog.capture("ONBOARDING_COMPLETE", {
+        fromPage: pages[currentStep - 1],
+      });
+
       return;
     }
 
     navigate(pages[currentStep]);
+    posthog.capture("ONBOARDING_NEXT_PRESS", {
+      from_page: pages[currentStep - 1],
+      to_page: pages[currentStep],
+    });
   };
 
   const handleBackPress = () => {
