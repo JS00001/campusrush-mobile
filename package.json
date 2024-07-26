@@ -1,6 +1,6 @@
 {
   "name": "campusrush-mobile",
-  "version": "1.0.69",
+  "version": "1.0.70",
   "main": "src/App.tsx",
   "license": "All Rights Reserved",
   "scripts": {
@@ -75,7 +75,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@svgr/cli": "^8.1.0",
     "@types/lodash": "^4.14.197",
     "@types/react": "~18.2.14",
     "prettier": "^3.0.1",

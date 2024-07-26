@@ -4,7 +4,7 @@ export default {
   name: IS_DEV ? 'Campus Rush (DEV)' : 'Campus Rush',
   slug: 'campusrush',
   // Change before committing
-  version: '1.0.69',
+  version: '1.0.70',
   orientation: 'portrait',
   icon: IS_DEV ? './assets/development-icon.png' : './assets/icon.png',
   userInterfaceStyle: 'light',
