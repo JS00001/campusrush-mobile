@@ -112,6 +112,7 @@ interface TagCategory {
 
 interface Metadata {
   version: string;
+  latestVersion: string;
   tags: TagCategory[];
   entitlements: EntitlementDetails;
 }

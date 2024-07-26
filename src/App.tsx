@@ -21,7 +21,6 @@ import { startNetworkLogging } from "react-native-network-logger";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import toastConfig from "@/lib/toast";
-import Modals from "@/providers/Modal";
 import queryClient from "@/lib/queryClient";
 import AuthProvider from "@/providers/Auth";
 import qonversionConfig from "@/lib/qonversion";
@@ -57,18 +56,17 @@ const App = () => {
     <SentryProvider>
       <NetworkProvider>
         <QueryClientProvider client={queryClient}>
-          <MetadataProvider>
-            <QonversionProvider>
-              <AuthProvider>
-                <NavigationProvider>
-                  <AxiosIntercepter>
-                    <PreferencesProvider>
+          <PreferencesProvider>
+            <MetadataProvider>
+              <QonversionProvider>
+                <AuthProvider>
+                  <NavigationProvider>
+                    <AxiosIntercepter>
                       <WebsocketProvider>
                         <PosthogProvider>
                           <GestureHandlerRootView style={{ flex: 1 }}>
                             <BottomSheetModalProvider>
                               <BottomSheetProvider>
-                                <Modals />
                                 <DeveloperTools />
                                 <RootNavigator />
                                 <StatusOverlay />
@@ -80,12 +78,12 @@ const App = () => {
                           </GestureHandlerRootView>
                         </PosthogProvider>
                       </WebsocketProvider>
-                    </PreferencesProvider>
-                  </AxiosIntercepter>
-                </NavigationProvider>
-              </AuthProvider>
-            </QonversionProvider>
-          </MetadataProvider>
+                    </AxiosIntercepter>
+                  </NavigationProvider>
+                </AuthProvider>
+              </QonversionProvider>
+            </MetadataProvider>
+          </PreferencesProvider>
         </QueryClientProvider>
       </NetworkProvider>
     </SentryProvider>

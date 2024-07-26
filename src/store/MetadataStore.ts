@@ -31,6 +31,7 @@ export const useMetadataStore = create<IMetadataStore>()(
         metadata: {
           tags: [],
           version: '0.0.0',
+          latestVersion: '0.0.0',
           entitlements: undefined,
         },
       };
