@@ -80,8 +80,7 @@ const RootNavigator = () => {
   if (!chapter?.verified) return <VerificationStack />;
 
   // If the user has no active entitlements, we show the BillingStack
-  // if (lodash.isEmpty(entitlements))
-  return <BillingStack />;
+  if (lodash.isEmpty(entitlements)) return <BillingStack />;
 
   // If the user is logged in and verified, we show the TabNavigator
   // (the main app)
