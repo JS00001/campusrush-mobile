@@ -58,15 +58,21 @@ const Landing: React.FC<UseSheetFlowProps> = ({
 
     // If only one pnm, open their direct message
     else if (pnms.length === 1) {
-      (navigation.navigate as any)("Chat", {
-        pnm: pnms[0],
+      navigation.navigate("MessagesTab", {
+        screen: "Chat",
+        params: {
+          pnm: pnms[0],
+        },
       })
     }
 
     // If multiple, open the new message screen to send a mass message
     else {
-      (navigation.navigate as any)("NewMessage", {
-        pnms
+      navigation.navigate("MessagesTab", {
+        screen: "NewMessage",
+        params: {
+          pnms
+        }
       })
     }
 
@@ -98,8 +104,11 @@ const Landing: React.FC<UseSheetFlowProps> = ({
    * When the user presses a suggested or searched contact
    */
   const onDirectMessagePress = (pnm: PNM) => {
-    (navigation.navigate as any)("Chat", {
-      pnm,
+    navigation.navigate("MessagesTab", {
+      screen: "Chat",
+      params: {
+        pnm,
+      },
     });
 
     handleClose();

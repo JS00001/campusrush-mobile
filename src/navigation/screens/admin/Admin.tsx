@@ -10,22 +10,15 @@
  * Do not distribute
  */
 
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
 import ListItem from "@/ui/ListItem";
 import { Layout } from "@/ui/Layout";
+import { NavigationProp } from "@/navigation/@types";
 
-interface AdminProps {
-  navigation: NativeStackNavigationProp<any>;
-}
+type Props = NavigationProp<"AdminTab", "Admin">;
 
-const Admin: React.FC<AdminProps> = ({ navigation }) => {
+const Admin: React.FC<Props> = ({ navigation }) => {
   const onChaptersPress = () => {
     navigation.navigate("AdminChapters");
-  };
-
-  const onUIComponentsPress = () => {
-    navigation.navigate("AdminUIComponents");
   };
 
   const onUITestingPress = () => {
@@ -54,13 +47,6 @@ const Admin: React.FC<AdminProps> = ({ navigation }) => {
           subtitle="View network logs"
           icon="wifi-fill"
           onPress={onNetworkPress}
-        />
-        <ListItem
-          size="lg"
-          title="UI Components"
-          subtitle="All of the current UI components and their docs"
-          icon="book-fill"
-          onPress={onUIComponentsPress}
         />
         <ListItem
           size="lg"

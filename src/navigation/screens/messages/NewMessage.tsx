@@ -25,15 +25,13 @@ import { useSendMassMessage } from "@/hooks/api/messaging";
 
 import { Layout } from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
+import { NavigationProp } from "@/navigation/@types";
 import MassMessageHeader from "@/components/Headers/MassMessage";
 
-interface NewMessageProps {
-  route: any;
-  navigation: NativeStackNavigationProp<any>;
-}
+type Props = NavigationProp<"MessagesTab", "NewMessage">;
 
-const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
-  const initialPnms: PNM[] = route.params.pnms;
+const NewMessage: React.FC<Props> = ({ navigation, route }) => {
+  const initialPnms = route.params.pnms;
 
   const [pnms, setPnms] = useState(initialPnms);
 
@@ -44,7 +42,7 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
   const setStatus = useStatusStore((s) => s.setStatus);
 
   const onMessageSend = async (messages: string[]) => {
-    (navigation.navigate as any)("Messages");
+    navigation.navigate("Messages");
 
     setStatus("loading");
 

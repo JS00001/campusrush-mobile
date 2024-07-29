@@ -10,9 +10,9 @@
  * Do not distribute
  */
 
+import tw from "@/lib/tailwind";
 import PnmsView from "@/views/Pnms";
 import { Layout } from "@/ui/Layout";
-import tw from "@/lib/tailwind";
 
 const PnmsScreen = () => {
   return (

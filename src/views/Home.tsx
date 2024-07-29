@@ -32,7 +32,9 @@ const HomeView = () => {
   const statisticsQuery = useGetChapterStatistics();
 
   const onSettingsPress = () => {
-    (navigation.navigate as any)("Settings");
+    navigation.navigate("HomeTab", {
+      screen: "Settings",
+    });
   };
 
   const onAddPNM = () => {

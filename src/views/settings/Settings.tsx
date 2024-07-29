@@ -42,19 +42,33 @@ const SettingsView = () => {
   };
 
   const onUpdateChapterPress = () => {
-    (navigation.navigate as any)("UpdateChapter");
+    navigation.navigate("HomeTab", {
+      screen: "UpdateChapter",
+    });
   };
 
   const onPhoneNumberPress = () => {
-    (navigation.navigate as any)("PhoneNumber");
+    navigation.navigate("HomeTab", {
+      screen: "PhoneNumber",
+    });
   };
 
   const onUpdateBillingPress = () => {
-    (navigation.navigate as any)("UpdateBilling");
+    navigation.navigate("HomeTab", {
+      screen: "UpdateBilling",
+    });
   };
 
   const onUpdateNotificationsPress = () => {
-    (navigation.navigate as any)("UpdateNotifications");
+    navigation.navigate("HomeTab", {
+      screen: "UpdateNotifications",
+    });
+  };
+
+  const onLinkSharingPress = () => {
+    navigation.navigate("HomeTab", {
+      screen: "LinkSharing",
+    });
   };
 
   const onLogout = async () => {
@@ -83,10 +97,6 @@ const SettingsView = () => {
         },
       ],
     });
-  };
-
-  const onLinkSharingPress = () => {
-    (navigation.navigate as any)("LinkSharing");
   };
 
   return (

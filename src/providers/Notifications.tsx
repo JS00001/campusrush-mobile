@@ -69,7 +69,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
         if (data.type === "NEW_MESSAGE") {
           const pnm: PNM = data.conversation.pnm;
 
-          (navigation.navigate as any)("MessagesTab", {
+          navigation.navigate("MessagesTab", {
             screen: "Chat",
             initial: false,
             params: {

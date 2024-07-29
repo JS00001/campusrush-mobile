@@ -12,7 +12,6 @@
 
 import { useEffect } from "react";
 import { Keyboard } from "react-native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { Layout } from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
@@ -33,15 +32,13 @@ import { useAuth } from "@/providers/Auth";
 import SocketInput from "@/lib/socketInput";
 import MessageBubble from "@/ui/MessageBubble";
 import { useWebsocket } from "@/providers/websocket";
+import { NavigationProp } from "@/navigation/@types";
 import DirectMessageHeader from "@/components/Headers/DirectMessage";
 
-interface ChatProps {
-  route: any;
-  navigation: NativeStackNavigationProp<any>;
-}
+type Props = NavigationProp<"MessagesTab", "Chat">;
 
-const Chat: React.FC<ChatProps> = ({ route }) => {
-  const pnm = route.params.pnm as PNM;
+const Chat: React.FC<Props> = ({ route }) => {
+  const pnm = route.params.pnm;
   const pnmId = pnm._id;
 
   const { ws } = useWebsocket();

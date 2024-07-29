@@ -18,7 +18,8 @@ import {
   MessagesStack,
   PNMsStack,
   EventsStack,
-} from "@/navigation/stack-navigator";
+} from "./stack-navigator";
+import { TabParamList } from "./@types";
 
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
@@ -29,7 +30,7 @@ import { useBottomSheet } from "@/providers/BottomSheet";
 import { useGetConversations } from "@/hooks/api/messaging";
 import NotificationsProvider from "@/providers/Notifications";
 
-export const Tab = createBottomTabNavigator();
+export const Tab = createBottomTabNavigator<TabParamList>();
 
 /**
  * Tab Navigator for the App

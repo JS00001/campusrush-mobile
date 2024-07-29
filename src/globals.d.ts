@@ -76,11 +76,7 @@ interface Message {
 interface Conversation {
   _id: string;
   chapter: string;
-  pnm: {
-    _id: string;
-    firstName: string;
-    lastName: string;
-  };
+  pnm: Pick<PNM, '_id' | 'firstName' | 'lastName'>;
 
   read: boolean;
   messages: Message[];
