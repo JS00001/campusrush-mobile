@@ -70,8 +70,6 @@ const Chat: React.FC<Props> = ({ route }) => {
     if (!conversation) return;
 
     conversationStore.updateConversation({ ...conversation, read: true });
-
-    return () => {};
   }, []);
 
   /**
@@ -180,7 +178,7 @@ const Chat: React.FC<Props> = ({ route }) => {
     <Layout.Root>
       <Layout.CustomHeader>
         <DirectMessageHeader
-          pnm={pnm}
+          pnmId={pnmId}
           loading={sendMessageMutation.isLoading}
         />
       </Layout.CustomHeader>

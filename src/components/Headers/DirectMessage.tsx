@@ -20,37 +20,38 @@ import Skeleton from "@/ui/Skeleton";
 import SafeAreaView from "@/ui/SafeAreaView";
 import { useGetPnm } from "@/hooks/api/pnms";
 import { useBottomSheet } from "@/providers/BottomSheet";
+import { formatPhoneNumber } from "@/lib/util/string";
 
 interface DirectMessageHeaderProps {
-  pnm: PNM;
+  pnmId: string;
   loading: boolean;
 }
 
 const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({
-  pnm,
+  pnmId,
   loading,
 }) => {
   const navigation = useNavigation();
+  const pnmQuery = useGetPnm(pnmId);
   const { openBottomSheet } = useBottomSheet();
 
-  const pnmQuery = useGetPnm(pnm._id);
-  const title = `${pnmQuery.pnm?.firstName} ${pnmQuery.pnm?.lastName}`;
+  useEffect(() => {
+    if (pnmQuery.isLoading) return;
+
+    // If we cannot find a PNM with the given ID, navigate back
+    if (!pnmQuery.pnm) navigation.goBack();
+  }, [pnmQuery.pnm]);
 
   const onMenuButtonPress = () => {
     Keyboard.dismiss();
 
     openBottomSheet("PNM", {
-      pnmId: pnm._id,
+      pnmId,
     });
   };
 
-  useEffect(() => {
-    if (pnmQuery.isLoading) {
-      return;
-    }
-
-    if (!pnmQuery.pnm) navigation.goBack();
-  }, [pnmQuery.pnm]);
+  const pnm = pnmQuery.pnm!;
+  const fullName = `${pnm.firstName} ${pnm.lastName}`;
 
   if (pnmQuery.isLoading) return <LoadingState />;
 
@@ -58,8 +59,9 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({
     <Header
       hasBackButton
       hasMenuButton
-      title={title}
       loading={loading}
+      title={fullName}
+      subtitle={formatPhoneNumber(pnm.phoneNumber)}
       onMenuButtonPress={onMenuButtonPress}
     />
   );
@@ -75,9 +77,14 @@ const LoadingState = () => {
   return (
     <SafeAreaView style={safeAreaStyles}>
       <View style={headerStyles}>
-        <Skeleton height={36} width={36} borderRadius={999} />
+        <View style={tw`flex-row items-center gap-4`}>
+          <Skeleton height={36} width={36} borderRadius={999} />
 
-        <Skeleton width={100} />
+          <View style={tw`gap-1`}>
+            <Skeleton width={100} height={20} borderRadius={6} />
+            <Skeleton width={165} height={16} borderRadius={6} />
+          </View>
+        </View>
 
         <Skeleton height={36} width={36} borderRadius={999} />
       </View>
