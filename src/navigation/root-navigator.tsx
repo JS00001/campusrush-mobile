@@ -26,11 +26,12 @@ import {
   BillingStack,
   VerificationStack,
 } from "@/navigation/stack-navigator";
+import { AppNavigator } from "@/navigation/app-navigator";
+
 import { useAuth } from "@/providers/Auth";
 import { useMetadata } from "@/providers/Metadata";
 import { useQonversion } from "@/providers/Qonversion";
 import { usePreferences } from "@/providers/Preferences";
-import { TabNavigator } from "@/navigation/tab-navigator";
 
 const RootNavigator = () => {
   const [fontsLoaded] = useFonts({
@@ -82,9 +83,8 @@ const RootNavigator = () => {
   // If the user has no active entitlements, we show the BillingStack
   if (lodash.isEmpty(entitlements)) return <BillingStack />;
 
-  // If the user is logged in and verified, we show the TabNavigator
-  // (the main app)
-  return <TabNavigator />;
+  // If the user is logged in and verified, we show the main app
+  return <AppNavigator />;
 };
 
 export default RootNavigator;

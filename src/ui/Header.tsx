@@ -18,10 +18,11 @@ import tw from "@/lib/tailwind";
 import Progress from "@/ui/Progress";
 import IconButton from "@/ui/IconButton";
 import SafeAreaView from "@/ui/SafeAreaView";
-import { hiddenContent } from "@/lib/util/layout";
+import InvisibleWrapper from "@/ui/InvisibleWrapper";
 
 interface HeaderProps extends ViewProps {
   title: string;
+  subtitle: string;
   loading?: boolean;
   hasBackButton?: boolean;
   hasMenuButton?: boolean;
@@ -31,8 +32,9 @@ interface HeaderProps extends ViewProps {
 // TODO: Relook at this component for cleanliness
 const Header: React.FC<HeaderProps> = ({
   title,
+  subtitle,
   children,
-  loading,
+  loading = false,
   hasBackButton = false,
   hasMenuButton = false,
   onMenuButtonPress,
@@ -45,40 +47,44 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   const safeAreaStyles = tw.style("w-full border-b border-slate-200");
-
   const headerStyles = tw.style(
     "justify-between flex-row items-center px-6 py-3",
   );
+  const leftColumnStyles = tw.style("flex-row items-center gap-4");
 
   return (
     <SafeAreaView style={safeAreaStyles} {...props}>
       <View style={headerStyles}>
-        <View {...hiddenContent(hasBackButton)}>
-          <IconButton
-            size="xs"
-            color="secondary"
-            iconName="arrow-left-line"
-            onPress={onBackArrowPress}
-          />
+        <View style={leftColumnStyles}>
+          <InvisibleWrapper visible={hasBackButton}>
+            <IconButton
+              size="xs"
+              color="secondary"
+              iconName="arrow-left-line"
+              style={tw`self-center`}
+              onPress={onBackArrowPress}
+            />
+          </InvisibleWrapper>
+
+          <View>
+            <Text type="h2">{title}</Text>
+            <Text type="p3">{subtitle}</Text>
+          </View>
         </View>
 
-        <Text type="h2" style={tw`font-medium text-primary`}>
-          {title}
-        </Text>
-
-        <View {...hiddenContent(hasMenuButton)}>
+        <InvisibleWrapper visible={hasMenuButton}>
           <IconButton
             size="xs"
             color="secondary"
-            iconName="more-fill"
+            iconName="information-2-line"
             onPress={onMenuButtonPress}
           />
-        </View>
+        </InvisibleWrapper>
       </View>
 
       {children}
 
-      <Progress loading={loading || false} />
+      <Progress loading={!!loading} />
     </SafeAreaView>
   );
 };

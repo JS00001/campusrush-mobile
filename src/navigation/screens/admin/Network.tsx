@@ -16,7 +16,7 @@ import NetworkLogger from "react-native-network-logger";
 import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
 
-const Network: React.FC = () => {
+const Network = () => {
   return (
     <Layout.Root>
       <Layout.Header

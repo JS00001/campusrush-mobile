@@ -12,51 +12,23 @@
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import {
+  AdminTabParams,
+  EventsTabParams,
+  HomeTabParams,
+  MessagesTabParams,
+  PNMsTabParams,
+} from "@/navigation/@types";
+
 import AdminScreen from "@/navigation/screens/admin/Admin";
 import AdminNetwork from "@/navigation/screens/admin/Network";
 import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
-import AdminUIComponentsScreen from "@/navigation/screens/admin/UIComponents";
 import AdminChaptersScreen from "@/navigation/screens/admin/Chapters";
-
-import ActionButtonScreen from "@/navigation/screens/admin/UIComponents/ActionButton";
-import BadgeScreen from "@/navigation/screens/admin/UIComponents/Badge";
-import ButtonScreen from "@/navigation/screens/admin/UIComponents/Button";
-import ButtonGroupScreen from "@/navigation/screens/admin/UIComponents/ButtonGroup";
-import CopyActionScreen from "@/navigation/screens/admin/UIComponents/CopyAction";
-import CopyViewScreen from "@/navigation/screens/admin/UIComponents/CopyView";
-import DateTimePickerScreen from "@/navigation/screens/admin/UIComponents/DateTimePicker";
-import DetailViewScreen from "@/navigation/screens/admin/UIComponents/DetailView";
-import FilterChipScreen from "@/navigation/screens/admin/UIComponents/FilterChip";
-import FormFieldScreen from "@/navigation/screens/admin/UIComponents/FormField";
-import HeadlineScreen from "@/navigation/screens/admin/UIComponents/Headline";
-import HyperlinkScreen from "@/navigation/screens/admin/UIComponents/Hyperlink";
-import IconScreen from "@/navigation/screens/admin/UIComponents/Icon";
-import IconButtonScreen from "@/navigation/screens/admin/UIComponents/IconButton";
-import IconLabelScreen from "@/navigation/screens/admin/UIComponents/IconLabel";
-import InformationScreen from "@/navigation/screens/admin/UIComponents/Information";
-import ListItemScreen from "@/navigation/screens/admin/UIComponents/ListItem";
-import MenuScreen from "@/navigation/screens/admin/UIComponents/Menu";
-import MessageBubbleScreen from "@/navigation/screens/admin/UIComponents/MessageBubble";
-import ModalScreen from "@/navigation/screens/admin/UIComponents/Modal";
-import ProgressScreen from "@/navigation/screens/admin/UIComponents/Progress";
-import SegmentedControlScreen from "@/navigation/screens/admin/UIComponents/SegmentedControl";
-import SelectScreen from "@/navigation/screens/admin/UIComponents/Select";
-import SelectionCardScreen from "@/navigation/screens/admin/UIComponents/SelectionCard";
-import SkeletonScreen from "@/navigation/screens/admin/UIComponents/Skeleton";
-import SwipeableScreen from "@/navigation/screens/admin/UIComponents/Swipeable";
-import SwitchScreen from "@/navigation/screens/admin/UIComponents/Switch";
-import TabsScreen from "@/navigation/screens/admin/UIComponents/Tabs";
-import TextScreen from "@/navigation/screens/admin/UIComponents/Text";
-import TextInputScreen from "@/navigation/screens/admin/UIComponents/TextInput";
-import TooltipScreen from "@/navigation/screens/admin/UIComponents/Tooltip";
-import TypewriterScreen from "@/navigation/screens/admin/UIComponents/Typewriter";
 
 import PNMsScreen from "@/navigation/screens/pnms/Pnms";
 
 import HomeScreen from "@/navigation/screens/home/Home";
-import ChatScreen from "@/navigation/screens/messages/Chat";
 import MessagesScreen from "@/navigation/screens/messages/Messages";
-import NewMessageScreen from "@/navigation/screens/messages/NewMessage";
 
 import BillingScreen from "@/navigation/screens/billing/Billing";
 import BillingTourStep1 from "@/navigation/screens/billing/tour/Step1";
@@ -87,8 +59,6 @@ import UpdateChapterScreen from "@/navigation/screens/settings/chapter/UpdateCha
 import EventsScreen from "@/navigation/screens/events/Events";
 import { usePreferences } from "@/providers/Preferences";
 
-export const Stack = createNativeStackNavigator();
-
 /**
  * Stack Navigator for Auth Screens
  *
@@ -96,6 +66,8 @@ export const Stack = createNativeStackNavigator();
  * process should be fully isolated from the rest of the app
  */
 export const AuthStack = () => {
+  const Stack = createNativeStackNavigator();
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -140,6 +112,8 @@ export const AuthStack = () => {
  * and the authentication process
  */
 export const VerificationStack = () => {
+  const Stack = createNativeStackNavigator();
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -162,6 +136,8 @@ export const VerificationStack = () => {
  * to the onboarding process first. Else, straight to the billing screen.
  */
 export const BillingStack = () => {
+  const Stack = createNativeStackNavigator();
+
   const { onboardingComplete } = usePreferences();
   const initialRouteName = onboardingComplete ? "Billing" : "BillingTourStep1";
 
@@ -209,6 +185,8 @@ export const BillingStack = () => {
  * when the user is on the "Home" tab
  */
 export const HomeStack = () => {
+  const Stack = createNativeStackNavigator<HomeTabParams>();
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
@@ -258,6 +236,8 @@ export const HomeStack = () => {
  * when the user is on the "PNMs" tab
  */
 export const PNMsStack = () => {
+  const Stack = createNativeStackNavigator<PNMsTabParams>();
+
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
@@ -278,6 +258,8 @@ export const PNMsStack = () => {
  * when the user is on the "Messages" tab
  */
 export const MessagesStack = () => {
+  const Stack = createNativeStackNavigator<MessagesTabParams>();
+
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, animationTypeForReplace: "pop" }}
@@ -285,14 +267,6 @@ export const MessagesStack = () => {
       <Stack.Screen
         name="Messages"
         component={MessagesScreen}
-      />
-      <Stack.Screen
-        name="NewMessage"
-        component={NewMessageScreen}
-      />
-      <Stack.Screen
-        name="Chat"
-        component={ChatScreen}
       />
     </Stack.Navigator>
   );
@@ -305,6 +279,8 @@ export const MessagesStack = () => {
  * when the user is on the "Events" tab
  */
 export const EventsStack = () => {
+  const Stack = createNativeStackNavigator<EventsTabParams>();
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
@@ -322,6 +298,8 @@ export const EventsStack = () => {
  * when the user is on the "Admin" tab and is an admin
  */
 export const AdminStack = () => {
+  const Stack = createNativeStackNavigator<AdminTabParams>();
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
@@ -333,144 +311,12 @@ export const AdminStack = () => {
         component={AdminChaptersScreen}
       />
       <Stack.Screen
-        name="AdminUIComponents"
-        component={AdminUIComponentsScreen}
-      />
-      <Stack.Screen
         name="AdminUITesting"
         component={AdminUITestingScreen}
       />
       <Stack.Screen
         name="AdminNetwork"
         component={AdminNetwork}
-      />
-      <Stack.Screen
-        name="UIActionButton"
-        component={ActionButtonScreen}
-      />
-      <Stack.Screen
-        name="UIBadge"
-        component={BadgeScreen}
-      />
-      <Stack.Screen
-        name="UIButton"
-        component={ButtonScreen}
-      />
-      <Stack.Screen
-        name="UIBtnGroup"
-        component={ButtonGroupScreen}
-      />
-      <Stack.Screen
-        name="UICopyAction"
-        component={CopyActionScreen}
-      />
-      <Stack.Screen
-        name="UICopyView"
-        component={CopyViewScreen}
-      />
-      <Stack.Screen
-        name="UIDateTimePicker"
-        component={DateTimePickerScreen}
-      />
-      <Stack.Screen
-        name="UIDetailView"
-        component={DetailViewScreen}
-      />
-      <Stack.Screen
-        name="UIFilterChip"
-        component={FilterChipScreen}
-      />
-      <Stack.Screen
-        name="UIFormField"
-        component={FormFieldScreen}
-      />
-      <Stack.Screen
-        name="UIHeadline"
-        component={HeadlineScreen}
-      />
-      <Stack.Screen
-        name="UIHyperlink"
-        component={HyperlinkScreen}
-      />
-      <Stack.Screen
-        name="UIIcon"
-        component={IconScreen}
-      />
-      <Stack.Screen
-        name="UIIconButton"
-        component={IconButtonScreen}
-      />
-      <Stack.Screen
-        name="UIIconLabel"
-        component={IconLabelScreen}
-      />
-      <Stack.Screen
-        name="UIInformation"
-        component={InformationScreen}
-      />
-      <Stack.Screen
-        name="UIListItem"
-        component={ListItemScreen}
-      />
-      <Stack.Screen
-        name="UIMenu"
-        component={MenuScreen}
-      />
-      <Stack.Screen
-        name="UIMessageBubble"
-        component={MessageBubbleScreen}
-      />
-      <Stack.Screen
-        name="UIModal"
-        component={ModalScreen}
-      />
-      <Stack.Screen
-        name="UIProgress"
-        component={ProgressScreen}
-      />
-      <Stack.Screen
-        name="UISegmentedControl"
-        component={SegmentedControlScreen}
-      />
-      <Stack.Screen
-        name="UISelect"
-        component={SelectScreen}
-      />
-      <Stack.Screen
-        name="UISelectionCard"
-        component={SelectionCardScreen}
-      />
-      <Stack.Screen
-        name="UISkeleton"
-        component={SkeletonScreen}
-      />
-      <Stack.Screen
-        name="UISwipeable"
-        component={SwipeableScreen}
-      />
-      <Stack.Screen
-        name="UISwitch"
-        component={SwitchScreen}
-      />
-      <Stack.Screen
-        name="UITabs"
-        component={TabsScreen}
-      />
-      <Stack.Screen
-        name="UIText"
-        component={TextScreen}
-      />
-      <Stack.Screen
-        name="UITextInput"
-        component={TextInputScreen}
-      />
-      <Stack.Screen
-        name="UITooltip"
-        component={TooltipScreen}
-      />
-      <Stack.Screen
-        name="UITypewriter"
-        component={TypewriterScreen}
       />
     </Stack.Navigator>
   );

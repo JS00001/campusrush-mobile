@@ -37,6 +37,7 @@ const OnboardingButtons: React.FC<OnboardingButtonsProps> = ({
   const isFirstStep = currentStep === 1;
   const isLastStep = currentStep === pages.length;
 
+  // TODO: Add types for non-tab navigation
   const navigate = navigation.navigate as any;
   const primaryText = isLastStep ? "Let's Go!" : "Next";
 

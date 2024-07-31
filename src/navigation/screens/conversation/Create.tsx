@@ -13,7 +13,6 @@
 import { useState } from "react";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import {
   useContactStore,
@@ -22,18 +21,16 @@ import {
   useStatusStore,
 } from "@/store";
 import { useSendMassMessage } from "@/hooks/api/messaging";
+import { ConversationStackProps } from "@/navigation/@types";
 
 import { Layout } from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
 import MassMessageHeader from "@/components/Headers/MassMessage";
 
-interface NewMessageProps {
-  route: any;
-  navigation: NativeStackNavigationProp<any>;
-}
+type Props = ConversationStackProps<"Create">;
 
-const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
-  const initialPnms: PNM[] = route.params.pnms;
+const Create: React.FC<Props> = ({ navigation, route }) => {
+  const initialPnms = route.params.pnms;
 
   const [pnms, setPnms] = useState(initialPnms);
 
@@ -44,7 +41,7 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
   const setStatus = useStatusStore((s) => s.setStatus);
 
   const onMessageSend = async (messages: string[]) => {
-    (navigation.navigate as any)("Messages");
+    navigation.goBack();
 
     setStatus("loading");
 
@@ -96,11 +93,11 @@ const NewMessage: React.FC<NewMessageProps> = ({ navigation, route }) => {
         <View />
       </Layout.Content>
 
-      <Layout.Footer keyboardAvoiding>
+      <Layout.Footer>
         <MessageBox onSend={onMessageSend} />
       </Layout.Footer>
     </Layout.Root>
   );
 };
 
-export default NewMessage;
+export default Create;

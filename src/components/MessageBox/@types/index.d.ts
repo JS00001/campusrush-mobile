@@ -19,7 +19,6 @@ interface ExtensionPanelProps {
   visible: boolean;
   setEvent: (event: Event) => void;
   setVisible: (visible: boolean) => void;
-  animateMessageBox: (toValue: number, duration?: number) => void;
 }
 
 interface TextSuggestion {

@@ -19,14 +19,6 @@ interface AlertProps {
 }
 
 /**
- * Waits for a specified amount of time when
- * awaited in an async function.
- */
-export const waitFor = (ms: number) => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
-
-/**
  * Alerts the user with a message.
  */
 export const alert = ({ title, message, buttons }: AlertProps) => {

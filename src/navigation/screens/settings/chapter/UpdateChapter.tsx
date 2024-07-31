@@ -10,18 +10,15 @@
  * Do not distribute
  */
 
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
 import { Layout } from "@/ui/Layout";
 import ListItem from "@/ui/ListItem";
 import FormField from "@/ui/FormField";
 import { useAuth } from "@/providers/Auth";
+import type { HomeStackProps } from "@/navigation/@types";
 
-interface UpdateChapterProps {
-  navigation: NativeStackNavigationProp<any>;
-}
+type Props = HomeStackProps<"UpdateChapter">;
 
-const UpdateChapter: React.FC<UpdateChapterProps> = ({ navigation }) => {
+const UpdateChapter: React.FC<Props> = ({ navigation }) => {
   const { chapter } = useAuth();
 
   const onGeneralPress = () => {

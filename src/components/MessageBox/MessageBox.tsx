@@ -10,9 +10,13 @@
  * Do not distribute
  */
 
+import Animated, {
+  Easing,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import { useRef, useState } from "react";
 import { View, Keyboard, TextInput as RNTextInput } from "react-native";
-import Animated, { useSharedValue, withTiming } from "react-native-reanimated";
 
 import TextInput from "./TextInput";
 import ExtensionPanel from "./ExtensionPanel";
@@ -20,12 +24,12 @@ import TextSuggestions from "./TextSuggestions";
 import EventAttachment from "./ExtensionPanel/Extensions/Event/Attachment";
 
 import tw from "@/lib/tailwind";
-import { waitFor } from "@/lib/util";
 import AppConstants from "@/constants";
 import IconButton from "@/ui/IconButton";
 import { eventsRegex } from "@/constants/regex";
 import Walkthroughs from "@/components/Walkthroughs";
 import { usePreferences } from "@/providers/Preferences";
+import useKeyboardListener from "@/hooks/useKeyboardListener";
 
 interface MessageBoxProps {
   disableSend?: boolean;
@@ -34,6 +38,7 @@ interface MessageBoxProps {
 
 const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
   const minHeight = useSharedValue(0);
+  const { messagingTooltipSeen, updatePreferences } = usePreferences();
 
   const [value, setValue] = useState<string>("");
   const [event, setEvent] = useState<Event | null>(null);
@@ -42,7 +47,16 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
   const textInputRef = useRef<RNTextInput>(null);
   const extensionPanelRef = useRef<ExtensionPanelRef>(null);
 
-  const { messagingTooltipSeen, updatePreferences } = usePreferences();
+  useKeyboardListener({
+    onKeyboardWillShow: () => {
+      extensionPanelRef.current?.closePanel();
+      animateMessageBox(1);
+    },
+    onKeyboardWillHide: () => {
+      if (extensionsVisible) return;
+      animateMessageBox(0);
+    },
+  });
 
   const onExtensionsPress = async () => {
     // If we are closing the extension panel...
@@ -54,27 +68,22 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
 
     // If we are opening the extensions panel
     else {
-      if (textInputRef.current?.isFocused()) {
-        const KEYBOARD_ANIMATION_DURATION = 250; // How long the ios keyboard takes to animate down
-
-        Keyboard.dismiss();
-        await waitFor(KEYBOARD_ANIMATION_DURATION);
-      }
-
-      const ANIMATION_DURATION = 200;
-
-      animateMessageBox(1, ANIMATION_DURATION);
-
       extensionPanelRef.current?.openPanel();
+      Keyboard.dismiss();
+      animateMessageBox(1);
     }
   };
 
-  const animateMessageBox = (toValue: number, duration?: number) => {
-    const BOTTOM_SHEET_HEIGHT = 240;
+  const animateMessageBox = (toValue: number) => {
+    const BOTTOM_SHEET_HEIGHT = 304;
+    const IOS_KEYBOARD_ANIMATION_DURATION = 250;
+    const IOS_KEYBOARD_EASING = Easing.bezier(0.33, 1, 0.68, 1);
+
     const adjustedValue = toValue * BOTTOM_SHEET_HEIGHT;
 
     minHeight.value = withTiming(adjustedValue, {
-      duration: duration || 300,
+      duration: IOS_KEYBOARD_ANIMATION_DURATION,
+      easing: IOS_KEYBOARD_EASING,
     });
   };
 
@@ -106,7 +115,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
   };
 
   const containerClasses = tw.style(
-    "gap-2.5 px-3 py-2 border-t border-b items-start",
+    "gap-2.5 px-3 py-2 border-t items-start",
     "border-slate-100 ",
   );
 
@@ -131,7 +140,6 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
         visible={extensionsVisible}
         setEvent={setEvent}
         setVisible={setExtensionsVisible}
-        animateMessageBox={animateMessageBox}
       />
 
       <Animated.View style={[containerClasses, { marginBottom: minHeight }]}>
