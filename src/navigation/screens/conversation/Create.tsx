@@ -93,7 +93,7 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
         <View />
       </Layout.Content>
 
-      <Layout.Footer keyboardAvoiding>
+      <Layout.Footer>
         <MessageBox onSend={onMessageSend} />
       </Layout.Footer>
     </Layout.Root>
