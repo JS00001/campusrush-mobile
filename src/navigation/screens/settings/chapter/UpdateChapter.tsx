@@ -14,9 +14,9 @@ import { Layout } from "@/ui/Layout";
 import ListItem from "@/ui/ListItem";
 import FormField from "@/ui/FormField";
 import { useAuth } from "@/providers/Auth";
-import { NavigationProp } from "@/navigation/@types";
+import type { HomeStackProps } from "@/navigation/@types";
 
-type Props = NavigationProp<"HomeTab", "UpdateChapter">;
+type Props = HomeStackProps<"UpdateChapter">;
 
 const UpdateChapter: React.FC<Props> = ({ navigation }) => {
   const { chapter } = useAuth();

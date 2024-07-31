@@ -12,9 +12,9 @@
 
 import { Layout } from "@/ui/Layout";
 import TagView from "@/components/TagView";
-import { NavigationProp } from "@/navigation/@types";
+import type { AdminStackProps } from "@/navigation/@types";
 
-type Props = NavigationProp<"AdminTab", "AdminUITesting">;
+type Props = AdminStackProps<"AdminUITesting">;
 
 const UITestingScreen: React.FC<Props> = ({}) => {
   return (

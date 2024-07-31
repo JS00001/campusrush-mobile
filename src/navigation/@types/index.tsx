@@ -20,60 +20,121 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 /** Update the 'useNavigation' hook to include the new screens */
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends TabParamList {}
+    interface RootParamList extends AppStackParams {}
   }
 }
 
-/** All of the screen and their params inside of the tab navigator */
-export type TabStackParams = {
-  HomeTab: {
-    Home: undefined;
-    Settings: undefined;
-    LinkSharing: undefined;
-    PhoneNumber: undefined;
-    UpdateBilling: undefined;
-    UpdateChapter: undefined;
-    UpdateGeneral: undefined;
-    UpdateSecurity: undefined;
-    UpdateNotifications: undefined;
-  };
-  PNMsTab: {
-    PNMs: undefined;
-  };
-  AddTab: {
-    AddPnms: undefined;
-  };
-  MessagesTab: {
-    Messages: undefined;
-    Chat: { pnm: PNM };
-    NewMessage: { pnms: PNM[] };
-  };
-  EventsTab: {
-    Events: undefined;
-  };
-  AdminTab: {
-    Admin: undefined;
-    AdminChapters: undefined;
-    AdminUITesting: undefined;
-    AdminNetwork: undefined;
-  };
+export type HomeTabParams = {
+  Home: undefined;
+  Settings: undefined;
+  LinkSharing: undefined;
+  PhoneNumber: undefined;
+  UpdateBilling: undefined;
+  UpdateChapter: undefined;
+  UpdateGeneral: undefined;
+  UpdateSecurity: undefined;
+  UpdateNotifications: undefined;
 };
 
-export type TabParamList = {
-  [K in keyof TabStackParams]: NavigatorScreenParams<TabStackParams[K]>;
+export type PNMsTabParams = {
+  PNMs: undefined;
 };
 
-export type NavigationProp<
-  Tab extends keyof TabStackParams,
-  RouteName extends Extract<keyof TabStackParams[Tab], string>,
+export type AddTabParams = {
+  AddPnms: undefined;
+};
+
+export type MessagesTabParams = {
+  Messages: undefined;
+};
+
+export type EventsTabParams = {
+  Events: undefined;
+};
+
+export type AdminTabParams = {
+  Admin: undefined;
+  AdminChapters: undefined;
+  AdminUITesting: undefined;
+  AdminNetwork: undefined;
+};
+
+export type MainStackParams = {
+  HomeTab: NavigatorScreenParams<HomeTabParams>;
+  PNMsTab: NavigatorScreenParams<PNMsTabParams>;
+  AddTab: NavigatorScreenParams<AddTabParams>;
+  MessagesTab: NavigatorScreenParams<MessagesTabParams>;
+  EventsTab: NavigatorScreenParams<EventsTabParams>;
+  AdminTab: NavigatorScreenParams<AdminTabParams>;
+};
+
+export type ConversationStackParams = {
+  Chat: { pnm: PNM };
+  Create: { pnms: PNM[] };
+};
+
+export type AppStackParams = {
+  Main: NavigatorScreenParams<MainStackParams>;
+  Conversation: NavigatorScreenParams<ConversationStackParams>;
+};
+
+export type HomeStackProps<Screen extends keyof HomeTabParams> =
+  CompositeScreenProps<
+    CompositeScreenProps<
+      NativeStackScreenProps<HomeTabParams, Screen>,
+      BottomTabScreenProps<MainStackParams, "HomeTab">
+    >,
+    NativeStackScreenProps<AppStackParams, "Main">
+  >;
+
+export type PNMsStackProps<Screen extends keyof PNMsTabParams> =
+  CompositeScreenProps<
+    CompositeScreenProps<
+      NativeStackScreenProps<PNMsTabParams, Screen>,
+      BottomTabScreenProps<MainStackParams, "PNMsTab">
+    >,
+    NativeStackScreenProps<AppStackParams, "Main">
+  >;
+
+export type AddStackProps<Screen extends keyof AddTabParams> =
+  CompositeScreenProps<
+    CompositeScreenProps<
+      NativeStackScreenProps<AddTabParams, Screen>,
+      BottomTabScreenProps<MainStackParams, "AddTab">
+    >,
+    NativeStackScreenProps<AppStackParams, "Main">
+  >;
+
+export type MessagesStackProps<Screen extends keyof MessagesTabParams> =
+  CompositeScreenProps<
+    CompositeScreenProps<
+      NativeStackScreenProps<MessagesTabParams, Screen>,
+      BottomTabScreenProps<MainStackParams, "MessagesTab">
+    >,
+    NativeStackScreenProps<AppStackParams, "Main">
+  >;
+
+export type EventsStackProps<Screen extends keyof EventsTabParams> =
+  CompositeScreenProps<
+    CompositeScreenProps<
+      NativeStackScreenProps<EventsTabParams, Screen>,
+      BottomTabScreenProps<MainStackParams, "EventsTab">
+    >,
+    NativeStackScreenProps<AppStackParams, "Main">
+  >;
+
+export type AdminStackProps<Screen extends keyof AdminTabParams> =
+  CompositeScreenProps<
+    CompositeScreenProps<
+      NativeStackScreenProps<AdminTabParams, Screen>,
+      BottomTabScreenProps<MainStackParams, "AdminTab">
+    >,
+    NativeStackScreenProps<AppStackParams, "Main">
+  >;
+
+export type ConversationStackProps<
+  Screen extends keyof ConversationStackParams,
 > = CompositeScreenProps<
-  NativeStackScreenProps<TabStackParams[Tab], RouteName>,
-  BottomTabScreenProps<TabParamList, Tab>
+  NativeStackScreenProps<ConversationStackParams, Screen>,
+  NativeStackScreenProps<AppStackParams, "Conversation">
 >;
-
-export type HomeStackScreens = TabStackParams["HomeTab"];
-export type PNMsStackScreens = TabStackParams["PNMsTab"];
-export type AddStackScreens = TabStackParams["AddTab"];
-export type MessagesStackScreens = TabStackParams["MessagesTab"];
-export type EventsStackScreens = TabStackParams["EventsTab"];
-export type AdminStackScreens = TabStackParams["AdminTab"];

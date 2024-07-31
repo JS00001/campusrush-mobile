@@ -20,11 +20,15 @@ import {
   useGetConversation,
   useSendDirectMessage,
 } from "@/hooks/api/messaging";
+
 import {
   useContactStore,
   useMessageStore,
   useConversationStore,
 } from "@/store";
+
+import { ConversationStackProps } from "@/navigation/@types";
+
 import tw from "@/lib/tailwind";
 import FlatList from "@/ui/FlatList";
 import messaging from "@/lib/messages";
@@ -32,10 +36,9 @@ import { useAuth } from "@/providers/Auth";
 import SocketInput from "@/lib/socketInput";
 import MessageBubble from "@/ui/MessageBubble";
 import { useWebsocket } from "@/providers/websocket";
-import { NavigationProp } from "@/navigation/@types";
 import DirectMessageHeader from "@/components/Headers/DirectMessage";
 
-type Props = NavigationProp<"MessagesTab", "Chat">;
+type Props = ConversationStackProps<"Chat">;
 
 const Chat: React.FC<Props> = ({ route }) => {
   const pnm = route.params.pnm;
@@ -183,33 +186,31 @@ const Chat: React.FC<Props> = ({ route }) => {
         />
       </Layout.CustomHeader>
 
-      <Layout.Content gap={8} removePadding>
-        <FlatList
-          inverted
-          disableOnRefresh
-          disableOnEndReached={!conversationQuery.hasNextPage}
-          data={messaging.groupByDate(messages ?? [])}
-          style={tw`w-full px-4`}
-          // We need to add "padding top" because the flatlist is inverted
-          contentContainerStyle={tw`pt-6 pb-0`}
-          ListEmptyComponent={<></>}
-          onEndReached={onEndReached}
-          onScrollBeginDrag={onScrollBeginDrag}
-          renderItem={({ item }) => (
-            <MessageBubble
-              key={item._id}
-              content={item.content}
-              sent={item.sent}
-              date={item.showDate ? item.date : undefined}
-              createdAt={
-                item.showTimestamp ? item.createdAt.toString() : undefined
-              }
-            />
-          )}
-        />
-      </Layout.Content>
+      <FlatList
+        inverted
+        disableOnRefresh
+        disableOnEndReached={!conversationQuery.hasNextPage}
+        data={messaging.groupByDate(messages ?? [])}
+        style={tw`w-full px-4`}
+        // We need to add "padding top" because the flatlist is inverted
+        contentContainerStyle={tw`pt-6 pb-0`}
+        ListEmptyComponent={<></>}
+        onEndReached={onEndReached}
+        onScrollBeginDrag={onScrollBeginDrag}
+        renderItem={({ item }) => (
+          <MessageBubble
+            key={item._id}
+            content={item.content}
+            sent={item.sent}
+            date={item.showDate ? item.date : undefined}
+            createdAt={
+              item.showTimestamp ? item.createdAt.toString() : undefined
+            }
+          />
+        )}
+      />
 
-      <Layout.Footer keyboardAvoiding>
+      <Layout.Footer>
         <MessageBox
           onSend={sendDirectMessages}
           disableSend={sendMessageMutation.isLoading}

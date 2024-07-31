@@ -32,8 +32,11 @@ const HomeView = () => {
   const statisticsQuery = useGetChapterStatistics();
 
   const onSettingsPress = () => {
-    navigation.navigate("HomeTab", {
-      screen: "Settings",
+    navigation.navigate("Main", {
+      screen: "HomeTab",
+      params: {
+        screen: "Settings",
+      },
     });
   };
 

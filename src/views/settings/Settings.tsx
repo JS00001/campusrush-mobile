@@ -42,32 +42,47 @@ const SettingsView = () => {
   };
 
   const onUpdateChapterPress = () => {
-    navigation.navigate("HomeTab", {
-      screen: "UpdateChapter",
+    navigation.navigate("Main", {
+      screen: "HomeTab",
+      params: {
+        screen: "UpdateChapter",
+      },
     });
   };
 
   const onPhoneNumberPress = () => {
-    navigation.navigate("HomeTab", {
-      screen: "PhoneNumber",
+    navigation.navigate("Main", {
+      screen: "HomeTab",
+      params: {
+        screen: "PhoneNumber",
+      },
     });
   };
 
   const onUpdateBillingPress = () => {
-    navigation.navigate("HomeTab", {
-      screen: "UpdateBilling",
+    navigation.navigate("Main", {
+      screen: "HomeTab",
+      params: {
+        screen: "UpdateBilling",
+      },
     });
   };
 
   const onUpdateNotificationsPress = () => {
-    navigation.navigate("HomeTab", {
-      screen: "UpdateNotifications",
+    navigation.navigate("Main", {
+      screen: "HomeTab",
+      params: {
+        screen: "UpdateNotifications",
+      },
     });
   };
 
   const onLinkSharingPress = () => {
-    navigation.navigate("HomeTab", {
-      screen: "LinkSharing",
+    navigation.navigate("Main", {
+      screen: "HomeTab",
+      params: {
+        screen: "LinkSharing",
+      },
     });
   };
 

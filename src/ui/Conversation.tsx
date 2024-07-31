@@ -43,7 +43,7 @@ const Conversation: React.FC<ConversationProps> = ({
   );
 
   const onPress = () => {
-    navigation.navigate("MessagesTab", {
+    navigation.navigate("Conversation", {
       screen: "Chat",
       params: {
         pnm: conversation.pnm as PNM,

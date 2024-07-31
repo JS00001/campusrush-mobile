@@ -22,17 +22,9 @@ import Tabs from "@/ui/Tabs";
 import tw from "@/lib/tailwind";
 import FlatList from "@/ui/FlatList";
 import { useGetEvents } from "@/hooks/api/events";
-import useKeyboardListener from "@/hooks/useKeyboardListener";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
-  ({ setVisible, setEvent, animateMessageBox }: ExtensionPanelProps, ref) => {
-    useKeyboardListener({
-      onKeyboardWillShow: () => {
-        closePanel();
-        animateMessageBox(0, 200);
-      },
-    });
-
+  ({ setVisible, setEvent }: ExtensionPanelProps, ref) => {
     const [activeTab, setActiveTab] = useState(0);
 
     const eventsQuery = useGetEvents();
@@ -62,7 +54,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
       <BottomSheetModal
         ref={bottomSheetRef}
         index={0}
-        snapPoints={[328]}
+        snapPoints={[334]}
         enablePanDownToClose={false}
         backgroundStyle={tw`rounded-none`}
       >

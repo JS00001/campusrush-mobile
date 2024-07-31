@@ -13,12 +13,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
-  HomeStackScreens,
-  PNMsStackScreens,
-  MessagesStackScreens,
-  EventsStackScreens,
-  AdminStackScreens,
-} from "@/navigation/@types/index";
+  AdminTabParams,
+  EventsTabParams,
+  HomeTabParams,
+  MessagesTabParams,
+  PNMsTabParams,
+} from "@/navigation/@types";
 
 import AdminScreen from "@/navigation/screens/admin/Admin";
 import AdminNetwork from "@/navigation/screens/admin/Network";
@@ -28,9 +28,7 @@ import AdminChaptersScreen from "@/navigation/screens/admin/Chapters";
 import PNMsScreen from "@/navigation/screens/pnms/Pnms";
 
 import HomeScreen from "@/navigation/screens/home/Home";
-import ChatScreen from "@/navigation/screens/messages/Chat";
 import MessagesScreen from "@/navigation/screens/messages/Messages";
-import NewMessageScreen from "@/navigation/screens/messages/NewMessage";
 
 import BillingScreen from "@/navigation/screens/billing/Billing";
 import BillingTourStep1 from "@/navigation/screens/billing/tour/Step1";
@@ -61,14 +59,6 @@ import UpdateChapterScreen from "@/navigation/screens/settings/chapter/UpdateCha
 import EventsScreen from "@/navigation/screens/events/Events";
 import { usePreferences } from "@/providers/Preferences";
 
-const Stack = createNativeStackNavigator();
-
-const HomeNavigation = createNativeStackNavigator<HomeStackScreens>();
-const PnmsNavigation = createNativeStackNavigator<PNMsStackScreens>();
-const MessagesNavigation = createNativeStackNavigator<MessagesStackScreens>();
-const EventsNavigation = createNativeStackNavigator<EventsStackScreens>();
-const AdminNavigation = createNativeStackNavigator<AdminStackScreens>();
-
 /**
  * Stack Navigator for Auth Screens
  *
@@ -76,6 +66,8 @@ const AdminNavigation = createNativeStackNavigator<AdminStackScreens>();
  * process should be fully isolated from the rest of the app
  */
 export const AuthStack = () => {
+  const Stack = createNativeStackNavigator();
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -120,6 +112,8 @@ export const AuthStack = () => {
  * and the authentication process
  */
 export const VerificationStack = () => {
+  const Stack = createNativeStackNavigator();
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -142,6 +136,8 @@ export const VerificationStack = () => {
  * to the onboarding process first. Else, straight to the billing screen.
  */
 export const BillingStack = () => {
+  const Stack = createNativeStackNavigator();
+
   const { onboardingComplete } = usePreferences();
   const initialRouteName = onboardingComplete ? "Billing" : "BillingTourStep1";
 
@@ -189,45 +185,47 @@ export const BillingStack = () => {
  * when the user is on the "Home" tab
  */
 export const HomeStack = () => {
+  const Stack = createNativeStackNavigator<HomeTabParams>();
+
   return (
-    <HomeNavigation.Navigator screenOptions={{ headerShown: false }}>
-      <HomeNavigation.Screen
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
         name="Home"
         component={HomeScreen}
       />
-      <HomeNavigation.Screen
+      <Stack.Screen
         name="Settings"
         component={SettingsScreen}
       />
-      <HomeNavigation.Screen
+      <Stack.Screen
         name="LinkSharing"
         component={LinkSharingScreen}
       />
-      <HomeNavigation.Screen
+      <Stack.Screen
         name="PhoneNumber"
         component={PhoneNumber}
       />
-      <HomeNavigation.Screen
+      <Stack.Screen
         name="UpdateBilling"
         component={UpdateBillingScreen}
       />
-      <HomeNavigation.Screen
+      <Stack.Screen
         name="UpdateChapter"
         component={UpdateChapterScreen}
       />
-      <HomeNavigation.Screen
+      <Stack.Screen
         name="UpdateGeneral"
         component={UpdateGeneralScreen}
       />
-      <HomeNavigation.Screen
+      <Stack.Screen
         name="UpdateSecurity"
         component={UpdateSecurityScreen}
       />
-      <HomeNavigation.Screen
+      <Stack.Screen
         name="UpdateNotifications"
         component={UpdateNotificationsScreen}
       />
-    </HomeNavigation.Navigator>
+    </Stack.Navigator>
   );
 };
 
@@ -238,16 +236,18 @@ export const HomeStack = () => {
  * when the user is on the "PNMs" tab
  */
 export const PNMsStack = () => {
+  const Stack = createNativeStackNavigator<PNMsTabParams>();
+
   return (
-    <PnmsNavigation.Navigator
+    <Stack.Navigator
       screenOptions={{ headerShown: false }}
       initialRouteName="PNMs"
     >
-      <PnmsNavigation.Screen
+      <Stack.Screen
         name="PNMs"
         component={PNMsScreen}
       />
-    </PnmsNavigation.Navigator>
+    </Stack.Navigator>
   );
 };
 
@@ -258,23 +258,17 @@ export const PNMsStack = () => {
  * when the user is on the "Messages" tab
  */
 export const MessagesStack = () => {
+  const Stack = createNativeStackNavigator<MessagesTabParams>();
+
   return (
-    <MessagesNavigation.Navigator
+    <Stack.Navigator
       screenOptions={{ headerShown: false, animationTypeForReplace: "pop" }}
     >
-      <MessagesNavigation.Screen
+      <Stack.Screen
         name="Messages"
         component={MessagesScreen}
       />
-      <MessagesNavigation.Screen
-        name="NewMessage"
-        component={NewMessageScreen}
-      />
-      <MessagesNavigation.Screen
-        name="Chat"
-        component={ChatScreen}
-      />
-    </MessagesNavigation.Navigator>
+    </Stack.Navigator>
   );
 };
 
@@ -285,13 +279,15 @@ export const MessagesStack = () => {
  * when the user is on the "Events" tab
  */
 export const EventsStack = () => {
+  const Stack = createNativeStackNavigator<EventsTabParams>();
+
   return (
-    <EventsNavigation.Navigator screenOptions={{ headerShown: false }}>
-      <EventsNavigation.Screen
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
         name="Events"
         component={EventsScreen}
       />
-    </EventsNavigation.Navigator>
+    </Stack.Navigator>
   );
 };
 
@@ -302,24 +298,26 @@ export const EventsStack = () => {
  * when the user is on the "Admin" tab and is an admin
  */
 export const AdminStack = () => {
+  const Stack = createNativeStackNavigator<AdminTabParams>();
+
   return (
-    <AdminNavigation.Navigator screenOptions={{ headerShown: false }}>
-      <AdminNavigation.Screen
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
         name="Admin"
         component={AdminScreen}
       />
-      <AdminNavigation.Screen
+      <Stack.Screen
         name="AdminChapters"
         component={AdminChaptersScreen}
       />
-      <AdminNavigation.Screen
+      <Stack.Screen
         name="AdminUITesting"
         component={AdminUITestingScreen}
       />
-      <AdminNavigation.Screen
+      <Stack.Screen
         name="AdminNetwork"
         component={AdminNetwork}
       />
-    </AdminNavigation.Navigator>
+    </Stack.Navigator>
   );
 };
