@@ -18,14 +18,15 @@ import usePosthog from "@/hooks/usePosthog";
 import { useRegistrationStore } from "@/store";
 import validators from "@/constants/validators";
 import { useCheckEmail } from "@/hooks/api/auth";
+import { AuthStackHook } from "@/navigation/@types";
 import useFormMutation from "@/hooks/useFormMutation";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep2 = () => {
   const posthog = usePosthog();
   const mutation = useCheckEmail();
-  const navigation = useNavigation();
   const store = useRegistrationStore();
+  const navigation = useNavigation<AuthStackHook>();
 
   const formValidators = {
     email: validators.email,
@@ -58,7 +59,7 @@ const RegistrationStep2 = () => {
         chapter_last_name: form.state.lastName.value,
       });
 
-      (navigation.navigate as any)("RegistrationStep3");
+      navigation.navigate("RegistrationStep3");
     },
   });
 

@@ -22,11 +22,12 @@ import TermsAndConditions from "@/components/TermsAndConditions";
 import schools from "@/constants/schools";
 import chapters from "@/constants/chapters";
 import usePosthog from "@/hooks/usePosthog";
+import { AuthStackHook } from "@/navigation/@types";
 
 const RegistrationStep1View = () => {
   const posthog = usePosthog();
-  const navigation = useNavigation();
   const store = useRegistrationStore();
+  const navigation = useNavigation<AuthStackHook>();
 
   const formValidators = {
     name: z.enum(chapters as [string, ...string[]], {
@@ -60,7 +61,7 @@ const RegistrationStep1View = () => {
       chapter_school: form.state.school.value,
     });
 
-    (navigation.navigate as any)("RegistrationStep2");
+    navigation.navigate("RegistrationStep2");
   };
 
   return (

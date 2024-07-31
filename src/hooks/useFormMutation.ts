@@ -137,9 +137,7 @@ const useFormMutation = <
   const handleSubmission = async () => {
     setLoading(true);
 
-    /**
-     * Step 1: Validate the form client side
-     */
+    /** Step 1: Validate the form client side */
     const isStateValid = validateState();
 
     if (isStateValid === false) {
@@ -147,9 +145,7 @@ const useFormMutation = <
       return;
     }
 
-    /**
-     * Step 2: Call the API
-     */
+    /** Step 2: Call the API */
     try {
       const res = await mutation.mutateAsync(transformedState as TRequest);
 

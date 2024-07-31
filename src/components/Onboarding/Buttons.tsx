@@ -16,10 +16,11 @@ import Button from "@/ui/Button";
 import ButtonGroup from "@/ui/ButtonGroup";
 import usePosthog from "@/hooks/usePosthog";
 import { usePreferences } from "@/providers/Preferences";
+import { BillingStackHook, BillingStackParams } from "@/navigation/@types";
 
 interface OnboardingButtonsProps {
-  pages: string[];
   currentStep: number;
+  pages: (keyof BillingStackParams)[];
 }
 
 /**
@@ -31,19 +32,16 @@ const OnboardingButtons: React.FC<OnboardingButtonsProps> = ({
   currentStep,
 }) => {
   const posthog = usePosthog();
-  const navigation = useNavigation();
   const { updatePreferences } = usePreferences();
+  const navigation = useNavigation<BillingStackHook>();
 
   const isFirstStep = currentStep === 1;
   const isLastStep = currentStep === pages.length;
-
-  // TODO: Add types for non-tab navigation
-  const navigate = navigation.navigate as any;
   const primaryText = isLastStep ? "Let's Go!" : "Next";
 
   const handleNextPress = () => {
     if (isLastStep) {
-      navigate("Billing");
+      navigation.navigate("Billing");
       updatePreferences({ onboardingComplete: true });
 
       posthog.capture("ONBOARDING_COMPLETE", {
@@ -53,7 +51,7 @@ const OnboardingButtons: React.FC<OnboardingButtonsProps> = ({
       return;
     }
 
-    navigate(pages[currentStep]);
+    navigation.navigate(pages[currentStep]);
     posthog.capture("ONBOARDING_NEXT_PRESS", {
       from_page: pages[currentStep - 1],
       to_page: pages[currentStep],
@@ -63,7 +61,7 @@ const OnboardingButtons: React.FC<OnboardingButtonsProps> = ({
   const handleBackPress = () => {
     if (isFirstStep) return;
 
-    navigate(pages[currentStep - 2]);
+    navigation.navigate(pages[currentStep - 2]);
   };
 
   if (isFirstStep) {
