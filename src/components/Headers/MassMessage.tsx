@@ -30,14 +30,13 @@ const MassMessageHeader: React.FC<MassMessageHeaderProps> = ({
   pnms,
   onPnmRemove,
 }) => {
-  const [currentPnms, setCurrentPnms] = useState(
-    pnms.slice(0, VISIBLE_PNM_LIMIT),
-  );
+  const [visiblePnms, setVisiblePnms] = useState(VISIBLE_PNM_LIMIT);
 
-  const pnmsRemovable = currentPnms.length > 2;
+  const pnmsRemovable = pnms.length > 2;
+  const currentPnms = pnms.slice(0, visiblePnms);
 
   const onRemove = (pnm: PNM) => {
-    if (pnms.length > 2) {
+    if (pnmsRemovable) {
       onPnmRemove(pnm);
     }
   };
@@ -47,11 +46,7 @@ const MassMessageHeader: React.FC<MassMessageHeaderProps> = ({
    * 200 badges on first render.
    */
   const onEndReached = () => {
-    const nextPnms = pnms.slice(
-      currentPnms.length,
-      currentPnms.length + VISIBLE_PNM_LIMIT,
-    );
-    setCurrentPnms([...currentPnms, ...nextPnms]);
+    setVisiblePnms((prev) => prev + VISIBLE_PNM_LIMIT);
   };
 
   return (
