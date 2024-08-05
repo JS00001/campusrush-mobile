@@ -12,6 +12,7 @@
 
 import Animated, {
   Easing,
+  useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
@@ -37,7 +38,7 @@ interface MessageBoxProps {
 }
 
 const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
-  const minHeight = useSharedValue(0);
+  const marginBottom = useSharedValue(0);
   const { messagingTooltipSeen, updatePreferences } = usePreferences();
 
   const [value, setValue] = useState<string>("");
@@ -81,7 +82,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
 
     const adjustedValue = toValue * BOTTOM_SHEET_HEIGHT;
 
-    minHeight.value = withTiming(adjustedValue, {
+    marginBottom.value = withTiming(adjustedValue, {
       duration: IOS_KEYBOARD_ANIMATION_DURATION,
       easing: IOS_KEYBOARD_EASING,
     });
@@ -114,6 +115,12 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
     updatePreferences({ messagingTooltipSeen: true });
   };
 
+  const animatedMarginStyle = useAnimatedStyle(() => {
+    return {
+      marginBottom: marginBottom.value,
+    };
+  });
+
   const containerClasses = tw.style(
     "gap-2.5 px-3 py-2 border-t items-start",
     "border-slate-100 ",
@@ -142,7 +149,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
         setVisible={setExtensionsVisible}
       />
 
-      <Animated.View style={[containerClasses, { marginBottom: minHeight }]}>
+      <Animated.View style={[containerClasses, animatedMarginStyle]}>
         {event && <EventAttachment event={event} onPress={removeEvent} />}
 
         <View style={inputContainerClasses}>
