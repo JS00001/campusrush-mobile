@@ -19,6 +19,7 @@ import OnboardingButtons from "./Buttons";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import { BillingStackParams } from "@/navigation/@types";
 
 interface OnboardingProps {
   /** The title to be displayed below the grid */
@@ -26,7 +27,7 @@ interface OnboardingProps {
   /** The description to be displayed below the title */
   description: string;
   /** A list of the onboarding pages in order  */
-  pages: string[];
+  pages: (keyof BillingStackParams)[];
   /** The current step the user is on (starting at index 1) */
   currentStep: number;
   /** The color of the theme for the slide */

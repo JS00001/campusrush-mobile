@@ -14,21 +14,24 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
   AdminTabParams,
+  AuthStackParams,
+  BillingStackParams,
   EventsTabParams,
   HomeTabParams,
   MessagesTabParams,
   PNMsTabParams,
+  VerificationStackParams,
 } from "@/navigation/@types";
 
-import AdminScreen from "@/navigation/screens/admin/Admin";
-import AdminNetwork from "@/navigation/screens/admin/Network";
-import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
-import AdminChaptersScreen from "@/navigation/screens/admin/Chapters";
+import { usePreferences } from "@/providers/Preferences";
 
-import PNMsScreen from "@/navigation/screens/pnms/Pnms";
+import LoginScreen from "@/navigation/screens/auth/Login";
+import LandingScreen from "@/navigation/screens/auth/Landing";
+import RegistrationStep1Screen from "@/navigation/screens/auth/RegistrationStep1";
+import RegistrationStep2Screen from "@/navigation/screens/auth/RegistrationStep2";
+import RegistrationStep3Screen from "@/navigation/screens/auth/RegistrationStep3";
 
-import HomeScreen from "@/navigation/screens/home/Home";
-import MessagesScreen from "@/navigation/screens/messages/Messages";
+import VerificationScreen from "@/navigation/screens/verification/Verification";
 
 import BillingScreen from "@/navigation/screens/billing/Billing";
 import BillingTourStep1 from "@/navigation/screens/billing/tour/Step1";
@@ -38,26 +41,26 @@ import BillingTourStep4 from "@/navigation/screens/billing/tour/Step4";
 import BillingTourStep5 from "@/navigation/screens/billing/tour/Step5";
 import BillingTourStep6 from "@/navigation/screens/billing/tour/Step6";
 
-import VerificationScreen from "@/navigation/screens/verification/Verification";
+import AdminScreen from "@/navigation/screens/admin/Admin";
+import AdminNetwork from "@/navigation/screens/admin/Network";
+import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
+import AdminChaptersScreen from "@/navigation/screens/admin/Chapters";
 
-import LoginScreen from "@/navigation/screens/auth/Login";
-import LandingScreen from "@/navigation/screens/auth/Landing";
-import UITestingScreen from "@/navigation/screens/auth/UITesting";
-import RegistrationStep1Screen from "@/navigation/screens/auth/RegistrationStep1";
-import RegistrationStep2Screen from "@/navigation/screens/auth/RegistrationStep2";
-import RegistrationStep3Screen from "@/navigation/screens/auth/RegistrationStep3";
+import PNMsScreen from "@/navigation/screens/pnms/Pnms";
 
-import SettingsScreen from "@/navigation/screens/settings/Settings";
-import PhoneNumber from "@/navigation/screens/settings/PhoneNumber";
-import LinkSharingScreen from "@/navigation/screens/settings/LinkSharing";
-import UpdateBillingScreen from "@/navigation/screens/settings/UpdateBilling";
-import UpdateNotificationsScreen from "@/navigation/screens/settings/UpdateNotifications";
-import UpdateGeneralScreen from "@/navigation/screens/settings/chapter/UpdateGeneral";
-import UpdateSecurityScreen from "@/navigation/screens/settings/chapter/UpdateSecurity";
-import UpdateChapterScreen from "@/navigation/screens/settings/chapter/UpdateChapter";
+import HomeScreen from "@/navigation/screens/home/Home";
+import SettingsScreen from "@/navigation/screens/home/settings/Settings";
+import PhoneNumber from "@/navigation/screens/home/settings/PhoneNumber";
+import LinkSharingScreen from "@/navigation/screens/home/settings/LinkSharing";
+import UpdateBillingScreen from "@/navigation/screens/home/settings/UpdateBilling";
+import UpdateNotificationsScreen from "@/navigation/screens/home/settings/UpdateNotifications";
+import UpdateGeneralScreen from "@/navigation/screens/home/settings/chapter/UpdateGeneral";
+import UpdateSecurityScreen from "@/navigation/screens/home/settings/chapter/UpdateSecurity";
+import UpdateChapterScreen from "@/navigation/screens/home/settings/chapter/UpdateChapter";
+
+import MessagesScreen from "@/navigation/screens/messages/Messages";
 
 import EventsScreen from "@/navigation/screens/events/Events";
-import { usePreferences } from "@/providers/Preferences";
 
 /**
  * Stack Navigator for Auth Screens
@@ -66,7 +69,7 @@ import { usePreferences } from "@/providers/Preferences";
  * process should be fully isolated from the rest of the app
  */
 export const AuthStack = () => {
-  const Stack = createNativeStackNavigator();
+  const Stack = createNativeStackNavigator<AuthStackParams>();
 
   return (
     <Stack.Navigator
@@ -94,12 +97,6 @@ export const AuthStack = () => {
         name="RegistrationStep3"
         component={RegistrationStep3Screen}
       />
-      {__DEV__ && (
-        <Stack.Screen
-          name="UITesting"
-          component={UITestingScreen}
-        />
-      )}
     </Stack.Navigator>
   );
 };
@@ -112,7 +109,7 @@ export const AuthStack = () => {
  * and the authentication process
  */
 export const VerificationStack = () => {
-  const Stack = createNativeStackNavigator();
+  const Stack = createNativeStackNavigator<VerificationStackParams>();
 
   return (
     <Stack.Navigator>
@@ -136,7 +133,7 @@ export const VerificationStack = () => {
  * to the onboarding process first. Else, straight to the billing screen.
  */
 export const BillingStack = () => {
-  const Stack = createNativeStackNavigator();
+  const Stack = createNativeStackNavigator<BillingStackParams>();
 
   const { onboardingComplete } = usePreferences();
   const initialRouteName = onboardingComplete ? "Billing" : "BillingTourStep1";

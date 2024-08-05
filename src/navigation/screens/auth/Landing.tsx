@@ -11,20 +11,18 @@
  */
 
 import { View } from "react-native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import { Layout } from "@/ui/Layout";
 import Typewriter from "@/ui/Typewriter";
 import Logo64 from "@/components/Logos/Logo64";
+import { AuthStackProps } from "@/navigation/@types";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
-interface LandingProps {
-  navigation: NativeStackNavigationProp<any>;
-}
+type Props = AuthStackProps<"Landing">;
 
-const Landing: React.FC<LandingProps> = ({ navigation }) => {
+const Landing: React.FC<Props> = ({ navigation }) => {
   const handleCreateAccount = () => {
     navigation.navigate("RegistrationStep1");
   };

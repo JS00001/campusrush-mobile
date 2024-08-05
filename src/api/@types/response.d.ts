@@ -23,279 +23,185 @@ type RevokeAdminChapterEntitlementsResponse = API.Response;
 type GetEntitlementsResponse = API.Response<EntitlementDetails>;
 
 type GetChaptersResponse = API.Response<{
-  /**
-   * List of chapters
-   */
+  /** List of chapters */
   chapters: string[];
-  /**
-   * List of schools
-   */
+  /** List of schools */
   schools: string[];
 }>;
 
 type LoginResponse = API.Response<{
-  /**
-   * Chapter information
-   */
+  /** Chapter information */
   chapter: Chapter;
-  /**
-   * Access token for authentication
-   */
+  /** Access token for authentication */
   accessToken: string;
-  /**
-   * Refresh token for token refreshing
-   */
+  /** Refresh token for token refreshing */
   refreshToken: string;
 }>;
 
 type RegisterResponse = API.Response<{
-  /**
-   * Chapter information
-   */
+  /** Chapter information */
   chapter: Chapter;
-  /**
-   * Access token for authentication
-   */
+  /** Access token for authentication */
   accessToken: string;
-  /**
-   * Refresh token for token refreshing
-   */
+  /** Refresh token for token refreshing */
   refreshToken: string;
 }>;
 
 type GetChapterResponse = API.Response<{
-  /**
-   * Chapter information
-   */
+  /** Chapter information */
   chapter: Chapter;
 }>;
 
 type CheckEmailResponse = API.Response<{
-  /**
-   * Indicates whether the email exists
-   */
+  /** Indicates whether the email exists */
   exists: boolean;
 }>;
 
 type VerifyChapterResponse = API.Response<{
-  /**
-   * Chapter information
-   */
+  /** Chapter information */
   chapter: Chapter;
 }>;
 
 type ResendVerificationResponse = API.Response<{
-  /**
-   * A message indicating the result of the resend verification action
-   */
+  /** A message indicating the result of the resend verification action */
   message: string;
 }>;
 
 type RefreshAccessTokenResponse = API.Response<{
-  /**
-   * Refreshed access token
-   */
+  /** Refreshed access token */
   accessToken: string;
 }>;
 
 type UpdateChapterResponse = API.Response<{
-  /**
-   * Updated chapter information
-   */
+  /** Updated chapter information */
   chapter: Chapter;
 }>;
 
 type GetChapterStatisticsResponse = API.Response<{
-  /**
-   * Number of potential new members (PNMs)
-   */
+  /** Number of potential new members (PNMs) */
   pnms: number;
-  /**
-   * Number of starred PNMs
-   */
+  /** Number of starred PNMs */
   starredPnms: number;
-  /**
-   * List of recent PNMs
-   */
+  /** List of recent PNMs */
   recentPnms: PNM[];
 }>;
 
 type GetPnmsResponse = API.Response<{
-  /**
-   * List of potential new members (PNMs)
-   */
+  /** List of potential new members (PNMs) */
   pnms: PNM[];
 }>;
 
 type GetAdminChaptersResponse = API.Response<{
-  /**
-   * List of admin chapters
-   */
+  /** List of admin chapters */
   chapters: Chapter[];
 }>;
 
 type GetConversationResponse = API.Response<{
-  /**
-   * Conversation information
-   */
+  /** Conversation information */
   conversation: Conversation | null;
-  /**
-   * Offset for the next conversation retrieval
-   */
+  /** Offset for the next conversation retrieval */
   nextOffset: number;
-  /**
-   * Indicates whether there is a next page of conversations
-   */
+  /** Indicates whether there is a next page of conversations */
   hasNextPage: boolean;
 }>;
 
 type FocusConversationResponse = API.Response<{
-  /**
-   * Focused conversation information
-   */
+  /** Focused conversation information */
   conversation: Conversation;
 }>;
 
 type GetConversationsResponse = API.Response<{
-  /**
-   * List of conversations
-   */
+  /** List of conversations */
   conversations: Conversation[];
-  /**
-   * Offset for the next conversation retrieval
-   */
+  /** Offset for the next conversation retrieval */
   nextOffset: number;
-  /**
-   * Indicates whether there is a next page of conversations
-   */
+  /** Indicates whether there is a next page of conversations */
   hasNextPage: boolean;
 }>;
 
 type GetContactsResponse = API.Response<{
-  /**
-   * List of all potential new members (PNMs)
-   */
+  /** List of all potential new members (PNMs) */
   all: PNM[];
-  /**
-   * List of favorited PNMs
-   */
+  /** List of favorited PNMs */
   favorited: PNM[];
-  /**
-   * List of suggested PNMs
-   */
+  /** List of suggested PNMs */
   suggested: PNM[];
-  /**
-   * List of uncontacted PNMs
-   */
+  /** List of uncontacted PNMs */
   uncontacted: PNM[];
 }>;
 
 type SendMassMessageResponse = API.Response<{
-  /**
-   * List of conversations after sending a mass message
-   */
+  /** List of conversations after sending a mass message */
   conversations: Conversation[];
-  /**
-   * List of messages sent
-   */
+  /** List of messages sent */
   messages: Message[];
 }>;
 
 type SendDirectMessageResponse = API.Response<{
-  /**
-   * Conversation information after sending a direct message
-   */
+  /** Conversation information after sending a direct message */
   conversation: Conversation;
-  /**
-   * Message information after sending a direct message
-   */
+  /** Message information after sending a direct message */
   message: Message;
 }>;
 
 type CreatePnmResponse = API.Response<{
-  /**
-   * Created potential new member (PNM) information
-   */
+  /** Created potential new member (PNM) information */
   pnm: PNM;
 }>;
 
 type UpdatePnmResponse = API.Response<{
-  /**
-   * Updated potential new member (PNM) information
-   */
+  /** Updated potential new member (PNM) information */
   pnm: PNM;
 }>;
 
 type GetMetadataResponse = API.Response<Metadata>;
 
 type DeleteChapterResponse = API.Response<{
-  /**
-   * Indicates the success of the chapter deletion
-   */
+  /** Indicates the success of the chapter deletion */
   success: boolean;
 }>;
 
 type GetEventsResponse = API.Response<{
-  /**
-   * List of events
-   */
+  /** List of events */
   events: Event[];
-  /**
-   * Offset for the next event retrieval
-   */
+  /** Offset for the next event retrieval */
   nextOffset: number;
-  /**
-   * Indicates whether there is a next page of events
-   */
+  /** Indicates whether there is a next page of events */
   hasNextPage: boolean;
 }>;
 
 type DeleteEventsResponse = API.Response<{
-  /**
-   * List of events after deletion
-   */
+  /** List of events after deletion */
   events: Event[];
 }>;
 
 type CreateEventResponse = API.Response<{
-  /**
-   * Created event information
-   */
+  /** Created event information */
   event: Event;
 }>;
 
 type UpdateEventResponse = API.Response<{
-  /**
-   * Updated event information
-   */
+  /** Updated event information */
   event: Event;
 }>;
 
 type DeleteEventResponse = API.Response<{
-  /**
-   * Indicates the success of the event deletion
-   */
+  /** Indicates the success of the event deletion */
   success: boolean;
 }>;
 
 type GetPnmResponse = API.Response<{
-  /**
-   * Potential new member (PNM) information
-   */
+  /** Potential new member (PNM) information */
   pnm: PNM;
 }>;
 
 type GetEventResponse = API.Response<{
-  /**
-   * Event information
-   */
+  /** Event information */
   event: Event;
 }>;
 
 type GetAdminChapterResponse = API.Response<{
-  /**
-   * Admin chapter information
-   */
+  /** Admin chapter information */
   chapter: Chapter;
 }>;
 
@@ -362,16 +268,10 @@ type GetAdminChapterEntitlementsResponse = API.Response<
 >;
 
 type GetWebsiteMetadataResponse = {
-  /**
-   * The title of the website
-   */
+  /** The title of the website */
   title: string;
-  /**
-   * The description of the website
-   */
+  /** The description of the website */
   description: string;
-  /**
-   * The image URL of the website
-   */
+  /** The image URL of the website */
   image?: string;
 };

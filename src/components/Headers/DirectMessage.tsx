@@ -50,10 +50,10 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({
     });
   };
 
+  if (pnmQuery.isLoading) return <LoadingState />;
+
   const pnm = pnmQuery.pnm!;
   const fullName = `${pnm.firstName} ${pnm.lastName}`;
-
-  if (pnmQuery.isLoading) return <LoadingState />;
 
   return (
     <Header
