@@ -43,10 +43,16 @@ const PnmsList: React.FC<PnmsListProps> = ({
    * When pnms change, create a new list like this
    * [ "A", ...PNMs with first name starting with A, "B", ...PNMs with first name starting with B, ...]
    * Only have an entry if there are pnms with that letter first name
+   * If the PNM has no first name, add it at the very end under a '#' header
    */
   const [data, indices] = useMemo(() => {
-    // First, sort the pnms by first name
-    pnms.sort((a, b) => a.firstName.localeCompare(b.firstName));
+    // First, sort the pnms by first name, if no first name, put it at the end
+    pnms.sort((a, b) => {
+      if (!a.firstName) return 1;
+      if (!b.firstName) return -1;
+
+      return a.firstName.localeCompare(b.firstName);
+    });
 
     /**
      * Takes the list of pnms and reduces them into a list that looks like this
@@ -58,13 +64,13 @@ const PnmsList: React.FC<PnmsListProps> = ({
     const reduction = pnms.reduce(
       (acc, pnm) => {
         // Get the first letter of the first name
-        const firstLetter = pnm.firstName[0].toUpperCase();
+        const category = pnm.firstName?.[0].toUpperCase() ?? "#";
 
-        if (!acc[firstLetter]) {
-          acc[firstLetter] = [firstLetter];
+        if (!acc[category]) {
+          acc[category] = [category];
         }
 
-        acc[firstLetter].push(pnm);
+        acc[category].push(pnm);
 
         return acc;
       },
@@ -116,10 +122,10 @@ const PnmsList: React.FC<PnmsListProps> = ({
       <ListItem
         style={tw`my-1`}
         key={data._id}
-        iconColor={tw.color("yellow")}
-        icon={data.starred ? "star-fill" : undefined}
-        title={`${data.firstName} ${data.lastName}`}
+        title={data.displayName}
         subtitle={formatPhoneNumber(data.phoneNumber)}
+        icon={data.starred ? "star-fill" : undefined}
+        iconColor={tw.color("yellow")}
         onPress={onPress}
       />
     );

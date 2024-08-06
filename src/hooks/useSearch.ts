@@ -12,7 +12,7 @@
 
 import { useEffect, useState } from 'react';
 
-interface IUseSearch<T = any> {
+interface IUseSearch<T> {
   /** The data to be filtered */
   data: T[];
 
@@ -38,18 +38,18 @@ interface IUseSearch<T = any> {
   fields?: (keyof T)[];
 }
 
-const useSearch = ({
+const useSearch = <T extends Object | String>({
   data,
   filters = [],
   sortingMethods = [],
   fields = [],
-}: IUseSearch) => {
+}: IUseSearch<T>) => {
   type FilterID = (typeof filters)[number]['id'] | 'NO_FILTER';
   type SortID = (typeof sortingMethods)[number]['id'] | 'NO_SORT';
 
   const [query, setQuery] = useState('');
   const [focused, setFocused] = useState(false);
-  const [filteredData, setFilteredData] = useState(data);
+  const [filteredData, setFilteredData] = useState<T[]>(data);
   const [filter, setFilter] = useState<FilterID>('NO_FILTER');
   const [sortingMethod, setSortingMethod] = useState<SortID>('NO_SORT');
 
@@ -62,6 +62,8 @@ const useSearch = ({
       if (fields.length) {
         return fields.some((field) => {
           const value = item[field];
+
+          if (!value) return false;
 
           return JSON.stringify(value)
             .toLowerCase()

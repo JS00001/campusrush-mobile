@@ -14,8 +14,8 @@ import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
 import Text from "@/ui/Text";
-import date from "@/lib/util/date";
 import tw from "@/lib/tailwind";
+import date from "@/lib/util/date";
 
 interface ConversationProps extends TouchableOpacityProps {
   conversation: Conversation;
@@ -28,7 +28,6 @@ const Conversation: React.FC<ConversationProps> = ({
   ...props
 }) => {
   const navigation = useNavigation();
-  const fullName = `${conversation.pnm.firstName} ${conversation.pnm.lastName}`;
 
   const containerStyles = tw.style(
     "bg-slate-100 w-full p-4 rounded-xl gap-6",
@@ -57,7 +56,7 @@ const Conversation: React.FC<ConversationProps> = ({
         <View style={unreadIndicatorStyles} />
 
         <View>
-          <Text style={tw`text-primary`}>{fullName}</Text>
+          <Text style={tw`text-primary`}>{conversation.pnm.displayName}</Text>
           <Text type="p4" numberOfLines={1}>
             {conversation.lastMessage}
           </Text>
