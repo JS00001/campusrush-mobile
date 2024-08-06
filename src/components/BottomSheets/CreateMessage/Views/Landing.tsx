@@ -177,10 +177,10 @@ const Landing: React.FC<UseSheetFlowProps> = ({
         renderItem={({ item: pnm }) => (
           <ListItem
             key={pnm._id}
-            iconColor={tw.color("yellow")}
-            icon={pnm.starred ? "star-fill" : undefined}
-            title={`${pnm.firstName} ${pnm.lastName}`}
+            title={pnm.displayName}
             subtitle={formatPhoneNumber(pnm.phoneNumber)}
+            icon={pnm.starred ? "star-fill" : undefined}
+            iconColor={tw.color("yellow")}
             onPress={onDirectMessagePress.bind(null, pnm)}
           />
         )}

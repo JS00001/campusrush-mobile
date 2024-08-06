@@ -19,6 +19,7 @@ import { createContext, useContext, useEffect, useRef } from "react";
 import { useAuth } from "@/providers/Auth";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 import { useQonversion } from "@/providers/Qonversion";
+import { useConversationStore } from "@/store";
 
 interface NotificationsContextProps {
   isLoading: boolean;

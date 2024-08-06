@@ -121,7 +121,7 @@ const HomeView = () => {
               key={pnm._id}
               iconColor={tw.color("yellow")}
               icon={pnm.starred ? "star-fill" : undefined}
-              title={`${pnm.firstName} ${pnm.lastName}`}
+              title={pnm.displayName}
               subtitle={formatPhoneNumber(pnm.phoneNumber)}
               onPress={onRecentPnmPress.bind(null, pnm)}
             />

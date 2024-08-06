@@ -101,7 +101,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
             <View style={tw`mb-2 flex-row justify-between items-center`}>
               <Headline
                 style={tw`shrink`}
-                title={`${pnm.firstName} ${pnm.lastName}`}
+                title={pnm.displayName}
                 subtitle={`Added on ${date.toString(pnm.createdAt)}`}
               />
 

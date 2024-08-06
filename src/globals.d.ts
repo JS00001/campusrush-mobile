@@ -47,13 +47,14 @@ interface PNM {
   _id: string;
 
   chapter: string;
-  firstName: string;
-  lastName: string;
   phoneNumber: string;
+  firstName?: string;
+  lastName?: string;
+  displayName: string;
 
   tags: string[];
-  instagram: string;
-  snapchat: string;
+  instagram?: string;
+  snapchat?: string;
 
   starred: boolean;
 

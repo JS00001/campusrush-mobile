@@ -50,17 +50,16 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({
     });
   };
 
-  if (pnmQuery.isLoading) return <LoadingState />;
+  if (!pnmQuery.pnm) return <LoadingState />;
 
-  const pnm = pnmQuery.pnm!;
-  const fullName = `${pnm.firstName} ${pnm.lastName}`;
+  const pnm = pnmQuery.pnm;
 
   return (
     <Header
       hasBackButton
       hasMenuButton
       loading={loading}
-      title={fullName}
+      title={pnm.displayName}
       subtitle={formatPhoneNumber(pnm.phoneNumber)}
       onMenuButtonPress={onMenuButtonPress}
     />

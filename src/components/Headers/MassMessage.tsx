@@ -56,8 +56,6 @@ const MassMessageHeader: React.FC<MassMessageHeaderProps> = ({
         data={currentPnms}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => {
-          const fullName = `${item.firstName} ${item.lastName}`;
-
           if (pnmsRemovable) {
             return (
               <FilterChip
@@ -65,12 +63,12 @@ const MassMessageHeader: React.FC<MassMessageHeaderProps> = ({
                 color="primary"
                 onRemove={onRemove.bind(null, item)}
               >
-                {fullName}
+                {item.displayName}
               </FilterChip>
             );
           }
 
-          return <Badge size="md">{fullName}</Badge>;
+          return <Badge size="md">{item.displayName}</Badge>;
         }}
         onEndReached={onEndReached}
         onEndReachedThreshold={0.5}
