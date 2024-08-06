@@ -18,7 +18,7 @@ export default {
   ios: {
     supportsTablet: false,
     // Change for multiple builds
-    buildNumber: '1',
+    buildNumber: '2',
     bundleIdentifier: IS_DEV ? 'app.campusrush.dev' : 'app.campusrush',
     config: {
       usesNonExemptEncryption: false,
