@@ -20,11 +20,11 @@ import FlatList from "@/ui/FlatList";
 import ListItem from "@/ui/ListItem";
 import Skeleton from "@/ui/Skeleton";
 import TextInput from "@/ui/TextInput";
+import format from "@/lib/util/format";
 import { Action } from "@/ui/ActionList";
 import Content from "@/constants/content";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import HeadlineLoader from "@/ui/Loaders/Headline";
-import { formatPhoneNumber } from "@/lib/util/string";
 
 import useSearch from "@/hooks/useSearch";
 import { useGetContacts } from "@/hooks/api/messaging";
@@ -178,7 +178,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({
           <ListItem
             key={pnm._id}
             title={pnm.displayName}
-            subtitle={formatPhoneNumber(pnm.phoneNumber)}
+            subtitle={format.phoneNumber(pnm.phoneNumber)}
             icon={pnm.starred ? "star-fill" : undefined}
             iconColor={tw.color("yellow")}
             onPress={onDirectMessagePress.bind(null, pnm)}

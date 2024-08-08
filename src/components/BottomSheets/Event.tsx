@@ -24,12 +24,12 @@ import Button from "@/ui/Button";
 import date from "@/lib/util/date";
 import Headline from "@/ui/Headline";
 import Skeleton from "@/ui/Skeleton";
+import format from "@/lib/util/format";
 import AppConstants from "@/constants";
 import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import ButtonGroup from "@/ui/ButtonGroup";
 import { BottomSheet } from "@/ui/BottomSheet";
-import { formatEvent } from "@/lib/util/format";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const EventSheet: React.FC<BottomSheetProps> = ({
@@ -58,7 +58,7 @@ const EventSheet: React.FC<BottomSheetProps> = ({
          * the app doesnt crash before the bottom sheet is closed.
          */
         const [event, setEvent] = useState(eventQuery.event);
-        const formattedEvent = formatEvent(event as Event);
+        const formattedEvent = format.event(event as Event);
 
         useEffect(() => {
           if (eventQuery.event) {
@@ -87,9 +87,7 @@ const EventSheet: React.FC<BottomSheetProps> = ({
           handleClose();
         };
 
-        if (!event) {
-          return <LoadingState />;
-        }
+        if (!event) return <LoadingState />;
 
         return (
           <BottomSheetContainer>

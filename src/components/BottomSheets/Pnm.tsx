@@ -20,12 +20,12 @@ import Button from "@/ui/Button";
 import date from "@/lib/util/date";
 import Skeleton from "@/ui/Skeleton";
 import Headline from "@/ui/Headline";
+import format from "@/lib/util/format";
 import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import TagView from "@/components/TagView";
 import { BottomSheet } from "@/ui/BottomSheet";
 import { useGlobalStore, usePnmStore } from "@/store";
-import { formatPhoneNumber } from "@/lib/util/string";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 import { useDeletePnm, useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
@@ -130,7 +130,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
             <Detail.List>
               <Detail.Item
                 title="Phone Number"
-                value={formatPhoneNumber(pnm.phoneNumber) || "N/A"}
+                value={format.phoneNumber(pnm.phoneNumber) || "N/A"}
               />
               <Detail.Item title="Instagram" value={pnm.instagram || "N/A"} />
               <Detail.Item title="Snapchat" value={pnm.snapchat || "N/A"} />

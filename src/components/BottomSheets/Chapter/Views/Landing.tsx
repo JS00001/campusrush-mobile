@@ -25,10 +25,11 @@ import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 import Headline from "@/ui/Headline";
 import Skeleton from "@/ui/Skeleton";
+import format from "@/lib/util/format";
 import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import Menu, { MenuAction } from "@/ui/Menu";
-import { formatPhoneNumber, titleCase } from "@/lib/util/string";
+import { titleCase } from "@/lib/util/string";
 
 interface LandingProps extends UseSheetFlowProps {
   chapterId: string;
@@ -112,7 +113,7 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
         />
         <Detail.Item
           title="Custom Phone Number"
-          value={formatPhoneNumber(chapter.phoneNumber) || "--"}
+          value={format.phoneNumber(chapter.phoneNumber) || "--"}
         />
         <Detail.Item
           title="Last Seen"

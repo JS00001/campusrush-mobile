@@ -25,8 +25,8 @@ import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
 import CopyView from "@/ui/CopyView";
 import Headline from "@/ui/Headline";
+import format from "@/lib/util/format";
 import { useAuth } from "@/providers/Auth";
-import { formatPhoneNumber } from "@/lib/util/string";
 
 const PhoneNumber = () => {
   const { chapter } = useAuth();
@@ -51,7 +51,7 @@ const PhoneNumber = () => {
 
         <CopyView
           title="Phone Number"
-          content={formatPhoneNumber(chapter.phoneNumber)}
+          content={format.phoneNumber(chapter.phoneNumber)}
         />
 
         <CopyView title="Phone Number ID" content={chapter?.phoneNumberId} />
