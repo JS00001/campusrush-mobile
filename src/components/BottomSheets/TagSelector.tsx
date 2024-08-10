@@ -21,9 +21,8 @@ const TagSelectorSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   return (
     <BottomSheet
       innerRef={innerRef}
-      children={(data) => {
-        const props = data as SheetData<"TAG_SELECTOR">;
-        const { values, onTagChange } = props.data;
+      children={(props?: SheetData<"TAG_SELECTOR">) => {
+        const { values, onTagChange } = props!.data;
 
         return (
           <BottomSheetContainer>

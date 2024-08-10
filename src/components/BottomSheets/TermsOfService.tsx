@@ -28,11 +28,11 @@ const TermsOfServiceSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   const query = useGetTermsOfService();
 
   const lastUpdated = useMemo(() => {
-    const queryDate =
-      query.data?.date_updated || query.data?.date_created || new Date();
+    const data = query.data;
+    const queryDate = data?.date_updated || data?.date_created || new Date();
 
     return date.timeAgo(queryDate);
-  }, [query.data?.date_updated, query.data?.date_created]);
+  }, [query.data]);
 
   const contentContainerStyle = tw.style(
     "w-full p-4",
@@ -44,13 +44,9 @@ const TermsOfServiceSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
       innerRef={innerRef}
       backgroundStyle={tw`bg-slate-100`}
       children={() => (
-        <BottomSheetContainer
-          style={tw`bg-slate-100`}
-          contentContainerStyle={tw`bg-slate-100`}
-        >
+        <BottomSheetContainer>
           {query.isLoading && <TermsOfServiceSkeleton />}
-
-          {query.isFetched && !query.isLoading && (
+          {!query.isLoading && (
             <>
               <Badge size="md" style={tw`self-start`}>
                 Last Updated: {lastUpdated}
@@ -62,11 +58,10 @@ const TermsOfServiceSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
               <View style={contentContainerStyle}>
                 <Text>
                   {query.data?.content.split("**").map((item, index) => {
+                    // Bold all bold markdown items
                     const isFirstOccurrance = index % 2 === 0;
 
-                    if (isFirstOccurrance) {
-                      return item;
-                    }
+                    if (isFirstOccurrance) return item;
 
                     return (
                       <Text key={index} style={tw`text-primary font-bold`}>

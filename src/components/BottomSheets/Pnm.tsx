@@ -11,7 +11,7 @@
  */
 
 import { View } from "react-native";
-import { useEffect, useState } from "react";
+import Toast from "react-native-toast-message";
 
 import { BottomSheetProps, SheetData } from "./@types";
 
@@ -37,9 +37,8 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
   return (
     <BottomSheet
       innerRef={innerRef}
-      children={(data) => {
-        const props = data as SheetData<"PNM">;
-        const { pnmId } = props.data;
+      children={(props?: SheetData<"PNM">) => {
+        const { pnmId } = props!.data;
 
         const pnmStore = usePnmStore();
         const globalStore = useGlobalStore();
@@ -48,20 +47,12 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         const deleteMutation = useDeletePnm();
         const updateMutation = useUpdatePnm();
 
-        /**
-         * We need to use state here as a 'cache', because when the pnm is deleted,
-         * the store value becomes undefined, and we need to keep the pnm data so
-         * the app doesnt crash before the bottom sheet is closed.
-         */
-        const [pnm, setPnm] = useState(pnmQuery.pnm);
+        const pnm = pnmQuery.pnm;
 
-        useEffect(() => {
-          if (pnmQuery.pnm) setPnm(pnmQuery.pnm);
-        }, [pnmQuery.pnm]);
-
-        const onFavorite = async (starred: boolean) => {
+        const onFavorite = async () => {
           if (!pnm) return;
 
+          const starred = !pnm.starred;
           const res = await updateMutation.mutateAsync({ id: pnmId, starred });
 
           if ("error" in res) return;
@@ -79,12 +70,20 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         const onDelete = async () => {
           if (!pnm) return;
 
+          const displayName = pnm.displayName;
           const res = await deleteMutation.mutateAsync({ id: pnmId });
 
           if ("error" in res) return;
 
-          pnmStore.deletePnm(pnm._id);
+          pnmStore.deletePnm(pnmId);
           globalStore.deletePnm(pnm);
+
+          Toast.show({
+            type: "success",
+            text1: "PNM deleted",
+            text2: `${displayName} has been removed from your contacts`,
+          });
+
           handleClose();
         };
 
@@ -92,9 +91,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
           openBottomSheet("UPDATE_PNM", { pnmId });
         };
 
-        if (!pnm) {
-          return <LoadingState />;
-        }
+        if (!pnm) return <LoadingState />;
 
         return (
           <BottomSheetContainer>
@@ -111,10 +108,9 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
                   color="secondary"
                   loading={updateMutation.isLoading}
                   iconName={pnm.starred ? "star-fill" : "star-line"}
-                  iconColor={
-                    pnm.starred ? tw.color("yellow") : tw.color("primary")
-                  }
-                  onPress={() => onFavorite(!pnm.starred)}
+                  // prettier-ignore
+                  iconColor={pnm.starred ? tw.color("yellow") : tw.color("primary")}
+                  onPress={onFavorite}
                 />
                 <IconButton
                   size="sm"

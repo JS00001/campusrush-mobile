@@ -11,7 +11,7 @@
  */
 
 import { View } from "react-native";
-import { useEffect, useState } from "react";
+import Toast from "react-native-toast-message";
 
 import { BottomSheetProps, SheetData } from "./@types";
 
@@ -42,38 +42,29 @@ const EventSheet: React.FC<BottomSheetProps> = ({
   return (
     <BottomSheet
       innerRef={innerRef}
-      children={(data) => {
-        const props = data as SheetData<"EVENT">;
-        const { eventId } = props.data;
+      children={(props?: SheetData<"EVENT">) => {
+        const { eventId } = props!.data;
 
-        const eventQuery = useGetEvent(eventId);
         const eventsStore = useEventStore();
         const deleteMutation = useDeleteEvent();
+        const eventQuery = useGetEvent(eventId);
 
+        const event = format.event(eventQuery.event!);
         const eventUrl = `${AppConstants.eventUrl}/${eventId}`;
 
-        /**
-         * We need to use state here as a 'cache', because when the pnm is deleted,
-         * the store value becomes undefined, and we need to keep the pnm data so
-         * the app doesnt crash before the bottom sheet is closed.
-         */
-        const [event, setEvent] = useState(eventQuery.event);
-        const formattedEvent = format.event(event as Event);
-
-        useEffect(() => {
-          if (eventQuery.event) {
-            setEvent(eventQuery.event);
-          }
-        }, [eventQuery.event]);
-
         const onDelete = async () => {
-          if (!event) return;
-
+          const eventName = event?.title || "Event";
           const res = await deleteMutation.mutateAsync({ id: eventId });
 
           if ("error" in res) return;
 
           eventsStore.deleteEvent(eventId);
+
+          Toast.show({
+            type: "success",
+            text1: "Event deleted",
+            text2: `${eventName} has been deleted successfully`,
+          });
 
           handleClose();
         };
@@ -94,8 +85,8 @@ const EventSheet: React.FC<BottomSheetProps> = ({
             <View style={tw`mb-2 flex-row justify-between items-center`}>
               <Headline
                 style={tw`shrink`}
-                title={formattedEvent.title}
-                subtitle={`Added on ${date.toString(formattedEvent.createdAt) || "N/A"}`}
+                title={event.title}
+                subtitle={`Added on ${date.toString(event.createdAt) || "N/A"}`}
               />
 
               <View style={tw`flex-row gap-1`}>
@@ -104,8 +95,8 @@ const EventSheet: React.FC<BottomSheetProps> = ({
                   color="secondary"
                   iconName="delete-bin-6-line"
                   iconColor={tw.color("red")}
-                  onPress={onDelete}
                   loading={deleteMutation.isLoading}
+                  onPress={onDelete}
                 />
               </View>
             </View>
@@ -116,20 +107,17 @@ const EventSheet: React.FC<BottomSheetProps> = ({
                 title="Description"
                 value={event.description}
               />
-              <Detail.Item title="Date" value={formattedEvent.dateString} />
-              <Detail.Item
-                title="Starts at"
-                value={formattedEvent.start.time}
-              />
-              <Detail.Item title="Ends at" value={formattedEvent.end.time} />
-              <Detail.Item title="Location" value={formattedEvent.location} />
+              <Detail.Item title="Date" value={event.dateString} />
+              <Detail.Item title="Starts at" value={event.start.time} />
+              <Detail.Item title="Ends at" value={event.end.time} />
+              <Detail.Item title="Location" value={event.location} />
               <Detail.Item
                 title="# Responded Yes"
-                value={formattedEvent.yesCount.toString()}
+                value={event.yesCount.toString()}
               />
               <Detail.Item
                 title="# Responded No"
-                value={formattedEvent.noCount.toString()}
+                value={event.noCount.toString()}
               />
             </Detail.List>
 

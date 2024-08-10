@@ -30,7 +30,9 @@ interface FormattedEvent extends Event {
 /**
  * Extract date information from an event
  */
-const formatEvent = (event: Event): FormattedEvent => {
+const formatEvent = (event?: Event): FormattedEvent | null => {
+  if (!event) return null;
+
   const startDate = new Date(event.startDate);
   const endDate = new Date(event.endDate);
 
