@@ -11,330 +11,205 @@
  */
 
 interface LoginRequest {
-  /**
-   * The chapter's email
-   */
+  /** The chapter's email */
   email: string;
-  /**
-   * The chapter's password
-   */
+  /** The chapter's password */
   password: string;
 }
 
 interface RegisterRequest {
-  /**
-   * The chapter's name
-   */
+  /** The chapter's name */
   name: string;
-  /**
-   * The school the chapter is associated with
-   */
+  /** The school the chapter is associated with */
   school: string;
-  /**
-   * The chapter leader's first name
-   */
+  /** The chapter leader's first name */
   firstName: string;
-  /**
-   * The chapter leader's last name
-   */
+  /** The chapter leader's last name */
   lastName: string;
-  /**
-   * The chapter leader's email
-   */
+  /** The chapter leader's email */
   email: string;
-  /**
-   * The chapter leader's password
-   */
+  /** The chapter leader's password */
   password: string;
-  /**
-   * Confirming the chapter leader's password
-   */
+  /** Confirming the chapter leader's password */
   confirmPassword: string;
 }
 
 interface CheckEmailRequest {
-  /**
-   * The email to check for existence
-   */
+  /** The email to check for existence */
   email: string;
 }
 
 interface VerifyChapterRequest {
-  /**
-   * Access token for chapter verification
-   */
+  /** Access token for chapter verification */
   accessToken?: string;
-  /**
-   * Verification code for the chapter
-   */
+  /** Verification code for the chapter */
   code: string;
 }
 
 interface RefreshAccessTokenRequest {
-  /**
-   * Refresh token for token refreshing
-   */
+  /** Refresh token for token refreshing */
   refreshToken?: string;
 }
 
 interface UpdateChapterRequest {
-  /**
-   * Updated first name for the chapter leader
-   */
+  /** Updated first name for the chapter leader */
   firstName?: string;
-  /**
-   * Updated last name for the chapter leader
-   */
+  /** Updated last name for the chapter leader */
   lastName?: string;
-  /**
-   * Updated email for the chapter leader
-   */
+  /** Updated email for the chapter leader */
   email?: string;
-  /**
-   * Current password for security verification
-   */
+  /** Current password for security verification */
   currentPassword?: string;
-  /**
-   * New password for updating the chapter leader's password
-   */
+  /** New password for updating the chapter leader's password */
   newPassword?: string;
-  /**
-   * Confirming the new password
-   */
+  /** Confirming the new password */
   confirmNewPassword?: string;
-  /**
-   * Push notification token for notifications
-   */
+  /** Push notification token for notifications */
   notificationPushToken?: string;
-  /**
-   * Flag indicating if notifications are enabled
-   */
+  /** Flag indicating if notifications are enabled */
   notificationsEnabled?: boolean;
 }
 
 interface GetConversationRequest {
-  /**
-   * Offset for retrieving conversation
-   */
+  /** Offset for retrieving conversation */
   offset: number;
-  /**
-   * ID of the potential new member (PNM) for conversation retrieval
-   */
+  /** ID of the potential new member (PNM) for conversation retrieval */
   pnmId: string;
 }
 
 interface FocusConversationRequest {
-  /**
-   * ID of the potential new member (PNM) for focusing conversation
-   */
+  /** ID of the potential new member (PNM) for focusing conversation */
   pnmId: string;
 }
 
 interface GetConversationsRequest {
-  /**
-   * Offset for retrieving conversations
-   */
+  /** Offset for retrieving conversations */
   offset: number;
 }
 
 interface SendMassMessageRequest {
-  /**
-   * List of PNM IDs to send mass message
-   */
+  /** List of PNM IDs to send mass message */
   pnms: string[];
-  /**
-   * Message content for mass messaging
-   */
+  /** Message content for mass messaging */
   message: string;
 }
 
 interface SendDirectMessageRequest {
-  /**
-   * ID of the potential new member (PNM) for direct messaging
-   */
+  /** ID of the potential new member (PNM) for direct messaging */
   pnm: string;
-  /**
-   * Message content for direct messaging
-   */
+  /** Message content for direct messaging */
   message: string;
 }
 
 interface CreatePnmRequest {
-  /**
-   * First name of the potential new member (PNM)
-   */
+  /** First name of the potential new member (PNM) */
   firstName: string;
-  /**
-   * Last name of the potential new member (PNM)
-   */
+  /** Last name of the potential new member (PNM) */
   lastName: string;
-  /**
-   * Phone number of the potential new member (PNM)
-   */
+  /** Phone number of the potential new member (PNM) */
   phoneNumber: string;
-  /**
-   * Tag(s) associated with the potential new member (PNM)
-   */
+  /** Tag(s) associated with the potential new member (PNM) */
   tags?: string[];
-  /**
-   * Instagram handle of the potential new member (PNM)
-   */
+  /** Instagram handle of the potential new member (PNM) */
   instagram?: string;
-  /**
-   * Snapchat handle of the potential new member (PNM)
-   */
+  /** Snapchat handle of the potential new member (PNM) */
   snapchat?: string;
 }
 
 interface UpdatePnmRequest {
-  /**
-   * ID of the potential new member (PNM) to be updated
-   */
+  /** ID of the potential new member (PNM) to be updated */
   id: string;
-  /**
-   * Updated first name of the potential new member (PNM)
-   */
+  /** Updated first name of the potential new member (PNM) */
   firstName?: string;
-  /**
-   * Updated last name of the potential new member (PNM)
-   */
+  /** Updated last name of the potential new member (PNM) */
   lastName?: string;
-  /**
-   * Updated phone number of the potential new member (PNM)
-   */
+  /** Updated phone number of the potential new member (PNM) */
   phoneNumber?: string;
-  /**
-   * Updated tag(s) associated with the potential new member (PNM)
-   */
+  /** Updated tag(s) associated with the potential new member (PNM) */
   tags?: string[];
-  /**
-   * Updated Instagram handle of the potential new member (PNM)
-   */
+  /** Updated Instagram handle of the potential new member (PNM) */
   instagram?: string;
-  /**
-   * Updated Snapchat handle of the potential new member (PNM)
-   */
+  /** Updated Snapchat handle of the potential new member (PNM) */
   snapchat?: string;
-  /**
-   * Flag indicating if the PNM is starred
-   */
+  /** Flag indicating if the PNM is starred */
   starred?: boolean;
 }
 
 interface DeletePnmRequest {
-  /**
-   * ID of the potential new member (PNM) to be deleted
-   */
+  /** ID of the potential new member (PNM) to be deleted */
   id: string;
 }
 
 interface CreateEventRequest {
-  /**
-   * Title of the event to be created
-   */
+  /** Title of the event to be created */
   title: string;
-  /**
-   * Description of the event
-   */
+  /** Description of the event */
   description: string;
-  /**
-   * Location of the event
-   */
+  /** Location of the event */
   location: string;
-  /**
-   * Start date of the event
-   */
+  /** Start date of the event */
   startDate: string;
-  /**
-   * End date of the event
-   */
+  /** End date of the event */
   endDate: string;
 }
 
 interface UpdateEventRequest {
-  /**
-   * ID of the event to be updated
-   */
+  /** ID of the event to be updated */
   id: string;
-  /**
-   * Updated title of the event
-   */
+  /** Updated title of the event */
   title: string;
-  /**
-   * Updated description of the event
-   */
+  /** Updated description of the event */
   description: string;
-  /**
-   * Updated location of the event
-   */
+  /** Updated location of the event */
   location: string;
-  /**
-   * Updated start date of the event
-   */
+  /** Updated start date of the event */
   startDate: string;
-  /**
-   * Updated end date of the event
-   */
+  /** Updated end date of the event */
   endDate: string;
 }
 
 interface DeleteEventRequest {
-  /**
-   * ID of the event to be deleted
-   */
+  /** ID of the event to be deleted */
   id: string;
 }
 
 interface GetPnmRequest {
-  /**
-   * The ID of the potential new member (PNM) to be retrieved
-   */
+  /** The ID of the potential new member (PNM) to be retrieved */
   id: string;
 }
 
 interface GetEventRequest {
-  /**
-   * The ID of the event to be retrieved
-   */
+  /** The ID of the event to be retrieved */
   id: string;
 }
 
 interface GetAdminChapterRequest {
-  /**
-   * The ID of the chapter to be retrieved
-   */
+  /** The ID of the chapter to be retrieved */
   id: string;
 }
 
 interface GetAdminChapterEntitlementsRequest {
-  /**
-   * The ID of the chapter to retrieve entitlements
-   */
+  /** The ID of the chapter to retrieve entitlements */
   id: string;
 }
 
 interface GrantAdminChapterEntitlementRequest {
-  /**
-   * The ID of the chapter to grant entitlements
-   */
+  /** The ID of the chapter to grant entitlements */
   id: string;
-  /**
-   * The entitlement ID to grant
-   */
+  /** The entitlement ID to grant */
   entitlementId: string;
-  /**
-   * When the grant should expire
-   */
+  /** When the grant should expire */
   expires: number;
 }
 
 interface RevokeAdminChapterEntitlementRequest {
-  /**
-   * The ID of the chapter to revoke entitlements
-   */
+  /** The ID of the chapter to revoke entitlements */
   id: string;
-  /**
-   * The entitlement ID to revoke
-   */
+  /** The entitlement ID to revoke */
   entitlementId: string;
+}
+
+interface DeleteChapterSessionRequest {
+  /** The ID of the session to be deleted */
+  id: string;
 }

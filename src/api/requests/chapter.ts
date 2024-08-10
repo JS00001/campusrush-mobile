@@ -49,3 +49,29 @@ export const deleteChapter = async () => {
 
   return data as DeleteChapterResponse;
 };
+
+/**
+ * Request:    GET /api/v1/consumer/chapter/sessions
+ * Description: Get a chapter's sessions
+ */
+export const getChapterSessions = async () => {
+  const url = `${PREFIX}/sessions`;
+
+  const { data } = await axiosClient.get(url);
+
+  return data as GetChapterSessionsResponse;
+};
+
+/**
+ * Request:    DELETE /api/v1/consumer/chapter/sessions/:id
+ * Description: Delete a chapter's session
+ */
+export const deleteChapterSession = async (
+  data: DeleteChapterSessionRequest,
+) => {
+  const url = `${PREFIX}/sessions/${data.id}`;
+
+  const { data: responseData } = await axiosClient.delete(url);
+
+  return responseData as DeleteChapterSessionResponse;
+};

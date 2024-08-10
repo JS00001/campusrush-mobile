@@ -113,3 +113,13 @@ interface Metadata {
   tags: TagCategory[];
   entitlements: EntitlementDetails;
 }
+
+interface RefreshToken {
+  _id: string;
+  chapter: string;
+  deviceType: string;
+  ipAddress: string;
+  location: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
