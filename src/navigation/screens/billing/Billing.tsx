@@ -24,7 +24,6 @@ import Icon, { IconType } from "@/ui/Icon";
 import { useAuth } from "@/providers/Auth";
 import { useMetadataStore } from "@/store";
 import usePosthog from "@/hooks/usePosthog";
-import { useLogout } from "@/hooks/api/auth";
 import SafeAreaView from "@/ui/SafeAreaView";
 import Logo32 from "@/components/Logos/Logo32";
 import { useQonversion } from "@/providers/Qonversion";
@@ -33,9 +32,8 @@ import HeaderBackground from "@/components/Backgrounds/Header";
 
 const BillingScreen = () => {
   const posthog = usePosthog();
-  const logoutMutation = useLogout();
   const metadataStore = useMetadataStore();
-  const { chapter, clearUserData } = useAuth();
+  const { chapter, logoutUser } = useAuth();
   const { openBottomSheet } = useBottomSheet();
   const { purchaseProduct, restorePurchases } = useQonversion();
 
@@ -156,11 +154,7 @@ const BillingScreen = () => {
    * When the logout button is pressed, log the user out
    */
   const onLogout = async () => {
-    const res = await logoutMutation.mutateAsync();
-
-    if ("error" in res.data) return;
-
-    clearUserData();
+    await logoutUser();
   };
 
   // TODO: Add loading to this

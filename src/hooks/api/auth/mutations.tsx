@@ -19,7 +19,6 @@ import {
   verifyChapter,
   resendVerification,
   refresh,
-  logout,
 } from "@/api";
 
 import { useAuth } from "@/providers/Auth";
@@ -70,14 +69,6 @@ export const useRefresh = () => {
   return useMutation({
     mutationFn: () => {
       return refresh({ refreshToken: refreshToken as string });
-    },
-  });
-};
-
-export const useLogout = () => {
-  return useMutation({
-    mutationFn: () => {
-      return logout();
     },
   });
 };

@@ -11,7 +11,8 @@
  */
 
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import * as Device from "expo-device";
+import { useMutation, UseMutationResult } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Qonversion, { UserPropertyKey } from "react-native-qonversion";
 import { createContext, useEffect, useState, useContext } from "react";
@@ -29,6 +30,8 @@ interface IUserData {
 interface IAuthContext {
   /** Whether the initial auth data is still being fetched */
   isLoading: boolean;
+  /** All of the mutations in this context's data */
+  mutations: Record<string, UseMutationResult<any, any, any, any>>;
   /** The currently logged in chapter */
   chapter: Chapter;
   /** The currently logged in chapter's access token */
@@ -39,6 +42,8 @@ interface IAuthContext {
   clearUserData: () => void;
   /** Set the currently logged in chapter */
   setChapter: (chapter: Chapter) => void;
+  /** Log the user out and clear all user data */
+  logoutUser: () => Promise<void>;
   /** Authenticate a user with the given data */
   authenticateUser: (data: IUserData) => Promise<void>;
 }
@@ -57,6 +62,23 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     chapter: {} as Chapter,
   });
 
+  const logoutMutation = useMutation({
+    mutationFn: async (refreshToken: string) => {
+      const { data } = await axios.post(
+        `${AppConstants.apiUrl}/api/v1/consumer/auth/logout`,
+        {},
+        {
+          headers: {
+            "User-Agent": Device.modelName,
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        },
+      );
+
+      return data as LogoutResponse;
+    },
+  });
+
   const refreshTokenMutation = useMutation({
     mutationFn: async (refreshToken: string) => {
       const { data } = await axios.post(
@@ -64,6 +86,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         {},
         {
           headers: {
+            "User-Agent": Device.modelName,
             Authorization: `Bearer ${refreshToken}`,
           },
         },
@@ -79,6 +102,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         `${AppConstants.apiUrl}/api/v1/consumer/auth/chapter`,
         {
           headers: {
+            "User-Agent": Device.modelName,
             Authorization: `Bearer ${accessToken}`,
           },
         },
@@ -87,22 +111,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return data as GetChapterResponse;
     },
   });
-
-  // const getChapterQuery = useQuery({
-  //   queryKey: ["chapter", userData.accessToken],
-  //   enabled: !!userData.accessToken,
-  //   queryFn: async () => {
-  //     const url = `${AppConstants.apiUrl}/api/v1/consumer/auth/chapter`;
-
-  //     const { data } = await axios.get(url, {
-  //       headers: {
-  //         Authorization: `Bearer ${userData.accessToken}`,
-  //       },
-  //     });
-
-  //     return data as GetChapterResponse;
-  //   },
-  // });
 
   /**
    * When the app first loads, fetch the refresh token, then use
@@ -166,6 +174,21 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   /**
+   * Log the user out anbd clear all user data
+   */
+  const logoutUser = async () => {
+    const { refreshToken } = userData;
+
+    if (!refreshToken) return;
+
+    const response = await logoutMutation.mutateAsync(refreshToken);
+
+    if ("error" in response) return;
+
+    clearUserData();
+  };
+
+  /**
    * Wrapper around setUserData to make it easier to set the chapter
    */
   const setChapter = async (chapter: Chapter) => {
@@ -196,8 +219,15 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         isLoading,
         ...userData,
 
+        mutations: {
+          logoutMutation,
+          refreshTokenMutation,
+          getChapterMutation,
+        },
+
         setChapter,
         clearUserData,
+        logoutUser,
         authenticateUser,
       }}
     >

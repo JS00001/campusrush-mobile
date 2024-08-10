@@ -21,17 +21,15 @@ import ListItem from "@/ui/ListItem";
 import AppConstants from "@/constants";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
-import { useLogout } from "@/hooks/api/auth";
 import { useDeleteChapter } from "@/hooks/api/chapter";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
 const SettingsView = () => {
   const navigation = useNavigation();
-  const mutation = useDeleteChapter();
+  const deletionMutation = useDeleteChapter();
 
-  const logoutMutation = useLogout();
-  const { chapter, clearUserData } = useAuth();
   const { openBottomSheet } = useBottomSheet();
+  const { chapter, logoutUser, mutations } = useAuth();
 
   const onTermsOfServicePress = () => {
     openBottomSheet("TERMS_OF_SERVICE");
@@ -87,11 +85,7 @@ const SettingsView = () => {
   };
 
   const onLogout = async () => {
-    const res = await logoutMutation.mutateAsync();
-
-    if ("error" in res.data) return;
-
-    clearUserData();
+    await logoutUser();
   };
 
   const onDeleteAccount = () => {
@@ -107,7 +101,7 @@ const SettingsView = () => {
           style: "destructive",
           text: "Yes, Delete",
           onPress: async () => {
-            await mutation.mutateAsync();
+            await deletionMutation.mutateAsync();
           },
         },
       ],
@@ -177,8 +171,8 @@ const SettingsView = () => {
       <Button
         size="sm"
         style={tw`w-full`}
-        loading={logoutMutation.isLoading}
         onPress={onLogout}
+        loading={mutations.logoutMutation.isLoading}
       >
         Sign Out of {chapter.name}
       </Button>
@@ -187,7 +181,7 @@ const SettingsView = () => {
         size="sm"
         color="secondary"
         style={tw`w-full`}
-        loading={mutation.isLoading}
+        loading={deletionMutation.isLoading}
         textStyle={tw`text-red font-medium`}
         onPress={onDeleteAccount}
       >

@@ -14,11 +14,6 @@ import { z } from "zod";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 
-import {
-  useLogout,
-  useResendVerification,
-  useVerifyEmail,
-} from "@/hooks/api/auth";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
@@ -28,12 +23,12 @@ import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import usePosthog from "@/hooks/usePosthog";
 import useFormMutation from "@/hooks/useFormMutation";
+import { useResendVerification, useVerifyEmail } from "@/hooks/api/auth";
 
 const VerificationView = () => {
   const posthog = usePosthog();
-  const logoutMutation = useLogout();
   const verifyEmailMutation = useVerifyEmail();
-  const { clearUserData, setChapter } = useAuth();
+  const { setChapter, logoutUser, mutations } = useAuth();
   const resendVerificationMutation = useResendVerification();
 
   const formValidators = {
@@ -66,11 +61,7 @@ const VerificationView = () => {
   };
 
   const onLogout = async () => {
-    const res = await logoutMutation.mutateAsync();
-
-    if ("error" in res.data) return;
-
-    clearUserData();
+    await logoutUser();
   };
 
   return (
@@ -96,7 +87,7 @@ const VerificationView = () => {
           <Hyperlink
             color="primary"
             onPress={onLogout}
-            disabled={logoutMutation.isLoading}
+            disabled={mutations.logoutMutation.isLoading}
           >
             Sign out
           </Hyperlink>

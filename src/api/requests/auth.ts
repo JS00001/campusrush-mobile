@@ -103,15 +103,3 @@ export const refresh = async (data: RefreshAccessTokenRequest) => {
 
   return responseData as RefreshAccessTokenResponse;
 };
-
-/**
- * Request:     POST /api/v1/consumer/auth/logout
- * Description: Logout of the current session
- */
-export const logout = async () => {
-  const url = `${PREFIX}/logout`;
-
-  const { data: responseData } = await axiosClient.post(url);
-
-  return responseData as LogoutResponse;
-};
