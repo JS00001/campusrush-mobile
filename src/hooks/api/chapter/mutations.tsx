@@ -12,7 +12,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 
-import { updateChapter, deleteChapter } from "@/api";
+import { updateChapter, deleteChapter, deleteChapterSession } from "@/api";
 
 export const useUpdateChapter = () => {
   return useMutation({
@@ -26,6 +26,14 @@ export const useDeleteChapter = () => {
   return useMutation({
     mutationFn: () => {
       return deleteChapter();
+    },
+  });
+};
+
+export const useDeleteChapterSession = () => {
+  return useMutation({
+    mutationFn: (data: DeleteChapterSessionRequest) => {
+      return deleteChapterSession(data);
     },
   });
 };

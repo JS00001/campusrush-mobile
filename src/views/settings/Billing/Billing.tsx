@@ -23,7 +23,7 @@ import { titleCase } from "@/lib/util/string";
 import { useQonversion } from "@/providers/Qonversion";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
-const UpdateBillingView = () => {
+const BillingView = () => {
   const URL = "https://apps.apple.com/account/subscriptions";
 
   const { openBottomSheet } = useBottomSheet();
@@ -112,4 +112,4 @@ const UpdateBillingView = () => {
   );
 };
 
-export default UpdateBillingView;
+export default BillingView;

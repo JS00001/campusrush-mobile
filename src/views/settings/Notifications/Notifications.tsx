@@ -13,7 +13,7 @@
 import SelectionCard from "@/ui/SelectionCard";
 import { useNotifications } from "@/providers/Notifications";
 
-const UpdateNotificationsView = () => {
+const NotificationsView = () => {
   const {
     isLoading,
     notificationsEnabled,
@@ -52,4 +52,4 @@ const UpdateNotificationsView = () => {
   );
 };
 
-export default UpdateNotificationsView;
+export default NotificationsView;

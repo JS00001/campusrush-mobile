@@ -19,7 +19,7 @@ import validators from "@/constants/validators";
 import useFormMutation from "@/hooks/useFormMutation";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 
-const UpdateGeneralView = () => {
+const ChapterView = () => {
   const { chapter, setChapter } = useAuth();
   const updateMutation = useUpdateChapter();
 
@@ -51,6 +51,17 @@ const UpdateGeneralView = () => {
   return (
     <>
       <FormField
+        disabled
+        placeholder="Chapter Name"
+        value={chapter.name || "N/A"}
+      />
+      <FormField
+        disabled
+        placeholder="School"
+        value={chapter.school || "N/A"}
+      />
+
+      <FormField
         placeholder="Email"
         value={form.state.email.value}
         error={form.state.email.error}
@@ -79,4 +90,4 @@ const UpdateGeneralView = () => {
   );
 };
 
-export default UpdateGeneralView;
+export default ChapterView;

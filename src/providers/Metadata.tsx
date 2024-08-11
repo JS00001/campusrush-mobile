@@ -9,12 +9,13 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
-import { Linking, Alert } from "react-native";
+import { Linking } from "react-native";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { useEffect, useContext, createContext, useState } from "react";
 
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import { alert } from "@/lib/util";
 import { Layout } from "@/ui/Layout";
 import Headline from "@/ui/Headline";
 import AppConstants from "@/constants";
@@ -76,10 +77,11 @@ const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
     if (latestClientVersion > userVersion) {
       if (lastUpdateAlert == latestClientVersion) return;
 
-      Alert.alert(
-        "Update Available",
-        "A new version of CampusRush is available! Update now to get the latest features and bug fixes.",
-        [
+      alert({
+        title: "Update Available",
+        message:
+          "A new version of CampusRush is available! Update now to get the latest features and bug fixes.",
+        buttons: [
           {
             text: "Maybe Later",
             style: "cancel",
@@ -90,7 +92,7 @@ const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
             onPress: onUpdatePress,
           },
         ],
-      );
+      });
 
       updatePreferences({ lastUpdateAlert: latestClientVersion });
     }

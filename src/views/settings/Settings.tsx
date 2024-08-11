@@ -39,11 +39,29 @@ const SettingsView = () => {
     openBottomSheet("PRIVACY_POLICY");
   };
 
-  const onUpdateChapterPress = () => {
+  const onChapterPress = () => {
     navigation.navigate("Main", {
       screen: "HomeTab",
       params: {
-        screen: "UpdateChapter",
+        screen: "Chapter",
+      },
+    });
+  };
+
+  const onNotificationsPress = () => {
+    navigation.navigate("Main", {
+      screen: "HomeTab",
+      params: {
+        screen: "Notifications",
+      },
+    });
+  };
+
+  const onSecurityPress = () => {
+    navigation.navigate("Main", {
+      screen: "HomeTab",
+      params: {
+        screen: "Security",
       },
     });
   };
@@ -57,20 +75,11 @@ const SettingsView = () => {
     });
   };
 
-  const onUpdateBillingPress = () => {
+  const onBillingPress = () => {
     navigation.navigate("Main", {
       screen: "HomeTab",
       params: {
-        screen: "UpdateBilling",
-      },
-    });
-  };
-
-  const onUpdateNotificationsPress = () => {
-    navigation.navigate("Main", {
-      screen: "HomeTab",
-      params: {
-        screen: "UpdateNotifications",
+        screen: "Billing",
       },
     });
   };
@@ -115,17 +124,22 @@ const SettingsView = () => {
         title="Chapter"
         subtitle="Manage your chapter"
         icon="building-2-fill"
-        onPress={onUpdateChapterPress}
+        onPress={onChapterPress}
       />
-
       <ListItem
         size="lg"
         title="Notifications"
         subtitle="Manage your notifications"
         icon="notification-2-fill"
-        onPress={onUpdateNotificationsPress}
+        onPress={onNotificationsPress}
       />
-
+      <ListItem
+        size="lg"
+        title="Security"
+        subtitle="Manage your security settings"
+        icon="shield-check-fill"
+        onPress={onSecurityPress}
+      />
       <ListItem
         size="lg"
         title="Phone Number"
@@ -133,7 +147,6 @@ const SettingsView = () => {
         icon="phone-fill"
         onPress={onPhoneNumberPress}
       />
-
       <ListItem
         size="lg"
         title="Link Sharing"
@@ -141,13 +154,12 @@ const SettingsView = () => {
         icon="share-fill"
         onPress={onLinkSharingPress}
       />
-
       <ListItem
         size="lg"
         title="Billing"
         subtitle="Manage your billing"
         icon="bank-card-2-fill"
-        onPress={onUpdateBillingPress}
+        onPress={onBillingPress}
       />
 
       <View style={tw`w-full flex-row gap-3`}>
@@ -158,7 +170,6 @@ const SettingsView = () => {
           subtitle="View our terms and conditions"
           onPress={onTermsOfServicePress}
         />
-
         <ListItem
           size="sm"
           icon="shield-user-fill"

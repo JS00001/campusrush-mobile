@@ -23,14 +23,9 @@
 
 import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
-import CopyView from "@/ui/CopyView";
-import Headline from "@/ui/Headline";
-import format from "@/lib/util/format";
-import { useAuth } from "@/providers/Auth";
+import PhoneNumberView from "@/views/settings/PhoneNumber";
 
-const PhoneNumber = () => {
-  const { chapter } = useAuth();
-
+const PhoneNumberScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
@@ -44,20 +39,10 @@ const PhoneNumber = () => {
         scrollable
         contentContainerStyle={tw`items-start`}
       >
-        <Headline
-          title="Phone Information"
-          subtitle="All messages to this phone number will show up in your 'Messages' inbox."
-        />
-
-        <CopyView
-          title="Phone Number"
-          content={format.phoneNumber(chapter.phoneNumber)}
-        />
-
-        <CopyView title="Phone Number ID" content={chapter?.phoneNumberId} />
+        <PhoneNumberView />
       </Layout.Content>
     </Layout.Root>
   );
 };
 
-export default PhoneNumber;
+export default PhoneNumberScreen;

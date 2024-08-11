@@ -11,22 +11,22 @@
  */
 
 import { Layout } from "@/ui/Layout";
-import UpdateBillingView from "@/views/settings/UpdateBilling";
+import NotificationsView from "@/views/settings/Notifications";
 
-const UpdateBillingScreen = () => {
+const NotificationsScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
         hasBackButton
-        title="Billing"
-        subtitle="Manage your current plan"
+        title="Notifications"
+        subtitle="Manage your notifications"
       />
 
-      <Layout.Content scrollable>
-        <UpdateBillingView />
+      <Layout.Content>
+        <NotificationsView />
       </Layout.Content>
     </Layout.Root>
   );
 };
 
-export default UpdateBillingScreen;
+export default NotificationsScreen;

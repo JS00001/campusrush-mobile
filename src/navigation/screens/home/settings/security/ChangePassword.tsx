@@ -11,22 +11,22 @@
  */
 
 import { Layout } from "@/ui/Layout";
-import UpdateSecurityView from "@/views/settings/UpdateSecurity";
+import ChangePasswordView from "@/views/settings/ChangePassword";
 
-const UpdateSecurityScreen: React.FC = () => {
+const ChangePasswordScreen: React.FC = () => {
   return (
     <Layout.Root>
       <Layout.Header
         hasBackButton
-        title="Security"
-        subtitle="Update security information"
+        title="Change Password"
+        subtitle="Update your security information"
       />
 
       <Layout.Content gap={12} scrollable>
-        <UpdateSecurityView />
+        <ChangePasswordView />
       </Layout.Content>
     </Layout.Root>
   );
 };
 
-export default UpdateSecurityScreen;
+export default ChangePasswordScreen;

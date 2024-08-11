@@ -11,22 +11,22 @@
  */
 
 import { Layout } from "@/ui/Layout";
-import UpdateGeneralView from "@/views/settings/UpdateGeneral";
+import BillingView from "@/views/settings/Billing";
 
-const UpdateGeneralScreen = () => {
+const BillingScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
         hasBackButton
-        title="General"
-        subtitle="Update general information"
+        title="Billing"
+        subtitle="Manage your current plan"
       />
 
-      <Layout.Content gap={12} scrollable>
-        <UpdateGeneralView />
+      <Layout.Content scrollable>
+        <BillingView />
       </Layout.Content>
     </Layout.Root>
   );
 };
 
-export default UpdateGeneralScreen;
+export default BillingScreen;

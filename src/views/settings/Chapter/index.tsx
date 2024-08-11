@@ -10,6 +10,6 @@
  * Do not distribute
  */
 
-import UpdateGeneralView from "./UpdateGeneral";
+import ChapterView from "./Chapter";
 
-export default UpdateGeneralView;
+export default ChapterView;

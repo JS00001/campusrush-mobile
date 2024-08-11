@@ -33,7 +33,7 @@ const Event: React.FC<EventProps> = ({
   disabled,
   ...props
 }) => {
-  const formattedEvent = format.event(event);
+  const formattedEvent = format.event(event)!;
   const hasEventPassed = date.hasPassed(formattedEvent.startDate);
 
   const handlePress = () => {

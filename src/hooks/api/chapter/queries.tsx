@@ -14,8 +14,8 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/providers/Auth";
-import { getChapterStatistics } from "@/api";
 import { useStatisticsStore } from "@/store";
+import { getChapterStatistics, getChapterSessions } from "@/api";
 
 export const useGetChapterStatistics = () => {
   const { accessToken } = useAuth();
@@ -49,4 +49,14 @@ export const useGetChapterStatistics = () => {
     recentPnms: statisticsStore.recentPnms,
     isLoading: isLoading && !statisticsStore.pnmCount,
   };
+};
+
+export const useGetChapterSessions = () => {
+  const { accessToken } = useAuth();
+
+  return useQuery(["chapterSessions", accessToken], {
+    queryFn: async () => {
+      return getChapterSessions();
+    },
+  });
 };

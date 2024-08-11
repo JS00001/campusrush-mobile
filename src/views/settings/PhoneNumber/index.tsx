@@ -1,5 +1,5 @@
 /*
- * Created on Sun Feb 25 2024
+ * Created on Sun Aug 11 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,6 +10,6 @@
  * Do not distribute
  */
 
-import UpdateSecurityView from "./UpdateSecurity";
+import PhoneNumberView from "./PhoneNumber";
 
-export default UpdateSecurityView;
+export default PhoneNumberView;

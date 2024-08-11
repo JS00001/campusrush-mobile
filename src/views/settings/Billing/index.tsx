@@ -10,6 +10,6 @@
  * Do not distribute
  */
 
-import UpdateNotificationsView from "./UpdateNotifications";
+import BillingView from "./Billing";
 
-export default UpdateNotificationsView;
+export default BillingView;

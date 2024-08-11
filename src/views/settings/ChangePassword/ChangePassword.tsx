@@ -18,7 +18,7 @@ import validators from "@/constants/validators";
 import useFormMutation from "@/hooks/useFormMutation";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 
-const UpdateSecurityView = () => {
+const ChangePasswordView = () => {
   const updateMutation = useUpdateChapter();
 
   const formValidators = {
@@ -30,7 +30,7 @@ const UpdateSecurityView = () => {
   const form = useFormMutation({
     mutation: updateMutation,
     validators: formValidators,
-    onSuccess: async ({ data }) => {
+    onSuccess: async () => {
       Toast.show({
         type: "success",
         text1: Content.updateChapterSuccess.title,
@@ -84,4 +84,4 @@ const UpdateSecurityView = () => {
   );
 };
 
-export default UpdateSecurityView;
+export default ChangePasswordView;
