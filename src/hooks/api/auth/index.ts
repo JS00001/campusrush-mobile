@@ -10,5 +10,4 @@
  * Do not distribute
  */
 
-export * from "./mutations";
-export * from "./queries";
+export * from './mutations';
