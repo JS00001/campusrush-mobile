@@ -27,7 +27,7 @@ import ListItemLoader from "@/ui/Loaders/ListItem";
 import HeadlineLoader from "@/ui/Loaders/Headline";
 
 import useSearch from "@/hooks/useSearch";
-import { useGetContacts } from "@/hooks/api/messaging";
+import { useGetContacts } from "@/hooks/api/contacts";
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 const Landing: React.FC<UseSheetFlowProps> = ({

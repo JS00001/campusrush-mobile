@@ -10,4 +10,18 @@
  * Do not distribute
  */
 
-export * from "./mutations";
+import { axiosClient } from '@/providers/Axios';
+
+const PREFIX = '/api/v1/consumer/contacts';
+
+/**
+ * Request:     GET /api/v1/consumer/contacts
+ * Description: Get all contacts
+ */
+export const getContacts = async () => {
+  const url = `${PREFIX}`;
+
+  const { data } = await axiosClient.get(url);
+
+  return data as GetContactsResponse;
+};

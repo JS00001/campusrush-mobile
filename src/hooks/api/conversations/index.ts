@@ -1,5 +1,5 @@
 /*
- * Created on Fri Feb 23 2024
+ * Created on Sun Aug 11 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,4 +10,4 @@
  * Do not distribute
  */
 
-export * from "./mutations";
+export * from './queries';

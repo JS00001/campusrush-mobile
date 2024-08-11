@@ -15,11 +15,11 @@ import { axiosClient } from '@/providers/Axios';
 const PREFIX = '/api/v1/consumer/auth';
 
 /**
- * Request:     GET /api/v1/consumer/auth/chapter
+ * Request:     GET /api/v1/consumer/auth/me
  * Description: Get the current chapter
  */
 export const getChapter = async () => {
-  const url = `${PREFIX}/chapter`;
+  const url = `${PREFIX}/me`;
 
   const { data } = await axiosClient.get(url);
 
@@ -51,23 +51,23 @@ export const register = async (data: RegisterRequest) => {
 };
 
 /**
- * Request:     POST /api/v1/consumer/auth/emails/check
+ * Request:     GET /api/v1/consumer/auth/email-exists
  * Description: Check if an email is already in use
  */
 export const checkEmail = async (data: CheckEmailRequest) => {
-  const url = `${PREFIX}/emails/check`;
+  const url = `${PREFIX}/emails/check?email=${data.email}`;
 
-  const { data: responseData } = await axiosClient.post(url, data);
+  const { data: responseData } = await axiosClient.get(url);
 
   return responseData as CheckEmailResponse;
 };
 
 /**
- * Request:     POST /api/v1/consumer/auth/verification/verify
+ * Request:     POST /api/v1/consumer/auth/verify
  * Description: Verify an email
  */
 export const verifyChapter = async (data: VerifyChapterRequest) => {
-  const url = `${PREFIX}/verification/verify`;
+  const url = `${PREFIX}/verify`;
 
   const { data: responseData } = await axiosClient.post(url, data);
 
@@ -75,11 +75,11 @@ export const verifyChapter = async (data: VerifyChapterRequest) => {
 };
 
 /**
- * Request:     POST /api/v1/consumer/auth/verification/resend
+ * Request:     POST /api/v1/consumer/auth/resend-verification
  * Description: Resend a verification email
  */
 export const resendVerification = async () => {
-  const url = `${PREFIX}/verification/resend`;
+  const url = `${PREFIX}/resend-verification`;
 
   const { data: responseData } = await axiosClient.post(url);
 

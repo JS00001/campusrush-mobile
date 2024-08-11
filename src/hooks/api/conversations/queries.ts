@@ -10,59 +10,24 @@
  * Do not distribute
  */
 
-import { useEffect, useState } from "react";
-import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
+import { useEffect, useState } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { useAuth } from "@/providers/Auth";
-import { useContactStore, useConversationStore } from "@/store";
-import { getContacts, getConversation, getConversations } from "@/api";
-
-export const useGetContacts = () => {
-  const { accessToken } = useAuth();
-  const contactStore = useContactStore();
-  const [isLoading, setIsLoading] = useState(true);
-
-  const query = useQuery(["contacts", accessToken], {
-    queryFn: () => {
-      return getContacts();
-    },
-  });
-
-  useEffect(() => {
-    if (!query.data || "error" in query.data) {
-      setIsLoading(query.isLoading);
-      return;
-    }
-
-    contactStore.setContacts("all", query.data.data.all);
-    contactStore.setContacts("suggested", query.data.data.suggested);
-    contactStore.setContacts("starred", query.data.data.favorited);
-    contactStore.setContacts("uncontacted", query.data.data.uncontacted);
-
-    setIsLoading(query.isLoading);
-  }, [query.data]);
-
-  return {
-    ...query,
-    all: contactStore.all,
-    suggested: contactStore.suggested,
-    starred: contactStore.starred,
-    uncontacted: contactStore.uncontacted,
-    isLoading: isLoading && !contactStore.all.length,
-  };
-};
+import { useAuth } from '@/providers/Auth';
+import { useConversationStore } from '@/store';
+import { getConversation, getConversations } from '@/api';
 
 export const useGetConversation = (pnmId: string) => {
   const { accessToken } = useAuth();
 
   return useInfiniteQuery({
     cacheTime: 0,
-    queryKey: ["conversation", accessToken, pnmId],
+    queryKey: ['conversation', accessToken, pnmId],
     queryFn: ({ pageParam = 0 }) => {
       return getConversation({ offset: pageParam, pnmId });
     },
     getNextPageParam: (lastPage) => {
-      if ("error" in lastPage) return undefined;
+      if ('error' in lastPage) return undefined;
 
       const hasNextPage = lastPage.data.hasNextPage;
 
@@ -80,13 +45,13 @@ export const useGetConversations = () => {
   const conversations = useConversationStore((s) => s.conversations);
   const setConversations = useConversationStore((s) => s.setConversations);
 
-  const query = useInfiniteQuery(["conversations", accessToken], {
+  const query = useInfiniteQuery(['conversations', accessToken], {
     cacheTime: 0,
     queryFn: ({ pageParam = 0 }) => {
       return getConversations({ offset: pageParam });
     },
     getNextPageParam: (lastPage) => {
-      if ("error" in lastPage) return undefined;
+      if ('error' in lastPage) return undefined;
 
       const hasNextPage = lastPage.data.hasNextPage;
 
@@ -103,7 +68,7 @@ export const useGetConversations = () => {
     }
 
     const combinedConversations = query.data.pages.flatMap((page) => {
-      if ("error" in page) return [];
+      if ('error' in page) return [];
 
       return page.data.conversations;
     });

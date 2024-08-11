@@ -15,11 +15,11 @@ import { axiosClient } from '@/providers/Axios';
 const PREFIX = '/api/v1/consumer/pnms';
 
 /**
- * Request:     GET /api/v1/consumer/pnms/list
+ * Request:     GET /api/v1/consumer/pnms
  * Description: Get all PNMs
  */
 export const getPnms = async () => {
-  const url = `${PREFIX}/list`;
+  const url = `${PREFIX}`;
 
   const { data } = await axiosClient.get(url);
 
@@ -27,11 +27,11 @@ export const getPnms = async () => {
 };
 
 /**
- * Request:     DELETE /api/v1/consumer/pnms/delete
+ * Request:     DELETE /api/v1/consumer/pnms
  * Description: Delete ALL PNMs
  */
 export const deletePnms = async () => {
-  const url = `${PREFIX}/delete`;
+  const url = `${PREFIX}`;
 
   const { data } = await axiosClient.delete(url);
 
@@ -39,11 +39,11 @@ export const deletePnms = async () => {
 };
 
 /**
- * Request:     POST /api/v1/consumer/pnms/create
+ * Request:     POST /api/v1/consumer/pnms
  * Description: Create a PNM
  */
 export const createPnm = async (data: CreatePnmRequest) => {
-  const url = `${PREFIX}/create`;
+  const url = `${PREFIX}`;
 
   const { data: responseData } = await axiosClient.post(url, data);
 
@@ -51,11 +51,11 @@ export const createPnm = async (data: CreatePnmRequest) => {
 };
 
 /**
- * Request:     GET /api/v1/consumer/pnms/get/:id
+ * Request:     GET /api/v1/consumer/pnms/:id
  * Description: Get a PNM
  */
 export const getPnm = async (data: GetPnmRequest) => {
-  const url = `${PREFIX}/get/${data.id}`;
+  const url = `${PREFIX}/${data.id}`;
 
   const { data: responseData } = await axiosClient.get(url);
 
@@ -63,12 +63,12 @@ export const getPnm = async (data: GetPnmRequest) => {
 };
 
 /**
- * Request:     PUT /api/v1/consumer/pnms/update/:id
+ * Request:     PUT /api/v1/consumer/pnms/:id
  * Description: Update a PNM
  */
 export const updatePnm = async (data: UpdatePnmRequest) => {
   const { id, ...rest } = data;
-  const url = `${PREFIX}/update/${id}`;
+  const url = `${PREFIX}/${id}`;
 
   const { data: responseData } = await axiosClient.put(url, rest);
 
@@ -76,11 +76,11 @@ export const updatePnm = async (data: UpdatePnmRequest) => {
 };
 
 /**
- * Request:     DELETE /api/v1/consumer/pnms/delete/:id
+ * Request:     DELETE /api/v1/consumer/pnms/:id
  * Description: Delete a PNM
  */
 export const deletePnm = async (data: DeletePnmRequest) => {
-  const url = `${PREFIX}/delete/${data.id}`;
+  const url = `${PREFIX}/${data.id}`;
 
   const { data: responseData } = await axiosClient.delete(url);
 

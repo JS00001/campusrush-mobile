@@ -13,13 +13,8 @@
 import { useEffect } from "react";
 import { Keyboard } from "react-native";
 
-import { Layout } from "@/ui/Layout";
-import MessageBox from "@/components/MessageBox";
-
-import {
-  useGetConversation,
-  useSendDirectMessage,
-} from "@/hooks/api/messaging";
+import { useSendDirectMessage } from "@/hooks/api/messaging";
+import { useGetConversation } from "@/hooks/api/conversations";
 
 import {
   useContactStore,
@@ -30,11 +25,13 @@ import {
 import { ConversationStackProps } from "@/navigation/@types";
 
 import tw from "@/lib/tailwind";
+import { Layout } from "@/ui/Layout";
 import FlatList from "@/ui/FlatList";
 import messaging from "@/lib/messages";
 import { useAuth } from "@/providers/Auth";
 import SocketInput from "@/lib/socketInput";
 import MessageBubble from "@/ui/MessageBubble";
+import MessageBox from "@/components/MessageBox";
 import { useWebsocket } from "@/providers/websocket";
 import DirectMessageHeader from "@/components/Headers/DirectMessage";
 

@@ -23,7 +23,7 @@ import Menu, { MenuAction } from "@/ui/Menu";
 import ActionButton from "@/ui/ActionButton";
 import Conversation from "@/ui/Conversation";
 import ConversationLoader from "@/ui/Loaders/Conversation";
-import { useGetConversations } from "@/hooks/api/messaging";
+import { useGetConversations } from "@/hooks/api/conversations";
 
 const MessagesView = () => {
   const { openBottomSheet } = useBottomSheet();

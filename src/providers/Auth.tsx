@@ -99,7 +99,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const getChapterMutation = useMutation({
     mutationFn: async (accessToken: string) => {
       const { data } = await axios.get(
-        `${AppConstants.apiUrl}/api/v1/consumer/auth/chapter`,
+        `${AppConstants.apiUrl}/api/v1/consumer/auth/me`,
         {
           headers: {
             "User-Agent": Device.modelName,

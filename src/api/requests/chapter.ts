@@ -27,11 +27,11 @@ export const getChapterStatistics = async () => {
 };
 
 /**
- * Request:     PUT /api/v1/consumer/chapter/update
+ * Request:     PUT /api/v1/consumer/chapter
  * Description: Update a chapter
  */
 export const updateChapter = async (data: UpdateChapterRequest) => {
-  const url = `${PREFIX}/update`;
+  const url = `${PREFIX}`;
 
   const { data: responseData } = await axiosClient.put(url, data);
 
@@ -39,11 +39,11 @@ export const updateChapter = async (data: UpdateChapterRequest) => {
 };
 
 /**
- * Request:     DELETE /api/v1/consumer/chapter/delete
+ * Request:     DELETE /api/v1/consumer/chapter
  * Description: Delete a chapter
  */
 export const deleteChapter = async () => {
-  const url = `${PREFIX}/delete`;
+  const url = `${PREFIX}`;
 
   const { data } = await axiosClient.delete(url);
 

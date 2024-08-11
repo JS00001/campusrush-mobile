@@ -32,7 +32,7 @@ const EventCard: React.FC<EventCardProps> = ({
   disabled,
   ...props
 }) => {
-  const formattedEvent = format.event(event);
+  const formattedEvent = format.event(event)!;
   const hasPassed = date.hasPassed(formattedEvent.startDate);
 
   const containerStyles = tw.style(
