@@ -10,30 +10,30 @@
  * Do not distribute
  */
 
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import type { Entitlement } from "qonversion-sdk";
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import type { Entitlement } from 'qonversion-sdk';
 
 import {
   getAdminChapter,
   getAdminChapterEntitlements,
   getAdminChapters,
-} from "@/api";
-import { useAuth } from "@/providers/Auth";
+} from '@/api';
+import { useAuth } from '@/providers/Auth';
 
 export const useGetAdminChapters = () => {
   const { accessToken } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [chapters, setChapters] = useState<Chapter[]>([]);
 
-  const query = useQuery(["adminChapters", accessToken], {
+  const query = useQuery(['adminChapters', accessToken], {
     queryFn: async () => {
       return getAdminChapters();
     },
   });
 
   useEffect(() => {
-    if (!query.data || "error" in query.data) {
+    if (!query.data || 'error' in query.data) {
       setIsLoading(query.isLoading);
       return;
     }
@@ -53,14 +53,14 @@ export const useGetAdminChapter = (id: string) => {
   const { accessToken } = useAuth();
   const [chapter, setChapter] = useState<Chapter | null>(null);
 
-  const query = useQuery(["adminChapter", accessToken, id], {
+  const query = useQuery(['adminChapter', accessToken, id], {
     queryFn: async () => {
       return getAdminChapter({ id });
     },
   });
 
   useEffect(() => {
-    if (!query.data || "error" in query.data) return;
+    if (!query.data || 'error' in query.data) return;
 
     setChapter(query.data.data.chapter);
   }, [query.data]);
@@ -75,14 +75,14 @@ export const useGetAdminChapterEntitlements = (id: string) => {
   const { accessToken } = useAuth();
   const [entitlements, setEntitlements] = useState<Entitlement[]>([]);
 
-  const query = useQuery(["adminChapterEntitlements", accessToken, id], {
+  const query = useQuery(['adminChapterEntitlements', accessToken, id], {
     queryFn: async () => {
       return getAdminChapterEntitlements({ id });
     },
   });
 
   useEffect(() => {
-    if (!query.data || "error" in query.data) return;
+    if (!query.data || 'error' in query.data) return;
 
     setEntitlements(query.data.data);
   }, [query.data]);

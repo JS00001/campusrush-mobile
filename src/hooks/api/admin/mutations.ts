@@ -10,12 +10,12 @@
  * Do not distribute
  */
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
 
 import {
   grantAdminChapterEntitlement,
   revokeAdminChapterEntitlement,
-} from "@/api";
+} from '@/api';
 
 export const useGrantAdminChapterEntitlement = () => {
   return useMutation({

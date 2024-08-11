@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
 
 import {
   login,
@@ -19,9 +19,9 @@ import {
   verifyChapter,
   resendVerification,
   refresh,
-} from "@/api";
+} from '@/api';
 
-import { useAuth } from "@/providers/Auth";
+import { useAuth } from '@/providers/Auth';
 
 export const useLogin = () => {
   return useMutation({

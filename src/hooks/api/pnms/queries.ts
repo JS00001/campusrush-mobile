@@ -10,12 +10,12 @@
  * Do not distribute
  */
 
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { usePnmStore } from "@/store";
-import { getPnms, getPnm } from "@/api";
-import { useAuth } from "@/providers/Auth";
+import { usePnmStore } from '@/store';
+import { getPnms, getPnm } from '@/api';
+import { useAuth } from '@/providers/Auth';
 
 export const useGetPnms = () => {
   const { accessToken } = useAuth();
@@ -24,14 +24,14 @@ export const useGetPnms = () => {
   const pnms = usePnmStore((s) => s.pnms);
   const setPnms = usePnmStore((s) => s.setPnms);
 
-  const query = useQuery(["pnms", accessToken], {
+  const query = useQuery(['pnms', accessToken], {
     queryFn: () => {
       return getPnms();
     },
   });
 
   useEffect(() => {
-    if (!query.data || "error" in query.data) {
+    if (!query.data || 'error' in query.data) {
       setIsLoading(query.isLoading);
       return;
     }
@@ -54,14 +54,14 @@ export const useGetPnm = (id: string) => {
   const pnm = usePnmStore((s) => s.getPnm(id));
   const addOrUpdatePnm = usePnmStore((s) => s.addOrUpdatePnm);
 
-  const query = useQuery(["pnm", id, accessToken], {
+  const query = useQuery(['pnm', id, accessToken], {
     queryFn: () => {
       return getPnm({ id });
     },
   });
 
   useEffect(() => {
-    if (!query.data || "error" in query.data) {
+    if (!query.data || 'error' in query.data) {
       setIsLoading(query.isLoading);
       return;
     }

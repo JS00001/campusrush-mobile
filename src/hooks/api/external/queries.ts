@@ -10,12 +10,12 @@
  * Do not distribute
  */
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-import { getMetadata } from "@/api";
+import { getMetadata } from '@/api';
 
 export const useGetMetadata = () => {
-  return useQuery(["metadata"], {
+  return useQuery(['metadata'], {
     queryFn: () => {
       return getMetadata();
     },

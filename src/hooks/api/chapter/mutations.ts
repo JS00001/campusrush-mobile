@@ -10,9 +10,9 @@
  * Do not distribute
  */
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
 
-import { updateChapter, deleteChapter, deleteChapterSession } from "@/api";
+import { updateChapter, deleteChapter, deleteChapterSession } from '@/api';
 
 export const useUpdateChapter = () => {
   return useMutation({

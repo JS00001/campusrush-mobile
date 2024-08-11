@@ -10,11 +10,11 @@
  * Do not distribute
  */
 
-import { useQuery } from "@tanstack/react-query";
-import { getPrivacyPolicy, getTermsOfService } from "@/api";
+import { useQuery } from '@tanstack/react-query';
+import { getPrivacyPolicy, getTermsOfService } from '@/api';
 
 export const useGetTermsOfService = () => {
-  return useQuery(["termsOfService"], {
+  return useQuery(['termsOfService'], {
     queryFn: () => {
       return getTermsOfService();
     },
@@ -22,7 +22,7 @@ export const useGetTermsOfService = () => {
 };
 
 export const useGetPrivacyPolicy = () => {
-  return useQuery(["privacyPolicy"], {
+  return useQuery(['privacyPolicy'], {
     queryFn: () => {
       return getPrivacyPolicy();
     },

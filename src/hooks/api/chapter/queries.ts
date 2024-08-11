@@ -10,12 +10,12 @@
  * Do not distribute
  */
 
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { useAuth } from "@/providers/Auth";
-import { useStatisticsStore } from "@/store";
-import { getChapterStatistics, getChapterSessions } from "@/api";
+import { useAuth } from '@/providers/Auth';
+import { useStatisticsStore } from '@/store';
+import { getChapterStatistics, getChapterSessions } from '@/api';
 
 export const useGetChapterStatistics = () => {
   const { accessToken } = useAuth();
@@ -23,21 +23,21 @@ export const useGetChapterStatistics = () => {
 
   const statisticsStore = useStatisticsStore();
 
-  const query = useQuery(["chapterStatistics", accessToken], {
+  const query = useQuery(['chapterStatistics', accessToken], {
     queryFn: async () => {
       return getChapterStatistics();
     },
   });
 
   useEffect(() => {
-    if (!query.data || "error" in query.data) {
+    if (!query.data || 'error' in query.data) {
       setIsLoading(query.isLoading);
       return;
     }
 
-    statisticsStore.setField("pnmCount", query.data.data.pnms);
-    statisticsStore.setField("recentPnms", query.data.data.recentPnms);
-    statisticsStore.setField("starredPnmCount", query.data.data.starredPnms);
+    statisticsStore.setField('pnmCount', query.data.data.pnms);
+    statisticsStore.setField('recentPnms', query.data.data.recentPnms);
+    statisticsStore.setField('starredPnmCount', query.data.data.starredPnms);
 
     setIsLoading(query.isLoading);
   }, [query.data]);
@@ -54,7 +54,7 @@ export const useGetChapterStatistics = () => {
 export const useGetChapterSessions = () => {
   const { accessToken } = useAuth();
 
-  return useQuery(["chapterSessions", accessToken], {
+  return useQuery(['chapterSessions', accessToken], {
     queryFn: async () => {
       return getChapterSessions();
     },

@@ -10,4 +10,4 @@
  * Do not distribute
  */
 
-export * from "./queries";
+export * from './queries';

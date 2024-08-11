@@ -10,9 +10,9 @@
  * Do not distribute
  */
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
 
-import { createEvent, updateEvent, deleteEvent, deleteEvents } from "@/api";
+import { createEvent, updateEvent, deleteEvent, deleteEvents } from '@/api';
 
 export const useCreateEvent = () => {
   return useMutation({

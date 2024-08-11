@@ -10,9 +10,9 @@
  * Do not distribute
  */
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
 
-import { createPnm, deletePnm, deletePnms, updatePnm } from "@/api";
+import { createPnm, deletePnm, deletePnms, updatePnm } from '@/api';
 
 export const useDeletePnms = () => {
   return useMutation({

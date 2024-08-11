@@ -10,9 +10,9 @@
  * Do not distribute
  */
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
 
-import { sendMassMessage, sendDirectMessage } from "@/api";
+import { sendMassMessage, sendDirectMessage } from '@/api';
 
 export const useSendMassMessage = () => {
   return useMutation({

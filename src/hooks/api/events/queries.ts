@@ -10,12 +10,12 @@
  * Do not distribute
  */
 
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { useEventStore } from "@/store";
-import { useAuth } from "@/providers/Auth";
-import { getEvent, getEvents } from "@/api";
+import { useEventStore } from '@/store';
+import { useAuth } from '@/providers/Auth';
+import { getEvent, getEvents } from '@/api';
 
 export const useGetEvents = () => {
   const { accessToken } = useAuth();
@@ -24,14 +24,14 @@ export const useGetEvents = () => {
   const events = useEventStore((s) => s.events);
   const setEvents = useEventStore((s) => s.setEvents);
 
-  const query = useQuery(["events", accessToken], {
+  const query = useQuery(['events', accessToken], {
     queryFn: () => {
       return getEvents();
     },
   });
 
   useEffect(() => {
-    if (!query.data || "error" in query.data) {
+    if (!query.data || 'error' in query.data) {
       setIsLoading(query.isLoading);
       return;
     }
@@ -53,12 +53,12 @@ export const useGetEvent = (id: string) => {
   const event = useEventStore((s) => s.getEvent(id));
   const addOrUpdateEvent = useEventStore((s) => s.addOrUpdateEvent);
 
-  const query = useQuery(["event", id, accessToken], () => {
+  const query = useQuery(['event', id, accessToken], () => {
     return getEvent({ id });
   });
 
   useEffect(() => {
-    if (!query.data || "error" in query.data) return;
+    if (!query.data || 'error' in query.data) return;
 
     addOrUpdateEvent(query.data.data.event);
   }, [query.data]);
