@@ -18,8 +18,8 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";
 import Headline from "@/ui/Headline";
+import format from "@/lib/util/format";
 import ListItemLoader from "@/ui/Loaders/ListItem";
-import { formatPhoneNumber } from "@/lib/util/string";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
 type ListDataTypes = PNM | string;
@@ -123,7 +123,7 @@ const PnmsList: React.FC<PnmsListProps> = ({
         style={tw`my-1`}
         key={data._id}
         title={data.displayName}
-        subtitle={formatPhoneNumber(data.phoneNumber)}
+        subtitle={format.phoneNumber(data.phoneNumber)}
         icon={data.starred ? "star-fill" : undefined}
         iconColor={tw.color("yellow")}
         onPress={onPress}

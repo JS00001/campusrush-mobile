@@ -11,7 +11,8 @@
  */
 
 import { View } from "react-native";
-import { useEffect, useState } from "react";
+import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
 
 import { BottomSheetProps, SheetData } from "./@types";
 
@@ -20,12 +21,13 @@ import Button from "@/ui/Button";
 import date from "@/lib/util/date";
 import Skeleton from "@/ui/Skeleton";
 import Headline from "@/ui/Headline";
+import format from "@/lib/util/format";
 import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import TagView from "@/components/TagView";
+import ButtonGroup from "@/ui/ButtonGroup";
 import { BottomSheet } from "@/ui/BottomSheet";
 import { useGlobalStore, usePnmStore } from "@/store";
-import { formatPhoneNumber } from "@/lib/util/string";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 import { useDeletePnm, useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
@@ -37,9 +39,9 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
   return (
     <BottomSheet
       innerRef={innerRef}
-      children={(data) => {
-        const props = data as SheetData<"PNM">;
-        const { pnmId } = props.data;
+      children={(props?: SheetData<"PNM">) => {
+        const { pnmId } = props!.data;
+        const navigation = useNavigation();
 
         const pnmStore = usePnmStore();
         const globalStore = useGlobalStore();
@@ -48,20 +50,12 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         const deleteMutation = useDeletePnm();
         const updateMutation = useUpdatePnm();
 
-        /**
-         * We need to use state here as a 'cache', because when the pnm is deleted,
-         * the store value becomes undefined, and we need to keep the pnm data so
-         * the app doesnt crash before the bottom sheet is closed.
-         */
-        const [pnm, setPnm] = useState(pnmQuery.pnm);
+        const pnm = pnmQuery.pnm;
 
-        useEffect(() => {
-          if (pnmQuery.pnm) setPnm(pnmQuery.pnm);
-        }, [pnmQuery.pnm]);
-
-        const onFavorite = async (starred: boolean) => {
+        const onFavorite = async () => {
           if (!pnm) return;
 
+          const starred = !pnm.starred;
           const res = await updateMutation.mutateAsync({ id: pnmId, starred });
 
           if ("error" in res) return;
@@ -79,22 +73,40 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         const onDelete = async () => {
           if (!pnm) return;
 
+          const displayName = pnm.displayName;
           const res = await deleteMutation.mutateAsync({ id: pnmId });
 
           if ("error" in res) return;
 
-          pnmStore.deletePnm(pnm._id);
+          pnmStore.deletePnm(pnmId);
           globalStore.deletePnm(pnm);
+
+          Toast.show({
+            type: "success",
+            text1: "PNM deleted",
+            text2: `${displayName} has been removed from your contacts`,
+          });
+
           handleClose();
+        };
+
+        const onSendMessagePress = () => {
+          if (!pnm) return;
+
+          handleClose();
+          navigation.navigate("Conversation", {
+            screen: "Chat",
+            params: {
+              pnm,
+            },
+          });
         };
 
         const onEditPress = () => {
           openBottomSheet("UPDATE_PNM", { pnmId });
         };
 
-        if (!pnm) {
-          return <LoadingState />;
-        }
+        if (!pnm) return <LoadingState />;
 
         return (
           <BottomSheetContainer>
@@ -111,10 +123,9 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
                   color="secondary"
                   loading={updateMutation.isLoading}
                   iconName={pnm.starred ? "star-fill" : "star-line"}
-                  iconColor={
-                    pnm.starred ? tw.color("yellow") : tw.color("primary")
-                  }
-                  onPress={() => onFavorite(!pnm.starred)}
+                  // prettier-ignore
+                  iconColor={pnm.starred ? tw.color("yellow") : tw.color("primary")}
+                  onPress={onFavorite}
                 />
                 <IconButton
                   size="sm"
@@ -130,7 +141,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
             <Detail.List>
               <Detail.Item
                 title="Phone Number"
-                value={formatPhoneNumber(pnm.phoneNumber) || "N/A"}
+                value={format.phoneNumber(pnm.phoneNumber) || "N/A"}
               />
               <Detail.Item title="Instagram" value={pnm.instagram || "N/A"} />
               <Detail.Item title="Snapchat" value={pnm.snapchat || "N/A"} />
@@ -144,9 +155,14 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
               />
             </Detail.List>
 
-            <Button size="sm" onPress={onEditPress}>
-              Edit PNM
-            </Button>
+            <ButtonGroup>
+              <Button size="sm" color="secondary" onPress={onSendMessagePress}>
+                Send Message
+              </Button>
+              <Button size="sm" onPress={onEditPress}>
+                Edit PNM
+              </Button>
+            </ButtonGroup>
           </BottomSheetContainer>
         );
       }}

@@ -36,8 +36,8 @@ import TabBarIcon from "@/ui/TabBarIcon";
 import { useAuth } from "@/providers/Auth";
 import { useConversationStore } from "@/store";
 import { useBottomSheet } from "@/providers/BottomSheet";
-import { useGetConversations } from "@/hooks/api/messaging";
 import NotificationsProvider from "@/providers/Notifications";
+import { useGetConversations } from "@/hooks/api/conversations";
 
 /**
  * Tab Navigator for the App

@@ -17,10 +17,10 @@ import { useNavigation } from "@react-navigation/native";
 import tw from "@/lib/tailwind";
 import Header from "@/ui/Header";
 import Skeleton from "@/ui/Skeleton";
+import format from "@/lib/util/format";
 import SafeAreaView from "@/ui/SafeAreaView";
 import { useGetPnm } from "@/hooks/api/pnms";
 import { useBottomSheet } from "@/providers/BottomSheet";
-import { formatPhoneNumber } from "@/lib/util/string";
 
 interface DirectMessageHeaderProps {
   pnmId: string;
@@ -31,8 +31,8 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({
   pnmId,
   loading,
 }) => {
-  const navigation = useNavigation();
   const pnmQuery = useGetPnm(pnmId);
+  const navigation = useNavigation();
   const { openBottomSheet } = useBottomSheet();
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({
       hasMenuButton
       loading={loading}
       title={pnm.displayName}
-      subtitle={formatPhoneNumber(pnm.phoneNumber)}
+      subtitle={format.phoneNumber(pnm.phoneNumber)}
       onMenuButtonPress={onMenuButtonPress}
     />
   );

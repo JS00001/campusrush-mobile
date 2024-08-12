@@ -69,11 +69,11 @@ export type HomeTabParams = {
   Settings: undefined;
   LinkSharing: undefined;
   PhoneNumber: undefined;
-  UpdateBilling: undefined;
-  UpdateChapter: undefined;
-  UpdateGeneral: undefined;
-  UpdateSecurity: undefined;
-  UpdateNotifications: undefined;
+  Chapter: undefined;
+  Billing: undefined;
+  Security: undefined;
+  ChangePassword: undefined;
+  Notifications: undefined;
 };
 
 export type PNMsTabParams = {

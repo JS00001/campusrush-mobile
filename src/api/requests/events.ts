@@ -15,11 +15,11 @@ import { axiosClient } from '@/providers/Axios';
 const PREFIX = '/api/v1/consumer/events';
 
 /**
- * Request:     GET /api/v1/consumer/events/list
+ * Request:     GET /api/v1/consumer/events
  * Description: Get all events
  */
 export const getEvents = async () => {
-  const url = `${PREFIX}/list`;
+  const url = `${PREFIX}`;
 
   const { data: responseData } = await axiosClient.get(url);
 
@@ -27,11 +27,11 @@ export const getEvents = async () => {
 };
 
 /**
- * Request:     DELETE /api/v1/consumer/events/delete
+ * Request:     DELETE /api/v1/consumer/events
  * Description: Delete ALL events
  */
 export const deleteEvents = async () => {
-  const url = `${PREFIX}/delete`;
+  const url = `${PREFIX}`;
 
   const { data } = await axiosClient.delete(url);
 
@@ -39,11 +39,11 @@ export const deleteEvents = async () => {
 };
 
 /**
- * Request:     GET /api/v1/consumer/events/get/:id
+ * Request:     GET /api/v1/consumer/events/:id
  * Description: Get an event by id
  */
 export const getEvent = async (data: GetEventRequest) => {
-  const url = `${PREFIX}/get/${data.id}`;
+  const url = `${PREFIX}/${data.id}`;
 
   const { data: responseData } = await axiosClient.get(url);
 
@@ -51,11 +51,11 @@ export const getEvent = async (data: GetEventRequest) => {
 };
 
 /**
- * Request:     POST /api/v1/consumer/events/create
+ * Request:     POST /api/v1/consumer/events
  * Description: Create an event
  */
 export const createEvent = async (data: CreateEventRequest) => {
-  const url = `${PREFIX}/create`;
+  const url = `${PREFIX}`;
 
   const { data: responseData } = await axiosClient.post(url, data);
 
@@ -63,12 +63,12 @@ export const createEvent = async (data: CreateEventRequest) => {
 };
 
 /**
- * Request:     PUT /api/v1/consumer/events/update/:id
+ * Request:     PUT /api/v1/consumer/events/:id
  * Description: Update an event
  */
 export const updateEvent = async (data: UpdateEventRequest) => {
   const { id, ...rest } = data;
-  const url = `${PREFIX}/update/${id}`;
+  const url = `${PREFIX}/${id}`;
 
   const { data: responseData } = await axiosClient.put(url, rest);
 
@@ -76,11 +76,11 @@ export const updateEvent = async (data: UpdateEventRequest) => {
 };
 
 /**
- * Request:     DELETE /api/v1/consumer/events/delete/:id
+ * Request:     DELETE /api/v1/consumer/events/:id
  * Description: Delete an event
  */
 export const deleteEvent = async (data: DeleteEventRequest) => {
-  const url = `${PREFIX}/delete/${data.id}`;
+  const url = `${PREFIX}/${data.id}`;
 
   const { data: responseData } = await axiosClient.delete(url);
 

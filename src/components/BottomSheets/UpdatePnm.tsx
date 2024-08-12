@@ -34,14 +34,13 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
   return (
     <FormSheet
       innerRef={innerRef}
-      children={(data) => {
-        const props = data as SheetData<"UPDATE_PNM">;
-        const { pnmId } = props.data;
+      children={(props?: SheetData<"UPDATE_PNM">) => {
+        const { pnmId } = props!.data;
 
         const pnmStore = usePnmStore();
         const pnmQuery = useGetPnm(pnmId);
         const updatePnmMutation = useUpdatePnm();
-        const setStatus = useStatusStore((s) => s.setStatus);
+        const setStatusOverlay = useStatusStore((s) => s.setStatusOverlay);
 
         const formValidators = {
           id: validators.objectId,
@@ -80,17 +79,17 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
         };
 
         const handleSubmission = async () => {
-          setStatus("loading");
+          setStatusOverlay("loading");
           await form.handleSubmission();
-          setStatus("idle");
+          setStatusOverlay("idle");
         };
 
         return (
           <Layout.Root>
             <Layout.Content
               scrollable
-              contentContainerStyle={tw`pt-0 items-start`}
               gap={12}
+              contentContainerStyle={tw`pt-0 items-start`}
             >
               <FormHeader onSave={handleSubmission} onCancel={handleClose} />
 

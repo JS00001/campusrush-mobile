@@ -14,6 +14,8 @@ type LogoutResponse = API.Response;
 
 type DeletePnmResponse = API.Response;
 
+type DeleteChapterSessionResponse = API.Response;
+
 type DeletePnmsResponse = API.Response;
 
 type GrantAdminChapterEntitlementsResponse = API.Response;
@@ -203,6 +205,11 @@ type GetEventResponse = API.Response<{
 type GetAdminChapterResponse = API.Response<{
   /** Admin chapter information */
   chapter: Chapter;
+}>;
+
+type GetChapterSessionsResponse = API.Response<{
+  /** List of sessions */
+  sessions: RefreshToken[];
 }>;
 
 type GetAdminChapterEntitlementsResponse = API.Response<

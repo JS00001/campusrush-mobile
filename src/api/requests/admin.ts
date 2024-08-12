@@ -27,11 +27,11 @@ export const getAdminChapters = async () => {
 };
 
 /**
- * Request:     GET /api/v1/consumer/admin/chapter/:id
+ * Request:     GET /api/v1/consumer/admin/chapters/:id
  * Description: Get a chapter by id
  */
 export const getAdminChapter = async (data: GetAdminChapterRequest) => {
-  const url = `${PREFIX}/chapter/${data.id}`;
+  const url = `${PREFIX}/chapters/${data.id}`;
 
   const { data: responseData } = await axiosClient.get(url);
 
@@ -39,13 +39,13 @@ export const getAdminChapter = async (data: GetAdminChapterRequest) => {
 };
 
 /**
- * Request:     GET /api/v1/consumer/admin/chapter/:id/entitlements
+ * Request:     GET /api/v1/consumer/admin/chapters/:id/entitlements
  * Description: Get a chapter's entitlements
  */
 export const getAdminChapterEntitlements = async (
   data: GetAdminChapterEntitlementsRequest,
 ) => {
-  const url = `${PREFIX}/chapter/${data.id}/entitlements`;
+  const url = `${PREFIX}/chapters/${data.id}/entitlements`;
 
   const { data: responseData } = await axiosClient.get(url);
 
@@ -53,13 +53,13 @@ export const getAdminChapterEntitlements = async (
 };
 
 /**
- * Request:     POST /api/v1/consumer/admin/chapter/:id/entitlements
+ * Request:     POST /api/v1/consumer/admin/chapters/:id/entitlements
  * Description: Add entitlements to a chapter
  */
 export const grantAdminChapterEntitlement = async (
   data: GrantAdminChapterEntitlementRequest,
 ) => {
-  const url = `${PREFIX}/chapter/${data.id}/entitlement`;
+  const url = `${PREFIX}/chapters/${data.id}/entitlements`;
 
   const { data: responseData } = await axiosClient.post(url, data);
 
@@ -73,7 +73,7 @@ export const grantAdminChapterEntitlement = async (
 export const revokeAdminChapterEntitlement = async (
   data: RevokeAdminChapterEntitlementRequest,
 ) => {
-  const url = `${PREFIX}/chapter/${data.id}/entitlement`;
+  const url = `${PREFIX}/chapters/${data.id}/entitlements`;
 
   const { data: responseData } = await axiosClient.delete(url, { data });
 

@@ -18,7 +18,7 @@ import Text from "@/ui/Text";
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
-import { formatEvent } from "@/lib/util/format";
+import format from "@/lib/util/format";
 
 interface EventProps extends Omit<TouchableOpacityProps, "onPress"> {
   event: Event;
@@ -33,7 +33,7 @@ const Event: React.FC<EventProps> = ({
   disabled,
   ...props
 }) => {
-  const formattedEvent = formatEvent(event);
+  const formattedEvent = format.event(event)!;
   const hasEventPassed = date.hasPassed(formattedEvent.startDate);
 
   const handlePress = () => {

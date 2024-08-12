@@ -16,8 +16,8 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 import Skeleton from "@/ui/Skeleton";
+import format from "@/lib/util/format";
 import EventDate from "@/ui/Event/Date";
-import { formatEvent } from "@/lib/util/format";
 
 interface EventCardProps extends Omit<TouchableOpacityProps, "onPress"> {
   event: Event;
@@ -32,7 +32,7 @@ const EventCard: React.FC<EventCardProps> = ({
   disabled,
   ...props
 }) => {
-  const formattedEvent = formatEvent(event);
+  const formattedEvent = format.event(event)!;
   const hasPassed = date.hasPassed(formattedEvent.startDate);
 
   const containerStyles = tw.style(

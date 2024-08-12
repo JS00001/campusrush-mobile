@@ -27,11 +27,11 @@ export const getChapterStatistics = async () => {
 };
 
 /**
- * Request:     PUT /api/v1/consumer/chapter/update
+ * Request:     PUT /api/v1/consumer/chapter
  * Description: Update a chapter
  */
 export const updateChapter = async (data: UpdateChapterRequest) => {
-  const url = `${PREFIX}/update`;
+  const url = `${PREFIX}`;
 
   const { data: responseData } = await axiosClient.put(url, data);
 
@@ -39,13 +39,39 @@ export const updateChapter = async (data: UpdateChapterRequest) => {
 };
 
 /**
- * Request:     DELETE /api/v1/consumer/chapter/delete
+ * Request:     DELETE /api/v1/consumer/chapter
  * Description: Delete a chapter
  */
 export const deleteChapter = async () => {
-  const url = `${PREFIX}/delete`;
+  const url = `${PREFIX}`;
 
   const { data } = await axiosClient.delete(url);
 
   return data as DeleteChapterResponse;
+};
+
+/**
+ * Request:    GET /api/v1/consumer/chapter/sessions
+ * Description: Get a chapter's sessions
+ */
+export const getChapterSessions = async () => {
+  const url = `${PREFIX}/sessions`;
+
+  const { data } = await axiosClient.get(url);
+
+  return data as GetChapterSessionsResponse;
+};
+
+/**
+ * Request:    DELETE /api/v1/consumer/chapter/sessions/:id
+ * Description: Delete a chapter's session
+ */
+export const deleteChapterSession = async (
+  data: DeleteChapterSessionRequest,
+) => {
+  const url = `${PREFIX}/sessions/${data.id}`;
+
+  const { data: responseData } = await axiosClient.delete(url);
+
+  return responseData as DeleteChapterSessionResponse;
 };

@@ -21,17 +21,15 @@ import ListItem from "@/ui/ListItem";
 import AppConstants from "@/constants";
 import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
-import { useLogout } from "@/hooks/api/auth";
 import { useDeleteChapter } from "@/hooks/api/chapter";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
 const SettingsView = () => {
   const navigation = useNavigation();
-  const mutation = useDeleteChapter();
+  const deletionMutation = useDeleteChapter();
 
-  const logoutMutation = useLogout();
-  const { chapter, clearUserData } = useAuth();
   const { openBottomSheet } = useBottomSheet();
+  const { chapter, logoutUser, mutations } = useAuth();
 
   const onTermsOfServicePress = () => {
     openBottomSheet("TERMS_OF_SERVICE");
@@ -41,11 +39,29 @@ const SettingsView = () => {
     openBottomSheet("PRIVACY_POLICY");
   };
 
-  const onUpdateChapterPress = () => {
+  const onChapterPress = () => {
     navigation.navigate("Main", {
       screen: "HomeTab",
       params: {
-        screen: "UpdateChapter",
+        screen: "Chapter",
+      },
+    });
+  };
+
+  const onNotificationsPress = () => {
+    navigation.navigate("Main", {
+      screen: "HomeTab",
+      params: {
+        screen: "Notifications",
+      },
+    });
+  };
+
+  const onSecurityPress = () => {
+    navigation.navigate("Main", {
+      screen: "HomeTab",
+      params: {
+        screen: "Security",
       },
     });
   };
@@ -59,20 +75,11 @@ const SettingsView = () => {
     });
   };
 
-  const onUpdateBillingPress = () => {
+  const onBillingPress = () => {
     navigation.navigate("Main", {
       screen: "HomeTab",
       params: {
-        screen: "UpdateBilling",
-      },
-    });
-  };
-
-  const onUpdateNotificationsPress = () => {
-    navigation.navigate("Main", {
-      screen: "HomeTab",
-      params: {
-        screen: "UpdateNotifications",
+        screen: "Billing",
       },
     });
   };
@@ -87,11 +94,7 @@ const SettingsView = () => {
   };
 
   const onLogout = async () => {
-    const res = await logoutMutation.mutateAsync();
-
-    if ("error" in res.data) return;
-
-    clearUserData();
+    await logoutUser();
   };
 
   const onDeleteAccount = () => {
@@ -107,7 +110,7 @@ const SettingsView = () => {
           style: "destructive",
           text: "Yes, Delete",
           onPress: async () => {
-            await mutation.mutateAsync();
+            await deletionMutation.mutateAsync();
           },
         },
       ],
@@ -121,17 +124,22 @@ const SettingsView = () => {
         title="Chapter"
         subtitle="Manage your chapter"
         icon="building-2-fill"
-        onPress={onUpdateChapterPress}
+        onPress={onChapterPress}
       />
-
       <ListItem
         size="lg"
         title="Notifications"
         subtitle="Manage your notifications"
         icon="notification-2-fill"
-        onPress={onUpdateNotificationsPress}
+        onPress={onNotificationsPress}
       />
-
+      <ListItem
+        size="lg"
+        title="Security"
+        subtitle="Manage your security settings"
+        icon="shield-check-fill"
+        onPress={onSecurityPress}
+      />
       <ListItem
         size="lg"
         title="Phone Number"
@@ -139,7 +147,6 @@ const SettingsView = () => {
         icon="phone-fill"
         onPress={onPhoneNumberPress}
       />
-
       <ListItem
         size="lg"
         title="Link Sharing"
@@ -147,13 +154,12 @@ const SettingsView = () => {
         icon="share-fill"
         onPress={onLinkSharingPress}
       />
-
       <ListItem
         size="lg"
         title="Billing"
         subtitle="Manage your billing"
         icon="bank-card-2-fill"
-        onPress={onUpdateBillingPress}
+        onPress={onBillingPress}
       />
 
       <View style={tw`w-full flex-row gap-3`}>
@@ -164,7 +170,6 @@ const SettingsView = () => {
           subtitle="View our terms and conditions"
           onPress={onTermsOfServicePress}
         />
-
         <ListItem
           size="sm"
           icon="shield-user-fill"
@@ -177,8 +182,8 @@ const SettingsView = () => {
       <Button
         size="sm"
         style={tw`w-full`}
-        loading={logoutMutation.isLoading}
         onPress={onLogout}
+        loading={mutations.logoutMutation.isLoading}
       >
         Sign Out of {chapter.name}
       </Button>
@@ -187,7 +192,7 @@ const SettingsView = () => {
         size="sm"
         color="secondary"
         style={tw`w-full`}
-        loading={mutation.isLoading}
+        loading={deletionMutation.isLoading}
         textStyle={tw`text-red font-medium`}
         onPress={onDeleteAccount}
       >

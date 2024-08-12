@@ -11,6 +11,7 @@
  */
 
 import { useEffect } from "react";
+import * as Device from "expo-device";
 import Toast from "react-native-toast-message";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
@@ -51,6 +52,8 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
       if (accessToken && !config.headers.Authorization) {
         config.headers["Authorization"] = `Bearer ${accessToken}`;
       }
+
+      config.headers["User-Agent"] = Device.modelName;
 
       return config;
     };

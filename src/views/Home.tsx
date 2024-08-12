@@ -18,10 +18,10 @@ import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";
 import ListItem from "@/ui/ListItem";
 import FlatList from "@/ui/FlatList";
+import format from "@/lib/util/format";
 import IconButton from "@/ui/IconButton";
 import { useAuth } from "@/providers/Auth";
 import ListItemLoader from "@/ui/Loaders/ListItem";
-import { formatPhoneNumber } from "@/lib/util/string";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import { useGetChapterStatistics } from "@/hooks/api/chapter";
 
@@ -122,7 +122,7 @@ const HomeView = () => {
               iconColor={tw.color("yellow")}
               icon={pnm.starred ? "star-fill" : undefined}
               title={pnm.displayName}
-              subtitle={formatPhoneNumber(pnm.phoneNumber)}
+              subtitle={format.phoneNumber(pnm.phoneNumber)}
               onPress={onRecentPnmPress.bind(null, pnm)}
             />
           )}

@@ -27,7 +27,12 @@ interface FormattedEvent extends Event {
   totalResponses: number;
 }
 
-export const formatEvent = (event: Event): FormattedEvent => {
+/**
+ * Extract date information from an event
+ */
+const formatEvent = (event?: Event): FormattedEvent | null => {
+  if (!event) return null;
+
   const startDate = new Date(event.startDate);
   const endDate = new Date(event.endDate);
 
@@ -102,4 +107,25 @@ export const formatEvent = (event: Event): FormattedEvent => {
       weekday: endWeekday,
     },
   };
+};
+
+/**
+ * Format a phone number to be more readable
+ */
+const formatPhoneNumber = (phoneNumber: string) => {
+  if (!phoneNumber) return '';
+
+  if (phoneNumber.length === 12) {
+    const areaCode = phoneNumber.substring(2, 5);
+    const localNumber = `${phoneNumber.substring(5, 8)}-${phoneNumber.substring(8, 12)}`;
+
+    phoneNumber = `(${areaCode}) ${localNumber}`;
+  }
+
+  return phoneNumber;
+};
+
+export default {
+  event: (event: Event) => formatEvent(event),
+  phoneNumber: (phoneNumber: string) => formatPhoneNumber(phoneNumber),
 };

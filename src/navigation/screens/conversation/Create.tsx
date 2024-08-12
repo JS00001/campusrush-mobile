@@ -38,12 +38,12 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
   const messageStore = useMessageStore();
   const conversationStore = useConversationStore();
   const sendMassMessageMutation = useSendMassMessage();
-  const setStatus = useStatusStore((s) => s.setStatus);
+  const setStatusOverlay = useStatusStore((s) => s.setStatusOverlay);
 
   const onMessageSend = async (messages: string[]) => {
     navigation.goBack();
 
-    setStatus("loading");
+    setStatusOverlay("loading");
 
     for (const message of messages) {
       const payload = {
@@ -53,7 +53,7 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
 
       const res = await sendMassMessageMutation.mutateAsync(payload);
 
-      if ("error" in res) return setStatus("idle");
+      if ("error" in res) return setStatusOverlay("idle");
 
       const messages = res.data.messages;
       const conversations = res.data.conversations;
@@ -76,7 +76,7 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
       text2: `Your message has been sent to ${pnms.length} PNMs.`,
     });
 
-    setStatus("idle");
+    setStatusOverlay("idle");
   };
 
   const onRemovePnm = (pnm: PNM) => {

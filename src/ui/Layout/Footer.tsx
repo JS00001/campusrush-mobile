@@ -12,11 +12,11 @@
 
 import {
   KeyboardAvoidingView,
-  SafeAreaView,
   ScrollView,
   View,
   ViewProps,
 } from "react-native";
+import SafeAreaView from "../SafeAreaView";
 
 interface FooterProps extends ViewProps {
   /**
@@ -61,17 +61,23 @@ const Footer: React.FC<FooterProps> = ({
         automaticallyAdjustKeyboardInsets
         keyboardShouldPersistTaps="handled"
       >
-        <SafeAreaView {...props}>{children}</SafeAreaView>
+        <SafeAreaView position="bottom" {...props}>
+          {children}
+        </SafeAreaView>
       </ScrollView>
     ),
     KeyboardAvoidingView: (
       <KeyboardAvoidingView behavior="padding">
-        <SafeAreaView {...props}>{children}</SafeAreaView>
+        <SafeAreaView position="bottom" {...props}>
+          {children}
+        </SafeAreaView>
       </KeyboardAvoidingView>
     ),
     View: (
       <View>
-        <SafeAreaView {...props}>{children}</SafeAreaView>
+        <SafeAreaView position="bottom" {...props}>
+          {children}
+        </SafeAreaView>
       </View>
     ),
   }[ContentContainerType];

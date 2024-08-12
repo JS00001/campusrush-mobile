@@ -50,13 +50,13 @@ import PNMsScreen from "@/navigation/screens/pnms/Pnms";
 
 import HomeScreen from "@/navigation/screens/home/Home";
 import SettingsScreen from "@/navigation/screens/home/settings/Settings";
-import PhoneNumber from "@/navigation/screens/home/settings/PhoneNumber";
-import LinkSharingScreen from "@/navigation/screens/home/settings/LinkSharing";
-import UpdateBillingScreen from "@/navigation/screens/home/settings/UpdateBilling";
-import UpdateNotificationsScreen from "@/navigation/screens/home/settings/UpdateNotifications";
-import UpdateGeneralScreen from "@/navigation/screens/home/settings/chapter/UpdateGeneral";
-import UpdateSecurityScreen from "@/navigation/screens/home/settings/chapter/UpdateSecurity";
-import UpdateChapterScreen from "@/navigation/screens/home/settings/chapter/UpdateChapter";
+import SettingsPhoneNumberScreen from "@/navigation/screens/home/settings/PhoneNumber";
+import SettingsLinkSharingScreen from "@/navigation/screens/home/settings/LinkSharing";
+import SettingsBillingScreen from "@/navigation/screens/home/settings/Billing";
+import SettingsNotificationsScreen from "@/navigation/screens/home/settings/Notifications";
+import SettingsSecurityScreen from "@/navigation/screens/home/settings/security/Security";
+import SettingsChangePasswordScreen from "@/navigation/screens/home/settings/security/ChangePassword";
+import SettingsChapterScreen from "@/navigation/screens/home/settings/Chapter";
 
 import MessagesScreen from "@/navigation/screens/messages/Messages";
 
@@ -196,31 +196,31 @@ export const HomeStack = () => {
       />
       <Stack.Screen
         name="LinkSharing"
-        component={LinkSharingScreen}
+        component={SettingsLinkSharingScreen}
       />
       <Stack.Screen
         name="PhoneNumber"
-        component={PhoneNumber}
+        component={SettingsPhoneNumberScreen}
       />
       <Stack.Screen
-        name="UpdateBilling"
-        component={UpdateBillingScreen}
+        name="Billing"
+        component={SettingsBillingScreen}
       />
       <Stack.Screen
-        name="UpdateChapter"
-        component={UpdateChapterScreen}
+        name="Chapter"
+        component={SettingsChapterScreen}
       />
       <Stack.Screen
-        name="UpdateGeneral"
-        component={UpdateGeneralScreen}
+        name="Security"
+        component={SettingsSecurityScreen}
       />
       <Stack.Screen
-        name="UpdateSecurity"
-        component={UpdateSecurityScreen}
+        name="ChangePassword"
+        component={SettingsChangePasswordScreen}
       />
       <Stack.Screen
-        name="UpdateNotifications"
-        component={UpdateNotificationsScreen}
+        name="Notifications"
+        component={SettingsNotificationsScreen}
       />
     </Stack.Navigator>
   );

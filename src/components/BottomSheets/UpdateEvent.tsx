@@ -34,17 +34,15 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
   return (
     <FormSheet
       innerRef={innerRef}
-      children={(data) => {
-        const props = data as SheetData<"UPDATE_EVENT">;
-        const { eventId } = props.data;
-
-        const currentDate = new Date();
+      children={(props?: SheetData<"UPDATE_EVENT">) => {
+        const { eventId } = props!.data;
 
         const eventStore = useEventStore();
         const eventQuery = useGetEvent(eventId);
         const updateEventMutation = useUpdateEvent();
-        const setStatus = useStatusStore((s) => s.setStatus);
+        const setStatusOverlay = useStatusStore((s) => s.setStatusOverlay);
 
+        const currentDate = new Date();
         const startDate = eventQuery.event?.startDate || new Date();
         const endDate = eventQuery.event?.endDate || new Date();
 
@@ -93,11 +91,11 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
         };
 
         const handleSubmission = async () => {
-          setStatus("loading");
+          setStatusOverlay("loading");
           const isValid = form.validateState();
 
           if (!isValid) {
-            setStatus("idle");
+            setStatusOverlay("idle");
             return;
           }
 
@@ -106,12 +104,12 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
 
           if (startDate >= endDate) {
             form.setError("endDate", "End date must be after start date");
-            setStatus("idle");
+            setStatusOverlay("idle");
             return;
           }
 
           await form.handleSubmission();
-          setStatus("idle");
+          setStatusOverlay("idle");
         };
 
         return (
@@ -146,9 +144,9 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
                 value={newStartDate}
                 minimumDate={currentDate}
                 error={form.state.startDate.error}
-                onChange={(event, date) =>
-                  onDateTimeChange(event, "startDate", date)
-                }
+                onChange={(event, date) => {
+                  return onDateTimeChange(event, "startDate", date);
+                }}
               />
 
               <DateTimePicker
@@ -157,9 +155,9 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
                 value={newEndDate}
                 minimumDate={newStartDate}
                 error={form.state.endDate.error}
-                onChange={(event, date) =>
-                  onDateTimeChange(event, "endDate", date)
-                }
+                onChange={(event, date) => {
+                  return onDateTimeChange(event, "endDate", date);
+                }}
               />
 
               <FormField

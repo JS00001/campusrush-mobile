@@ -17,7 +17,7 @@ type Status = 'idle' | 'loading';
 interface IStatusStore {
   status: Status;
   clear: () => void;
-  setStatus: (status: Status) => void;
+  setStatusOverlay: (status: Status) => void;
 }
 
 export const useStatusStore = create<IStatusStore>()((set) => {
@@ -29,13 +29,13 @@ export const useStatusStore = create<IStatusStore>()((set) => {
     set(initialState);
   };
 
-  const setStatus = (status: Status) => {
+  const setStatusOverlay = (status: Status) => {
     set({ status });
   };
 
   return {
     ...initialState,
     clear,
-    setStatus,
+    setStatusOverlay,
   };
 });
