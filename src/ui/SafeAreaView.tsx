@@ -52,8 +52,8 @@ const SafeAreaView: React.FC<SafeAreaViewProps> = ({
       {...props}
       style={{
         ...style,
-        marginTop: position === "top" ? insets.top : 0,
-        marginBottom: position === "bottom" ? insets.bottom : 0,
+        paddingTop: position === "top" ? insets.top : 0,
+        paddingBottom: position === "bottom" ? insets.bottom : 0,
       }}
     >
       {children}

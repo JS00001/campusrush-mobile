@@ -12,6 +12,7 @@
 
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
 
 import { BottomSheetProps, SheetData } from "./@types";
 
@@ -24,6 +25,7 @@ import format from "@/lib/util/format";
 import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import TagView from "@/components/TagView";
+import ButtonGroup from "@/ui/ButtonGroup";
 import { BottomSheet } from "@/ui/BottomSheet";
 import { useGlobalStore, usePnmStore } from "@/store";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
@@ -39,6 +41,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
       innerRef={innerRef}
       children={(props?: SheetData<"PNM">) => {
         const { pnmId } = props!.data;
+        const navigation = useNavigation();
 
         const pnmStore = usePnmStore();
         const globalStore = useGlobalStore();
@@ -85,6 +88,18 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
           });
 
           handleClose();
+        };
+
+        const onSendMessagePress = () => {
+          if (!pnm) return;
+
+          handleClose();
+          navigation.navigate("Conversation", {
+            screen: "Chat",
+            params: {
+              pnm,
+            },
+          });
         };
 
         const onEditPress = () => {
@@ -140,9 +155,14 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
               />
             </Detail.List>
 
-            <Button size="sm" onPress={onEditPress}>
-              Edit PNM
-            </Button>
+            <ButtonGroup>
+              <Button size="sm" color="secondary" onPress={onSendMessagePress}>
+                Send Message
+              </Button>
+              <Button size="sm" onPress={onEditPress}>
+                Edit PNM
+              </Button>
+            </ButtonGroup>
           </BottomSheetContainer>
         );
       }}

@@ -55,7 +55,7 @@ export const register = async (data: RegisterRequest) => {
  * Description: Check if an email is already in use
  */
 export const checkEmail = async (data: CheckEmailRequest) => {
-  const url = `${PREFIX}/emails/check?email=${data.email}`;
+  const url = `${PREFIX}/email-exists?email=${data.email}`;
 
   const { data: responseData } = await axiosClient.get(url);
 
