@@ -49,9 +49,10 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
   const extensionPanelRef = useRef<ExtensionPanelRef>(null);
 
   useKeyboardListener({
-    onKeyboardWillShow: () => {
+    onKeyboardWillShow: (e) => {
+      const keyboardHeight = e.endCoordinates.height;
       extensionPanelRef.current?.closePanel();
-      animateMessageBox(1);
+      animateMessageBox(1, keyboardHeight);
     },
     onKeyboardWillHide: () => {
       if (extensionsVisible) return;
@@ -75,10 +76,10 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
     }
   };
 
-  const animateMessageBox = (toValue: number) => {
-    const BOTTOM_SHEET_HEIGHT = 304;
+  const animateMessageBox = (toValue: number, height?: number) => {
     const IOS_KEYBOARD_ANIMATION_DURATION = 250;
     const IOS_KEYBOARD_EASING = Easing.bezier(0.33, 1, 0.68, 1);
+    const BOTTOM_SHEET_HEIGHT = height ? height - 30 : 306;
 
     const adjustedValue = toValue * BOTTOM_SHEET_HEIGHT;
 
