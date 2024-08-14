@@ -59,9 +59,17 @@ const FormField: React.FC<FormFieldProps> = ({
   const [focused, setFocused] = useState(false);
   const [hideValue, setHideValue] = useState(secureTextEntry);
 
+  // If we have a value when we load the component, animate the placeholder up
   useEffect(() => {
     if (value) animatePlaceholder(10, 12);
   }, []);
+
+  // If we set a value to undefined (clearing the input), animate the placeholder back down
+  useEffect(() => {
+    if (value === undefined) {
+      animatePlaceholder(20, 18);
+    }
+  }, [value]);
 
   /**
    * Animate between the placeholder's focused and unfocused states

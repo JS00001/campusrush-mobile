@@ -36,6 +36,8 @@ const ChangePasswordView = () => {
         text1: Content.updateChapterSuccess.title,
         text2: Content.updateChapterSuccess.message,
       });
+
+      form.clear();
     },
   });
 

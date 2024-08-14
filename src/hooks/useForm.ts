@@ -110,8 +110,13 @@ const useForm = <T extends Record<string, any>>({
     return true;
   };
 
+  const clear = () => {
+    setState(initialState);
+  };
+
   return {
     state,
+    clear,
     setValue,
     setError,
     validateState,
