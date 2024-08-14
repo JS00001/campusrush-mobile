@@ -10,17 +10,19 @@
  * Do not distribute
  */
 
-type LogoutResponse = API.Response;
+type LogoutResponse = API.Response<{}>;
 
-type DeletePnmResponse = API.Response;
+type DeletePnmResponse = API.Response<{}>;
 
-type DeleteChapterSessionResponse = API.Response;
+type DeleteChapterSessionResponse = API.Response<{}>;
 
-type DeletePnmsResponse = API.Response;
+type DeletePnmsResponse = API.Response<{}>;
 
-type GrantAdminChapterEntitlementsResponse = API.Response;
+type GrantAdminChapterEntitlementsResponse = API.Response<{}>;
 
-type RevokeAdminChapterEntitlementsResponse = API.Response;
+type RevokeAdminChapterEntitlementsResponse = API.Response<{}>;
+
+type ResetPasswordResponse = API.Response<{}>;
 
 type GetEntitlementsResponse = API.Response<EntitlementDetails>;
 
@@ -41,6 +43,15 @@ type LoginResponse = API.Response<{
 }>;
 
 type RegisterResponse = API.Response<{
+  /** Chapter information */
+  chapter: Chapter;
+  /** Access token for authentication */
+  accessToken: string;
+  /** Refresh token for token refreshing */
+  refreshToken: string;
+}>;
+
+type ChangePasswordResponse = API.Response<{
   /** Chapter information */
   chapter: Chapter;
   /** Access token for authentication */

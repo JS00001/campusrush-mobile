@@ -27,6 +27,8 @@ import { usePreferences } from "@/providers/Preferences";
 
 import LoginScreen from "@/navigation/screens/auth/Login";
 import LandingScreen from "@/navigation/screens/auth/Landing";
+import ForgotPasswordStep1Screen from "./screens/auth/ForgotPasswordStep1";
+import ForgotPasswordStep2Screen from "./screens/auth/ForgotPasswordStep2";
 import RegistrationStep1Screen from "@/navigation/screens/auth/RegistrationStep1";
 import RegistrationStep2Screen from "@/navigation/screens/auth/RegistrationStep2";
 import RegistrationStep3Screen from "@/navigation/screens/auth/RegistrationStep3";
@@ -84,6 +86,14 @@ export const AuthStack = () => {
       <Stack.Screen
         name="Login"
         component={LoginScreen}
+      />
+      <Stack.Screen
+        name="ForgotPasswordStep1"
+        component={ForgotPasswordStep1Screen}
+      />
+      <Stack.Screen
+        name="ForgotPasswordStep2"
+        component={ForgotPasswordStep2Screen}
       />
       <Stack.Screen
         name="RegistrationStep1"

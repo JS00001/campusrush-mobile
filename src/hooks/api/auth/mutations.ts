@@ -19,6 +19,8 @@ import {
   verifyChapter,
   resendVerification,
   refresh,
+  resetPassword,
+  changePassword,
 } from '@/api';
 
 import { useAuth } from '@/providers/Auth';
@@ -69,6 +71,22 @@ export const useRefresh = () => {
   return useMutation({
     mutationFn: () => {
       return refresh({ refreshToken: refreshToken as string });
+    },
+  });
+};
+
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: (data: ResetPasswordRequest) => {
+      return resetPassword(data);
+    },
+  });
+};
+
+export const useChangePassword = () => {
+  return useMutation({
+    mutationFn: (data: ChangePasswordRequest) => {
+      return changePassword(data);
     },
   });
 };

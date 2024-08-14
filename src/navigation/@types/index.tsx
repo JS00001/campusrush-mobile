@@ -40,6 +40,8 @@ export type BillingStackHook = NativeStackNavigationProp<BillingStackParams>;
 export type AuthStackParams = {
   Landing: undefined;
   Login: undefined;
+  ForgotPasswordStep1: undefined;
+  ForgotPasswordStep2: undefined;
   RegistrationStep1: undefined;
   RegistrationStep2: undefined;
   RegistrationStep3: undefined;

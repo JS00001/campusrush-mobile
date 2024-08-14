@@ -10,17 +10,24 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
+import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import Hyperlink from "@/ui/Hyperlink";
 import FormField from "@/ui/FormField";
 import { useAuth } from "@/providers/Auth";
 import { useLogin } from "@/hooks/api/auth";
 import validators from "@/constants/validators";
 import useFormMutation from "@/hooks/useFormMutation";
+import type { AuthStackHook } from "@/navigation/@types";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const LoginView = () => {
   const mutation = useLogin();
   const { authenticateUser } = useAuth();
+  const navigation = useNavigation<AuthStackHook>();
 
   const formValidators = {
     email: validators.email,
@@ -41,31 +48,41 @@ const LoginView = () => {
     },
   });
 
+  const onForgotPasswordPress = () => {
+    navigation.navigate("ForgotPasswordStep1");
+  };
+
   return (
-    <>
-      <FormField
-        placeholder="Email"
-        error={form.state.email.error}
-        value={form.state.email.value}
-        onChangeText={form.setValue.bind(null, "email")}
-      />
-      <FormField
-        secureTextEntry
-        placeholder="Password"
-        error={form.state.password.error}
-        value={form.state.password.value}
-        onChangeText={form.setValue.bind(null, "password")}
-      />
-      <Button
-        loading={form.loading}
-        iconRight="arrow-right-line"
-        onPress={form.handleSubmission}
-      >
-        Continue
-      </Button>
+    <View style={tw`justify-between w-full flex-1`}>
+      <View style={tw`gap-y-4.5 flex-col items-center`}>
+        <FormField
+          placeholder="Email"
+          error={form.state.email.error}
+          value={form.state.email.value}
+          onChangeText={form.setValue.bind(null, "email")}
+        />
+        <FormField
+          secureTextEntry
+          placeholder="Password"
+          error={form.state.password.error}
+          value={form.state.password.value}
+          onChangeText={form.setValue.bind(null, "password")}
+        />
+        <Button
+          loading={form.loading}
+          iconRight="arrow-right-line"
+          onPress={form.handleSubmission}
+        >
+          Continue
+        </Button>
+
+        <Hyperlink onPress={onForgotPasswordPress}>
+          Forgot your password?
+        </Hyperlink>
+      </View>
 
       <TermsAndConditions />
-    </>
+    </View>
   );
 };
 

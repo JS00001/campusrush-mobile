@@ -213,3 +213,17 @@ interface DeleteChapterSessionRequest {
   /** The ID of the session to be deleted */
   id: string;
 }
+
+interface ResetPasswordRequest {
+  /** The email of the chapter to reset the password */
+  email: string;
+}
+
+interface ChangePasswordRequest {
+  /** The email of the chapter to change the password */
+  email: string;
+  /** The reset code for changing the password */
+  code: string;
+  /** The new password for the chapter */
+  password: string;
+}

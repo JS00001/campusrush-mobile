@@ -14,6 +14,7 @@ export * from './GlobalStore';
 export * from './MetadataStore';
 export * from './EventStore';
 export * from './PNMStore';
+export * from './ForgotPasswordStore';
 export * from './RegistrationStore';
 export * from './StatisticsStore';
 export * from './StatusStore';
