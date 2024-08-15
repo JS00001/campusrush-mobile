@@ -30,7 +30,7 @@ const environment = (() => {
 const urls = {
   development: {
     apiUrl: 'https://donkey-pretty-initially.ngrok-free.app',
-    webUrl: 'https://campusrush.in-staging.space',
+    webUrl: 'http://localhost:3001',
     websocketUrl: 'wss://donkey-pretty-initially.ngrok-free.app',
   },
   staging: {

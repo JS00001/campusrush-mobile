@@ -17,7 +17,7 @@ import AppConstants from "@/constants";
 import { isJSON } from "@/lib/util/string";
 import { useAuth } from "@/providers/Auth";
 import { LogLevels, websocketLogger } from "@/lib/logger";
-import { useConversationStore, useMessageStore } from "@/store";
+import { useConversationStore, useGlobalStore, useMessageStore } from "@/store";
 
 const MAX_LOGS = 100;
 
@@ -40,6 +40,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [logs, setLogs] = useState<WebsocketLog[]>([]);
 
+  const globalStore = useGlobalStore();
   const messageStore = useMessageStore();
   const conversationStore = useConversationStore();
 
@@ -131,6 +132,10 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
         conversationStore.addConversations(conversation);
         messageStore.addMessages(conversation.messages[0]);
+        break;
+      case "NEW_PNM":
+        const pnm = payload.data.pnm;
+        globalStore.addPnm(pnm);
         break;
     }
 

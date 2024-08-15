@@ -19,9 +19,11 @@ type WebsocketMessage = {
 } & (
   | {
       type: 'NEW_MESSAGE';
-      data: {
-        conversation: Conversation;
-      };
+      data: { conversation: Conversation };
+    }
+  | {
+      type: 'NEW_PNM';
+      data: { pnm: PNM };
     }
   | {
       type: 'NEW_NOTIFICATION';
