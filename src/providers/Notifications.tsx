@@ -19,6 +19,8 @@ import { createContext, useContext, useEffect, useRef } from "react";
 import { useAuth } from "@/providers/Auth";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 import { useQonversion } from "@/providers/Qonversion";
+import { useBottomSheet } from "@/providers/BottomSheet";
+import { useGlobalStore } from "@/store";
 
 interface NotificationsContextProps {
   isLoading: boolean;
@@ -40,11 +42,13 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
   const { entitlements } = useQonversion();
+  const { openBottomSheet } = useBottomSheet();
   const { chapter, setChapter, accessToken } = useAuth();
   const responseListener = useRef<RNNotifications.Subscription>();
 
   const navigation = useNavigation();
   const queryClient = useQueryClient();
+  const globalStore = useGlobalStore();
 
   const notificationsEnabled = chapter?.notificationsEnabled || false;
 
@@ -62,6 +66,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   const mutation = useUpdateChapter();
 
   useEffect(() => {
+    // This is the notification handler for when push notifications are pressed
     responseListener.current =
       RNNotifications.addNotificationResponseReceivedListener((response) => {
         const { data } = response.notification.request.content;
@@ -78,6 +83,18 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
           });
 
           queryClient.invalidateQueries(["conversation", accessToken, pnm._id]);
+        } else if (data.type === "NEW_PNM") {
+          const pnm: PNM = data.pnm;
+
+          navigation.navigate("Main", {
+            screen: "PNMsTab",
+            params: {
+              screen: "PNMs",
+            },
+          });
+
+          globalStore.addPnm(pnm);
+          openBottomSheet("PNM", { pnmId: pnm._id });
         }
       });
 

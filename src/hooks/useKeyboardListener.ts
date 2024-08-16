@@ -11,7 +11,12 @@
  */
 
 import { useEffect } from 'react';
-import { EmitterSubscription, Keyboard, KeyboardEventName } from 'react-native';
+import {
+  EmitterSubscription,
+  Keyboard,
+  KeyboardEvent,
+  KeyboardEventName,
+} from 'react-native';
 
 const KeyboardEvents: KeyboardEventName[] = [
   'keyboardWillShow',
@@ -23,12 +28,12 @@ const KeyboardEvents: KeyboardEventName[] = [
 ];
 
 interface KeyboardListenerParams {
-  onKeyboardWillShow?: () => void;
-  onKeyboardDidShow?: () => void;
-  onKeyboardWillHide?: () => void;
-  onKeyboardDidHide?: () => void;
-  onKeyboardWillChangeFrame?: () => void;
-  onKeyboardDidChangeFrame?: () => void;
+  onKeyboardWillShow?: (event: KeyboardEvent) => void;
+  onKeyboardDidShow?: (event: KeyboardEvent) => void;
+  onKeyboardWillHide?: (event: KeyboardEvent) => void;
+  onKeyboardDidHide?: (event: KeyboardEvent) => void;
+  onKeyboardWillChangeFrame?: (event: KeyboardEvent) => void;
+  onKeyboardDidChangeFrame?: (event: KeyboardEvent) => void;
 }
 
 const useKeyboardListener = (params: KeyboardListenerParams) => {
@@ -42,8 +47,8 @@ const useKeyboardListener = (params: KeyboardListenerParams) => {
       const listenerFunction = params[onEventName];
 
       if (listenerFunction) {
-        const listener = Keyboard.addListener(event, () => {
-          listenerFunction();
+        const listener = Keyboard.addListener(event, (e) => {
+          listenerFunction(e);
         });
 
         listeners.push(listener);

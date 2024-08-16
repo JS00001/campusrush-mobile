@@ -179,8 +179,13 @@ const useFormMutation = <
     }
   };
 
+  const clear = () => {
+    setState(initialState);
+  };
+
   return {
     state,
+    clear,
     loading,
     setValue,
     setError,

@@ -32,7 +32,8 @@ const CopyAction: React.FC<CopyActionProps> = ({
 
   const actions: MenuAction[] = [
     {
-      title,
+      id: "COPY",
+      title: title,
       onPress: () => copy(content),
     },
   ];

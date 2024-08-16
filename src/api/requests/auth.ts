@@ -103,3 +103,27 @@ export const refresh = async (data: RefreshAccessTokenRequest) => {
 
   return responseData as RefreshAccessTokenResponse;
 };
+
+/**
+ * Request:     POST /api/v1/consumer/auth/reset-password
+ * Description: Request a password reset
+ */
+export const resetPassword = async (data: ResetPasswordRequest) => {
+  const url = `${PREFIX}/reset-password`;
+
+  const { data: responseData } = await axiosClient.post(url, data);
+
+  return responseData as ResetPasswordResponse;
+};
+
+/**
+ * Request:     POST /api/v1/consumer/auth/change-password
+ * Description: Change the password using a reset code
+ */
+export const changePassword = async (data: ChangePasswordRequest) => {
+  const url = `${PREFIX}/change-password`;
+
+  const { data: responseData } = await axiosClient.post(url, data);
+
+  return responseData as ChangePasswordResponse;
+};

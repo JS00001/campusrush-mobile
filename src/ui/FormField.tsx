@@ -15,10 +15,12 @@ import {
   Pressable,
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
+  TouchableOpacity,
 } from "react-native";
 import { useEffect, useRef, useState } from "react";
 
 import Text from "@/ui/Text";
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 
 // This is a hack to disable font scaling for all text input components
@@ -44,6 +46,7 @@ const FormField: React.FC<FormFieldProps> = ({
   contentContainerStyle,
   error,
   value,
+  secureTextEntry,
   onFocus,
   onBlur,
   onChangeText,
@@ -54,10 +57,19 @@ const FormField: React.FC<FormFieldProps> = ({
   const placeholderSize = useRef(new Animated.Value(18)).current;
 
   const [focused, setFocused] = useState(false);
+  const [hideValue, setHideValue] = useState(secureTextEntry);
 
+  // If we have a value when we load the component, animate the placeholder up
   useEffect(() => {
     if (value) animatePlaceholder(10, 12);
   }, []);
+
+  // If we set a value to undefined (clearing the input), animate the placeholder back down
+  useEffect(() => {
+    if (value === undefined) {
+      animatePlaceholder(20, 18);
+    }
+  }, [value]);
 
   /**
    * Animate between the placeholder's focused and unfocused states
@@ -87,6 +99,10 @@ const FormField: React.FC<FormFieldProps> = ({
     inputRef.current?.focus();
   };
 
+  const onEyePress = () => {
+    setHideValue((prev) => !prev);
+  };
+
   const containerStyles = tw.style(
     "relative w-full -z-10",
     disabled && "disabled",
@@ -95,6 +111,8 @@ const FormField: React.FC<FormFieldProps> = ({
 
   const inputStyles = tw.style(
     "border-2 px-5 py-5 rounded-xl text-lg leading-5 bg-slate-100",
+    // If we have an 'eye' icon, we need to add padding to the right of the input so we dont go under it
+    secureTextEntry && "pr-12",
     // If there is a value or the input is focused, we need to add padding to the input to make it "look"
     // like the placeholder is in the input and they are both centered
     (focused || value) && "pt-7 pb-3",
@@ -107,13 +125,23 @@ const FormField: React.FC<FormFieldProps> = ({
     style,
   );
 
-  const placeholderStyles = tw.style(
-    "absolute z-10 px-4 bg-slate-100 left-1 text-slate-500 flex-1",
-    disabled && "disabled",
-    error && "text-red",
-  );
+  const placeholderStyles = [
+    tw.style(
+      "absolute z-10 px-4 bg-slate-100 left-1 text-slate-500 flex-1",
+      disabled && "disabled",
+      error && "text-red",
+    ),
+    { top: placeholderY, fontSize: placeholderSize },
+  ];
 
   const valueStyles = tw.style("text-lg leading-5 text-primary");
+
+  const eyeContainerStyles = tw.style(
+    "absolute z-10 right-0 px-4",
+    "h-full justify-center",
+  );
+
+  const eyeIconName = hideValue ? "eye-line" : "eye-off-line";
 
   return (
     <Pressable style={containerStyles} onPress={onContainerPress}>
@@ -124,6 +152,7 @@ const FormField: React.FC<FormFieldProps> = ({
         editable={!disabled}
         style={inputStyles}
         onChangeText={onChangeText}
+        secureTextEntry={hideValue}
         onFocus={(e) => {
           onFocus?.(e);
           setFocused(true);
@@ -140,15 +169,17 @@ const FormField: React.FC<FormFieldProps> = ({
         <Text style={valueStyles}>{value}</Text>
       </TextInputWithNoFontScaling>
 
-      <Animated.Text
-        numberOfLines={1}
-        style={[
-          placeholderStyles,
-          { top: placeholderY, fontSize: placeholderSize },
-        ]}
-      >
+      {/* The placeholder, which animates up and down */}
+      <Animated.Text numberOfLines={1} style={placeholderStyles}>
         {error || placeholder}
       </Animated.Text>
+
+      {/* When using a password input, the eye to reveal the password */}
+      {secureTextEntry && (
+        <TouchableOpacity style={eyeContainerStyles} onPress={onEyePress}>
+          <Icon name={eyeIconName} color={tw.color("slate-400")} size={16} />
+        </TouchableOpacity>
+      )}
     </Pressable>
   );
 };

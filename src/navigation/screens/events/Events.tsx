@@ -17,11 +17,7 @@ import EventsView from "@/views/Events";
 const EventsScreen = () => {
   return (
     <Layout.Root>
-      <Layout.Header
-        beta
-        title="Events"
-        subtitle="Manage and share your events"
-      />
+      <Layout.Header title="Events" subtitle="Manage and share your events" />
 
       <Layout.Content gap={8} contentContainerStyle={tw`pb-0`}>
         <EventsView />

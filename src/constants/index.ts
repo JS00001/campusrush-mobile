@@ -30,17 +30,17 @@ const environment = (() => {
 const urls = {
   development: {
     apiUrl: 'https://donkey-pretty-initially.ngrok-free.app',
-    webUrl: 'https://campusrush.in-staging.space',
+    webUrl: 'http://localhost:3001',
     websocketUrl: 'wss://donkey-pretty-initially.ngrok-free.app',
   },
   staging: {
     apiUrl: 'https://greek-api.in-staging.space',
-    webUrl: 'https://campusrush.in-staging.space',
+    webUrl: 'https://campusrush-forms.in-staging.space',
     websocketUrl: 'wss://greek-api.in-staging.space',
   },
   production: {
     apiUrl: 'https://api.campusrush.app',
-    webUrl: 'https://campusrush.app',
+    webUrl: 'https://forms.campusrush.app',
     websocketUrl: 'wss://api.campusrush.app',
   },
 }[environment];
