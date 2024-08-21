@@ -95,8 +95,15 @@ interface Event {
   location: string;
   startDate: Date;
   endDate: Date;
-  yesCount: number;
-  noCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface EventResponse {
+  _id: string;
+  event: string;
+  pnm: PNM;
+  response: 'yes' | 'no' | 'maybe';
   createdAt: Date;
   updatedAt: Date;
 }

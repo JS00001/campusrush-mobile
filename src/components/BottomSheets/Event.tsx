@@ -75,7 +75,6 @@ const EventSheet: React.FC<BottomSheetProps> = ({
 
         const onShare = () => {
           copy(eventUrl, "Event link");
-          handleClose();
         };
 
         if (!event) return <LoadingState />;
@@ -86,10 +85,16 @@ const EventSheet: React.FC<BottomSheetProps> = ({
               <Headline
                 style={tw`shrink`}
                 title={event.title}
-                subtitle={`Added on ${date.toString(event.createdAt) || "N/A"}`}
+                subtitle={`Added on ${date.toString(event.createdAt)}`}
               />
 
               <View style={tw`flex-row gap-1`}>
+                <IconButton
+                  size="sm"
+                  color="secondary"
+                  iconName="share-line"
+                  onPress={onShare}
+                />
                 <IconButton
                   size="sm"
                   color="secondary"
@@ -111,23 +116,13 @@ const EventSheet: React.FC<BottomSheetProps> = ({
               <Detail.Item title="Starts at" value={event.start.time} />
               <Detail.Item title="Ends at" value={event.end.time} />
               <Detail.Item title="Location" value={event.location} />
-              <Detail.Item
-                title="# Responded Yes"
-                value={event.yesCount.toString()}
-              />
-              <Detail.Item
-                title="# Responded No"
-                value={event.noCount.toString()}
-              />
             </Detail.List>
 
             <ButtonGroup>
               <Button size="sm" color="secondary" onPress={onEditPress}>
                 Edit
               </Button>
-              <Button size="sm" onPress={onShare}>
-                Share
-              </Button>
+              <Button size="sm">View Responses</Button>
             </ButtonGroup>
           </BottomSheetContainer>
         );
@@ -146,6 +141,7 @@ const LoadingState = () => {
         </View>
 
         <View style={tw`flex-row gap-1`}>
+          <Skeleton width={48} height={48} borderRadius={999} />
           <Skeleton width={48} height={48} borderRadius={999} />
         </View>
       </View>

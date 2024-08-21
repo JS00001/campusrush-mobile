@@ -156,11 +156,11 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
             </Detail.List>
 
             <ButtonGroup>
-              <Button size="sm" color="secondary" onPress={onSendMessagePress}>
-                Send Message
+              <Button size="sm" color="secondary" onPress={onEditPress}>
+                Edit
               </Button>
-              <Button size="sm" onPress={onEditPress}>
-                Edit PNM
+              <Button size="sm" onPress={onSendMessagePress}>
+                Send Message
               </Button>
             </ButtonGroup>
           </BottomSheetContainer>
