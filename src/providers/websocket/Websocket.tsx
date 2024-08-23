@@ -16,6 +16,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import AppConstants from "@/constants";
 import { isJSON } from "@/lib/util/string";
 import { useAuth } from "@/providers/Auth";
+import queryClient from "@/lib/queryClient";
 import { LogLevels, websocketLogger } from "@/lib/logger";
 import { useConversationStore, useGlobalStore, useMessageStore } from "@/store";
 
@@ -133,9 +134,10 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
         conversationStore.addConversations(conversation);
         messageStore.addMessages(conversation.messages[0]);
         break;
+
       case "NEW_PNM":
         const pnm = payload.data.pnm;
-        globalStore.addPnm(pnm);
+        globalStore.addOrUpdatePnm(pnm);
         break;
     }
 

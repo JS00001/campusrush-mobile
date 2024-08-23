@@ -36,20 +36,24 @@ export const useGlobalStore = () => {
    * Adds a PNM to the system. This needs to update
    * the pnm, statistics, contacts, and more.
    */
-  const addPnm = async (pnm: PNM) => {
+  const addOrUpdatePnm = async (pnm: PNM) => {
+    // Check if the pnm already exists in the store
+    const existingPnm = pnmStore.getPnm(pnm._id);
     pnmStore.addOrUpdatePnm(pnm);
 
-    // Update statistics to add the pnm count and recent pnms
-    statisticsStore.incrementField('pnmCount');
-    statisticsStore.setField('recentPnms', [
-      pnm,
-      ...statisticsStore.recentPnms,
-    ]);
+    if (!existingPnm) {
+      // Update statistics to add the pnm count and recent pnms
+      statisticsStore.incrementField('pnmCount');
+      statisticsStore.setField('recentPnms', [
+        pnm,
+        ...statisticsStore.recentPnms,
+      ]);
 
-    // Add the pnm to the contact store as a suggested, all, and uncontacted contact
-    contactStore.addContacts('suggested', pnm);
-    contactStore.addContacts('all', pnm);
-    contactStore.addContacts('uncontacted', pnm);
+      // Add the pnm to the contact store as a suggested, all, and uncontacted contact
+      contactStore.addContacts('suggested', pnm);
+      contactStore.addContacts('all', pnm);
+      contactStore.addContacts('uncontacted', pnm);
+    }
   };
 
   /**
@@ -147,7 +151,7 @@ export const useGlobalStore = () => {
   };
 
   return {
-    addPnm,
+    addOrUpdatePnm,
     deletePnm,
     favoritePnm,
     unfavoritePnm,

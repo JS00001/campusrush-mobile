@@ -24,7 +24,6 @@ interface FormattedEvent extends Event {
     day: string;
     weekday: string;
   };
-  totalResponses: number;
 }
 
 /**
@@ -35,8 +34,6 @@ const formatEvent = (event?: Event): FormattedEvent | null => {
 
   const startDate = new Date(event.startDate);
   const endDate = new Date(event.endDate);
-
-  const totalResponses = event.yesCount + event.noCount;
 
   const dateString = startDate.toLocaleDateString('en-US', {
     month: 'long',
@@ -93,7 +90,6 @@ const formatEvent = (event?: Event): FormattedEvent | null => {
   return {
     ...event,
     dateString,
-    totalResponses,
     start: {
       time: startTime,
       month: startMonth,

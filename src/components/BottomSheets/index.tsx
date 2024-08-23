@@ -15,6 +15,7 @@ import CreateMessageSheet from "./CreateMessage";
 import CreateEventSheet from "./CreateEvent";
 import CreatePnmSheet from "./CreatePnm";
 import EventSheet from "./Event";
+import EventResponsesSheet from "./EventResponses";
 import PnmSheet from "./Pnm";
 import PlanComparisonSheet from "./PlanComparison";
 import PrivacyPolicySheet from "./PrivacyPolicy";
@@ -23,7 +24,7 @@ import TermsOfServiceSheet from "./TermsOfService";
 import UpdatePnmSheet from "./UpdatePnm";
 import UpdateEventSheet from "./UpdateEvent";
 
-import { IndividualSheetName } from "./@types";
+import type { IndividualSheetName } from "./@types";
 
 const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   CHAPTER: ChapterSheet,
@@ -31,6 +32,7 @@ const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   CREATE_EVENT: CreateEventSheet,
   CREATE_PNM: CreatePnmSheet,
   EVENT: EventSheet,
+  EVENT_RESPONSES: EventResponsesSheet,
   PNM: PnmSheet,
   PLAN_COMPARISON: PlanComparisonSheet,
   PRIVACY_POLICY: PrivacyPolicySheet,

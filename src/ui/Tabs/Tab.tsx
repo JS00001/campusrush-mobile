@@ -24,7 +24,7 @@ interface TabProps {
 
 const Tab: React.FC<TabProps> = ({ label, selected, disabled, onPress }) => {
   const containerStyles = tw.style(
-    "rounded-full py-1.5 px-6",
+    "rounded-lg py-1.5 px-6",
     selected && "bg-primary",
     !selected && "bg-slate-100",
     disabled && "disabled",
@@ -32,7 +32,7 @@ const Tab: React.FC<TabProps> = ({ label, selected, disabled, onPress }) => {
 
   const textStyles = tw.style(
     selected && "text-white font-semibold",
-    !selected && "text-slate-500",
+    !selected && "text-primary",
   );
 
   return (
@@ -41,7 +41,7 @@ const Tab: React.FC<TabProps> = ({ label, selected, disabled, onPress }) => {
       style={containerStyles}
       onPress={onPress}
     >
-      <Text type="p4" style={textStyles}>
+      <Text type="p3" style={textStyles}>
         {label}
       </Text>
     </TouchableOpacity>

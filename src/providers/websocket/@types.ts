@@ -29,6 +29,10 @@ type WebsocketMessage = {
       type: 'NEW_NOTIFICATION';
       data: Notification;
     }
+  | {
+      type: 'NEW_EVENT_RESPONSE';
+      data: Event;
+    }
 );
 
 interface WebsocketLog {

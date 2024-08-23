@@ -59,7 +59,7 @@ const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
       tags: [],
     });
 
-    globalStore.addPnm(res.data.pnm);
+    globalStore.addOrUpdatePnm(res.data.pnm);
 
     Toast.show({
       type: "success",

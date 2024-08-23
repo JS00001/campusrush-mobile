@@ -68,6 +68,8 @@ interface UpdateChapterRequest {
   notificationPushToken?: string;
   /** Flag indicating if notifications are enabled */
   notificationsEnabled?: boolean;
+  /** Whether link sharing is enabled */
+  linkSharingEnabled?: boolean;
 }
 
 interface GetConversationRequest {

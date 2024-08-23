@@ -39,6 +39,8 @@ export interface IndividualSheetProps {
   CREATE_PNM: undefined;
   /* View information about an event */
   EVENT: { eventId: string };
+  /* View responses to an event */
+  EVENT_RESPONSES: { eventId: string };
   /* View information about a pnm */
   PNM: { pnmId: string };
   /* Compare billing plans */
