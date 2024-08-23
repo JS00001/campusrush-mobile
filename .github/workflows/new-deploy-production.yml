@@ -1,8 +1,7 @@
 name: Deploy (Production)
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [closed]
 
 jobs:
   deploy-production:
@@ -17,17 +16,12 @@ jobs:
           node-version: 18.x
           cache: yarn
 
-      # - id: check
-      #   uses: EndBug/version-check@v2
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: 🏗 Ensure version is updated
-      #   run: |
-      #     if [ "${{ steps.check.outputs.changed }}" = "false" ]; then
-      #       echo "No version change detected. Exiting..."
-      #       exit 1
-      #     fi
+      - name: 🏗 Check that the PR is to the main branch
+        run: |
+          if [ "${{ github.event.pull_request.base.ref }}" != "main" ]; then
+            echo "Not a PR to main. Exiting..."
+            exit 1
+          fi
 
       - name: 🏗 Setup EAS
         uses: expo/expo-github-action@v8
@@ -35,14 +29,32 @@ jobs:
           eas-version: latest
           token: ${{ secrets.PRODUCTION_EXPO_TOKEN }}
 
+      - name: Setup multiple paths, one if the label is 'EAS Update' and the other if the label is 'EAS Publish'
+        id: setup-paths
+        run: |
+          if [ "${{ github.event.pull_request.merged }}" = "true" ]; then
+            if [ "${{ contains(github.event.pull_request.labels.*.name, 'EAS Update') }}" = "true" ]; then
+              echo "::set-output name=update::true"
+            fi
+            if [ "${{ contains(github.event.pull_request.labels.*.name, 'EAS Publish') }}" = "true" ]; then
+              echo "::set-output name=publish::true"
+            fi
+          fi
+
       - name: 📦 Install dependencies
         run: yarn install
 
-      - name: 🚀 Build app
+      - name: 🚀 Build app, if 'Publish' is true
+        if: steps.setup-paths.outputs.update == 'true'
         run: eas build --non-interactive --platform ios
 
-      - name: 🚀 Publish app
+      - name: 🚀 Submit app, if 'Publish' is true
+        if: steps.setup-paths.outputs.publish == 'true'
         run: eas submit --non-interactive --platform ios --latest
+
+      - name: 🚀 Update the app, if 'Update' is true
+        if: steps.setup-paths.outputs.update == 'true'
+        run: eas update --branch main --non-interactive --platform ios
 
       # Report status to slack channel via webhook
       - name: ✅ Report Status
