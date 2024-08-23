@@ -2,6 +2,9 @@ name: Deploy (Production)
 on:
   pull_request:
     types: [closed]
+env:
+  publish: "false"
+  update: "false"
 
 jobs:
   deploy-production:
@@ -39,41 +42,39 @@ jobs:
       - name: Setup multiple paths, one if the label is 'EAS Update' and the other if the label is 'EAS Publish'
         id: setup-paths
         run: |
-          if [ "${{ github.event.pull_request.merged }}" = "true" ]; then
-            if [ "${{ contains(github.event.pull_request.labels.*.name, 'EAS Update') }}" = "true" ]; then
-              echo "::set-output name=update::true"
-            fi
-            if [ "${{ contains(github.event.pull_request.labels.*.name, 'EAS Publish') }}" = "true" ]; then
-              echo "::set-output name=publish::true"
-            fi
+          if [ "${{ contains(github.event.pull_request.labels.*.name, 'EAS Update') }}" = "true" ]; then
+            echo "update=true" >> $GITHUB_ENV
+          fi
+          if [ "${{ contains(github.event.pull_request.labels.*.name, 'EAS Publish') }}" = "true" ]; then
+            echo "publish=true" >> $GITHUB_ENV
           fi
 
       - name: 📦 Install dependencies
         run: yarn install
 
       - name: 🚀 Build app, if 'Publish' is true
-        if: steps.setup-paths.outputs.update == 'true'
+        if: env.publish == 'true'
         run: eas build --non-interactive --platform ios
 
       - name: 🚀 Submit app, if 'Publish' is true
-        if: steps.setup-paths.outputs.publish == 'true'
+        if: env.publish == 'true'
         run: eas submit --non-interactive --platform ios --latest
 
       - name: 🚀 Update the app, if 'Update' is true
-        if: steps.setup-paths.outputs.update == 'true'
+        if: env.update == 'true'
         run: eas update --branch main --non-interactive --platform ios
 
       # Report status to slack channel via webhook
-      - name: ✅ Report Status
-        if: always()
-        uses: ravsamhq/notify-slack-action@v1
-        with:
-          icon_success: ":white_check_mark:"
-          icon_failure: ":x:"
-          token: ${{secrets.GITHUB_TOKEN}}
-          status: ${{ job.status }}
-          notification_title: ""
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>\n\n*Commit URL:* <${{github.event.head_commit.url}}|${{github.event.head_commit.id}}>\n*Commit Message:* ${{github.event.head_commit.message}}\n*Commit Author:* <https://github.com/${{github.event.head_commit.author.name}}|${{github.event.head_commit.author.name}}>\n*Build URL:* <${{github.event.repository.url}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_PROD }}
+      # - name: ✅ Report Status
+      #   if: always()
+      #   uses: ravsamhq/notify-slack-action@v1
+      #   with:
+      #     icon_success: ":white_check_mark:"
+      #     icon_failure: ":x:"
+      #     token: ${{secrets.GITHUB_TOKEN}}
+      #     status: ${{ job.status }}
+      #     notification_title: ""
+      #     message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>\n\n*Commit URL:* <${{github.event.head_commit.url}}|${{github.event.head_commit.id}}>\n*Commit Message:* ${{github.event.head_commit.message}}\n*Commit Author:* <https://github.com/${{github.event.head_commit.author.name}}|${{github.event.head_commit.author.name}}>\n*Build URL:* <${{github.event.repository.url}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"
+      #     footer: "Linked Repo <{repo_url}|{repo}>"
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_PROD }}
