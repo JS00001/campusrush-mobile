@@ -93,7 +93,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
             },
           });
 
-          globalStore.addPnm(pnm);
+          globalStore.addOrUpdatePnm(pnm);
           openBottomSheet("PNM", { pnmId: pnm._id });
         } else if (data.type === "NEW_EVENT_RESPONSE") {
           const event: Event = data.event;

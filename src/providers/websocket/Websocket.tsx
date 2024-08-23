@@ -137,7 +137,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
       case "NEW_PNM":
         const pnm = payload.data.pnm;
-        globalStore.addPnm(pnm);
+        globalStore.addOrUpdatePnm(pnm);
         break;
     }
 
