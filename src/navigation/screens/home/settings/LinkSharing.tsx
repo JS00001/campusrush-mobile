@@ -31,7 +31,7 @@ const LinkSharingScreen = () => {
       <Layout.Header
         hasBackButton
         title="Link Sharing"
-        subtitle="Manage your link sharing settings."
+        subtitle="Send this link to PNMs to allow them to add themselves to your recruitment list."
       />
 
       <Layout.Content

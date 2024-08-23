@@ -23,6 +23,7 @@ namespace API {
     | 'UNAUTHORIZED'
     | 'EXPIRED_TOKEN'
     | 'USER_NOT_FOUND'
+    | 'NOT_FOUND'
     | 'RATE_LIMIT_EXCEEDED';
 
   /**
