@@ -62,7 +62,7 @@ jobs:
 
       - name: 🚀 Update the app, if 'Update' is true
         if: env.update == 'true'
-        run: eas update --branch main --non-interactive --platform ios
+        run: eas update --channel production --non-interactive --platform ios --message 'update production'
 
       # Report status to slack channel via webhook
       # - name: ✅ Report Status
