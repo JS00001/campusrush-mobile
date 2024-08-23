@@ -1,7 +1,6 @@
 name: Label Validation
 on:
   pull_request_target:
-    branches: [main]
     types: [opened, labeled, unlabeled, synchronize]
 
 jobs:
