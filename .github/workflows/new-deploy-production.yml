@@ -23,6 +23,13 @@ jobs:
             exit 1
           fi
 
+      - name: 🏗 Check that the PR is merged
+        run: |
+          if [ "${{ github.event.pull_request.merged }}" != "true" ]; then
+            echo "PR not merged. Exiting..."
+            exit 1
+          fi
+
       - name: 🏗 Setup EAS
         uses: expo/expo-github-action@v8
         with:
