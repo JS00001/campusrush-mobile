@@ -14,5 +14,5 @@ jobs:
           mode: exactly
           count: 1
           labels: |
-            EAS Publish
+            EAS Update
             EAS Build
