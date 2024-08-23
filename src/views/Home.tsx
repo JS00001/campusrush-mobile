@@ -63,7 +63,7 @@ const HomeView = () => {
         {/* Header */}
         <View style={tw`justify-between items-center flex-row w-full`}>
           <Text type="h1" numberOfLines={1} style={tw`text-white shrink`}>
-            Hey, {chapter.firstName}
+            Welcome {chapter.firstName}
           </Text>
           <IconButton
             color="primary"

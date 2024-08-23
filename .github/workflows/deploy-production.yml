@@ -10,28 +10,14 @@ jobs:
   deploy-production:
     runs-on: ubuntu-latest
     steps:
-      - name: 🏗 Setup repo
+      - name: 🏗️ Setup repo
         uses: actions/checkout@v3
 
-      - name: 🏗 Setup Node
+      - name: 🏗️ Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
           cache: yarn
-
-      - name: 🏗 Check that the PR is to the main branch
-        run: |
-          if [ "${{ github.event.pull_request.base.ref }}" != "main" ]; then
-            echo "Not a PR to main. Exiting..."
-            exit 1
-          fi
-
-      - name: 🏗 Check that the PR is merged
-        run: |
-          if [ "${{ github.event.pull_request.merged }}" != "true" ]; then
-            echo "PR not merged. Exiting..."
-            exit 1
-          fi
 
       - name: 🏗 Setup EAS
         uses: expo/expo-github-action@v8
@@ -39,7 +25,21 @@ jobs:
           eas-version: latest
           token: ${{ secrets.PRODUCTION_EXPO_TOKEN }}
 
-      - name: Setup multiple paths, one if the label is 'EAS Update' and the other if the label is 'EAS Publish'
+      - name: 🔍 Check that the PR is to the main branch
+        run: |
+          if [ "${{ github.event.pull_request.base.ref }}" != "main" ]; then
+            echo "Not a PR to main. Exiting..."
+            exit 1
+          fi
+
+      - name: 🔍 Check that the PR is merged, and not just closed/declined
+        run: |
+          if [ "${{ github.event.pull_request.merged }}" != "true" ]; then
+            echo "PR not merged. Exiting..."
+            exit 1
+          fi
+
+      - name: ⚙️ Set the environment to update or publish
         id: setup-paths
         run: |
           if [ "${{ contains(github.event.pull_request.labels.*.name, 'EAS Update') }}" = "true" ]; then
@@ -64,17 +64,16 @@ jobs:
         if: env.update == 'true'
         run: eas update --channel production --non-interactive --platform ios --message 'update production'
 
-      # Report status to slack channel via webhook
-      # - name: ✅ Report Status
-      #   if: always()
-      #   uses: ravsamhq/notify-slack-action@v1
-      #   with:
-      #     icon_success: ":white_check_mark:"
-      #     icon_failure: ":x:"
-      #     token: ${{secrets.GITHUB_TOKEN}}
-      #     status: ${{ job.status }}
-      #     notification_title: ""
-      #     message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>\n\n*Commit URL:* <${{github.event.head_commit.url}}|${{github.event.head_commit.id}}>\n*Commit Message:* ${{github.event.head_commit.message}}\n*Commit Author:* <https://github.com/${{github.event.head_commit.author.name}}|${{github.event.head_commit.author.name}}>\n*Build URL:* <${{github.event.repository.url}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"
-      #     footer: "Linked Repo <{repo_url}|{repo}>"
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_PROD }}
+      - name: ✅ Report Status
+        if: always()
+        uses: ravsamhq/notify-slack-action@v1
+        with:
+          icon_success: ":white_check_mark:"
+          icon_failure: ":x:"
+          token: ${{secrets.GITHUB_TOKEN}}
+          status: ${{ job.status }}
+          notification_title: ""
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>\n\n*Build Type*: ${{env.update == 'true' && 'Hot-fix (EAS Update)' || env.publish == 'true' && 'Publish (EAS Build)' || 'N/A'}}\n*Build URL:* <${{github.event.repository.url}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_PROD }}
