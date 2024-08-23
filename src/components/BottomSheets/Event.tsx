@@ -73,6 +73,11 @@ const EventSheet: React.FC<BottomSheetProps> = ({
           openBottomSheet("UPDATE_EVENT", { eventId });
         };
 
+        const onViewResponsesPress = () => {
+          handleClose();
+          openBottomSheet("EVENT_RESPONSES", { eventId });
+        };
+
         const onShare = () => {
           copy(eventUrl, "Event link");
         };
@@ -122,7 +127,9 @@ const EventSheet: React.FC<BottomSheetProps> = ({
               <Button size="sm" color="secondary" onPress={onEditPress}>
                 Edit
               </Button>
-              <Button size="sm">View Responses</Button>
+              <Button size="sm" onPress={onViewResponsesPress}>
+                View Responses
+              </Button>
             </ButtonGroup>
           </BottomSheetContainer>
         );

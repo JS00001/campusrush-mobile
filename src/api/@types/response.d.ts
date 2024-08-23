@@ -211,6 +211,8 @@ type GetPnmResponse = API.Response<{
 type GetEventResponse = API.Response<{
   /** Event information */
   event: Event;
+  /** Response information */
+  responses: EventResponse[];
 }>;
 
 type GetAdminChapterResponse = API.Response<{

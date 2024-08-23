@@ -33,36 +33,34 @@ const Tabs: React.FC<TabsProps> = ({
   onChange,
   ...props
 }) => {
-  const containerStyles = tw.style("w-full", style);
-
+  const contentStyle = tw.style("flex-row", style);
   const contentContainerStyles = tw.style("gap-1");
 
   return (
-    <View style={containerStyles} {...props}>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={contentContainerStyles}
-      >
-        {options.map((option, index) => {
-          const isSelected = currentIndex === index;
+    <ScrollView
+      horizontal
+      style={contentStyle}
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={contentContainerStyles}
+    >
+      {options.map((option, index) => {
+        const isSelected = currentIndex === index;
 
-          const handlePress = () => {
-            onChange(index);
-          };
+        const handlePress = () => {
+          onChange(index);
+        };
 
-          return (
-            <Tab
-              key={index}
-              label={option}
-              selected={isSelected}
-              disabled={disabledIndex.includes(index)}
-              onPress={handlePress}
-            />
-          );
-        })}
-      </ScrollView>
-    </View>
+        return (
+          <Tab
+            key={index}
+            label={option}
+            selected={isSelected}
+            disabled={disabledIndex.includes(index)}
+            onPress={handlePress}
+          />
+        );
+      })}
+    </ScrollView>
   );
 };
 

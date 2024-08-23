@@ -51,6 +51,7 @@ export const useGetEvent = (id: string) => {
   const { accessToken } = useAuth();
 
   const event = useEventStore((s) => s.getEvent(id));
+  const [responses, setResponses] = useState<EventResponse[]>([]);
   const addOrUpdateEvent = useEventStore((s) => s.addOrUpdateEvent);
 
   const query = useQuery(['event', id, accessToken], () => {
@@ -61,10 +62,12 @@ export const useGetEvent = (id: string) => {
     if (!query.data || 'error' in query.data) return;
 
     addOrUpdateEvent(query.data.data.event);
+    setResponses(query.data.data.responses);
   }, [query.data]);
 
   return {
     ...query,
     event,
+    responses,
   };
 };
