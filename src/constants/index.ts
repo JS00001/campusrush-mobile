@@ -13,6 +13,8 @@
 import ExpoConstants from 'expo-constants';
 import RNTestFlight from 'react-native-test-flight';
 
+import PackageJSON from '../../package.json';
+
 type Environment = 'development' | 'staging' | 'production';
 
 // Get the current environment of the app
@@ -60,13 +62,17 @@ const AppConstants = {
   appStoreUrl:
     'https://apps.apple.com/us/app/campus-rush-recruitment/id6462791621',
   /**
-   * The version of the app
+   * The version of the app (Only changes during builds)
    */
   version: ExpoConstants.expoConfig?.version,
   /**
    * The build number of the app
    */
   buildNumber: ExpoConstants.expoConfig?.extra?.buildNumber,
+  /**
+   * The sub-version of the app
+   */
+  subVersion: PackageJSON.version,
   /**
    * The project key used to initialize qonversion
    */
