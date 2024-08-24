@@ -19,7 +19,6 @@ import Button from "@/ui/Button";
 import { alert } from "@/lib/util";
 import ListItem from "@/ui/ListItem";
 import AppConstants from "@/constants";
-import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import { useDeleteChapter } from "@/hooks/api/chapter";
 import { useBottomSheet } from "@/providers/BottomSheet";
@@ -99,8 +98,9 @@ const SettingsView = () => {
 
   const onDeleteAccount = () => {
     alert({
-      title: Content.confirmDeleteAccount.title,
-      message: Content.confirmDeleteAccount.subtitle,
+      title: "Are you sure?",
+      message:
+        "Your account will be permanently deleted with no way to recover it.",
       buttons: [
         {
           style: "cancel",

@@ -16,7 +16,6 @@ import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
 import { useGlobalStore } from "@/store";
 import useSearch from "@/hooks/useSearch";
-import Content from "@/constants/content";
 import PnmsList from "@/components/PnmsList";
 import { useDeletePnms, useGetPnms } from "@/hooks/api/pnms";
 
@@ -85,8 +84,8 @@ const PnmsView = () => {
       },
       onPress: () => {
         alert({
-          title: Content.confirmDeleteAllPNMs.title,
-          message: Content.confirmDeleteAllPNMs.subtitle,
+          title: "Are you sure?",
+          message: "All PNMs will be permanently deleted.",
           buttons: [
             {
               style: "cancel",

@@ -13,7 +13,6 @@ import Toast from "react-native-toast-message";
 
 import Button from "@/ui/Button";
 import FormField from "@/ui/FormField";
-import Content from "@/constants/content";
 import validators from "@/constants/validators";
 import useFormMutation from "@/hooks/useFormMutation";
 import { useUpdateChapter } from "@/hooks/api/chapter";
@@ -33,8 +32,8 @@ const ChangePasswordView = () => {
     onSuccess: async () => {
       Toast.show({
         type: "success",
-        text1: Content.updateChapterSuccess.title,
-        text2: Content.updateChapterSuccess.message,
+        text1: "Updated Chapter",
+        text2: "Your chapter has been updated",
       });
 
       form.clear();

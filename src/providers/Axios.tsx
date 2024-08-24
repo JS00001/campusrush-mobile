@@ -18,7 +18,6 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { alert } from "@/lib/util";
 import AppConstants from "@/constants";
 import { httpLogger } from "@/lib/logger";
-import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import { useNetwork } from "@/providers/Network";
 
@@ -88,8 +87,8 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
       if (errorDetails.message === "RATE_LIMIT_EXCEEDED") {
         Toast.show({
           type: "error",
-          text1: Content.rateLimitError.title,
-          text2: Content.rateLimitError.message,
+          text1: "Too many requests",
+          text2: "Please try again later",
         });
 
         return Promise.resolve(errorHandledResponse);
