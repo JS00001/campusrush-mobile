@@ -11,13 +11,19 @@
  */
 
 import {
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useState,
+  Fragment,
+} from "react";
+import {
   BottomSheetModal,
   BottomSheetBackdrop,
   BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 import { View } from "react-native";
 import * as Haptic from "expo-haptics";
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
 import EventCard from "./Extensions/Event/Card";
 
@@ -94,15 +100,10 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
                   const isLast = index === eventsQuery.events.length - 1;
 
                   return (
-                    <>
-                      <EventCard
-                        key={event._id}
-                        event={event}
-                        onPress={onEventPress}
-                      />
-
+                    <Fragment key={event._id}>
+                      <EventCard event={event} onPress={onEventPress} />
                       {!isLast && <View style={tw`h-[1px] bg-slate-200`} />}
-                    </>
+                    </Fragment>
                   );
                 })}
               </View>
