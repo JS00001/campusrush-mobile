@@ -17,8 +17,8 @@ interface ExtensionPanelRef {
 
 interface ExtensionPanelProps {
   visible: boolean;
-  setEvent: (event: Event) => void;
   setVisible: (visible: boolean) => void;
+  setAttachment: (attachment: Event | null) => void;
 }
 
 interface TextSuggestion {

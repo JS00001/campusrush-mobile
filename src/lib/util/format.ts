@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-interface FormattedEvent extends Event {
+export interface FormattedEvent extends Event {
   dateString: string;
   start: {
     time: string;
