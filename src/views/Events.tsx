@@ -16,7 +16,6 @@ import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
 import { useEventStore } from "@/store";
 import useSearch from "@/hooks/useSearch";
-import Content from "@/constants/content";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import { useDeleteEvents, useGetEvents } from "@/hooks/api/events";
 
@@ -89,8 +88,8 @@ const EventsView = () => {
       attributes: { destructive: true },
       onPress: () => {
         alert({
-          title: Content.confirmDeleteAllEvents.title,
-          message: Content.confirmDeleteAllEvents.subtitle,
+          title: "Are you sure?",
+          message: "All events will be permanently deleted.",
           buttons: [
             {
               style: "cancel",

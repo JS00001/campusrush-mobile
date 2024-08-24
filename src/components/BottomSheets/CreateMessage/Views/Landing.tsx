@@ -22,7 +22,6 @@ import Skeleton from "@/ui/Skeleton";
 import TextInput from "@/ui/TextInput";
 import format from "@/lib/util/format";
 import { Action } from "@/ui/ActionList";
-import Content from "@/constants/content";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import HeadlineLoader from "@/ui/Loaders/Headline";
 
@@ -83,21 +82,30 @@ const Landing: React.FC<UseSheetFlowProps> = ({
    * When the user presses the message all button (option 2)
    */
   const onMessageAllPress = () => {
-    onMassMessage(all, Content.newMessage.noPNMs);
+    onMassMessage(all, {
+      title: "No PNMs",
+      message: "You have no PNMs to message",
+    });
   };
 
   /**
    * When the user presses the message favorites button (option 3)
    */
   const onMessageFavoritesPress = () => {
-    onMassMessage(starred, Content.newMessage.noFavoritedPNMs);
+    onMassMessage(starred, {
+      title: "No Favorited PNMs",
+      message: "You have not favorited any PNMs",
+    });
   };
 
   /**
    * When the user presses the message uncontacted button (option 4)
    */
   const onMessageUncontactedPress = () => {
-    onMassMessage(uncontacted, Content.newMessage.noUncontactedPNMs);
+    onMassMessage(uncontacted, {
+      title: "No Uncontacted PNMs",
+      message: "You have messaged all current PNMs",
+    });
   };
 
   /**

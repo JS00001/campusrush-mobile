@@ -10,43 +10,30 @@
  * Do not distribute
  */
 
-import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 
 import Text from "@/ui/Text";
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
-import Skeleton from "@/ui/Skeleton";
-import format from "@/lib/util/format";
-import EventDate from "@/ui/Event/Date";
+import format, { FormattedEvent } from "@/lib/util/format";
 
-interface EventCardProps extends Omit<TouchableOpacityProps, "onPress"> {
+interface EventCardProps {
   event: Event;
-  style?: any;
   onPress?: (event: Event) => void;
 }
 
-const EventCard: React.FC<EventCardProps> = ({
-  event,
-  style,
-  onPress,
-  disabled,
-  ...props
-}) => {
+const EventCard: React.FC<EventCardProps> = ({ event, onPress }) => {
   const formattedEvent = format.event(event)!;
   const hasPassed = date.hasPassed(formattedEvent.startDate);
 
   const containerStyles = tw.style(
-    "bg-slate-100 border border-slate-200 shadow w-[228px] p-4 rounded-xl gap-5",
-    "flex-row items-center ",
+    "w-full flex-row items-center gap-3 p-4 pr-6",
     hasPassed && "disabled",
-    style,
   );
 
   const onEventPress = () => {
-    if (onPress) {
-      onPress(event);
-      return;
-    }
+    onPress?.(event);
   };
 
   return (
@@ -55,40 +42,34 @@ const EventCard: React.FC<EventCardProps> = ({
       style={containerStyles}
       onPress={onEventPress}
     >
-      <EventDate
-        month={formattedEvent.start.month}
-        day={formattedEvent.start.day}
-        weekday={formattedEvent.start.weekday}
-      />
+      <EventDate event={formattedEvent} />
 
-      <View style={tw`shrink`}>
-        <Text style={tw`font-semibold text-primary`} numberOfLines={1}>
-          {event.title}
+      <View style={tw`flex-1`}>
+        <Text type="p2" style={tw`text-primary`} numberOfLines={1}>
+          {formattedEvent.title}
         </Text>
-        <Text type="p4" style={tw`text-slate-500`} numberOfLines={2}>
-          {formattedEvent.start.time} · {formattedEvent.location}
+        <Text type="p3" numberOfLines={1}>
+          {formattedEvent.location}
         </Text>
       </View>
+
+      <Icon name="add-fill" size={20} color={tw.color("primary")} />
     </TouchableOpacity>
   );
 };
 
-export const EventCardLoader = () => {
-  const containerClasses = tw.style(
-    "bg-slate-100 border border-slate-200 shadow w-[228px] p-4 rounded-lg gap-5",
-    "flex-row items-center h-full",
+const EventDate: React.FC<{ event: FormattedEvent }> = ({ event }) => {
+  const containerStyles = tw.style(
+    "h-10 w-10 items-center justify-center",
+    "bg-white shadow rounded-md",
   );
 
   return (
-    <View style={containerClasses}>
-      {/* Date and Time */}
-      <Skeleton width="w-16" height="h-18" />
-
-      {/* Information */}
-      <View style={tw`flex-1 gap-y-2`}>
-        <Skeleton height="h-6" />
-        <Skeleton height="h-4" />
-      </View>
+    <View style={containerStyles}>
+      <Text type="p4">{event.start.month}</Text>
+      <Text type="p4" style={tw`text-primary font-bold`}>
+        {event.start.day}
+      </Text>
     </View>
   );
 };

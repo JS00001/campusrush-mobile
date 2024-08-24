@@ -19,7 +19,6 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import Hyperlink from "@/ui/Hyperlink";
 import FormField from "@/ui/FormField";
-import Content from "@/constants/content";
 import { useAuth } from "@/providers/Auth";
 import usePosthog from "@/hooks/usePosthog";
 import useFormMutation from "@/hooks/useFormMutation";
@@ -44,8 +43,8 @@ const VerificationView = () => {
 
       Toast.show({
         type: "success",
-        text1: Content.verificationSuccess.verifyChapter.title,
-        text2: Content.verificationSuccess.verifyChapter.message,
+        text1: "Successfully verified chapter",
+        text2: "Your chapter has been successfully verified",
       });
     },
   });
@@ -55,8 +54,8 @@ const VerificationView = () => {
 
     Toast.show({
       type: "success",
-      text1: Content.verificationSuccess.resendVerificationEmail.title,
-      text2: Content.verificationSuccess.resendVerificationEmail.message,
+      text1: "Successfully resent verification email",
+      text2: "A new verification email has been sent",
     });
   };
 

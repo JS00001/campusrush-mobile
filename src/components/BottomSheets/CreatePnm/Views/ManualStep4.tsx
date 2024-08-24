@@ -21,7 +21,6 @@ import Button from "@/ui/Button";
 import Headline from "@/ui/Headline";
 import FormField from "@/ui/FormField";
 import { useGlobalStore } from "@/store";
-import Content from "@/constants/content";
 import ButtonGroup from "@/ui/ButtonGroup";
 import TagView from "@/components/TagView";
 import { useCreatePnm } from "@/hooks/api/pnms";
@@ -63,8 +62,8 @@ const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
 
     Toast.show({
       type: "success",
-      text1: Content.createPNMSuccess.title,
-      text2: Content.createPNMSuccess.message,
+      text1: "Successfully created PNM",
+      text2: "The PNM has been added to your contacts",
     });
 
     handleClose();

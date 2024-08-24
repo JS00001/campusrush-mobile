@@ -38,16 +38,20 @@ interface MessageBoxProps {
 }
 
 const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
-  const marginBottom = useSharedValue(0);
-  const { messagingTooltipSeen, updatePreferences } = usePreferences();
-
-  const [value, setValue] = useState<string>("");
-  const [event, setEvent] = useState<Event | null>(null);
-  const [extensionsVisible, setExtensionsVisible] = useState<boolean>(false);
-
   const textInputRef = useRef<RNTextInput>(null);
   const extensionPanelRef = useRef<ExtensionPanelRef>(null);
 
+  const inputMarginBottom = useSharedValue(0);
+  const { messagingTooltipSeen, updatePreferences } = usePreferences();
+
+  const [value, setValue] = useState<string>("");
+  const [attachment, setAttachment] = useState<Event | null>(null);
+  const [extensionsVisible, _setExtensionsVisible] = useState<boolean>(false);
+
+  /**
+   * Adjust the margin of the message box based on the
+   * keyboards events
+   */
   useKeyboardListener({
     onKeyboardWillShow: (e) => {
       const keyboardHeight = e.endCoordinates.height;
@@ -60,6 +64,10 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
     },
   });
 
+  /**
+   * Toggle the extensions panel, and the height
+   * of the message box
+   */
   const onExtensionsPress = async () => {
     // If we are closing the extension panel...
     if (extensionsVisible) {
@@ -76,6 +84,21 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
     }
   };
 
+  /**
+   * Set the visibility of the extensions panel
+   */
+  const setExtensionsVisible = (visible: boolean) => {
+    const messageBoxPosition = visible ? 1 : 0;
+
+    _setExtensionsVisible(visible);
+    animateMessageBox(messageBoxPosition);
+  };
+
+  /**
+   * Animate the message box to the top (1) or bottom (0)
+   * this simulates keyboard avoiding behavior, and the bottom sheet
+   * pushing it
+   */
   const animateMessageBox = (toValue: number, height?: number) => {
     const IOS_KEYBOARD_ANIMATION_DURATION = 250;
     const IOS_KEYBOARD_EASING = Easing.bezier(0.33, 1, 0.68, 1);
@@ -83,18 +106,21 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
 
     const adjustedValue = toValue * BOTTOM_SHEET_HEIGHT;
 
-    marginBottom.value = withTiming(adjustedValue, {
+    inputMarginBottom.value = withTiming(adjustedValue, {
       duration: IOS_KEYBOARD_ANIMATION_DURATION,
       easing: IOS_KEYBOARD_EASING,
     });
   };
 
+  /**
+   * Send the message/attachment and reset the state
+   */
   const onSendPress = () => {
     let messages = [value];
 
-    // If an event is attached, add it to the message
-    if (event) {
-      messages = [`${AppConstants.eventUrl}/${event._id}`, ...messages];
+    // If an attachment is attached, add it to the message
+    if (attachment) {
+      messages = [`${AppConstants.eventUrl}/${attachment._id}`, ...messages];
     }
 
     // Check if any entries in the array are empty, if so, remove them, if all are empty, return
@@ -104,21 +130,28 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
 
     onSend(messages);
     setValue("");
-    setEvent(null);
+    setAttachment(null);
   };
 
-  const removeEvent = () => {
+  /**
+   * Remove the current attachment
+   */
+  const removeAttachment = () => {
     setValue(value.replace(eventsRegex, ""));
-    setEvent(null);
+    setAttachment(null);
   };
 
+  /**
+   * When the walkthrough is completed, set the user
+   * preference to not show it again
+   */
   const onWalkthroughClose = () => {
     updatePreferences({ messagingTooltipSeen: true });
   };
 
-  const animatedMarginStyle = useAnimatedStyle(() => {
+  const animatedInputStyle = useAnimatedStyle(() => {
     return {
-      marginBottom: marginBottom.value,
+      marginBottom: inputMarginBottom.value,
     };
   });
 
@@ -130,13 +163,10 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
   const inputContainerClasses = tw.style("flex-row gap-1 items-center");
 
   // Whether or not the send button should be disabled (if there is no message)
-  const isButtonDisabled = (!value.length && event == null) || disableSend;
+  const isButtonDisabled = (!value.length && attachment == null) || disableSend;
 
   return (
-    <Walkthroughs.MessageBoxWalkthrough
-      isVisible={!messagingTooltipSeen}
-      onClose={onWalkthroughClose}
-    >
+    <>
       <TextSuggestions
         value={value}
         setValue={setValue}
@@ -146,39 +176,47 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
       <ExtensionPanel
         ref={extensionPanelRef}
         visible={extensionsVisible}
-        setEvent={setEvent}
+        setAttachment={setAttachment}
         setVisible={setExtensionsVisible}
       />
 
-      <Animated.View style={[containerClasses, animatedMarginStyle]}>
-        {event && <EventAttachment event={event} onPress={removeEvent} />}
+      <Walkthroughs.MessageBoxWalkthrough
+        isVisible={!messagingTooltipSeen}
+        onClose={onWalkthroughClose}
+      >
+        <Animated.View style={[containerClasses, animatedInputStyle]}>
+          {attachment && (
+            <EventAttachment event={attachment} onPress={removeAttachment} />
+          )}
 
-        <View style={inputContainerClasses}>
-          <IconButton
-            size="sm"
-            color="secondary"
-            iconName={extensionsVisible ? "close-line" : "add-fill"}
-            // prettier-ignore
-            iconColor={ extensionsVisible ? tw.color("red") : tw.color("primary")}
-            onPress={onExtensionsPress}
-          />
+          <View style={inputContainerClasses}>
+            <IconButton
+              size="sm"
+              color="secondary"
+              iconName={extensionsVisible ? "close-line" : "add-fill"}
+              // prettier-ignore
+              iconColor={ extensionsVisible ? tw.color("red") : tw.color("primary")}
+              onPress={onExtensionsPress}
+            />
 
-          <TextInput
-            passedRef={textInputRef}
-            placeholder="Send a message"
-            value={value}
-            setValue={setValue}
-          />
-          <IconButton
-            size="sm"
-            color="secondary"
-            iconName="send-plane-2-fill"
-            disabled={isButtonDisabled}
-            onPress={onSendPress}
-          />
-        </View>
-      </Animated.View>
-    </Walkthroughs.MessageBoxWalkthrough>
+            <TextInput
+              passedRef={textInputRef}
+              placeholder="Send a message"
+              value={value}
+              setValue={setValue}
+            />
+
+            <IconButton
+              size="sm"
+              color="secondary"
+              iconName="send-plane-2-fill"
+              disabled={isButtonDisabled}
+              onPress={onSendPress}
+            />
+          </View>
+        </Animated.View>
+      </Walkthroughs.MessageBoxWalkthrough>
+    </>
   );
 };
 

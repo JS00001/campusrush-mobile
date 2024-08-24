@@ -21,7 +21,6 @@ import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 import Button from "@/ui/Button";
 import ListItem from "@/ui/ListItem";
 import Headline from "@/ui/Headline";
-import Content from "@/constants/content";
 import ButtonGroup from "@/ui/ButtonGroup";
 
 const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
@@ -50,8 +49,8 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
 
     Toast.show({
       type: "success",
-      text1: Content.createEventSuccess.title,
-      text2: Content.createEventSuccess.message,
+      text1: "Successfully created event",
+      text2: "Your event has been successfully created",
     });
 
     handleClose();
