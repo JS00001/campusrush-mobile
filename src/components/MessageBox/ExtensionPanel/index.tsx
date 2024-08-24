@@ -71,7 +71,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
         snapPoints={[334, "90%"]}
         enablePanDownToClose={false}
         backdropComponent={BackdropComponent}
-        backgroundStyle={tw`rounded-none bg-white rounded-t-xl`}
+        backgroundStyle={tw`bg-white rounded-t-3xl`}
       >
         <View style={tw`px-3 pt-3 gap-y-3 flex-1`}>
           <Tabs
