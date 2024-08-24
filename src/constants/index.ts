@@ -72,7 +72,7 @@ const AppConstants = {
   /**
    * The sub-version of the app
    */
-  subVersion: PackageJSON.version,
+  updateVersion: PackageJSON.updateVersion,
   /**
    * The project key used to initialize qonversion
    */
