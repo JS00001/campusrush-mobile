@@ -200,7 +200,7 @@ const SettingsView = () => {
       </Button>
 
       <Text type="p4" style={tw`text-slate-600`}>
-        App Version: {AppConstants.version}
+        App Version: {AppConstants.version} - {AppConstants.subVersion}
       </Text>
     </>
   );

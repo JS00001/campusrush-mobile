@@ -60,22 +60,20 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
       setAttachment(event);
     };
 
+    const BackdropComponent = (props: any) => (
+      <BottomSheetBackdrop {...props} opacity={0.5} onPress={closePanel} />
+    );
+
     return (
       <BottomSheetModal
         ref={bottomSheetRef}
         index={0}
         snapPoints={[334, "90%"]}
         enablePanDownToClose={false}
-        backgroundStyle={tw`rounded-none border-t border-slate-100`}
-        backdropComponent={(props) => (
-          <BottomSheetBackdrop
-            opacity={0.5}
-            {...props}
-            onPress={() => setVisible(false)}
-          />
-        )}
+        backdropComponent={BackdropComponent}
+        backgroundStyle={tw`bg-white rounded-t-3xl`}
       >
-        <View style={tw`p-3 gap-y-3 flex-1`}>
+        <View style={tw`px-3 pt-3 gap-y-3 flex-1`}>
           <Tabs
             options={["Events", "Photos", "Videos"]}
             currentIndex={activeTab}
@@ -83,19 +81,23 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
             onChange={setActiveTab}
           />
 
-          <BottomSheetScrollView contentContainerStyle={tw`flex-1 gap-3`}>
-            {eventsQuery.isLoading && <Skeleton width={"100%"} height={212} />}
-            {!eventsQuery.isLoading && !eventsQuery.events && (
-              <Headline
-                centerText
-                style={tw`mt-12`}
-                title="No events found"
-                subtitle="You have not added any events yet"
-              />
-            )}
+          {/* If the query is loading, show a loading skeleton */}
+          {eventsQuery.isLoading && <Skeleton width={"100%"} height={212} />}
 
-            {!eventsQuery.isLoading && eventsQuery.events && (
-              <View style={tw`bg-slate-100 rounded-xl`}>
+          {/* If the user has no events, show a message */}
+          {!eventsQuery.isLoading && !eventsQuery.events && (
+            <Headline
+              centerText
+              style={tw`mt-12`}
+              title="No events found"
+              subtitle="You have not added any events yet"
+            />
+          )}
+
+          {/* If the user has events, show them */}
+          {!eventsQuery.isLoading && eventsQuery.events && (
+            <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+              <View style={tw`bg-slate-100 rounded-xl mb-16`}>
                 {eventsQuery.events.map((event, index) => {
                   const isLast = index === eventsQuery.events.length - 1;
 
@@ -107,8 +109,8 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
                   );
                 })}
               </View>
-            )}
-          </BottomSheetScrollView>
+            </BottomSheetScrollView>
+          )}
         </View>
       </BottomSheetModal>
     );
