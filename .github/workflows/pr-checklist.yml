@@ -1,0 +1,33 @@
+name: Validate Labels
+
+on:
+  pull_request:
+    types: [opened, labeled, edited, unlabeled, synchronize]
+
+jobs:
+  validate-labels:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: mheap/github-action-required-labels@v5
+        with:
+          mode: exactly
+          count: 1
+          labels: |
+            EAS Update
+            EAS Publish
+
+  validate-checklist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR Checklist
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const prBody = context.payload.pull_request.body;
+            const uncheckedItems = prBody.match(checklistRegex);
+            if (uncheckedItems) {
+              core.setFailed('Please make sure all checklist items are checked before merging.');
+            }
