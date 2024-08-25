@@ -15,11 +15,13 @@ import { useMutation } from '@tanstack/react-query';
 import type {
   GrantAdminChapterEntitlementRequest,
   RevokeAdminChapterEntitlementRequest,
+  SendChapterNotificationRequest,
 } from '@/types';
 
 import {
   grantAdminChapterEntitlement,
   revokeAdminChapterEntitlement,
+  sendChapterNotification,
 } from '@/api';
 
 export const useGrantAdminChapterEntitlement = () => {
@@ -34,6 +36,14 @@ export const useRevokeAdminChapterEntitlement = () => {
   return useMutation({
     mutationFn: (data: RevokeAdminChapterEntitlementRequest) => {
       return revokeAdminChapterEntitlement(data);
+    },
+  });
+};
+
+export const useSendChapterNotification = () => {
+  return useMutation({
+    mutationFn: (data: SendChapterNotificationRequest) => {
+      return sendChapterNotification(data);
     },
   });
 };

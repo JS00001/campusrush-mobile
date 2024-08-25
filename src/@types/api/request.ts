@@ -10,6 +10,8 @@
  * Do not distribute
  */
 
+import type { IconType } from '@/ui/Icon';
+
 export interface LoginRequest {
   /** The chapter's email */
   email: string;
@@ -228,4 +230,19 @@ export interface ChangePasswordRequest {
   code: string;
   /** The new password for the chapter */
   password: string;
+}
+
+export interface SendChapterNotificationRequest {
+  /** The id of the chapter to send the notification to */
+  id: string;
+  /** The title of the notification */
+  title: string;
+  /** The message of the notification */
+  message: string;
+  /** The icon for the notification */
+  icon?: IconType;
+  /** The color of the icon for the notification */
+  iconColor?: string;
+  /** Whether to send in test mode (to yourself) or not */
+  testMode?: boolean;
 }

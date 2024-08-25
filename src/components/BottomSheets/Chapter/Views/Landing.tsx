@@ -38,7 +38,7 @@ interface LandingProps extends UseSheetFlowProps {
   chapterId: string;
 }
 
-const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
+const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
   const copy = useCopy();
 
   const chapterQuery = useGetAdminChapter(chapterId);
@@ -52,6 +52,18 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
 
   const informationMenu: MenuAction[] = [
     {
+      id: "GRANT_ENTITLEMENT",
+      title: "Grant Entitlement",
+      image: "creditcard.fill",
+      onPress: () => setView(1),
+    },
+    {
+      id: "SEND_NOTIFICATION",
+      title: "Send Notification",
+      image: "bell.fill",
+      onPress: () => setView(2),
+    },
+    {
       id: "COPY_ID",
       title: "Copy User ID",
       image: "doc.on.clipboard",
@@ -62,12 +74,6 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
       title: "Copy Customer ID",
       image: "doc.on.clipboard",
       onPress: () => copy(chapter?.customerId || "", "Customer ID"),
-    },
-    {
-      id: "GRANT_ENTITLEMENT",
-      title: "Grant Entitlement",
-      image: "creditcard.fill",
-      onPress: () => nextView(),
     },
   ];
 

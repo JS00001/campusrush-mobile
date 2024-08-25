@@ -20,6 +20,8 @@ import type {
   GrantAdminChapterEntitlementsResponse,
   RevokeAdminChapterEntitlementRequest,
   RevokeAdminChapterEntitlementsResponse,
+  SendChapterNotificationRequest,
+  SendChapterNotificationResponse,
 } from '@/types';
 
 import { axiosClient } from '@/providers/Axios';
@@ -90,4 +92,18 @@ export const revokeAdminChapterEntitlement = async (
   const { data: responseData } = await axiosClient.delete(url, { data });
 
   return responseData as RevokeAdminChapterEntitlementsResponse;
+};
+
+/**
+ * Request:     POST /api/v1/consumer/admin/chapters/:id/notification
+ * Description: Send a notification to a chapter
+ */
+export const sendChapterNotification = async (
+  data: SendChapterNotificationRequest,
+) => {
+  const url = `${PREFIX}/chapters/${data.id}/notification`;
+
+  const { data: responseData } = await axiosClient.post(url, data);
+
+  return responseData as SendChapterNotificationResponse;
 };

@@ -12,6 +12,9 @@
 
 import { z } from 'zod';
 
+import iconNames from './iconNames';
+import { colorHexRegex } from './regex';
+
 const validators = {
   /**
    * MongoDB ObjectID
@@ -144,6 +147,25 @@ const validators = {
   organizationSize: z.enum(['01_25', '26_50', '51_100', '100_PLUS'], {
     invalid_type_error: 'Size must be a valid organization size',
     required_error: 'Size is required',
+  }),
+  /**
+   * A color hex
+   */
+  colorHex: z
+    .string({
+      required_error: 'Color is required',
+      invalid_type_error: 'Color must be a string',
+    })
+    .regex(colorHexRegex, {
+      message: 'Color must be a valid hex color',
+    }),
+  /**
+   * An icon name validator
+   */
+  iconName: z.enum(iconNames, {
+    errorMap: () => ({
+      message: 'Invalid icon name',
+    }),
   }),
 };
 

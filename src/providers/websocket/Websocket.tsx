@@ -18,6 +18,7 @@ import type { WebsocketLog, WebsocketMessage } from "@/types/websocket";
 import AppConstants from "@/constants";
 import { isJSON } from "@/lib/util/string";
 import { useAuth } from "@/providers/Auth";
+import { useBottomSheet } from "@/providers/BottomSheet";
 import { LogLevels, websocketLogger } from "@/lib/logger";
 import { useConversationStore, useGlobalStore, useMessageStore } from "@/store";
 
@@ -44,6 +45,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const globalStore = useGlobalStore();
   const messageStore = useMessageStore();
+  const { openBottomSheet } = useBottomSheet();
   const conversationStore = useConversationStore();
 
   let reconnectAttempts = 0;
@@ -140,6 +142,16 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
         const pnm = payload.data.pnm;
         globalStore.addOrUpdatePnm(pnm);
         break;
+
+      case "NEW_DYNAMIC_NOTIFICATION":
+        const data = payload.data;
+
+        openBottomSheet("DYNAMIC_NOTIFICATION", {
+          title: data.title,
+          message: data.message,
+          iconName: data.iconName,
+          iconColor: data.iconColor,
+        });
     }
 
     if (payload.notification) {

@@ -35,6 +35,8 @@ export type RevokeAdminChapterEntitlementsResponse = API.Response<{}>;
 
 export type ResetPasswordResponse = API.Response<{}>;
 
+export type SendChapterNotificationResponse = API.Response<{}>;
+
 export type GetEntitlementsResponse = API.Response<EntitlementDetails>;
 
 export type GetChaptersResponse = API.Response<{

@@ -70,22 +70,22 @@ const App = () => {
                 <AuthProvider>
                   <NavigationProvider>
                     <AxiosIntercepter>
-                      <WebsocketProvider>
-                        <PosthogProvider>
-                          <GestureHandlerRootView style={{ flex: 1 }}>
-                            <BottomSheetModalProvider>
-                              <BottomSheetProvider>
+                      <PosthogProvider>
+                        <GestureHandlerRootView style={{ flex: 1 }}>
+                          <BottomSheetModalProvider>
+                            <BottomSheetProvider>
+                              <WebsocketProvider>
                                 <DeveloperTools />
                                 <RootNavigator />
                                 <StatusOverlay />
-                              </BottomSheetProvider>
-                            </BottomSheetModalProvider>
+                              </WebsocketProvider>
+                            </BottomSheetProvider>
+                          </BottomSheetModalProvider>
 
-                            {/* We need the toast outside of the bottom sheet modal provider so it shows up on top of bottom sheets */}
-                            <Toast config={toastConfig} />
-                          </GestureHandlerRootView>
-                        </PosthogProvider>
-                      </WebsocketProvider>
+                          {/* We need the toast outside of the bottom sheet modal provider so it shows up on top of bottom sheets */}
+                          <Toast config={toastConfig} />
+                        </GestureHandlerRootView>
+                      </PosthogProvider>
                     </AxiosIntercepter>
                   </NavigationProvider>
                 </AuthProvider>

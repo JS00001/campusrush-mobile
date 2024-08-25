@@ -22,6 +22,7 @@ export type IconLabelSize = "xs" | "sm" | "md" | "lg";
 
 interface IconLabelProps extends ViewProps {
   iconName: IconType;
+  iconColor?: string;
   title?: string;
   subtitle?: string;
   style?: any;
@@ -76,13 +77,14 @@ const IconLabelColors = {
 const IconLabel: React.FC<IconLabelProps> = ({
   style,
   iconName,
+  iconColor,
   title,
   subtitle,
   size = "lg",
   color = "primary",
   ...props
 }) => {
-  const icon = IconLabelColors[color].color;
+  const IconColor = iconColor || IconLabelColors[color].color;
 
   const containerStyles = tw.style("flex-row items-center gap-2", style);
 
@@ -95,7 +97,11 @@ const IconLabel: React.FC<IconLabelProps> = ({
   return (
     <View style={containerStyles} {...props}>
       <View style={iconContainerStyles}>
-        <Icon name={iconName} color={icon} size={IconLabelSizes[size].icon} />
+        <Icon
+          name={iconName}
+          color={IconColor}
+          size={IconLabelSizes[size].icon}
+        />
       </View>
 
       <View>

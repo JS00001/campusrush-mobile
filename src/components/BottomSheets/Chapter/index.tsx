@@ -14,6 +14,7 @@ import type { BottomSheetProps, SheetData } from "../@types";
 
 import Landing from "./Views/Landing";
 import ManageBilling from "./Views/ManageBilling";
+import SendNotification from "./Views/SendNotification";
 
 import { BottomSheet } from "@/ui/BottomSheet";
 import useSheetFlow from "@/hooks/useSheetFlow";
@@ -25,7 +26,7 @@ const ChapterSheet: React.FC<BottomSheetProps> = ({
   snapToIndex,
   snapToPosition,
 }) => {
-  const views = [Landing, ManageBilling];
+  const views = [Landing, ManageBilling, SendNotification];
 
   const sheetFlow = useSheetFlow({
     state: {},
