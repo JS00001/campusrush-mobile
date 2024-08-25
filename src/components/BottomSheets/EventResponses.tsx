@@ -19,6 +19,7 @@ import type { BottomSheetProps, SheetData } from "./@types";
 import Tabs from "@/ui/Tabs";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Headline from "@/ui/Headline";
 import ListItem from "@/ui/ListItem";
 import Skeleton from "@/ui/Skeleton";
 import format from "@/lib/util/format";
@@ -85,18 +86,28 @@ const EventResponsesSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
               onChange={setActiveTab}
             />
 
-            <View style={tw`gap-y-2`}>
-              {data?.map((response, index) => (
-                <ListItem
-                  key={index}
-                  size="md"
-                  pressable={false}
-                  title={response.pnm.displayName}
-                  subtitle={format.phoneNumber(response.pnm.phoneNumber)}
-                  icon={getIcon(response.response)}
-                />
-              ))}
-            </View>
+            {!data?.length && (
+              <Headline
+                centerText
+                title="No Responses"
+                subtitle="There are no responses yet for this event"
+              />
+            )}
+
+            {data && (
+              <View style={tw`gap-y-2`}>
+                {data.map((response, index) => (
+                  <ListItem
+                    key={index}
+                    size="md"
+                    pressable={false}
+                    title={response.pnm.displayName}
+                    subtitle={format.phoneNumber(response.pnm.phoneNumber)}
+                    icon={getIcon(response.response)}
+                  />
+                ))}
+              </View>
+            )}
           </BottomSheetContainer>
         );
       }}
