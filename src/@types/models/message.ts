@@ -11,7 +11,7 @@
  */
 
 /** A message between a PNM and a chapter */
-export interface Message {
+export interface IMessage {
   /** The ID of the message */
   _id: string;
   /** The ID of the chapter */

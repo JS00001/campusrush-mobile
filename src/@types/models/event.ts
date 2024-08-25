@@ -11,7 +11,7 @@
  */
 
 /** A planned event on the calendar for a chapter */
-export interface Event {
+export interface IEvent {
   /** The ID of the event */
   _id: string;
   /** The ID of the chapter */

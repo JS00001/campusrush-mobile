@@ -14,7 +14,7 @@ import { View } from "react-native";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 
-import type { PNM } from "@/types";
+import type { IPNM } from "@/types";
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import Text from "@/ui/Text";
@@ -48,7 +48,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({
    * Helper function for mass messaging (all uncontacted, all favorites, etc)
    */
   // prettier-ignore
-  const onMassMessage = (pnms: PNM[], error: {title: string, message: string}) => {
+  const onMassMessage = (pnms: IPNM[], error: {title: string, message: string}) => {
     if (!pnms.length) {
       Toast.show({
         type: 'error',
@@ -113,7 +113,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({
   /**
    * When the user presses a suggested or searched contact
    */
-  const onDirectMessagePress = (pnm: PNM) => {
+  const onDirectMessagePress = (pnm: IPNM) => {
     navigation.navigate("Conversation", {
       screen: "Chat",
       params: {

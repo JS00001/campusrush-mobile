@@ -10,21 +10,21 @@
  * Do not distribute
  */
 
-import type { PNM } from './pnm';
-import type { Message } from './message';
+import type { IPNM } from './pnm';
+import type { IMessage } from './message';
 
 /** A conversation between the chapter and a PNM */
-export interface Conversation {
+export interface IConversation {
   /** The ID of the conversation */
   _id: string;
   /** The ID of the chapter */
   chapter: string;
   /** The details about the PNM */
-  pnm: PNM;
+  pnm: IPNM;
   /** If the conversation has been read by the chapter */
   read: boolean;
   /** The messages in the conversation */
-  messages: Message[];
+  messages: IMessage[];
   /** The last message in the conversation */
   lastMessage: string;
   /** The time the last message was sent */

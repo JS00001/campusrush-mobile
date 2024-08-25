@@ -13,14 +13,14 @@
 import { create } from 'zustand';
 import { PersistStorage, persist } from 'zustand/middleware';
 
-import type { PNM } from '@/types';
+import type { IPNM } from '@/types';
 
 import customAsyncStorage from '@/lib/asyncStorage';
 
 interface IStatisticsStore {
   pnmCount: number;
   starredPnmCount: number;
-  recentPnms: PNM[];
+  recentPnms: IPNM[];
 
   clear(): void;
   setField(field: keyof IStatisticsStore, value: any): void;

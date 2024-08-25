@@ -10,18 +10,18 @@
  * Do not distribute
  */
 
-import type { PNM } from './models/pnm';
-import type { Conversation } from './models/conversation';
+import type { IPNM } from './models/pnm';
+import type { IConversation } from './models/conversation';
 
 /** All WS message types, and the data that must be passed through the WS */
 type Message =
   | {
       type: 'NEW_MESSAGE';
-      data: { conversation: Conversation };
+      data: { conversation: IConversation };
     }
   | {
       type: 'NEW_PNM';
-      data: { pnm: PNM };
+      data: { pnm: IPNM };
     }
   | {
       type: 'NEW_NOTIFICATION';

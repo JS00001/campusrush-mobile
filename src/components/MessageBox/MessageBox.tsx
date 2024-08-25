@@ -19,7 +19,7 @@ import Animated, {
 import { useRef, useState } from "react";
 import { View, Keyboard, TextInput as RNTextInput } from "react-native";
 
-import type { Event } from "@/types";
+import type { IEvent } from "@/types";
 import type { ExtensionPanelRef } from "@/types/messageBox";
 
 import TextInput from "./TextInput";
@@ -48,7 +48,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
   const { messagingTooltipSeen, updatePreferences } = usePreferences();
 
   const [value, setValue] = useState<string>("");
-  const [attachment, setAttachment] = useState<Event | null>(null);
+  const [attachment, setAttachment] = useState<IEvent | null>(null);
   const [extensionsVisible, _setExtensionsVisible] = useState<boolean>(false);
 
   /**

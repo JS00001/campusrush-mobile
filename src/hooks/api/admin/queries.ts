@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { Entitlement } from 'qonversion-sdk';
 
-import type { Chapter } from '@/types';
+import type { IChapter } from '@/types';
 
 import {
   getAdminChapter,
@@ -26,7 +26,7 @@ import { useAuth } from '@/providers/Auth';
 export const useGetAdminChapters = () => {
   const { accessToken } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
-  const [chapters, setChapters] = useState<Chapter[]>([]);
+  const [chapters, setChapters] = useState<IChapter[]>([]);
 
   const query = useQuery(['adminChapters', accessToken], {
     queryFn: async () => {
@@ -53,7 +53,7 @@ export const useGetAdminChapters = () => {
 
 export const useGetAdminChapter = (id: string) => {
   const { accessToken } = useAuth();
-  const [chapter, setChapter] = useState<Chapter | null>(null);
+  const [chapter, setChapter] = useState<IChapter | null>(null);
 
   const query = useQuery(['adminChapter', accessToken, id], {
     queryFn: async () => {

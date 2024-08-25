@@ -11,7 +11,7 @@
  */
 
 /** The base account */
-export interface Chapter {
+export interface IChapter {
   /** The id of the chapter */
   _id: string;
   /** The name of the chapters organization, IE: Delta Chi */

@@ -20,7 +20,7 @@ import {
 } from '@react-navigation/native-stack';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 
-import type { PNM } from '@/types';
+import type { IPNM } from '@/types';
 
 /** Update the 'useNavigation' hook to include the main app navigation */
 declare global {
@@ -113,8 +113,8 @@ export type MainStackParams = {
 };
 
 export type ConversationStackParams = {
-  Chat: { pnm: PNM };
-  Create: { pnms: PNM[] };
+  Chat: { pnm: IPNM };
+  Create: { pnms: IPNM[] };
 };
 
 export type AppStackParams = {

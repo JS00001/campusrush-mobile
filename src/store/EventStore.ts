@@ -13,18 +13,18 @@
 import { create } from 'zustand';
 import { PersistStorage, persist } from 'zustand/middleware';
 
-import type { Event } from '@/types';
+import type { IEvent } from '@/types';
 
 import date from '@/lib/util/date';
 import customAsyncStorage from '@/lib/asyncStorage';
 
 interface IEventStore {
-  events: Event[];
+  events: IEvent[];
 
   clear: () => void;
-  setEvents: (events: Event[]) => void;
-  getEvent: (id: string) => Event | undefined;
-  addOrUpdateEvent: (event: Event) => void;
+  setEvents: (events: IEvent[]) => void;
+  getEvent: (id: string) => IEvent | undefined;
+  addOrUpdateEvent: (event: IEvent) => void;
   deleteEvent: (id: string) => void;
 }
 
@@ -47,7 +47,7 @@ export const useEventStore = create<IEventStore>()(
       /**
        * Set the events in the store
        */
-      const setEvents = (events: Event[]) => {
+      const setEvents = (events: IEvent[]) => {
         return set({ events });
       };
 
@@ -63,7 +63,7 @@ export const useEventStore = create<IEventStore>()(
       /**
        * Add an event if it doesn't exist, or update it if it does
        */
-      const addOrUpdateEvent = (event: Event) => {
+      const addOrUpdateEvent = (event: IEvent) => {
         return set((state) => {
           const oldEvent = state.events.find((e) => e._id === event._id);
 
@@ -107,7 +107,7 @@ export const useEventStore = create<IEventStore>()(
   ),
 );
 
-const insertEvent = (state: IEventStore, event: Event) => {
+const insertEvent = (state: IEventStore, event: IEvent) => {
   // Don't insert the event if it already exists
   if (state.events.find((e) => e._id === event._id)) {
     return state;

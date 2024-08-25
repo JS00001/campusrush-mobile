@@ -14,7 +14,7 @@ import { useMemo, useState } from "react";
 import { View, RefreshControl } from "react-native";
 import { FlashList, FlashListProps } from "@shopify/flash-list";
 
-import type { PNM } from "@/types";
+import type { IPNM } from "@/types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -24,10 +24,10 @@ import format from "@/lib/util/format";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
-type ListDataTypes = PNM | string;
+type ListDataTypes = IPNM | string;
 
 interface PnmsListProps extends Partial<FlashListProps<ListDataTypes>> {
-  pnms: PNM[];
+  pnms: IPNM[];
   loading: boolean;
   onRefetch: () => Promise<void>;
 }
@@ -76,7 +76,7 @@ const PnmsList: React.FC<PnmsListProps> = ({
 
         return acc;
       },
-      {} as Record<string, Array<string | PNM>>,
+      {} as Record<string, Array<string | IPNM>>,
     );
 
     // Sort the keys and flatten the list

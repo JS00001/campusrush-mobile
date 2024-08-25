@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import type { Event } from '@/types';
+import type { IEvent } from '@/types';
 
 /** The reference to the extension bottom sheet modal */
 export interface ExtensionPanelRef {
@@ -27,7 +27,7 @@ export interface ExtensionPanelProps {
   /** Set the visibility of the extension bottom sheet modal */
   setVisible: (visible: boolean) => void;
   /** Set the attachment of the extension bottom sheet modal */
-  setAttachment: (attachment: Event | null) => void;
+  setAttachment: (attachment: IEvent | null) => void;
 }
 
 /** The text suggestion for the message box */

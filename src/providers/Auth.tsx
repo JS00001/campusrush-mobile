@@ -18,7 +18,7 @@ import Qonversion, { UserPropertyKey } from "react-native-qonversion";
 import { createContext, useEffect, useState, useContext } from "react";
 
 import type {
-  Chapter,
+  IChapter,
   LogoutResponse,
   RefreshAccessTokenResponse,
   GetChapterResponse,
@@ -29,7 +29,7 @@ import { useGlobalStore } from "@/store";
 import { useQonversion } from "@/providers/Qonversion";
 
 interface IUserData {
-  chapter: Chapter;
+  chapter: IChapter;
   accessToken: string | null;
   refreshToken: string | null;
 }
@@ -40,7 +40,7 @@ interface IAuthContext {
   /** All of the mutations in this context's data */
   mutations: Record<string, UseMutationResult<any, any, any, any>>;
   /** The currently logged in chapter */
-  chapter: Chapter;
+  chapter: IChapter;
   /** The currently logged in chapter's access token */
   accessToken: string | null;
   /** The currently logged in chapter's refresh token */
@@ -48,7 +48,7 @@ interface IAuthContext {
   /** Clear all caches and local user data */
   clearUserData: () => void;
   /** Set the currently logged in chapter */
-  setChapter: (chapter: Chapter) => void;
+  setChapter: (chapter: IChapter) => void;
   /** Log the user out and clear all user data */
   logoutUser: () => Promise<void>;
   /** Authenticate a user with the given data */
@@ -66,7 +66,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userData, setUserData] = useState<IUserData>({
     accessToken: null,
     refreshToken: null,
-    chapter: {} as Chapter,
+    chapter: {} as IChapter,
   });
 
   const logoutMutation = useMutation({
@@ -198,7 +198,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   /**
    * Wrapper around setUserData to make it easier to set the chapter
    */
-  const setChapter = async (chapter: Chapter) => {
+  const setChapter = async (chapter: IChapter) => {
     setUserData({ ...userData, chapter });
   };
 
@@ -213,7 +213,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUserData({
       accessToken: null,
       refreshToken: null,
-      chapter: {} as Chapter,
+      chapter: {} as IChapter,
     });
 
     Qonversion.getSharedInstance().logout();

@@ -13,7 +13,7 @@
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import type { PNM } from "@/types";
+import type { IPNM } from "@/types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -46,7 +46,7 @@ const HomeView = () => {
     openBottomSheet("CREATE_PNM");
   };
 
-  const onRecentPnmPress = (pnm: PNM) => {
+  const onRecentPnmPress = (pnm: IPNM) => {
     openBottomSheet("PNM", {
       pnmId: pnm._id,
     });

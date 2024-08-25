@@ -12,18 +12,18 @@
 
 import { create } from 'zustand';
 
-import type { Message } from '@/types';
+import type { IMessage } from '@/types';
 
 interface IMessageStore {
-  messages: { [pnmId: string]: Message[] };
+  messages: { [pnmId: string]: IMessage[] };
 
   clear: () => void;
 
-  getMessages: (pnmId: string) => Message[] | undefined;
-  setMessages: (pnmId: string, messages: Message[]) => void;
-  addMessages: (messages: Message[] | Message) => void;
+  getMessages: (pnmId: string) => IMessage[] | undefined;
+  setMessages: (pnmId: string, messages: IMessage[]) => void;
+  addMessages: (messages: IMessage[] | IMessage) => void;
   removeMessage: (pnmId: string, messageId: string) => void;
-  replaceMessage: (pnmId: string, messageId: string, message: Message) => void;
+  replaceMessage: (pnmId: string, messageId: string, message: IMessage) => void;
 }
 
 export const useMessageStore = create<IMessageStore>()((set, get) => {
@@ -51,7 +51,7 @@ export const useMessageStore = create<IMessageStore>()((set, get) => {
   /**
    * Sets messages for a specific pnmId
    */
-  const setMessages = (pnmId: string, messages: Message[]) => {
+  const setMessages = (pnmId: string, messages: IMessage[]) => {
     return set((state) => {
       return {
         messages: {
@@ -66,7 +66,7 @@ export const useMessageStore = create<IMessageStore>()((set, get) => {
    * Adds messages to the store, but does not add duplicate
    * message ids
    */
-  const addMessages = (messages: Message[] | Message) => {
+  const addMessages = (messages: IMessage[] | IMessage) => {
     return set((state) => {
       const messagesArray = Array.isArray(messages) ? messages : [messages];
 
@@ -118,7 +118,7 @@ export const useMessageStore = create<IMessageStore>()((set, get) => {
   const replaceMessage = (
     pnmId: string,
     messageId: string,
-    message: Message,
+    message: IMessage,
   ) => {
     return set((state) => {
       const currentMessages = state.messages[pnmId] || [];

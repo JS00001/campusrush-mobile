@@ -13,7 +13,7 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-import type { EventResponse } from '@/types';
+import type { IEventResponse } from '@/types';
 
 import { useEventStore } from '@/store';
 import { useAuth } from '@/providers/Auth';
@@ -53,7 +53,7 @@ export const useGetEvent = (id: string) => {
   const { accessToken } = useAuth();
 
   const event = useEventStore((s) => s.getEvent(id));
-  const [responses, setResponses] = useState<EventResponse[]>([]);
+  const [responses, setResponses] = useState<IEventResponse[]>([]);
   const addOrUpdateEvent = useEventStore((s) => s.addOrUpdateEvent);
 
   const query = useQuery(['event', id, accessToken], () => {

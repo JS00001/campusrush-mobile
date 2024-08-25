@@ -16,7 +16,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { createContext, useContext, useEffect, useRef } from "react";
 
-import type { PNM, Event } from "@/types";
+import type { IPNM, IEvent } from "@/types";
 
 import { useAuth } from "@/providers/Auth";
 import { useUpdateChapter } from "@/hooks/api/chapter";
@@ -74,7 +74,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
         const { data } = response.notification.request.content;
 
         if (data.type === "NEW_MESSAGE") {
-          const pnm: PNM = data.conversation.pnm;
+          const pnm: IPNM = data.conversation.pnm;
 
           navigation.navigate("Conversation", {
             screen: "Chat",
@@ -86,7 +86,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
 
           queryClient.invalidateQueries(["conversation", accessToken, pnm._id]);
         } else if (data.type === "NEW_PNM") {
-          const pnm: PNM = data.pnm;
+          const pnm: IPNM = data.pnm;
 
           navigation.navigate("Main", {
             screen: "PNMsTab",
@@ -98,7 +98,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
           globalStore.addOrUpdatePnm(pnm);
           openBottomSheet("PNM", { pnmId: pnm._id });
         } else if (data.type === "NEW_EVENT_RESPONSE") {
-          const event: Event = data.event;
+          const event: IEvent = data.event;
 
           navigation.navigate("Main", {
             screen: "EventsTab",
