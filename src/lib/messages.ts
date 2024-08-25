@@ -10,9 +10,9 @@
  * Do not distribute
  */
 
-import type { Message } from '@/types';
+import type { IMessage } from '@/types';
 
-interface TimestampedMessage extends Message {
+interface TimestampedMessage extends IMessage {
   date?: string;
   showTimestamp?: boolean;
   showDate?: boolean;
@@ -22,7 +22,7 @@ interface TimestampedMessage extends Message {
   Define a function called groupByDate that takes an array of messages 
   as input and returns an array of timestamped messages.
 */
-const groupByDate = (messages: Message[]): TimestampedMessage[] => {
+const groupByDate = (messages: IMessage[]): TimestampedMessage[] => {
   // Initialize a variable to keep track of the previous date.
   let previousDate: string = '';
 

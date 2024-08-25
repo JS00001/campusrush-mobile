@@ -13,7 +13,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
-import type { Conversation as IConversation, PNM } from "@/types";
+import type { IConversation, IPNM } from "@/types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -47,7 +47,7 @@ const Conversation: React.FC<ConversationProps> = ({
     navigation.navigate("Conversation", {
       screen: "Chat",
       params: {
-        pnm: conversation.pnm as PNM,
+        pnm: conversation.pnm as IPNM,
       },
     });
   };

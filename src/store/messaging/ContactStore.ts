@@ -13,21 +13,21 @@
 import { create } from 'zustand';
 import { PersistStorage, persist } from 'zustand/middleware';
 
-import type { PNM } from '@/types';
+import type { IPNM } from '@/types';
 
 import customAsyncStorage from '@/lib/asyncStorage';
 
 interface IContactStore {
-  all: PNM[];
-  starred: PNM[];
-  suggested: PNM[];
-  uncontacted: PNM[];
+  all: IPNM[];
+  starred: IPNM[];
+  suggested: IPNM[];
+  uncontacted: IPNM[];
 
   clear: () => void;
 
-  setContacts: (field: keyof IContactStore, value: PNM[]) => void;
-  addContacts: (field: keyof IContactStore, value: PNM[] | PNM) => void;
-  removeContacts: (field: keyof IContactStore, value: PNM[] | PNM) => void;
+  setContacts: (field: keyof IContactStore, value: IPNM[]) => void;
+  addContacts: (field: keyof IContactStore, value: IPNM[] | IPNM) => void;
+  removeContacts: (field: keyof IContactStore, value: IPNM[] | IPNM) => void;
 }
 
 export const useContactStore = create<IContactStore>()(
@@ -53,7 +53,7 @@ export const useContactStore = create<IContactStore>()(
       /**
        * Set the contacts in the store
        */
-      const setContacts = (field: keyof IContactStore, value: PNM[]) => {
+      const setContacts = (field: keyof IContactStore, value: IPNM[]) => {
         return set((state) => ({
           ...state,
           [field]: value,
@@ -64,10 +64,13 @@ export const useContactStore = create<IContactStore>()(
        * Add contacts to the store (either a single contact or an array of contacts)
        * Do not add any duplicates
        */
-      const addContacts = (field: keyof IContactStore, value: PNM[] | PNM) => {
+      const addContacts = (
+        field: keyof IContactStore,
+        value: IPNM[] | IPNM,
+      ) => {
         return set((state) => {
           const contacts = Array.isArray(value) ? value : [value];
-          const newContacts = (state[field] as PNM[]).concat(contacts);
+          const newContacts = (state[field] as IPNM[]).concat(contacts);
 
           return {
             ...state,
@@ -81,11 +84,11 @@ export const useContactStore = create<IContactStore>()(
        */
       const removeContacts = (
         field: keyof IContactStore,
-        value: PNM[] | PNM,
+        value: IPNM[] | IPNM,
       ) => {
         return set((state) => {
           const contacts = Array.isArray(value) ? value : [value];
-          const newContacts = (state[field] as PNM[]).filter(
+          const newContacts = (state[field] as IPNM[]).filter(
             (contact) => !contacts.includes(contact),
           );
 

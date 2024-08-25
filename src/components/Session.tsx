@@ -12,7 +12,7 @@
 
 import { TouchableOpacity, View, ViewProps } from "react-native";
 
-import type { RefreshToken } from "@/types";
+import type { IRefreshToken } from "@/types";
 
 import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
@@ -20,7 +20,7 @@ import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 
 interface SessionProps extends ViewProps {
-  session: RefreshToken;
+  session: IRefreshToken;
   style?: any;
   onRemove: () => void;
 }

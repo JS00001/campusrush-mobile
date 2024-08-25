@@ -12,7 +12,7 @@
 
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
-import type { Chapter as IChapter } from "@/types";
+import type { IChapter } from "@/types";
 
 import tw from "@/lib/tailwind";
 import Headline from "@/ui/Headline";

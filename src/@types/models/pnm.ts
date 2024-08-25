@@ -11,7 +11,7 @@
  */
 
 /** A PNM is a member of the chapter recruitment */
-export interface PNM {
+export interface IPNM {
   /** The ID of the PNM */
   _id: string;
   /** The ID of the chapter */

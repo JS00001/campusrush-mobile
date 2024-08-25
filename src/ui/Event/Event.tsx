@@ -12,7 +12,7 @@
 
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
-import type { Event as IEvent } from "@/types";
+import type { IEvent } from "@/types";
 
 import EventDate from "./Date";
 

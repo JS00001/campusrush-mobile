@@ -13,7 +13,7 @@
 import { useEffect } from "react";
 import { Keyboard } from "react-native";
 
-import type { Message } from "@/types";
+import type { IMessage } from "@/types";
 import type { ConversationStackProps } from "@/navigation/@types";
 
 import {
@@ -123,7 +123,7 @@ const Chat: React.FC<Props> = ({ route }) => {
 
       const messageId = `temp-${i}`;
 
-      const newMessage: Message = {
+      const newMessage: IMessage = {
         _id: messageId,
         sent: true,
         pnm: pnmId,

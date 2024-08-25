@@ -10,9 +10,9 @@
  * Do not distribute
  */
 
-import type { Event } from '@/types';
+import type { IEvent } from '@/types';
 
-export interface FormattedEvent extends Event {
+export interface FormattedEvent extends IEvent {
   dateString: string;
   start: {
     time: string;
@@ -31,7 +31,7 @@ export interface FormattedEvent extends Event {
 /**
  * Extract date information from an event
  */
-const formatEvent = (event?: Event): FormattedEvent | null => {
+const formatEvent = (event?: IEvent): FormattedEvent | null => {
   if (!event) return null;
 
   const startDate = new Date(event.startDate);
@@ -124,6 +124,6 @@ const formatPhoneNumber = (phoneNumber: string) => {
 };
 
 export default {
-  event: (event: Event) => formatEvent(event),
+  event: (event: IEvent) => formatEvent(event),
   phoneNumber: (phoneNumber: string) => formatPhoneNumber(phoneNumber),
 };

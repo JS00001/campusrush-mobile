@@ -11,7 +11,7 @@
  */
 
 /** Individual refresh token session information for a chapter */
-export interface RefreshToken {
+export interface IRefreshToken {
   /** The ID of the refresh token */
   _id: string;
   /** The ID of the chapter */

@@ -12,7 +12,7 @@
 
 import { TouchableOpacity, View } from "react-native";
 
-import type { Event } from "@/types";
+import type { IEvent } from "@/types";
 
 import Text from "@/ui/Text";
 import Icon from "@/ui/Icon";
@@ -21,8 +21,8 @@ import date from "@/lib/util/date";
 import format, { FormattedEvent } from "@/lib/util/format";
 
 interface EventCardProps {
-  event: Event;
-  onPress?: (event: Event) => void;
+  event: IEvent;
+  onPress?: (event: IEvent) => void;
 }
 
 const EventCard: React.FC<EventCardProps> = ({ event, onPress }) => {

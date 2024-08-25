@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import type { PNM } from '@/types';
+import type { IPNM } from '@/types';
 
 import { useEventStore } from './EventStore';
 import { usePnmStore } from './PNMStore';
@@ -38,7 +38,7 @@ export const useGlobalStore = () => {
    * Adds a PNM to the system. This needs to update
    * the pnm, statistics, contacts, and more.
    */
-  const addOrUpdatePnm = async (pnm: PNM) => {
+  const addOrUpdatePnm = async (pnm: IPNM) => {
     // Check if the pnm already exists in the store
     const existingPnm = pnmStore.getPnm(pnm._id);
     pnmStore.addOrUpdatePnm(pnm);
@@ -63,7 +63,7 @@ export const useGlobalStore = () => {
    * update the pnm, statistics, messages, conversations,
    * and contacts stores.
    */
-  const deletePnm = async (pnm: PNM) => {
+  const deletePnm = async (pnm: IPNM) => {
     pnmStore.deletePnm(pnm._id);
 
     statisticsStore.decrementField('pnmCount');
@@ -91,7 +91,7 @@ export const useGlobalStore = () => {
    * update the pnm, statistics, and contacts stores.
    *
    */
-  const favoritePnm = async (pnm: PNM) => {
+  const favoritePnm = async (pnm: IPNM) => {
     pnmStore.addOrUpdatePnm({
       ...pnm,
       starred: true,
@@ -109,7 +109,7 @@ export const useGlobalStore = () => {
    * needs to update the pnm, statistics, and contacts
    * stores.
    */
-  const unfavoritePnm = async (pnm: PNM) => {
+  const unfavoritePnm = async (pnm: IPNM) => {
     pnmStore.addOrUpdatePnm({
       ...pnm,
       starred: false,

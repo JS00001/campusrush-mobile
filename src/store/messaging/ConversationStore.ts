@@ -13,20 +13,19 @@
 import { create } from 'zustand';
 import { PersistStorage, persist } from 'zustand/middleware';
 
-import type { Conversation } from '@/types';
+import type { IConversation } from '@/types';
 
 import customAsyncStorage from '@/lib/asyncStorage';
 
 interface IConversationStore {
-  conversations: Conversation[];
+  conversations: IConversation[];
 
   clear: () => void;
-
-  getConversation: (pnmId: string) => Conversation | undefined;
+  getConversation: (pnmId: string) => IConversation | undefined;
   removeConversation: (pnmId: string) => void;
-  updateConversation: (conversation: Conversation) => void;
-  setConversations: (conversations: Conversation[]) => void;
-  addConversations: (conversations: Conversation[] | Conversation) => void;
+  updateConversation: (conversation: IConversation) => void;
+  setConversations: (conversations: IConversation[]) => void;
+  addConversations: (conversations: IConversation[] | IConversation) => void;
 }
 
 export const useConversationStore = create<IConversationStore>()(
@@ -73,7 +72,7 @@ export const useConversationStore = create<IConversationStore>()(
       /**
        * Updates a conversation in the store
        */
-      const updateConversation = (conversation: Conversation) => {
+      const updateConversation = (conversation: IConversation) => {
         return set((state) => {
           const updatedConversations = state.conversations.map((c) => {
             return c._id === conversation._id ? conversation : c;
@@ -88,7 +87,7 @@ export const useConversationStore = create<IConversationStore>()(
       /**
        * Sets conversations in the store
        */
-      const setConversations = (conversations: Conversation[]) => {
+      const setConversations = (conversations: IConversation[]) => {
         return set((state) => ({
           conversations,
         }));
@@ -98,7 +97,7 @@ export const useConversationStore = create<IConversationStore>()(
        * Adds conversations to the store (but does not add duplicates)
        */
       // prettier-ignore
-      const addConversations = (conversations: Conversation[] | Conversation) => {
+      const addConversations = (conversations: IConversation[] | IConversation) => {
         return set((state) => {
           const newConversations = Array.isArray(conversations)
             ? conversations

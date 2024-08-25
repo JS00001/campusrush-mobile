@@ -13,7 +13,7 @@
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 
-import type { RefreshToken } from "@/types";
+import type { IRefreshToken } from "@/types";
 
 import {
   useDeleteChapterSession,
@@ -41,7 +41,7 @@ const SecurityView = () => {
     });
   };
 
-  const onSessionRemove = (session: RefreshToken) => {
+  const onSessionRemove = (session: IRefreshToken) => {
     alert({
       title: "Remove Session",
       message:

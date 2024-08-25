@@ -13,17 +13,17 @@
 import { create } from 'zustand';
 import { PersistStorage, persist } from 'zustand/middleware';
 
-import type { PNM } from '@/types';
+import type { IPNM } from '@/types';
 
 import customAsyncStorage from '@/lib/asyncStorage';
 
 interface IPnmStore {
-  pnms: PNM[];
+  pnms: IPNM[];
 
   clear: () => void;
-  setPnms: (pnms: PNM[]) => void;
-  getPnm: (id: string) => PNM | undefined;
-  addOrUpdatePnm: (pnm: PNM) => void;
+  setPnms: (pnms: IPNM[]) => void;
+  getPnm: (id: string) => IPNM | undefined;
+  addOrUpdatePnm: (pnm: IPNM) => void;
   deletePnm: (id: string) => void;
 }
 
@@ -46,7 +46,7 @@ export const usePnmStore = create<IPnmStore>()(
       /**
        * Set the PNMs in the store
        */
-      const setPnms = (pnms: PNM[]) => {
+      const setPnms = (pnms: IPNM[]) => {
         return set({ pnms });
       };
 
@@ -62,7 +62,7 @@ export const usePnmStore = create<IPnmStore>()(
       /**
        * Add a PNM to the store if it doesn't exist, or update it if it does
        */
-      const addOrUpdatePnm = (pnm: PNM) => {
+      const addOrUpdatePnm = (pnm: IPNM) => {
         const pnmExists = get().pnms.some((p) => p._id === pnm._id);
 
         // If the pnm exists, we update rather than add

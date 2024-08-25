@@ -31,7 +31,7 @@ import type {
   ExtensionPanelProps,
   ExtensionPanelRef,
 } from "@/types/messageBox";
-import type { Event } from "@/types";
+import type { IEvent } from "@/types";
 
 import Tabs from "@/ui/Tabs";
 import tw from "@/lib/tailwind";
@@ -62,7 +62,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
       bottomSheetRef.current?.close();
     };
 
-    const onEventPress = (event: Event) => {
+    const onEventPress = (event: IEvent) => {
       setAttachment(event);
     };
 

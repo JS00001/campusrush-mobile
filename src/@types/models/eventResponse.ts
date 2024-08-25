@@ -10,16 +10,16 @@
  * Do not distribute
  */
 
-import type { PNM } from './pnm';
+import type { IPNM } from './pnm';
 
 /** Individual responses to each event */
-export interface EventResponse {
+export interface IEventResponse {
   /** The ID of the event response */
   _id: string;
   /** The ID of the event */
   event: string;
   /** The PNM that responded to the event */
-  pnm: PNM;
+  pnm: IPNM;
   /** The response of the PNM */
   response: 'yes' | 'no' | 'maybe';
   /** The time the response was created */

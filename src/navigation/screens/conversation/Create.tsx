@@ -14,7 +14,7 @@ import { useState } from "react";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 
-import type { PNM } from "@/types";
+import type { IPNM } from "@/types";
 import type { ConversationStackProps } from "@/navigation/@types";
 
 import {
@@ -80,7 +80,7 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
     setStatusOverlay("idle");
   };
 
-  const onRemovePnm = (pnm: PNM) => {
+  const onRemovePnm = (pnm: IPNM) => {
     setPnms((prev) => prev.filter((p) => p._id !== pnm._id));
   };
 

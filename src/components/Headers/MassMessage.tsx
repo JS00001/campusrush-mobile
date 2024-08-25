@@ -13,7 +13,7 @@
 import { useState } from "react";
 import { FlatList } from "react-native";
 
-import type { PNM } from "@/types";
+import type { IPNM } from "@/types";
 
 import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
@@ -24,8 +24,8 @@ import FilterChip from "@/ui/FilterChip";
 const VISIBLE_PNM_LIMIT = 10;
 
 interface MassMessageHeaderProps {
-  pnms: PNM[];
-  onPnmRemove: (pnm: PNM) => void;
+  pnms: IPNM[];
+  onPnmRemove: (pnm: IPNM) => void;
 }
 
 const MassMessageHeader: React.FC<MassMessageHeaderProps> = ({
@@ -37,7 +37,7 @@ const MassMessageHeader: React.FC<MassMessageHeaderProps> = ({
   const pnmsRemovable = pnms.length > 2;
   const currentPnms = pnms.slice(0, visiblePnms);
 
-  const onRemove = (pnm: PNM) => {
+  const onRemove = (pnm: IPNM) => {
     if (pnmsRemovable) {
       onPnmRemove(pnm);
     }

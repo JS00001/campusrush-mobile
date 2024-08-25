@@ -11,13 +11,13 @@
  */
 
 import type { API } from '.';
-import type { Chapter } from '../models/chapter';
-import type { Conversation } from '../models/conversation';
-import type { Event } from '../models/event';
-import type { EventResponse } from '../models/eventResponse';
-import type { Message } from '../models/message';
-import type { PNM } from '../models/pnm';
-import type { RefreshToken } from '../models/refreshToken';
+import type { IChapter } from '../models/chapter';
+import type { IConversation } from '../models/conversation';
+import type { IEvent } from '../models/event';
+import type { IEventResponse } from '../models/eventResponse';
+import type { IMessage } from '../models/message';
+import type { IPNM } from '../models/pnm';
+import type { IRefreshToken } from '../models/refreshToken';
 import type { Metadata } from '../app';
 import type { EntitlementDetails } from '../entitlements';
 
@@ -46,7 +46,7 @@ export type GetChaptersResponse = API.Response<{
 
 export type LoginResponse = API.Response<{
   /** Chapter information */
-  chapter: Chapter;
+  chapter: IChapter;
   /** Access token for authentication */
   accessToken: string;
   /** Refresh token for token refreshing */
@@ -55,7 +55,7 @@ export type LoginResponse = API.Response<{
 
 export type RegisterResponse = API.Response<{
   /** Chapter information */
-  chapter: Chapter;
+  chapter: IChapter;
   /** Access token for authentication */
   accessToken: string;
   /** Refresh token for token refreshing */
@@ -64,7 +64,7 @@ export type RegisterResponse = API.Response<{
 
 export type ChangePasswordResponse = API.Response<{
   /** Chapter information */
-  chapter: Chapter;
+  chapter: IChapter;
   /** Access token for authentication */
   accessToken: string;
   /** Refresh token for token refreshing */
@@ -73,7 +73,7 @@ export type ChangePasswordResponse = API.Response<{
 
 export type GetChapterResponse = API.Response<{
   /** Chapter information */
-  chapter: Chapter;
+  chapter: IChapter;
 }>;
 
 export type CheckEmailResponse = API.Response<{
@@ -83,7 +83,7 @@ export type CheckEmailResponse = API.Response<{
 
 export type VerifyChapterResponse = API.Response<{
   /** Chapter information */
-  chapter: Chapter;
+  chapter: IChapter;
 }>;
 
 export type ResendVerificationResponse = API.Response<{
@@ -98,7 +98,7 @@ export type RefreshAccessTokenResponse = API.Response<{
 
 export type UpdateChapterResponse = API.Response<{
   /** Updated chapter information */
-  chapter: Chapter;
+  chapter: IChapter;
 }>;
 
 export type GetChapterStatisticsResponse = API.Response<{
@@ -107,22 +107,22 @@ export type GetChapterStatisticsResponse = API.Response<{
   /** Number of starred PNMs */
   starredPnms: number;
   /** List of recent PNMs */
-  recentPnms: PNM[];
+  recentPnms: IPNM[];
 }>;
 
 export type GetPnmsResponse = API.Response<{
   /** List of potential new members (PNMs) */
-  pnms: PNM[];
+  pnms: IPNM[];
 }>;
 
 export type GetAdminChaptersResponse = API.Response<{
   /** List of admin chapters */
-  chapters: Chapter[];
+  chapters: IChapter[];
 }>;
 
 export type GetConversationResponse = API.Response<{
   /** Conversation information */
-  conversation: Conversation | null;
+  conversation: IConversation | null;
   /** Offset for the next conversation retrieval */
   nextOffset: number;
   /** Indicates whether there is a next page of conversations */
@@ -131,12 +131,12 @@ export type GetConversationResponse = API.Response<{
 
 export type FocusConversationResponse = API.Response<{
   /** Focused conversation information */
-  conversation: Conversation;
+  conversation: IConversation;
 }>;
 
 export type GetConversationsResponse = API.Response<{
   /** List of conversations */
-  conversations: Conversation[];
+  conversations: IConversation[];
   /** Offset for the next conversation retrieval */
   nextOffset: number;
   /** Indicates whether there is a next page of conversations */
@@ -145,37 +145,37 @@ export type GetConversationsResponse = API.Response<{
 
 export type GetContactsResponse = API.Response<{
   /** List of all potential new members (PNMs) */
-  all: PNM[];
+  all: IPNM[];
   /** List of favorited PNMs */
-  favorited: PNM[];
+  favorited: IPNM[];
   /** List of suggested PNMs */
-  suggested: PNM[];
+  suggested: IPNM[];
   /** List of uncontacted PNMs */
-  uncontacted: PNM[];
+  uncontacted: IPNM[];
 }>;
 
 export type SendMassMessageResponse = API.Response<{
   /** List of conversations after sending a mass message */
-  conversations: Conversation[];
+  conversations: IConversation[];
   /** List of messages sent */
-  messages: Message[];
+  messages: IMessage[];
 }>;
 
 export type SendDirectMessageResponse = API.Response<{
   /** Conversation information after sending a direct message */
-  conversation: Conversation;
+  conversation: IConversation;
   /** Message information after sending a direct message */
-  message: Message;
+  message: IMessage;
 }>;
 
 export type CreatePnmResponse = API.Response<{
   /** Created potential new member (PNM) information */
-  pnm: PNM;
+  pnm: IPNM;
 }>;
 
 export type UpdatePnmResponse = API.Response<{
   /** Updated potential new member (PNM) information */
-  pnm: PNM;
+  pnm: IPNM;
 }>;
 
 export type GetMetadataResponse = API.Response<Metadata>;
@@ -187,7 +187,7 @@ export type DeleteChapterResponse = API.Response<{
 
 export type GetEventsResponse = API.Response<{
   /** List of events */
-  events: Event[];
+  events: IEvent[];
   /** Offset for the next event retrieval */
   nextOffset: number;
   /** Indicates whether there is a next page of events */
@@ -196,17 +196,17 @@ export type GetEventsResponse = API.Response<{
 
 export type DeleteEventsResponse = API.Response<{
   /** List of events after deletion */
-  events: Event[];
+  events: IEvent[];
 }>;
 
 export type CreateEventResponse = API.Response<{
   /** Created event information */
-  event: Event;
+  event: IEvent;
 }>;
 
 export type UpdateEventResponse = API.Response<{
   /** Updated event information */
-  event: Event;
+  event: IEvent;
 }>;
 
 export type DeleteEventResponse = API.Response<{
@@ -216,24 +216,24 @@ export type DeleteEventResponse = API.Response<{
 
 export type GetPnmResponse = API.Response<{
   /** Potential new member (PNM) information */
-  pnm: PNM;
+  pnm: IPNM;
 }>;
 
 export type GetEventResponse = API.Response<{
   /** Event information */
-  event: Event;
+  event: IEvent;
   /** Response information */
-  responses: EventResponse[];
+  responses: IEventResponse[];
 }>;
 
 export type GetAdminChapterResponse = API.Response<{
   /** Admin chapter information */
-  chapter: Chapter;
+  chapter: IChapter;
 }>;
 
 export type GetChapterSessionsResponse = API.Response<{
   /** List of sessions */
-  sessions: RefreshToken[];
+  sessions: IRefreshToken[];
 }>;
 
 export type GetAdminChapterEntitlementsResponse = API.Response<

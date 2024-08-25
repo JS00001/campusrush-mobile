@@ -20,7 +20,7 @@ import {
 } from "react-native";
 import { useEffect, useRef } from "react";
 
-import type { Event } from "@/types";
+import type { IEvent } from "@/types";
 
 import Text from "@/ui/Text";
 import Icon from "@/ui/Icon";
@@ -29,10 +29,10 @@ import AppConstants from "@/constants";
 import useWebsiteMetadata from "@/hooks/useWebsiteMetadata";
 
 interface EventAttachmentProps extends ViewProps {
-  event: Event;
+  event: IEvent;
   style?: any;
   disabled?: boolean;
-  onPress?: (event: Event) => void;
+  onPress?: (event: IEvent) => void;
 }
 
 const EventAttachment: React.FC<EventAttachmentProps> = ({
