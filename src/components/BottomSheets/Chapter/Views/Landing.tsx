@@ -21,13 +21,16 @@ import {
 import useCopy from "@/hooks/useCopy";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 import Headline from "@/ui/Headline";
 import Skeleton from "@/ui/Skeleton";
 import format from "@/lib/util/format";
+import AppConstants from "@/constants";
 import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
+import Information from "@/ui/Information";
 import Menu, { MenuAction } from "@/ui/Menu";
 import { titleCase } from "@/lib/util/string";
 
@@ -85,6 +88,12 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
     });
   };
 
+  const chapterVersion = () => {
+    if (!chapter?.clientVersion) return "--";
+
+    return <ClientVersion version={chapter.clientVersion} />;
+  };
+
   if (!chapter || !entitlements) {
     return <LoadingState />;
   }
@@ -92,16 +101,17 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
   return (
     <View style={tw`gap-y-4`}>
       <View style={tw`flex-row justify-between items-center`}>
-        <Headline
-          style={tw`shrink`}
-          title={chapter.name}
-          subtitle={chapter.school}
-        />
+        <Headline title={chapter.name} subtitle={chapter.school} />
 
         <Menu actions={informationMenu}>
           <IconButton size="sm" color="secondary" iconName="more-fill" />
         </Menu>
       </View>
+
+      {/* Chapter Information */}
+      <Text type="p4" style={tw`font-bold uppercase`}>
+        Chapter Information
+      </Text>
 
       <Detail.List>
         <Detail.Item title="Email" value={chapter.email} />
@@ -115,6 +125,15 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
           title="Custom Phone Number"
           value={format.phoneNumber(chapter.phoneNumber) || "--"}
         />
+      </Detail.List>
+
+      {/* Account Information */}
+      <Text type="p4" style={tw`font-bold uppercase`}>
+        Account Information
+      </Text>
+
+      <Detail.List>
+        <Detail.Item title="Client Version" value={chapterVersion()} />
         <Detail.Item
           title="Last Seen"
           value={date.timeAgo(chapter.lastOnline)}
@@ -125,10 +144,13 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
         />
       </Detail.List>
 
-      <Headline
-        title="Billing Information"
-        subtitle="Long press to revoke entitlements"
-      />
+      {/* Billing Information */}
+      <View style={tw`gap-2 flex-row items-center`}>
+        <Information tooltip="Long-press to revoke granted entitlements" />
+        <Text type="p4" style={tw`font-bold uppercase`}>
+          Billing Information
+        </Text>
+      </View>
 
       {!entitlements.length && (
         <Headline
@@ -155,7 +177,11 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
         ];
 
         return (
-          <Menu key={entitlement.id} actions={entitlementActions}>
+          <Menu
+            shouldOpenOnLongPress
+            key={entitlement.id}
+            actions={entitlementActions}
+          >
             <Detail.List>
               <Detail.Item
                 title="Entitlement ID"
@@ -182,6 +208,22 @@ const Landing: React.FC<LandingProps> = ({ chapterId, nextView }) => {
         );
       })}
     </View>
+  );
+};
+
+const ClientVersion: React.FC<{ version: string }> = ({ version }) => {
+  const currentVersion = `${AppConstants.version} - ${AppConstants.updateVersion}`;
+
+  const textStyles = tw.style(
+    "font-bold",
+    version === currentVersion && "text-green",
+    version !== currentVersion && "text-yellow",
+  );
+
+  return (
+    <Text type="p3" style={textStyles}>
+      {version}
+    </Text>
   );
 };
 

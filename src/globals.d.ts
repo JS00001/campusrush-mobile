@@ -34,6 +34,7 @@ interface Chapter {
   linkSharingEnabled: boolean;
   linkSharingCode: string;
 
+  clientVersion: string;
   lastOnline: Date;
   createdAt: Date;
   updatedAt: Date;

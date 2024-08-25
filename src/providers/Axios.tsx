@@ -41,6 +41,7 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
     const requestInterceptor = async (config: InternalAxiosRequestConfig) => {
       const controller = new AbortController();
       const isInternetReachable = await verifyConnection();
+      const clientVersion = `${AppConstants.version} - ${AppConstants.updateVersion}`;
 
       httpLogger.debug(config.method?.toUpperCase(), config.url);
 
@@ -53,6 +54,7 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
       }
 
       config.headers["User-Agent"] = Device.modelName;
+      config.headers["Client-Version"] = clientVersion;
 
       return config;
     };
