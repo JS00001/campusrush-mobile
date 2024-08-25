@@ -10,6 +10,8 @@
  * Do not distribute
  */
 
+import type { Message } from '@/types';
+
 interface TimestampedMessage extends Message {
   date?: string;
   showTimestamp?: boolean;

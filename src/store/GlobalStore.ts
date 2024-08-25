@@ -10,6 +10,8 @@
  * Do not distribute
  */
 
+import type { PNM } from '@/types';
+
 import { useEventStore } from './EventStore';
 import { usePnmStore } from './PNMStore';
 import { useStatisticsStore } from './StatisticsStore';

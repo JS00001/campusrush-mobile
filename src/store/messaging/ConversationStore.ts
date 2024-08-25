@@ -13,6 +13,8 @@
 import { create } from 'zustand';
 import { PersistStorage, persist } from 'zustand/middleware';
 
+import type { Conversation } from '@/types';
+
 import customAsyncStorage from '@/lib/asyncStorage';
 
 interface IConversationStore {

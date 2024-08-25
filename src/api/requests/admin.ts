@@ -10,6 +10,18 @@
  * Do not distribute
  */
 
+import type {
+  GetAdminChaptersResponse,
+  GetAdminChapterRequest,
+  GetAdminChapterResponse,
+  GetAdminChapterEntitlementsRequest,
+  GetAdminChapterEntitlementsResponse,
+  GrantAdminChapterEntitlementRequest,
+  GrantAdminChapterEntitlementsResponse,
+  RevokeAdminChapterEntitlementRequest,
+  RevokeAdminChapterEntitlementsResponse,
+} from '@/types';
+
 import { axiosClient } from '@/providers/Axios';
 
 const PREFIX = '/api/v1/consumer/admin';

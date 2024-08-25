@@ -13,17 +13,14 @@
 import { useEffect } from "react";
 import { Keyboard } from "react-native";
 
-import { useSendDirectMessage } from "@/hooks/api/messaging";
-import { useGetConversation } from "@/hooks/api/conversations";
+import type { Message } from "@/types";
+import type { ConversationStackProps } from "@/navigation/@types";
 
 import {
   useContactStore,
   useMessageStore,
   useConversationStore,
 } from "@/store";
-
-import { ConversationStackProps } from "@/navigation/@types";
-
 import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
 import FlatList from "@/ui/FlatList";
@@ -33,6 +30,8 @@ import SocketInput from "@/lib/socketInput";
 import MessageBubble from "@/ui/MessageBubble";
 import MessageBox from "@/components/MessageBox";
 import { useWebsocket } from "@/providers/websocket";
+import { useSendDirectMessage } from "@/hooks/api/messaging";
+import { useGetConversation } from "@/hooks/api/conversations";
 import DirectMessageHeader from "@/components/Headers/DirectMessage";
 
 type Props = ConversationStackProps<"Chat">;

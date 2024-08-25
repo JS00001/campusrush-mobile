@@ -13,10 +13,11 @@
 import Toast from "react-native-toast-message";
 import { createContext, useContext, useEffect, useState } from "react";
 
+import type { WebsocketLog, WebsocketMessage } from "@/types/websocket";
+
 import AppConstants from "@/constants";
 import { isJSON } from "@/lib/util/string";
 import { useAuth } from "@/providers/Auth";
-import queryClient from "@/lib/queryClient";
 import { LogLevels, websocketLogger } from "@/lib/logger";
 import { useConversationStore, useGlobalStore, useMessageStore } from "@/store";
 

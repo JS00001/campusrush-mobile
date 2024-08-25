@@ -12,6 +12,8 @@
 
 import axios from 'axios';
 
+import type { GetWebsiteMetadataResponse } from '@/types';
+
 const BASE_URL = 'https://api.dub.co/metatags?url=';
 
 /**

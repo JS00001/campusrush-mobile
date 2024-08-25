@@ -10,6 +10,16 @@
  * Do not distribute
  */
 
+import type {
+  GetChapterStatisticsResponse,
+  UpdateChapterRequest,
+  UpdateChapterResponse,
+  DeleteChapterResponse,
+  GetChapterSessionsResponse,
+  DeleteChapterSessionRequest,
+  DeleteChapterSessionResponse,
+} from '@/types';
+
 import { axiosClient } from '@/providers/Axios';
 
 const PREFIX = '/api/v1/consumer/chapter';

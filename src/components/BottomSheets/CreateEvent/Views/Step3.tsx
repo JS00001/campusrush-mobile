@@ -12,16 +12,17 @@
 
 import Toast from "react-native-toast-message";
 
-import type { CreateEventState } from "..";
-
-import { useEventStore } from "@/store";
-import { useCreateEvent } from "@/hooks/api/events";
+import type { CreateEventRequest } from "@/types";
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
+
+import type { CreateEventState } from "..";
 
 import Button from "@/ui/Button";
 import ListItem from "@/ui/ListItem";
 import Headline from "@/ui/Headline";
 import ButtonGroup from "@/ui/ButtonGroup";
+import { useEventStore } from "@/store";
+import { useCreateEvent } from "@/hooks/api/events";
 
 const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
   state,

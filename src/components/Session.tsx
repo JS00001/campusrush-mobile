@@ -12,6 +12,8 @@
 
 import { TouchableOpacity, View, ViewProps } from "react-native";
 
+import type { RefreshToken } from "@/types";
+
 import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";

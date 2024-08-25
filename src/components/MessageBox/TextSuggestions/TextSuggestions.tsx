@@ -13,6 +13,8 @@
 import { useState, useEffect } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 
+import type { TextSuggestion } from "@/types/messageBox";
+
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 

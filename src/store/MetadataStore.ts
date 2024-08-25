@@ -13,6 +13,8 @@
 import { create } from 'zustand';
 import { PersistStorage, persist } from 'zustand/middleware';
 
+import type { GetMetadataResponse, Metadata } from '@/types';
+
 import customAsyncStorage from '@/lib/asyncStorage';
 
 interface IMetadataStore {

@@ -10,6 +10,18 @@
  * Do not distribute
  */
 
+import type {
+  GetEventsResponse,
+  DeleteEventResponse,
+  GetEventRequest,
+  GetEventResponse,
+  CreateEventRequest,
+  CreateEventResponse,
+  UpdateEventRequest,
+  UpdateEventResponse,
+  DeleteEventRequest,
+} from '@/types';
+
 import { axiosClient } from '@/providers/Axios';
 
 const PREFIX = '/api/v1/consumer/events';

@@ -13,11 +13,12 @@
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 
+import type { RefreshToken } from "@/types";
+
 import {
   useDeleteChapterSession,
   useGetChapterSessions,
 } from "@/hooks/api/chapter";
-
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";

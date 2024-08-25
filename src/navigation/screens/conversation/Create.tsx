@@ -14,17 +14,18 @@ import { useState } from "react";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 
+import type { PNM } from "@/types";
+import type { ConversationStackProps } from "@/navigation/@types";
+
 import {
   useContactStore,
   useMessageStore,
   useConversationStore,
   useStatusStore,
 } from "@/store";
-import { useSendMassMessage } from "@/hooks/api/messaging";
-import { ConversationStackProps } from "@/navigation/@types";
-
 import { Layout } from "@/ui/Layout";
 import MessageBox from "@/components/MessageBox";
+import { useSendMassMessage } from "@/hooks/api/messaging";
 import MassMessageHeader from "@/components/Headers/MassMessage";
 
 type Props = ConversationStackProps<"Create">;

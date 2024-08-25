@@ -12,6 +12,8 @@
 
 import { create } from 'zustand';
 
+import type { Message } from '@/types';
+
 interface IMessageStore {
   messages: { [pnmId: string]: Message[] };
 

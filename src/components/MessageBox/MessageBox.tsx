@@ -19,6 +19,9 @@ import Animated, {
 import { useRef, useState } from "react";
 import { View, Keyboard, TextInput as RNTextInput } from "react-native";
 
+import type { Event } from "@/types";
+import type { ExtensionPanelRef } from "@/types/messageBox";
+
 import TextInput from "./TextInput";
 import ExtensionPanel from "./ExtensionPanel";
 import TextSuggestions from "./TextSuggestions";

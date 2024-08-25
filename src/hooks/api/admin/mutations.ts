@@ -12,6 +12,11 @@
 
 import { useMutation } from '@tanstack/react-query';
 
+import type {
+  GrantAdminChapterEntitlementRequest,
+  RevokeAdminChapterEntitlementRequest,
+} from '@/types';
+
 import {
   grantAdminChapterEntitlement,
   revokeAdminChapterEntitlement,

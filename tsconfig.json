@@ -5,7 +5,9 @@
     "noImplicitAny": false,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/types": ["./src/@types"],
+      "@/types/*": ["./src/@types/*"]
     }
   },
   "exclude": ["node_modules", "babel.config.js", "metro.config.js"]

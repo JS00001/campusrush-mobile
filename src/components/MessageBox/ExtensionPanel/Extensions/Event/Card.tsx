@@ -12,6 +12,8 @@
 
 import { TouchableOpacity, View } from "react-native";
 
+import type { Event } from "@/types";
+
 import Text from "@/ui/Text";
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";

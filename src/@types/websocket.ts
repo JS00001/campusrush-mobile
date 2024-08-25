@@ -10,13 +10,11 @@
  * Do not distribute
  */
 
-type WebsocketMessage = {
-  /** Whether to show a notification in the app for the message or not */
-  notification?: {
-    title: string;
-    body: string;
-  };
-} & (
+import type { PNM } from './models/pnm';
+import type { Conversation } from './models/conversation';
+
+/** All WS message types, and the data that must be passed through the WS */
+type Message =
   | {
       type: 'NEW_MESSAGE';
       data: { conversation: Conversation };
@@ -32,10 +30,21 @@ type WebsocketMessage = {
   | {
       type: 'NEW_EVENT_RESPONSE';
       data: Event;
-    }
-);
+    };
 
-interface WebsocketLog {
+/** All WS messages that can be sent to the client */
+export type WebsocketMessage = Message & {
+  /** Whether to show a notification in the app for the message or not */
+  notification?: {
+    /** The title of the notification */
+    title: string;
+    /** The body of the notification */
+    body: string;
+  };
+};
+
+/** The logs from the websocket */
+export interface WebsocketLog {
   /** When the log was created */
   timestamp: number;
   /** The message of the log */

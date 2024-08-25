@@ -17,6 +17,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Qonversion, { UserPropertyKey } from "react-native-qonversion";
 import { createContext, useEffect, useState, useContext } from "react";
 
+import type {
+  Chapter,
+  LogoutResponse,
+  RefreshAccessTokenResponse,
+  GetChapterResponse,
+} from "@/types";
+
 import AppConstants from "@/constants";
 import { useGlobalStore } from "@/store";
 import { useQonversion } from "@/providers/Qonversion";

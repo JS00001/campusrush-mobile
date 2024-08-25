@@ -15,6 +15,8 @@ import * as Device from "expo-device";
 import Toast from "react-native-toast-message";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
+import type { API } from "@/types";
+
 import { alert } from "@/lib/util";
 import AppConstants from "@/constants";
 import { httpLogger } from "@/lib/logger";

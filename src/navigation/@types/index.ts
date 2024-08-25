@@ -13,12 +13,14 @@
 import {
   CompositeScreenProps,
   NavigatorScreenParams,
-} from "@react-navigation/native";
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+} from '@react-navigation/native';
 import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
-} from "@react-navigation/native-stack";
+} from '@react-navigation/native-stack';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+
+import type { PNM } from '@/types';
 
 /** Update the 'useNavigation' hook to include the main app navigation */
 declare global {
@@ -135,61 +137,61 @@ export type HomeStackProps<Screen extends keyof HomeTabParams> =
   CompositeScreenProps<
     CompositeScreenProps<
       NativeStackScreenProps<HomeTabParams, Screen>,
-      BottomTabScreenProps<MainStackParams, "HomeTab">
+      BottomTabScreenProps<MainStackParams, 'HomeTab'>
     >,
-    NativeStackScreenProps<AppStackParams, "Main">
+    NativeStackScreenProps<AppStackParams, 'Main'>
   >;
 
 export type PNMsStackProps<Screen extends keyof PNMsTabParams> =
   CompositeScreenProps<
     CompositeScreenProps<
       NativeStackScreenProps<PNMsTabParams, Screen>,
-      BottomTabScreenProps<MainStackParams, "PNMsTab">
+      BottomTabScreenProps<MainStackParams, 'PNMsTab'>
     >,
-    NativeStackScreenProps<AppStackParams, "Main">
+    NativeStackScreenProps<AppStackParams, 'Main'>
   >;
 
 export type AddStackProps<Screen extends keyof AddTabParams> =
   CompositeScreenProps<
     CompositeScreenProps<
       NativeStackScreenProps<AddTabParams, Screen>,
-      BottomTabScreenProps<MainStackParams, "AddTab">
+      BottomTabScreenProps<MainStackParams, 'AddTab'>
     >,
-    NativeStackScreenProps<AppStackParams, "Main">
+    NativeStackScreenProps<AppStackParams, 'Main'>
   >;
 
 export type MessagesStackProps<Screen extends keyof MessagesTabParams> =
   CompositeScreenProps<
     CompositeScreenProps<
       NativeStackScreenProps<MessagesTabParams, Screen>,
-      BottomTabScreenProps<MainStackParams, "MessagesTab">
+      BottomTabScreenProps<MainStackParams, 'MessagesTab'>
     >,
-    NativeStackScreenProps<AppStackParams, "Main">
+    NativeStackScreenProps<AppStackParams, 'Main'>
   >;
 
 export type EventsStackProps<Screen extends keyof EventsTabParams> =
   CompositeScreenProps<
     CompositeScreenProps<
       NativeStackScreenProps<EventsTabParams, Screen>,
-      BottomTabScreenProps<MainStackParams, "EventsTab">
+      BottomTabScreenProps<MainStackParams, 'EventsTab'>
     >,
-    NativeStackScreenProps<AppStackParams, "Main">
+    NativeStackScreenProps<AppStackParams, 'Main'>
   >;
 
 export type AdminStackProps<Screen extends keyof AdminTabParams> =
   CompositeScreenProps<
     CompositeScreenProps<
       NativeStackScreenProps<AdminTabParams, Screen>,
-      BottomTabScreenProps<MainStackParams, "AdminTab">
+      BottomTabScreenProps<MainStackParams, 'AdminTab'>
     >,
-    NativeStackScreenProps<AppStackParams, "Main">
+    NativeStackScreenProps<AppStackParams, 'Main'>
   >;
 
 export type ConversationStackProps<
   Screen extends keyof ConversationStackParams,
 > = CompositeScreenProps<
   NativeStackScreenProps<ConversationStackParams, Screen>,
-  NativeStackScreenProps<AppStackParams, "Conversation">
+  NativeStackScreenProps<AppStackParams, 'Conversation'>
 >;
 
 /**

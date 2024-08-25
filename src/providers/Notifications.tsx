@@ -16,6 +16,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { createContext, useContext, useEffect, useRef } from "react";
 
+import type { PNM, Event } from "@/types";
+
 import { useAuth } from "@/providers/Auth";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 import { useQonversion } from "@/providers/Qonversion";

@@ -14,6 +14,9 @@ import { View } from "react-native";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 
+import type { PNM } from "@/types";
+import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
+
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import FlatList from "@/ui/FlatList";
@@ -27,7 +30,6 @@ import HeadlineLoader from "@/ui/Loaders/Headline";
 
 import useSearch from "@/hooks/useSearch";
 import { useGetContacts } from "@/hooks/api/contacts";
-import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 const Landing: React.FC<UseSheetFlowProps> = ({
   handleClose,

@@ -14,6 +14,8 @@ import { useMemo, useState } from "react";
 import { View, RefreshControl } from "react-native";
 import { FlashList, FlashListProps } from "@shopify/flash-list";
 
+import type { PNM } from "@/types";
+
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ListItem from "@/ui/ListItem";

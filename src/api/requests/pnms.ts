@@ -10,6 +10,18 @@
  * Do not distribute
  */
 
+import type {
+  GetPnmsResponse,
+  DeletePnmResponse,
+  CreatePnmRequest,
+  CreatePnmResponse,
+  GetPnmRequest,
+  GetPnmResponse,
+  UpdatePnmRequest,
+  UpdatePnmResponse,
+  DeletePnmRequest,
+} from '@/types';
+
 import { axiosClient } from '@/providers/Axios';
 
 const PREFIX = '/api/v1/consumer/pnms';
