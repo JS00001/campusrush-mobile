@@ -50,7 +50,6 @@ export default {
   owner: 'js00001',
   plugins: [
     'expo-font',
-    'sentry-expo',
     'expo-localization',
     [
       'expo-sensors',
@@ -59,15 +58,4 @@ export default {
       },
     ],
   ],
-  hooks: {
-    postPublish: [
-      {
-        file: 'sentry-expo/upload-sourcemaps',
-        config: {
-          organization: 'campusrush',
-          project: 'campusrush-mobile',
-        },
-      },
-    ],
-  },
 };

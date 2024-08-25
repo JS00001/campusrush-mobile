@@ -9,7 +9,11 @@
  * Copyright (c) 2023 CampusRush
  * Do not distribute
  */
-import * as Sentry from "sentry-expo";
+
+import Constants from "expo-constants";
+import * as Device from "expo-device";
+import * as Updates from "expo-updates";
+import * as Sentry from "@sentry/react-native";
 
 import AppConstants from "@/constants";
 
@@ -18,8 +22,14 @@ const SentryProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   Sentry.init({
     dsn: AppConstants.sentryDsn,
-    enableInExpoDevelopment: true,
+    enabled: !__DEV__,
     environment: __DEV__ ? "dev" : "prod",
+  });
+
+  Sentry.setExtras({
+    manifest: Updates.manifest,
+    deviceYearClass: Device.deviceYearClass,
+    linkingUri: Constants.linkingUri,
   });
 
   return children;
