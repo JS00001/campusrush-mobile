@@ -1,6 +1,6 @@
 ## Version
 
-[version here: <VERSION> - <UPDATE_VERSION>]
+Add the version here in the format of `<VERSION> - <UPDATE_VERSION>`. For example, `1.0.0 - 2024.8.01`.
 
 ## Features
 
