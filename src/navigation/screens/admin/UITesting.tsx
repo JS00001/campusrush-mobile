@@ -25,7 +25,7 @@ const UITestingScreen: React.FC<Props> = ({}) => {
     openBottomSheet("DYNAMIC_NOTIFICATION", {
       title: "Dynamic Notification",
       message: "This is a dynamic notification",
-      icon: "bell-fill",
+      iconName: "bell-fill",
       iconColor: "blue",
     });
   };
