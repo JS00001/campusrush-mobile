@@ -27,6 +27,7 @@ jobs:
         with:
           script: |
             const prBody = context.payload.pull_request.body;
+            const checklistRegex = /-\s*\[\s*\]/g;
             const uncheckedItems = prBody.match(checklistRegex);
             if (uncheckedItems) {
               core.setFailed('Please make sure all checklist items are checked before merging.');
