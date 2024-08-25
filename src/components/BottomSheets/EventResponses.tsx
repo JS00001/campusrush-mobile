@@ -77,37 +77,46 @@ const EventResponsesSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
         if (!event || !responses) return <LoadingState />;
 
         return (
-          <BottomSheetContainer contentContainerStyle={tw`gap-y-6`}>
-            <Text type="h1">{event.title}</Text>
+          <BottomSheetContainer
+            style={tw`px-0`}
+            contentContainerStyle={tw`gap-y-6`}
+          >
+            <Text type="h1" style={tw`px-6`} numberOfLines={2}>
+              {event.title}
+            </Text>
 
             <Tabs
               options={tabsOptions}
               currentIndex={activeTab}
               onChange={setActiveTab}
+              contentContainerStyle={tw`px-6`}
             />
 
-            {!data?.length && (
-              <Headline
-                centerText
-                title="No Responses"
-                subtitle="There are no responses yet for this event"
-              />
-            )}
+            <View style={tw`px-6`}>
+              {!data?.length && (
+                <Headline
+                  centerText
+                  style={tw`py-12`}
+                  title="No Responses"
+                  subtitle="There are no responses yet for this event"
+                />
+              )}
 
-            {data && (
-              <View style={tw`gap-y-2`}>
-                {data.map((response, index) => (
-                  <ListItem
-                    key={index}
-                    size="md"
-                    pressable={false}
-                    title={response.pnm.displayName}
-                    subtitle={format.phoneNumber(response.pnm.phoneNumber)}
-                    icon={getIcon(response.response)}
-                  />
-                ))}
-              </View>
-            )}
+              {data && (
+                <View style={tw`gap-y-2`}>
+                  {data.map((response, index) => (
+                    <ListItem
+                      key={index}
+                      size="md"
+                      pressable={false}
+                      title={response.pnm.displayName}
+                      subtitle={format.phoneNumber(response.pnm.phoneNumber)}
+                      icon={getIcon(response.response)}
+                    />
+                  ))}
+                </View>
+              )}
+            </View>
           </BottomSheetContainer>
         );
       }}

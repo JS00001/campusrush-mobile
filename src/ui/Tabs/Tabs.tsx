@@ -10,18 +10,19 @@
  * Do not distribute
  */
 
-import { View, ViewProps } from "react-native";
+import { ScrollViewProps, View, ViewProps } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import Tab from "./Tab";
 
 import tw from "@/lib/tailwind";
 
-interface TabsProps extends ViewProps {
+interface TabsProps extends ScrollViewProps {
   options: string[];
   currentIndex: number;
   disabledIndex?: number[];
   style?: any;
+  contentContainerStyle?: any;
   onChange: (index: number) => void;
 }
 
@@ -30,39 +31,37 @@ const Tabs: React.FC<TabsProps> = ({
   currentIndex,
   disabledIndex = [],
   style,
+  contentContainerStyle,
   onChange,
-  ...props
 }) => {
-  const contentStyle = tw.style("", style);
-  const contentContainerStyles = tw.style("gap-1");
+  const contentStyle = tw.style("grow-0", style);
+  const contentContainerStyles = tw.style("gap-1", contentContainerStyle);
 
   return (
-    <View>
-      <ScrollView
-        horizontal
-        style={contentStyle}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={contentContainerStyles}
-      >
-        {options.map((option, index) => {
-          const isSelected = currentIndex === index;
+    <ScrollView
+      horizontal
+      style={contentStyle}
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={contentContainerStyles}
+    >
+      {options.map((option, index) => {
+        const isSelected = currentIndex === index;
 
-          const handlePress = () => {
-            onChange(index);
-          };
+        const handlePress = () => {
+          onChange(index);
+        };
 
-          return (
-            <Tab
-              key={index}
-              label={option}
-              selected={isSelected}
-              disabled={disabledIndex.includes(index)}
-              onPress={handlePress}
-            />
-          );
-        })}
-      </ScrollView>
-    </View>
+        return (
+          <Tab
+            key={index}
+            label={option}
+            selected={isSelected}
+            disabled={disabledIndex.includes(index)}
+            onPress={handlePress}
+          />
+        );
+      })}
+    </ScrollView>
   );
 };
 
