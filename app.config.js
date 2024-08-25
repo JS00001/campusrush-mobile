@@ -50,7 +50,6 @@ export default {
   owner: 'js00001',
   plugins: [
     'expo-font',
-    'sentry-expo',
     'expo-localization',
     [
       'expo-sensors',
@@ -58,16 +57,13 @@ export default {
         motionPermission: 'Allow $(PRODUCT_NAME) to access your device motion.',
       },
     ],
-  ],
-  hooks: {
-    postPublish: [
+    [
+      '@sentry/react-native/expo',
       {
-        file: 'sentry-expo/upload-sourcemaps',
-        config: {
-          organization: 'campusrush',
-          project: 'campusrush-mobile',
-        },
+        url: 'https://sentry.io/',
+        project: 'campusrush-mobile',
+        organization: 'campusrush',
       },
     ],
-  },
+  ],
 };

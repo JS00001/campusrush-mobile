@@ -37,6 +37,14 @@ import SentryProvider from "@/providers/external/Sentry";
 import BottomSheetProvider from "@/providers/BottomSheet";
 import PreferencesProvider from "@/providers/Preferences";
 import PosthogProvider from "@/providers/external/Posthog";
+import * as Sentry from "@sentry/react-native";
+
+Sentry.init({
+  dsn: "https://e67ab04c64431925a12476788c0e22a9@o4506311638843392.ingest.us.sentry.io/4506317292175360",
+
+  // uncomment the line below to enable Spotlight (https://spotlightjs.com)
+  // enableSpotlight: __DEV__,
+});
 
 // Prevent native splash screen from autohiding
 // when app/component is mounted
