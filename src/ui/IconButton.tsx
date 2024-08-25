@@ -90,6 +90,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   disabled,
   ...props
 }) => {
+  const phLabel = props["ph-label"] || `icon_button_"${iconName}"`;
   disabled = disabled || loading;
 
   const textColor = IconButtonColors[color].color;
@@ -108,7 +109,12 @@ const IconButton: React.FC<IconButtonProps> = ({
   );
 
   return (
-    <TouchableOpacity {...props} disabled={disabled} style={containerStyles}>
+    <TouchableOpacity
+      {...props}
+      ph-label={phLabel}
+      disabled={disabled}
+      style={containerStyles}
+    >
       {loading && (
         <View style={loadingIndicatorStyles}>
           <ActivityIndicator size="small" />

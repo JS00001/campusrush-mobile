@@ -26,6 +26,7 @@ import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import TagView from "@/components/TagView";
 import ButtonGroup from "@/ui/ButtonGroup";
+import usePosthog from "@/hooks/usePosthog";
 import { BottomSheet } from "@/ui/BottomSheet";
 import { useGlobalStore, usePnmStore } from "@/store";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
@@ -41,6 +42,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
       innerRef={innerRef}
       children={(props?: SheetData<"PNM">) => {
         const { pnmId } = props!.data;
+        const posthog = usePosthog();
         const navigation = useNavigation();
 
         const pnmStore = usePnmStore();
@@ -68,6 +70,8 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
           } else {
             globalStore.unfavoritePnm(pnm);
           }
+
+          posthog.capture("PNM_FAVORITED");
         };
 
         const onDelete = async () => {
@@ -88,6 +92,8 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
           });
 
           handleClose();
+
+          posthog.capture("PNM_DELETED");
         };
 
         const onSendMessagePress = () => {

@@ -31,6 +31,7 @@ const CopyView: React.FC<CopyViewProps> = ({
   style,
   ...props
 }) => {
+  const label = props["ph-label"] || `copy_view_${title}`;
   const copy = useCopy();
 
   const containerStyles = tw.style(
@@ -56,7 +57,11 @@ const CopyView: React.FC<CopyViewProps> = ({
         </Text>
       </View>
 
-      <TouchableOpacity style={iconContainerStyles} onPress={onPress}>
+      <TouchableOpacity
+        style={iconContainerStyles}
+        onPress={onPress}
+        ph-label={label}
+      >
         <Icon name="file-copy-line" size={20} color={tw.color("primary")} />
       </TouchableOpacity>
     </View>

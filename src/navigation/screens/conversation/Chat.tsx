@@ -27,6 +27,7 @@ import FlatList from "@/ui/FlatList";
 import messaging from "@/lib/messages";
 import { useAuth } from "@/providers/Auth";
 import SocketInput from "@/lib/socketInput";
+import usePosthog from "@/hooks/usePosthog";
 import MessageBubble from "@/ui/MessageBubble";
 import MessageBox from "@/components/MessageBox";
 import { useWebsocket } from "@/providers/websocket";
@@ -40,6 +41,7 @@ const Chat: React.FC<Props> = ({ route }) => {
   const pnm = route.params.pnm;
   const pnmId = pnm._id;
 
+  const posthog = usePosthog();
   const { ws } = useWebsocket();
   const { chapter } = useAuth();
 
@@ -155,6 +157,8 @@ const Chat: React.FC<Props> = ({ route }) => {
       messageStore.replaceMessage(pnmId, messageId, res.data.message);
       contactStore.removeContacts("uncontacted", pnm);
     }
+
+    posthog.capture("DIRECT_MESSAGE_SENT", { count: messages.length });
   };
 
   /**

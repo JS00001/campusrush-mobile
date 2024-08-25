@@ -46,6 +46,7 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
   hideChildrenWhenUnselected,
   ...props
 }) => {
+  const label = props["ph-label"] || `selection_card_"${title}"`;
   disabled = disabled || loading;
 
   const Children = (() => {
@@ -74,6 +75,7 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
 
   return (
     <TouchableOpacity
+      ph-label={label}
       style={containerStyles}
       disabled={!pressable || disabled}
       onPress={onPress}

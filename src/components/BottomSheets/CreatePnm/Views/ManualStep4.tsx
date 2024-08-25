@@ -23,6 +23,7 @@ import FormField from "@/ui/FormField";
 import { useGlobalStore } from "@/store";
 import ButtonGroup from "@/ui/ButtonGroup";
 import TagView from "@/components/TagView";
+import usePosthog from "@/hooks/usePosthog";
 import { useCreatePnm } from "@/hooks/api/pnms";
 
 const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
@@ -39,6 +40,7 @@ const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
     snapchat: "Snapchat",
   };
 
+  const posthog = usePosthog();
   const mutation = useCreatePnm();
   const globalStore = useGlobalStore();
 
@@ -65,6 +67,8 @@ const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
       text1: "Successfully created PNM",
       text2: "The PNM has been added to your contacts",
     });
+
+    posthog.capture("PNM_CREATED_MANUALLY");
 
     handleClose();
   };

@@ -31,6 +31,11 @@ const PosthogProvider: React.FC<PosthogProviderProps> = ({ children }) => {
   return (
     <PostHogProvider
       apiKey={AppConstants.posthogApiKey}
+      autocapture={{
+        captureLifecycleEvents: false,
+        captureTouches: true,
+        customLabelProp: "ph-label",
+      }}
       options={{
         host: AppConstants.posthogUrl,
       }}

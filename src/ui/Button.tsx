@@ -83,6 +83,9 @@ const Button: React.FC<ButtonProps> = ({
   children,
   ...props
 }) => {
+  const childString = children?.toString().split(":")[0];
+  const label = props["ph-label"] || `button_"${childString}"`;
+
   // Set the button to disabled if it's loading or if it's explicitly disabled
   disabled = loading || disabled;
 
@@ -106,7 +109,12 @@ const Button: React.FC<ButtonProps> = ({
   );
 
   return (
-    <TouchableOpacity style={containerStyles} disabled={disabled} {...props}>
+    <TouchableOpacity
+      ph-label={label}
+      style={containerStyles}
+      disabled={disabled}
+      {...props}
+    >
       {iconLeft && (
         <Icon
           name={iconLeft}

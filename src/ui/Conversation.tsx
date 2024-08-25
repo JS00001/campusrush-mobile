@@ -29,6 +29,7 @@ const Conversation: React.FC<ConversationProps> = ({
   style,
   ...props
 }) => {
+  const label = props["ph-label"] || "conversation";
   const navigation = useNavigation();
 
   const containerStyles = tw.style(
@@ -53,7 +54,12 @@ const Conversation: React.FC<ConversationProps> = ({
   };
 
   return (
-    <TouchableOpacity style={containerStyles} onPress={onPress} {...props}>
+    <TouchableOpacity
+      ph-label={label}
+      style={containerStyles}
+      onPress={onPress}
+      {...props}
+    >
       <View style={tw`flex-row items-center gap-3 flex-shrink`}>
         <View style={unreadIndicatorStyles} />
 
