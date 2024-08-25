@@ -49,13 +49,6 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
         title="Last Seen"
         subtitle={dateUtil.timeAgo(chapter.lastOnline)}
       />
-      <IconLabel
-        size="xs"
-        color="tertiary"
-        iconName="calendar-fill"
-        title="Created On"
-        subtitle={dateUtil.toString(chapter.createdAt)}
-      />
     </TouchableOpacity>
   );
 };
