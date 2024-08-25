@@ -1,4 +1,4 @@
-name: Validate Labels
+name: Validate PR Checklist
 
 on:
   pull_request:
