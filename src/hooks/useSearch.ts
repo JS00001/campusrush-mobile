@@ -36,6 +36,10 @@ interface IUseSearch<T> {
 
   /** The fields to search in (searches entire object values if not passed) */
   fields?: (keyof T)[];
+  /** The default filter (defaults to 'NO_FILTER') (typeof filter.id) */
+  defaultFilter?: string;
+  /** The default sorting method (defaults to 'NO_SORT') */
+  defaultSortingMethod?: string;
 }
 
 const useSearch = <T extends Object | String>({
@@ -43,6 +47,8 @@ const useSearch = <T extends Object | String>({
   filters = [],
   sortingMethods = [],
   fields = [],
+  defaultFilter = 'NO_FILTER',
+  defaultSortingMethod = 'NO_SORT',
 }: IUseSearch<T>) => {
   type FilterID = (typeof filters)[number]['id'] | 'NO_FILTER';
   type SortID = (typeof sortingMethods)[number]['id'] | 'NO_SORT';
@@ -50,8 +56,9 @@ const useSearch = <T extends Object | String>({
   const [query, setQuery] = useState('');
   const [focused, setFocused] = useState(false);
   const [filteredData, setFilteredData] = useState<T[]>(data);
-  const [filter, setFilter] = useState<FilterID>('NO_FILTER');
-  const [sortingMethod, setSortingMethod] = useState<SortID>('NO_SORT');
+  const [filter, setFilter] = useState<FilterID>(defaultFilter);
+  const [sortingMethod, setSortingMethod] =
+    useState<SortID>(defaultSortingMethod);
 
   /**
    * When the query, data, or filter changes, filter the data
