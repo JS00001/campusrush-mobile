@@ -10,6 +10,25 @@
  * Do not distribute
  */
 
+import type {
+  GetChapterResponse,
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  RegisterResponse,
+  CheckEmailRequest,
+  CheckEmailResponse,
+  VerifyChapterRequest,
+  VerifyChapterResponse,
+  ResendVerificationResponse,
+  RefreshAccessTokenRequest,
+  RefreshAccessTokenResponse,
+  ResetPasswordRequest,
+  ResetPasswordResponse,
+  ChangePasswordRequest,
+  ChangePasswordResponse,
+} from '@/types';
+
 import { axiosClient } from '@/providers/Axios';
 
 const PREFIX = '/api/v1/consumer/auth';

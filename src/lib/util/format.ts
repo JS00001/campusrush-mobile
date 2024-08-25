@@ -10,6 +10,8 @@
  * Do not distribute
  */
 
+import type { Event } from '@/types';
+
 export interface FormattedEvent extends Event {
   dateString: string;
   start: {

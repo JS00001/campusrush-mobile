@@ -10,6 +10,13 @@
  * Do not distribute
  */
 
+import type {
+  GetConversationsRequest,
+  GetConversationsResponse,
+  GetConversationRequest,
+  GetConversationResponse,
+} from '@/types';
+
 import { axiosClient } from '@/providers/Axios';
 
 const PREFIX = '/api/v1/consumer/conversations';

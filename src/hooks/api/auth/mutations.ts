@@ -12,6 +12,15 @@
 
 import { useMutation } from '@tanstack/react-query';
 
+import type {
+  ChangePasswordRequest,
+  CheckEmailRequest,
+  LoginRequest,
+  RegisterRequest,
+  ResetPasswordRequest,
+  VerifyChapterRequest,
+} from '@/types';
+
 import {
   login,
   register,
@@ -22,7 +31,6 @@ import {
   resetPassword,
   changePassword,
 } from '@/api';
-
 import { useAuth } from '@/providers/Auth';
 
 export const useLogin = () => {

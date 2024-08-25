@@ -13,6 +13,8 @@
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+import type { PNM } from "@/types";
+
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";

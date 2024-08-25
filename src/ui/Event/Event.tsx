@@ -12,6 +12,8 @@
 
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
+import type { Event } from "@/types";
+
 import EventDate from "./Date";
 
 import Text from "@/ui/Text";

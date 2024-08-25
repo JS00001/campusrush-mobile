@@ -12,6 +12,12 @@
 
 import { useMutation } from '@tanstack/react-query';
 
+import type {
+  CreateEventRequest,
+  UpdateEventRequest,
+  DeleteEventRequest,
+} from '@/types';
+
 import { createEvent, updateEvent, deleteEvent, deleteEvents } from '@/api';
 
 export const useCreateEvent = () => {

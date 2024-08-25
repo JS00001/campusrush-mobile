@@ -13,6 +13,8 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
+import type { EventResponse } from '@/types';
+
 import { useEventStore } from '@/store';
 import { useAuth } from '@/providers/Auth';
 import { getEvent, getEvents } from '@/api';

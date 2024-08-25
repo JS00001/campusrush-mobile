@@ -13,6 +13,8 @@
 import { create } from 'zustand';
 import { PersistStorage, persist } from 'zustand/middleware';
 
+import type { PNM } from '@/types';
+
 import customAsyncStorage from '@/lib/asyncStorage';
 
 interface IPnmStore {

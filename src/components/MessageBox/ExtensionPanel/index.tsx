@@ -27,6 +27,12 @@ import * as Haptic from "expo-haptics";
 
 import EventCard from "./Extensions/Event/Card";
 
+import type {
+  ExtensionPanelProps,
+  ExtensionPanelRef,
+} from "@/types/messageBox";
+import type { Event } from "@/types";
+
 import Tabs from "@/ui/Tabs";
 import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";

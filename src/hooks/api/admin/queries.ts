@@ -14,6 +14,8 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { Entitlement } from 'qonversion-sdk';
 
+import type { Chapter } from '@/types';
+
 import {
   getAdminChapter,
   getAdminChapterEntitlements,

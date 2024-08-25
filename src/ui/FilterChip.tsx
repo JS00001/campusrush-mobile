@@ -85,7 +85,7 @@ const FilterChip: React.FC<FilterChipProps> = ({
   const closeButtonSize = FilterChipSizes[size].closeButton;
 
   const containerStyles = tw.style(
-    "rounded-full justify-center items-center flex-row self-start gap-2",
+    "rounded-full items-center flex-row self-start gap-2",
     containerColorStyle,
     containerSizeStyle,
     style,

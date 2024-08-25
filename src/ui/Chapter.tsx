@@ -12,6 +12,8 @@
 
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
+import type { Chapter } from "@/types";
+
 import tw from "@/lib/tailwind";
 import Headline from "@/ui/Headline";
 import dateUtil from "@/lib/util/date";

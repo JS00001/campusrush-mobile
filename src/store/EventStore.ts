@@ -13,6 +13,8 @@
 import { create } from 'zustand';
 import { PersistStorage, persist } from 'zustand/middleware';
 
+import type { Event } from '@/types';
+
 import date from '@/lib/util/date';
 import customAsyncStorage from '@/lib/asyncStorage';
 

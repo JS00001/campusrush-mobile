@@ -12,6 +12,8 @@
 
 import { useMutation } from '@tanstack/react-query';
 
+import type { SendDirectMessageRequest, SendMassMessageRequest } from '@/types';
+
 import { sendMassMessage, sendDirectMessage } from '@/api';
 
 export const useSendMassMessage = () => {

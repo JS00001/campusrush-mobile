@@ -20,6 +20,8 @@ import {
 } from "react-native";
 import { useEffect, useRef } from "react";
 
+import type { Event } from "@/types";
+
 import Text from "@/ui/Text";
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";

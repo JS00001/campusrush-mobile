@@ -13,7 +13,7 @@
 import Toast from "react-native-toast-message";
 
 import type { CreatePnmState } from "..";
-
+import type { CreatePnmRequest } from "@/types";
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import tw from "@/lib/tailwind";

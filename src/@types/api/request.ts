@@ -10,14 +10,14 @@
  * Do not distribute
  */
 
-interface LoginRequest {
+export interface LoginRequest {
   /** The chapter's email */
   email: string;
   /** The chapter's password */
   password: string;
 }
 
-interface RegisterRequest {
+export interface RegisterRequest {
   /** The chapter's name */
   name: string;
   /** The school the chapter is associated with */
@@ -34,24 +34,24 @@ interface RegisterRequest {
   confirmPassword: string;
 }
 
-interface CheckEmailRequest {
+export interface CheckEmailRequest {
   /** The email to check for existence */
   email: string;
 }
 
-interface VerifyChapterRequest {
+export interface VerifyChapterRequest {
   /** Access token for chapter verification */
   accessToken?: string;
   /** Verification code for the chapter */
   code: string;
 }
 
-interface RefreshAccessTokenRequest {
+export interface RefreshAccessTokenRequest {
   /** Refresh token for token refreshing */
   refreshToken?: string;
 }
 
-interface UpdateChapterRequest {
+export interface UpdateChapterRequest {
   /** Updated first name for the chapter leader */
   firstName?: string;
   /** Updated last name for the chapter leader */
@@ -72,38 +72,38 @@ interface UpdateChapterRequest {
   linkSharingEnabled?: boolean;
 }
 
-interface GetConversationRequest {
+export interface GetConversationRequest {
   /** Offset for retrieving conversation */
   offset: number;
   /** ID of the potential new member (PNM) for conversation retrieval */
   pnmId: string;
 }
 
-interface FocusConversationRequest {
+export interface FocusConversationRequest {
   /** ID of the potential new member (PNM) for focusing conversation */
   pnmId: string;
 }
 
-interface GetConversationsRequest {
+export interface GetConversationsRequest {
   /** Offset for retrieving conversations */
   offset: number;
 }
 
-interface SendMassMessageRequest {
+export interface SendMassMessageRequest {
   /** List of PNM IDs to send mass message */
   pnms: string[];
   /** Message content for mass messaging */
   message: string;
 }
 
-interface SendDirectMessageRequest {
+export interface SendDirectMessageRequest {
   /** ID of the potential new member (PNM) for direct messaging */
   pnm: string;
   /** Message content for direct messaging */
   message: string;
 }
 
-interface CreatePnmRequest {
+export interface CreatePnmRequest {
   /** First name of the potential new member (PNM) */
   firstName: string;
   /** Last name of the potential new member (PNM) */
@@ -118,7 +118,7 @@ interface CreatePnmRequest {
   snapchat?: string;
 }
 
-interface UpdatePnmRequest {
+export interface UpdatePnmRequest {
   /** ID of the potential new member (PNM) to be updated */
   id: string;
   /** Updated first name of the potential new member (PNM) */
@@ -137,12 +137,12 @@ interface UpdatePnmRequest {
   starred?: boolean;
 }
 
-interface DeletePnmRequest {
+export interface DeletePnmRequest {
   /** ID of the potential new member (PNM) to be deleted */
   id: string;
 }
 
-interface CreateEventRequest {
+export interface CreateEventRequest {
   /** Title of the event to be created */
   title: string;
   /** Description of the event */
@@ -155,7 +155,7 @@ interface CreateEventRequest {
   endDate: string;
 }
 
-interface UpdateEventRequest {
+export interface UpdateEventRequest {
   /** ID of the event to be updated */
   id: string;
   /** Updated title of the event */
@@ -170,32 +170,32 @@ interface UpdateEventRequest {
   endDate: string;
 }
 
-interface DeleteEventRequest {
+export interface DeleteEventRequest {
   /** ID of the event to be deleted */
   id: string;
 }
 
-interface GetPnmRequest {
+export interface GetPnmRequest {
   /** The ID of the potential new member (PNM) to be retrieved */
   id: string;
 }
 
-interface GetEventRequest {
+export interface GetEventRequest {
   /** The ID of the event to be retrieved */
   id: string;
 }
 
-interface GetAdminChapterRequest {
+export interface GetAdminChapterRequest {
   /** The ID of the chapter to be retrieved */
   id: string;
 }
 
-interface GetAdminChapterEntitlementsRequest {
+export interface GetAdminChapterEntitlementsRequest {
   /** The ID of the chapter to retrieve entitlements */
   id: string;
 }
 
-interface GrantAdminChapterEntitlementRequest {
+export interface GrantAdminChapterEntitlementRequest {
   /** The ID of the chapter to grant entitlements */
   id: string;
   /** The entitlement ID to grant */
@@ -204,24 +204,24 @@ interface GrantAdminChapterEntitlementRequest {
   expires: number;
 }
 
-interface RevokeAdminChapterEntitlementRequest {
+export interface RevokeAdminChapterEntitlementRequest {
   /** The ID of the chapter to revoke entitlements */
   id: string;
   /** The entitlement ID to revoke */
   entitlementId: string;
 }
 
-interface DeleteChapterSessionRequest {
+export interface DeleteChapterSessionRequest {
   /** The ID of the session to be deleted */
   id: string;
 }
 
-interface ResetPasswordRequest {
+export interface ResetPasswordRequest {
   /** The email of the chapter to reset the password */
   email: string;
 }
 
-interface ChangePasswordRequest {
+export interface ChangePasswordRequest {
   /** The email of the chapter to change the password */
   email: string;
   /** The reset code for changing the password */

@@ -11,11 +11,11 @@
  */
 
 import { create } from 'zustand';
-import { useEffect } from 'react';
 import { PersistStorage, persist } from 'zustand/middleware';
 
+import type { PNM } from '@/types';
+
 import customAsyncStorage from '@/lib/asyncStorage';
-import { useGetChapterStatistics } from '@/hooks/api/chapter';
 
 interface IStatisticsStore {
   pnmCount: number;

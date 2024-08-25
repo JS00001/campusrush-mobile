@@ -10,30 +10,41 @@
  * Do not distribute
  */
 
-type LogoutResponse = API.Response<{}>;
+import type { API } from '.';
+import type { Chapter } from '../models/chapter';
+import type { Conversation } from '../models/conversation';
+import type { Event } from '../models/event';
+import type { EventResponse } from '../models/eventResponse';
+import type { Message } from '../models/message';
+import type { PNM } from '../models/pnm';
+import type { RefreshToken } from '../models/refreshToken';
+import type { Metadata } from '../app';
+import type { EntitlementDetails } from '../entitlements';
 
-type DeletePnmResponse = API.Response<{}>;
+export type LogoutResponse = API.Response<{}>;
 
-type DeleteChapterSessionResponse = API.Response<{}>;
+export type DeletePnmResponse = API.Response<{}>;
 
-type DeletePnmsResponse = API.Response<{}>;
+export type DeleteChapterSessionResponse = API.Response<{}>;
 
-type GrantAdminChapterEntitlementsResponse = API.Response<{}>;
+export type DeletePnmsResponse = API.Response<{}>;
 
-type RevokeAdminChapterEntitlementsResponse = API.Response<{}>;
+export type GrantAdminChapterEntitlementsResponse = API.Response<{}>;
 
-type ResetPasswordResponse = API.Response<{}>;
+export type RevokeAdminChapterEntitlementsResponse = API.Response<{}>;
 
-type GetEntitlementsResponse = API.Response<EntitlementDetails>;
+export type ResetPasswordResponse = API.Response<{}>;
 
-type GetChaptersResponse = API.Response<{
+export type GetEntitlementsResponse = API.Response<EntitlementDetails>;
+
+export type GetChaptersResponse = API.Response<{
   /** List of chapters */
   chapters: string[];
   /** List of schools */
   schools: string[];
 }>;
 
-type LoginResponse = API.Response<{
+export type LoginResponse = API.Response<{
   /** Chapter information */
   chapter: Chapter;
   /** Access token for authentication */
@@ -42,7 +53,7 @@ type LoginResponse = API.Response<{
   refreshToken: string;
 }>;
 
-type RegisterResponse = API.Response<{
+export type RegisterResponse = API.Response<{
   /** Chapter information */
   chapter: Chapter;
   /** Access token for authentication */
@@ -51,7 +62,7 @@ type RegisterResponse = API.Response<{
   refreshToken: string;
 }>;
 
-type ChangePasswordResponse = API.Response<{
+export type ChangePasswordResponse = API.Response<{
   /** Chapter information */
   chapter: Chapter;
   /** Access token for authentication */
@@ -60,37 +71,37 @@ type ChangePasswordResponse = API.Response<{
   refreshToken: string;
 }>;
 
-type GetChapterResponse = API.Response<{
+export type GetChapterResponse = API.Response<{
   /** Chapter information */
   chapter: Chapter;
 }>;
 
-type CheckEmailResponse = API.Response<{
+export type CheckEmailResponse = API.Response<{
   /** Indicates whether the email exists */
   exists: boolean;
 }>;
 
-type VerifyChapterResponse = API.Response<{
+export type VerifyChapterResponse = API.Response<{
   /** Chapter information */
   chapter: Chapter;
 }>;
 
-type ResendVerificationResponse = API.Response<{
+export type ResendVerificationResponse = API.Response<{
   /** A message indicating the result of the resend verification action */
   message: string;
 }>;
 
-type RefreshAccessTokenResponse = API.Response<{
+export type RefreshAccessTokenResponse = API.Response<{
   /** Refreshed access token */
   accessToken: string;
 }>;
 
-type UpdateChapterResponse = API.Response<{
+export type UpdateChapterResponse = API.Response<{
   /** Updated chapter information */
   chapter: Chapter;
 }>;
 
-type GetChapterStatisticsResponse = API.Response<{
+export type GetChapterStatisticsResponse = API.Response<{
   /** Number of potential new members (PNMs) */
   pnms: number;
   /** Number of starred PNMs */
@@ -99,17 +110,17 @@ type GetChapterStatisticsResponse = API.Response<{
   recentPnms: PNM[];
 }>;
 
-type GetPnmsResponse = API.Response<{
+export type GetPnmsResponse = API.Response<{
   /** List of potential new members (PNMs) */
   pnms: PNM[];
 }>;
 
-type GetAdminChaptersResponse = API.Response<{
+export type GetAdminChaptersResponse = API.Response<{
   /** List of admin chapters */
   chapters: Chapter[];
 }>;
 
-type GetConversationResponse = API.Response<{
+export type GetConversationResponse = API.Response<{
   /** Conversation information */
   conversation: Conversation | null;
   /** Offset for the next conversation retrieval */
@@ -118,12 +129,12 @@ type GetConversationResponse = API.Response<{
   hasNextPage: boolean;
 }>;
 
-type FocusConversationResponse = API.Response<{
+export type FocusConversationResponse = API.Response<{
   /** Focused conversation information */
   conversation: Conversation;
 }>;
 
-type GetConversationsResponse = API.Response<{
+export type GetConversationsResponse = API.Response<{
   /** List of conversations */
   conversations: Conversation[];
   /** Offset for the next conversation retrieval */
@@ -132,7 +143,7 @@ type GetConversationsResponse = API.Response<{
   hasNextPage: boolean;
 }>;
 
-type GetContactsResponse = API.Response<{
+export type GetContactsResponse = API.Response<{
   /** List of all potential new members (PNMs) */
   all: PNM[];
   /** List of favorited PNMs */
@@ -143,38 +154,38 @@ type GetContactsResponse = API.Response<{
   uncontacted: PNM[];
 }>;
 
-type SendMassMessageResponse = API.Response<{
+export type SendMassMessageResponse = API.Response<{
   /** List of conversations after sending a mass message */
   conversations: Conversation[];
   /** List of messages sent */
   messages: Message[];
 }>;
 
-type SendDirectMessageResponse = API.Response<{
+export type SendDirectMessageResponse = API.Response<{
   /** Conversation information after sending a direct message */
   conversation: Conversation;
   /** Message information after sending a direct message */
   message: Message;
 }>;
 
-type CreatePnmResponse = API.Response<{
+export type CreatePnmResponse = API.Response<{
   /** Created potential new member (PNM) information */
   pnm: PNM;
 }>;
 
-type UpdatePnmResponse = API.Response<{
+export type UpdatePnmResponse = API.Response<{
   /** Updated potential new member (PNM) information */
   pnm: PNM;
 }>;
 
-type GetMetadataResponse = API.Response<Metadata>;
+export type GetMetadataResponse = API.Response<Metadata>;
 
-type DeleteChapterResponse = API.Response<{
+export type DeleteChapterResponse = API.Response<{
   /** Indicates the success of the chapter deletion */
   success: boolean;
 }>;
 
-type GetEventsResponse = API.Response<{
+export type GetEventsResponse = API.Response<{
   /** List of events */
   events: Event[];
   /** Offset for the next event retrieval */
@@ -183,49 +194,49 @@ type GetEventsResponse = API.Response<{
   hasNextPage: boolean;
 }>;
 
-type DeleteEventsResponse = API.Response<{
+export type DeleteEventsResponse = API.Response<{
   /** List of events after deletion */
   events: Event[];
 }>;
 
-type CreateEventResponse = API.Response<{
+export type CreateEventResponse = API.Response<{
   /** Created event information */
   event: Event;
 }>;
 
-type UpdateEventResponse = API.Response<{
+export type UpdateEventResponse = API.Response<{
   /** Updated event information */
   event: Event;
 }>;
 
-type DeleteEventResponse = API.Response<{
+export type DeleteEventResponse = API.Response<{
   /** Indicates the success of the event deletion */
   success: boolean;
 }>;
 
-type GetPnmResponse = API.Response<{
+export type GetPnmResponse = API.Response<{
   /** Potential new member (PNM) information */
   pnm: PNM;
 }>;
 
-type GetEventResponse = API.Response<{
+export type GetEventResponse = API.Response<{
   /** Event information */
   event: Event;
   /** Response information */
   responses: EventResponse[];
 }>;
 
-type GetAdminChapterResponse = API.Response<{
+export type GetAdminChapterResponse = API.Response<{
   /** Admin chapter information */
   chapter: Chapter;
 }>;
 
-type GetChapterSessionsResponse = API.Response<{
+export type GetChapterSessionsResponse = API.Response<{
   /** List of sessions */
   sessions: RefreshToken[];
 }>;
 
-type GetAdminChapterEntitlementsResponse = API.Response<
+export type GetAdminChapterEntitlementsResponse = API.Response<
   {
     /**
      * The entitlement ID. For example, premium or pro.
@@ -287,7 +298,7 @@ type GetAdminChapterEntitlementsResponse = API.Response<
   }[]
 >;
 
-type GetWebsiteMetadataResponse = {
+export type GetWebsiteMetadataResponse = {
   /** The title of the website */
   title: string;
   /** The description of the website */

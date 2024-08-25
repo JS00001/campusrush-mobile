@@ -13,6 +13,8 @@
 import { useState } from "react";
 import { FlatList } from "react-native";
 
+import type { PNM } from "@/types";
+
 import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
 import Header from "@/ui/Header";

@@ -27,6 +27,7 @@ const ChaptersView = () => {
 
   const search = useSearch({
     data: getAdminChaptersQuery.chapters,
+    defaultSortingMethod: "LAST_ONLINE_DESC",
     filters: [
       {
         id: "ACTIVE_SUBSCRIPTIONS",

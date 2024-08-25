@@ -12,6 +12,11 @@
 
 import { useMutation } from '@tanstack/react-query';
 
+import type {
+  DeleteChapterSessionRequest,
+  UpdateChapterRequest,
+} from '@/types';
+
 import { updateChapter, deleteChapter, deleteChapterSession } from '@/api';
 
 export const useUpdateChapter = () => {

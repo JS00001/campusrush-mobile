@@ -10,6 +10,13 @@
  * Do not distribute
  */
 
+import type {
+  SendMassMessageRequest,
+  SendMassMessageResponse,
+  SendDirectMessageRequest,
+  SendDirectMessageResponse,
+} from '@/types';
+
 import { axiosClient } from '@/providers/Axios';
 
 const PREFIX = '/api/v1/consumer/messaging';

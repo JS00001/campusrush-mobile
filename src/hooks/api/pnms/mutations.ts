@@ -12,6 +12,12 @@
 
 import { useMutation } from '@tanstack/react-query';
 
+import type {
+  CreatePnmRequest,
+  UpdatePnmRequest,
+  DeletePnmRequest,
+} from '@/types';
+
 import { createPnm, deletePnm, deletePnms, updatePnm } from '@/api';
 
 export const useDeletePnms = () => {
