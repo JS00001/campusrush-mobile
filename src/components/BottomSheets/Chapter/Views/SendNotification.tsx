@@ -22,7 +22,6 @@ import Button from "@/ui/Button";
 import Switch from "@/ui/Switch";
 import FormField from "@/ui/FormField";
 import ButtonGroup from "@/ui/ButtonGroup";
-import iconNames from "@/constants/iconNames";
 import validators from "@/constants/validators";
 import useFormMutation from "@/hooks/useFormMutation";
 import useKeyboardListener from "@/hooks/useKeyboardListener";
