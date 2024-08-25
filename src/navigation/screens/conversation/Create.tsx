@@ -24,6 +24,7 @@ import {
   useStatusStore,
 } from "@/store";
 import { Layout } from "@/ui/Layout";
+import usePosthog from "@/hooks/usePosthog";
 import MessageBox from "@/components/MessageBox";
 import { useSendMassMessage } from "@/hooks/api/messaging";
 import MassMessageHeader from "@/components/Headers/MassMessage";
@@ -33,6 +34,7 @@ type Props = ConversationStackProps<"Create">;
 const Create: React.FC<Props> = ({ navigation, route }) => {
   const initialPnms = route.params.pnms;
 
+  const posthog = usePosthog();
   const [pnms, setPnms] = useState(initialPnms);
 
   const contactStore = useContactStore();
@@ -78,6 +80,8 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
     });
 
     setStatusOverlay("idle");
+
+    posthog.capture("MASS_MESSAGE_SENT", { pnmCount: pnms.length });
   };
 
   const onRemovePnm = (pnm: IPNM) => {

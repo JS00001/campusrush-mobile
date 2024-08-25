@@ -25,6 +25,8 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   style,
   ...props
 }) => {
+  const label = props["ph-label"] || "action_button";
+
   const containerStyles = tw.style(
     "absolute bottom-4 right-4 z-20",
     "p-4 rounded-full bg-primary shadow-lg self-end",
@@ -32,7 +34,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   );
 
   return (
-    <TouchableOpacity style={containerStyles} {...props}>
+    <TouchableOpacity ph-label={label} style={containerStyles} {...props}>
       <Icon name={icon} color="white" size={28} />
     </TouchableOpacity>
   );

@@ -24,37 +24,26 @@ import ListItemLoader from "@/ui/Loaders/ListItem";
 interface FlatListProps<T> extends Omit<RNFlatListProps<T>, "renderItem"> {
   /* The data to be rendered */
   data: T[];
-
   /* The component to render each item in the list */
   renderItem: ({ item }: { item: T }) => React.ReactElement;
-
   /* The style of the FlatList */
   style?: any;
-
   /* The content container style of this FlatList */
   contentContainerStyle?: any;
-
   /* Whether the list is loading or not (data being fetched) */
   loading?: boolean;
-
   /* Overrides the loading component to a custom one */
   loadingComponent?: React.ReactElement;
-
   /* The title of the empty list, defaults to "No Content Found" */
   emptyListTitle?: string;
-
   /* The subtitle of the empty list, defaults to "Try changing your filters" */
   emptyListSubtitle?: string;
-
   /* Disable the onEndReached function */
   disableOnEndReached?: boolean;
-
   /* Disable the onRefresh function */
   disableOnRefresh?: boolean;
-
   /* Only used if the list is refreshable, the action on refresh */
   onRefresh?: () => Promise<void>;
-
   /* Only used if the list is infinite, the action on end reached */
   onEndReached?: () => Promise<void>;
 }

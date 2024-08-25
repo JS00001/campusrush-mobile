@@ -52,6 +52,7 @@ const ListItem: React.FC<ListItemProps> = ({
   subtitleStyle,
   ...props
 }) => {
+  const label = props["ph-label"] || `list_item_"${title}"`;
   const iconNameValue = icon || "circle-line";
   const iconSizeValue = ListItemIconSizes[size];
   const iconColorValue = iconColor || tw.color("primary");
@@ -81,6 +82,7 @@ const ListItem: React.FC<ListItemProps> = ({
 
   return (
     <TouchableOpacity
+      ph-label={label}
       style={containerStyles}
       disabled={disabled || !pressable}
       {...props}

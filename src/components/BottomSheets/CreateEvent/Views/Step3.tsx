@@ -20,8 +20,9 @@ import type { CreateEventState } from "..";
 import Button from "@/ui/Button";
 import ListItem from "@/ui/ListItem";
 import Headline from "@/ui/Headline";
-import ButtonGroup from "@/ui/ButtonGroup";
 import { useEventStore } from "@/store";
+import ButtonGroup from "@/ui/ButtonGroup";
+import usePosthog from "@/hooks/usePosthog";
 import { useCreateEvent } from "@/hooks/api/events";
 
 const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
@@ -30,6 +31,7 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
   prevView,
   handleClose,
 }) => {
+  const posthog = usePosthog();
   const mutation = useCreateEvent();
   const eventStore = useEventStore();
 
@@ -53,6 +55,8 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
       text1: "Successfully created event",
       text2: "Your event has been successfully created",
     });
+
+    posthog.capture("EVENT_CREATED");
 
     handleClose();
   };
