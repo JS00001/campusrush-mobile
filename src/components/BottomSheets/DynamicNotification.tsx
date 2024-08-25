@@ -25,7 +25,6 @@ const DynamicNotificationSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
     <BottomSheet
       innerRef={innerRef}
       children={(props?: SheetData<"DYNAMIC_NOTIFICATION">) => {
-        console.log(props);
         const { title, message, iconName, iconColor } = props!.data;
 
         return (
@@ -39,8 +38,12 @@ const DynamicNotificationSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
             )}
 
             <View style={tw`items-center gap-y-1`}>
-              <Text type="h1">{title}</Text>
-              <Text type="p1">{message}</Text>
+              <Text type="h1" style={tw`text-center`}>
+                {title}
+              </Text>
+              <Text type="p1" style={tw`text-center`}>
+                {message}
+              </Text>
             </View>
           </BottomSheetContainer>
         );

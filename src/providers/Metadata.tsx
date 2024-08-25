@@ -10,6 +10,7 @@
  * Do not distribute
  */
 import { Linking } from "react-native";
+import * as Updates from "expo-updates";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { useEffect, useContext, createContext, useState } from "react";
 
@@ -36,6 +37,13 @@ const MetadataContext = createContext<MetadataContextProps>(
 const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const { currentlyRunning, isUpdateAvailable, isUpdatePending } =
+    Updates.useUpdates();
+
+  // useEffect(() => {
+  //   Updates.reloadAsync();
+  // }, []);
+
   const query = useGetMetadata();
   const { lastUpdateAlert, updatePreferences } = usePreferences();
   const setMetadata = useMetadataStore((state) => state.setMetadata);
