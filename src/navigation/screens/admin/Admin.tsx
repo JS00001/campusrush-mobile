@@ -10,6 +10,9 @@
  * Do not distribute
  */
 
+import * as Sentry from "@sentry/react-native";
+
+import Button from "@/ui/Button";
 import ListItem from "@/ui/ListItem";
 import { Layout } from "@/ui/Layout";
 import type { AdminStackProps } from "@/navigation/@types";
@@ -55,6 +58,11 @@ const Admin: React.FC<Props> = ({ navigation }) => {
           icon="test-tube-fill"
           onPress={onUITestingPress}
         />
+        <Button
+          onPress={() => Sentry.captureException(new Error("Test Error"))}
+        >
+          Test Error
+        </Button>
       </Layout.Content>
     </Layout.Root>
   );

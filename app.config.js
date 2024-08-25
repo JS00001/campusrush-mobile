@@ -57,5 +57,13 @@ export default {
         motionPermission: 'Allow $(PRODUCT_NAME) to access your device motion.',
       },
     ],
+    [
+      '@sentry/react-native/expo',
+      {
+        url: 'https://sentry.io/',
+        project: 'campusrush-mobile',
+        organization: 'campusrush',
+      },
+    ],
   ],
 };
