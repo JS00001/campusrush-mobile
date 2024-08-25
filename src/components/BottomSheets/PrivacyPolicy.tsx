@@ -52,9 +52,7 @@ const PrivacyPolicySheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
 
           {query.isFetched && !query.isLoading && (
             <>
-              <Badge size="md" style={tw`self-start`}>
-                Last Updated: {lastUpdated}
-              </Badge>
+              <Badge size="md">Last Updated: {lastUpdated}</Badge>
               <Text type="h1" style={tw`text-primary mb-4`}>
                 Privacy Policy
               </Text>

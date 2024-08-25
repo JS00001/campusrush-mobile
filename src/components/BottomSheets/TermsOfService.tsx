@@ -48,9 +48,7 @@ const TermsOfServiceSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
           {query.isLoading && <TermsOfServiceSkeleton />}
           {!query.isLoading && (
             <>
-              <Badge size="md" style={tw`self-start`}>
-                Last Updated: {lastUpdated}
-              </Badge>
+              <Badge size="md">Last Updated: {lastUpdated}</Badge>
               <Text type="h1" style={tw`text-primary mb-4`}>
                 Terms of Service
               </Text>

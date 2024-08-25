@@ -71,7 +71,7 @@ const Badge: React.FC<BadgeProps> = ({
   const containerSizeStyle = BadgeSizes[size].container;
 
   const containerStyles = tw.style(
-    "rounded-full justify-center items-center flex-row self-start",
+    "rounded-full items-center flex-row self-start",
     containerColorStyle,
     containerSizeStyle,
     style,
