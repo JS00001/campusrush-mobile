@@ -5,6 +5,7 @@ on:
 env:
   publish: "false"
   update: "false"
+  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
 jobs:
   deploy-production:
@@ -63,6 +64,9 @@ jobs:
       - name: 🚀 Update the app, if 'Update' is true
         if: env.update == 'true'
         run: eas update --channel production --non-interactive --platform ios --message 'update production'
+
+      - name: ⚙️ Upload sourcemaps to sentry
+        run: npx --yes sentry-expo-upload-sourcemaps dist
 
       - name: ✅ Report Status
         if: always()
