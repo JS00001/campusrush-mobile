@@ -24,3 +24,5 @@ export const urlRegex = new RegExp(/(https?:\/\/[^\s]+)/);
 export const namesRegex = new RegExp(/^[A-Za-z]+$/);
 
 export const verificationCodeRegex = new RegExp(/^\d{6}$/);
+
+export const colorHexRegex = new RegExp(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/);

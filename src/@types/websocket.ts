@@ -13,6 +13,8 @@
 import type { IPNM } from './models/pnm';
 import type { IConversation } from './models/conversation';
 
+import type { IconType } from '@/ui/Icon';
+
 /** All WS message types, and the data that must be passed through the WS */
 type Message =
   | {
@@ -24,12 +26,17 @@ type Message =
       data: { pnm: IPNM };
     }
   | {
-      type: 'NEW_NOTIFICATION';
-      data: Notification;
-    }
-  | {
       type: 'NEW_EVENT_RESPONSE';
       data: Event;
+    }
+  | {
+      type: 'NEW_DYNAMIC_NOTIFICATION';
+      data: {
+        title: string;
+        message: string;
+        iconName?: IconType;
+        iconColor?: string;
+      };
     };
 
 /** All WS messages that can be sent to the client */

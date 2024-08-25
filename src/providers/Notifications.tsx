@@ -18,11 +18,11 @@ import { createContext, useContext, useEffect, useRef } from "react";
 
 import type { IPNM, IEvent } from "@/types";
 
+import { useGlobalStore } from "@/store";
 import { useAuth } from "@/providers/Auth";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 import { useQonversion } from "@/providers/Qonversion";
 import { useBottomSheet } from "@/providers/BottomSheet";
-import { useGlobalStore } from "@/store";
 
 interface NotificationsContextProps {
   isLoading: boolean;
@@ -108,6 +108,15 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
           });
 
           openBottomSheet("EVENT", { eventId: event._id });
+        } else if (data.type === "NEW_DYNAMIC_NOTIFICATION") {
+          const { title, message, iconName, iconColor } = data;
+
+          openBottomSheet("DYNAMIC_NOTIFICATION", {
+            title,
+            message,
+            iconName,
+            iconColor,
+          });
         }
       });
 

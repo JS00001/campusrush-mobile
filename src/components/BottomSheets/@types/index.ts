@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { IconType } from '@/ui/Icon';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 export interface BottomSheetProps {
@@ -37,6 +38,13 @@ export interface IndividualSheetProps {
   CREATE_EVENT: undefined;
   /* Begin the new pnm flow */
   CREATE_PNM: undefined;
+  /** A dynamic notification from a websocket event or push notification */
+  DYNAMIC_NOTIFICATION: {
+    iconName?: IconType;
+    iconColor?: string;
+    title: string;
+    message: string;
+  };
   /* View information about an event */
   EVENT: { eventId: string };
   /* View responses to an event */
