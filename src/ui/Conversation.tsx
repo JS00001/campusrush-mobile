@@ -13,14 +13,14 @@
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
-import type { Conversation, PNM } from "@/types";
+import type { Conversation as IConversation, PNM } from "@/types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 
 interface ConversationProps extends TouchableOpacityProps {
-  conversation: Conversation;
+  conversation: IConversation;
   style?: any;
 }
 

@@ -12,7 +12,7 @@
 
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
-import type { Event } from "@/types";
+import type { Event as IEvent } from "@/types";
 
 import EventDate from "./Date";
 
@@ -23,9 +23,9 @@ import date from "@/lib/util/date";
 import format from "@/lib/util/format";
 
 interface EventProps extends Omit<TouchableOpacityProps, "onPress"> {
-  event: Event;
+  event: IEvent;
   style?: any;
-  onPress?: (event: Event) => void;
+  onPress?: (event: IEvent) => void;
 }
 
 const Event: React.FC<EventProps> = ({

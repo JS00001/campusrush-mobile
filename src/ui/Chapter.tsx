@@ -12,7 +12,7 @@
 
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
-import type { Chapter } from "@/types";
+import type { Chapter as IChapter } from "@/types";
 
 import tw from "@/lib/tailwind";
 import Headline from "@/ui/Headline";
@@ -21,7 +21,7 @@ import IconLabel from "@/ui/IconLabel";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
 interface ChapterProps extends TouchableOpacityProps {
-  chapter: Chapter;
+  chapter: IChapter;
 }
 
 const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
