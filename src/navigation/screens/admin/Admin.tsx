@@ -35,7 +35,10 @@ const Admin: React.FC<Props> = ({ navigation }) => {
 
   return (
     <Layout.Root>
-      <Layout.Header title="Admin" subtitle="Admin options/developer options" />
+      <Layout.Header
+        title="Admin Mode"
+        subtitle="Admin options/developer options"
+      />
 
       <Layout.Content scrollable gap={12}>
         <ListItem
