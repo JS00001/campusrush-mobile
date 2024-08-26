@@ -20,9 +20,10 @@ import Tooltip from "@/ui/Tooltip";
 export type InformationSize = "sm" | "md" | "lg";
 
 interface InformationProps extends ViewProps {
-  tooltip: string;
+  tooltip?: string;
   size?: InformationSize;
   style?: any;
+  onPress?: () => void;
 }
 
 /**
@@ -47,12 +48,21 @@ const Information: React.FC<InformationProps> = ({
   tooltip,
   size = "md",
   style,
+  onPress,
   ...props
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
+  /**
+   * When the button is pressed, toggle the visibility if there is a tooltip.
+   * Otherwise, call the onPress function.
+   */
   const handlePress = () => {
-    setIsVisible((prev) => !prev);
+    if (tooltip) {
+      setIsVisible((prev) => !prev);
+    }
+
+    onPress?.();
   };
 
   const containerStyles = tw.style("relative", style);
@@ -61,6 +71,20 @@ const Information: React.FC<InformationProps> = ({
     "absolute opacity-50 w-full h-full",
     InformationSizes[size].touchAreaStyles,
   );
+
+  if (!tooltip) {
+    return (
+      <View style={containerStyles} {...props}>
+        <Icon
+          name="information-line"
+          size={InformationSizes[size].size}
+          color={tw.color("slate-400")}
+        />
+        {/* Touch area for the icon */}
+        <TouchableOpacity onPress={handlePress} style={touchAreaStyles} />
+      </View>
+    );
+  }
 
   return (
     <Tooltip
@@ -75,7 +99,7 @@ const Information: React.FC<InformationProps> = ({
           size={InformationSizes[size].size}
           color={tw.color("slate-400")}
         />
-
+        {/* Touch area for the icon */}
         <TouchableOpacity onPress={handlePress} style={touchAreaStyles} />
       </View>
     </Tooltip>

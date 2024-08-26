@@ -79,7 +79,7 @@ const EventSheet: React.FC<BottomSheetProps> = ({
         };
 
         const onShare = () => {
-          copy(eventUrl, "Event link");
+          copy(eventUrl, "Event Link");
         };
 
         if (!event) return <LoadingState />;

@@ -18,17 +18,19 @@ import { useAuth } from "@/providers/Auth";
 const PhoneNumberView = () => {
   const { chapter } = useAuth();
 
+  const phoneNumber =
+    format.phoneNumber(chapter.phoneNumber) || "Processing... Come back later.";
+  const phoneNumberId =
+    chapter?.phoneNumberId || "Processing... Come back later.";
+
   return (
     <>
       <Headline
         title="Phone Information"
         subtitle="All messages to this phone number will show up in your 'Messages' inbox."
       />
-      <CopyView
-        title="Phone Number"
-        content={format.phoneNumber(chapter.phoneNumber)}
-      />
-      <CopyView title="Phone Number ID" content={chapter?.phoneNumberId} />
+      <CopyView title="Phone Number" content={phoneNumber} />
+      <CopyView title="Phone Number ID" content={phoneNumberId} />
     </>
   );
 };

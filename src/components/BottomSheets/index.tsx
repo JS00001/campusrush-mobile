@@ -14,6 +14,7 @@ import ChapterSheet from "./Chapter/index";
 import CreateMessageSheet from "./CreateMessage";
 import CreateEventSheet from "./CreateEvent";
 import CreatePnmSheet from "./CreatePnm";
+import CustomPhoneNumberSheet from "./CustomPhoneNumber";
 import DeveloperToolsSheet from "./DevTools";
 import DynamicNotificationSheet from "./DynamicNotification";
 import EventSheet from "./Event";
@@ -33,6 +34,7 @@ const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   CREATE_MESSAGE: CreateMessageSheet,
   CREATE_EVENT: CreateEventSheet,
   CREATE_PNM: CreatePnmSheet,
+  CUSTOM_PHONE_NUMBER: CustomPhoneNumberSheet,
   DEVELOPER_TOOLS: DeveloperToolsSheet,
   DYNAMIC_NOTIFICATION: DynamicNotificationSheet,
   EVENT: EventSheet,

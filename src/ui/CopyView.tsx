@@ -35,7 +35,7 @@ const CopyView: React.FC<CopyViewProps> = ({
   const copy = useCopy();
 
   const containerStyles = tw.style(
-    "bg-slate-100 w-full rounded-xl p-4",
+    "bg-slate-100 w-full rounded-xl p-4 pl-8",
     "flex-row items-center justify-between gap-x-2",
     style,
   );
