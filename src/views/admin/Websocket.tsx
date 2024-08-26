@@ -20,9 +20,7 @@ import Headline from "@/ui/Headline";
 import { formatJSON } from "@/lib/util/string";
 import { useWebsocket } from "@/providers/websocket";
 
-interface WebsocketProps {}
-
-const Websocket: React.FC<WebsocketProps> = () => {
+const WebsocketView = () => {
   const websocket = useWebsocket();
 
   const onReconnect = () => {
@@ -43,7 +41,7 @@ const Websocket: React.FC<WebsocketProps> = () => {
   }
 
   return (
-    <View style={tw`gap-y-2`}>
+    <View style={tw`gap-y-2 w-full`}>
       <Button onPress={onReconnect} iconLeft="refresh-line">
         Reconnect Websocket
       </Button>
@@ -105,4 +103,4 @@ const Websocket: React.FC<WebsocketProps> = () => {
   );
 };
 
-export default Websocket;
+export default WebsocketView;

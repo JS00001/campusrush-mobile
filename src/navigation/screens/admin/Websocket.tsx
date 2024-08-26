@@ -1,33 +1,32 @@
 /*
- * Created on Sun Sep 17 2023
+ * Created on Mon Aug 26 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
  * of this software, in whole or in part, is strictly prohibited.
  * For licensing information contact CampusRush.
  *
- * Copyright (c) 2023 CampusRush
+ * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
-import ChaptersView from "@/views/admin/Chapters";
+import WebsocketView from "@/views/admin/Websocket";
 
-const Chapters = () => {
+const Websocket = () => {
   return (
     <Layout.Root>
       <Layout.Header
         hasBackButton
-        title="Chapters"
-        subtitle="View all registered chapters"
+        title="Websocket"
+        subtitle="View websocket message logs"
       />
 
-      <Layout.Content gap={12} contentContainerStyle={tw`pb-0`}>
-        <ChaptersView />
+      <Layout.Content scrollable gap={12}>
+        <WebsocketView />
       </Layout.Content>
     </Layout.Root>
   );
 };
 
-export default Chapters;
+export default Websocket;

@@ -101,6 +101,7 @@ export type AdminTabParams = {
   AdminChapters: undefined;
   AdminUITesting: undefined;
   AdminNetwork: undefined;
+  AdminWebsocket: undefined;
 };
 
 export type MainStackParams = {

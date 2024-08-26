@@ -29,6 +29,10 @@ const Admin: React.FC<Props> = ({ navigation }) => {
     navigation.navigate("AdminNetwork");
   };
 
+  const onWebsocketPress = () => {
+    navigation.navigate("AdminWebsocket");
+  };
+
   return (
     <Layout.Root>
       <Layout.Header title="Admin" subtitle="Admin options/developer options" />
@@ -40,6 +44,13 @@ const Admin: React.FC<Props> = ({ navigation }) => {
           subtitle="List all registered chapters"
           icon="group-fill"
           onPress={onChaptersPress}
+        />
+        <ListItem
+          size="lg"
+          title="Websocket"
+          subtitle="View websocket message logs"
+          icon="chat-3-fill"
+          onPress={onWebsocketPress}
         />
         <ListItem
           size="lg"
