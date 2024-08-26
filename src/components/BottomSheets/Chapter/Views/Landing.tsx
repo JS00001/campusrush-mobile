@@ -94,13 +94,11 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
     });
   };
 
-  const chapterVersion = () => {
-    if (!chapter?.clientVersion) return "--";
+  if (chapterQuery.isLoading || entitlementQuery.isLoading) {
+    return <LoadingState />;
+  }
 
-    return <ClientVersion version={chapter.clientVersion} />;
-  };
-
-  if (!chapter || !entitlements) {
+  if (!chapter) {
     return <LoadingState />;
   }
 
@@ -139,7 +137,10 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
       </Text>
 
       <Detail.List>
-        <Detail.Item title="Client Version" value={chapterVersion()} />
+        <Detail.Item
+          title="Client Version"
+          value={<ClientVersion version={chapter.clientVersion} />}
+        />
         <Detail.Item
           title="Last Seen"
           value={date.timeAgo(chapter.lastOnline)}
@@ -217,19 +218,27 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
   );
 };
 
-const ClientVersion: React.FC<{ version: string }> = ({ version }) => {
+const ClientVersion: React.FC<{ version: string }> = ({ version = "--" }) => {
   const currentVersion = `${AppConstants.version} - ${AppConstants.updateVersion}`;
 
+  const containerStyles = tw.style(
+    version == currentVersion && "bg-green/25",
+    version !== currentVersion && "bg-yellow/25",
+    "py-0.5 px-3 rounded-full",
+  );
+
   const textStyles = tw.style(
-    "font-bold",
+    "font-medium",
     version === currentVersion && "text-green",
     version !== currentVersion && "text-yellow",
   );
 
   return (
-    <Text type="p3" style={textStyles}>
-      {version}
-    </Text>
+    <View style={containerStyles}>
+      <Text type="p3" style={textStyles}>
+        {version}
+      </Text>
+    </View>
   );
 };
 
@@ -246,14 +255,12 @@ const LoadingState = () => {
           <Skeleton width={48} height={48} borderRadius={999} />
         </View>
       </View>
+      <Skeleton height={300} />
 
-      <Skeleton height={400} />
+      <Skeleton height={24} width={"75%"} />
+      <Skeleton height={150} />
 
-      <View style={tw`flex-1 gap-2`}>
-        <Skeleton height={24} />
-        <Skeleton width={"75%"} height={16} />
-      </View>
-
+      <Skeleton height={24} width={"75%"} />
       <Skeleton height={200} />
     </View>
   );
