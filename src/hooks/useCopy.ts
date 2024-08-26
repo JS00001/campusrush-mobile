@@ -16,14 +16,14 @@ import Toast from 'react-native-toast-message';
 
 const useCopy = () => {
   const copy = (value: string, label?: string) => {
-    label = label || 'Value';
+    label = label ? `${label} Copied to Clipboard!` : 'Copied to Clipboard!';
 
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     Clipboard.setStringAsync(value);
 
     Toast.show({
       type: 'success',
-      text1: `${label} copied to clipboard`,
+      text1: label,
       text2: value,
       visibilityTime: 2000,
     });

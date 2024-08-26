@@ -20,9 +20,11 @@ import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";
 import ListItem from "@/ui/ListItem";
 import FlatList from "@/ui/FlatList";
+import CopyView from "@/ui/CopyView";
 import format from "@/lib/util/format";
 import IconButton from "@/ui/IconButton";
 import { useAuth } from "@/providers/Auth";
+import Information from "@/ui/Information";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import { useGetChapterStatistics } from "@/hooks/api/chapter";
@@ -42,14 +44,14 @@ const HomeView = () => {
     });
   };
 
-  const onAddPNM = () => {
-    openBottomSheet("CREATE_PNM");
-  };
-
   const onRecentPnmPress = (pnm: IPNM) => {
     openBottomSheet("PNM", {
       pnmId: pnm._id,
     });
+  };
+
+  const onChapterPhoneNumberPress = () => {
+    openBottomSheet("CUSTOM_PHONE_NUMBER");
   };
 
   if (statisticsQuery.isLoading) {
@@ -99,36 +101,42 @@ const HomeView = () => {
           />
         </View>
 
-        {/* Quick Links */}
-        <Text type="h2">Quick Links</Text>
-        <ListItem
-          size="lg"
-          icon="user-add-fill"
-          title="Add New PNM"
-          subtitle="Add a new PNM to the system"
-          onPress={onAddPNM}
-        />
+        {/* Chapter Phone Number */}
+        <View style={tw`gap-2`}>
+          <View style={tw`flex-row gap-1 items-center`}>
+            <Text type="h2">Chapter Phone Number</Text>
+            <Information size="sm" onPress={onChapterPhoneNumberPress} />
+          </View>
+          <CopyView
+            title="Chapter Phone Number"
+            content={
+              format.phoneNumber(chapter.phoneNumber) ||
+              "Processing... Come back later."
+            }
+          />
+        </View>
 
         {/* Recently Added PNMs */}
-        <Text type="h2">Recently Added PNMs</Text>
-
-        <FlatList
-          scrollEnabled={false}
-          data={statisticsQuery.recentPnms}
-          loading={statisticsQuery.isLoading}
-          emptyListTitle="No Recent PNMs"
-          emptyListSubtitle="Add a new PNM to get started"
-          renderItem={({ item: pnm }) => (
-            <ListItem
-              key={pnm._id}
-              iconColor={tw.color("yellow")}
-              icon={pnm.starred ? "star-fill" : undefined}
-              title={pnm.displayName}
-              subtitle={format.phoneNumber(pnm.phoneNumber)}
-              onPress={onRecentPnmPress.bind(null, pnm)}
-            />
-          )}
-        />
+        <View style={tw`gap-2`}>
+          <Text type="h2">Recently Added PNMs</Text>
+          <FlatList
+            scrollEnabled={false}
+            data={statisticsQuery.recentPnms}
+            loading={statisticsQuery.isLoading}
+            emptyListTitle="No Recent PNMs"
+            emptyListSubtitle="Add a new PNM to get started"
+            renderItem={({ item: pnm }) => (
+              <ListItem
+                key={pnm._id}
+                iconColor={tw.color("yellow")}
+                icon={pnm.starred ? "star-fill" : undefined}
+                title={pnm.displayName}
+                subtitle={format.phoneNumber(pnm.phoneNumber)}
+                onPress={onRecentPnmPress.bind(null, pnm)}
+              />
+            )}
+          />
+        </View>
       </View>
     </>
   );

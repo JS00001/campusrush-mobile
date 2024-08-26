@@ -38,6 +38,8 @@ export interface IndividualSheetProps {
   CREATE_EVENT: undefined;
   /* Begin the new pnm flow */
   CREATE_PNM: undefined;
+  /** Details about a custom phone number */
+  CUSTOM_PHONE_NUMBER: undefined;
   /** Developer tools, only available to admins */
   DEVELOPER_TOOLS: undefined;
   /** A dynamic notification from a websocket event or push notification */
