@@ -38,6 +38,8 @@ export interface IndividualSheetProps {
   CREATE_EVENT: undefined;
   /* Begin the new pnm flow */
   CREATE_PNM: undefined;
+  /** Developer tools, only available to admins */
+  DEVELOPER_TOOLS: undefined;
   /** A dynamic notification from a websocket event or push notification */
   DYNAMIC_NOTIFICATION: {
     iconName?: IconType;

@@ -52,12 +52,6 @@ export default {
     'expo-font',
     'expo-localization',
     [
-      'expo-sensors',
-      {
-        motionPermission: 'Allow $(PRODUCT_NAME) to access your device motion.',
-      },
-    ],
-    [
       '@sentry/react-native/expo',
       {
         url: 'https://sentry.io/',

@@ -45,6 +45,7 @@ import BillingTourStep6 from "@/navigation/screens/billing/tour/Step6";
 
 import AdminScreen from "@/navigation/screens/admin/Admin";
 import AdminNetwork from "@/navigation/screens/admin/Network";
+import AdminWebsocket from "@/navigation/screens/admin/Websocket";
 import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
 import AdminChaptersScreen from "@/navigation/screens/admin/Chapters";
 
@@ -316,6 +317,10 @@ export const AdminStack = () => {
       <Stack.Screen
         name="AdminChapters"
         component={AdminChaptersScreen}
+      />
+      <Stack.Screen
+        name="AdminWebsocket"
+        component={AdminWebsocket}
       />
       <Stack.Screen
         name="AdminUITesting"

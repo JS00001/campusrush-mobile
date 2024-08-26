@@ -12,7 +12,6 @@
 
 import * as Sentry from "@sentry/react-native";
 import Toast from "react-native-toast-message";
-
 import { Entitlement } from "react-native-qonversion";
 import Qonversion, { PurchaseModel } from "react-native-qonversion";
 import { createContext, useEffect, useState, useContext } from "react";
