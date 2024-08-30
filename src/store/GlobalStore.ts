@@ -19,6 +19,7 @@ import { useStatisticsStore } from './StatisticsStore';
 import { useContactStore } from './messaging/ContactStore';
 import { useConversationStore } from './messaging/ConversationStore';
 import { useMessageStore } from './messaging/MessageStore';
+import { useAdminStatisticsStore } from './admin/StatisticsStore';
 
 /**
  * The global store helps to manipulate state that
@@ -33,6 +34,7 @@ export const useGlobalStore = () => {
   const conversationStore = useConversationStore();
   const messageStore = useMessageStore();
   const eventStore = useEventStore();
+  const adminStatisticsStore = useAdminStatisticsStore();
 
   /**
    * Adds a PNM to the system. This needs to update
@@ -150,6 +152,7 @@ export const useGlobalStore = () => {
     conversationStore.clear();
     messageStore.clear();
     eventStore.clear();
+    adminStatisticsStore.clear();
   };
 
   return {

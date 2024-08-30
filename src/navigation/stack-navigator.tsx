@@ -48,6 +48,7 @@ import AdminNetwork from "@/navigation/screens/admin/Network";
 import AdminWebsocket from "@/navigation/screens/admin/Websocket";
 import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
 import AdminChaptersScreen from "@/navigation/screens/admin/Chapters";
+import AdminStatisticsScreen from "@/navigation/screens/admin/Statistics";
 
 import PNMsScreen from "@/navigation/screens/pnms/Pnms";
 
@@ -329,6 +330,10 @@ export const AdminStack = () => {
       <Stack.Screen
         name="AdminNetwork"
         component={AdminNetwork}
+      />
+      <Stack.Screen
+        name="AdminStatistics"
+        component={AdminStatisticsScreen}
       />
     </Stack.Navigator>
   );

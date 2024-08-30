@@ -98,6 +98,7 @@ export type EventsTabParams = {
 
 export type AdminTabParams = {
   Admin: undefined;
+  AdminStatistics: undefined;
   AdminChapters: undefined;
   AdminUITesting: undefined;
   AdminNetwork: undefined;

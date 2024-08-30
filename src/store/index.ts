@@ -22,3 +22,5 @@ export * from './StatusStore';
 export * from './messaging/ContactStore';
 export * from './messaging/MessageStore';
 export * from './messaging/ConversationStore';
+
+export * from './admin/StatisticsStore';

@@ -22,6 +22,7 @@ import type {
   RevokeAdminChapterEntitlementsResponse,
   SendChapterNotificationRequest,
   SendChapterNotificationResponse,
+  GetAdminStatisticsResponse,
 } from '@/types';
 
 import { axiosClient } from '@/providers/Axios';
@@ -106,4 +107,16 @@ export const sendChapterNotification = async (
   const { data: responseData } = await axiosClient.post(url, data);
 
   return responseData as SendChapterNotificationResponse;
+};
+
+/**
+ * Request:     GET /api/v1/consumer/admin/statistics
+ * Description: Get statistics for all chapters
+ */
+export const getAdminStatistics = async () => {
+  const url = `${PREFIX}/statistics`;
+
+  const { data } = await axiosClient.get(url);
+
+  return data as GetAdminStatisticsResponse;
 };
