@@ -17,24 +17,27 @@ import type { IPNM } from '@/types';
 
 import customAsyncStorage from '@/lib/asyncStorage';
 
-interface IStatisticsStore {
+interface IStatisticsState {
   pnmCount: number;
   starredPnmCount: number;
   recentPnms: IPNM[];
+}
 
+interface IStatisticsStore extends IStatisticsState {
+  /** Clear the store */
   clear(): void;
-  setField(field: keyof IStatisticsStore, value: any): void;
+  /** Set a field in the store */
+  setField(field: keyof IStatisticsState, value: any): void;
+  /** Increment a field in the store */
   incrementField(field: 'pnmCount' | 'starredPnmCount'): void;
+  /** Decrement a field in the store */
   decrementField(field: 'pnmCount' | 'starredPnmCount'): void;
 }
 
 export const useStatisticsStore = create<IStatisticsStore>()(
   persist(
     (set) => {
-      /**
-       * Initial state of the store
-       */
-      const initialState = {
+      const initialState: IStatisticsState = {
         pnmCount: 0,
         starredPnmCount: 0,
         recentPnms: [],

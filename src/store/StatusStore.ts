@@ -14,14 +14,19 @@ import { create } from 'zustand';
 
 type Status = 'idle' | 'loading';
 
-interface IStatusStore {
+interface IStatusState {
   status: Status;
+}
+
+interface IStatusStore extends IStatusState {
+  /** Clear the store */
   clear: () => void;
+  /** Set the status overlay */
   setStatusOverlay: (status: Status) => void;
 }
 
 export const useStatusStore = create<IStatusStore>()((set) => {
-  const initialState: { status: Status } = {
+  const initialState: IStatusState = {
     status: 'idle',
   };
 
