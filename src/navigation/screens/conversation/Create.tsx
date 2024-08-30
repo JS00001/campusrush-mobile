@@ -14,7 +14,7 @@ import { useState } from "react";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 
-import type { IPNM } from "@/types";
+import type { IPNM, SendMassMessageRequest } from "@/types";
 import type { ConversationStackProps } from "@/navigation/@types";
 
 import {
@@ -28,6 +28,7 @@ import usePosthog from "@/hooks/usePosthog";
 import MessageBox from "@/components/MessageBox";
 import { useSendMassMessage } from "@/hooks/api/messaging";
 import MassMessageHeader from "@/components/Headers/MassMessage";
+import { IMessageContent } from "@/@types/messageBox";
 
 type Props = ConversationStackProps<"Create">;
 
@@ -43,14 +44,17 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
   const sendMassMessageMutation = useSendMassMessage();
   const setStatusOverlay = useStatusStore((s) => s.setStatusOverlay);
 
-  const onMessageSend = async (messages: string[]) => {
+  const onMessageSend = async (messages: IMessageContent[]) => {
     navigation.goBack();
 
     setStatusOverlay("loading");
 
     for (const message of messages) {
-      const payload = {
-        message,
+      if (!message.content?.length || !message.attachments.length) continue;
+
+      const payload: SendMassMessageRequest = {
+        message: message.content,
+        attachments: message.attachments,
         pnms: pnms.map((pnm) => pnm._id),
       };
 

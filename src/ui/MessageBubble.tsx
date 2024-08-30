@@ -10,17 +10,18 @@
  * Do not distribute
  */
 
+import { Image } from "expo-image";
 import { View, ViewProps } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import CopyAction from "@/ui/CopyAction";
 import WebsitePreview from "@/ui/WebsitePreview";
 
 interface MessageBubbleProps extends ViewProps {
-  content: string;
   sent: boolean;
   date?: string;
+  content?: string;
+  attachments?: string[];
   createdAt?: string;
   style?: any;
 }
@@ -29,12 +30,13 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   content,
   sent,
   date,
+  attachments,
   createdAt,
   style,
   ...props
 }) => {
   // Check if the content is exclusively a link with NO other text
-  const isHyperlink = content.match(/^https?:\/\/\S+$/);
+  const isHyperlink = content?.match(/^https?:\/\/\S+$/);
   const hyperlinkUrl = isHyperlink ? isHyperlink[0] : null;
 
   const createdDate = new Date(createdAt ?? "");
@@ -62,6 +64,26 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
     !sent && "text-black",
   );
 
+  const imageContainerShadow = tw.style({
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+  });
+
+  const imageStyles = tw.style(
+    "rounded-lg max-w-5/6 max-h-64",
+    sent && "self-end",
+    !sent && "self-start",
+    {
+      width: "100%",
+      aspectRatio: 1,
+    },
+  );
+
   const timestampStyles = tw.style("text-gray-500 pt-2", messagePositioning);
 
   const dateStyles = tw.style("text-gray-500 py-4", "self-center");
@@ -76,19 +98,26 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
       )}
 
       {/* The message bubble/content itself */}
-      <CopyAction title="Copy Message" content={content}>
+      <View style={tw`gap-y-2`}>
         {/* If we have a link, JUST send the link preview */}
         {hyperlinkUrl && (
           <WebsitePreview url={hyperlinkUrl} style={messagePositioning} />
         )}
 
-        {/* If no link, just send the normal bubble (blue/gray) */}
-        {!hyperlinkUrl && (
+        {/* If there are attachments, show them as images */}
+        {attachments?.map((attachment, i) => (
+          <View key={i} style={imageContainerShadow}>
+            <Image source={{ uri: attachment }} style={imageStyles} />
+          </View>
+        ))}
+
+        {/* If no link, and there is content just send the normal bubble (blue/gray) */}
+        {!hyperlinkUrl && content && (
           <View style={containerStyles} {...props}>
             <Text style={textStyles}>{content}</Text>
           </View>
         )}
-      </CopyAction>
+      </View>
 
       {/* If there is a createdAt time, show it */}
       {createdAt && (

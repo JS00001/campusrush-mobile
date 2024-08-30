@@ -308,3 +308,27 @@ export type GetWebsiteMetadataResponse = {
   /** The image URL of the website */
   image?: string;
 };
+
+export type UploadAttachmentResponse = API.Response<{
+  /** Attachment URL */
+  url: string;
+}>;
+
+export type GetAdminStatisticsResponse = API.Response<{
+  /** The number of chapters */
+  chapters: number;
+  /** The number of pro chapters */
+  proChapters: number;
+  /** The total number of pnms across all chapters */
+  pnms: number;
+  /** The average number of pnms per chapter */
+  avgPnmsPerChapter: number;
+  /** The number of conversations across all chapters */
+  conversations: number;
+  /** The average number of conversations per chapter */
+  avgConversationsPerChapter: number;
+  /** The number of messages across all chapters */
+  messages: number;
+  /** The average number of messages per conversation */
+  avgMessagesPerConversation: number;
+}>;

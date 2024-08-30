@@ -95,14 +95,18 @@ export interface SendMassMessageRequest {
   /** List of PNM IDs to send mass message */
   pnms: string[];
   /** Message content for mass messaging */
-  message: string;
+  message?: string;
+  /** Attachments for the message */
+  attachments: string[];
 }
 
 export interface SendDirectMessageRequest {
   /** ID of the potential new member (PNM) for direct messaging */
   pnm: string;
   /** Message content for direct messaging */
-  message: string;
+  message?: string;
+  /** Attachments for the message */
+  attachments: string[];
 }
 
 export interface CreatePnmRequest {

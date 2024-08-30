@@ -10,7 +10,20 @@
  * Do not distribute
  */
 
-import type { IEvent } from '@/types';
+export interface IAttachments {
+  /** The images attached to the message */
+  images: string[];
+  /** The events attached to the message */
+  events: string[];
+}
+
+/** The message content thats rendered or sent */
+export interface IMessageContent {
+  /** The message content */
+  content?: string;
+  /** The messages attachments */
+  attachments: string[];
+}
 
 /** The reference to the extension bottom sheet modal */
 export interface ExtensionPanelRef {
@@ -27,7 +40,9 @@ export interface ExtensionPanelProps {
   /** Set the visibility of the extension bottom sheet modal */
   setVisible: (visible: boolean) => void;
   /** Set the attachment of the extension bottom sheet modal */
-  setAttachment: (attachment: IEvent | null) => void;
+  setAttachments: React.Dispatch<React.SetStateAction<IAttachments>>;
+  /** Set the number of pending attachments */
+  setPendingAttachments: React.Dispatch<React.SetStateAction<number>>;
 }
 
 /** The text suggestion for the message box */

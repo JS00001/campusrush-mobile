@@ -13,7 +13,8 @@
 import { useEffect } from "react";
 import { Keyboard } from "react-native";
 
-import type { IMessage } from "@/types";
+import type { IMessageContent } from "@/@types/messageBox";
+import type { IMessage, SendDirectMessageRequest } from "@/types";
 import type { ConversationStackProps } from "@/navigation/@types";
 
 import {
@@ -117,11 +118,13 @@ const Chat: React.FC<Props> = ({ route }) => {
   /**
    * Send direct messages to the server and update the message store
    */
-  const sendDirectMessages = async (messages: string[]) => {
+  const sendDirectMessages = async (messages: IMessageContent[]) => {
     // First, add ALL messages to the message store (so the UI gets updated immediately
     // with ALL of the messages, even if they haven't been sent yet)
     for (let i = 0; i < messages.length; i++) {
-      if (!messages[i].length) return;
+      const message = messages[i];
+
+      if (!message.content?.length && !message.attachments.length) return;
 
       const messageId = `temp-${i}`;
 
@@ -129,7 +132,8 @@ const Chat: React.FC<Props> = ({ route }) => {
         _id: messageId,
         sent: true,
         pnm: pnmId,
-        content: messages[i],
+        content: message.content,
+        attachments: message.attachments,
         chapter: chapter._id,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -141,10 +145,12 @@ const Chat: React.FC<Props> = ({ route }) => {
     // Then, send each message to the server, and replace it in the message store
     // as the requests complete
     for (let i = 0; i < messages.length; i++) {
+      const message = messages[i];
       const messageId = `temp-${i}`;
 
-      const payload = {
-        message: messages[i],
+      const payload: SendDirectMessageRequest = {
+        message: message.content,
+        attachments: message.attachments,
         pnm: pnmId,
       };
 
@@ -202,6 +208,7 @@ const Chat: React.FC<Props> = ({ route }) => {
             key={item._id}
             content={item.content}
             sent={item.sent}
+            attachments={item.attachments}
             date={item.showDate ? item.date : undefined}
             createdAt={
               item.showTimestamp ? item.createdAt.toString() : undefined

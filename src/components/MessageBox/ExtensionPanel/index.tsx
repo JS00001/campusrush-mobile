@@ -11,19 +11,14 @@
  */
 
 import {
-  forwardRef,
-  useImperativeHandle,
-  useRef,
-  useState,
-  Fragment,
-} from "react";
-import {
   BottomSheetModal,
   BottomSheetBackdrop,
   BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 import { View } from "react-native";
 import * as Haptic from "expo-haptics";
+import * as ImagePicker from "expo-image-picker";
+import { forwardRef, useImperativeHandle, useRef, Fragment } from "react";
 
 import EventCard from "./Extensions/Event/Card";
 
@@ -33,17 +28,21 @@ import type {
 } from "@/types/messageBox";
 import type { IEvent } from "@/types";
 
-import Tabs from "@/ui/Tabs";
 import tw from "@/lib/tailwind";
+import Tab from "@/ui/Tabs/Tab";
 import Skeleton from "@/ui/Skeleton";
 import Headline from "@/ui/Headline";
+import AppConstants from "@/constants";
 import { useGetEvents } from "@/hooks/api/events";
+import { useUploadAttachment } from "@/hooks/api/messaging";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
-  ({ setVisible, setAttachment }: ExtensionPanelProps, ref) => {
-    const [activeTab, setActiveTab] = useState(0);
-
+  (
+    { setVisible, setAttachments, setPendingAttachments }: ExtensionPanelProps,
+    ref,
+  ) => {
     const eventsQuery = useGetEvents();
+    const uploadMutation = useUploadAttachment();
     const bottomSheetRef = useRef<BottomSheetModal>(null);
 
     useImperativeHandle(ref, () => ({
@@ -63,7 +62,54 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
     };
 
     const onEventPress = (event: IEvent) => {
-      setAttachment(event);
+      const eventURL = `${AppConstants.webUrl}/events/${event._id}`;
+
+      setAttachments((attachments) => ({
+        ...attachments,
+        events: [eventURL],
+      }));
+    };
+
+    const onImageAttach = (image: string) => {
+      setAttachments((attachments) => ({
+        ...attachments,
+        images: [...attachments.images, image],
+      }));
+    };
+
+    const onPhotosPress = async () => {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        setPendingAttachments((pending) => pending + 1);
+
+        const image = result.assets[0];
+        const fileName = image.uri.split("/").pop();
+        const formData = new FormData();
+
+        const payload = {
+          uri: image.uri,
+          name: fileName,
+          type: "image/jpeg",
+        } as unknown as Blob;
+
+        formData.append("attachment", payload);
+
+        const res = await uploadMutation.mutateAsync(formData);
+
+        if ("error" in res) {
+          setPendingAttachments((pending) => pending - 1);
+          return;
+        }
+
+        const imageUrl = res.data.url;
+        onImageAttach(imageUrl);
+        setPendingAttachments((pending) => pending - 1);
+      }
     };
 
     const BackdropComponent = (props: any) => (
@@ -80,12 +126,10 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
         backgroundStyle={tw`bg-white rounded-t-3xl`}
       >
         <View style={tw`px-3 pt-3 gap-y-3 flex-1`}>
-          <Tabs
-            options={["Events", "Photos", "Videos"]}
-            currentIndex={activeTab}
-            disabledIndex={[1, 2]}
-            onChange={setActiveTab}
-          />
+          <View style={tw`flex-row gap-1`}>
+            <Tab selected={true} label="Events" onPress={() => {}} />
+            <Tab selected={false} label="Photos" onPress={onPhotosPress} />
+          </View>
 
           {/* If the query is loading, show a loading skeleton */}
           {eventsQuery.isLoading && <Skeleton width={"100%"} height={212} />}
