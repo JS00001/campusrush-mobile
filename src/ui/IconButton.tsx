@@ -90,7 +90,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const phLabel = props["ph-label"] || `icon_button_"${iconName}"`;
+  const phLabel = props["ph-label"] || `icon-button-"${iconName}"`;
   disabled = disabled || loading;
 
   const textColor = IconButtonColors[color].color;

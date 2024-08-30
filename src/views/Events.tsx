@@ -167,7 +167,11 @@ const EventsView = () => {
         }}
       />
 
-      <ActionButton icon="add-line" onPress={onNewEventPress} />
+      <ActionButton
+        ph-label="create-event"
+        icon="add-line"
+        onPress={onNewEventPress}
+      />
     </>
   );
 };

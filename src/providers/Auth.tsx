@@ -28,6 +28,7 @@ import type {
 import AppConstants from "@/constants";
 import { useGlobalStore } from "@/store";
 import { useQonversion } from "@/providers/Qonversion";
+import usePosthog from "@/hooks/usePosthog";
 
 interface IUserData {
   chapter: IChapter;
@@ -61,6 +62,7 @@ const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const posthog = usePosthog();
   const globalStore = useGlobalStore();
   const { checkEntitlements } = useQonversion();
   const [isLoading, setIsLoading] = useState(true);
@@ -172,6 +174,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
+    posthog.identify(chapter._id);
     Qonversion.getSharedInstance().identify(chapter.customerId);
     Qonversion.getSharedInstance().setUserProperty(
       UserPropertyKey.EMAIL,
@@ -220,7 +223,9 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       chapter: {} as IChapter,
     });
 
+    posthog.reset();
     Qonversion.getSharedInstance().logout();
+
     await checkEntitlements();
   };
 

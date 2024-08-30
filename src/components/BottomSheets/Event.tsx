@@ -95,12 +95,14 @@ const EventSheet: React.FC<BottomSheetProps> = ({
 
               <View style={tw`flex-row gap-1`}>
                 <IconButton
+                  ph-label="share-event"
                   size="sm"
                   color="secondary"
                   iconName="share-line"
                   onPress={onShare}
                 />
                 <IconButton
+                  ph-label="delete-event"
                   size="sm"
                   color="secondary"
                   iconName="delete-bin-6-line"

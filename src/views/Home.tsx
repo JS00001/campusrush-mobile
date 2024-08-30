@@ -128,6 +128,7 @@ const HomeView = () => {
             renderItem={({ item: pnm }) => (
               <ListItem
                 key={pnm._id}
+                ph-label="recent-pnm-list-item"
                 iconColor={tw.color("yellow")}
                 icon={pnm.starred ? "star-fill" : undefined}
                 title={pnm.displayName}

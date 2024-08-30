@@ -31,7 +31,7 @@ const CopyView: React.FC<CopyViewProps> = ({
   style,
   ...props
 }) => {
-  const label = props["ph-label"] || `copy_view_${title}`;
+  const label = props["ph-label"] || `copy-view-"${title}"`;
   const copy = useCopy();
 
   const containerStyles = tw.style(

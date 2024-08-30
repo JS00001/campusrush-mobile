@@ -52,7 +52,7 @@ const ListItem: React.FC<ListItemProps> = ({
   subtitleStyle,
   ...props
 }) => {
-  const label = props["ph-label"] || `list_item_"${title}"`;
+  const label = "list-item";
   const iconNameValue = icon || "circle-line";
   const iconSizeValue = ListItemIconSizes[size];
   const iconColorValue = iconColor || tw.color("primary");

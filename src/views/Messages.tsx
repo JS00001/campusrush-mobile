@@ -119,7 +119,11 @@ const MessagesView = () => {
         )}
       />
 
-      <ActionButton icon="add-line" onPress={onNewChatPress} />
+      <ActionButton
+        ph-label="create-message"
+        icon="add-line"
+        onPress={onNewChatPress}
+      />
     </>
   );
 };

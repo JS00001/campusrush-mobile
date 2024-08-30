@@ -215,6 +215,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
               iconName="send-plane-2-fill"
               disabled={isButtonDisabled}
               onPress={onSendPress}
+              ph-label="send-message"
             />
           </View>
         </Animated.View>

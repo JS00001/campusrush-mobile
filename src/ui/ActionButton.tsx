@@ -25,7 +25,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   style,
   ...props
 }) => {
-  const label = props["ph-label"] || "action_button";
+  const label = props["ph-label"] || "action-button";
 
   const containerStyles = tw.style(
     "absolute bottom-4 right-4 z-20",
