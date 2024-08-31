@@ -17,8 +17,10 @@ export * from './PNMStore';
 export * from './ForgotPasswordStore';
 export * from './RegistrationStore';
 export * from './StatisticsStore';
-export * from './StatusStore';
 
 export * from './messaging/ContactStore';
 export * from './messaging/MessageStore';
 export * from './messaging/ConversationStore';
+
+export * from './overlay/ImageZoomStore';
+export * from './overlay/StatusStore';

@@ -23,6 +23,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useRef, useState } from "react";
+import Toast from "react-native-toast-message";
 
 import type {
   IAttachments,
@@ -213,7 +214,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
 
       <ExtensionPanel
         ref={extensionPanelRef}
-        visible={extensionsVisible}
+        attachments={attachments}
         setVisible={setExtensionsVisible}
         setAttachments={setAttachments}
         setPendingAttachments={setPendingAttachments}

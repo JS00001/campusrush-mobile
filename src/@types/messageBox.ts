@@ -35,8 +35,8 @@ export interface ExtensionPanelRef {
 
 /** The properties for the extension bottom sheet modal */
 export interface ExtensionPanelProps {
-  /** The visibility of the extension bottom sheet modal */
-  visible: boolean;
+  /** The attachments */
+  attachments: IAttachments;
   /** Set the visibility of the extension bottom sheet modal */
   setVisible: (visible: boolean) => void;
   /** Set the attachment of the extension bottom sheet modal */

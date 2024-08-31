@@ -204,16 +204,7 @@ const Chat: React.FC<Props> = ({ route }) => {
         onEndReached={onEndReached}
         onScrollBeginDrag={onScrollBeginDrag}
         renderItem={({ item }) => (
-          <MessageBubble
-            key={item._id}
-            content={item.content}
-            sent={item.sent}
-            attachments={item.attachments}
-            date={item.showDate ? item.date : undefined}
-            createdAt={
-              item.showTimestamp ? item.createdAt.toString() : undefined
-            }
-          />
+          <MessageBubble key={item._id} message={item} />
         )}
       />
 

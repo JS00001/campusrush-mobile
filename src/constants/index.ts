@@ -135,7 +135,7 @@ const AppConstants = {
     },
   ],
   /**
-   *  All locally stored user preferences with their default values
+   * All locally stored user preferences with their default values
    */
   preferences: {
     /**
@@ -151,6 +151,10 @@ const AppConstants = {
      */
     lastUpdateAlert: 0,
   },
+  /**
+   * The maximum amount of images that can be attached to a message
+   */
+  maxImages: 3,
 };
 
 export default AppConstants;

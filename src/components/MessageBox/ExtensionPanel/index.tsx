@@ -35,10 +35,16 @@ import Headline from "@/ui/Headline";
 import AppConstants from "@/constants";
 import { useGetEvents } from "@/hooks/api/events";
 import { useUploadAttachment } from "@/hooks/api/messaging";
+import Toast from "react-native-toast-message";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   (
-    { setVisible, setAttachments, setPendingAttachments }: ExtensionPanelProps,
+    {
+      attachments,
+      setVisible,
+      setAttachments,
+      setPendingAttachments,
+    }: ExtensionPanelProps,
     ref,
   ) => {
     const eventsQuery = useGetEvents();
@@ -78,6 +84,16 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
     };
 
     const onPhotosPress = async () => {
+      if (attachments.images.length >= AppConstants.maxImages) {
+        Toast.show({
+          type: "error",
+          text1: "Maximum Images",
+          text2: `You can only attach ${AppConstants.maxImages} images per message`,
+        });
+
+        return;
+      }
+
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         aspect: [4, 3],
