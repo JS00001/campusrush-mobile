@@ -215,6 +215,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
       <ExtensionPanel
         ref={extensionPanelRef}
         attachments={attachments}
+        pendingAttachments={pendingAttachments}
         setVisible={setExtensionsVisible}
         setAttachments={setAttachments}
         setPendingAttachments={setPendingAttachments}

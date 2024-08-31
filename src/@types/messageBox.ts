@@ -35,6 +35,8 @@ export interface ExtensionPanelRef {
 
 /** The properties for the extension bottom sheet modal */
 export interface ExtensionPanelProps {
+  /** The pending attachments */
+  pendingAttachments: number;
   /** The attachments */
   attachments: IAttachments;
   /** Set the visibility of the extension bottom sheet modal */

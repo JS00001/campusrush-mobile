@@ -41,6 +41,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   (
     {
       attachments,
+      pendingAttachments,
       setVisible,
       setAttachments,
       setPendingAttachments,
@@ -84,7 +85,10 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
     };
 
     const onPhotosPress = async () => {
-      if (attachments.images.length >= AppConstants.maxImages) {
+      const addedImages = attachments.images.length + pendingAttachments;
+      const hasMaxImages = addedImages >= AppConstants.maxImages;
+
+      if (hasMaxImages) {
         Toast.show({
           type: "error",
           text1: "Maximum Images",
@@ -123,6 +127,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
         }
 
         const imageUrl = res.data.url;
+
         onImageAttach(imageUrl);
         setPendingAttachments((pending) => pending - 1);
       }
