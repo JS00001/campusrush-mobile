@@ -65,6 +65,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const posthog = usePosthog();
   const globalStore = useGlobalStore();
   const { checkEntitlements } = useQonversion();
+
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState<IUserData>({
     accessToken: null,
@@ -174,12 +175,15 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
-    posthog.identify(chapter._id);
     Qonversion.getSharedInstance().identify(chapter.customerId);
     Qonversion.getSharedInstance().setUserProperty(
       UserPropertyKey.EMAIL,
       chapter.email,
     );
+
+    posthog.identify(chapter._id, {
+      role: chapter.role,
+    });
 
     await checkEntitlements();
     await AsyncStorage.setItem("refreshToken", refreshToken);
