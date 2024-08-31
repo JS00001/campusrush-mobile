@@ -17,14 +17,22 @@ import type { IConversation } from '@/types';
 
 import customAsyncStorage from '@/lib/asyncStorage';
 
-interface IConversationStore {
+interface IConversationState {
   conversations: IConversation[];
+}
 
+interface IConversationStore extends IConversationState {
+  /** Clear the store */
   clear: () => void;
+  /** Get a conversation with a specific pnmId */
   getConversation: (pnmId: string) => IConversation | undefined;
+  /** Remove a conversation with a specific pnmId */
   removeConversation: (pnmId: string) => void;
+  /** Update a conversation in the store */
   updateConversation: (conversation: IConversation) => void;
+  /** Set the conversations in the store */
   setConversations: (conversations: IConversation[]) => void;
+  /** Add conversation(s) to the store */
   addConversations: (conversations: IConversation[] | IConversation) => void;
 }
 
@@ -34,7 +42,7 @@ export const useConversationStore = create<IConversationStore>()(
       /**
        * The initial state of the store
        */
-      const initialState = {
+      const initialState: IConversationState = {
         conversations: [],
       };
 

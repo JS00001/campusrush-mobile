@@ -84,7 +84,7 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const childString = children?.toString().split(":")[0];
-  const label = props["ph-label"] || `button_"${childString}"`;
+  const label = props["ph-label"] || `button-"${childString}"`;
 
   // Set the button to disabled if it's loading or if it's explicitly disabled
   disabled = loading || disabled;

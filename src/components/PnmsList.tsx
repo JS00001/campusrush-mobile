@@ -122,6 +122,7 @@ const PnmsList: React.FC<PnmsListProps> = ({
 
     return (
       <ListItem
+        ph-label="pnm-list-item"
         style={tw`my-1`}
         key={data._id}
         title={data.displayName}

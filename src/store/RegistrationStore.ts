@@ -12,7 +12,7 @@
 
 import { create } from 'zustand';
 
-interface IRegistrationStore {
+interface IRegistrationState {
   name?: string;
   school?: string;
   firstName?: string;
@@ -20,15 +20,17 @@ interface IRegistrationStore {
   email?: string;
   password?: string;
   confirmPassword?: string;
+}
+
+interface IRegistrationStore extends IRegistrationState {
+  /** Clear the store */
   clear: () => void;
-  setField: (field: keyof IRegistrationStore, value?: string) => void;
+  /** Set a field in the store */
+  setField: (field: keyof IRegistrationState, value?: string) => void;
 }
 
 export const useRegistrationStore = create<IRegistrationStore>((set) => {
-  /**
-   * Initial state for the registration store
-   */
-  const initialState = {
+  const initialState: IRegistrationState = {
     name: undefined,
     school: undefined,
     firstName: undefined,

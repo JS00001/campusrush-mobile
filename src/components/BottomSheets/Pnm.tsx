@@ -71,7 +71,9 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
             globalStore.unfavoritePnm(pnm);
           }
 
-          posthog.capture("PNM_FAVORITED");
+          const EVENT_NAME = starred ? "PNM_FAVORITED" : "PNM_UNFAVORITED";
+
+          posthog.capture(EVENT_NAME);
         };
 
         const onDelete = async () => {

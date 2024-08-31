@@ -14,23 +14,27 @@ import { create } from 'zustand';
 
 import type { IMessage } from '@/types';
 
-interface IMessageStore {
+interface IMessageState {
   messages: { [pnmId: string]: IMessage[] };
+}
 
+interface IMessageStore extends IMessageState {
+  /** Clear the store */
   clear: () => void;
-
+  /** Get messages from the store for a specific pnmId */
   getMessages: (pnmId: string) => IMessage[] | undefined;
+  /** Set messages for a specific pnmId */
   setMessages: (pnmId: string, messages: IMessage[]) => void;
+  /** Add messages to the store */
   addMessages: (messages: IMessage[] | IMessage) => void;
+  /** Remove a message from the store */
   removeMessage: (pnmId: string, messageId: string) => void;
+  /** Replace a message in the store */
   replaceMessage: (pnmId: string, messageId: string, message: IMessage) => void;
 }
 
 export const useMessageStore = create<IMessageStore>()((set, get) => {
-  /**
-   * The initial state of the store
-   */
-  const initialState = {
+  const initialState: IMessageState = {
     messages: {},
   };
 

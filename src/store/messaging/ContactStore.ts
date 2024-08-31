@@ -17,26 +17,31 @@ import type { IPNM } from '@/types';
 
 import customAsyncStorage from '@/lib/asyncStorage';
 
-interface IContactStore {
+interface IContactState {
   all: IPNM[];
   starred: IPNM[];
   suggested: IPNM[];
   uncontacted: IPNM[];
+}
 
+interface IContactStore extends IContactState {
+  /** Clear all contacts back to initial state */
   clear: () => void;
-
+  /** Set the contacts in the store */
   setContacts: (field: keyof IContactStore, value: IPNM[]) => void;
+  /** Add contacts to the store */
   addContacts: (field: keyof IContactStore, value: IPNM[] | IPNM) => void;
+  /** Remove contacts from the store */
   removeContacts: (field: keyof IContactStore, value: IPNM[] | IPNM) => void;
 }
 
 export const useContactStore = create<IContactStore>()(
   persist(
-    (set, get) => {
+    (set) => {
       /**
        * Initial state of the store
        */
-      const initialState = {
+      const initialState: IContactState = {
         all: [],
         starred: [],
         suggested: [],

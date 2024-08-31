@@ -11,31 +11,46 @@
  */
 
 import { handle } from '@/lib/util/error';
-import { useAuth } from '@/providers/Auth';
+
 import { usePostHog as usePosthogNative } from 'posthog-react-native';
 
 const usePosthog = () => {
-  const { chapter } = useAuth();
   const posthog = usePosthogNative();
 
+  // Capture an event with optional properties
   const capture = (event: string, properties?: Record<string, any>) => {
     if (!posthog) {
       return;
     }
 
-    // Posthog automatically removes undefined values
-    const eventData = {
-      chapter_name: chapter?.name,
-      chapter_email: chapter?.email,
-      ...properties,
-    };
-
     handle(() => {
-      posthog.capture(event, eventData);
+      posthog.capture(event, properties);
     });
   };
 
-  return { capture };
+  // Identify the user with a distinct ID and properties
+  const identify = (distinctId: string, properties?: Record<string, any>) => {
+    if (!posthog) {
+      return;
+    }
+
+    handle(() => {
+      posthog.identify(distinctId, properties);
+    });
+  };
+
+  // Reset the user's session
+  const reset = () => {
+    if (!posthog) {
+      return;
+    }
+
+    handle(() => {
+      posthog.reset();
+    });
+  };
+
+  return { capture, identify, reset };
 };
 
 export default usePosthog;
