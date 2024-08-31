@@ -62,10 +62,10 @@ const App = () => {
             <PreferencesProvider>
               <MetadataProvider>
                 <QonversionProvider>
-                  <AuthProvider>
-                    <NavigationProvider>
-                      <AxiosIntercepter>
-                        <PosthogProvider>
+                  <NavigationProvider>
+                    <PosthogProvider>
+                      <AuthProvider>
+                        <AxiosIntercepter>
                           <GestureHandlerRootView style={{ flex: 1 }}>
                             <BottomSheetModalProvider>
                               <BottomSheetProvider>
@@ -81,10 +81,10 @@ const App = () => {
                             {/* We need the toast outside of the bottom sheet modal provider so it shows up on top of bottom sheets */}
                             <Toast config={toastConfig} />
                           </GestureHandlerRootView>
-                        </PosthogProvider>
-                      </AxiosIntercepter>
-                    </NavigationProvider>
-                  </AuthProvider>
+                        </AxiosIntercepter>
+                      </AuthProvider>
+                    </PosthogProvider>
+                  </NavigationProvider>
                 </QonversionProvider>
               </MetadataProvider>
             </PreferencesProvider>

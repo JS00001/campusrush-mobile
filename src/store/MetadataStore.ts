@@ -19,7 +19,6 @@ import customAsyncStorage from '@/lib/asyncStorage';
 
 interface IMetadataStore {
   metadata: Partial<Metadata>;
-
   setMetadata: (metadata: GetMetadataResponse) => void;
 }
 

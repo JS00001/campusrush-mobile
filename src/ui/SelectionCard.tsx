@@ -46,7 +46,7 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
   hideChildrenWhenUnselected,
   ...props
 }) => {
-  const label = props["ph-label"] || `selection_card_"${title}"`;
+  const label = props["ph-label"] || `selection-card-"${title}"`;
   disabled = disabled || loading;
 
   const Children = (() => {

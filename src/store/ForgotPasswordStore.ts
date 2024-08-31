@@ -12,20 +12,22 @@
 
 import { create } from 'zustand';
 
-interface IForgotPasswordStore {
+interface IForgotPasswordState {
   email?: string;
   code?: string;
   password?: string;
   confirmPassword?: string;
+}
+
+interface IForgotPasswordStore extends IForgotPasswordState {
+  /** Clear the store */
   clear: () => void;
-  setField: (field: keyof IForgotPasswordStore, value?: string) => void;
+  /** Set a field in the store */
+  setField: (field: keyof IForgotPasswordState, value?: string) => void;
 }
 
 export const useForgotPasswordStore = create<IForgotPasswordStore>((set) => {
-  /**
-   * Initial state for the forgot password store
-   */
-  const initialState = {
+  const initialState: IForgotPasswordState = {
     email: undefined,
     code: undefined,
     password: undefined,

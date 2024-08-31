@@ -116,6 +116,7 @@ const PnmsView = () => {
     <>
       <View style={tw`flex-row w-full gap-x-1`}>
         <TextInput
+          ph-label="search-pnms"
           autoCorrect={false}
           icon="search-line"
           placeholder={placeholder}

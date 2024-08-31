@@ -18,23 +18,27 @@ import type { IEvent } from '@/types';
 import date from '@/lib/util/date';
 import customAsyncStorage from '@/lib/asyncStorage';
 
-interface IEventStore {
+interface IEventState {
   events: IEvent[];
+}
 
+interface IEventStore extends IEventState {
+  /** Clear the store */
   clear: () => void;
+  /** Set the events in the store */
   setEvents: (events: IEvent[]) => void;
+  /** Get an event by id */
   getEvent: (id: string) => IEvent | undefined;
+  /** Add or update an event in the store */
   addOrUpdateEvent: (event: IEvent) => void;
+  /** Delete an event from the store */
   deleteEvent: (id: string) => void;
 }
 
 export const useEventStore = create<IEventStore>()(
   persist(
     (set, get) => {
-      /**
-       * Initial state of the store
-       */
-      const initialState = {
+      const initialState: IEventState = {
         events: [],
       };
       /**

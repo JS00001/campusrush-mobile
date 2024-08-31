@@ -24,3 +24,5 @@ export * from './messaging/ConversationStore';
 
 export * from './overlay/ImageZoomStore';
 export * from './overlay/StatusStore';
+
+export * from './admin/StatisticsStore';

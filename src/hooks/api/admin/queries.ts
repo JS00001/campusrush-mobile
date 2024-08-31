@@ -20,8 +20,10 @@ import {
   getAdminChapter,
   getAdminChapterEntitlements,
   getAdminChapters,
+  getAdminStatistics,
 } from '@/api';
 import { useAuth } from '@/providers/Auth';
+import { useAdminStatisticsStore } from '@/store';
 
 export const useGetAdminChapters = () => {
   const { accessToken } = useAuth();
@@ -92,5 +94,33 @@ export const useGetAdminChapterEntitlements = (id: string) => {
   return {
     ...query,
     entitlements,
+  };
+};
+
+export const useGetAdminStatistics = () => {
+  const { accessToken } = useAuth();
+  const statisticsStore = useAdminStatisticsStore();
+  const [isLoading, setIsLoading] = useState(true);
+
+  const query = useQuery(['adminStatistics', accessToken], {
+    queryFn: async () => {
+      return getAdminStatistics();
+    },
+  });
+
+  useEffect(() => {
+    if (!query.data || 'error' in query.data) {
+      setIsLoading(query.isLoading);
+      return;
+    }
+
+    statisticsStore.setState(query.data.data);
+  }, [query.data]);
+
+  return {
+    ...query,
+    ...statisticsStore,
+    isLoading:
+      isLoading && !Object.values(statisticsStore).some((stat) => stat.current),
   };
 };

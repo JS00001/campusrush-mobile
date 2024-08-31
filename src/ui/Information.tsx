@@ -51,6 +51,7 @@ const Information: React.FC<InformationProps> = ({
   onPress,
   ...props
 }) => {
+  const label = props["ph-label"] || "information";
   const [isVisible, setIsVisible] = useState(false);
 
   /**
@@ -74,7 +75,7 @@ const Information: React.FC<InformationProps> = ({
 
   if (!tooltip) {
     return (
-      <View style={containerStyles} {...props}>
+      <View ph-label={label} style={containerStyles} {...props}>
         <Icon
           name="information-line"
           size={InformationSizes[size].size}
@@ -93,7 +94,7 @@ const Information: React.FC<InformationProps> = ({
       onClose={handlePress}
       parentWrapperStyle={style}
     >
-      <View style={containerStyles} {...props}>
+      <View ph-label={label} style={containerStyles} {...props}>
         <Icon
           name="information-line"
           size={InformationSizes[size].size}

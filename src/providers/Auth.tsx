@@ -12,6 +12,7 @@
 
 import axios from "axios";
 import * as Device from "expo-device";
+import Toast from "react-native-toast-message";
 import { useMutation, UseMutationResult } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Qonversion, { UserPropertyKey } from "react-native-qonversion";
@@ -27,6 +28,7 @@ import type {
 import AppConstants from "@/constants";
 import { useGlobalStore } from "@/store";
 import { useQonversion } from "@/providers/Qonversion";
+import usePosthog from "@/hooks/usePosthog";
 
 interface IUserData {
   chapter: IChapter;
@@ -60,8 +62,10 @@ const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const posthog = usePosthog();
   const globalStore = useGlobalStore();
   const { checkEntitlements } = useQonversion();
+
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState<IUserData>({
     accessToken: null,
@@ -129,15 +133,11 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const fetchChapterData = async () => {
       const refreshToken = await AsyncStorage.getItem("refreshToken");
 
-      if (!refreshToken) {
-        throw new Error("No refresh token found");
-      }
+      if (!refreshToken) return;
 
       const response = await refreshTokenMutation.mutateAsync(refreshToken);
 
-      if ("error" in response) {
-        throw new Error("Could not refresh token");
-      }
+      if ("error" in response) return;
 
       const accessToken = response.data.accessToken;
 
@@ -153,7 +153,14 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     fetchChapterData()
-      .catch(() => clearUserData())
+      .catch(() => {
+        Toast.show({
+          type: "error",
+          text1: "Error Fetching Account",
+          text2:
+            "Couldn't fetch account data. Is your connection stable? Please try again.",
+        });
+      })
       .finally(() => setIsLoading(false));
   }, []);
 
@@ -173,6 +180,10 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       UserPropertyKey.EMAIL,
       chapter.email,
     );
+
+    posthog.identify(chapter._id, {
+      role: chapter.role,
+    });
 
     await checkEntitlements();
     await AsyncStorage.setItem("refreshToken", refreshToken);
@@ -216,7 +227,9 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       chapter: {} as IChapter,
     });
 
+    posthog.reset();
     Qonversion.getSharedInstance().logout();
+
     await checkEntitlements();
   };
 

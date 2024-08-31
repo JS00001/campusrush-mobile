@@ -17,23 +17,27 @@ import type { IPNM } from '@/types';
 
 import customAsyncStorage from '@/lib/asyncStorage';
 
-interface IPnmStore {
+interface IPnmState {
   pnms: IPNM[];
+}
 
+interface IPnmStore extends IPnmState {
+  /** Clear the store */
   clear: () => void;
+  /** Set the PNMs in the store */
   setPnms: (pnms: IPNM[]) => void;
+  /** Get a PNM by ID */
   getPnm: (id: string) => IPNM | undefined;
+  /** Add or update a PNM in the store */
   addOrUpdatePnm: (pnm: IPNM) => void;
+  /** Delete a PNM from the store */
   deletePnm: (id: string) => void;
 }
 
 export const usePnmStore = create<IPnmStore>()(
   persist(
     (set, get) => {
-      /**
-       * Initial state of the store
-       */
-      const initialState = {
+      const initialState: IPnmState = {
         pnms: [],
       };
       /**

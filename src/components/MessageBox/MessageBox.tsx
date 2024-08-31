@@ -254,6 +254,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
 
           <View style={inputContainerClasses}>
             <IconButton
+              ph-label="show-extensions"
               size="sm"
               color="secondary"
               iconName={extensionsVisible ? "close-line" : "add-fill"}
@@ -263,13 +264,15 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
             />
 
             <TextInput
+              ph-label="message-box"
               passedRef={textInputRef}
-              placeholder="Send a message"
               value={value}
               setValue={setValue}
+              placeholder="Send a message"
             />
 
             <IconButton
+              ph-label="send-message"
               size="sm"
               color="secondary"
               iconName="send-plane-2-fill"

@@ -34,6 +34,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, setView }) => {
         title="Add PNM Manually"
         subtitle="Add a PNMs info manually"
         icon="user-voice-fill"
+        ph-label="add-pnm-manually"
         onPress={nextView}
       />
       <ListItem
@@ -41,6 +42,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, setView }) => {
         title="Share QR Code or Link"
         subtitle="Share a QR code with a PNM"
         icon="qr-code-fill"
+        ph-label="share-qr-code"
         onPress={onQrCodePress}
       />
     </>
