@@ -204,10 +204,11 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
             />
 
             <TextInput
+              ph-label="message-box"
               passedRef={textInputRef}
-              placeholder="Send a message"
               value={value}
               setValue={setValue}
+              placeholder="Send a message"
             />
 
             <IconButton

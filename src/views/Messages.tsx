@@ -87,6 +87,7 @@ const MessagesView = () => {
     <>
       <View style={tw`flex-row w-full gap-x-1`}>
         <TextInput
+          ph-label="search-conversations"
           autoCorrect={false}
           icon="search-line"
           placeholder={"Search Conversations"}
