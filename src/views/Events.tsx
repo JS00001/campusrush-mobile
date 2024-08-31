@@ -124,6 +124,7 @@ const EventsView = () => {
     <>
       <View style={tw`flex-row w-full gap-x-1`}>
         <TextInput
+          ph-label="search-events"
           autoCorrect={false}
           icon="search-line"
           placeholder={placeholder}

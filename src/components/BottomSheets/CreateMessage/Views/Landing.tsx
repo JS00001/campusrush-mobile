@@ -140,6 +140,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({
       </View>
 
       <TextInput
+        ph-label="search-contacts"
         autoCorrect={false}
         icon="search-line"
         placeholder={placeholder}
