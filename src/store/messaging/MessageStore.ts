@@ -74,17 +74,25 @@ export const useMessageStore = create<IMessageStore>()((set, get) => {
     return set((state) => {
       const messagesArray = Array.isArray(messages) ? messages : [messages];
 
-      // Group messages by pnmId
       const groupedMessages = messagesArray.reduce((acc, message) => {
         const pnmId = message.pnm;
+        const messageId = message._id;
 
-        const existingMessages = state.messages[pnmId] || [];
-        const currentMessages = acc[pnmId] || [];
+        if (!acc[pnmId]) {
+          acc[pnmId] = state.messages[pnmId] ? [...state.messages[pnmId]] : [];
+        }
 
-        return {
-          ...acc,
-          [pnmId]: [message, ...currentMessages, ...existingMessages],
-        };
+        const existingMessageIndex = acc[pnmId].findIndex((msg: IMessage) => {
+          return msg._id === messageId;
+        });
+
+        if (existingMessageIndex !== -1) {
+          acc[pnmId][existingMessageIndex] = message;
+        } else {
+          acc[pnmId].unshift(message);
+        }
+
+        return acc;
       }, {});
 
       // Add the grouped messages to the store

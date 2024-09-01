@@ -21,7 +21,9 @@ export interface IMessage {
   /** Whether the chapter sent this message or not */
   sent: boolean;
   /** The content of the message */
-  content: string;
+  content?: string;
+  /** Attachment URLs from the message */
+  attachments: string[];
   /** The time the message was created */
   createdAt: Date;
   /** The time the message was last updated */

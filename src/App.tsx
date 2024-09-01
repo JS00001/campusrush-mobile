@@ -12,7 +12,6 @@
 
 import "react-native-console-time-polyfill";
 import { registerRootComponent } from "expo";
-import Toast from "react-native-toast-message";
 import Qonversion from "react-native-qonversion";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -20,16 +19,15 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { startNetworkLogging } from "react-native-network-logger";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import toastConfig from "@/lib/toast";
 import queryClient from "@/lib/queryClient";
 import AuthProvider from "@/providers/Auth";
 import UpdateProvider from "@/providers/Update";
 import qonversionConfig from "@/lib/qonversion";
 import AxiosIntercepter from "@/providers/Axios";
 import NetworkProvider from "@/providers/Network";
+import OverlayProvider from "@/providers/Overlay";
 import MetadataProvider from "@/providers/Metadata";
 import WebsocketProvider from "@/providers/websocket";
-import StatusOverlay from "@/components/StatusOverlay";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
 import QonversionProvider from "@/providers/Qonversion";
@@ -66,18 +64,17 @@ const App = () => {
                       <AuthProvider>
                         <AxiosIntercepter>
                           <GestureHandlerRootView style={{ flex: 1 }}>
-                            <BottomSheetModalProvider>
-                              <BottomSheetProvider>
-                                <WebsocketProvider>
-                                  <GestureDetectorProvider>
-                                    <RootNavigator />
-                                    <StatusOverlay />
-                                  </GestureDetectorProvider>
-                                </WebsocketProvider>
-                              </BottomSheetProvider>
-                            </BottomSheetModalProvider>
-                            {/* We need the toast outside of the bottom sheet modal provider so it shows up on top of bottom sheets */}
-                            <Toast config={toastConfig} />
+                            <OverlayProvider>
+                              <BottomSheetModalProvider>
+                                <BottomSheetProvider>
+                                  <WebsocketProvider>
+                                    <GestureDetectorProvider>
+                                      <RootNavigator />
+                                    </GestureDetectorProvider>
+                                  </WebsocketProvider>
+                                </BottomSheetProvider>
+                              </BottomSheetModalProvider>
+                            </OverlayProvider>
                           </GestureHandlerRootView>
                         </AxiosIntercepter>
                       </AuthProvider>

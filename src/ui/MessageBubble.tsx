@@ -10,32 +10,29 @@
  * Do not distribute
  */
 
-import { View, ViewProps } from "react-native";
+import { Image } from "expo-image";
+import { Pressable, View, ViewProps } from "react-native";
+
+import type { TimestampedMessage } from "@/lib/messages";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import CopyAction from "@/ui/CopyAction";
+import { useImageZoomStore } from "@/store";
 import WebsitePreview from "@/ui/WebsitePreview";
 
 interface MessageBubbleProps extends ViewProps {
-  content: string;
-  sent: boolean;
-  date?: string;
-  createdAt?: string;
-  style?: any;
+  message: TimestampedMessage;
 }
 
-const MessageBubble: React.FC<MessageBubbleProps> = ({
-  content,
-  sent,
-  date,
-  createdAt,
-  style,
-  ...props
-}) => {
+const MessageBubble: React.FC<MessageBubbleProps> = ({ message, ...props }) => {
+  const { setImage } = useImageZoomStore();
+
   // Check if the content is exclusively a link with NO other text
-  const isHyperlink = content.match(/^https?:\/\/\S+$/);
+  const isHyperlink = message.content?.match(/^https?:\/\/\S+$/);
   const hyperlinkUrl = isHyperlink ? isHyperlink[0] : null;
+
+  const createdAt = message.showTimestamp ? message.createdAt : undefined;
+  const createdOn = message.showDate ? message.date : undefined;
 
   const createdDate = new Date(createdAt ?? "");
   const createdTime = createdDate.toLocaleTimeString([], {
@@ -44,23 +41,39 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   });
 
   const messagePositioning = tw.style(
-    sent && "self-end",
-    !sent && "self-start",
+    message.sent && "self-end",
+    !message.sent && "self-start",
   );
 
-  const containerStyles = tw.style(
+  const bubbleStyles = tw.style(
     "rounded-xl p-2.5 max-w-5/6",
-    sent && "bg-blue-600",
-    !sent && "bg-gray-100",
+    message.sent && "bg-blue-600",
+    !message.sent && "bg-gray-100",
     messagePositioning,
-    style,
   );
 
-  const textStyles = tw.style(
+  const bubbleTextContentStyles = tw.style(
     "text-base",
-    sent && "text-white",
-    !sent && "text-black",
+    message.sent && "text-white",
+    !message.sent && "text-black",
   );
+
+  const imageContainerShadow = tw.style(messagePositioning, {
+    borderRadius: 12,
+    backgroundColor: "#fff",
+    maxWidth: "80%",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+  });
+
+  const imageStyles = tw.style("w-full max-h-64 rounded-xl", {
+    aspectRatio: 1,
+  });
 
   const timestampStyles = tw.style("text-gray-500 pt-2", messagePositioning);
 
@@ -68,27 +81,37 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
 
   return (
     <View>
-      {/* If a date is provided, show it */}
-      {date && (
+      {/* If we want to show the date, show it */}
+      {createdOn && (
         <Text type="p4" style={dateStyles}>
-          {date}
+          {createdOn}
         </Text>
       )}
 
-      {/* The message bubble/content itself */}
-      <CopyAction title="Copy Message" content={content}>
-        {/* If we have a link, JUST send the link preview */}
+      {/* The message content (url, image, reaction, bubble) */}
+      <View style={tw`gap-y-2`}>
+        {/* Link Previews */}
         {hyperlinkUrl && (
           <WebsitePreview url={hyperlinkUrl} style={messagePositioning} />
         )}
 
-        {/* If no link, just send the normal bubble (blue/gray) */}
-        {!hyperlinkUrl && (
-          <View style={containerStyles} {...props}>
-            <Text style={textStyles}>{content}</Text>
+        {/* Image Attachments */}
+        {message.attachments?.map((attachment, i) => {
+          const onPress = () => setImage(attachment);
+          return (
+            <Pressable key={i} style={imageContainerShadow} onPress={onPress}>
+              <Image source={{ uri: attachment }} style={imageStyles} />
+            </Pressable>
+          );
+        })}
+
+        {/* Message Bubble */}
+        {!hyperlinkUrl && message.content && (
+          <View style={bubbleStyles} {...props}>
+            <Text style={bubbleTextContentStyles}>{message.content}</Text>
           </View>
         )}
-      </CopyAction>
+      </View>
 
       {/* If there is a createdAt time, show it */}
       {createdAt && (

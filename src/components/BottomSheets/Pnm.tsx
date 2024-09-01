@@ -89,7 +89,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
 
           Toast.show({
             type: "success",
-            text1: "PNM deleted",
+            text1: "PNM Deleted",
             text2: `${displayName} has been removed from your contacts`,
           });
 
