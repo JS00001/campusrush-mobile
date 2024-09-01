@@ -117,7 +117,7 @@ const HomeView = () => {
         </View>
 
         {/* Recently Added PNMs */}
-        <View style={tw`gap-2`}>
+        <View style={tw`gap-2 w-full`}>
           <Text type="h2">Recently Added PNMs</Text>
           <FlatList
             scrollEnabled={false}

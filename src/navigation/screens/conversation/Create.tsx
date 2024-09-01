@@ -50,7 +50,7 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
     setStatusOverlay("loading");
 
     for (const message of messages) {
-      if (!message.content?.length || !message.attachments.length) continue;
+      if (!message.content?.length && !message.attachments.length) continue;
 
       const payload: SendMassMessageRequest = {
         message: message.content,

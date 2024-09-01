@@ -39,8 +39,12 @@ const ImageAttachment: React.FC<ImageAttachmentProps> = ({
   };
 
   const containerStyles = tw.style(
-    "rounded-lg bg-slate-100 border border-slate-200",
-    "h-15 w-15",
+    "h-15 w-15 rounded-xl",
+    "bg-slate-100 border border-slate-300",
+  );
+
+  const removeButtonStyles = tw.style(
+    "absolute -top-3.5 -right-3.5 rounded-full p-2",
   );
 
   return (
@@ -48,13 +52,10 @@ const ImageAttachment: React.FC<ImageAttachmentProps> = ({
       <Image
         source={IMAGE_URL}
         contentFit="cover"
-        style={tw.style(`flex-1`, { borderRadius: 8 })}
+        style={tw.style(`flex-1`, { borderRadius: 11 })}
       />
 
-      <TouchableOpacity
-        style={tw`absolute -top-3.5 -right-3.5 rounded-full p-2`}
-        onPress={handleRemovePress}
-      >
+      <TouchableOpacity style={removeButtonStyles} onPress={handleRemovePress}>
         <View style={tw`bg-slate-500 rounded-full p-0.5`}>
           <Icon name="close-line" size={14} color={tw.color("white")} />
         </View>

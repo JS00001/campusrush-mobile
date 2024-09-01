@@ -124,10 +124,9 @@ const Chat: React.FC<Props> = ({ route }) => {
     for (let i = 0; i < messages.length; i++) {
       const message = messages[i];
 
-      if (!message.content?.length && !message.attachments.length) return;
+      if (!message.content?.length && !message.attachments.length) continue;
 
       const messageId = `temp-${i}`;
-
       const newMessage: IMessage = {
         _id: messageId,
         sent: true,

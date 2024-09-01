@@ -17,13 +17,16 @@ import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";
 
 const ImageLoading = () => {
+  const removeButtonStyles = tw.style(
+    "absolute -top-3.5 -right-3.5 rounded-full p-2",
+    "disabled",
+  );
+
   return (
     <View>
-      <Skeleton height={62} width={62} borderRadius={12} />
-      <TouchableOpacity
-        disabled
-        style={tw`absolute -top-3.5 -right-3.5 rounded-full p-2 disabled`}
-      >
+      <Skeleton height={60} width={60} borderRadius={12} />
+
+      <TouchableOpacity disabled style={removeButtonStyles}>
         <View style={tw`bg-slate-500 rounded-full p-0.5`}>
           <Icon name="close-line" size={14} color={tw.color("white")} />
         </View>
