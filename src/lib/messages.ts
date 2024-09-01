@@ -12,7 +12,7 @@
 
 import type { IMessage } from '@/types';
 
-interface TimestampedMessage extends IMessage {
+export interface TimestampedMessage extends IMessage {
   date?: string;
   showTimestamp?: boolean;
   showDate?: boolean;

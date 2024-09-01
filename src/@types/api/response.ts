@@ -309,6 +309,11 @@ export type GetWebsiteMetadataResponse = {
   image?: string;
 };
 
+export type UploadAttachmentResponse = API.Response<{
+  /** Attachment URL */
+  url: string;
+}>;
+
 export type GetAdminStatisticsResponse = API.Response<{
   /** The number of chapters */
   chapters: number;

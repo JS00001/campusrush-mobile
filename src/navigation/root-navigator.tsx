@@ -40,9 +40,9 @@ const RootNavigator = () => {
     DMSans_700Bold,
   });
 
-  const { isLoading: isAuthLoading, chapter } = useAuth();
-  const { isLoading: isPreferencesLoading } = usePreferences();
   const { isLoading: isMetadataLoading } = useMetadata();
+  const { isLoading: isPreferencesLoading } = usePreferences();
+  const { isLoading: isAuthLoading, refreshToken, chapter } = useAuth();
   const { isLoading: isQonversionLoading, entitlements } = useQonversion();
 
   const shouldHideSplashScreen = () => {
@@ -69,13 +69,13 @@ const RootNavigator = () => {
   ]);
 
   // If the user is loading, we can't render the app
-  if (isAuthLoading && lodash.isEmpty(chapter)) return null;
+  if (isAuthLoading && !refreshToken && !chapter) return null;
 
   // If the fonts are not loaded or the user is loading, we can't render the app
   if (!fontsLoaded || isAuthLoading) return null;
 
   // If the user is not logged in, we show the AuthStack
-  if (lodash.isEmpty(chapter)) return <AuthStack />;
+  if (!refreshToken) return <AuthStack />;
 
   // If the user is not verified, we show the VerificationStack
   if (!chapter?.verified) return <VerificationStack />;

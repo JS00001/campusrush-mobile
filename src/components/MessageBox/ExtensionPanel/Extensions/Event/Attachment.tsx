@@ -12,95 +12,56 @@
 
 import {
   ActivityIndicator,
-  Animated,
-  Image,
   TouchableOpacity,
   View,
   ViewProps,
 } from "react-native";
-import { useEffect, useRef } from "react";
-
-import type { IEvent } from "@/types";
 
 import Text from "@/ui/Text";
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
-import AppConstants from "@/constants";
 import useWebsiteMetadata from "@/hooks/useWebsiteMetadata";
 
 interface EventAttachmentProps extends ViewProps {
-  event: IEvent;
-  style?: any;
-  disabled?: boolean;
-  onPress?: (event: IEvent) => void;
+  event: string;
+  onRemove?: (event: string) => void;
 }
 
 const EventAttachment: React.FC<EventAttachmentProps> = ({
   event,
-  style,
-  onPress,
-  disabled,
+  onRemove,
   ...props
 }) => {
-  const LOADING_CARD_HEIGHT = 64;
-  const PREVIEW_CARD_HEIGHT = 144;
-  const EVENT_URL = `${AppConstants.eventUrl}/${event._id}`;
+  const EVENT_URL = event;
 
   /**
    * Fetch the metadata for the URL
    */
   const query = useWebsiteMetadata(EVENT_URL);
 
-  // If there is a cached value, we dont want the card to wierdly animate
-  const initialHeight = query.isFetched
-    ? PREVIEW_CARD_HEIGHT
-    : LOADING_CARD_HEIGHT;
-
-  const height = useRef(new Animated.Value(initialHeight));
-
-  /**
-   * When the isLoading changes, we want to animate the height of the container
-   * so the transition from loader to content is smooth
-   */
-  useEffect(() => {
-    Animated.timing(height.current, {
-      toValue: query.isLoading ? LOADING_CARD_HEIGHT : PREVIEW_CARD_HEIGHT,
-      duration: 300,
-      useNativeDriver: false,
-    }).start();
-  }, [query.isLoading]);
-
   /**
    * On press, remove the attachment
    */
-  const handlePress = () => {
-    if (onPress) {
-      onPress(event);
+  const handleRemovePress = () => {
+    if (onRemove) {
+      onRemove(event);
     }
   };
 
-  const containerStyles = tw.style(
-    "w-56 rounded-lg bg-slate-100",
-    { maxHeight: height.current },
-    style,
-  );
+  const containerStyles = tw.style("w-56 rounded-lg bg-slate-100", "h-15");
 
   if (query.isLoading) {
     return (
-      <Animated.View style={containerStyles}>
+      <View style={containerStyles}>
         <View style={tw`w-full h-full justify-center items-center`}>
           <ActivityIndicator size="small" />
         </View>
-      </Animated.View>
+      </View>
     );
   }
 
   return (
-    <Animated.View style={containerStyles} {...props}>
-      <View style={tw`w-full h-20 rounded-t-lg overflow-hidden`}>
-        <Image style={tw`w-full h-full`} src={query.image} />
-      </View>
-
+    <View style={containerStyles} {...props}>
       <View style={tw`p-2`}>
         <Text type="p4" style={tw`text-primary font-medium`} numberOfLines={2}>
           {query.title || "No title found"}
@@ -112,13 +73,13 @@ const EventAttachment: React.FC<EventAttachmentProps> = ({
 
       <TouchableOpacity
         style={tw`absolute -top-3.5 -right-3.5 rounded-full p-2`}
-        onPress={handlePress}
+        onPress={handleRemovePress}
       >
         <View style={tw`bg-slate-500 rounded-full p-0.5`}>
           <Icon name="close-line" size={14} color={tw.color("white")} />
         </View>
       </TouchableOpacity>
-    </Animated.View>
+    </View>
   );
 };
 

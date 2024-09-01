@@ -1,7 +1,7 @@
 {
   "name": "campusrush-mobile",
-  "version": "1.0.75",
-  "updateVersion": "2024.8.30.3",
+  "version": "1.0.76",
+  "updateVersion": "2024.9.1.1",
   "main": "src/App.tsx",
   "license": "All Rights Reserved",
   "scripts": {
@@ -16,6 +16,7 @@
     "@directus/sdk": "^13.0.1",
     "@expo-google-fonts/dm-sans": "^0.2.3",
     "@gorhom/bottom-sheet": "^4.5.1",
+    "@likashefqet/react-native-image-zoom": "^4.1.0",
     "@react-native-async-storage/async-storage": "1.21.0",
     "@react-native-community/datetimepicker": "7.7.0",
     "@react-native-menu/menu": "^0.8.0",
@@ -39,6 +40,7 @@
     "expo-font": "~11.10.3",
     "expo-haptics": "~12.8.1",
     "expo-image": "~1.10.6",
+    "expo-image-picker": "~14.7.1",
     "expo-linear-gradient": "~12.7.2",
     "expo-localization": "~14.8.4",
     "expo-network": "~5.8.0",

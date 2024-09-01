@@ -10,6 +10,12 @@
  * Do not distribute
  */
 
+import {
+  View,
+  Keyboard,
+  TextInput as RNTextInput,
+  ScrollView,
+} from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -17,27 +23,31 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useRef, useState } from "react";
-import { View, Keyboard, TextInput as RNTextInput } from "react-native";
+import Toast from "react-native-toast-message";
 
-import type { IEvent } from "@/types";
-import type { ExtensionPanelRef } from "@/types/messageBox";
+import type {
+  IAttachments,
+  ExtensionPanelRef,
+  IMessageContent,
+} from "@/types/messageBox";
 
 import TextInput from "./TextInput";
 import ExtensionPanel from "./ExtensionPanel";
 import TextSuggestions from "./TextSuggestions";
+import ImageLoading from "./ExtensionPanel/Extensions/Image/Loading";
+import ImageAttachment from "./ExtensionPanel/Extensions/Image/Attachment";
 import EventAttachment from "./ExtensionPanel/Extensions/Event/Attachment";
 
 import tw from "@/lib/tailwind";
 import AppConstants from "@/constants";
 import IconButton from "@/ui/IconButton";
-import { eventsRegex } from "@/constants/regex";
 import Walkthroughs from "@/components/Walkthroughs";
 import { usePreferences } from "@/providers/Preferences";
 import useKeyboardListener from "@/hooks/useKeyboardListener";
 
 interface MessageBoxProps {
   disableSend?: boolean;
-  onSend: (messages: string[]) => void;
+  onSend: (messages: IMessageContent[]) => void;
 }
 
 const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
@@ -47,9 +57,16 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
   const inputMarginBottom = useSharedValue(0);
   const { messagingTooltipSeen, updatePreferences } = usePreferences();
 
-  const [value, setValue] = useState<string>("");
-  const [attachment, setAttachment] = useState<IEvent | null>(null);
-  const [extensionsVisible, _setExtensionsVisible] = useState<boolean>(false);
+  const [value, setValue] = useState("");
+  const [pendingAttachments, setPendingAttachments] = useState(0);
+  const [extensionsVisible, _setExtensionsVisible] = useState(false);
+  const [attachments, setAttachments] = useState<IAttachments>({
+    images: [],
+    events: [],
+  });
+
+  const hasAttachments =
+    !!attachments.events.length || !!attachments.images.length;
 
   /**
    * Adjust the margin of the message box based on the
@@ -119,29 +136,47 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
    * Send the message/attachment and reset the state
    */
   const onSendPress = () => {
-    let messages = [value];
+    // If the value is empty, set the content to undefined, so that we just send
+    // the attachments
+    let content = value || undefined;
+    let messages = [{ content, attachments: attachments.images }];
+    let events = attachments.events.map((event) => ({
+      content: event,
+      attachments: [],
+    }));
 
-    // If an attachment is attached, add it to the message
-    if (attachment) {
-      messages = [`${AppConstants.eventUrl}/${attachment._id}`, ...messages];
-    }
+    messages = [...messages, ...events];
 
     // Check if any entries in the array are empty, if so, remove them, if all are empty, return
-    messages = messages.filter((message) => message.length);
+    messages = messages.filter((message) => {
+      return message.content?.length || message.attachments.length;
+    });
 
     if (!messages.length) return;
 
     onSend(messages);
     setValue("");
-    setAttachment(null);
+    setAttachments({ images: [], events: [] });
   };
 
   /**
-   * Remove the current attachment
+   * Remove the current event
    */
-  const removeAttachment = () => {
-    setValue(value.replace(eventsRegex, ""));
-    setAttachment(null);
+  const removeEvent = (event: string) => {
+    setAttachments((attachments) => ({
+      ...attachments,
+      events: [],
+    }));
+  };
+
+  /**
+   * Remove an image attachment
+   */
+  const removeImage = (image: string) => {
+    setAttachments((attachments) => ({
+      ...attachments,
+      images: attachments.images.filter((img) => img !== image),
+    }));
   };
 
   /**
@@ -159,14 +194,15 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
   });
 
   const containerClasses = tw.style(
-    "gap-2.5 px-3 py-2 border-t items-start",
-    "border-slate-100 ",
+    "px-3 py-2 border-t items-start",
+    "border-slate-100",
+    !!(hasAttachments || pendingAttachments) && "gap-y-2.5",
   );
 
   const inputContainerClasses = tw.style("flex-row gap-1 items-center");
 
   // Whether or not the send button should be disabled (if there is no message)
-  const isButtonDisabled = (!value.length && attachment == null) || disableSend;
+  const isButtonDisabled = (!value.length && !hasAttachments) || disableSend;
 
   return (
     <>
@@ -178,9 +214,11 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
 
       <ExtensionPanel
         ref={extensionPanelRef}
-        visible={extensionsVisible}
-        setAttachment={setAttachment}
+        attachments={attachments}
+        pendingAttachments={pendingAttachments}
         setVisible={setExtensionsVisible}
+        setAttachments={setAttachments}
+        setPendingAttachments={setPendingAttachments}
       />
 
       <Walkthroughs.MessageBoxWalkthrough
@@ -188,9 +226,32 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
         onClose={onWalkthroughClose}
       >
         <Animated.View style={[containerClasses, animatedInputStyle]}>
-          {attachment && (
-            <EventAttachment event={attachment} onPress={removeAttachment} />
-          )}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={tw`overflow-visible`}
+            contentContainerStyle={tw`flex-row gap-2`}
+          >
+            {attachments.events.map((event) => (
+              <EventAttachment
+                key={event}
+                event={event}
+                onRemove={removeEvent}
+              />
+            ))}
+
+            {attachments.images.map((image) => (
+              <ImageAttachment
+                key={image}
+                image={image}
+                onRemove={removeImage}
+              />
+            ))}
+
+            {new Array(pendingAttachments).fill(null).map((_, index) => (
+              <ImageLoading key={index} />
+            ))}
+          </ScrollView>
 
           <View style={inputContainerClasses}>
             <IconButton

@@ -51,6 +51,7 @@ export default {
   plugins: [
     'expo-font',
     'expo-localization',
+    'expo-image-picker',
     [
       '@sentry/react-native/expo',
       {
