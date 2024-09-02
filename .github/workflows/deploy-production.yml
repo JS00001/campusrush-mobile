@@ -66,6 +66,7 @@ jobs:
         run: eas update --channel production --non-interactive --platform ios --message 'update production'
 
       - name: ⚙️ Upload sourcemaps to sentry
+        if: env.update == 'true'
         run: npx --yes sentry-expo-upload-sourcemaps dist
 
       - name: ✅ Report Status

@@ -4,8 +4,6 @@ Add the version here in the format of `<VERSION> - <UPDATE_VERSION>`. For exampl
 
 ## Features
 
-## Bug Fixes
-
 ## Checklist
 
 - [ ] I have updated the `package.json`'s `update-version` field to the new version.
