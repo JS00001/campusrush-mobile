@@ -38,7 +38,7 @@ const ViolationsSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
               return "syringe-fill";
             case "gore":
               return "emotion-unhappy-fill";
-            case "weapons":
+            case "weapon":
               return "knife-blood-fill";
             case "minors":
               return "parent-fill";
