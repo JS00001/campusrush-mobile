@@ -19,6 +19,7 @@ export * from './models/event';
 export * from './models/eventResponse';
 export * from './models/message';
 export * from './models/pnm';
+export * from './models/violation';
 export * from './models/refreshToken';
 
 export * from './api';

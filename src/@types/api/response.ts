@@ -20,6 +20,7 @@ import type { IPNM } from '../models/pnm';
 import type { IRefreshToken } from '../models/refreshToken';
 import type { Metadata } from '../app';
 import type { EntitlementDetails } from '../entitlements';
+import type { IViolation } from '../models/violation';
 
 export type LogoutResponse = API.Response<{}>;
 
@@ -332,3 +333,12 @@ export type GetAdminStatisticsResponse = API.Response<{
   /** The average number of messages per conversation */
   avgMessagesPerConversation: number;
 }>;
+
+export type GetViolationsResponse = API.Response<
+  {
+    /** The chapter who has the violation */
+    chapter: IChapter;
+    /** The list of violations */
+    violations: IViolation[];
+  }[]
+>;

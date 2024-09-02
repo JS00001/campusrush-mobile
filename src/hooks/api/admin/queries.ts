@@ -14,13 +14,14 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { Entitlement } from 'qonversion-sdk';
 
-import type { IChapter } from '@/types';
+import type { IChapter, IViolation } from '@/types';
 
 import {
   getAdminChapter,
   getAdminChapterEntitlements,
   getAdminChapters,
   getAdminStatistics,
+  getViolations,
 } from '@/api';
 import { useAuth } from '@/providers/Auth';
 import { useAdminStatisticsStore } from '@/store';
@@ -50,6 +51,39 @@ export const useGetAdminChapters = () => {
     ...query,
     chapters,
     isLoading: isLoading && !chapters.length,
+  };
+};
+
+export const useGetViolations = () => {
+  const { accessToken } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const [violations, setViolations] = useState<
+    {
+      chapter: IChapter;
+      violations: IViolation[];
+    }[]
+  >([]);
+
+  const query = useQuery(['violations', accessToken], {
+    queryFn: async () => {
+      return getViolations();
+    },
+  });
+
+  useEffect(() => {
+    if (!query.data || 'error' in query.data) {
+      setIsLoading(query.isLoading);
+      return;
+    }
+
+    setViolations(query.data.data);
+    setIsLoading(query.isLoading);
+  }, [query.data]);
+
+  return {
+    ...query,
+    violations,
+    isLoading: isLoading && !violations.length,
   };
 };
 

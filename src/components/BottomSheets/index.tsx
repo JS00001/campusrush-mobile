@@ -26,6 +26,7 @@ import TagSelectorSheet from "./TagSelector";
 import TermsOfServiceSheet from "./TermsOfService";
 import UpdatePnmSheet from "./UpdatePnm";
 import UpdateEventSheet from "./UpdateEvent";
+import ViolationsSheet from "./Violations";
 
 import type { IndividualSheetName } from "./@types";
 
@@ -46,6 +47,7 @@ const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   TERMS_OF_SERVICE: TermsOfServiceSheet,
   UPDATE_PNM: UpdatePnmSheet,
   UPDATE_EVENT: UpdateEventSheet,
+  VIOLATIONS: ViolationsSheet,
 };
 
 export default BottomSheets;
