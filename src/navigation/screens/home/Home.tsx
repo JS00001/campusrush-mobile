@@ -19,14 +19,8 @@ const HomeScreen = () => {
   return (
     <>
       <HomeBackground />
-
       <Layout.Root>
-        <Layout.Content
-          scrollable
-          removePadding
-          style={tw`bg-transparent`}
-          contentContainerStyle={tw`items-start`}
-        >
+        <Layout.Content removePadding style={tw`bg-transparent`}>
           <HomeView />
         </Layout.Content>
       </Layout.Root>

@@ -27,6 +27,7 @@ import { useAuth } from "@/providers/Auth";
 import Information from "@/ui/Information";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import { useBottomSheet } from "@/providers/BottomSheet";
+import RefreshControlView from "@/ui/RefreshControlView";
 import { useGetChapterStatistics } from "@/hooks/api/chapter";
 
 const HomeView = () => {
@@ -44,6 +45,10 @@ const HomeView = () => {
     });
   };
 
+  const onRefresh = async () => {
+    await statisticsQuery.refetch();
+  };
+
   const onRecentPnmPress = (pnm: IPNM) => {
     openBottomSheet("PNM", {
       pnmId: pnm._id,
@@ -59,7 +64,11 @@ const HomeView = () => {
   }
 
   return (
-    <>
+    <RefreshControlView
+      tintColor="white"
+      refreshing={statisticsQuery.isLoading}
+      onRefresh={onRefresh}
+    >
       {/* White background */}
       <View style={tw`bg-white absolute h-full -z-10 w-full top-56`} />
 
@@ -139,7 +148,7 @@ const HomeView = () => {
           />
         </View>
       </View>
-    </>
+    </RefreshControlView>
   );
 };
 
