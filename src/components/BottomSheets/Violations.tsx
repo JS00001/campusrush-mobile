@@ -10,17 +10,17 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
 import { titleCase } from "@/lib/util/string";
 import { BottomSheetProps, SheetData } from "./@types";
 
 import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 import ListItem from "@/ui/ListItem";
 import CopyAction from "@/ui/CopyAction";
 import { BottomSheet } from "@/ui/BottomSheet";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
-import { View } from "react-native";
-import tw from "@/lib/tailwind";
 
 const ViolationsSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   return (
