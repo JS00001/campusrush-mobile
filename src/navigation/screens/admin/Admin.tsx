@@ -25,6 +25,10 @@ const Admin: React.FC<Props> = ({ navigation }) => {
     navigation.navigate("AdminStatistics");
   };
 
+  const onViolationsPress = () => {
+    navigation.navigate("AdminViolations");
+  };
+
   const onUITestingPress = () => {
     navigation.navigate("AdminUITesting");
   };
@@ -55,9 +59,16 @@ const Admin: React.FC<Props> = ({ navigation }) => {
         <ListItem
           size="lg"
           title="Statistics"
-          subtitle="View all statistics for the application"
+          subtitle="View app statistics"
           icon="bar-chart-fill"
           onPress={onStatisticsPress}
+        />
+        <ListItem
+          size="lg"
+          title="Violations"
+          subtitle="View all content violations"
+          icon="shield-fill"
+          onPress={onViolationsPress}
         />
         <ListItem
           size="lg"

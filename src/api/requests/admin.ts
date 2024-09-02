@@ -23,6 +23,7 @@ import type {
   SendChapterNotificationRequest,
   SendChapterNotificationResponse,
   GetAdminStatisticsResponse,
+  GetViolationsResponse,
 } from '@/types';
 
 import { axiosClient } from '@/providers/Axios';
@@ -119,4 +120,16 @@ export const getAdminStatistics = async () => {
   const { data } = await axiosClient.get(url);
 
   return data as GetAdminStatisticsResponse;
+};
+
+/**
+ * Request:     GET /api/v1/consumer/admin/violations
+ * Description: Get all violations
+ */
+export const getViolations = async () => {
+  const url = `${PREFIX}/violations`;
+
+  const { data } = await axiosClient.get(url);
+
+  return data as GetViolationsResponse;
 };

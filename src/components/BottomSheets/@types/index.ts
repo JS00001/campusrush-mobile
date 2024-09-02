@@ -10,6 +10,8 @@
  * Do not distribute
  */
 
+import type { IViolation } from '@/@types';
+
 import { IconType } from '@/ui/Icon';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
@@ -70,6 +72,8 @@ export interface IndividualSheetProps {
   UPDATE_PNM: { pnmId: string };
   /* Update information about an event */
   UPDATE_EVENT: { eventId: string };
+  /** Violations for a chapter */
+  VIOLATIONS: { violations: IViolation[] };
 }
 
 export interface SheetData<T extends IndividualSheetName> {

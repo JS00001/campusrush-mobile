@@ -119,10 +119,11 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
 
         formData.append("attachment", payload);
 
-        const res = await uploadMutation.mutateAsync(formData);
-
-        if ("error" in res) {
+        const res = await uploadMutation.mutateAsync(formData).catch(() => {
           setPendingAttachments((pending) => pending - 1);
+        });
+
+        if (!res || "error" in res) {
           return;
         }
 

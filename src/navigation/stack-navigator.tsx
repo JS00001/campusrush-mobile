@@ -49,6 +49,7 @@ import AdminWebsocket from "@/navigation/screens/admin/Websocket";
 import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
 import AdminChaptersScreen from "@/navigation/screens/admin/Chapters";
 import AdminStatisticsScreen from "@/navigation/screens/admin/Statistics";
+import AdminViolationsScreen from "@/navigation/screens/admin/Violations";
 
 import PNMsScreen from "@/navigation/screens/pnms/Pnms";
 
@@ -334,6 +335,10 @@ export const AdminStack = () => {
       <Stack.Screen
         name="AdminStatistics"
         component={AdminStatisticsScreen}
+      />
+      <Stack.Screen
+        name="AdminViolations"
+        component={AdminViolationsScreen}
       />
     </Stack.Navigator>
   );
