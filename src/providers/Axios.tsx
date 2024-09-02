@@ -81,7 +81,6 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
        * If we *successfully* handle a common error, we want to return the
        * response. This is so we dont have to use catch blocks in every
        * API call. Instead, we can add a check for errors:
-       * if ('error' in response) return;
        */
       const errorHandledResponse = {
         data: responseData,

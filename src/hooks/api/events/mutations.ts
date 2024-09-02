@@ -22,32 +22,40 @@ import { createEvent, updateEvent, deleteEvent, deleteEvents } from '@/api';
 
 export const useCreateEvent = () => {
   return useMutation({
-    mutationFn: (data: CreateEventRequest) => {
-      return createEvent(data);
+    mutationFn: async (data: CreateEventRequest) => {
+      const response = await createEvent(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useUpdateEvent = () => {
   return useMutation({
-    mutationFn: (data: UpdateEventRequest) => {
-      return updateEvent(data);
+    mutationFn: async (data: UpdateEventRequest) => {
+      const response = await updateEvent(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useDeleteEvent = () => {
   return useMutation({
-    mutationFn: (data: DeleteEventRequest) => {
-      return deleteEvent(data);
+    mutationFn: async (data: DeleteEventRequest) => {
+      const response = await deleteEvent(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useDeleteEvents = () => {
   return useMutation({
-    mutationFn: () => {
-      return deleteEvents();
+    mutationFn: async () => {
+      const response = await deleteEvents();
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };

@@ -45,11 +45,7 @@ const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
   const globalStore = useGlobalStore();
 
   const handleSubmission = async () => {
-    const res = await mutation.mutateAsync(state as CreatePnmRequest);
-
-    if ("error" in res) {
-      return;
-    }
+    const response = await mutation.mutateAsync(state as CreatePnmRequest);
 
     setState({
       firstName: undefined,
@@ -60,7 +56,7 @@ const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
       tags: [],
     });
 
-    globalStore.addOrUpdatePnm(res.data.pnm);
+    globalStore.addOrUpdatePnm(response.data.pnm);
 
     Toast.show({
       type: "success",

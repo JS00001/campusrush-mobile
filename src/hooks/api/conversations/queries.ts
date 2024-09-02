@@ -23,8 +23,10 @@ export const useGetConversation = (pnmId: string) => {
   return useInfiniteQuery({
     cacheTime: 0,
     queryKey: ['conversation', accessToken, pnmId],
-    queryFn: ({ pageParam = 0 }) => {
-      return getConversation({ offset: pageParam, pnmId });
+    queryFn: async ({ pageParam = 0 }) => {
+      const response = await getConversation({ offset: pageParam, pnmId });
+      if ('error' in response) throw response;
+      return response;
     },
     getNextPageParam: (lastPage) => {
       if ('error' in lastPage) return undefined;
@@ -47,8 +49,10 @@ export const useGetConversations = () => {
 
   const query = useInfiniteQuery(['conversations', accessToken], {
     cacheTime: 0,
-    queryFn: ({ pageParam = 0 }) => {
-      return getConversations({ offset: pageParam });
+    queryFn: async ({ pageParam = 0 }) => {
+      const response = await getConversations({ offset: pageParam });
+      if ('error' in response) throw response;
+      return response;
     },
     getNextPageParam: (lastPage) => {
       if ('error' in lastPage) return undefined;
@@ -62,14 +66,12 @@ export const useGetConversations = () => {
   });
 
   useEffect(() => {
-    if (!query.data) {
+    if (!query.data || query.isError) {
       setIsLoading(query.isLoading);
       return;
     }
 
     const combinedConversations = query.data.pages.flatMap((page) => {
-      if ('error' in page) return [];
-
       return page.data.conversations;
     });
 

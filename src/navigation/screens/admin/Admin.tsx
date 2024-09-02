@@ -67,14 +67,14 @@ const Admin: React.FC<Props> = ({ navigation }) => {
           size="lg"
           title="Violations"
           subtitle="View all content violations"
-          icon="shield-fill"
+          icon="error-warning-fill"
           onPress={onViolationsPress}
         />
         <ListItem
           size="lg"
           title="Websocket"
           subtitle="View websocket message logs"
-          icon="chat-3-fill"
+          icon="global-fill"
           onPress={onWebsocketPress}
         />
         <ListItem

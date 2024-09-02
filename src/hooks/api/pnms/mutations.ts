@@ -22,32 +22,40 @@ import { createPnm, deletePnm, deletePnms, updatePnm } from '@/api';
 
 export const useDeletePnms = () => {
   return useMutation({
-    mutationFn: () => {
-      return deletePnms();
+    mutationFn: async () => {
+      const response = await deletePnms();
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useCreatePnm = () => {
   return useMutation({
-    mutationFn: (data: CreatePnmRequest) => {
-      return createPnm(data);
+    mutationFn: async (data: CreatePnmRequest) => {
+      const response = await createPnm(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useUpdatePnm = () => {
   return useMutation({
-    mutationFn: (data: UpdatePnmRequest) => {
-      return updatePnm(data);
+    mutationFn: async (data: UpdatePnmRequest) => {
+      const response = await updatePnm(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useDeletePnm = () => {
   return useMutation({
-    mutationFn: (data: DeletePnmRequest) => {
-      return deletePnm(data);
+    mutationFn: async (data: DeletePnmRequest) => {
+      const response = await deletePnm(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };

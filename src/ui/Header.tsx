@@ -29,7 +29,6 @@ interface HeaderProps extends ViewProps {
   onMenuButtonPress?: () => void;
 }
 
-// TODO: Relook at this component for cleanliness
 const Header: React.FC<HeaderProps> = ({
   title,
   subtitle,

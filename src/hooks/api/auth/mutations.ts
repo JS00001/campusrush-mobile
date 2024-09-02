@@ -35,40 +35,50 @@ import { useAuth } from '@/providers/Auth';
 
 export const useLogin = () => {
   return useMutation({
-    mutationFn: (data: LoginRequest) => {
-      return login(data);
+    mutationFn: async (data: LoginRequest) => {
+      const response = await login(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useRegister = () => {
   return useMutation({
-    mutationFn: (data: RegisterRequest) => {
-      return register(data);
+    mutationFn: async (data: RegisterRequest) => {
+      const response = await register(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useCheckEmail = () => {
   return useMutation({
-    mutationFn: (data: CheckEmailRequest) => {
-      return checkEmail(data);
+    mutationFn: async (data: CheckEmailRequest) => {
+      const response = await checkEmail(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useVerifyEmail = () => {
   return useMutation({
-    mutationFn: (data: VerifyChapterRequest) => {
-      return verifyChapter(data);
+    mutationFn: async (data: VerifyChapterRequest) => {
+      const response = await verifyChapter(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useResendVerification = () => {
   return useMutation({
-    mutationFn: () => {
-      return resendVerification();
+    mutationFn: async () => {
+      const response = await resendVerification();
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
@@ -77,24 +87,30 @@ export const useRefresh = () => {
   const { refreshToken } = useAuth();
 
   return useMutation({
-    mutationFn: () => {
-      return refresh({ refreshToken: refreshToken as string });
+    mutationFn: async () => {
+      const response = await refresh({ refreshToken: refreshToken as string });
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useResetPassword = () => {
   return useMutation({
-    mutationFn: (data: ResetPasswordRequest) => {
-      return resetPassword(data);
+    mutationFn: async (data: ResetPasswordRequest) => {
+      const response = await resetPassword(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useChangePassword = () => {
   return useMutation({
-    mutationFn: (data: ChangePasswordRequest) => {
-      return changePassword(data);
+    mutationFn: async (data: ChangePasswordRequest) => {
+      const response = await changePassword(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };

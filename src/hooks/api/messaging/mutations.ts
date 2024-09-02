@@ -18,24 +18,30 @@ import { sendMassMessage, sendDirectMessage, uploadAttachment } from '@/api';
 
 export const useSendMassMessage = () => {
   return useMutation({
-    mutationFn: (data: SendMassMessageRequest) => {
-      return sendMassMessage(data);
+    mutationFn: async (data: SendMassMessageRequest) => {
+      const response = await sendMassMessage(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useSendDirectMessage = () => {
   return useMutation({
-    mutationFn: (data: SendDirectMessageRequest) => {
-      return sendDirectMessage(data);
+    mutationFn: async (data: SendDirectMessageRequest) => {
+      const response = await sendDirectMessage(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useUploadAttachment = () => {
   return useMutation({
-    mutationFn: (data: FormData) => {
-      return uploadAttachment(data);
+    mutationFn: async (data: FormData) => {
+      const response = await uploadAttachment(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };

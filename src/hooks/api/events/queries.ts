@@ -27,13 +27,15 @@ export const useGetEvents = () => {
   const setEvents = useEventStore((s) => s.setEvents);
 
   const query = useQuery(['events', accessToken], {
-    queryFn: () => {
-      return getEvents();
+    queryFn: async () => {
+      const response = await getEvents();
+      if ('error' in response) throw response;
+      return response;
     },
   });
 
   useEffect(() => {
-    if (!query.data || 'error' in query.data) {
+    if (!query.data || query.isError) {
       setIsLoading(query.isLoading);
       return;
     }
@@ -56,12 +58,16 @@ export const useGetEvent = (id: string) => {
   const [responses, setResponses] = useState<IEventResponse[]>([]);
   const addOrUpdateEvent = useEventStore((s) => s.addOrUpdateEvent);
 
-  const query = useQuery(['event', id, accessToken], () => {
-    return getEvent({ id });
+  const query = useQuery(['event', id, accessToken], {
+    queryFn: async () => {
+      const response = await getEvent({ id });
+      if ('error' in response) throw response;
+      return response;
+    },
   });
 
   useEffect(() => {
-    if (!query.data || 'error' in query.data) return;
+    if (!query.data || query.isError) return;
 
     addOrUpdateEvent(query.data.data.event);
     setResponses(query.data.data.responses);

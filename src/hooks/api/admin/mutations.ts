@@ -26,8 +26,10 @@ import {
 
 export const useGrantAdminChapterEntitlement = () => {
   return useMutation({
-    mutationFn: (data: GrantAdminChapterEntitlementRequest) => {
-      return grantAdminChapterEntitlement(data);
+    mutationFn: async (data: GrantAdminChapterEntitlementRequest) => {
+      const response = await grantAdminChapterEntitlement(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
@@ -35,7 +37,9 @@ export const useGrantAdminChapterEntitlement = () => {
 export const useRevokeAdminChapterEntitlement = () => {
   return useMutation({
     mutationFn: (data: RevokeAdminChapterEntitlementRequest) => {
-      return revokeAdminChapterEntitlement(data);
+      const response = revokeAdminChapterEntitlement(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
@@ -43,7 +47,9 @@ export const useRevokeAdminChapterEntitlement = () => {
 export const useSendChapterNotification = () => {
   return useMutation({
     mutationFn: (data: SendChapterNotificationRequest) => {
-      return sendChapterNotification(data);
+      const response = sendChapterNotification(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };

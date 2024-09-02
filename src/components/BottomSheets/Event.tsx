@@ -54,10 +54,8 @@ const EventSheet: React.FC<BottomSheetProps> = ({
 
         const onDelete = async () => {
           const eventName = event?.title || "Event";
-          const res = await deleteMutation.mutateAsync({ id: eventId });
 
-          if ("error" in res) return;
-
+          await deleteMutation.mutateAsync({ id: eventId });
           eventsStore.deleteEvent(eventId);
 
           Toast.show({

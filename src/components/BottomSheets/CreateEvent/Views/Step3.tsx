@@ -36,9 +36,7 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
   const eventStore = useEventStore();
 
   const handleSubmission = async () => {
-    const res = await mutation.mutateAsync(state as CreateEventRequest);
-
-    if ("error" in res) return;
+    const response = await mutation.mutateAsync(state as CreateEventRequest);
 
     setState({
       title: undefined,
@@ -48,7 +46,7 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
       endDate: new Date().toISOString(),
     });
 
-    eventStore.addOrUpdateEvent(res.data.event);
+    eventStore.addOrUpdateEvent(response.data.event);
 
     Toast.show({
       type: "success",

@@ -25,13 +25,15 @@ export const useGetPnms = () => {
   const setPnms = usePnmStore((s) => s.setPnms);
 
   const query = useQuery(['pnms', accessToken], {
-    queryFn: () => {
-      return getPnms();
+    queryFn: async () => {
+      const response = await getPnms();
+      if ('error' in response) throw response;
+      return response;
     },
   });
 
   useEffect(() => {
-    if (!query.data || 'error' in query.data) {
+    if (!query.data || query.isError) {
       setIsLoading(query.isLoading);
       return;
     }
@@ -55,13 +57,15 @@ export const useGetPnm = (id: string) => {
   const addOrUpdatePnm = usePnmStore((s) => s.addOrUpdatePnm);
 
   const query = useQuery(['pnm', id, accessToken], {
-    queryFn: () => {
-      return getPnm({ id });
+    queryFn: async () => {
+      const response = await getPnm({ id });
+      if ('error' in response) throw response;
+      return response;
     },
   });
 
   useEffect(() => {
-    if (!query.data || 'error' in query.data) {
+    if (!query.data || query.isError) {
       setIsLoading(query.isLoading);
       return;
     }

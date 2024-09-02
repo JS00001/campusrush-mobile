@@ -17,6 +17,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import { View } from "react-native";
 import * as Haptic from "expo-haptics";
+import Toast from "react-native-toast-message";
 import * as ImagePicker from "expo-image-picker";
 import { forwardRef, useImperativeHandle, useRef, Fragment } from "react";
 
@@ -35,7 +36,6 @@ import Headline from "@/ui/Headline";
 import AppConstants from "@/constants";
 import { useGetEvents } from "@/hooks/api/events";
 import { useUploadAttachment } from "@/hooks/api/messaging";
-import Toast from "react-native-toast-message";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   (
@@ -123,9 +123,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
           setPendingAttachments((pending) => pending - 1);
         });
 
-        if (!res || "error" in res) {
-          return;
-        }
+        if (!res) return;
 
         const imageUrl = res.data.url;
 

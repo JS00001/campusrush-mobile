@@ -237,13 +237,11 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
 
   // Updates the notification status in the server (calls the mutation)
   const updateNotificationsEnabled = async (value: boolean) => {
-    const res = await mutation.mutateAsync({
+    const response = await mutation.mutateAsync({
       notificationsEnabled: value,
     });
 
-    if ("error" in res) return;
-
-    setChapter(res.data.chapter);
+    setChapter(response.data.chapter);
   };
 
   return (
