@@ -16,7 +16,7 @@
       "channel": "staging"
     },
     "production": {
-      "channel": "main"
+      "channel": "production"
     }
   },
   "submit": {
