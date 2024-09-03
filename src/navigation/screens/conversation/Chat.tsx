@@ -13,7 +13,7 @@
 import { useEffect } from "react";
 import { Keyboard } from "react-native";
 
-import type { IMessageContent } from "@/@types/messageBox";
+import type { IMessageContent } from "@/types/messageBox";
 import type { IMessage, SendDirectMessageRequest } from "@/types";
 import type { ConversationStackProps } from "@/navigation/@types";
 

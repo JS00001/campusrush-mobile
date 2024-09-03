@@ -10,9 +10,9 @@
  * Do not distribute
  */
 
-import type { IViolation } from '@/@types';
+import type { IconType } from '@/ui/Icon';
+import type { ActionMenu, IViolation } from '@/types';
 
-import { IconType } from '@/ui/Icon';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 export interface BottomSheetProps {
@@ -32,6 +32,8 @@ export interface BottomSheetProps {
 export type IndividualSheetName = keyof IndividualSheetProps;
 
 export interface IndividualSheetProps {
+  /** An action menu sheet */
+  ACTION_MENU: ActionMenu;
   /* View information about a chapter */
   CHAPTER: { chapterId: string };
   /* Begin sending a message to a user (or multiple) */

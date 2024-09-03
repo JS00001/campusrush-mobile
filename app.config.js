@@ -52,6 +52,7 @@ export default {
     'expo-font',
     'expo-localization',
     'expo-image-picker',
+    'expo-media-library',
     [
       '@sentry/react-native/expo',
       {

@@ -27,10 +27,12 @@ import TermsOfServiceSheet from "./TermsOfService";
 import UpdatePnmSheet from "./UpdatePnm";
 import UpdateEventSheet from "./UpdateEvent";
 import ViolationsSheet from "./Violations";
+import ActionMenuSheet from "./ActionMenu";
 
 import type { IndividualSheetName } from "./@types";
 
 const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
+  ACTION_MENU: ActionMenuSheet,
   CHAPTER: ChapterSheet,
   CREATE_MESSAGE: CreateMessageSheet,
   CREATE_EVENT: CreateEventSheet,

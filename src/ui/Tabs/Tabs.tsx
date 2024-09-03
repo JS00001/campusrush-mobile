@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { ScrollViewProps, View, ViewProps } from "react-native";
+import { ScrollViewProps } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import Tab from "./Tab";
