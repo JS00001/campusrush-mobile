@@ -36,7 +36,7 @@ const MessageContent: React.FC<MessageContentProps> = ({ message }) => {
   const { openBottomSheet } = useBottomSheet();
 
   const contentContainerStyles = tw.style(
-    "rounded-xl p-2.5 max-w-5/6",
+    "rounded-xl p-2.5 max-w-5/6 self-start self-end",
     message.sent && "bg-blue-600",
     !message.sent && "bg-gray-100",
   );

@@ -88,7 +88,7 @@ const Select: React.FC<SelectProps> = ({
         <Text style={textStyles}>{error || placeholder}</Text>
 
         <TouchableOpacity style={selectStyles} onPress={toggleExpanded}>
-          <Text numberOfLines={1} type="h2" style={textStyles}>
+          <Text numberOfLines={1} type="h3" style={textStyles}>
             {valueText}
           </Text>
           <Icon name={iconName} color={tw.color("primary")} />

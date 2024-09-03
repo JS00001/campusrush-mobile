@@ -106,7 +106,7 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
           style={tw`max-h-64`}
           keyboardShouldPersistTaps="handled"
           ListEmptyComponent={
-            <Text type="h2" style={tw`px-4.5 py-3 font-normal`}>
+            <Text type="h3" style={tw`px-4.5 py-3 font-normal`}>
               No results found
             </Text>
           }

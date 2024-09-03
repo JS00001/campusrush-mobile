@@ -44,7 +44,7 @@ const EventDate: React.FC<EventDateProps> = ({ month, day, weekday }) => {
     <View style={containerStyles}>
       <Text style={monthStyles}>{month}</Text>
 
-      <Text type="h2" style={tw`leading-6`}>
+      <Text type="h3" style={tw`leading-6`}>
         {day}
       </Text>
 

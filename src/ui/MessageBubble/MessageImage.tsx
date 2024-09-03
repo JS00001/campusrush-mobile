@@ -22,8 +22,8 @@ import { Pressable } from "react-native";
 import type { ActionMenu } from "@/types";
 
 import tw from "@/lib/tailwind";
+import useCamera from "@/hooks/useCamera";
 import { useImageZoomStore } from "@/store";
-import useCameraRoll from "@/hooks/useCameraRoll";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
 interface MessageImageProps {
@@ -31,7 +31,7 @@ interface MessageImageProps {
 }
 
 const MessageImage: React.FC<MessageImageProps> = ({ url }) => {
-  const camera = useCameraRoll();
+  const camera = useCamera();
   const scale = useSharedValue(1);
   const { setImage } = useImageZoomStore();
   const { openBottomSheet } = useBottomSheet();

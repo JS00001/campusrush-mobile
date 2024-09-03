@@ -12,11 +12,12 @@
 
 import * as FileSystem from 'expo-file-system';
 import Toast from 'react-native-toast-message';
+import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 
 import { alert } from '@/lib/util';
 
-const useCameraRoll = () => {
+const useCamera = () => {
   /**
    * Take an image from a URL and save it
    * to the user's camera roll.
@@ -66,7 +67,50 @@ const useCameraRoll = () => {
     }
   };
 
-  return { saveImage };
+  /**
+   * Take a photo using the device's camera
+   */
+  const takePhoto = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (status !== 'granted') {
+      alert({
+        title: 'Could Not Take Photo',
+        message: 'CampusRush does not have permission to use the camera.',
+      });
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [1, 1],
+    });
+
+    if (result.canceled) {
+      return;
+    }
+
+    return result.assets[0];
+  };
+
+  /**
+   * Select a photo from the device's gallery
+   */
+  const selectPhoto = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (result.canceled) {
+      return;
+    }
+
+    return result.assets[0];
+  };
+
+  return { saveImage, takePhoto, selectPhoto };
 };
 
-export default useCameraRoll;
+export default useCamera;

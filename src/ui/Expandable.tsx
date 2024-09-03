@@ -49,7 +49,7 @@ const Expandable: React.FC<ExpandableProps> = ({
       {...props}
     >
       <View style={titleContainerStyles}>
-        <Text type="h2">{title}</Text>
+        <Text type="h3">{title}</Text>
         <Icon name={iconName} color={tw.color("primary")} />
       </View>
 

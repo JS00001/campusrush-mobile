@@ -32,6 +32,8 @@ export interface IPNM {
   snapchat?: string;
   /** Whether the PNM is starred or not */
   starred: boolean;
+  /** The avatar of the PNM */
+  avatar?: string;
   /** The time the PNM was created */
   createdAt: Date;
   /** The time the PNM was last updated */

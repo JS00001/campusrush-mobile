@@ -38,7 +38,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({
   return (
     <View style={containerStyles}>
       {section.header && (
-        <Text type="h2" style={tw`px-6`}>
+        <Text type="h3" style={tw`px-6`}>
           {section.header}
         </Text>
       )}

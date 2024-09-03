@@ -12,18 +12,21 @@
 
 import { z } from "zod";
 
+import type { ActionMenu } from "@/types";
 import type { BottomSheetProps, SheetData } from "./@types";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Avatar from "@/ui/Avatar";
 import { Layout } from "@/ui/Layout";
 import FormField from "@/ui/FormField";
+import useCamera from "@/hooks/useCamera";
 import TagView from "@/components/TagView";
 import { FormSheet } from "@/ui/BottomSheet";
 import validators from "@/constants/validators";
 import FormHeader from "@/components/Headers/Form";
 import useFormMutation from "@/hooks/useFormMutation";
 import { usePnmStore, useStatusStore } from "@/store";
+import useCloudStorage from "@/hooks/useCloudStorage";
 import { useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
 const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
@@ -37,8 +40,10 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
       children={(props?: SheetData<"UPDATE_PNM">) => {
         const { pnmId } = props!.data;
 
+        const camera = useCamera();
         const pnmStore = usePnmStore();
         const pnmQuery = useGetPnm(pnmId);
+        const cloudStorage = useCloudStorage();
         const updatePnmMutation = useUpdatePnm();
         const setStatusOverlay = useStatusStore((s) => s.setStatusOverlay);
 
@@ -49,6 +54,7 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
           phoneNumber: validators.phoneNumber.optional(),
           instagram: validators.shortContentString.optional(),
           snapchat: validators.shortContentString.optional(),
+          avatar: validators.url.optional(),
           tags: z.array(z.string()).optional(),
         };
 
@@ -67,6 +73,7 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
             phoneNumber: pnmQuery.pnm?.phoneNumber,
             instagram: pnmQuery.pnm?.instagram,
             snapchat: pnmQuery.pnm?.snapchat,
+            avatar: pnmQuery.pnm?.avatar,
             tags: pnmQuery.pnm?.tags || [],
           },
         });
@@ -84,6 +91,40 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
           setStatusOverlay("idle");
         };
 
+        const editAvatarMenu: ActionMenu = [
+          {
+            header: "Edit Avatar",
+            menuItems: [
+              {
+                iconName: "camera-line",
+                label: "Take Photo",
+                onPress: async () => {
+                  const image = await camera.takePhoto();
+                  if (!image) return;
+                  const imageUrl = await cloudStorage.uploadImage(image);
+                  if (!imageUrl) return;
+                  form.setValue("avatar", imageUrl);
+                },
+              },
+              {
+                iconName: "image-line",
+                label: "Choose from Gallery",
+                onPress: async () => {
+                  const image = await camera.selectPhoto();
+                  if (!image) return;
+                  const imageUrl = await cloudStorage.uploadImage(image);
+                  if (!imageUrl) return;
+                  form.setValue("avatar", imageUrl);
+                },
+              },
+            ],
+          },
+        ];
+
+        const onEditPress = () => {
+          openBottomSheet("ACTION_MENU", editAvatarMenu);
+        };
+
         return (
           <Layout.Root>
             <Layout.Content
@@ -93,9 +134,13 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
             >
               <FormHeader onSave={handleSubmission} onCancel={handleClose} />
 
-              <Text type="h1" style={tw`text-primary`}>
-                Edit PNM
-              </Text>
+              <Avatar
+                editable
+                size="lg"
+                style={tw`self-center`}
+                url={form.state.avatar.value}
+                onEditPress={onEditPress}
+              />
 
               <FormField
                 placeholder="First Name"

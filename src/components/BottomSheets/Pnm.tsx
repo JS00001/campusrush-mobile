@@ -18,6 +18,7 @@ import { BottomSheetProps, SheetData } from "./@types";
 
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import Avatar from "@/ui/Avatar";
 import date from "@/lib/util/date";
 import Skeleton from "@/ui/Skeleton";
 import Headline from "@/ui/Headline";
@@ -40,6 +41,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
   return (
     <BottomSheet
       innerRef={innerRef}
+      handleStyle={tw`bg-slate-200 rounded-t-2xl`}
       children={(props?: SheetData<"PNM">) => {
         const { pnmId } = props!.data;
         const posthog = usePosthog();
@@ -117,15 +119,14 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         if (!pnm) return <LoadingState />;
 
         return (
-          <BottomSheetContainer>
-            <View style={tw`mb-2 flex-row justify-between items-center`}>
-              <Headline
-                style={tw`shrink`}
-                title={pnm.displayName}
-                subtitle={`Added on ${date.toString(pnm.createdAt)}`}
-              />
+          <>
+            <View style={tw`bg-slate-200 absolute h-26 w-full`} />
 
-              <View style={tw`flex-row gap-1`}>
+            <BottomSheetContainer
+              style={tw`pt-0`}
+              contentContainerStyle={tw`gap-y-6 pb-10`}
+            >
+              <View style={tw`flex-row gap-1 justify-end`}>
                 <IconButton
                   size="sm"
                   color="secondary"
@@ -144,34 +145,44 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
                   onPress={onDelete}
                 />
               </View>
-            </View>
 
-            <Detail.List>
-              <Detail.Item
-                title="Phone Number"
-                value={format.phoneNumber(pnm.phoneNumber) || "N/A"}
-              />
-              <Detail.Item title="Instagram" value={pnm.instagram || "N/A"} />
-              <Detail.Item title="Snapchat" value={pnm.snapchat || "N/A"} />
-              <Detail.Item
-                title="Tags"
-                // Same as below, make the view look like the other list items when no tags
-                layout={!pnm.tags.length ? "horizontal" : "vertical"}
-                // Make the tags view look like the other list items when no tags, otherwise render the tags list
-                // prettier-ignore
-                value={!pnm.tags.length ? "N/A" : <TagView disabled hideContainer tags={pnm.tags}/>}
-              />
-            </Detail.List>
+              <View style={tw`gap-y-2`}>
+                <Avatar contentRing url={pnm.avatar} />
 
-            <ButtonGroup>
-              <Button size="sm" color="secondary" onPress={onEditPress}>
-                Edit
-              </Button>
-              <Button size="sm" onPress={onSendMessagePress}>
-                Send Message
-              </Button>
-            </ButtonGroup>
-          </BottomSheetContainer>
+                <Headline
+                  style={tw`shrink`}
+                  title={pnm.displayName}
+                  subtitle={`Added on ${date.toString(pnm.createdAt)}`}
+                />
+              </View>
+
+              <Detail.List>
+                <Detail.Item
+                  title="Phone Number"
+                  value={format.phoneNumber(pnm.phoneNumber) || "N/A"}
+                />
+                <Detail.Item title="Instagram" value={pnm.instagram || "N/A"} />
+                <Detail.Item title="Snapchat" value={pnm.snapchat || "N/A"} />
+                <Detail.Item
+                  title="Tags"
+                  // Same as below, make the view look like the other list items when no tags
+                  layout={!pnm.tags.length ? "horizontal" : "vertical"}
+                  // Make the tags view look like the other list items when no tags, otherwise render the tags list
+                  // prettier-ignore
+                  value={!pnm.tags.length ? "N/A" : <TagView disabled hideContainer tags={pnm.tags}/>}
+                />
+              </Detail.List>
+
+              <ButtonGroup>
+                <Button size="sm" color="secondary" onPress={onEditPress}>
+                  Edit
+                </Button>
+                <Button size="sm" onPress={onSendMessagePress}>
+                  Send Message
+                </Button>
+              </ButtonGroup>
+            </BottomSheetContainer>
+          </>
         );
       }}
     ></BottomSheet>

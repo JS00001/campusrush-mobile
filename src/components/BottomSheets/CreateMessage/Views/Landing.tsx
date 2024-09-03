@@ -30,6 +30,7 @@ import HeadlineLoader from "@/ui/Loaders/Headline";
 
 import useSearch from "@/hooks/useSearch";
 import { useGetContacts } from "@/hooks/api/contacts";
+import Headline from "@/ui/Headline";
 
 const Landing: React.FC<UseSheetFlowProps> = ({
   handleClose,
@@ -134,10 +135,10 @@ const Landing: React.FC<UseSheetFlowProps> = ({
 
   return (
     <View style={tw`gap-y-6 flex-1`}>
-      <View>
-        <Text type="h2">New Message</Text>
-        <Text>Start a new message with potential members</Text>
-      </View>
+      <Headline
+        title="New Message"
+        subtitle="Start a new message with potential members"
+      />
 
       <TextInput
         ph-label="search-contacts"
