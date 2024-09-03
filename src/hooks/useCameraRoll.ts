@@ -10,9 +10,11 @@
  * Do not distribute
  */
 
-import { alert } from '@/lib/util';
 import * as FileSystem from 'expo-file-system';
+import Toast from 'react-native-toast-message';
 import * as MediaLibrary from 'expo-media-library';
+
+import { alert } from '@/lib/util';
 
 const useCameraRoll = () => {
   /**
@@ -21,7 +23,7 @@ const useCameraRoll = () => {
    */
   const saveImage = async (url: string) => {
     try {
-      const { status } = await MediaLibrary.requestPermissionsAsync();
+      const { status } = await MediaLibrary.requestPermissionsAsync(true);
 
       if (status !== 'granted') {
         alert({
@@ -51,9 +53,10 @@ const useCameraRoll = () => {
       const asset = await MediaLibrary.createAssetAsync(uri);
       await MediaLibrary.createAlbumAsync('CampusRush', asset, false);
 
-      alert({
-        title: 'Image Saved',
-        message: 'The image has been saved to your camera roll.',
+      Toast.show({
+        type: 'success',
+        text1: 'Image Saved',
+        text2: 'The image was saved to your camera roll.',
       });
     } catch (e) {
       alert({

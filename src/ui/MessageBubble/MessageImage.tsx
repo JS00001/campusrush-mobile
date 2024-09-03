@@ -23,6 +23,7 @@ import type { ActionMenu } from "@/types";
 
 import tw from "@/lib/tailwind";
 import { useImageZoomStore } from "@/store";
+import useCameraRoll from "@/hooks/useCameraRoll";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
 interface MessageImageProps {
@@ -30,6 +31,7 @@ interface MessageImageProps {
 }
 
 const MessageImage: React.FC<MessageImageProps> = ({ url }) => {
+  const camera = useCameraRoll();
   const scale = useSharedValue(1);
   const { setImage } = useImageZoomStore();
   const { openBottomSheet } = useBottomSheet();
@@ -64,7 +66,9 @@ const MessageImage: React.FC<MessageImageProps> = ({ url }) => {
         {
           iconName: "download-line",
           label: "Save Image",
-          onPress: () => {},
+          onPress: () => {
+            camera.saveImage(url);
+          },
         },
       ],
     },
@@ -83,7 +87,7 @@ const MessageImage: React.FC<MessageImageProps> = ({ url }) => {
    * action menu
    */
   const onLongPress = () => {
-    const TRANSFORM_VALUE = 0.95;
+    const TRANSFORM_VALUE = 0.97;
     scale.value = withSpring(
       TRANSFORM_VALUE,
       { damping: 20, stiffness: 300 },

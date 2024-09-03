@@ -67,7 +67,7 @@ const MessageContent: React.FC<MessageContentProps> = ({ message }) => {
   ];
 
   const onLongPress = () => {
-    const TRANSFORM_VALUE = 0.95;
+    const TRANSFORM_VALUE = 0.9;
     scale.value = withSpring(
       TRANSFORM_VALUE,
       { damping: 20, stiffness: 300 },
