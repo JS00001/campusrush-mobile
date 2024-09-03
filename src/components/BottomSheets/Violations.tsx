@@ -58,8 +58,12 @@ const ViolationsSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
             </View>
 
             <View style={tw`gap-2`}>
-              {violations.map((violation) => (
-                <CopyAction title="Copy Media ID" content={violation.mediaId}>
+              {violations.map((violation, i) => (
+                <CopyAction
+                  key={i}
+                  title="Copy Media ID"
+                  content={violation.mediaId}
+                >
                   <ListItem
                     size="lg"
                     pressable={false}

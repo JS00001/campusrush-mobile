@@ -21,24 +21,30 @@ import { updateChapter, deleteChapter, deleteChapterSession } from '@/api';
 
 export const useUpdateChapter = () => {
   return useMutation({
-    mutationFn: (data: UpdateChapterRequest) => {
-      return updateChapter(data);
+    mutationFn: async (data: UpdateChapterRequest) => {
+      const response = await updateChapter(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useDeleteChapter = () => {
   return useMutation({
-    mutationFn: () => {
-      return deleteChapter();
+    mutationFn: async () => {
+      const response = await deleteChapter();
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
 
 export const useDeleteChapterSession = () => {
   return useMutation({
-    mutationFn: (data: DeleteChapterSessionRequest) => {
-      return deleteChapterSession(data);
+    mutationFn: async (data: DeleteChapterSessionRequest) => {
+      const response = await deleteChapterSession(data);
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };

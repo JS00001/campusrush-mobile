@@ -93,7 +93,24 @@ const SettingsView = () => {
   };
 
   const onLogout = async () => {
-    await logoutUser();
+    alert({
+      title: "Are you sure?",
+      message:
+        "You will be signed out of your account, and will need to sign back in.",
+      buttons: [
+        {
+          style: "cancel",
+          text: "No, Cancel",
+        },
+        {
+          style: "destructive",
+          text: "Yes, Sign Out",
+          onPress: async () => {
+            await logoutUser();
+          },
+        },
+      ],
+    });
   };
 
   const onDeleteAccount = () => {

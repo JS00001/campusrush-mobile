@@ -78,12 +78,10 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
   ];
 
   const handleRevocation = async (entitlementId: string) => {
-    const res = await revokeEntitlementMutation.mutateAsync({
+    await revokeEntitlementMutation.mutateAsync({
       id: chapterId,
       entitlementId,
     });
-
-    if ("error" in res) return;
 
     await entitlementQuery.refetch();
 

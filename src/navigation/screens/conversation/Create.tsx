@@ -58,9 +58,13 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
         pnms: pnms.map((pnm) => pnm._id),
       };
 
-      const res = await sendMassMessageMutation.mutateAsync(payload);
+      const res = await sendMassMessageMutation
+        .mutateAsync(payload)
+        .catch(() => {
+          setStatusOverlay("idle");
+        });
 
-      if ("error" in res) return setStatusOverlay("idle");
+      if (!res) return;
 
       const messages = res.data.messages;
       const conversations = res.data.conversations;

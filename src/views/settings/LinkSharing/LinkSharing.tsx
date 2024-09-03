@@ -13,7 +13,6 @@ import { View } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Headline from "@/ui/Headline";
 import CopyView from "@/ui/CopyView";
 import AppConstants from "@/constants";
 import { useAuth } from "@/providers/Auth";
@@ -28,8 +27,6 @@ const LinkSharingView = () => {
     const response = await mutation.mutateAsync({
       linkSharingEnabled: value,
     });
-
-    if ("error" in response) return;
 
     setChapter(response.data.chapter);
   };

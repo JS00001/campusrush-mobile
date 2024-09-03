@@ -23,13 +23,15 @@ export const useGetContacts = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const query = useQuery(['contacts', accessToken], {
-    queryFn: () => {
-      return getContacts();
+    queryFn: async () => {
+      const response = await getContacts();
+      if ('error' in response) throw response;
+      return response;
     },
   });
 
   useEffect(() => {
-    if (!query.data || 'error' in query.data) {
+    if (!query.data || query.isError) {
       setIsLoading(query.isLoading);
       return;
     }

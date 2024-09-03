@@ -153,9 +153,11 @@ const Chat: React.FC<Props> = ({ route }) => {
         pnm: pnmId,
       };
 
-      const res = await sendMessageMutation.mutateAsync(payload);
+      const res = await sendMessageMutation.mutateAsync(payload).catch(() => {
+        messageStore.removeMessage(pnmId, messageId);
+      });
 
-      if ("error" in res) return messageStore.removeMessage(pnmId, messageId);
+      if (!res) continue;
 
       // TODO: Performance bottleneck - Takes 1453.159ms to update all of this state
       conversationStore.addConversations(res.data.conversation);

@@ -118,25 +118,3 @@ export const useContactStore = create<IContactStore>()(
     },
   ),
 );
-
-// export const useContactStore = () => {
-//   const query = useGetContacts();
-//   const store = useContactZustandStore();
-
-//   /**
-//    * Update the store when the query data changes
-//    */
-//   useEffect(() => {
-//     if (!query.data || 'error' in query.data) return;
-
-//     store.setContacts('all', query.data.data.all);
-//     store.setContacts('starred', query.data.data.favorited);
-//     store.setContacts('suggested', query.data.data.suggested);
-//     store.setContacts('uncontacted', query.data.data.uncontacted);
-//   }, [query.data]);
-
-//   return {
-//     ...query,
-//     ...store,
-//   };
-// };

@@ -103,38 +103,3 @@ export const usePnmStore = create<IPnmStore>()(
     },
   ),
 );
-
-// export const usePnmStore = () => {
-//   const query = useGetPnms();
-//   const store = usePnmZustandStore();
-
-//   useEffect(() => {
-//     if (!query.data || 'error' in query.data) return;
-
-//     store.setPnms(query.data.data.pnms);
-//   }, [query.data]);
-
-//   return {
-//     ...query,
-//     ...store,
-//   };
-// };
-
-// export const usePnm = (id: string) => {
-//   const query = useGetPnm(id);
-//   const store = usePnmZustandStore();
-
-//   const pnm = store.getPnm(id);
-
-//   useEffect(() => {
-//     if (!query.data || 'error' in query.data) return;
-
-//     store.updatePnm(query.data.data.pnm);
-//   }, [query.data]);
-
-//   return {
-//     pnm,
-//     ...query,
-//     ...store,
-//   };
-// };

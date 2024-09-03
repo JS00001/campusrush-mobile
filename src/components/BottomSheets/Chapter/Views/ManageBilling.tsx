@@ -69,11 +69,7 @@ const ManageBilling: React.FC<ManageBillingProps> = ({
       expires,
     };
 
-    const response = await grantEntitlementMutation.mutateAsync(data);
-
-    if ("error" in response) {
-      return;
-    }
+    await grantEntitlementMutation.mutateAsync(data);
 
     Toast.show({
       type: "success",

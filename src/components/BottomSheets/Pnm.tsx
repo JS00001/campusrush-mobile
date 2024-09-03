@@ -58,11 +58,13 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
           if (!pnm) return;
 
           const starred = !pnm.starred;
-          const res = await updateMutation.mutateAsync({ id: pnmId, starred });
 
-          if ("error" in res) return;
+          const response = await updateMutation.mutateAsync({
+            id: pnmId,
+            starred,
+          });
 
-          pnmStore.addOrUpdatePnm(res.data.pnm);
+          pnmStore.addOrUpdatePnm(response.data.pnm);
           pnmQuery.refetch();
 
           if (starred) {
@@ -80,9 +82,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
           if (!pnm) return;
 
           const displayName = pnm.displayName;
-          const res = await deleteMutation.mutateAsync({ id: pnmId });
-
-          if ("error" in res) return;
+          await deleteMutation.mutateAsync({ id: pnmId });
 
           pnmStore.deletePnm(pnmId);
           globalStore.deletePnm(pnm);

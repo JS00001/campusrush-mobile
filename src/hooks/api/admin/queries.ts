@@ -33,12 +33,14 @@ export const useGetAdminChapters = () => {
 
   const query = useQuery(['adminChapters', accessToken], {
     queryFn: async () => {
-      return getAdminChapters();
+      const response = await getAdminChapters();
+      if ('error' in response) throw response;
+      return response;
     },
   });
 
   useEffect(() => {
-    if (!query.data || 'error' in query.data) {
+    if (!query.data) {
       setIsLoading(query.isLoading);
       return;
     }
@@ -66,12 +68,14 @@ export const useGetViolations = () => {
 
   const query = useQuery(['violations', accessToken], {
     queryFn: async () => {
-      return getViolations();
+      const response = await getViolations();
+      if ('error' in response) throw response;
+      return response;
     },
   });
 
   useEffect(() => {
-    if (!query.data || 'error' in query.data) {
+    if (!query.data || query.isError) {
       setIsLoading(query.isLoading);
       return;
     }
@@ -93,12 +97,14 @@ export const useGetAdminChapter = (id: string) => {
 
   const query = useQuery(['adminChapter', accessToken, id], {
     queryFn: async () => {
-      return getAdminChapter({ id });
+      const response = await getAdminChapter({ id });
+      if ('error' in response) throw response;
+      return response;
     },
   });
 
   useEffect(() => {
-    if (!query.data || 'error' in query.data) return;
+    if (!query.data || query.isError) return;
 
     setChapter(query.data.data.chapter);
   }, [query.data]);
@@ -115,12 +121,14 @@ export const useGetAdminChapterEntitlements = (id: string) => {
 
   const query = useQuery(['adminChapterEntitlements', accessToken, id], {
     queryFn: async () => {
-      return getAdminChapterEntitlements({ id });
+      const response = await getAdminChapterEntitlements({ id });
+      if ('error' in response) throw response;
+      return response;
     },
   });
 
   useEffect(() => {
-    if (!query.data || 'error' in query.data) return;
+    if (!query.data || query.isError) return;
 
     setEntitlements(query.data.data);
   }, [query.data]);
@@ -138,12 +146,14 @@ export const useGetAdminStatistics = () => {
 
   const query = useQuery(['adminStatistics', accessToken], {
     queryFn: async () => {
-      return getAdminStatistics();
+      const response = await getAdminStatistics();
+      if ('error' in response) throw response;
+      return response;
     },
   });
 
   useEffect(() => {
-    if (!query.data || 'error' in query.data) {
+    if (!query.data || query.isError) {
       setIsLoading(query.isLoading);
       return;
     }

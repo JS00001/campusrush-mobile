@@ -26,16 +26,21 @@ const QrCode: React.FC<UseSheetFlowProps> = () => {
 
   const linkSharingCode = `${AppConstants.sharingUrl}/${chapter.linkSharingCode}`;
 
+  const QRContainerStyles = tw.style(
+    "w-full items-center",
+    "bg-slate-100 rounded-xl p-10",
+  );
+
   return (
     <>
       <View style={tw`w-full`}>
-        <Text type="h2">Display QR Code</Text>
-        <Text>Have a PNM scan the QR code</Text>
+        <Text type="h2">Share a Form</Text>
+        <Text>Send the QR code below to PNMs, or share the link below. </Text>
       </View>
 
-      <View style={tw`bg-slate-100 rounded-xl p-12 w-full items-center`}>
+      <View style={QRContainerStyles}>
         <QRCode
-          size={232}
+          size={264}
           value={linkSharingCode}
           color={tw.color("primary")}
           backgroundColor="transparent"
@@ -45,8 +50,7 @@ const QrCode: React.FC<UseSheetFlowProps> = () => {
       <Text type="h2" style={tw`self-center`}>
         Or
       </Text>
-
-      <CopyView title="Link Sharing URL" content={linkSharingCode} />
+      <CopyView title="Form URL" content={linkSharingCode} />
     </>
   );
 };

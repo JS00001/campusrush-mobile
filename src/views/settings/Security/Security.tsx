@@ -52,11 +52,9 @@ const SecurityView = () => {
           text: "Remove",
           style: "destructive",
           onPress: async () => {
-            const response = await deleteSessionMutation.mutateAsync({
+            await deleteSessionMutation.mutateAsync({
               id: session._id,
             });
-
-            if ("error" in response) return;
 
             sessionsQuery.refetch();
 
@@ -73,7 +71,7 @@ const SecurityView = () => {
 
   const sessions = (() => {
     const response = sessionsQuery.data;
-    if (!response || "error" in response) {
+    if (!response || sessionsQuery.isError) {
       return [];
     }
 

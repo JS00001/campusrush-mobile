@@ -25,12 +25,14 @@ export const useGetChapterStatistics = () => {
 
   const query = useQuery(['chapterStatistics', accessToken], {
     queryFn: async () => {
-      return getChapterStatistics();
+      const response = await getChapterStatistics();
+      if ('error' in response) throw response;
+      return response;
     },
   });
 
   useEffect(() => {
-    if (!query.data || 'error' in query.data) {
+    if (!query.data || query.isError) {
       setIsLoading(query.isLoading);
       return;
     }
@@ -56,7 +58,9 @@ export const useGetChapterSessions = () => {
 
   return useQuery(['chapterSessions', accessToken], {
     queryFn: async () => {
-      return getChapterSessions();
+      const response = await getChapterSessions();
+      if ('error' in response) throw response;
+      return response;
     },
   });
 };
