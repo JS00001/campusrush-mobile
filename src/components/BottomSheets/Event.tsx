@@ -21,6 +21,7 @@ import { useDeleteEvent, useGetEvent } from "@/hooks/api/events";
 
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import { alert } from "@/lib/util";
 import date from "@/lib/util/date";
 import Headline from "@/ui/Headline";
 import Skeleton from "@/ui/Skeleton";
@@ -53,18 +54,31 @@ const EventSheet: React.FC<BottomSheetProps> = ({
         const eventUrl = `${AppConstants.eventUrl}/${eventId}`;
 
         const onDelete = async () => {
-          const eventName = event?.title || "Event";
+          alert({
+            title: "Delete Event",
+            message: "Are you sure you want to delete this event?",
+            buttons: [
+              { text: "Cancel", style: "cancel" },
+              {
+                text: "Delete",
+                style: "destructive",
+                onPress: async () => {
+                  const eventName = event?.title || "Event";
 
-          await deleteMutation.mutateAsync({ id: eventId });
-          eventsStore.deleteEvent(eventId);
+                  await deleteMutation.mutateAsync({ id: eventId });
+                  eventsStore.deleteEvent(eventId);
 
-          Toast.show({
-            type: "success",
-            text1: "Event deleted",
-            text2: `${eventName} has been deleted successfully`,
+                  Toast.show({
+                    type: "success",
+                    text1: "Event deleted",
+                    text2: `${eventName} has been deleted successfully`,
+                  });
+
+                  handleClose();
+                },
+              },
+            ],
           });
-
-          handleClose();
         };
 
         const onEditPress = () => {
