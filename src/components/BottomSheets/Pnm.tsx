@@ -20,6 +20,7 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import Avatar from "@/ui/Avatar";
 import date from "@/lib/util/date";
+import { alert } from "@/lib/util";
 import Skeleton from "@/ui/Skeleton";
 import Headline from "@/ui/Headline";
 import format from "@/lib/util/format";
@@ -83,21 +84,34 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         const onDelete = async () => {
           if (!pnm) return;
 
-          const displayName = pnm.displayName;
-          await deleteMutation.mutateAsync({ id: pnmId });
+          alert({
+            title: "Delete PNM",
+            message: `Are you sure you want to delete this PNM?`,
+            buttons: [
+              { text: "Cancel", style: "cancel" },
+              {
+                text: "Delete",
+                style: "destructive",
+                onPress: async () => {
+                  const displayName = pnm.displayName;
+                  await deleteMutation.mutateAsync({ id: pnmId });
 
-          pnmStore.deletePnm(pnmId);
-          globalStore.deletePnm(pnm);
+                  pnmStore.deletePnm(pnmId);
+                  globalStore.deletePnm(pnm);
 
-          Toast.show({
-            type: "success",
-            text1: "PNM Deleted",
-            text2: `${displayName} has been removed from your contacts`,
+                  Toast.show({
+                    type: "success",
+                    text1: "PNM Deleted",
+                    text2: `${displayName} has been removed from your contacts`,
+                  });
+
+                  handleClose();
+
+                  posthog.capture("PNM_DELETED");
+                },
+              },
+            ],
           });
-
-          handleClose();
-
-          posthog.capture("PNM_DELETED");
         };
 
         const onSendMessagePress = () => {
