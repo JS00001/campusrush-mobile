@@ -101,18 +101,17 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
       }
 
       const image = await camera.selectPhoto();
+
       if (!image) return;
 
       setPendingAttachments((pending) => pending + 1);
 
       const imageUrl = await cloudStorage.uploadImage(image);
 
-      if (!imageUrl) {
-        setPendingAttachments((pending) => pending - 1);
-        return;
+      if (imageUrl) {
+        onImageAttach(imageUrl);
       }
 
-      onImageAttach(imageUrl);
       setPendingAttachments((pending) => pending - 1);
     };
 
