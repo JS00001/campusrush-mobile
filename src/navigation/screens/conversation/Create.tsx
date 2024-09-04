@@ -24,6 +24,7 @@ import {
   useConversationStore,
   useStatusStore,
 } from "@/store";
+import { alert } from "@/lib/util";
 import { Layout } from "@/ui/Layout";
 import usePosthog from "@/hooks/usePosthog";
 import MessageBox from "@/components/MessageBox";
@@ -44,7 +45,48 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
   const sendMassMessageMutation = useSendMassMessage();
   const setStatusOverlay = useStatusStore((s) => s.setStatusOverlay);
 
+  /**
+   * Verify that the user wants to send a mass message, then
+   * proceed to send the message to the selected PNMs
+   */
   const onMessageSend = async (messages: IMessageContent[]) => {
+    if (pnms.length > 12) {
+      const timeToSend = Math.ceil(pnms.length / 6);
+
+      alert({
+        title: "Send Message?",
+        message: `Cell providers limit messages to 6 /min. Sending this message will take about ${timeToSend} minutes. You can still use the app while sending, and new messages will be queued. Send mass message?`,
+        buttons: [
+          {
+            text: "Cancel",
+            style: "cancel",
+            onPress: () => {
+              posthog.capture("MASS_MESSAGE_CANCELLED", {
+                pnmCount: pnms.length,
+              });
+            },
+          },
+          {
+            text: "Send",
+            onPress: () => {
+              sendMessages(messages);
+              posthog.capture("MASS_MESSAGE_SENT", { pnmCount: pnms.length });
+            },
+          },
+        ],
+      });
+
+      return;
+    }
+
+    sendMessages(messages);
+  };
+
+  /**
+   * Send messages to the selected PNMs for the mass
+   * message feature
+   */
+  const sendMessages = async (messages: IMessageContent[]) => {
     navigation.goBack();
 
     setStatusOverlay("loading");
@@ -88,8 +130,6 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
     });
 
     setStatusOverlay("idle");
-
-    posthog.capture("MASS_MESSAGE_SENT", { pnmCount: pnms.length });
   };
 
   const onRemovePnm = (pnm: IPNM) => {
