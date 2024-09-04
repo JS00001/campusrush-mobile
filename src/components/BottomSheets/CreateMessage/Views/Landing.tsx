@@ -19,6 +19,7 @@ import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Headline from "@/ui/Headline";
 import FlatList from "@/ui/FlatList";
 import ListItem from "@/ui/ListItem";
 import Skeleton from "@/ui/Skeleton";
@@ -134,10 +135,10 @@ const Landing: React.FC<UseSheetFlowProps> = ({
 
   return (
     <View style={tw`gap-y-6 flex-1`}>
-      <View>
-        <Text type="h2">New Message</Text>
-        <Text>Start a new message with potential members</Text>
-      </View>
+      <Headline
+        title="New Message"
+        subtitle="Start a new message with potential members"
+      />
 
       <TextInput
         ph-label="search-contacts"

@@ -14,6 +14,7 @@ import { useState } from "react";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 
+import type { IMessageContent } from "@/types/messageBox";
 import type { IPNM, SendMassMessageRequest } from "@/types";
 import type { ConversationStackProps } from "@/navigation/@types";
 
@@ -28,7 +29,6 @@ import usePosthog from "@/hooks/usePosthog";
 import MessageBox from "@/components/MessageBox";
 import { useSendMassMessage } from "@/hooks/api/messaging";
 import MassMessageHeader from "@/components/Headers/MassMessage";
-import { IMessageContent } from "@/@types/messageBox";
 
 type Props = ConversationStackProps<"Create">;
 

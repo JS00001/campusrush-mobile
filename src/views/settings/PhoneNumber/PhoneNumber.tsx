@@ -10,8 +10,10 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
+
+import Text from "@/ui/Text";
 import CopyView from "@/ui/CopyView";
-import Headline from "@/ui/Headline";
 import format from "@/lib/util/format";
 import { useAuth } from "@/providers/Auth";
 
@@ -25,10 +27,14 @@ const PhoneNumberView = () => {
 
   return (
     <>
-      <Headline
-        title="Phone Information"
-        subtitle="All messages to this phone number will show up in your 'Messages' inbox."
-      />
+      <View>
+        <Text type="h3">Phone Information</Text>
+        <Text>
+          All messages to this phone number will show up in your 'Messages'
+          inbox.
+        </Text>
+      </View>
+
       <CopyView title="Phone Number" content={phoneNumber} />
       <CopyView title="Phone Number ID" content={phoneNumberId} />
     </>

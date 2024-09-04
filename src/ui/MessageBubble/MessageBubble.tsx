@@ -10,23 +10,22 @@
  * Do not distribute
  */
 
-import { Image } from "expo-image";
-import { Pressable, View, ViewProps } from "react-native";
+import { View, ViewProps } from "react-native";
 
 import type { TimestampedMessage } from "@/lib/messages";
 
+import MessageImage from "./MessageImage";
+import MessageContent from "./MessageContent";
+
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import { useImageZoomStore } from "@/store";
 import WebsitePreview from "@/ui/WebsitePreview";
 
 interface MessageBubbleProps extends ViewProps {
   message: TimestampedMessage;
 }
 
-const MessageBubble: React.FC<MessageBubbleProps> = ({ message, ...props }) => {
-  const { setImage } = useImageZoomStore();
-
+const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
   // Check if the content is exclusively a link with NO other text
   const isHyperlink = message.content?.match(/^https?:\/\/\S+$/);
   const hyperlinkUrl = isHyperlink ? isHyperlink[0] : null;
@@ -45,39 +44,9 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, ...props }) => {
     !message.sent && "self-start",
   );
 
-  const bubbleStyles = tw.style(
-    "rounded-xl p-2.5 max-w-5/6",
-    message.sent && "bg-blue-600",
-    !message.sent && "bg-gray-100",
-    messagePositioning,
-  );
-
-  const bubbleTextContentStyles = tw.style(
-    "text-base",
-    message.sent && "text-white",
-    !message.sent && "text-black",
-  );
-
-  const imageContainerShadow = tw.style(messagePositioning, {
-    borderRadius: 12,
-    backgroundColor: "#fff",
-    maxWidth: "80%",
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-  });
-
-  const imageStyles = tw.style("w-full max-h-64 rounded-xl", {
-    aspectRatio: 1,
-  });
+  const dateStyles = tw.style("text-gray-500 py-4", "self-center");
 
   const timestampStyles = tw.style("text-gray-500 pt-2", messagePositioning);
-
-  const dateStyles = tw.style("text-gray-500 py-4", "self-center");
 
   return (
     <View>
@@ -88,32 +57,25 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, ...props }) => {
         </Text>
       )}
 
-      {/* The message content (url, image, reaction, bubble) */}
-      <View style={tw`gap-y-2`}>
+      {/* The message bubble itself */}
+      <View style={tw.style(`gap-y-2`, messagePositioning)}>
         {/* Link Previews */}
         {hyperlinkUrl && (
           <WebsitePreview url={hyperlinkUrl} style={messagePositioning} />
         )}
 
         {/* Image Attachments */}
-        {message.attachments?.map((attachment, i) => {
-          const onPress = () => setImage(attachment);
-          return (
-            <Pressable key={i} style={imageContainerShadow} onPress={onPress}>
-              <Image source={{ uri: attachment }} style={imageStyles} />
-            </Pressable>
-          );
-        })}
+        {message.attachments.map((url, i) => (
+          <MessageImage key={i} url={url} />
+        ))}
 
         {/* Message Bubble */}
         {!hyperlinkUrl && message.content && (
-          <View style={bubbleStyles} {...props}>
-            <Text style={bubbleTextContentStyles}>{message.content}</Text>
-          </View>
+          <MessageContent message={message} />
         )}
       </View>
 
-      {/* If there is a createdAt time, show it */}
+      {/* The messages created time */}
       {createdAt && (
         <Text type="p4" style={timestampStyles}>
           {createdTime}

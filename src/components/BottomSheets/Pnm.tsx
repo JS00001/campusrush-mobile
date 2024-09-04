@@ -18,7 +18,9 @@ import { BottomSheetProps, SheetData } from "./@types";
 
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import Avatar from "@/ui/Avatar";
 import date from "@/lib/util/date";
+import { alert } from "@/lib/util";
 import Skeleton from "@/ui/Skeleton";
 import Headline from "@/ui/Headline";
 import format from "@/lib/util/format";
@@ -28,8 +30,8 @@ import TagView from "@/components/TagView";
 import ButtonGroup from "@/ui/ButtonGroup";
 import usePosthog from "@/hooks/usePosthog";
 import { BottomSheet } from "@/ui/BottomSheet";
-import { useGlobalStore, usePnmStore } from "@/store";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
+import { useGlobalStore, useImageZoomStore, usePnmStore } from "@/store";
 import { useDeletePnm, useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
 const PnmSheet: React.FC<BottomSheetProps> = ({
@@ -40,6 +42,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
   return (
     <BottomSheet
       innerRef={innerRef}
+      handleStyle={tw`bg-slate-200 rounded-t-2xl`}
       children={(props?: SheetData<"PNM">) => {
         const { pnmId } = props!.data;
         const posthog = usePosthog();
@@ -47,6 +50,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
 
         const pnmStore = usePnmStore();
         const globalStore = useGlobalStore();
+        const { setImage } = useImageZoomStore();
 
         const pnmQuery = useGetPnm(pnmId);
         const deleteMutation = useDeletePnm();
@@ -81,21 +85,34 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         const onDelete = async () => {
           if (!pnm) return;
 
-          const displayName = pnm.displayName;
-          await deleteMutation.mutateAsync({ id: pnmId });
+          alert({
+            title: "Delete PNM",
+            message: `Are you sure you want to delete this PNM?`,
+            buttons: [
+              { text: "Cancel", style: "cancel" },
+              {
+                text: "Delete",
+                style: "destructive",
+                onPress: async () => {
+                  const displayName = pnm.displayName;
+                  await deleteMutation.mutateAsync({ id: pnmId });
 
-          pnmStore.deletePnm(pnmId);
-          globalStore.deletePnm(pnm);
+                  pnmStore.deletePnm(pnmId);
+                  globalStore.deletePnm(pnm);
 
-          Toast.show({
-            type: "success",
-            text1: "PNM Deleted",
-            text2: `${displayName} has been removed from your contacts`,
+                  Toast.show({
+                    type: "success",
+                    text1: "PNM Deleted",
+                    text2: `${displayName} has been removed from your contacts`,
+                  });
+
+                  handleClose();
+
+                  posthog.capture("PNM_DELETED");
+                },
+              },
+            ],
           });
-
-          handleClose();
-
-          posthog.capture("PNM_DELETED");
         };
 
         const onSendMessagePress = () => {
@@ -114,18 +131,22 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
           openBottomSheet("UPDATE_PNM", { pnmId });
         };
 
+        const onAvatarPress = () => {
+          if (!pnm?.avatar) return;
+          setImage(pnm.avatar);
+        };
+
         if (!pnm) return <LoadingState />;
 
         return (
-          <BottomSheetContainer>
-            <View style={tw`mb-2 flex-row justify-between items-center`}>
-              <Headline
-                style={tw`shrink`}
-                title={pnm.displayName}
-                subtitle={`Added on ${date.toString(pnm.createdAt)}`}
-              />
+          <>
+            <View style={tw`bg-slate-200 absolute h-26 w-full`} />
 
-              <View style={tw`flex-row gap-1`}>
+            <BottomSheetContainer
+              style={tw`pt-0`}
+              contentContainerStyle={tw`gap-y-6 pb-10`}
+            >
+              <View style={tw`flex-row gap-1 justify-end`}>
                 <IconButton
                   size="sm"
                   color="secondary"
@@ -144,34 +165,48 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
                   onPress={onDelete}
                 />
               </View>
-            </View>
 
-            <Detail.List>
-              <Detail.Item
-                title="Phone Number"
-                value={format.phoneNumber(pnm.phoneNumber) || "N/A"}
-              />
-              <Detail.Item title="Instagram" value={pnm.instagram || "N/A"} />
-              <Detail.Item title="Snapchat" value={pnm.snapchat || "N/A"} />
-              <Detail.Item
-                title="Tags"
-                // Same as below, make the view look like the other list items when no tags
-                layout={!pnm.tags.length ? "horizontal" : "vertical"}
-                // Make the tags view look like the other list items when no tags, otherwise render the tags list
-                // prettier-ignore
-                value={!pnm.tags.length ? "N/A" : <TagView disabled hideContainer tags={pnm.tags}/>}
-              />
-            </Detail.List>
+              <View style={tw`gap-y-2`}>
+                <Avatar
+                  contentRing
+                  url={pnm.avatar}
+                  onPress={pnm.avatar ? onAvatarPress : undefined}
+                />
 
-            <ButtonGroup>
-              <Button size="sm" color="secondary" onPress={onEditPress}>
-                Edit
-              </Button>
-              <Button size="sm" onPress={onSendMessagePress}>
-                Send Message
-              </Button>
-            </ButtonGroup>
-          </BottomSheetContainer>
+                <Headline
+                  style={tw`shrink`}
+                  title={pnm.displayName}
+                  subtitle={`Added on ${date.toString(pnm.createdAt)}`}
+                />
+              </View>
+
+              <Detail.List>
+                <Detail.Item
+                  title="Phone Number"
+                  value={format.phoneNumber(pnm.phoneNumber) || "N/A"}
+                />
+                <Detail.Item title="Instagram" value={pnm.instagram || "N/A"} />
+                <Detail.Item title="Snapchat" value={pnm.snapchat || "N/A"} />
+                <Detail.Item
+                  title="Tags"
+                  // Same as below, make the view look like the other list items when no tags
+                  layout={!pnm.tags.length ? "horizontal" : "vertical"}
+                  // Make the tags view look like the other list items when no tags, otherwise render the tags list
+                  // prettier-ignore
+                  value={!pnm.tags.length ? "N/A" : <TagView disabled hideContainer tags={pnm.tags}/>}
+                />
+              </Detail.List>
+
+              <ButtonGroup>
+                <Button size="sm" color="secondary" onPress={onEditPress}>
+                  Edit
+                </Button>
+                <Button size="sm" onPress={onSendMessagePress}>
+                  Send Message
+                </Button>
+              </ButtonGroup>
+            </BottomSheetContainer>
+          </>
         );
       }}
     ></BottomSheet>

@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { View } from "react-native";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 
@@ -23,7 +24,6 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
 import ListItem from "@/ui/ListItem";
-import Headline from "@/ui/Headline";
 import Session from "@/components/Session";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 
@@ -80,7 +80,7 @@ const SecurityView = () => {
 
   return (
     <>
-      <Text type="h2">Actions</Text>
+      <Text type="h3">Actions</Text>
       <ListItem
         size="lg"
         icon="lock-password-fill"
@@ -89,10 +89,13 @@ const SecurityView = () => {
         onPress={onChangePasswordPress}
       />
 
-      <Headline
-        title="Sessions"
-        subtitle="All of the devices that are currently logged in with your account. You can remove sessions."
-      />
+      <View>
+        <Text type="h3">Sessions</Text>
+        <Text>
+          All of the devices that are currently logged in with your account. You
+          can remove sessions.
+        </Text>
+      </View>
 
       {sessionsQuery.isLoading && <SessionsLoader />}
 
