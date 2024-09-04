@@ -36,7 +36,6 @@ import AppConstants from "@/constants";
 import useCamera from "@/hooks/useCamera";
 import { useGetEvents } from "@/hooks/api/events";
 import useCloudStorage from "@/hooks/useCloudStorage";
-import { useUploadAttachment } from "@/hooks/api/messaging";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   (
@@ -52,7 +51,6 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
     const camera = useCamera();
     const eventsQuery = useGetEvents();
     const cloudStorage = useCloudStorage();
-    const uploadMutation = useUploadAttachment();
     const bottomSheetRef = useRef<BottomSheetModal>(null);
 
     useImperativeHandle(ref, () => ({
