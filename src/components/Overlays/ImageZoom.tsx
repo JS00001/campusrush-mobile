@@ -14,7 +14,6 @@ import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withTiming,
 } from "react-native-reanimated";
 import { Image } from "expo-image";
@@ -28,20 +27,20 @@ import { useImageZoomStore } from "@/store";
 const ImageZoomOverlay = () => {
   const { image, clear } = useImageZoomStore();
 
-  const opacity = useSharedValue(0);
-  const scale = useSharedValue(0.75);
+  const opacity = useSharedValue(0.5);
+  const scale = useSharedValue(0.1);
   const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
     if (image) {
       setHidden(false);
-      opacity.value = withTiming(1, { duration: 200 });
-      scale.value = withSpring(1, { damping: 10 });
+      opacity.value = withTiming(1, { duration: 250 });
+      scale.value = withTiming(1, { duration: 250 });
     } else {
-      opacity.value = withTiming(0, { duration: 200 }, () => {
+      opacity.value = withTiming(0.5, { duration: 250 }, () => {
         runOnJS(setHidden)(true);
       });
-      scale.value = withSpring(0.75, { damping: 10 });
+      scale.value = withTiming(0, { duration: 250 });
     }
   }, [image]);
 

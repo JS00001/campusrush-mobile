@@ -13,6 +13,7 @@
 import { Linking, View } from "react-native";
 import { EntitlementRenewState } from "react-native-qonversion";
 
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import date from "@/lib/util/date";
@@ -60,10 +61,10 @@ const BillingView = () => {
 
         return (
           <View style={containerStyles} key={entitlement.id}>
-            <Headline
-              title={`${titleCase(entitlement.id)} Subscription`}
-              subtitle="Thank you for choosing CampusRush"
-            />
+            <View>
+              <Text type="h3">{titleCase(entitlement.id)} Subscription</Text>
+              <Text>Thank you for choosing CampusRush</Text>
+            </View>
 
             <IconLabel
               size="xs"

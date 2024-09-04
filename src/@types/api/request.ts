@@ -141,6 +141,8 @@ export interface UpdatePnmRequest {
   snapchat?: string;
   /** Flag indicating if the PNM is starred */
   starred?: boolean;
+  /** Updated avatar of the potential new member (PNM) */
+  avatar?: string;
 }
 
 export interface DeletePnmRequest {

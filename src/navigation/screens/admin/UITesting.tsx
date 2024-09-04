@@ -22,12 +22,38 @@ const UITestingScreen: React.FC<Props> = ({}) => {
   const { openBottomSheet } = useBottomSheet();
 
   const onPress = () => {
-    openBottomSheet("DYNAMIC_NOTIFICATION", {
-      title: "Dynamic Notification",
-      message: "This is a dynamic notification",
-      iconName: "bell-fill",
-      iconColor: "blue",
-    });
+    openBottomSheet("ACTION_MENU", [
+      {
+        header: "Quick Actions",
+        menuItems: [
+          {
+            iconName: "file-copy-line",
+            label: "Copy",
+            onPress: () => {},
+          },
+          {
+            iconName: "download-line",
+            label: "Save to Camera Roll",
+            onPress: () => {},
+          },
+        ],
+      },
+      {
+        header: "Quick Actions",
+        menuItems: [
+          {
+            iconName: "file-copy-line",
+            label: "Copy",
+            onPress: () => {},
+          },
+          {
+            iconName: "download-line",
+            label: "Save to Camera Roll",
+            onPress: () => {},
+          },
+        ],
+      },
+    ]);
   };
 
   return (
@@ -41,7 +67,7 @@ const UITestingScreen: React.FC<Props> = ({}) => {
           tags={["tag1", "tag2", "tag3", "Sports", "Testing"]}
         />
 
-        <Button onPress={onPress}>Open Dynamic Notification</Button>
+        <Button onPress={onPress}>Open Action Menu</Button>
       </Layout.Content>
     </Layout.Root>
   );

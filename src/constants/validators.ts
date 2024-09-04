@@ -167,6 +167,17 @@ const validators = {
       message: 'Invalid icon name',
     }),
   }),
+  /**
+   * A URL validator
+   */
+  url: z
+    .string({
+      required_error: 'URL is required',
+      invalid_type_error: 'URL must be a string',
+    })
+    .url({
+      message: 'URL must be a valid URL',
+    }),
 };
 
 export default validators;

@@ -68,7 +68,7 @@ const Event: React.FC<EventProps> = ({
         />
 
         <View style={tw`shrink`}>
-          <Text type="h2" numberOfLines={1}>
+          <Text type="h3" numberOfLines={1}>
             {formattedEvent.title}
           </Text>
           <Text type="p3" numberOfLines={2}>

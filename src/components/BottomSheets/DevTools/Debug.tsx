@@ -32,7 +32,7 @@ const Debug = () => {
       </View>
 
       <View style={tw`rounded-xl bg-slate-100 p-4`}>
-        <Text type="h2">Current Chapter</Text>
+        <Text type="h3">Current Chapter</Text>
         <Text type="p4">{formatJSON(JSON.stringify(chapter))}</Text>
       </View>
     </View>

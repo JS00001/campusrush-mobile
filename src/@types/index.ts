@@ -26,3 +26,5 @@ export * from './api';
 export * from './api/cms';
 export * from './api/response';
 export * from './api/request';
+
+export * from './components/actionMenu';

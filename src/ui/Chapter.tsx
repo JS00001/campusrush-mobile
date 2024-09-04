@@ -10,12 +10,12 @@
  * Do not distribute
  */
 
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
 import type { IChapter } from "@/types";
 
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Headline from "@/ui/Headline";
 import dateUtil from "@/lib/util/date";
 import IconLabel from "@/ui/IconLabel";
 import { useBottomSheet } from "@/providers/BottomSheet";
@@ -35,7 +35,10 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
 
   return (
     <TouchableOpacity style={containerStyles} onPress={onPress}>
-      <Headline title={chapter.name} subtitle={chapter.school} />
+      <View>
+        <Text type="h3">{chapter.name}</Text>
+        <Text>{chapter.school}</Text>
+      </View>
 
       <IconLabel
         size="xs"

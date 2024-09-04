@@ -18,7 +18,6 @@ import {
 import { View } from "react-native";
 import * as Haptic from "expo-haptics";
 import Toast from "react-native-toast-message";
-import * as ImagePicker from "expo-image-picker";
 import { forwardRef, useImperativeHandle, useRef, Fragment } from "react";
 
 import EventCard from "./Extensions/Event/Card";
@@ -34,8 +33,9 @@ import Tab from "@/ui/Tabs/Tab";
 import Skeleton from "@/ui/Skeleton";
 import Headline from "@/ui/Headline";
 import AppConstants from "@/constants";
+import useCamera from "@/hooks/useCamera";
 import { useGetEvents } from "@/hooks/api/events";
-import { useUploadAttachment } from "@/hooks/api/messaging";
+import useCloudStorage from "@/hooks/useCloudStorage";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   (
@@ -48,8 +48,9 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
     }: ExtensionPanelProps,
     ref,
   ) => {
+    const camera = useCamera();
     const eventsQuery = useGetEvents();
-    const uploadMutation = useUploadAttachment();
+    const cloudStorage = useCloudStorage();
     const bottomSheetRef = useRef<BottomSheetModal>(null);
 
     useImperativeHandle(ref, () => ({
@@ -94,42 +95,22 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
           text1: "Maximum Images",
           text2: `You can only attach ${AppConstants.maxImages} images per message`,
         });
-
         return;
       }
 
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        aspect: [4, 3],
-        quality: 1,
-      });
+      const image = await camera.selectPhoto();
 
-      if (!result.canceled) {
-        setPendingAttachments((pending) => pending + 1);
+      if (!image) return;
 
-        const image = result.assets[0];
-        const fileName = image.uri.split("/").pop();
-        const formData = new FormData();
+      setPendingAttachments((pending) => pending + 1);
 
-        const payload = {
-          uri: image.uri,
-          name: fileName,
-          type: "image/jpeg",
-        } as unknown as Blob;
+      const imageUrl = await cloudStorage.uploadImage(image);
 
-        formData.append("attachment", payload);
-
-        const res = await uploadMutation.mutateAsync(formData).catch(() => {
-          setPendingAttachments((pending) => pending - 1);
-        });
-
-        if (!res) return;
-
-        const imageUrl = res.data.url;
-
+      if (imageUrl) {
         onImageAttach(imageUrl);
-        setPendingAttachments((pending) => pending - 1);
       }
+
+      setPendingAttachments((pending) => pending - 1);
     };
 
     const BackdropComponent = (props: any) => (

@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({
           </InvisibleWrapper>
 
           <View>
-            <Text type="h2">{title}</Text>
+            <Text type="h3">{title}</Text>
             <Text type="p3">{subtitle}</Text>
           </View>
         </View>
