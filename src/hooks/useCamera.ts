@@ -19,8 +19,8 @@ import { alert } from '@/lib/util';
 
 const useCamera = () => {
   /**
-   * Take an image from a URL and save it
-   * to the user's camera roll.
+   * Take an image from a URL and save it to
+   * the user's camera roll.
    */
   const saveImage = async (url: string) => {
     try {
@@ -68,7 +68,8 @@ const useCamera = () => {
   };
 
   /**
-   * Take a photo using the device's camera
+   * Take a photo using the device's camera, and return
+   * the first photo taken
    */
   const takePhoto = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -94,7 +95,8 @@ const useCamera = () => {
   };
 
   /**
-   * Select a photo from the device's gallery
+   * Select a photo from the device's gallery, and return the first
+   * selected photo
    */
   const selectPhoto = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({

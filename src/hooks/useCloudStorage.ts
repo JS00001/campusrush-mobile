@@ -17,6 +17,10 @@ import { useUploadAttachment } from '@/hooks/api/messaging';
 const useCloudStorage = () => {
   const uploadMutation = useUploadAttachment();
 
+  /**
+   * Upload an image to our R2 instance. Ensures that the image is SFW
+   * Returns the URL of the uploaded image
+   */
   const uploadImage = async (image: ImagePickerAsset) => {
     const fileName = image.uri.split('/').pop();
     const formData = new FormData();
