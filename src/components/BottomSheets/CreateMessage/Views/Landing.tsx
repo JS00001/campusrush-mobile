@@ -19,6 +19,7 @@ import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Headline from "@/ui/Headline";
 import FlatList from "@/ui/FlatList";
 import ListItem from "@/ui/ListItem";
 import Skeleton from "@/ui/Skeleton";
@@ -30,7 +31,6 @@ import HeadlineLoader from "@/ui/Loaders/Headline";
 
 import useSearch from "@/hooks/useSearch";
 import { useGetContacts } from "@/hooks/api/contacts";
-import Headline from "@/ui/Headline";
 
 const Landing: React.FC<UseSheetFlowProps> = ({
   handleClose,

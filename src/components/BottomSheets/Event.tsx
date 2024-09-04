@@ -101,7 +101,7 @@ const EventSheet: React.FC<BottomSheetProps> = ({
             <View style={tw`mb-2 flex-row justify-between items-center`}>
               <Headline
                 style={tw`shrink`}
-                title={event.title + "is a long time partner that doesnt"}
+                title={event.title}
                 subtitle={`Added on ${date.toString(event.createdAt)}`}
               />
 
