@@ -30,8 +30,8 @@ import TagView from "@/components/TagView";
 import ButtonGroup from "@/ui/ButtonGroup";
 import usePosthog from "@/hooks/usePosthog";
 import { BottomSheet } from "@/ui/BottomSheet";
-import { useGlobalStore, usePnmStore } from "@/store";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
+import { useGlobalStore, useImageZoomStore, usePnmStore } from "@/store";
 import { useDeletePnm, useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
 const PnmSheet: React.FC<BottomSheetProps> = ({
@@ -50,6 +50,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
 
         const pnmStore = usePnmStore();
         const globalStore = useGlobalStore();
+        const { setImage } = useImageZoomStore();
 
         const pnmQuery = useGetPnm(pnmId);
         const deleteMutation = useDeletePnm();
@@ -130,6 +131,11 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
           openBottomSheet("UPDATE_PNM", { pnmId });
         };
 
+        const onAvatarPress = () => {
+          if (!pnm?.avatar) return;
+          setImage(pnm.avatar);
+        };
+
         if (!pnm) return <LoadingState />;
 
         return (
@@ -161,7 +167,11 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
               </View>
 
               <View style={tw`gap-y-2`}>
-                <Avatar contentRing url={pnm.avatar} />
+                <Avatar
+                  contentRing
+                  url={pnm.avatar}
+                  onPress={pnm.avatar ? onAvatarPress : undefined}
+                />
 
                 <Headline
                   style={tw`shrink`}

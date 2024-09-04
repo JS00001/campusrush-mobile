@@ -23,7 +23,7 @@ interface AvatarProps extends ViewProps {
   size?: AvatarSize;
   editable?: boolean;
   contentRing?: boolean;
-  onEditPress?: () => void;
+  onPress?: () => void;
   style?: any;
 }
 
@@ -57,7 +57,7 @@ const Avatar: React.FC<AvatarProps> = ({
   contentRing,
   size = "md",
   editable,
-  onEditPress,
+  onPress,
   ...props
 }) => {
   const iconSize = AvatarSizes[size].icon;
@@ -83,8 +83,8 @@ const Avatar: React.FC<AvatarProps> = ({
   return (
     <TouchableOpacity
       style={containerStyles}
-      disabled={!editable}
-      onPress={onEditPress}
+      disabled={!onPress}
+      onPress={onPress}
       {...props}
     >
       {url && (

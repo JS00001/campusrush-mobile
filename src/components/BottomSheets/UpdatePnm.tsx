@@ -139,7 +139,7 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
                 size="lg"
                 style={tw`self-center`}
                 url={form.state.avatar.value}
-                onEditPress={onEditPress}
+                onPress={onEditPress}
               />
 
               <FormField
