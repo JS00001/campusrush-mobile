@@ -11,12 +11,16 @@
  */
 
 import {
-  Animated,
   Pressable,
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
   TouchableOpacity,
 } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import { useEffect, useRef, useState } from "react";
 
 import Text from "@/ui/Text";
@@ -53,8 +57,8 @@ const FormField: React.FC<FormFieldProps> = ({
   ...props
 }) => {
   const inputRef = useRef<RNTextInput>(null);
-  const placeholderY = useRef(new Animated.Value(20)).current;
-  const placeholderSize = useRef(new Animated.Value(18)).current;
+  const placeholderY = useSharedValue(20);
+  const placeholderSize = useSharedValue(18);
 
   const [focused, setFocused] = useState(false);
   const [hideValue, setHideValue] = useState(secureTextEntry);
@@ -75,20 +79,8 @@ const FormField: React.FC<FormFieldProps> = ({
    * Animate between the placeholder's focused and unfocused states
    */
   const animatePlaceholder = (toYValue: number, toFontSize: number) => {
-    Animated.parallel([
-      // Animate the placeholder up and down
-      Animated.timing(placeholderY, {
-        toValue: toYValue,
-        duration: 200,
-        useNativeDriver: false,
-      }),
-      // Animate the placeholder font size up and down
-      Animated.timing(placeholderSize, {
-        toValue: toFontSize,
-        duration: 200,
-        useNativeDriver: false,
-      }),
-    ]).start();
+    placeholderY.value = withTiming(toYValue, { duration: 200 });
+    placeholderSize.value = withTiming(toFontSize, { duration: 200 });
   };
 
   /**
@@ -125,14 +117,16 @@ const FormField: React.FC<FormFieldProps> = ({
     style,
   );
 
-  const placeholderStyles = [
-    tw.style(
-      "absolute z-10 px-4 bg-slate-100 left-1 text-slate-500 flex-1",
-      disabled && "disabled",
-      error && "text-red",
-    ),
-    { top: placeholderY, fontSize: placeholderSize },
-  ];
+  const placeholderStyles = tw.style(
+    "absolute z-10 px-4 bg-slate-100 left-1 text-slate-500 flex-1",
+    disabled && "disabled",
+    error && "text-red",
+  );
+
+  const animatedPlaceholderStyles = useAnimatedStyle(() => ({
+    top: placeholderY.value,
+    fontSize: placeholderSize.value,
+  }));
 
   const valueStyles = tw.style("text-lg leading-5 text-primary");
 
@@ -170,7 +164,10 @@ const FormField: React.FC<FormFieldProps> = ({
       </TextInputWithNoFontScaling>
 
       {/* The placeholder, which animates up and down */}
-      <Animated.Text numberOfLines={1} style={placeholderStyles}>
+      <Animated.Text
+        numberOfLines={1}
+        style={[placeholderStyles, animatedPlaceholderStyles]}
+      >
         {error || placeholder}
       </Animated.Text>
 
