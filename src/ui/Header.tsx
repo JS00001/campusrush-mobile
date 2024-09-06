@@ -15,7 +15,6 @@ import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Progress from "@/ui/Progress";
 import IconButton from "@/ui/IconButton";
 import SafeAreaView from "@/ui/SafeAreaView";
 import InvisibleWrapper from "@/ui/InvisibleWrapper";
@@ -23,7 +22,6 @@ import InvisibleWrapper from "@/ui/InvisibleWrapper";
 interface HeaderProps extends ViewProps {
   title: string;
   subtitle: string;
-  loading?: boolean;
   hasBackButton?: boolean;
   hasMenuButton?: boolean;
   onMenuButtonPress?: () => void;
@@ -33,7 +31,6 @@ const Header: React.FC<HeaderProps> = ({
   title,
   subtitle,
   children,
-  loading = false,
   hasBackButton = false,
   hasMenuButton = false,
   onMenuButtonPress,
@@ -82,8 +79,6 @@ const Header: React.FC<HeaderProps> = ({
       </View>
 
       {children}
-
-      <Progress loading={!!loading} />
     </SafeAreaView>
   );
 };

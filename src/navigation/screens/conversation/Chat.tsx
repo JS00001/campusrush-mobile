@@ -166,6 +166,7 @@ const Chat: React.FC<Props> = ({ route }) => {
     }
 
     posthog.capture("DIRECT_MESSAGE_SENT", { count: messages.length });
+    return { cancelled: false };
   };
 
   /**
@@ -187,10 +188,7 @@ const Chat: React.FC<Props> = ({ route }) => {
   return (
     <Layout.Root>
       <Layout.CustomHeader>
-        <DirectMessageHeader
-          pnmId={pnmId}
-          loading={sendMessageMutation.isLoading}
-        />
+        <DirectMessageHeader pnmId={pnmId} />
       </Layout.CustomHeader>
 
       <FlatList
