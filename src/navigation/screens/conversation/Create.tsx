@@ -51,9 +51,9 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
    * Returns whether the user cancelled the message send or not
    */
   const onMessageSend = async (messages: IMessageContent[]) => {
-    const PNM_ALERT_THRESHOLD = 12;
+    const PNM_ALERT_THRESHOLD = 24;
 
-    if (pnms.length > PNM_ALERT_THRESHOLD) {
+    if (pnms.length >= PNM_ALERT_THRESHOLD) {
       const timeToSend = Math.ceil(pnms.length / 6);
 
       const pressedButtonId = await alert({
