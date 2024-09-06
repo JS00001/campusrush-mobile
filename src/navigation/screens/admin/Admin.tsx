@@ -12,9 +12,9 @@
 
 import ListItem from "@/ui/ListItem";
 import { Layout } from "@/ui/Layout";
-import type { AdminStackProps } from "@/navigation/@types";
+import type { MoreStackProps } from "@/navigation/@types";
 
-type Props = AdminStackProps<"Admin">;
+type Props = MoreStackProps<"Admin">;
 
 const Admin: React.FC<Props> = ({ navigation }) => {
   const onChaptersPress = () => {

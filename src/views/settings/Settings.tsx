@@ -19,7 +19,6 @@ import Button from "@/ui/Button";
 import { alert } from "@/lib/util";
 import ListItem from "@/ui/ListItem";
 import AppConstants from "@/constants";
-import { useAuth } from "@/providers/Auth";
 import { useDeleteChapter } from "@/hooks/api/chapter";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
@@ -28,7 +27,6 @@ const SettingsView = () => {
   const deletionMutation = useDeleteChapter();
 
   const { openBottomSheet } = useBottomSheet();
-  const { chapter, logoutUser, mutations } = useAuth();
 
   const onTermsOfServicePress = () => {
     openBottomSheet("TERMS_OF_SERVICE");
@@ -40,7 +38,7 @@ const SettingsView = () => {
 
   const onChapterPress = () => {
     navigation.navigate("Main", {
-      screen: "HomeTab",
+      screen: "MoreTab",
       params: {
         screen: "Chapter",
       },
@@ -49,25 +47,16 @@ const SettingsView = () => {
 
   const onNotificationsPress = () => {
     navigation.navigate("Main", {
-      screen: "HomeTab",
+      screen: "MoreTab",
       params: {
         screen: "Notifications",
       },
     });
   };
 
-  const onSecurityPress = () => {
-    navigation.navigate("Main", {
-      screen: "HomeTab",
-      params: {
-        screen: "Security",
-      },
-    });
-  };
-
   const onPhoneNumberPress = () => {
     navigation.navigate("Main", {
-      screen: "HomeTab",
+      screen: "MoreTab",
       params: {
         screen: "PhoneNumber",
       },
@@ -76,7 +65,7 @@ const SettingsView = () => {
 
   const onBillingPress = () => {
     navigation.navigate("Main", {
-      screen: "HomeTab",
+      screen: "MoreTab",
       params: {
         screen: "Billing",
       },
@@ -85,31 +74,10 @@ const SettingsView = () => {
 
   const onLinkSharingPress = () => {
     navigation.navigate("Main", {
-      screen: "HomeTab",
+      screen: "MoreTab",
       params: {
         screen: "LinkSharing",
       },
-    });
-  };
-
-  const onLogout = async () => {
-    alert({
-      title: "Are you sure?",
-      message:
-        "You will be signed out of your account, and will need to sign back in.",
-      buttons: [
-        {
-          style: "cancel",
-          text: "No, Cancel",
-        },
-        {
-          style: "destructive",
-          text: "Yes, Sign Out",
-          onPress: async () => {
-            await logoutUser();
-          },
-        },
-      ],
     });
   };
 
@@ -152,13 +120,6 @@ const SettingsView = () => {
       />
       <ListItem
         size="lg"
-        title="Security"
-        subtitle="Manage your security settings"
-        icon="shield-check-fill"
-        onPress={onSecurityPress}
-      />
-      <ListItem
-        size="lg"
         title="Phone Number"
         subtitle="Your custom phone number "
         icon="phone-fill"
@@ -195,15 +156,6 @@ const SettingsView = () => {
           onPress={onPrivacyPolicyPress}
         />
       </View>
-
-      <Button
-        size="sm"
-        style={tw`w-full`}
-        onPress={onLogout}
-        loading={mutations.logoutMutation.isLoading}
-      >
-        Sign Out of {chapter.name}
-      </Button>
 
       <Button
         size="sm"

@@ -101,7 +101,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
           const event: IEvent = data.event;
 
           navigation.navigate("Main", {
-            screen: "EventsTab",
+            screen: "MoreTab",
             params: {
               screen: "Events",
             },

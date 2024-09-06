@@ -10,28 +10,19 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
-import SecurityView from "@/views/settings/Security";
+import SettingsView from "@/views/settings";
 
-const SecurityScreen: React.FC = () => {
+const SettingsScreen = () => {
   return (
     <Layout.Root>
-      <Layout.Header
-        hasBackButton
-        title="Security"
-        subtitle="Manage your password, and view active account sessions"
-      />
+      <Layout.Header title="Settings" subtitle="Manage your chapter" />
 
-      <Layout.Content
-        gap={12}
-        scrollable
-        contentContainerStyle={tw`items-start`}
-      >
-        <SecurityView />
+      <Layout.Content scrollable gap={12}>
+        <SettingsView />
       </Layout.Content>
     </Layout.Root>
   );
 };
 
-export default SecurityScreen;
+export default SettingsScreen;
