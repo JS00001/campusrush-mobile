@@ -209,6 +209,7 @@ const Chat: React.FC<Props> = ({ route }) => {
 
       <Layout.Footer>
         <MessageBox
+          massMessage={false}
           onSend={sendDirectMessages}
           disableSend={sendMessageMutation.isLoading}
         />

@@ -145,7 +145,7 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
       </Layout.Content>
 
       <Layout.Footer>
-        <MessageBox onSend={onMessageSend} />
+        <MessageBox massMessage onSend={onMessageSend} />
       </Layout.Footer>
     </Layout.Root>
   );

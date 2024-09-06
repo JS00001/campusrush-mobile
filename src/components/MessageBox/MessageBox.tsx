@@ -45,11 +45,16 @@ import { usePreferences } from "@/providers/Preferences";
 import useKeyboardListener from "@/hooks/useKeyboardListener";
 
 interface MessageBoxProps {
+  massMessage: boolean;
   disableSend?: boolean;
   onSend: (messages: IMessageContent[]) => Promise<{ cancelled: boolean }>;
 }
 
-const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
+const MessageBox: React.FC<MessageBoxProps> = ({
+  massMessage,
+  disableSend,
+  onSend,
+}) => {
   const textInputRef = useRef<RNTextInput>(null);
   const extensionPanelRef = useRef<ExtensionPanelRef>(null);
 
@@ -151,6 +156,14 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
     ].filter((message) => message.content || message.attachments.length);
 
     if (!messages.length) return;
+
+    // TODO: Remove the 'if !mass message' check
+    if (!massMessage) {
+      onSend(messages);
+      setValue("");
+      setAttachments({ images: [], events: [] });
+      return;
+    }
 
     // Send the message. If the user gets a dialog, and cancels, we don't want to clear
     // the message, they could try again
