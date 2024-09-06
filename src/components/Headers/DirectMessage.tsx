@@ -24,13 +24,9 @@ import { useBottomSheet } from "@/providers/BottomSheet";
 
 interface DirectMessageHeaderProps {
   pnmId: string;
-  loading: boolean;
 }
 
-const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({
-  pnmId,
-  loading,
-}) => {
+const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({ pnmId }) => {
   const pnmQuery = useGetPnm(pnmId);
   const navigation = useNavigation();
   const { openBottomSheet } = useBottomSheet();
@@ -58,7 +54,6 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({
     <Header
       hasBackButton
       hasMenuButton
-      loading={loading}
       title={pnm.displayName}
       subtitle={format.phoneNumber(pnm.phoneNumber)}
       onMenuButtonPress={onMenuButtonPress}

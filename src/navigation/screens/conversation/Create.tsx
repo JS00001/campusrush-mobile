@@ -48,38 +48,36 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
   /**
    * Verify that the user wants to send a mass message, then
    * proceed to send the message to the selected PNMs
+   * Returns whether the user cancelled the message send or not
    */
   const onMessageSend = async (messages: IMessageContent[]) => {
-    if (pnms.length > 12) {
+    const PNM_ALERT_THRESHOLD = 24;
+
+    if (pnms.length >= PNM_ALERT_THRESHOLD) {
       const timeToSend = Math.ceil(pnms.length / 6);
 
-      alert({
+      const pressedButtonId = await alert({
         title: "Send Message?",
         message: `Cell providers limit messages to 6 /min. Sending this message will take about ${timeToSend} minutes. You can still use the app while sending, and new messages will be queued. Send mass message?`,
         buttons: [
-          {
-            text: "Cancel",
-            style: "cancel",
-            onPress: () => {
-              posthog.capture("MASS_MESSAGE_CANCELLED", {
-                pnmCount: pnms.length,
-              });
-            },
-          },
-          {
-            text: "Send",
-            onPress: () => {
-              sendMessages(messages);
-              posthog.capture("MASS_MESSAGE_SENT", { pnmCount: pnms.length });
-            },
-          },
+          { id: "cancel", text: "Cancel", style: "cancel" },
+          { id: "send", text: "Send" },
         ],
       });
 
-      return;
+      if (pressedButtonId === "cancel") {
+        posthog.capture("MASS_MESSAGE_CANCELLED", { pnmCount: pnms.length });
+        return { cancelled: true };
+      }
+
+      posthog.capture("MASS_MESSAGE_SENT", { pnmCount: pnms.length });
+      sendMessages(messages);
+      return { cancelled: false };
     }
 
     sendMessages(messages);
+    posthog.capture("MASS_MESSAGE_SENT", { pnmCount: pnms.length });
+    return { cancelled: false };
   };
 
   /**
@@ -147,7 +145,7 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
       </Layout.Content>
 
       <Layout.Footer>
-        <MessageBox onSend={onMessageSend} />
+        <MessageBox massMessage onSend={onMessageSend} />
       </Layout.Footer>
     </Layout.Root>
   );

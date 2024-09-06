@@ -12,15 +12,34 @@
 
 import { Alert, AlertButton } from 'react-native';
 
+interface AsyncAlertButton extends AlertButton {
+  id?: string;
+}
+
 interface AlertProps {
   title: string;
   message: string;
-  buttons?: AlertButton[];
+  buttons?: AsyncAlertButton[];
 }
 
 /**
  * Alerts the user with a message.
  */
 export const alert = ({ title, message, buttons }: AlertProps) => {
-  Alert.alert(title, message, buttons);
+  return new Promise((resolve) => {
+    const asyncButtons: AsyncAlertButton[] =
+      buttons?.map((button, index) => {
+        const id = button.id || index.toString();
+        return {
+          ...button,
+          id: id,
+          onPress: () => {
+            button.onPress?.();
+            resolve(id);
+          },
+        };
+      }) || [];
+
+    Alert.alert(title, message, asyncButtons);
+  });
 };

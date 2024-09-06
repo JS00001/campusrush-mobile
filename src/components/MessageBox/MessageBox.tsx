@@ -23,7 +23,6 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useRef, useState } from "react";
-import Toast from "react-native-toast-message";
 
 import type {
   IAttachments,
@@ -46,11 +45,16 @@ import { usePreferences } from "@/providers/Preferences";
 import useKeyboardListener from "@/hooks/useKeyboardListener";
 
 interface MessageBoxProps {
+  massMessage: boolean;
   disableSend?: boolean;
-  onSend: (messages: IMessageContent[]) => void;
+  onSend: (messages: IMessageContent[]) => Promise<{ cancelled: boolean }>;
 }
 
-const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
+const MessageBox: React.FC<MessageBoxProps> = ({
+  massMessage,
+  disableSend,
+  onSend,
+}) => {
   const textInputRef = useRef<RNTextInput>(null);
   const extensionPanelRef = useRef<ExtensionPanelRef>(null);
 
@@ -135,28 +139,40 @@ const MessageBox: React.FC<MessageBoxProps> = ({ disableSend, onSend }) => {
   /**
    * Send the message/attachment and reset the state
    */
-  const onSendPress = () => {
+  const onSendPress = async () => {
     // If the value is empty, set the content to undefined, so that we just send
     // the attachments
-    let content = value || undefined;
-    let messages = [{ content, attachments: attachments.images }];
-    let events = attachments.events.map((event) => ({
+    const content = value || undefined;
+    const events = attachments.events.map((event) => ({
       content: event,
       attachments: [],
     }));
 
-    messages = [...messages, ...events];
-
-    // Check if any entries in the array are empty, if so, remove them, if all are empty, return
-    messages = messages.filter((message) => {
-      return message.content?.length || message.attachments.length;
-    });
+    // If there are events, add them as separate messages, then remove
+    // all messages that have niether content nor attachments
+    const messages = [
+      { content, attachments: attachments.images },
+      ...events,
+    ].filter((message) => message.content || message.attachments.length);
 
     if (!messages.length) return;
 
-    onSend(messages);
-    setValue("");
-    setAttachments({ images: [], events: [] });
+    // TODO: Remove the 'if !mass message' check
+    if (!massMessage) {
+      onSend(messages);
+      setValue("");
+      setAttachments({ images: [], events: [] });
+      return;
+    }
+
+    // Send the message. If the user gets a dialog, and cancels, we don't want to clear
+    // the message, they could try again
+    const { cancelled } = await onSend(messages);
+
+    if (!cancelled) {
+      setValue("");
+      setAttachments({ images: [], events: [] });
+    }
   };
 
   /**
