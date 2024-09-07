@@ -77,7 +77,7 @@ export const grantAdminChapterEntitlement = async (
 ) => {
   const url = `${PREFIX}/chapters/${data.id}/entitlements`;
 
-  const { data: responseData } = await axiosClient.post(url, data);
+  const { data: responseData } = await axiosClient.put(url, data);
 
   return responseData as GrantAdminChapterEntitlementsResponse;
 };
