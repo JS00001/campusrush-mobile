@@ -49,7 +49,13 @@ const BillingScreen = () => {
 
       const toObject = Object.fromEntries(response.entries());
 
-      const sortedKeys = Object.keys(toObject).sort((a, b) => {
+      // Filter out the products that are not subscriptions
+      const filteredKeys = Object.keys(toObject).filter((key) => {
+        const product = toObject[key];
+        return !product.qonversionID.startsWith("sandbox");
+      });
+
+      const sortedKeys = filteredKeys.sort((a, b) => {
         const aPrice = toObject[a].price as number;
         const bPrice = toObject[b].price as number;
 
