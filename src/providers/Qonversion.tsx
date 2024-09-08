@@ -12,7 +12,7 @@
 
 import * as Sentry from "@sentry/react-native";
 import Toast from "react-native-toast-message";
-import { Entitlement } from "react-native-qonversion";
+import { Entitlement, EntitlementSource } from "react-native-qonversion";
 import Qonversion, { PurchaseModel } from "react-native-qonversion";
 import { createContext, useEffect, useState, useContext } from "react";
 
@@ -64,7 +64,9 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
    */
   const setEntitlements = (entitlements: Map<string, Entitlement>) => {
     const activeEntitlements = Array.from(entitlements.values()).filter(
-      (entitlement) => entitlement.isActive,
+      (entitlement) =>
+        entitlement.isActive &&
+        entitlement.source === EntitlementSource.APP_STORE,
     );
 
     const activeEntitlementIds = activeEntitlements.map(
