@@ -64,9 +64,7 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
    */
   const setEntitlements = (entitlements: Map<string, Entitlement>) => {
     const activeEntitlements = Array.from(entitlements.values()).filter(
-      (entitlement) =>
-        entitlement.isActive &&
-        entitlement.source === EntitlementSource.APP_STORE,
+      (entitlement) => entitlement.isActive,
     );
 
     const activeEntitlementIds = activeEntitlements.map(

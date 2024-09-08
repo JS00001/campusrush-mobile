@@ -1,7 +1,7 @@
 {
   "name": "campusrush-mobile",
   "version": "1.0.77",
-  "updateVersion": "2024.9.8.2",
+  "updateVersion": "2024.9.8.3",
   "main": "src/App.tsx",
   "license": "All Rights Reserved",
   "scripts": {
