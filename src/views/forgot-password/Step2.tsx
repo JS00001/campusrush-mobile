@@ -52,12 +52,7 @@ const ForgotPasswordStep2View = () => {
 
       await authenticateUser(userData);
 
-      posthog.capture("RESET_PASSWORD_COMPLETED", {
-        chapter_name: userData.chapter.name,
-        chapter_email: store.email,
-        chapter_first_name: userData.chapter.firstName,
-        chapter_last_name: userData.chapter.lastName,
-      });
+      posthog.capture("RESET_PASSWORD_COMPLETED");
 
       store.clear();
     },
