@@ -24,7 +24,7 @@ import { useAuth } from "@/providers/Auth";
 const QrCode: React.FC<UseSheetFlowProps> = () => {
   const { chapter } = useAuth();
 
-  const linkSharingCode = `${AppConstants.sharingUrl}/${chapter.linkSharingCode}`;
+  const linkSharingCode = `${AppConstants.sharingUrl}/${chapter.linkSharing.code}`;
 
   const QRContainerStyles = tw.style(
     "w-full items-center",

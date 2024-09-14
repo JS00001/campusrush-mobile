@@ -32,20 +32,10 @@ export interface IChapter {
   role: 'user' | 'admin';
   /** The custom phone number of the chapter (the number that PNMs will message) */
   phoneNumber: string;
-  /** The id of the custom phone number */
-  phoneNumberId: string;
   /** The date the phone number was created */
   phoneNumberCreatedAt: Date;
-  /** The Qonversion customer id of the chapter. Set on creation */
-  customerId: string;
   /** Whether the chapter has an active subscription or not */
   isPro: boolean;
-  /** The Expo push notification tokens of the chapter */
-  notificationsEnabled: boolean;
-  /** Whether the c hapter has enabled link sharing or not */
-  linkSharingEnabled: boolean;
-  /** The unique ID for this chapter that PNMs can use to add themselves */
-  linkSharingCode: string;
   /** The date the chapter was last active (last time they hit the API) */
   lastOnline: Date;
   /** The client version that the chapter is currently on */
@@ -54,4 +44,24 @@ export interface IChapter {
   createdAt: Date;
   /** The date the chapter was last updated */
   updatedAt: Date;
+
+  /** All of the billing information for the chapter */
+  billing: {
+    /** The Qonversion customer id of the chapter. Set on creation */
+    qonversionId: string;
+  };
+
+  /** All notifications information for the chapter */
+  notifications: {
+    /** Whether the chapter has enabled push notifications or not */
+    enabled: boolean;
+  };
+
+  /** All of the information about the chapters sharing link */
+  linkSharing: {
+    /** The unique ID for this chapter that PNMs can use to add themselves */
+    code: string;
+    /** Whether the chapter has enabled link sharing or not */
+    enabled: boolean;
+  };
 }

@@ -73,7 +73,7 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
       id: "COPY_CUSTOMER_ID",
       title: "Copy Customer ID",
       image: "doc.on.clipboard",
-      onPress: () => copy(chapter?.customerId || "", "Customer ID"),
+      onPress: () => copy(chapter?.billing.qonversionId || "", "Customer ID"),
     },
   ];
 

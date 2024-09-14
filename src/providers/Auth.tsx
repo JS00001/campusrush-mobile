@@ -175,7 +175,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
-    Qonversion.getSharedInstance().identify(chapter.customerId);
+    Qonversion.getSharedInstance().identify(chapter.billing.qonversionId);
     Qonversion.getSharedInstance().setUserProperty(
       UserPropertyKey.EMAIL,
       chapter.email,
