@@ -22,8 +22,6 @@ const PhoneNumberView = () => {
 
   const phoneNumber =
     format.phoneNumber(chapter.phoneNumber) || "Processing... Come back later.";
-  const phoneNumberId =
-    chapter?.phoneNumberId || "Processing... Come back later.";
 
   return (
     <>
@@ -36,7 +34,6 @@ const PhoneNumberView = () => {
       </View>
 
       <CopyView title="Phone Number" content={phoneNumber} />
-      <CopyView title="Phone Number ID" content={phoneNumberId} />
     </>
   );
 };

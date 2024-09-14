@@ -59,12 +59,7 @@ const RegistrationStep3View = () => {
 
       await authenticateUser(userData);
 
-      posthog.capture("REGISTRATION_COMPLETED", {
-        chapter_name: userData.chapter.name,
-        chapter_email: userData.chapter.email,
-        chapter_first_name: userData.chapter.firstName,
-        chapter_last_name: userData.chapter.lastName,
-      });
+      posthog.capture("REGISTRATION_COMPLETED");
 
       store.clear();
     },

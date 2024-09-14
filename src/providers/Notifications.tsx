@@ -52,7 +52,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   const queryClient = useQueryClient();
   const globalStore = useGlobalStore();
 
-  const notificationsEnabled = chapter?.notificationsEnabled || false;
+  const notificationsEnabled = chapter?.notifications.enabled || false;
 
   const enableNotificationsSubtitle = notificationsEnabled
     ? "Currently Selected"
