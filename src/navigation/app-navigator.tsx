@@ -14,11 +14,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
-  AdminStack,
   HomeStack,
   MessagesStack,
+  MoreStack,
   PNMsStack,
-  EventsStack,
 } from "./stack-navigator";
 
 import {
@@ -33,10 +32,10 @@ import Create from "@/navigation/screens/conversation/Create";
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import TabBarIcon from "@/ui/TabBarIcon";
-import { useAuth } from "@/providers/Auth";
 import { useConversationStore } from "@/store";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import NotificationsProvider from "@/providers/Notifications";
+import { useSidebarStore } from "@/store/overlay/SidebarStore";
 import { useGetConversations } from "@/hooks/api/conversations";
 
 /**
@@ -48,7 +47,7 @@ import { useGetConversations } from "@/hooks/api/conversations";
 const MainNavigator = () => {
   const Tab = createBottomTabNavigator<MainStackParams>();
 
-  const { chapter } = useAuth();
+  const sidebar = useSidebarStore();
   const { openBottomSheet } = useBottomSheet();
   const conversationStore = useConversationStore();
 
@@ -74,6 +73,14 @@ const MainNavigator = () => {
         tabBarActiveTintColor: tw.color("primary"),
         tabBarInactiveTintColor: tw.color("gray-400"),
       }}
+      screenListeners={() => ({
+        // Listen for change of tab, and clear the sidebar screen if its not the MoreTab
+        tabPress: (e) => {
+          if (!e.target?.startsWith("MoreTab")) {
+            sidebar.setCurrentScreen(null);
+          }
+        },
+      })}
     >
       <Tab.Screen
         name="HomeTab"
@@ -116,7 +123,7 @@ const MainNavigator = () => {
         })}
         options={{
           tabBarLabel: "Add",
-          tabBarIcon: ({ color, focused }) => (
+          tabBarIcon: ({ color }) => (
             <Icon name="add-line" size={26} color={color} />
           ),
         }}
@@ -138,38 +145,21 @@ const MainNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="EventsTab"
-        component={EventsStack}
+        name="MoreTab"
+        component={MoreStack}
+        listeners={() => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            sidebar.openSidebar();
+          },
+        })}
         options={{
-          tabBarLabel: "Events",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              color={color}
-              focused={focused}
-              focusedIcon="calendar-2-fill"
-              unfocusedIcon="calendar-2-line"
-            />
+          tabBarLabel: "More",
+          tabBarIcon: ({ color }) => (
+            <Icon name="menu-3-fill" size={26} color={color} style={tw`mt-2`} />
           ),
         }}
       />
-
-      {chapter.role == "admin" && (
-        <Tab.Screen
-          name="AdminTab"
-          component={AdminStack}
-          options={{
-            tabBarLabel: "Admin",
-            tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon
-                color={color}
-                focused={focused}
-                focusedIcon="admin-fill"
-                unfocusedIcon="admin-line"
-              />
-            ),
-          }}
-        />
-      )}
     </Tab.Navigator>
   );
 };

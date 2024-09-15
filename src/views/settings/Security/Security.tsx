@@ -34,7 +34,7 @@ const SecurityView = () => {
 
   const onChangePasswordPress = () => {
     navigation.navigate("Main", {
-      screen: "HomeTab",
+      screen: "MoreTab",
       params: {
         screen: "ChangePassword",
       },

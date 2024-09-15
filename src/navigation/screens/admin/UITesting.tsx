@@ -12,11 +12,11 @@
 
 import { Layout } from "@/ui/Layout";
 import TagView from "@/components/TagView";
-import type { AdminStackProps } from "@/navigation/@types";
+import type { MoreStackProps } from "@/navigation/@types";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import Button from "@/ui/Button";
 
-type Props = AdminStackProps<"AdminUITesting">;
+type Props = MoreStackProps<"AdminUITesting">;
 
 const UITestingScreen: React.FC<Props> = ({}) => {
   const { openBottomSheet } = useBottomSheet();

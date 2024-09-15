@@ -13,6 +13,7 @@
 import Toast from "react-native-toast-message";
 
 import toastConfig from "@/lib/toast";
+import Sidebar from "@/components/Sidebar";
 import StatusOverlay from "@/components/Overlays/Status";
 import ImageZoomOverlay from "@/components/Overlays/ImageZoom";
 
@@ -20,12 +21,12 @@ const OverlayProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   return (
-    <>
+    <Sidebar>
       {children}
       <Toast config={toastConfig} />
       <StatusOverlay />
       <ImageZoomOverlay />
-    </>
+    </Sidebar>
   );
 };
 
