@@ -17,6 +17,7 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 import type { MoreTabParams } from "@/navigation/@types";
 
 import SidebarItem from "./SidebarItem";
+import type { ISidebar } from "./@types";
 
 import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
@@ -33,15 +34,14 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   const navigation = useNavigation();
+  const sidebarStore = useSidebarStore();
   const { chapter, mutations, logoutUser } = useAuth();
-  const { screen, opened, setScreen, closeSidebar, openSidebar } =
-    useSidebarStore();
 
   /**
    * Close the sidebar and navigate to the specified screen
    */
   const handleNavigate = (screen: keyof MoreTabParams) => {
-    setScreen(screen);
+    sidebarStore.setCurrentScreen(screen);
     navigation.navigate("Main", {
       screen: "MoreTab",
       params: {
@@ -59,23 +59,20 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
       message:
         "You will be signed out of your account, and will need to sign back in.",
       buttons: [
-        {
-          style: "cancel",
-          text: "No, Cancel",
-        },
+        { style: "cancel", text: "No, Cancel" },
         {
           style: "destructive",
           text: "Yes, Sign Out",
           onPress: async () => {
             await logoutUser();
-            closeSidebar();
+            sidebarStore.closeSidebar();
           },
         },
       ],
     });
   };
 
-  const SidebarSections = [
+  const SidebarSections: ISidebar = [
     {
       label: "Features",
       items: [
@@ -83,17 +80,15 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           icon: "calendar-2-line",
           label: "Events",
           screen: "Events",
-        },
-        {
-          newFeature: true,
-          icon: "file-list-2-line",
-          label: "Forms",
-          screen: "Forms",
+          newFeature: false,
+          hidden: false,
         },
         {
           icon: "admin-line",
           label: "Admin",
           screen: "Admin",
+          newFeature: false,
+          hidden: chapter.role !== "admin",
         },
       ],
     },
@@ -104,17 +99,23 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           icon: "settings-3-line",
           label: "Settings",
           screen: "Settings",
+          newFeature: false,
+          hidden: false,
         },
         {
           icon: "shield-check-line",
           label: "Security and Privacy",
           screen: "Security",
+          newFeature: false,
+          hidden: false,
         },
         {
           icon: "logout-box-r-line",
           label: "Logout",
           onPress: handleLogout,
           loading: mutations.logoutMutation.isLoading || false,
+          newFeature: false,
+          hidden: false,
         },
       ],
     },
@@ -122,17 +123,17 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
 
   return (
     <Drawer
-      open={opened}
       drawerType="front"
       swipeEdgeWidth={64}
-      swipeEnabled={opened}
+      open={sidebarStore.isOpened}
+      swipeEnabled={sidebarStore.isOpened}
       drawerStyle={tw`w-full`}
       children={children}
-      onOpen={openSidebar}
-      onClose={closeSidebar}
+      onOpen={sidebarStore.openSidebar}
+      onClose={sidebarStore.closeSidebar}
       renderDrawerContent={() => (
         <SafeAreaView style={tw`bg-slate-100 h-full w-full`}>
-          <TouchableOpacity onPress={closeSidebar}>
+          <TouchableOpacity onPress={sidebarStore.closeSidebar}>
             <Icon
               name="close-fill"
               size={28}
@@ -159,18 +160,27 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
 
                   <View>
                     {section.items.map((item, index) => {
-                      const onPress = item.onPress
-                        ? item.onPress
-                        : () => handleNavigate(item.screen);
+                      if (item.hidden) return null;
+
+                      const onPress = () => {
+                        if (item.onPress) {
+                          item.onPress();
+                        } else if (item.screen) {
+                          handleNavigate(item.screen);
+                        }
+                      };
+
+                      const selected =
+                        sidebarStore.currentScreen === item.screen;
 
                       return (
                         <SidebarItem
                           key={index}
-                          newFeature={item.newFeature}
                           icon={item.icon}
                           label={item.label}
-                          selected={screen === item.screen}
+                          selected={selected}
                           loading={item.loading}
+                          newFeature={item.newFeature}
                           onPress={onPress}
                         />
                       );

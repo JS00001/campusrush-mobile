@@ -15,47 +15,47 @@ import { create } from 'zustand';
 import type { MoreTabParams } from '@/navigation/@types';
 
 interface ISidebarState {
-  opened: boolean;
-  screen?: keyof MoreTabParams;
+  isOpened: boolean;
+  currentScreen: keyof MoreTabParams | null;
 }
 
 interface ISidebarStore extends ISidebarState {
   /** Clear the store */
   clear: () => void;
-  /** Set the screen */
-  setScreen: (screen?: keyof MoreTabParams) => void;
   /** Open the sidebar */
   openSidebar: () => void;
   /** Close the sidebar */
   closeSidebar: () => void;
+  /** Set the screen */
+  setCurrentScreen: (screen: keyof MoreTabParams | null) => void;
 }
 
 export const useSidebarStore = create<ISidebarStore>((set) => {
   const initialState: ISidebarState = {
-    opened: false,
-    screen: undefined,
+    isOpened: false,
+    currentScreen: null,
   };
 
   const clear = () => {
     set(initialState);
   };
 
-  const setScreen = (screen?: keyof MoreTabParams) => {
-    set({ screen, opened: false });
+  const setCurrentScreen = (screen: keyof MoreTabParams | null) => {
+    set({ currentScreen: screen, isOpened: false });
   };
 
   const openSidebar = () => {
-    set({ opened: true });
+    set({ isOpened: true });
   };
 
   const closeSidebar = () => {
-    set({ opened: false });
+    set({ isOpened: false });
   };
 
   return {
     ...initialState,
     clear,
-    setScreen,
+    setCurrentScreen,
     openSidebar,
     closeSidebar,
   };

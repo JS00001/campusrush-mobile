@@ -22,7 +22,7 @@ const NotificationsScreen = () => {
         subtitle="Manage your notifications"
       />
 
-      <Layout.Content>
+      <Layout.Content gap={12}>
         <NotificationsView />
       </Layout.Content>
     </Layout.Root>

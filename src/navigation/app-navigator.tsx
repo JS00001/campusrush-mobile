@@ -47,7 +47,7 @@ import { useGetConversations } from "@/hooks/api/conversations";
 const MainNavigator = () => {
   const Tab = createBottomTabNavigator<MainStackParams>();
 
-  const { openSidebar, setScreen } = useSidebarStore();
+  const sidebar = useSidebarStore();
   const { openBottomSheet } = useBottomSheet();
   const conversationStore = useConversationStore();
 
@@ -77,7 +77,7 @@ const MainNavigator = () => {
         // Listen for change of tab, and clear the sidebar screen if its not the MoreTab
         tabPress: (e) => {
           if (!e.target?.startsWith("MoreTab")) {
-            setScreen(undefined);
+            sidebar.setCurrentScreen(null);
           }
         },
       })}
@@ -150,7 +150,7 @@ const MainNavigator = () => {
         listeners={() => ({
           tabPress: (e) => {
             e.preventDefault();
-            openSidebar();
+            sidebar.openSidebar();
           },
         })}
         options={{
