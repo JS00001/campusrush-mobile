@@ -10,13 +10,17 @@
  * Do not distribute
  */
 
+import {
+  EntitlementRenewState,
+  EntitlementSource,
+} from "react-native-qonversion";
 import { Linking, View } from "react-native";
-import { EntitlementRenewState } from "react-native-qonversion";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import date from "@/lib/util/date";
+import { alert } from "@/lib/util";
 import Headline from "@/ui/Headline";
 import IconLabel from "@/ui/IconLabel";
 import Hyperlink from "@/ui/Hyperlink";
@@ -39,7 +43,23 @@ const BillingView = () => {
   };
 
   const onManageBilling = () => {
-    Linking.openURL(URL);
+    const entitlement = entitlements[0];
+
+    if (entitlement.source == EntitlementSource.APP_STORE) {
+      Linking.openURL(URL);
+    } else if (entitlement.source == EntitlementSource.MANUAL) {
+      alert({
+        title: "Manage Subscription",
+        message:
+          "This subscription was granted to you by an administrator. You are not able to manage it at this time.",
+      });
+    } else if (entitlement.source == EntitlementSource.STRIPE) {
+      alert({
+        title: "Manage Subscription",
+        message:
+          "This subscription was created through our website. You must manage it through its respective platform.",
+      });
+    }
   };
 
   if (!entitlements)

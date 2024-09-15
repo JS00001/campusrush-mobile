@@ -40,6 +40,10 @@ const UpdateProvider: React.FC<UpdateProviderProps> = ({ children }) => {
       appState.current = nextAppState;
     };
 
+    // When the app first loads, check for updates
+    Updates.fetchUpdateAsync();
+
+    // When the app is moved to the foreground, check for updates
     const subscription = AppState.addEventListener("change", checkForUpdates);
 
     return () => {
