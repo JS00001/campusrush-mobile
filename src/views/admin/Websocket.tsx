@@ -18,7 +18,7 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import Headline from "@/ui/Headline";
 import { formatJSON } from "@/lib/util/string";
-import { useWebsocket } from "@/providers/websocket";
+import { useWebsocket } from "@/providers/Websocket";
 
 const WebsocketView = () => {
   const websocket = useWebsocket();

@@ -26,7 +26,7 @@ import { useMetadataStore } from "@/store";
 import usePosthog from "@/hooks/usePosthog";
 import SafeAreaView from "@/ui/SafeAreaView";
 import Logo32 from "@/components/Logos/Logo32";
-import { useQonversion } from "@/providers/Qonversion";
+import { useQonversion } from "@/providers/external/Qonversion";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import HeaderBackground from "@/components/Backgrounds/Header";
 

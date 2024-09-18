@@ -30,7 +30,7 @@ import { AppNavigator } from "@/navigation/app-navigator";
 
 import { useAuth } from "@/providers/Auth";
 import { useMetadata } from "@/providers/Metadata";
-import { useQonversion } from "@/providers/Qonversion";
+import { useQonversion } from "@/providers/external/Qonversion";
 import { usePreferences } from "@/providers/Preferences";
 
 const RootNavigator = () => {

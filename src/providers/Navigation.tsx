@@ -9,8 +9,10 @@
  * Copyright (c) 2023 CampusRush
  * Do not distribute
  */
-import { navigationTheme } from "@/lib/theme";
+
 import { NavigationContainer } from "@react-navigation/native";
+
+import { navigationTheme } from "@/lib/theme";
 
 interface Props {
   children: React.ReactNode;

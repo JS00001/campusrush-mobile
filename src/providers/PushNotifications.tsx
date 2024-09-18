@@ -20,9 +20,9 @@ import type { IPNM, IEvent } from "@/types";
 
 import { useAuth } from "@/providers/Auth";
 import { useUpdateChapter } from "@/hooks/api/chapter";
-import { useQonversion } from "@/providers/Qonversion";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import { useGlobalStore, useNotificationStore } from "@/store";
+import { useQonversion } from "@/providers/external/Qonversion";
 
 interface NotificationsContextProps {
   isLoading: boolean;

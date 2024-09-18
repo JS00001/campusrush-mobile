@@ -32,7 +32,7 @@ import usePosthog from "@/hooks/usePosthog";
 import MessageBubble from "@/ui/MessageBubble";
 import MessageBox from "@/components/MessageBox";
 import useFocusEffect from "@/hooks/useFocusEffect";
-import { useWebsocket } from "@/providers/websocket";
+import { useWebsocket } from "@/providers/Websocket";
 import { useSendDirectMessage } from "@/hooks/api/messaging";
 import { useGetConversation } from "@/hooks/api/conversations";
 import DirectMessageHeader from "@/components/Headers/DirectMessage";

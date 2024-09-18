@@ -20,7 +20,7 @@ interface UpdateProviderProps {
   children: React.ReactNode;
 }
 
-const UpdateProvider: React.FC<UpdateProviderProps> = ({ children }) => {
+const EASUpdateProvider: React.FC<UpdateProviderProps> = ({ children }) => {
   const appState = useRef(AppState.currentState);
   const { isUpdatePending } = Updates.useUpdates();
 
@@ -63,4 +63,4 @@ const UpdateProvider: React.FC<UpdateProviderProps> = ({ children }) => {
   return children;
 };
 
-export default UpdateProvider;
+export default EASUpdateProvider;

@@ -11,7 +11,7 @@
  */
 
 import SelectionCard from "@/ui/SelectionCard";
-import { useNotifications } from "@/providers/Notifications";
+import { useNotifications } from "@/providers/PushNotifications";
 
 const NotificationsView = () => {
   const { isLoading, notificationsEnabled, setNotificationsEnabled } =

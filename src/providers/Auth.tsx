@@ -27,7 +27,7 @@ import type {
 
 import AppConstants from "@/constants";
 import { useGlobalStore } from "@/store";
-import { useQonversion } from "@/providers/Qonversion";
+import { useQonversion } from "@/providers/external/Qonversion";
 import usePosthog from "@/hooks/usePosthog";
 
 interface IUserData {

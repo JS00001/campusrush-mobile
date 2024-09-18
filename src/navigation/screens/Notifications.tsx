@@ -18,7 +18,7 @@ import SocketInput from "@/lib/socketInput";
 import Notification from "@/ui/Notification";
 import { useNotificationStore } from "@/store";
 import useFocusEffect from "@/hooks/useFocusEffect";
-import { useWebsocket } from "@/providers/websocket";
+import { useWebsocket } from "@/providers/Websocket";
 import { useGetNotifications } from "@/hooks/api/chapter";
 
 const NotificationsScreen: React.FC = () => {

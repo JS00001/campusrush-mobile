@@ -25,7 +25,7 @@ import Headline from "@/ui/Headline";
 import IconLabel from "@/ui/IconLabel";
 import Hyperlink from "@/ui/Hyperlink";
 import { titleCase } from "@/lib/util/string";
-import { useQonversion } from "@/providers/Qonversion";
+import { useQonversion } from "@/providers/external/Qonversion";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
 const BillingView = () => {
