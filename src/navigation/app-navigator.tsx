@@ -35,7 +35,7 @@ import TabBarIcon from "@/ui/TabBarIcon";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import { useGetNotifications } from "@/hooks/api/chapter";
 import NotificationsProvider from "@/providers/Notifications";
-import { useSidebarStore } from "@/store/overlay/SidebarStore";
+import { useSidebarStore } from "@/store/overlay/sidebar-store";
 import { useConversationStore, useNotificationStore } from "@/store";
 
 /**

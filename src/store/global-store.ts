@@ -12,15 +12,15 @@
 
 import type { IPNM } from '@/types';
 
-import { useEventStore } from './EventStore';
-import { usePnmStore } from './PNMStore';
-import { useStatisticsStore } from './StatisticsStore';
+import { useEventStore } from './event-store';
+import { usePnmStore } from './pnm-store';
+import { useStatisticsStore } from './statistics-store';
 
-import { useContactStore } from './messaging/ContactStore';
-import { useConversationStore } from './messaging/ConversationStore';
-import { useMessageStore } from './messaging/MessageStore';
-import { useAdminStatisticsStore } from './admin/StatisticsStore';
-import { useNotificationStore } from './NotificationStore';
+import { useContactStore } from './messaging/contact-store';
+import { useConversationStore } from './messaging/conversation-store';
+import { useMessageStore } from './messaging/message-store';
+import { useAdminStatisticsStore } from './admin/statistics-store';
+import { useNotificationStore } from './notification-store';
 
 /**
  * The global store helps to manipulate state that

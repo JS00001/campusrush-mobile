@@ -27,7 +27,7 @@ import AppConstants from "@/constants";
 import { useAuth } from "@/providers/Auth";
 import SafeAreaView from "@/ui/SafeAreaView";
 import { useNotificationStore } from "@/store";
-import { useSidebarStore } from "@/store/overlay/SidebarStore";
+import { useSidebarStore } from "@/store/overlay/sidebar-store";
 
 interface SidebarProps {
   children: React.ReactNode;
