@@ -14,7 +14,7 @@ import { useState } from "react";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 
-import type { IMessageContent } from "@/types/messageBox";
+import type { IMessageContent } from "@/@types/message-box";
 import type { IPNM, SendMassMessageRequest } from "@/types";
 import type { ConversationStackProps } from "@/navigation/@types";
 

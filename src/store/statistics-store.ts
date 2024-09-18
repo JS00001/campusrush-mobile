@@ -15,7 +15,7 @@ import { PersistStorage, persist } from 'zustand/middleware';
 
 import type { IPNM } from '@/types';
 
-import customAsyncStorage from '@/lib/asyncStorage';
+import customAsyncStorage from '@/lib/async-storage';
 
 interface IStatisticsState {
   pnmCount: number;

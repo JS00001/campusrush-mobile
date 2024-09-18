@@ -16,7 +16,7 @@ import { PersistStorage, persist } from 'zustand/middleware';
 import type { IEvent } from '@/types';
 
 import date from '@/lib/util/date';
-import customAsyncStorage from '@/lib/asyncStorage';
+import customAsyncStorage from '@/lib/async-storage';
 
 interface IEventState {
   events: IEvent[];

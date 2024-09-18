@@ -14,7 +14,7 @@ import { create } from 'zustand';
 import { persist, PersistStorage } from 'zustand/middleware';
 
 import { INotification } from '@/@types';
-import customAsyncStorage from '@/lib/asyncStorage';
+import customAsyncStorage from '@/lib/async-storage';
 
 interface INotificationState {
   /** The number of unread notifications (minus messages) */

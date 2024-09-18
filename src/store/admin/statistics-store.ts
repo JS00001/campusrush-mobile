@@ -13,7 +13,7 @@
 import { create } from 'zustand';
 import { PersistStorage, persist } from 'zustand/middleware';
 
-import customAsyncStorage from '@/lib/asyncStorage';
+import customAsyncStorage from '@/lib/async-storage';
 
 interface Statistic {
   current: number;

@@ -28,7 +28,7 @@ import type {
   IAttachments,
   ExtensionPanelRef,
   IMessageContent,
-} from "@/types/messageBox";
+} from "@/@types/message-box";
 
 import TextInput from "./TextInput";
 import ExtensionPanel from "./ExtensionPanel";

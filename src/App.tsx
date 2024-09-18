@@ -19,7 +19,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { startNetworkLogging } from "react-native-network-logger";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import queryClient from "@/lib/queryClient";
+import queryClient from "@/lib/query-client";
 import AuthProvider from "@/providers/Auth";
 import UpdateProvider from "@/providers/Update";
 import qonversionConfig from "@/lib/qonversion";
