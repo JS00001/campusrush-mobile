@@ -24,21 +24,21 @@ import { useBottomSheet } from "@/providers/BottomSheet";
 import { useGlobalStore, useNotificationStore } from "@/store";
 import { useQonversion } from "@/providers/external/Qonversion";
 
-interface NotificationsContextProps {
+interface IPushNotificationsContext {
   isLoading: boolean;
-  notificationsEnabled: boolean;
-  setNotificationsEnabled: (value: boolean) => void;
+  enabled: boolean;
+  setEnabled: (value: boolean) => void;
 }
 
-const NotificationsContext = createContext<NotificationsContextProps>(
-  {} as NotificationsContextProps,
+const PushNotificationsContext = createContext<IPushNotificationsContext>(
+  {} as IPushNotificationsContext,
 );
 
 // Notification handler WHEN THE APP IS OPEN
 // We do not want to show alerts, play sounds, or set badges
 RNNotifications.setNotificationHandler(null);
 
-const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
+const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
   const { entitlements } = useQonversion();
@@ -48,11 +48,12 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
 
   const navigation = useNavigation();
   const queryClient = useQueryClient();
+  const updateChapterMutation = useUpdateChapter();
+
   const globalStore = useGlobalStore();
-  const mutation = useUpdateChapter();
   const notificationStore = useNotificationStore();
 
-  const notificationsEnabled = chapter?.notifications.enabled || false;
+  const enabled = chapter?.notifications.enabled || false;
 
   /**
    * Event listener for when a push notification is opened
@@ -60,7 +61,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   useEffect(() => {
     responseListener.current =
       RNNotifications.addNotificationResponseReceivedListener((response) => {
-        onNotification(response);
+        onPushNotification(response);
       });
 
     return () => {
@@ -73,38 +74,38 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
    * This is so that we can update the notification token if the user logs in
    */
   useEffect(() => {
-    const notificationStatus = async () => {
+    const pushNotificationStatus = async () => {
       if (lodash.isEmpty(chapter)) return;
       if (lodash.isEmpty(entitlements)) return;
 
-      const hasPermission = await hasNotificationPermission();
+      const hasPermission = await hasPushNotificationPermission();
 
       if (hasPermission) {
-        await setNotificationPushToken();
+        await setPushNotificationToken();
         return;
       }
 
-      const status = await requestNotificationPermission();
+      const status = await requestPushNotificationPermission();
 
       // If we are granted permission, send the notification token
       // to the server and enable notifications as a default
       if (status === "granted") {
-        await setNotificationPushToken();
-        await setNotificationsEnabled(true);
+        await setPushNotificationToken();
+        await setEnabled(true);
         return;
       }
 
       // If we are not granted permission, disable notifications
-      await setNotificationsEnabled(false);
+      await setEnabled(false);
     };
 
-    notificationStatus();
+    pushNotificationStatus();
   }, [accessToken]);
 
   /**
    * Whether we have permission to send notifications to the user
    */
-  const hasNotificationPermission = async () => {
+  const hasPushNotificationPermission = async () => {
     const { status } = await RNNotifications.getPermissionsAsync();
 
     return status === "granted";
@@ -113,7 +114,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   /**
    * Request permission to send notifications to the user
    */
-  const requestNotificationPermission = async () => {
+  const requestPushNotificationPermission = async () => {
     const { status } = await RNNotifications.requestPermissionsAsync();
 
     return status;
@@ -122,19 +123,19 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   /**
    * Updates the notification push token in the server
    */
-  const setNotificationPushToken = async () => {
+  const setPushNotificationToken = async () => {
     if (lodash.isEmpty(chapter)) return;
     if (lodash.isEmpty(entitlements)) return;
 
     // Generate the notification token, we pass the project id
     // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
-    const notificationPushToken = await RNNotifications.getExpoPushTokenAsync({
+    const pushNotificationToken = await RNNotifications.getExpoPushTokenAsync({
       projectId: "9e0d874e-cc30-4dca-ae7e-9609b121b1ae",
     });
 
-    if (notificationPushToken.data) {
-      mutation.mutate({
-        notificationPushToken: notificationPushToken.data,
+    if (pushNotificationToken.data) {
+      updateChapterMutation.mutate({
+        notificationPushToken: pushNotificationToken.data,
       });
     }
   };
@@ -143,47 +144,45 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
    * Check if we have permission to send notifications to the user, then update
    * the notification status based on the value passed
    */
-  const setNotificationsEnabled = async (
-    shouldEnableNotifications: boolean,
-  ) => {
+  const setEnabled = async (shouldEnable: boolean) => {
     if (lodash.isEmpty(chapter)) return;
     if (lodash.isEmpty(entitlements)) return;
 
-    const hasPermission = await hasNotificationPermission();
+    const hasPermission = await hasPushNotificationPermission();
 
     // If the value is false, update the notification status
     // We dont need to check for permission here because we are disabling
     // notifications
-    if (!shouldEnableNotifications) {
-      await updateNotificationsEnabled(shouldEnableNotifications);
+    if (!shouldEnable) {
+      await updatePushNotificationsEnabled(shouldEnable);
       return;
     }
 
     // If we dont have permission and the value is true, request permission
     // and update the notification status
-    if (!hasPermission && shouldEnableNotifications) {
-      const status = await requestNotificationPermission();
+    if (!hasPermission && shouldEnable) {
+      const status = await requestPushNotificationPermission();
 
       if (status === "granted") {
-        await updateNotificationsEnabled(shouldEnableNotifications);
+        await updatePushNotificationsEnabled(shouldEnable);
         return;
       }
 
       // If we are not granted permission, disable notifications
-      await updateNotificationsEnabled(false);
+      await updatePushNotificationsEnabled(false);
     }
 
     // If we have permission and the value is true, update the notification status
-    if (hasPermission && shouldEnableNotifications) {
-      await updateNotificationsEnabled(shouldEnableNotifications);
+    if (hasPermission && shouldEnable) {
+      await updatePushNotificationsEnabled(shouldEnable);
     }
   };
 
   /**
    * Update the notification status for the user in the server
    */
-  const updateNotificationsEnabled = async (value: boolean) => {
-    const response = await mutation.mutateAsync({
+  const updatePushNotificationsEnabled = async (value: boolean) => {
+    const response = await updateChapterMutation.mutateAsync({
       notificationsEnabled: value,
     });
 
@@ -193,7 +192,7 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   /**
    * Handle the notification when the app is open
    */
-  const onNotification = async (
+  const onPushNotification = async (
     response: RNNotifications.NotificationResponse,
   ) => {
     const { data } = response.notification.request.content;
@@ -255,18 +254,18 @@ const NotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   };
 
   return (
-    <NotificationsContext.Provider
+    <PushNotificationsContext.Provider
       value={{
-        isLoading: mutation.isLoading,
-        notificationsEnabled,
-        setNotificationsEnabled,
+        isLoading: updateChapterMutation.isLoading,
+        enabled,
+        setEnabled,
       }}
     >
       {children}
-    </NotificationsContext.Provider>
+    </PushNotificationsContext.Provider>
   );
 };
 
-export const useNotifications = () => useContext(NotificationsContext);
+export const usePushNotifications = () => useContext(PushNotificationsContext);
 
-export default NotificationsProvider;
+export default PushNotificationsProvider;

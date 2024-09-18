@@ -29,7 +29,7 @@ import { LogLevels, websocketLogger } from "@/lib/logger";
 
 const MAX_LOGS = 100;
 
-interface WebsocketContextProps {
+interface IWebsocketContext {
   ws: WebSocket | null;
   connected: boolean;
   logs: WebsocketLog[];
@@ -37,20 +37,21 @@ interface WebsocketContextProps {
   connect: (accessToken?: string) => void;
 }
 
-const WebsocketContext = createContext<WebsocketContextProps>(
-  {} as WebsocketContextProps,
+const WebsocketContext = createContext<IWebsocketContext>(
+  {} as IWebsocketContext,
 );
 
 const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { accessToken } = useAuth();
+  const { openBottomSheet } = useBottomSheet();
+
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [logs, setLogs] = useState<WebsocketLog[]>([]);
 
   const globalStore = useGlobalStore();
   const messageStore = useMessageStore();
-  const { openBottomSheet } = useBottomSheet();
   const notificationStore = useNotificationStore();
   const conversationStore = useConversationStore();
 

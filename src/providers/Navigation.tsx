@@ -14,11 +14,9 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import { navigationTheme } from "@/lib/theme";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-const NavigationProvider: React.FC<Props> = ({ children }) => {
+const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   return (
     <NavigationContainer theme={navigationTheme}>
       {children}

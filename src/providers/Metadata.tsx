@@ -24,14 +24,12 @@ import { useGetMetadata } from "@/hooks/api/external";
 import { getComparableVersion } from "@/lib/util/string";
 import { usePreferences } from "@/providers/Preferences";
 
-interface MetadataContextProps {
+interface IMetadataContext {
   isLoading: boolean;
   isValidVersion: boolean;
 }
 
-const MetadataContext = createContext<MetadataContextProps>(
-  {} as MetadataContextProps,
-);
+const MetadataContext = createContext<IMetadataContext>({} as IMetadataContext);
 
 const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
   children,

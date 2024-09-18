@@ -23,15 +23,13 @@ import { httpLogger } from "@/lib/logger";
 import { useAuth } from "@/providers/Auth";
 import { useNetwork } from "@/providers/Network";
 
-interface AxiosInterceptorProps {
-  children?: React.ReactNode;
-}
-
 const axiosClient = axios.create({
   baseURL: AppConstants.apiUrl,
 });
 
-const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
+const AxiosInterceptor: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const { verifyConnection } = useNetwork();
   const { accessToken, clearUserData } = useAuth();
 

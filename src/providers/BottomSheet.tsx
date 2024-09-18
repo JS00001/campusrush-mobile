@@ -20,23 +20,20 @@ import type {
 } from "@/components/BottomSheets/@types";
 import BottomSheets from "@/components/BottomSheets";
 
-interface BottomSheetContextProps {
-  /* Open a bottom sheet  from the list of registered bottom sheets */
+interface IBottomSheetContext {
+  /** Snap a bottom sheet to a specific index */
+  snapToIndex: (name: IndividualSheetName, i: number) => void;
+  /** Snap a bottom sheet to a specific position */
+  snapToPosition: (name: IndividualSheetName, pos: string) => void;
+  /** Close a bottom sheet */
+  closeBottomSheet: (name: IndividualSheetName) => void;
+  /** Open a bottom sheet, bottom sheets must be stored in src/components/BottomSheets/index.ts */
   // prettier-ignore
   openBottomSheet: <T extends IndividualSheetName>(name: T, props?: IndividualSheetProps[T]) => void;
-
-  /* Snap the bottom sheet to a specific index */
-  snapToIndex: (name: IndividualSheetName, i: number) => void;
-
-  /* Snap the bottom sheet to a specific position */
-  snapToPosition: (name: IndividualSheetName, pos: string) => void;
-
-  /* Close the bottom sheet */
-  closeBottomSheet: (name: IndividualSheetName) => void;
 }
 
-const BottomSheetContext = createContext<BottomSheetContextProps>(
-  {} as BottomSheetContextProps,
+const BottomSheetContext = createContext<IBottomSheetContext>(
+  {} as IBottomSheetContext,
 );
 
 const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
