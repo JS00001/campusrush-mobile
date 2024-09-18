@@ -14,13 +14,8 @@ import SelectionCard from "@/ui/SelectionCard";
 import { useNotifications } from "@/providers/Notifications";
 
 const NotificationsView = () => {
-  const {
-    isLoading,
-    notificationsEnabled,
-    setNotificationsEnabled,
-    enableNotificationsSubtitle,
-    disableNotificationsSubtitle,
-  } = useNotifications();
+  const { isLoading, notificationsEnabled, setNotificationsEnabled } =
+    useNotifications();
 
   const onNotificationsEnable = () => {
     setNotificationsEnabled(true);
@@ -29,6 +24,14 @@ const NotificationsView = () => {
   const onNotificationsDisable = () => {
     setNotificationsEnabled(false);
   };
+
+  const enableNotificationsSubtitle = notificationsEnabled
+    ? "Currently Selected"
+    : "Click to enable notifications";
+
+  const disableNotificationsSubtitle = !notificationsEnabled
+    ? "Currently Selected"
+    : "Click to disable notifications";
 
   return (
     <>

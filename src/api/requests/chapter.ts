@@ -18,6 +18,8 @@ import type {
   GetChapterSessionsResponse,
   DeleteChapterSessionRequest,
   DeleteChapterSessionResponse,
+  GetNotificationsRequest,
+  GetNotificationsResponse,
 } from '@/types';
 
 import { axiosClient } from '@/providers/Axios';
@@ -84,4 +86,20 @@ export const deleteChapterSession = async (
   const { data: responseData } = await axiosClient.delete(url);
 
   return responseData as DeleteChapterSessionResponse;
+};
+
+/**
+ * Request:    GET /api/v1/consumer/chapter/notifications
+ * Description: Get a chapter's notifications
+ */
+export const getChapterNotifications = async (
+  data: GetNotificationsRequest,
+) => {
+  const url = `${PREFIX}/notifications`;
+
+  const { data: responseData } = await axiosClient.get(url, {
+    params: data,
+  });
+
+  return responseData as GetNotificationsResponse;
 };

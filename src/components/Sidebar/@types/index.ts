@@ -25,6 +25,7 @@ type ISidebarItem = {
   label: string;
   hidden: boolean;
   newFeature: boolean;
+  badgeCount?: number;
   screen?: keyof MoreTabParams;
   loading?: boolean;
   onPress?: () => void;

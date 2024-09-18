@@ -85,6 +85,8 @@ export type MessagesTabParams = {
 };
 
 export type MoreTabParams = {
+  // Notifications
+  Notifications: undefined;
   // Events
   Events: undefined;
   // Admin
@@ -101,7 +103,7 @@ export type MoreTabParams = {
   PhoneNumber: undefined;
   Chapter: undefined;
   Billing: undefined;
-  Notifications: undefined;
+  UpdateNotifications: undefined;
   // Security
   Security: undefined;
   ChangePassword: undefined;

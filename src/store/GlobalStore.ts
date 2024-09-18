@@ -20,6 +20,7 @@ import { useContactStore } from './messaging/ContactStore';
 import { useConversationStore } from './messaging/ConversationStore';
 import { useMessageStore } from './messaging/MessageStore';
 import { useAdminStatisticsStore } from './admin/StatisticsStore';
+import { useNotificationStore } from './NotificationStore';
 
 /**
  * The global store helps to manipulate state that
@@ -34,6 +35,7 @@ export const useGlobalStore = () => {
   const conversationStore = useConversationStore();
   const messageStore = useMessageStore();
   const eventStore = useEventStore();
+  const notificationStore = useNotificationStore();
   const adminStatisticsStore = useAdminStatisticsStore();
 
   /**
@@ -153,6 +155,7 @@ export const useGlobalStore = () => {
     messageStore.clear();
     eventStore.clear();
     adminStatisticsStore.clear();
+    notificationStore.clear();
   };
 
   return {

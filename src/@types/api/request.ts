@@ -252,3 +252,8 @@ export interface SendChapterNotificationRequest {
   /** Whether to send in test mode (to yourself) or not */
   testMode?: boolean;
 }
+
+export interface GetNotificationsRequest {
+  /** Offset for retrieving notifications */
+  offset: number;
+}

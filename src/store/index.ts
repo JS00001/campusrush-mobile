@@ -17,6 +17,7 @@ export * from './PNMStore';
 export * from './ForgotPasswordStore';
 export * from './RegistrationStore';
 export * from './StatisticsStore';
+export * from './NotificationStore';
 
 export * from './messaging/ContactStore';
 export * from './messaging/MessageStore';

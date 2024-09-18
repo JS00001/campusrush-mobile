@@ -14,7 +14,6 @@ import { SafeAreaView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
-import Badge from "@/ui/Badge";
 import tw from "@/lib/tailwind";
 import IconButton from "@/ui/IconButton";
 import HeaderBackground from "@/components/Backgrounds/Header";
@@ -22,14 +21,12 @@ import HeaderBackground from "@/components/Backgrounds/Header";
 interface HeaderProps {
   title: string;
   subtitle: string;
-  beta?: boolean;
   hasBackButton?: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({
   title,
   subtitle,
-  beta = false,
   hasBackButton = false,
 }) => {
   const navigation = useNavigation();
@@ -41,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({
   const containerStyles = tw.style("px-6 py-8 z-10");
 
   const contentContainerStyles = tw.style(
-    "min-h-[144px] flex-col gap-y-4 mt-6",
+    "min-h-[132px] flex-col gap-y-4 mt-6",
     hasBackButton && "justify-between",
     !hasBackButton && "justify-end",
   );
@@ -66,12 +63,6 @@ const Header: React.FC<HeaderProps> = ({
           )}
 
           <View style={tw`gap-y-2`}>
-            {beta && (
-              <Badge size="sm" style={tw`bg-blue-500 mb-2`}>
-                Beta
-              </Badge>
-            )}
-
             <Text type="h1" style={tw`text-white`}>
               {title}
             </Text>

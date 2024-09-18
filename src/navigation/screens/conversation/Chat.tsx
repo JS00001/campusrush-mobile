@@ -25,12 +25,13 @@ import {
 import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
 import FlatList from "@/ui/FlatList";
-import messaging from "@/lib/messages";
+import group from "@/lib/util/group";
 import { useAuth } from "@/providers/Auth";
 import SocketInput from "@/lib/socketInput";
 import usePosthog from "@/hooks/usePosthog";
 import MessageBubble from "@/ui/MessageBubble";
 import MessageBox from "@/components/MessageBox";
+import useFocusEffect from "@/hooks/useFocusEffect";
 import { useWebsocket } from "@/providers/websocket";
 import { useSendDirectMessage } from "@/hooks/api/messaging";
 import { useGetConversation } from "@/hooks/api/conversations";
@@ -59,31 +60,20 @@ const Chat: React.FC<Props> = ({ route }) => {
 
   /**
    * On the first render, set the conversation as opened
-   * in the websocket
+   * in the websocket. Then, if the conversation becomes unread while
+   * the conversation is open, we want to re-set the conversation as read
+   * as we are currently viewing it
    */
-  useEffect(() => {
+  useFocusEffect(() => {
+    if (!conversation) return;
+    if (conversation.read) return;
+
     const message = new SocketInput({
       type: "READ_CONVERSATION",
       data: { id: pnmId },
     });
 
     ws?.send(message.toString());
-
-    if (!conversation) return;
-
-    conversationStore.updateConversation({ ...conversation, read: true });
-  }, []);
-
-  /**
-   * If the conversation becomes unread when the conversation is OPEN,
-   * we want to re-set the conversation as read as we are currently
-   * viewing it
-   */
-  useEffect(() => {
-    if (!conversation) return;
-
-    if (conversation.read) return;
-
     conversationStore.updateConversation({ ...conversation, read: true });
   }, [conversation]);
 
@@ -195,7 +185,7 @@ const Chat: React.FC<Props> = ({ route }) => {
         inverted
         disableOnRefresh
         disableOnEndReached={!conversationQuery.hasNextPage}
-        data={messaging.groupByDate(messages ?? [])}
+        data={group.byDate<IMessage>(messages ?? [], "createdAt", true)}
         style={tw`w-full px-4`}
         // We need to add "padding top" because the flatlist is inverted
         contentContainerStyle={tw`pt-6 pb-0`}

@@ -32,11 +32,11 @@ import Create from "@/navigation/screens/conversation/Create";
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import TabBarIcon from "@/ui/TabBarIcon";
-import { useConversationStore } from "@/store";
 import { useBottomSheet } from "@/providers/BottomSheet";
+import { useGetNotifications } from "@/hooks/api/chapter";
 import NotificationsProvider from "@/providers/Notifications";
 import { useSidebarStore } from "@/store/overlay/SidebarStore";
-import { useGetConversations } from "@/hooks/api/conversations";
+import { useConversationStore, useNotificationStore } from "@/store";
 
 /**
  * Tab Navigator for the App
@@ -49,11 +49,12 @@ const MainNavigator = () => {
 
   const sidebar = useSidebarStore();
   const { openBottomSheet } = useBottomSheet();
+  const notificationStore = useNotificationStore();
   const conversationStore = useConversationStore();
 
-  const unreadConverstions = conversationStore.conversations.filter(
-    (c) => !c.read,
-  ).length;
+  const unreadConverstions = conversationStore.conversations.filter((c) => {
+    return !c.read;
+  }).length;
 
   const onAddTabPress = () => {
     openBottomSheet("CREATE_PNM");
@@ -68,14 +69,13 @@ const MainNavigator = () => {
         tabBarItemStyle: {
           margin: 5,
         },
-
         headerShown: false,
         tabBarActiveTintColor: tw.color("primary"),
         tabBarInactiveTintColor: tw.color("gray-400"),
       }}
       screenListeners={() => ({
-        // Listen for change of tab, and clear the sidebar screen if its not the MoreTab
-        tabPress: (e) => {
+        focus: (e) => {
+          if (!sidebar.currentScreen) return;
           if (!e.target?.startsWith("MoreTab")) {
             sidebar.setCurrentScreen(null);
           }
@@ -155,8 +155,14 @@ const MainNavigator = () => {
         })}
         options={{
           tabBarLabel: "More",
-          tabBarIcon: ({ color }) => (
-            <Icon name="menu-3-fill" size={26} color={color} style={tw`mt-2`} />
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              color={color}
+              focused={focused}
+              focusedIcon="menu-3-fill"
+              unfocusedIcon="menu-3-fill"
+              badgeCount={notificationStore.count}
+            />
           ),
         }}
       />
@@ -179,7 +185,7 @@ export const AppNavigator = () => {
   const Stack = createNativeStackNavigator<AppStackParams>();
 
   // TODO: make this better, incorporate into store
-  useGetConversations();
+  useGetNotifications();
 
   return (
     <NotificationsProvider>

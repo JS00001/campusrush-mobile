@@ -12,7 +12,8 @@
 
 import { View, ViewProps } from "react-native";
 
-import type { TimestampedMessage } from "@/lib/messages";
+import type { IMessage } from "@/types";
+import type { TimestampedData } from "@/lib/util/group";
 
 import MessageImage from "./MessageImage";
 import MessageContent from "./MessageContent";
@@ -22,7 +23,7 @@ import tw from "@/lib/tailwind";
 import WebsitePreview from "@/ui/WebsitePreview";
 
 interface MessageBubbleProps extends ViewProps {
-  message: TimestampedMessage;
+  message: TimestampedData<IMessage>;
 }
 
 const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {

@@ -115,7 +115,6 @@ const Statistics = () => {
           loadingComponent={<ListItemLoader size="lg" />}
           loading={statistics.isLoading}
           renderItem={({ item }) => {
-            console.log(item);
             return (
               <ListItem
                 size="sm"

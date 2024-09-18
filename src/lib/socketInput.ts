@@ -10,11 +10,11 @@
  * Do not distribute
  */
 
-export type MessageType = 'READ_CONVERSATION';
+export type MessageType = 'READ_CONVERSATION' | 'READ_NOTIFICATIONS';
 
 export interface SocketInputData {
   type: MessageType;
-  data: any;
+  data?: any;
 }
 
 class SocketInput {

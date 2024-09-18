@@ -49,7 +49,7 @@ const SettingsView = () => {
     navigation.navigate("Main", {
       screen: "MoreTab",
       params: {
-        screen: "Notifications",
+        screen: "UpdateNotifications",
       },
     });
   };

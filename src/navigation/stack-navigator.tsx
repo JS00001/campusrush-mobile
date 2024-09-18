@@ -28,15 +28,16 @@ import HomeScreen from "@/navigation/screens/Home";
 import PNMsScreen from "@/navigation/screens/Pnms";
 import MessagesScreen from "@/navigation/screens/Messages";
 import EventsScreen from "@/navigation/screens/Events";
+import NotificationsScreen from "@/navigation/screens/Notifications";
 import VerificationScreen from "@/navigation/screens/Verification";
 
 import LoginScreen from "@/navigation/screens/auth/Login";
 import LandingScreen from "@/navigation/screens/auth/Landing";
-import ForgotPasswordStep1Screen from "./screens/auth/ForgotPasswordStep1";
-import ForgotPasswordStep2Screen from "./screens/auth/ForgotPasswordStep2";
 import RegistrationStep1Screen from "@/navigation/screens/auth/RegistrationStep1";
 import RegistrationStep2Screen from "@/navigation/screens/auth/RegistrationStep2";
 import RegistrationStep3Screen from "@/navigation/screens/auth/RegistrationStep3";
+import ForgotPasswordStep1Screen from "@/navigation/screens/auth/ForgotPasswordStep1";
+import ForgotPasswordStep2Screen from "@/navigation/screens/auth/ForgotPasswordStep2";
 
 import BillingScreen from "@/navigation/screens/billing/Billing";
 import BillingTourStep1 from "@/navigation/screens/billing/tour/Step1";
@@ -265,6 +266,12 @@ export const MoreStack = () => {
         options={{ gestureEnabled: false, animation: "none" }}
       />
 
+      {/* Notifications and all sub screens */}
+      <Stack.Screen
+        name="Notifications"
+        component={NotificationsScreen}
+      />
+
       {/* Admin, and all sub screens */}
       <Stack.Screen
         name="Admin"
@@ -319,7 +326,7 @@ export const MoreStack = () => {
         component={SettingsChapterScreen}
       />
       <Stack.Screen
-        name="Notifications"
+        name="UpdateNotifications"
         component={SettingsNotificationsScreen}
       />
 

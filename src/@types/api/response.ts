@@ -21,6 +21,7 @@ import type { IRefreshToken } from '../models/refreshToken';
 import type { Metadata } from '../app';
 import type { EntitlementDetails } from '../entitlements';
 import type { IViolation } from '../models/violation';
+import { INotification } from '../models/notification';
 
 export type LogoutResponse = API.Response<{}>;
 
@@ -342,3 +343,14 @@ export type GetViolationsResponse = API.Response<
     violations: IViolation[];
   }[]
 >;
+
+export type GetNotificationsResponse = API.Response<{
+  /** List of notifications */
+  notifications: INotification[];
+  /** The count of notifications that are non-message */
+  count: number;
+  /** The next offset for the next notification retrieval */
+  nextOffset: number;
+  /** Indicates whether there is a next page of notifications */
+  hasNextPage: boolean;
+}>;

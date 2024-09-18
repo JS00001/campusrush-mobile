@@ -20,6 +20,7 @@ import Icon, { IconType } from "@/ui/Icon";
 interface SidebarItemProps {
   icon: IconType;
   label: string;
+  badgeCount?: number;
   loading?: boolean;
   selected?: boolean;
   newFeature?: boolean;
@@ -29,6 +30,7 @@ interface SidebarItemProps {
 const SidebarItem: React.FC<SidebarItemProps> = ({
   icon,
   label,
+  badgeCount,
   loading,
   selected,
   newFeature,
@@ -60,11 +62,19 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
             {label}
           </Text>
 
-          {newFeature && (
-            <Badge size="xs" style={tw`self-center bg-blue-600`}>
-              New
-            </Badge>
-          )}
+          <View style={tw`flex-row gap-1`}>
+            {!!badgeCount && (
+              <Badge size="xs" style={tw`self-center px-1.5 bg-blue-600`}>
+                {badgeCount}
+              </Badge>
+            )}
+
+            {newFeature && (
+              <Badge size="xs" style={tw`self-center bg-blue-600`}>
+                New
+              </Badge>
+            )}
+          </View>
         </View>
       </View>
     </TouchableHighlight>

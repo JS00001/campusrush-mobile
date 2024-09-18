@@ -26,6 +26,7 @@ import { alert } from "@/lib/util";
 import AppConstants from "@/constants";
 import { useAuth } from "@/providers/Auth";
 import SafeAreaView from "@/ui/SafeAreaView";
+import { useNotificationStore } from "@/store";
 import { useSidebarStore } from "@/store/overlay/SidebarStore";
 
 interface SidebarProps {
@@ -35,6 +36,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   const navigation = useNavigation();
   const sidebarStore = useSidebarStore();
+  const notificationStore = useNotificationStore();
   const { chapter, mutations, logoutUser } = useAuth();
 
   /**
@@ -74,7 +76,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
 
   const SidebarSections: ISidebar = [
     {
-      label: "Features",
+      label: "Essentials",
       items: [
         {
           icon: "calendar-2-line",
@@ -82,6 +84,14 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           screen: "Events",
           newFeature: false,
           hidden: false,
+        },
+        {
+          icon: "notification-2-line",
+          label: "Notifications",
+          screen: "Notifications",
+          newFeature: false,
+          hidden: false,
+          badgeCount: notificationStore.count,
         },
         {
           icon: "admin-line",
@@ -112,8 +122,8 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         {
           icon: "logout-box-r-line",
           label: "Logout",
-          onPress: handleLogout,
           loading: mutations.logoutMutation.isLoading || false,
+          onPress: handleLogout,
           newFeature: false,
           hidden: false,
         },
@@ -181,6 +191,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                           selected={selected}
                           loading={item.loading}
                           newFeature={item.newFeature}
+                          badgeCount={item.badgeCount}
                           onPress={onPress}
                         />
                       );

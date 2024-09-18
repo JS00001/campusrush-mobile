@@ -11,11 +11,15 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import { useAuth } from '@/providers/Auth';
-import { useStatisticsStore } from '@/store';
-import { getChapterStatistics, getChapterSessions } from '@/api';
+import { useNotificationStore, useStatisticsStore } from '@/store';
+import {
+  getChapterStatistics,
+  getChapterSessions,
+  getChapterNotifications,
+} from '@/api';
 
 export const useGetChapterStatistics = () => {
   const { accessToken } = useAuth();
@@ -63,4 +67,53 @@ export const useGetChapterSessions = () => {
       return response;
     },
   });
+};
+
+export const useGetNotifications = () => {
+  const { accessToken } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const notificationStore = useNotificationStore();
+
+  const query = useInfiniteQuery(['notifications', accessToken], {
+    cacheTime: 0,
+    queryFn: async ({ pageParam = 0 }) => {
+      const response = await getChapterNotifications({ offset: pageParam });
+      if ('error' in response) throw response;
+      return response;
+    },
+    getNextPageParam: (lastPage) => {
+      if ('error' in lastPage) return undefined;
+
+      const hasNextPage = lastPage.data.hasNextPage;
+
+      if (!hasNextPage) return undefined;
+
+      return lastPage.data.nextOffset;
+    },
+  });
+
+  useEffect(() => {
+    if (!query.data || query.isError) {
+      setIsLoading(query.isLoading);
+      return;
+    }
+
+    const combinedNotifications = query.data.pages.flatMap((page) => {
+      return page.data.notifications;
+    });
+
+    notificationStore.setState({
+      count: query.data.pages[0].data.count,
+      notifications: combinedNotifications,
+    });
+
+    setIsLoading(query.isLoading);
+  }, [query.data]);
+
+  return {
+    ...query,
+    isLoading: isLoading && !query.data,
+    count: notificationStore.count,
+    notifications: notificationStore.notifications,
+  };
 };

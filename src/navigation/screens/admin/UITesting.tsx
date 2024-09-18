@@ -61,9 +61,7 @@ const UITestingScreen: React.FC<Props> = ({}) => {
       <Layout.Content scrollable>
         <TagView
           disabled
-          onPress={() => {
-            console.log("TagView Pressed");
-          }}
+          onPress={() => {}}
           tags={["tag1", "tag2", "tag3", "Sports", "Testing"]}
         />
 
