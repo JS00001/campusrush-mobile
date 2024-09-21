@@ -18,14 +18,15 @@ export type ISidebar = ISidebarSection[];
 type ISidebarSection = {
   label: string;
   items: ISidebarItem[];
+  hidden?: boolean;
 };
 
 type ISidebarItem = {
   icon: IconType;
   label: string;
-  hidden: boolean;
   newFeature: boolean;
   badgeCount?: number;
+  hidden?: boolean;
   screen?: keyof MoreTabParams;
   loading?: boolean;
   onPress?: () => void;

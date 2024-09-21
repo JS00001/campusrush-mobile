@@ -83,14 +83,12 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           label: "Events",
           screen: "Events",
           newFeature: false,
-          hidden: false,
         },
         {
           icon: "notification-2-line",
           label: "Notifications",
           screen: "Notifications",
           newFeature: false,
-          hidden: false,
           badgeCount: notificationStore.count,
         },
       ],
@@ -103,14 +101,12 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           label: "Settings",
           screen: "Settings",
           newFeature: false,
-          hidden: false,
         },
         {
           icon: "shield-check-line",
           label: "Security and Privacy",
           screen: "Security",
           newFeature: false,
-          hidden: false,
         },
         {
           icon: "logout-box-r-line",
@@ -118,54 +114,48 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           loading: mutations.logoutMutation.isLoading || false,
           onPress: handleLogout,
           newFeature: false,
-          hidden: false,
         },
       ],
     },
     {
       label: "Admin",
+      hidden: chapter.role !== "admin",
       items: [
         {
           icon: "group-line",
           label: "Chapters",
           screen: "AdminChapters",
           newFeature: false,
-          hidden: chapter.role !== "admin",
         },
         {
           icon: "bar-chart-line",
           label: "Statistics",
           screen: "AdminStatistics",
           newFeature: false,
-          hidden: chapter.role !== "admin",
         },
         {
           icon: "error-warning-line",
           label: "Violations",
           screen: "AdminViolations",
           newFeature: false,
-          hidden: chapter.role !== "admin",
         },
         {
           icon: "global-line",
           label: "Websocket",
           screen: "AdminWebsocket",
           newFeature: false,
-          hidden: chapter.role !== "admin",
         },
         {
           icon: "test-tube-line",
           label: "UI Testing",
           screen: "AdminUITesting",
           newFeature: false,
-          hidden: chapter.role !== "admin",
         },
         {
           icon: "wifi-line",
           label: "Network",
           screen: "AdminNetwork",
           newFeature: false,
-          hidden: chapter.role !== "admin",
         },
       ],
     },
@@ -205,43 +195,48 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                 Hey {chapter.firstName}!
               </Text>
 
-              {SidebarSections.map((section, index) => (
-                <View style={tw`gap-y-2`} key={index}>
-                  <Text style={tw`uppercase px-8 font-medium`} type="p3">
-                    {section.label}
-                  </Text>
+              {SidebarSections.map((section, index) => {
+                if (!section.hidden)
+                  return (
+                    <View style={tw`gap-y-2`} key={index}>
+                      <Text style={tw`uppercase px-8 font-medium`} type="p3">
+                        {section.label}
+                      </Text>
 
-                  <View>
-                    {section.items.map((item, index) => {
-                      if (item.hidden) return null;
+                      <View>
+                        {section.items.map((item, index) => {
+                          if (item.hidden) return null;
 
-                      const onPress = () => {
-                        if (item.onPress) {
-                          item.onPress();
-                        } else if (item.screen) {
-                          handleNavigate(item.screen);
-                        }
-                      };
+                          const onPress = () => {
+                            if (item.onPress) {
+                              item.onPress();
+                            } else if (item.screen) {
+                              handleNavigate(item.screen);
+                            }
+                          };
 
-                      const selected =
-                        sidebarStore.currentScreen === item.screen;
+                          const selected =
+                            sidebarStore.currentScreen === item.screen;
 
-                      return (
-                        <SidebarItem
-                          key={index}
-                          icon={item.icon}
-                          label={item.label}
-                          selected={selected}
-                          loading={item.loading}
-                          newFeature={item.newFeature}
-                          badgeCount={item.badgeCount}
-                          onPress={onPress}
-                        />
-                      );
-                    })}
-                  </View>
-                </View>
-              ))}
+                          return (
+                            <SidebarItem
+                              key={index}
+                              icon={item.icon}
+                              label={item.label}
+                              selected={selected}
+                              loading={item.loading}
+                              newFeature={item.newFeature}
+                              badgeCount={item.badgeCount}
+                              onPress={onPress}
+                            />
+                          );
+                        })}
+                      </View>
+                    </View>
+                  );
+
+                return null;
+              })}
 
               <Text type="p4" style={tw`text-center text-slate-400`}>
                 Version {AppConstants.version} - {AppConstants.updateVersion}
