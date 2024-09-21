@@ -14,11 +14,9 @@ import { PostHogProvider } from "posthog-react-native";
 
 import AppConstants from "@/constants";
 
-interface PosthogProviderProps {
-  children: React.ReactNode;
-}
-
-const PosthogProvider: React.FC<PosthogProviderProps> = ({ children }) => {
+const PosthogProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   // Do not track events in development or staging
   if (AppConstants.environment !== "production") return children;
 

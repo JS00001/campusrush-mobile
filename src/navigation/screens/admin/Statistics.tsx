@@ -100,7 +100,6 @@ const Statistics = () => {
   return (
     <Layout.Root>
       <Layout.Header
-        hasBackButton
         title="Statistics"
         subtitle="View all statistics for the application"
       />
@@ -115,7 +114,6 @@ const Statistics = () => {
           loadingComponent={<ListItemLoader size="lg" />}
           loading={statistics.isLoading}
           renderItem={({ item }) => {
-            console.log(item);
             return (
               <ListItem
                 size="sm"

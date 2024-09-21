@@ -12,11 +12,11 @@
 
 import { Layout } from "@/ui/Layout";
 import TagView from "@/components/TagView";
-import type { AdminStackProps } from "@/navigation/@types";
+import type { MoreStackProps } from "@/navigation/@types";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import Button from "@/ui/Button";
 
-type Props = AdminStackProps<"AdminUITesting">;
+type Props = MoreStackProps<"AdminUITesting">;
 
 const UITestingScreen: React.FC<Props> = ({}) => {
   const { openBottomSheet } = useBottomSheet();
@@ -61,9 +61,7 @@ const UITestingScreen: React.FC<Props> = ({}) => {
       <Layout.Content scrollable>
         <TagView
           disabled
-          onPress={() => {
-            console.log("TagView Pressed");
-          }}
+          onPress={() => {}}
           tags={["tag1", "tag2", "tag3", "Sports", "Testing"]}
         />
 

@@ -32,18 +32,8 @@ import { useGetChapterStatistics } from "@/hooks/api/chapter";
 
 const HomeView = () => {
   const { chapter } = useAuth();
-  const navigation = useNavigation();
   const { openBottomSheet } = useBottomSheet();
   const statisticsQuery = useGetChapterStatistics();
-
-  const onSettingsPress = () => {
-    navigation.navigate("Main", {
-      screen: "HomeTab",
-      params: {
-        screen: "Settings",
-      },
-    });
-  };
 
   const onRefresh = async () => {
     await statisticsQuery.refetch();
@@ -74,17 +64,9 @@ const HomeView = () => {
 
       <View style={tw`w-full items-start p-6 gap-y-6`}>
         {/* Header */}
-        <View style={tw`justify-between items-center flex-row w-full`}>
-          <Text type="h1" numberOfLines={1} style={tw`text-white shrink`}>
-            Welcome {chapter.firstName}
-          </Text>
-          <IconButton
-            color="primary"
-            size="md"
-            iconName="settings-4-fill"
-            onPress={onSettingsPress}
-          />
-        </View>
+        <Text type="h1" numberOfLines={1} style={tw`text-white shrink`}>
+          Welcome {chapter.firstName}
+        </Text>
 
         {/* Chapter Statistics */}
         <Text type="h3" style={tw`text-white`}>

@@ -11,49 +11,63 @@
  */
 
 import type { IPNM } from './models/pnm';
+import type { IEvent } from './models/event';
 import type { IConversation } from './models/conversation';
+import type { INotification } from './models/notification';
 
 import type { IconType } from '@/ui/Icon';
 
-/** All WS message types, and the data that must be passed through the WS */
-type Message =
-  | {
-      type: 'NEW_MESSAGE';
-      data: { conversation: IConversation };
-    }
-  | {
-      type: 'NEW_PNM';
-      data: { pnm: IPNM };
-    }
-  | {
-      type: 'NEW_EVENT_RESPONSE';
-      data: Event;
-    }
-  | {
-      type: 'NEW_DYNAMIC_NOTIFICATION';
-      data: {
-        title: string;
-        message: string;
-        iconName?: IconType;
-        iconColor?: string;
-      };
-    };
+interface PNMData {
+  pnm: IPNM;
+}
 
-/** All WS messages that can be sent to the client */
+interface ConversationData {
+  pnm: IPNM;
+  conversation: IConversation;
+}
+
+interface EventData {
+  event: IEvent;
+}
+
+interface DynamicNotificationData {
+  title: string;
+  message: string;
+  iconName?: IconType;
+  iconColor?: string;
+}
+
+/** Union of all possible payloads */
+type Payload = PNMData | ConversationData | EventData | DynamicNotificationData;
+
+/** Message structure */
+interface BaseMessage<T extends Payload> {
+  type: string;
+  data: {
+    payload: T;
+    notification: INotification | null;
+  };
+}
+
+/** All WebSocket message types */
+type Message =
+  | (BaseMessage<ConversationData> & { type: 'NEW_MESSAGE' })
+  | (BaseMessage<PNMData> & { type: 'NEW_PNM' })
+  | (BaseMessage<EventData> & { type: 'NEW_EVENT_RESPONSE' })
+  | (BaseMessage<DynamicNotificationData> & {
+      type: 'NEW_DYNAMIC_NOTIFICATION';
+    });
+
+/** WebSocket message with optional toast notification */
 export type WebsocketMessage = Message & {
-  /** Whether to show a notification in the app for the message or not */
-  notification?: {
-    /** The title of the notification */
+  toastNotification?: {
     title: string;
-    /** The body of the notification */
     body: string;
   };
 };
 
-/** The logs from the websocket */
+/** WebSocket log structure */
 export interface WebsocketLog {
-  /** When the log was created */
   timestamp: number;
-  /** The message of the log */
   message: string;
 }

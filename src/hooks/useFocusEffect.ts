@@ -1,5 +1,5 @@
 /*
- * Created on Thu Jun 13 2024
+ * Created on Wed Sep 18 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -9,7 +9,12 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
-import WebsocketProvider, { useWebsocket } from "./Websocket";
 
-export { useWebsocket };
-export default WebsocketProvider;
+import { useFocusEffect as useRNFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
+
+const useFocusEffect = (callback: () => void, deps: any[]) => {
+  useRNFocusEffect(useCallback(callback, deps));
+};
+
+export default useFocusEffect;

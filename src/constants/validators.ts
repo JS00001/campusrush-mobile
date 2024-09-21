@@ -12,7 +12,7 @@
 
 import { z } from 'zod';
 
-import iconNames from './iconNames';
+import iconNames from './icon-names';
 import { colorHexRegex } from './regex';
 
 const validators = {

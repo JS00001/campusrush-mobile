@@ -16,15 +16,13 @@ import AppConstants from "@/constants";
 
 type Preferences = (typeof AppConstants)["preferences"];
 
-interface PreferencesContextProps extends Preferences {
-  /** Whether the preferences are loading */
+interface IPreferencesContext extends Preferences {
   isLoading: boolean;
-  /** Updates the preferences object */
   updatePreferences: (newPreferences: Partial<Preferences>) => void;
 }
 
-const PreferencesContext = createContext<PreferencesContextProps>(
-  {} as PreferencesContextProps,
+const PreferencesContext = createContext<IPreferencesContext>(
+  {} as IPreferencesContext,
 );
 
 const PreferencesProvider: React.FC<{ children?: React.ReactNode }> = ({

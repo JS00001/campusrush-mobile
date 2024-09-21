@@ -18,6 +18,7 @@ export * from './models/conversation';
 export * from './models/event';
 export * from './models/eventResponse';
 export * from './models/message';
+export * from './models/notification';
 export * from './models/pnm';
 export * from './models/violation';
 export * from './models/refreshToken';
@@ -27,4 +28,4 @@ export * from './api/cms';
 export * from './api/response';
 export * from './api/request';
 
-export * from './components/actionMenu';
+export * from './components/action-menu';

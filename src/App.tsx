@@ -19,18 +19,18 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { startNetworkLogging } from "react-native-network-logger";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import queryClient from "@/lib/queryClient";
+import queryClient from "@/lib/query-client";
 import AuthProvider from "@/providers/Auth";
-import UpdateProvider from "@/providers/Update";
 import qonversionConfig from "@/lib/qonversion";
 import AxiosIntercepter from "@/providers/Axios";
 import NetworkProvider from "@/providers/Network";
 import OverlayProvider from "@/providers/Overlay";
 import MetadataProvider from "@/providers/Metadata";
-import WebsocketProvider from "@/providers/websocket";
+import WebsocketProvider from "@/providers/Websocket";
+import EASUpdateProvider from "@/providers/EASUpdate";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
-import QonversionProvider from "@/providers/Qonversion";
+import QonversionProvider from "@/providers/external/Qonversion";
 import SentryProvider from "@/providers/external/Sentry";
 import BottomSheetProvider from "@/providers/BottomSheet";
 import PreferencesProvider from "@/providers/Preferences";
@@ -53,7 +53,7 @@ Qonversion.initialize(qonversionConfig);
 const App = () => {
   return (
     <SentryProvider>
-      <UpdateProvider>
+      <EASUpdateProvider>
         <NetworkProvider>
           <QueryClientProvider client={queryClient}>
             <PreferencesProvider>
@@ -85,7 +85,7 @@ const App = () => {
             </PreferencesProvider>
           </QueryClientProvider>
         </NetworkProvider>
-      </UpdateProvider>
+      </EASUpdateProvider>
     </SentryProvider>
   );
 };

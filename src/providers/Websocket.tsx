@@ -15,16 +15,21 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 import type { WebsocketLog, WebsocketMessage } from "@/types/websocket";
 
+import {
+  useConversationStore,
+  useGlobalStore,
+  useMessageStore,
+  useNotificationStore,
+} from "@/store";
 import AppConstants from "@/constants";
 import { isJSON } from "@/lib/util/string";
 import { useAuth } from "@/providers/Auth";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import { LogLevels, websocketLogger } from "@/lib/logger";
-import { useConversationStore, useGlobalStore, useMessageStore } from "@/store";
 
 const MAX_LOGS = 100;
 
-interface WebsocketContextProps {
+interface IWebsocketContext {
   ws: WebSocket | null;
   connected: boolean;
   logs: WebsocketLog[];
@@ -32,20 +37,22 @@ interface WebsocketContextProps {
   connect: (accessToken?: string) => void;
 }
 
-const WebsocketContext = createContext<WebsocketContextProps>(
-  {} as WebsocketContextProps,
+const WebsocketContext = createContext<IWebsocketContext>(
+  {} as IWebsocketContext,
 );
 
 const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { accessToken } = useAuth();
+  const { openBottomSheet } = useBottomSheet();
+
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [logs, setLogs] = useState<WebsocketLog[]>([]);
 
   const globalStore = useGlobalStore();
   const messageStore = useMessageStore();
-  const { openBottomSheet } = useBottomSheet();
+  const notificationStore = useNotificationStore();
   const conversationStore = useConversationStore();
 
   let reconnectAttempts = 0;
@@ -117,9 +124,8 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   /**
    * When the websocket receives a message from the server, parse/handle it
    */
-  const onMessage = (message: MessageEvent<any>) => {
+  const onMessage = async (message: MessageEvent<any>) => {
     const data = message.data;
-
     const { isValid, parsedJSON } = isJSON(data);
 
     if (!isValid) {
@@ -127,42 +133,43 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
-    // TODO: Add a zod validation here
-    const payload = parsedJSON as WebsocketMessage;
+    const socketMessage = parsedJSON as WebsocketMessage;
 
-    switch (payload.type) {
-      case "NEW_MESSAGE":
-        const conversation = payload.data.conversation;
+    const notification = socketMessage.data.notification;
+    if (notification) notificationStore.addOrUpdateNotification(notification);
 
-        conversationStore.addConversations(conversation);
-        messageStore.addMessages(conversation.messages[0]);
-        break;
-
-      case "NEW_PNM":
-        const pnm = payload.data.pnm;
-        globalStore.addOrUpdatePnm(pnm);
-        break;
-
-      case "NEW_DYNAMIC_NOTIFICATION":
-        const data = payload.data;
-
-        openBottomSheet("DYNAMIC_NOTIFICATION", {
-          title: data.title,
-          message: data.message,
-          iconName: data.iconName,
-          iconColor: data.iconColor,
-        });
-    }
-
-    if (payload.notification) {
+    if (socketMessage.toastNotification) {
       Toast.show({
         type: "info",
-        text1: payload.notification.title,
-        text2: payload.notification.body,
+        text1: socketMessage.toastNotification.title,
+        text2: socketMessage.toastNotification.body,
       });
     }
 
-    sendLog(`Received '${payload.type}' message from websocket`);
+    sendLog(`Received '${socketMessage.type}' message from websocket`);
+
+    // Handle the different types of messages that can be received
+    if (socketMessage.type === "NEW_MESSAGE") {
+      const conversation = socketMessage.data.payload.conversation;
+
+      conversationStore.addConversations(conversation);
+      messageStore.addMessages(conversation.messages[0]);
+    }
+
+    if (socketMessage.type === "NEW_PNM") {
+      const pnm = socketMessage.data.payload.pnm;
+      globalStore.addOrUpdatePnm(pnm);
+    }
+
+    if (socketMessage.type === "NEW_DYNAMIC_NOTIFICATION") {
+      const data = socketMessage.data.payload;
+      openBottomSheet("DYNAMIC_NOTIFICATION", {
+        title: data.title,
+        message: data.message,
+        iconName: data.iconName,
+        iconColor: data.iconColor,
+      });
+    }
   };
 
   /**

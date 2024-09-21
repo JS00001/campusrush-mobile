@@ -11,38 +11,40 @@
  */
 
 import SelectionCard from "@/ui/SelectionCard";
-import { useNotifications } from "@/providers/Notifications";
+import { usePushNotifications } from "@/providers/PushNotifications";
 
 const NotificationsView = () => {
-  const {
-    isLoading,
-    notificationsEnabled,
-    setNotificationsEnabled,
-    enableNotificationsSubtitle,
-    disableNotificationsSubtitle,
-  } = useNotifications();
+  const pushNotifications = usePushNotifications();
 
   const onNotificationsEnable = () => {
-    setNotificationsEnabled(true);
+    pushNotifications.setEnabled(true);
   };
 
   const onNotificationsDisable = () => {
-    setNotificationsEnabled(false);
+    pushNotifications.setEnabled(false);
   };
+
+  const enableNotificationsSubtitle = pushNotifications.enabled
+    ? "Currently Selected"
+    : "Click to enable notifications";
+
+  const disableNotificationsSubtitle = !pushNotifications.enabled
+    ? "Currently Selected"
+    : "Click to disable notifications";
 
   return (
     <>
       <SelectionCard
-        loading={isLoading}
-        selected={notificationsEnabled}
+        selected={pushNotifications.enabled}
+        loading={pushNotifications.isLoading}
         title="Enable Notifications"
         subtitle="You will receive push notifications for various events to better help your chapter succeed."
         description={enableNotificationsSubtitle}
         onPress={onNotificationsEnable}
       />
       <SelectionCard
-        loading={isLoading}
-        selected={!notificationsEnabled}
+        selected={!pushNotifications.enabled}
+        loading={pushNotifications.isLoading}
         title="Disable Notifications"
         subtitle="You will not receive push notifications. You can turn notifications back on at any time."
         description={disableNotificationsSubtitle}

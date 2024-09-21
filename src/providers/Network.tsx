@@ -18,18 +18,16 @@ import Button from "@/ui/Button";
 import { Layout } from "@/ui/Layout";
 import Headline from "@/ui/Headline";
 
-interface NetworkContext {
+interface INetworkContext {
   isConnected: boolean;
   verifyConnection: () => Promise<boolean>;
 }
 
-interface NetworkProviderProps {
-  children: React.ReactNode;
-}
+const NetworkContext = createContext<INetworkContext>({} as INetworkContext);
 
-const NetworkContext = createContext<NetworkContext>({} as NetworkContext);
-
-const NetworkProvider: React.FC<NetworkProviderProps> = ({ children }) => {
+const NetworkProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isConnected, setIsConnected] = useState(true);
 
   /**

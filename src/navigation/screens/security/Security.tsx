@@ -10,23 +10,27 @@
  * Do not distribute
  */
 
+import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
-import NotificationsView from "@/views/settings/Notifications";
+import SecurityView from "@/views/settings/Security";
 
-const NotificationsScreen = () => {
+const SecurityScreen: React.FC = () => {
   return (
     <Layout.Root>
       <Layout.Header
-        hasBackButton
-        title="Notifications"
-        subtitle="Manage your notifications"
+        title="Security"
+        subtitle="Manage your password, and view active account sessions"
       />
 
-      <Layout.Content>
-        <NotificationsView />
+      <Layout.Content
+        gap={12}
+        scrollable
+        contentContainerStyle={tw`items-start`}
+      >
+        <SecurityView />
       </Layout.Content>
     </Layout.Root>
   );
 };
 
-export default NotificationsScreen;
+export default SecurityScreen;

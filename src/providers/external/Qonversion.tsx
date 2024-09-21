@@ -10,10 +10,12 @@
  * Do not distribute
  */
 
+import Qonversion, {
+  PurchaseModel,
+  Entitlement,
+} from "react-native-qonversion";
 import * as Sentry from "@sentry/react-native";
 import Toast from "react-native-toast-message";
-import { Entitlement, EntitlementSource } from "react-native-qonversion";
-import Qonversion, { PurchaseModel } from "react-native-qonversion";
 import { createContext, useEffect, useState, useContext } from "react";
 
 interface IQonversionContext {
@@ -43,7 +45,6 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [entitlementIds, setEntitlementIds] = useState<string[]>([]);
-  // prettier-ignore
   const [entitlementState, setEntitlementState] = useState<Entitlement[]>([]);
 
   /**
@@ -53,7 +54,6 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     (async () => {
       await checkEntitlements();
-
       setIsLoading(false);
     })();
   }, []);
@@ -117,10 +117,7 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
 
       setEntitlements(entitlements);
     } catch (e: any) {
-      if (e.userCancelled) {
-        return;
-      }
-
+      if (e.userCancelled) return;
       Sentry.captureException(e);
     }
   };

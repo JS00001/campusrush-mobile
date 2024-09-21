@@ -11,22 +11,22 @@
  */
 
 import { Layout } from "@/ui/Layout";
-import SettingsView from "@/views/settings";
+import NotificationsView from "@/views/settings/Notifications";
 
-const SettingsScreen = () => {
+const NotificationsScreen = () => {
   return (
     <Layout.Root>
       <Layout.Header
         hasBackButton
-        title="Settings"
-        subtitle="Manage your chapter"
+        title="Notifications"
+        subtitle="Manage your notifications"
       />
 
-      <Layout.Content scrollable gap={12}>
-        <SettingsView />
+      <Layout.Content gap={12}>
+        <NotificationsView />
       </Layout.Content>
     </Layout.Root>
   );
 };
 
-export default SettingsScreen;
+export default NotificationsScreen;

@@ -17,11 +17,7 @@ import ChaptersView from "@/views/admin/Chapters";
 const Chapters = () => {
   return (
     <Layout.Root>
-      <Layout.Header
-        hasBackButton
-        title="Chapters"
-        subtitle="View all registered chapters"
-      />
+      <Layout.Header title="Chapters" subtitle="View all registered chapters" />
 
       <Layout.Content gap={12} contentContainerStyle={tw`pb-0`}>
         <ChaptersView />

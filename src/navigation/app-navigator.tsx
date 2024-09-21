@@ -14,11 +14,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
-  AdminStack,
   HomeStack,
   MessagesStack,
+  MoreStack,
   PNMsStack,
-  EventsStack,
 } from "./stack-navigator";
 
 import {
@@ -33,11 +32,11 @@ import Create from "@/navigation/screens/conversation/Create";
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import TabBarIcon from "@/ui/TabBarIcon";
-import { useAuth } from "@/providers/Auth";
-import { useConversationStore } from "@/store";
 import { useBottomSheet } from "@/providers/BottomSheet";
-import NotificationsProvider from "@/providers/Notifications";
-import { useGetConversations } from "@/hooks/api/conversations";
+import { useGetNotifications } from "@/hooks/api/chapter";
+import NotificationsProvider from "@/providers/PushNotifications";
+import { useSidebarStore } from "@/store/overlay/sidebar-store";
+import { useConversationStore, useNotificationStore } from "@/store";
 
 /**
  * Tab Navigator for the App
@@ -48,13 +47,14 @@ import { useGetConversations } from "@/hooks/api/conversations";
 const MainNavigator = () => {
   const Tab = createBottomTabNavigator<MainStackParams>();
 
-  const { chapter } = useAuth();
+  const sidebar = useSidebarStore();
   const { openBottomSheet } = useBottomSheet();
+  const notificationStore = useNotificationStore();
   const conversationStore = useConversationStore();
 
-  const unreadConverstions = conversationStore.conversations.filter(
-    (c) => !c.read,
-  ).length;
+  const unreadConverstions = conversationStore.conversations.filter((c) => {
+    return !c.read;
+  }).length;
 
   const onAddTabPress = () => {
     openBottomSheet("CREATE_PNM");
@@ -69,11 +69,18 @@ const MainNavigator = () => {
         tabBarItemStyle: {
           margin: 5,
         },
-
         headerShown: false,
         tabBarActiveTintColor: tw.color("primary"),
         tabBarInactiveTintColor: tw.color("gray-400"),
       }}
+      screenListeners={() => ({
+        focus: (e) => {
+          if (!sidebar.currentScreen) return;
+          if (!e.target?.startsWith("MoreTab")) {
+            sidebar.setCurrentScreen(null);
+          }
+        },
+      })}
     >
       <Tab.Screen
         name="HomeTab"
@@ -116,7 +123,7 @@ const MainNavigator = () => {
         })}
         options={{
           tabBarLabel: "Add",
-          tabBarIcon: ({ color, focused }) => (
+          tabBarIcon: ({ color }) => (
             <Icon name="add-line" size={26} color={color} />
           ),
         }}
@@ -138,38 +145,27 @@ const MainNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="EventsTab"
-        component={EventsStack}
+        name="MoreTab"
+        component={MoreStack}
+        listeners={() => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            sidebar.openSidebar();
+          },
+        })}
         options={{
-          tabBarLabel: "Events",
+          tabBarLabel: "More",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               color={color}
               focused={focused}
-              focusedIcon="calendar-2-fill"
-              unfocusedIcon="calendar-2-line"
+              focusedIcon="menu-3-fill"
+              unfocusedIcon="menu-3-fill"
+              badgeCount={notificationStore.count}
             />
           ),
         }}
       />
-
-      {chapter.role == "admin" && (
-        <Tab.Screen
-          name="AdminTab"
-          component={AdminStack}
-          options={{
-            tabBarLabel: "Admin",
-            tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon
-                color={color}
-                focused={focused}
-                focusedIcon="admin-fill"
-                unfocusedIcon="admin-line"
-              />
-            ),
-          }}
-        />
-      )}
     </Tab.Navigator>
   );
 };
@@ -189,7 +185,7 @@ export const AppNavigator = () => {
   const Stack = createNativeStackNavigator<AppStackParams>();
 
   // TODO: make this better, incorporate into store
-  useGetConversations();
+  useGetNotifications();
 
   return (
     <NotificationsProvider>

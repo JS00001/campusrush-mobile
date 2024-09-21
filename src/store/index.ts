@@ -9,20 +9,22 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
-export * from './GlobalStore';
+export * from './global-store';
 
-export * from './MetadataStore';
-export * from './EventStore';
-export * from './PNMStore';
-export * from './ForgotPasswordStore';
-export * from './RegistrationStore';
-export * from './StatisticsStore';
+export * from './metadata-store';
+export * from './event-store';
+export * from './pnm-store';
+export * from './auth/registration-store';
+export * from './statistics-store';
+export * from './notification-store';
 
-export * from './messaging/ContactStore';
-export * from './messaging/MessageStore';
-export * from './messaging/ConversationStore';
+export * from './messaging/contact-store';
+export * from './messaging/message-store';
+export * from './messaging/conversation-store';
 
-export * from './overlay/ImageZoomStore';
-export * from './overlay/StatusStore';
+export * from './overlay/image-zoom-store';
+export * from './overlay/status-store';
 
-export * from './admin/StatisticsStore';
+export * from './admin/statistics-store';
+
+export * from './auth/forgot-password-store';

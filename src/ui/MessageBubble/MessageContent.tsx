@@ -18,16 +18,16 @@ import Animated, {
 } from "react-native-reanimated";
 import { Pressable } from "react-native";
 
-import type { ActionMenu } from "@/types";
+import type { ActionMenu, IMessage } from "@/types";
+import type { TimestampedData } from "@/lib/util/group";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import useCopy from "@/hooks/useCopy";
-import { TimestampedMessage } from "@/lib/messages";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
 interface MessageContentProps {
-  message: TimestampedMessage;
+  message: TimestampedData<IMessage>;
 }
 
 const MessageContent: React.FC<MessageContentProps> = ({ message }) => {

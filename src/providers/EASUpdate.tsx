@@ -16,11 +16,9 @@ import { AppState, AppStateStatus } from "react-native";
 
 import AppConstants from "@/constants";
 
-interface UpdateProviderProps {
-  children: React.ReactNode;
-}
-
-const UpdateProvider: React.FC<UpdateProviderProps> = ({ children }) => {
+const EASUpdateProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const appState = useRef(AppState.currentState);
   const { isUpdatePending } = Updates.useUpdates();
 
@@ -63,4 +61,4 @@ const UpdateProvider: React.FC<UpdateProviderProps> = ({ children }) => {
   return children;
 };
 
-export default UpdateProvider;
+export default EASUpdateProvider;

@@ -12,11 +12,10 @@
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import {
-  AdminTabParams,
+import type {
   AuthStackParams,
   BillingStackParams,
-  EventsTabParams,
+  MoreTabParams,
   HomeTabParams,
   MessagesTabParams,
   PNMsTabParams,
@@ -25,15 +24,20 @@ import {
 
 import { usePreferences } from "@/providers/Preferences";
 
+import HomeScreen from "@/navigation/screens/Home";
+import PNMsScreen from "@/navigation/screens/Pnms";
+import MessagesScreen from "@/navigation/screens/Messages";
+import EventsScreen from "@/navigation/screens/Events";
+import NotificationsScreen from "@/navigation/screens/Notifications";
+import VerificationScreen from "@/navigation/screens/Verification";
+
 import LoginScreen from "@/navigation/screens/auth/Login";
 import LandingScreen from "@/navigation/screens/auth/Landing";
-import ForgotPasswordStep1Screen from "./screens/auth/ForgotPasswordStep1";
-import ForgotPasswordStep2Screen from "./screens/auth/ForgotPasswordStep2";
-import RegistrationStep1Screen from "@/navigation/screens/auth/RegistrationStep1";
-import RegistrationStep2Screen from "@/navigation/screens/auth/RegistrationStep2";
-import RegistrationStep3Screen from "@/navigation/screens/auth/RegistrationStep3";
-
-import VerificationScreen from "@/navigation/screens/verification/Verification";
+import RegistrationStep1Screen from "@/navigation/screens/auth/registration/Step1";
+import RegistrationStep2Screen from "@/navigation/screens/auth/registration/Step2";
+import RegistrationStep3Screen from "@/navigation/screens/auth/registration/Step3";
+import ForgotPasswordStep1Screen from "@/navigation/screens/auth/forgot-password/Step1";
+import ForgotPasswordStep2Screen from "@/navigation/screens/auth/forgot-password/Step2";
 
 import BillingScreen from "@/navigation/screens/billing/Billing";
 import BillingTourStep1 from "@/navigation/screens/billing/tour/Step1";
@@ -43,7 +47,6 @@ import BillingTourStep4 from "@/navigation/screens/billing/tour/Step4";
 import BillingTourStep5 from "@/navigation/screens/billing/tour/Step5";
 import BillingTourStep6 from "@/navigation/screens/billing/tour/Step6";
 
-import AdminScreen from "@/navigation/screens/admin/Admin";
 import AdminNetwork from "@/navigation/screens/admin/Network";
 import AdminWebsocket from "@/navigation/screens/admin/Websocket";
 import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
@@ -51,21 +54,15 @@ import AdminChaptersScreen from "@/navigation/screens/admin/Chapters";
 import AdminStatisticsScreen from "@/navigation/screens/admin/Statistics";
 import AdminViolationsScreen from "@/navigation/screens/admin/Violations";
 
-import PNMsScreen from "@/navigation/screens/pnms/Pnms";
+import SettingsScreen from "@/navigation/screens/settings/Settings";
+import SettingsPhoneNumberScreen from "@/navigation/screens/settings/ManagePhoneNumber";
+import SettingsLinkSharingScreen from "@/navigation/screens/settings/ManageLinkSharing";
+import SettingsBillingScreen from "@/navigation/screens/settings/ManageBilling";
+import SettingsNotificationsScreen from "@/navigation/screens/settings/ManagePushNotifications";
+import SettingsChapterScreen from "@/navigation/screens/settings/ManageChapter";
 
-import HomeScreen from "@/navigation/screens/home/Home";
-import SettingsScreen from "@/navigation/screens/home/settings/Settings";
-import SettingsPhoneNumberScreen from "@/navigation/screens/home/settings/PhoneNumber";
-import SettingsLinkSharingScreen from "@/navigation/screens/home/settings/LinkSharing";
-import SettingsBillingScreen from "@/navigation/screens/home/settings/Billing";
-import SettingsNotificationsScreen from "@/navigation/screens/home/settings/Notifications";
-import SettingsSecurityScreen from "@/navigation/screens/home/settings/security/Security";
-import SettingsChangePasswordScreen from "@/navigation/screens/home/settings/security/ChangePassword";
-import SettingsChapterScreen from "@/navigation/screens/home/settings/Chapter";
-
-import MessagesScreen from "@/navigation/screens/messages/Messages";
-
-import EventsScreen from "@/navigation/screens/events/Events";
+import SettingsSecurityScreen from "@/navigation/screens/security/Security";
+import SettingsChangePasswordScreen from "@/navigation/screens/security/ChangePassword";
 
 /**
  * Stack Navigator for Auth Screens
@@ -203,38 +200,6 @@ export const HomeStack = () => {
         name="Home"
         component={HomeScreen}
       />
-      <Stack.Screen
-        name="Settings"
-        component={SettingsScreen}
-      />
-      <Stack.Screen
-        name="LinkSharing"
-        component={SettingsLinkSharingScreen}
-      />
-      <Stack.Screen
-        name="PhoneNumber"
-        component={SettingsPhoneNumberScreen}
-      />
-      <Stack.Screen
-        name="Billing"
-        component={SettingsBillingScreen}
-      />
-      <Stack.Screen
-        name="Chapter"
-        component={SettingsChapterScreen}
-      />
-      <Stack.Screen
-        name="Security"
-        component={SettingsSecurityScreen}
-      />
-      <Stack.Screen
-        name="ChangePassword"
-        component={SettingsChangePasswordScreen}
-      />
-      <Stack.Screen
-        name="Notifications"
-        component={SettingsNotificationsScreen}
-      />
     </Stack.Navigator>
   );
 };
@@ -288,57 +253,92 @@ export const MessagesStack = () => {
  * This is the main stack navigator for the app
  * when the user is on the "Events" tab
  */
-export const EventsStack = () => {
-  const Stack = createNativeStackNavigator<EventsTabParams>();
+export const MoreStack = () => {
+  const Stack = createNativeStackNavigator<MoreTabParams>();
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {/* Events, and all sub screens */}
       <Stack.Screen
         name="Events"
         component={EventsScreen}
+        options={{ gestureEnabled: false, animation: "none" }}
       />
-    </Stack.Navigator>
-  );
-};
 
-/**
- * Stack Navigator App Admin Screen
- *
- * This is the main stack navigator for the app
- * when the user is on the "Admin" tab and is an admin
- */
-export const AdminStack = () => {
-  const Stack = createNativeStackNavigator<AdminTabParams>();
-
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {/* Notifications and all sub screens */}
       <Stack.Screen
-        name="Admin"
-        component={AdminScreen}
+        name="Notifications"
+        component={NotificationsScreen}
       />
+
+      {/* Admin, and all sub screens */}
       <Stack.Screen
         name="AdminChapters"
         component={AdminChaptersScreen}
+        options={{ gestureEnabled: false, animation: "none" }}
       />
       <Stack.Screen
         name="AdminWebsocket"
         component={AdminWebsocket}
+        options={{ gestureEnabled: false, animation: "none" }}
       />
       <Stack.Screen
         name="AdminUITesting"
         component={AdminUITestingScreen}
+        options={{ gestureEnabled: false, animation: "none" }}
       />
       <Stack.Screen
         name="AdminNetwork"
         component={AdminNetwork}
+        options={{ gestureEnabled: false, animation: "none" }}
       />
       <Stack.Screen
         name="AdminStatistics"
         component={AdminStatisticsScreen}
+        options={{ gestureEnabled: false, animation: "none" }}
       />
       <Stack.Screen
         name="AdminViolations"
         component={AdminViolationsScreen}
+        options={{ gestureEnabled: false, animation: "none" }}
+      />
+
+      {/* Settings and all sub screens */}
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{ gestureEnabled: false, animation: "none" }}
+      />
+      <Stack.Screen
+        name="ManageLinkSharing"
+        component={SettingsLinkSharingScreen}
+      />
+      <Stack.Screen
+        name="ManagePhoneNumber"
+        component={SettingsPhoneNumberScreen}
+      />
+      <Stack.Screen
+        name="ManageBilling"
+        component={SettingsBillingScreen}
+      />
+      <Stack.Screen
+        name="ManageChapter"
+        component={SettingsChapterScreen}
+      />
+      <Stack.Screen
+        name="ManagePushNotifications"
+        component={SettingsNotificationsScreen}
+      />
+
+      {/* Security and all sub screens */}
+      <Stack.Screen
+        name="Security"
+        component={SettingsSecurityScreen}
+        options={{ gestureEnabled: false, animation: "none" }}
+      />
+      <Stack.Screen
+        name="ChangePassword"
+        component={SettingsChangePasswordScreen}
       />
     </Stack.Navigator>
   );

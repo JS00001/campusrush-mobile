@@ -9,14 +9,14 @@
  * Copyright (c) 2023 CampusRush
  * Do not distribute
  */
-import { navigationTheme } from "@/lib/theme";
+
 import { NavigationContainer } from "@react-navigation/native";
 
-interface Props {
-  children: React.ReactNode;
-}
+import { navigationTheme } from "@/lib/theme";
 
-const NavigationProvider: React.FC<Props> = ({ children }) => {
+const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   return (
     <NavigationContainer theme={navigationTheme}>
       {children}

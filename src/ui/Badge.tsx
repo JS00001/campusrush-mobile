@@ -17,7 +17,7 @@ import Text, { TextType } from "@/ui/Text";
 
 export type BadgeColor = "primary" | "secondary";
 
-export type BadgeSize = "sm" | "md" | "lg";
+export type BadgeSize = "xs" | "sm" | "md" | "lg";
 
 interface BadgeProps extends ViewProps {
   color?: BadgeColor;
@@ -43,6 +43,10 @@ const BadgeColors = {
  * The size of the badge
  */
 const BadgeSizes = {
+  xs: {
+    text: "p5",
+    container: "py-0.5 px-2",
+  },
   sm: {
     text: "p4",
     container: "py-0.5 px-3",

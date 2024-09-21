@@ -1,7 +1,7 @@
 {
   "name": "campusrush-mobile",
   "version": "1.0.77",
-  "updateVersion": "2024.9.14.2",
+  "updateVersion": "2024.9.21.1",
   "main": "src/App.tsx",
   "license": "All Rights Reserved",
   "scripts": {
@@ -55,6 +55,7 @@
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-native-console-time-polyfill": "^1.2.3",
+    "react-native-drawer-layout": "^3.3.2",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-logs": "^5.1.0",

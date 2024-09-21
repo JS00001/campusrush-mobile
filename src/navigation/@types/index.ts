@@ -70,14 +70,6 @@ export type BillingStackParams = {
  */
 export type HomeTabParams = {
   Home: undefined;
-  Settings: undefined;
-  LinkSharing: undefined;
-  PhoneNumber: undefined;
-  Chapter: undefined;
-  Billing: undefined;
-  Security: undefined;
-  ChangePassword: undefined;
-  Notifications: undefined;
 };
 
 export type PNMsTabParams = {
@@ -92,18 +84,28 @@ export type MessagesTabParams = {
   Messages: undefined;
 };
 
-export type EventsTabParams = {
+export type MoreTabParams = {
+  // Notifications
+  Notifications: undefined;
+  // Events
   Events: undefined;
-};
-
-export type AdminTabParams = {
-  Admin: undefined;
+  // Admin
   AdminStatistics: undefined;
   AdminChapters: undefined;
   AdminUITesting: undefined;
   AdminNetwork: undefined;
   AdminWebsocket: undefined;
   AdminViolations: undefined;
+  // Settings
+  Settings: undefined;
+  ManageLinkSharing: undefined;
+  ManagePhoneNumber: undefined;
+  ManageChapter: undefined;
+  ManageBilling: undefined;
+  ManagePushNotifications: undefined;
+  // Security
+  Security: undefined;
+  ChangePassword: undefined;
 };
 
 export type MainStackParams = {
@@ -111,8 +113,7 @@ export type MainStackParams = {
   PNMsTab: NavigatorScreenParams<PNMsTabParams>;
   AddTab: NavigatorScreenParams<AddTabParams>;
   MessagesTab: NavigatorScreenParams<MessagesTabParams>;
-  EventsTab: NavigatorScreenParams<EventsTabParams>;
-  AdminTab: NavigatorScreenParams<AdminTabParams>;
+  MoreTab: NavigatorScreenParams<MoreTabParams>;
 };
 
 export type ConversationStackParams = {
@@ -172,20 +173,11 @@ export type MessagesStackProps<Screen extends keyof MessagesTabParams> =
     NativeStackScreenProps<AppStackParams, 'Main'>
   >;
 
-export type EventsStackProps<Screen extends keyof EventsTabParams> =
+export type MoreStackProps<Screen extends keyof MoreTabParams> =
   CompositeScreenProps<
     CompositeScreenProps<
-      NativeStackScreenProps<EventsTabParams, Screen>,
-      BottomTabScreenProps<MainStackParams, 'EventsTab'>
-    >,
-    NativeStackScreenProps<AppStackParams, 'Main'>
-  >;
-
-export type AdminStackProps<Screen extends keyof AdminTabParams> =
-  CompositeScreenProps<
-    CompositeScreenProps<
-      NativeStackScreenProps<AdminTabParams, Screen>,
-      BottomTabScreenProps<MainStackParams, 'AdminTab'>
+      NativeStackScreenProps<MoreTabParams, Screen>,
+      BottomTabScreenProps<MainStackParams, 'MoreTab'>
     >,
     NativeStackScreenProps<AppStackParams, 'Main'>
   >;

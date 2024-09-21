@@ -66,8 +66,45 @@ export const hasPassed = (date: Date | string) => {
   return new Date(date) < new Date();
 };
 
+/**
+ * Get a relative date string
+ */
+const getRelativeDate = (date: Date): string => {
+  const dateString = date.toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  const today = new Date().toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  const yesterday = new Date(Date.now() - 86400000).toLocaleDateString(
+    undefined,
+    {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    },
+  );
+
+  if (dateString === today) {
+    return 'Today';
+  }
+
+  if (dateString === yesterday) {
+    return 'Yesterday';
+  }
+
+  return dateString;
+};
+
 export default {
   timeAgo,
   toString,
   hasPassed,
+  getRelativeDate,
 };

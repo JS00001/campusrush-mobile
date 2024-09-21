@@ -25,7 +25,7 @@ import EventCard from "./Extensions/Event/Card";
 import type {
   ExtensionPanelProps,
   ExtensionPanelRef,
-} from "@/types/messageBox";
+} from "@/@types/message-box";
 import type { IEvent } from "@/types";
 
 import tw from "@/lib/tailwind";
