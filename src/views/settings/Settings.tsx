@@ -40,7 +40,7 @@ const SettingsView = () => {
     navigation.navigate("Main", {
       screen: "MoreTab",
       params: {
-        screen: "Chapter",
+        screen: "ManageChapter",
       },
     });
   };
@@ -49,7 +49,7 @@ const SettingsView = () => {
     navigation.navigate("Main", {
       screen: "MoreTab",
       params: {
-        screen: "UpdateNotifications",
+        screen: "ManagePushNotifications",
       },
     });
   };
@@ -58,7 +58,7 @@ const SettingsView = () => {
     navigation.navigate("Main", {
       screen: "MoreTab",
       params: {
-        screen: "PhoneNumber",
+        screen: "ManagePhoneNumber",
       },
     });
   };
@@ -67,7 +67,7 @@ const SettingsView = () => {
     navigation.navigate("Main", {
       screen: "MoreTab",
       params: {
-        screen: "Billing",
+        screen: "ManageBilling",
       },
     });
   };
@@ -76,7 +76,7 @@ const SettingsView = () => {
     navigation.navigate("Main", {
       screen: "MoreTab",
       params: {
-        screen: "LinkSharing",
+        screen: "ManageLinkSharing",
       },
     });
   };

@@ -19,11 +19,7 @@ import { Layout } from "@/ui/Layout";
 const Network = () => {
   return (
     <Layout.Root>
-      <Layout.Header
-        hasBackButton
-        title="Network"
-        subtitle="View network logs"
-      />
+      <Layout.Header title="Network" subtitle="View network logs" />
 
       <Layout.Content>
         <View style={tw`flex-1 w-full`}>

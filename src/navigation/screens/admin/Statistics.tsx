@@ -100,7 +100,6 @@ const Statistics = () => {
   return (
     <Layout.Root>
       <Layout.Header
-        hasBackButton
         title="Statistics"
         subtitle="View all statistics for the application"
       />

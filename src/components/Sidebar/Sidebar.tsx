@@ -93,13 +93,6 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           hidden: false,
           badgeCount: notificationStore.count,
         },
-        {
-          icon: "admin-line",
-          label: "Admin",
-          screen: "Admin",
-          newFeature: false,
-          hidden: chapter.role !== "admin",
-        },
       ],
     },
     {
@@ -129,6 +122,53 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         },
       ],
     },
+    {
+      label: "Admin",
+      items: [
+        {
+          icon: "group-line",
+          label: "Chapters",
+          screen: "AdminChapters",
+          newFeature: false,
+          hidden: chapter.role !== "admin",
+        },
+        {
+          icon: "bar-chart-line",
+          label: "Statistics",
+          screen: "AdminStatistics",
+          newFeature: false,
+          hidden: chapter.role !== "admin",
+        },
+        {
+          icon: "error-warning-line",
+          label: "Violations",
+          screen: "AdminViolations",
+          newFeature: false,
+          hidden: chapter.role !== "admin",
+        },
+        {
+          icon: "global-line",
+          label: "Websocket",
+          screen: "AdminWebsocket",
+          newFeature: false,
+          hidden: chapter.role !== "admin",
+        },
+        {
+          icon: "test-tube-line",
+          label: "UI Testing",
+          screen: "AdminUITesting",
+          newFeature: false,
+          hidden: chapter.role !== "admin",
+        },
+        {
+          icon: "wifi-line",
+          label: "Network",
+          screen: "AdminNetwork",
+          newFeature: false,
+          hidden: chapter.role !== "admin",
+        },
+      ],
+    },
   ];
 
   return (
@@ -152,7 +192,10 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
             />
           </TouchableOpacity>
 
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={tw`pb-8`}
+          >
             <View style={tw`gap-8`}>
               <Text
                 type="h1"

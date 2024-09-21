@@ -80,7 +80,7 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
 
   return (
     <View style={tw`gap-y-2`}>
-      {createdOn && <Text type="p4">{createdOn}</Text>}
+      {createdOn && <Text type="p3">{createdOn}</Text>}
 
       <TouchableOpacity style={containerStyles} onPress={onPress}>
         <IconLabel

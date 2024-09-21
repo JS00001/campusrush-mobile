@@ -90,7 +90,6 @@ export type MoreTabParams = {
   // Events
   Events: undefined;
   // Admin
-  Admin: undefined;
   AdminStatistics: undefined;
   AdminChapters: undefined;
   AdminUITesting: undefined;
@@ -99,11 +98,11 @@ export type MoreTabParams = {
   AdminViolations: undefined;
   // Settings
   Settings: undefined;
-  LinkSharing: undefined;
-  PhoneNumber: undefined;
-  Chapter: undefined;
-  Billing: undefined;
-  UpdateNotifications: undefined;
+  ManageLinkSharing: undefined;
+  ManagePhoneNumber: undefined;
+  ManageChapter: undefined;
+  ManageBilling: undefined;
+  ManagePushNotifications: undefined;
   // Security
   Security: undefined;
   ChangePassword: undefined;

@@ -33,11 +33,11 @@ import VerificationScreen from "@/navigation/screens/Verification";
 
 import LoginScreen from "@/navigation/screens/auth/Login";
 import LandingScreen from "@/navigation/screens/auth/Landing";
-import RegistrationStep1Screen from "@/navigation/screens/auth/RegistrationStep1";
-import RegistrationStep2Screen from "@/navigation/screens/auth/RegistrationStep2";
-import RegistrationStep3Screen from "@/navigation/screens/auth/RegistrationStep3";
-import ForgotPasswordStep1Screen from "@/navigation/screens/auth/ForgotPasswordStep1";
-import ForgotPasswordStep2Screen from "@/navigation/screens/auth/ForgotPasswordStep2";
+import RegistrationStep1Screen from "@/navigation/screens/auth/registration/Step1";
+import RegistrationStep2Screen from "@/navigation/screens/auth/registration/Step2";
+import RegistrationStep3Screen from "@/navigation/screens/auth/registration/Step3";
+import ForgotPasswordStep1Screen from "@/navigation/screens/auth/forgot-password/Step1";
+import ForgotPasswordStep2Screen from "@/navigation/screens/auth/forgot-password/Step2";
 
 import BillingScreen from "@/navigation/screens/billing/Billing";
 import BillingTourStep1 from "@/navigation/screens/billing/tour/Step1";
@@ -47,7 +47,6 @@ import BillingTourStep4 from "@/navigation/screens/billing/tour/Step4";
 import BillingTourStep5 from "@/navigation/screens/billing/tour/Step5";
 import BillingTourStep6 from "@/navigation/screens/billing/tour/Step6";
 
-import AdminScreen from "@/navigation/screens/admin/Admin";
 import AdminNetwork from "@/navigation/screens/admin/Network";
 import AdminWebsocket from "@/navigation/screens/admin/Websocket";
 import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
@@ -56,11 +55,11 @@ import AdminStatisticsScreen from "@/navigation/screens/admin/Statistics";
 import AdminViolationsScreen from "@/navigation/screens/admin/Violations";
 
 import SettingsScreen from "@/navigation/screens/settings/Settings";
-import SettingsPhoneNumberScreen from "@/navigation/screens/settings/PhoneNumber";
-import SettingsLinkSharingScreen from "@/navigation/screens/settings/LinkSharing";
-import SettingsBillingScreen from "@/navigation/screens/settings/Billing";
-import SettingsNotificationsScreen from "@/navigation/screens/settings/Notifications";
-import SettingsChapterScreen from "@/navigation/screens/settings/Chapter";
+import SettingsPhoneNumberScreen from "@/navigation/screens/settings/ManagePhoneNumber";
+import SettingsLinkSharingScreen from "@/navigation/screens/settings/ManageLinkSharing";
+import SettingsBillingScreen from "@/navigation/screens/settings/ManageBilling";
+import SettingsNotificationsScreen from "@/navigation/screens/settings/ManagePushNotifications";
+import SettingsChapterScreen from "@/navigation/screens/settings/ManageChapter";
 
 import SettingsSecurityScreen from "@/navigation/screens/security/Security";
 import SettingsChangePasswordScreen from "@/navigation/screens/security/ChangePassword";
@@ -274,33 +273,34 @@ export const MoreStack = () => {
 
       {/* Admin, and all sub screens */}
       <Stack.Screen
-        name="Admin"
-        component={AdminScreen}
-        options={{ gestureEnabled: false, animation: "none" }}
-      />
-      <Stack.Screen
         name="AdminChapters"
         component={AdminChaptersScreen}
+        options={{ gestureEnabled: false, animation: "none" }}
       />
       <Stack.Screen
         name="AdminWebsocket"
         component={AdminWebsocket}
+        options={{ gestureEnabled: false, animation: "none" }}
       />
       <Stack.Screen
         name="AdminUITesting"
         component={AdminUITestingScreen}
+        options={{ gestureEnabled: false, animation: "none" }}
       />
       <Stack.Screen
         name="AdminNetwork"
         component={AdminNetwork}
+        options={{ gestureEnabled: false, animation: "none" }}
       />
       <Stack.Screen
         name="AdminStatistics"
         component={AdminStatisticsScreen}
+        options={{ gestureEnabled: false, animation: "none" }}
       />
       <Stack.Screen
         name="AdminViolations"
         component={AdminViolationsScreen}
+        options={{ gestureEnabled: false, animation: "none" }}
       />
 
       {/* Settings and all sub screens */}
@@ -310,23 +310,23 @@ export const MoreStack = () => {
         options={{ gestureEnabled: false, animation: "none" }}
       />
       <Stack.Screen
-        name="LinkSharing"
+        name="ManageLinkSharing"
         component={SettingsLinkSharingScreen}
       />
       <Stack.Screen
-        name="PhoneNumber"
+        name="ManagePhoneNumber"
         component={SettingsPhoneNumberScreen}
       />
       <Stack.Screen
-        name="Billing"
+        name="ManageBilling"
         component={SettingsBillingScreen}
       />
       <Stack.Screen
-        name="Chapter"
+        name="ManageChapter"
         component={SettingsChapterScreen}
       />
       <Stack.Screen
-        name="UpdateNotifications"
+        name="ManagePushNotifications"
         component={SettingsNotificationsScreen}
       />
 

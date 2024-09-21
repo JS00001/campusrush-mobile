@@ -33,7 +33,7 @@ const NotificationsScreen: React.FC = () => {
 
     ws?.send(message.toString());
     notificationStore.setState({ count: 0 });
-  }, []);
+  }, [notificationStore.notifications]);
 
   const onRefresh = async () => {
     await query.refetch();

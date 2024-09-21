@@ -16,11 +16,7 @@ import WebsocketView from "@/views/admin/Websocket";
 const Websocket = () => {
   return (
     <Layout.Root>
-      <Layout.Header
-        hasBackButton
-        title="Websocket"
-        subtitle="View websocket message logs"
-      />
+      <Layout.Header title="Websocket" subtitle="View websocket message logs" />
 
       <Layout.Content scrollable gap={12}>
         <WebsocketView />

@@ -49,7 +49,6 @@ const Violations = () => {
   return (
     <Layout.Root>
       <Layout.Header
-        hasBackButton
         title="Violations"
         subtitle="View all content violations"
       />
