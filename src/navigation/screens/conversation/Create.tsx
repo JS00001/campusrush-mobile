@@ -118,7 +118,7 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
       conversationStore.addConversations(conversations);
       contactStore.removeContacts("uncontacted", pnms);
 
-      messageStore.addMessages(messages);
+      messageStore.addOrUpdateMessages(messages);
     }
 
     Toast.show({

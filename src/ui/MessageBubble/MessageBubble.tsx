@@ -46,7 +46,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
   );
 
   const dateStyles = tw.style("text-gray-500 py-4", "self-center");
-
+  const errorStyles = tw.style("text-red pt-2", messagePositioning);
   const timestampStyles = tw.style("text-gray-500 pt-2", messagePositioning);
 
   return (
@@ -59,6 +59,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
       )}
 
       {/* The message bubble itself */}
+
       <View style={tw.style(`gap-y-2`, messagePositioning)}>
         {/* Link Previews */}
         {hyperlinkUrl && (
@@ -67,12 +68,12 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
 
         {/* Image Attachments */}
         {message.attachments.map((url, i) => (
-          <MessageImage key={i} url={url} />
+          <MessageImage key={i} url={url} error={message.error} />
         ))}
 
         {/* Message Bubble */}
         {!hyperlinkUrl && message.content && (
-          <MessageContent message={message} />
+          <MessageContent message={message} error={message.error} />
         )}
       </View>
 

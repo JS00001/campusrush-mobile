@@ -152,8 +152,18 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
     if (socketMessage.type === "NEW_MESSAGE") {
       const conversation = socketMessage.data.payload.conversation;
 
+      const pnmId = conversation.pnm._id;
+      const existingMessages = messageStore.getMessages(pnmId) || [];
+
       conversationStore.addConversations(conversation);
-      messageStore.addMessages(conversation.messages[0]);
+
+      // If we are just opening the conversation, the message store is empty (This store is in memory)
+      // So we should add all of the messages we know about
+      if (!existingMessages.length) {
+        messageStore.addOrUpdateMessages(conversation.messages.reverse());
+      } else {
+        messageStore.addOrUpdateMessages(conversation.messages[0]);
+      }
     }
 
     if (socketMessage.type === "NEW_PNM") {
@@ -169,6 +179,11 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
         iconName: data.iconName,
         iconColor: data.iconColor,
       });
+    }
+
+    if (socketMessage.type === "MESSAGE_ERROR") {
+      const message = socketMessage.data.payload.message;
+      messageStore.addOrUpdateMessages(message);
     }
   };
 

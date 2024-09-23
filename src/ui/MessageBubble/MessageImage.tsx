@@ -17,10 +17,11 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { Image } from "expo-image";
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
 
 import type { ActionMenu } from "@/types";
 
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import useCamera from "@/hooks/useCamera";
 import { useImageZoomStore } from "@/store";
@@ -28,13 +29,16 @@ import { useBottomSheet } from "@/providers/BottomSheet";
 
 interface MessageImageProps {
   url: string;
+  error?: boolean;
 }
 
-const MessageImage: React.FC<MessageImageProps> = ({ url }) => {
+const MessageImage: React.FC<MessageImageProps> = ({ url, error }) => {
   const camera = useCamera();
   const scale = useSharedValue(1);
   const { setImage } = useImageZoomStore();
   const { openBottomSheet } = useBottomSheet();
+
+  const containerStyles = tw.style("flex-row items-center self-end gap-1");
 
   const imageContainerShadow = tw.style({
     borderRadius: 12,
@@ -99,11 +103,16 @@ const MessageImage: React.FC<MessageImageProps> = ({ url }) => {
   };
 
   return (
-    <Animated.View style={[imageContainerShadow, imageAnimationStyles]}>
-      <Pressable onPress={onPress} onLongPress={onLongPress}>
-        <Image source={{ uri: url }} style={imageStyles} />
-      </Pressable>
-    </Animated.View>
+    <View style={containerStyles}>
+      {error && (
+        <Icon name="error-warning-line" color={tw.color("red")} size={18} />
+      )}
+      <Animated.View style={[imageContainerShadow, imageAnimationStyles]}>
+        <Pressable onPress={onPress} onLongPress={onLongPress}>
+          <Image source={{ uri: url }} style={imageStyles} />
+        </Pressable>
+      </Animated.View>
+    </View>
   );
 };
 

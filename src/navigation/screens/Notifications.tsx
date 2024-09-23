@@ -20,6 +20,7 @@ import { useNotificationStore } from "@/store";
 import useFocusEffect from "@/hooks/useFocusEffect";
 import { useWebsocket } from "@/providers/Websocket";
 import { useGetNotifications } from "@/hooks/api/chapter";
+import NotificationLoader from "@/ui/Loaders/Notification";
 
 const NotificationsScreen: React.FC = () => {
   const { ws } = useWebsocket();
@@ -57,6 +58,7 @@ const NotificationsScreen: React.FC = () => {
           disableOnEndReached={!query.hasNextPage}
           data={group.byDate(query.notifications, "createdAt")}
           renderItem={({ item }) => <Notification notification={item} />}
+          loadingComponent={<NotificationLoader />}
           onRefresh={onRefresh}
           onEndReached={onEndReached}
         />
