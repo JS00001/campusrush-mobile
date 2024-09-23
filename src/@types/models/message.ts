@@ -20,6 +20,8 @@ export interface IMessage {
   pnm: string;
   /** Whether the chapter sent this message or not */
   sent: boolean;
+  /** Whether there is an error or not */
+  error: boolean;
   /** The content of the message */
   content?: string;
   /** Attachment URLs from the message */

@@ -180,6 +180,11 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
         iconColor: data.iconColor,
       });
     }
+
+    if (socketMessage.type === "MESSAGE_ERROR") {
+      const message = socketMessage.data.payload.message;
+      messageStore.addMessages(message);
+    }
   };
 
   /**

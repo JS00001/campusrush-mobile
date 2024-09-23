@@ -16,7 +16,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
 
 import type { ActionMenu, IMessage } from "@/types";
 import type { TimestampedData } from "@/lib/util/group";
@@ -25,29 +25,33 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import useCopy from "@/hooks/useCopy";
 import { useBottomSheet } from "@/providers/BottomSheet";
+import Icon from "../Icon";
 
 interface MessageContentProps {
   message: TimestampedData<IMessage>;
+  error?: boolean;
 }
 
-const MessageContent: React.FC<MessageContentProps> = ({ message }) => {
+const MessageContent: React.FC<MessageContentProps> = ({ message, error }) => {
   const copy = useCopy();
   const scale = useSharedValue(1);
   const { openBottomSheet } = useBottomSheet();
 
-  const contentContainerStyles = tw.style(
+  const containerStyles = tw.style("flex-row items-center self-end gap-1");
+
+  const bubbleContainerStyles = tw.style(
     "rounded-xl p-2.5 max-w-5/6 self-start self-end",
     message.sent && "bg-blue-600",
     !message.sent && "bg-gray-100",
   );
 
-  const contentTextStyles = tw.style(
+  const bubbleTextStyles = tw.style(
     "text-base",
     message.sent && "text-white",
     !message.sent && "text-black",
   );
 
-  const contentAnimationStyles = useAnimatedStyle(() => {
+  const bubbleAnimationStyles = useAnimatedStyle(() => {
     return {
       transform: [{ scale: scale.value }],
     };
@@ -79,11 +83,16 @@ const MessageContent: React.FC<MessageContentProps> = ({ message }) => {
   };
 
   return (
-    <Animated.View style={[contentContainerStyles, contentAnimationStyles]}>
-      <Pressable onLongPress={onLongPress}>
-        <Text style={contentTextStyles}>{message.content}</Text>
-      </Pressable>
-    </Animated.View>
+    <View style={containerStyles}>
+      {error && (
+        <Icon name="error-warning-line" color={tw.color("red")} size={18} />
+      )}
+      <Animated.View style={[bubbleContainerStyles, bubbleAnimationStyles]}>
+        <Pressable onLongPress={onLongPress}>
+          <Text style={bubbleTextStyles}>{message.content}</Text>
+        </Pressable>
+      </Animated.View>
+    </View>
   );
 };
 

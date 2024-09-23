@@ -12,6 +12,7 @@
 
 import type { IPNM } from './models/pnm';
 import type { IEvent } from './models/event';
+import type { IMessage } from './models/message';
 import type { IConversation } from './models/conversation';
 import type { INotification } from './models/notification';
 
@@ -37,8 +38,17 @@ interface DynamicNotificationData {
   iconColor?: string;
 }
 
+interface MessageErrorData {
+  message: IMessage;
+}
+
 /** Union of all possible payloads */
-type Payload = PNMData | ConversationData | EventData | DynamicNotificationData;
+type Payload =
+  | PNMData
+  | ConversationData
+  | EventData
+  | DynamicNotificationData
+  | MessageErrorData;
 
 /** Message structure */
 interface BaseMessage<T extends Payload> {
@@ -54,6 +64,7 @@ type Message =
   | (BaseMessage<ConversationData> & { type: 'NEW_MESSAGE' })
   | (BaseMessage<PNMData> & { type: 'NEW_PNM' })
   | (BaseMessage<EventData> & { type: 'NEW_EVENT_RESPONSE' })
+  | (BaseMessage<MessageErrorData> & { type: 'MESSAGE_ERROR' })
   | (BaseMessage<DynamicNotificationData> & {
       type: 'NEW_DYNAMIC_NOTIFICATION';
     });
