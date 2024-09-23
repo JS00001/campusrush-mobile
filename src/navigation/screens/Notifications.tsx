@@ -59,6 +59,8 @@ const NotificationsScreen: React.FC = () => {
           renderItem={({ item }) => <Notification notification={item} />}
           onRefresh={onRefresh}
           onEndReached={onEndReached}
+          // TODO: Add this loading component
+          // loadingComponent={}
         />
       </Layout.Content>
     </Layout.Root>
