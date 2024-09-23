@@ -26,7 +26,7 @@ interface IMessageStore extends IMessageState {
   /** Set messages for a specific pnmId */
   setMessages: (pnmId: string, messages: IMessage[]) => void;
   /** Add messages to the store */
-  addMessages: (messages: IMessage[] | IMessage) => void;
+  addOrUpdateMessages: (messages: IMessage[] | IMessage) => void;
   /** Remove a message from the store */
   removeMessage: (pnmId: string, messageId: string) => void;
   /** Replace a message in the store */
@@ -70,7 +70,7 @@ export const useMessageStore = create<IMessageStore>()((set, get) => {
    * Adds messages to the store, but does not add duplicate
    * message ids
    */
-  const addMessages = (messages: IMessage[] | IMessage) => {
+  const addOrUpdateMessages = (messages: IMessage[] | IMessage) => {
     return set((state) => {
       const messagesArray = Array.isArray(messages) ? messages : [messages];
 
@@ -152,7 +152,7 @@ export const useMessageStore = create<IMessageStore>()((set, get) => {
     clear,
     getMessages,
     setMessages,
-    addMessages,
+    addOrUpdateMessages,
     removeMessage,
     replaceMessage,
   };

@@ -160,9 +160,9 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
       // If we are just opening the conversation, the message store is empty (This store is in memory)
       // So we should add all of the messages we know about
       if (!existingMessages.length) {
-        messageStore.addMessages(conversation.messages.reverse());
+        messageStore.addOrUpdateMessages(conversation.messages.reverse());
       } else {
-        messageStore.addMessages(conversation.messages[0]);
+        messageStore.addOrUpdateMessages(conversation.messages[0]);
       }
     }
 
@@ -183,7 +183,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
     if (socketMessage.type === "MESSAGE_ERROR") {
       const message = socketMessage.data.payload.message;
-      messageStore.addMessages(message);
+      messageStore.addOrUpdateMessages(message);
     }
   };
 
