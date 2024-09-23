@@ -32,7 +32,7 @@ const Landing: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <Layout.Root style={tw`bg-navy-300`}>
+    <Layout.Root style={tw`bg-primary`}>
       <Layout.Content
         style={tw`bg-transparent`}
         contentContainerStyle={tw`justify-between h-full`}
