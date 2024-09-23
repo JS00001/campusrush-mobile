@@ -94,8 +94,8 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
           iconColor={tw.color("primary")}
         />
 
-        <View>
-          <Text type="p2" style={tw`text-primary`}>
+        <View style={tw`flex-1`}>
+          <Text type="p2" style={tw`text-primary`} numberOfLines={2}>
             {notification.title}
           </Text>
           <Text type="p3">{date.timeAgo(notification.createdAt)}</Text>
