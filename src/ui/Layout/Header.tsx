@@ -53,7 +53,7 @@ const Header: React.FC<HeaderProps> = ({
 
       {/* Header Content */}
       <View style={containerStyles}>
-        <SafeAreaView position="top" style={contentContainerStyles}>
+        <SafeAreaView style={contentContainerStyles}>
           {hasBackButton && (
             <IconButton
               size="sm"

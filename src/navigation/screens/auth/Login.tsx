@@ -26,6 +26,7 @@ const LoginScreen = () => {
       <Layout.Content
         scrollable
         keyboardAvoiding
+        safeAreaPosition="bottom"
         contentContainerStyle={tw`flex-1`}
       >
         <LoginView />

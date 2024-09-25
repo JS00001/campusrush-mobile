@@ -58,7 +58,7 @@ const UITestingScreen: React.FC<Props> = ({}) => {
 
   return (
     <Layout.Root>
-      <Layout.Content scrollable>
+      <Layout.Content safeAreaPosition="top" scrollable>
         <TagView
           disabled
           onPress={() => {}}

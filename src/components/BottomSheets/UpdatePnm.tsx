@@ -130,6 +130,7 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
             <Layout.Content
               scrollable
               gap={12}
+              safeAreaPosition="top"
               contentContainerStyle={tw`pt-0 items-start`}
             >
               <FormHeader

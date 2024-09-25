@@ -117,6 +117,7 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
             <Layout.Content
               gap={12}
               scrollable
+              safeAreaPosition="top"
               contentContainerStyle={tw`pt-0 items-start`}
             >
               <FormHeader onSave={handleSubmission} onCancel={handleClose} />
