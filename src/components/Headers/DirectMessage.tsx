@@ -69,7 +69,7 @@ const LoadingState = () => {
   );
 
   return (
-    <SafeAreaView style={safeAreaStyles}>
+    <SafeAreaView position="top" style={safeAreaStyles}>
       <View style={headerStyles}>
         <View style={tw`flex-row items-center gap-4`}>
           <Skeleton height={36} width={36} borderRadius={999} />

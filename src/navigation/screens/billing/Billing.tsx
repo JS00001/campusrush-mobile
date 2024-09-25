@@ -26,9 +26,9 @@ import { useMetadataStore } from "@/store";
 import usePosthog from "@/hooks/usePosthog";
 import SafeAreaView from "@/ui/SafeAreaView";
 import Logo32 from "@/components/Logos/Logo32";
-import { useQonversion } from "@/providers/external/Qonversion";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import HeaderBackground from "@/components/Backgrounds/Header";
+import { useQonversion } from "@/providers/external/Qonversion";
 
 const BillingScreen = () => {
   const posthog = usePosthog();
@@ -179,7 +179,10 @@ const BillingScreen = () => {
 
         {/* Header */}
         <View style={tw`px-6 py-6 z-10`}>
-          <SafeAreaView style={tw`items-center justify-center gap-y-3 mt-6`}>
+          <SafeAreaView
+            position="top"
+            style={tw`items-center justify-center gap-y-3 mt-6`}
+          >
             <Logo32 />
 
             <Text type="h1" style={tw`text-center text-white`}>

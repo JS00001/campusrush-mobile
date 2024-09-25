@@ -16,7 +16,7 @@ import {
   View,
   ViewProps,
 } from "react-native";
-import SafeAreaView from "../SafeAreaView";
+import SafeAreaView from "@/ui/SafeAreaView";
 
 interface FooterProps extends ViewProps {
   /**

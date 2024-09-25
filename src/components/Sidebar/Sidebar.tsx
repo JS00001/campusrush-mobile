@@ -172,7 +172,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
       onOpen={sidebarStore.openSidebar}
       onClose={sidebarStore.closeSidebar}
       renderDrawerContent={() => (
-        <SafeAreaView style={tw`bg-slate-100 h-full w-full`}>
+        <SafeAreaView position="top" style={tw`bg-slate-100 h-full w-full`}>
           <TouchableOpacity onPress={sidebarStore.closeSidebar}>
             <Icon
               name="close-fill"

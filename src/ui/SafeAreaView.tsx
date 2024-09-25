@@ -10,18 +10,21 @@
  * Do not distribute
  */
 
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { View, Dimensions, ViewProps } from "react-native";
 import StaticSafeAreaInsets from "react-native-static-safe-area-insets";
 
+import tw from "@/lib/tailwind";
+
 interface SafeAreaViewProps extends ViewProps {
   style?: any;
+  /** Which area to apply padding to */
   position?: "top" | "bottom" | "left" | "right";
 }
 
 const SafeAreaView: React.FC<SafeAreaViewProps> = ({
   children,
-  position = "top",
+  position,
   style,
   ...props
 }) => {
@@ -32,7 +35,7 @@ const SafeAreaView: React.FC<SafeAreaViewProps> = ({
     left: StaticSafeAreaInsets.safeAreaInsetsLeft,
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const subscription = Dimensions.addEventListener("change", () => {
       StaticSafeAreaInsets.getSafeAreaInsets((values) => {
         setInsets({
@@ -47,15 +50,18 @@ const SafeAreaView: React.FC<SafeAreaViewProps> = ({
     return () => subscription.remove();
   });
 
+  const containerStyles = tw.style(
+    {
+      paddingTop: position === "top" ? insets.top : 0,
+      paddingBottom: position === "bottom" ? insets.bottom : 0,
+      paddingLeft: position === "left" ? insets.left : 0,
+      paddingRight: position === "right" ? insets.right : 0,
+    },
+    style,
+  );
+
   return (
-    <View
-      {...props}
-      style={{
-        paddingTop: position === "top" ? insets.top : 0,
-        paddingBottom: position === "bottom" ? insets.bottom : 0,
-        ...style,
-      }}
-    >
+    <View {...props} style={containerStyles}>
       {children}
     </View>
   );

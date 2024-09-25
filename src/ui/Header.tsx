@@ -49,7 +49,7 @@ const Header: React.FC<HeaderProps> = ({
   const leftColumnStyles = tw.style("flex-row items-center gap-4");
 
   return (
-    <SafeAreaView style={safeAreaStyles} {...props}>
+    <SafeAreaView position="top" style={safeAreaStyles} {...props}>
       <View style={headerStyles}>
         <View style={leftColumnStyles}>
           <InvisibleWrapper visible={hasBackButton}>

@@ -12,11 +12,11 @@
 
 import {
   KeyboardAvoidingView,
-  SafeAreaView,
   ScrollView,
   View,
   ViewProps,
 } from "react-native";
+import SafeAreaView from "@/ui/SafeAreaView";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import tw from "@/lib/tailwind";
@@ -48,6 +48,10 @@ interface ContentProps extends ViewProps {
    */
   keyboardAvoiding?: boolean;
   /**
+   * Whether the inner container should have a safe area padding
+   */
+  safeAreaPosition?: "top" | "bottom" | "left" | "right";
+  /**
    * Whether or not to remove the padding from the inner container
    */
   removePadding?: boolean;
@@ -57,6 +61,7 @@ const Content: React.FC<ContentProps> = ({
   style,
   children,
   contentContainerStyle,
+  safeAreaPosition,
   gap = 24,
   scrollable = false,
   keyboardAvoiding = false,
@@ -120,7 +125,9 @@ const Content: React.FC<ContentProps> = ({
   }[ContentContainerType];
 
   return (
-    <SafeAreaView style={containerStyles}>{ContentContainer}</SafeAreaView>
+    <SafeAreaView position={safeAreaPosition} style={containerStyles}>
+      {ContentContainer}
+    </SafeAreaView>
   );
 };
 

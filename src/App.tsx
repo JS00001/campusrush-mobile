@@ -30,11 +30,11 @@ import WebsocketProvider from "@/providers/Websocket";
 import EASUpdateProvider from "@/providers/EASUpdate";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
-import QonversionProvider from "@/providers/external/Qonversion";
 import SentryProvider from "@/providers/external/Sentry";
 import BottomSheetProvider from "@/providers/BottomSheet";
 import PreferencesProvider from "@/providers/Preferences";
 import PosthogProvider from "@/providers/external/Posthog";
+import QonversionProvider from "@/providers/external/Qonversion";
 import GestureDetectorProvider from "@/providers/GestureDetector";
 
 // Prevent native splash screen from autohiding

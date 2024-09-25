@@ -12,13 +12,13 @@
 
 import { View } from "react-native";
 import { Image } from "expo-image";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import OnboardingStepper from "./Stepper";
 import OnboardingButtons from "./Buttons";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import SafeAreaView from "@/ui/SafeAreaView";
 import { BillingStackParams } from "@/navigation/@types";
 
 interface OnboardingProps {
@@ -57,7 +57,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
   );
 
   return (
-    <SafeAreaView style={tw`flex-1 bg-slate-50 px-4 pt-20`}>
+    <SafeAreaView style={tw`flex-1 bg-slate-50 px-4 pt-20`} position="bottom">
       {/* Bento grid and title */}
       <View style={tw`flex-1 gap-10`}>
         <View style={tw`gap-3`}>
