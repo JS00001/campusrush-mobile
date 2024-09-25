@@ -132,7 +132,11 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
               gap={12}
               contentContainerStyle={tw`pt-0 items-start`}
             >
-              <FormHeader onSave={handleSubmission} onCancel={handleClose} />
+              <FormHeader
+                disableSave={form.loading || cloudStorage.isLoading}
+                onCancel={handleClose}
+                onSave={handleSubmission}
+              />
 
               <Avatar
                 editable
