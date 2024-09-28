@@ -62,8 +62,8 @@ const TextInput: React.FC<TextInputProps> = ({
 
   const containerStyles = tw.style(
     "relative w-full -z-10 flex-row rounded-full bg-slate-100 items-center pr-4",
-    disabled && "disabled",
     icon && "pl-4",
+    disabled && "disabled",
     contentContainerStyle,
   );
 

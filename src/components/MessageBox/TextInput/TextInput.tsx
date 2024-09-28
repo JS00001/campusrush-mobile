@@ -50,7 +50,9 @@ const TextInput: React.FC<TextInputProps> = ({
       (keyword) => keyword.keyword,
     );
 
-    const keywordStyles = tw.style("text-blue-600 font-semibold text-base");
+    const keywordStyles = tw.style(
+      "text-blue-600 text-base leading-5 font-semibold",
+    );
 
     const formattedWords: any = [];
 
@@ -58,7 +60,7 @@ const TextInput: React.FC<TextInputProps> = ({
     words.forEach((word, index) => {
       if (keywords.includes(word)) {
         // prettier-ignore
-        const element =  <Text key={index} style={keywordStyles} children={word} />
+        const element = <Text key={index} style={keywordStyles} children={word} />
         formattedWords.push(element);
       } else {
         formattedWords.push(word);
@@ -81,12 +83,14 @@ const TextInput: React.FC<TextInputProps> = ({
 
   // Styling
   const containerClasses = tw.style(
-    "relative w-full -z-10 flex-row rounded-xl bg-slate-100 items-center pr-4",
+    "relative w-full -z-10 flex-row rounded-xl bg-slate-100 items-center",
     // Allow the input to shrink when the container is too small, (more content on one line)
     "flex-shrink",
   );
 
-  const inputClasses = tw.style("py-3 text-base leading-5 px-5 max-h-40");
+  const inputClasses = tw.style(
+    "py-3 w-full text-base leading-5 px-5 max-h-40",
+  );
 
   return (
     <Pressable style={containerClasses} onPress={onContainerPress}>
