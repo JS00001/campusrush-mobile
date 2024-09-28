@@ -10,6 +10,6 @@
  * Do not distribute
  */
 
-import SecurityView from "./Security";
+import SessionsView from "./Sessions";
 
-export default SecurityView;
+export default SessionsView;

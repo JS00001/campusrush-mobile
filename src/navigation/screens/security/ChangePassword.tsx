@@ -11,7 +11,7 @@
  */
 
 import { Layout } from "@/ui/Layout";
-import ChangePasswordView from "@/views/settings/ChangePassword";
+import ChangePasswordView from "@/views/security/ChangePassword";
 
 const ChangePasswordScreen: React.FC = () => {
   return (

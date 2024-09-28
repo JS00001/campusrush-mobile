@@ -141,9 +141,8 @@ const LoadingState = () => {
 
       <View style={tw`w-full items-start p-6 gap-y-6`}>
         {/* Header */}
-        <View style={tw`justify-between items-center flex-row w-full`}>
+        <View style={tw`items-center flex-row w-full`}>
           <Skeleton height={40} width={"75%"} />
-          <Skeleton borderRadius={999} height={54} width={54} />
         </View>
 
         {/* Chapter Statistics */}
