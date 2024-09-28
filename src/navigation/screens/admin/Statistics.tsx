@@ -104,7 +104,7 @@ const Statistics = () => {
         subtitle="View all statistics for the application"
       />
 
-      <Layout.Content contentContainerStyle={tw`p-0`}>
+      <Layout.Content removePadding>
         <FlatList
           data={data}
           style={tw`p-6`}

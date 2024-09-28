@@ -11,12 +11,11 @@
  */
 
 import axios from "axios";
-import * as Device from "expo-device";
 import Toast from "react-native-toast-message";
-import { useMutation, UseMutationResult } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Qonversion, { UserPropertyKey } from "react-native-qonversion";
 import { createContext, useEffect, useState, useContext } from "react";
+import { useMutation, UseMutationResult } from "@tanstack/react-query";
 
 import type {
   IChapter,
@@ -27,8 +26,9 @@ import type {
 
 import AppConstants from "@/constants";
 import { useGlobalStore } from "@/store";
-import { useQonversion } from "@/providers/external/Qonversion";
 import usePosthog from "@/hooks/usePosthog";
+import defaultHeaders from "@/constants/axios";
+import { useQonversion } from "@/providers/external/Qonversion";
 
 interface IUserData {
   chapter: IChapter;
@@ -80,7 +80,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         {},
         {
           headers: {
-            "User-Agent": Device.modelName,
+            ...defaultHeaders,
             Authorization: `Bearer ${refreshToken}`,
           },
         },
@@ -97,7 +97,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         {},
         {
           headers: {
-            "User-Agent": Device.modelName,
+            ...defaultHeaders,
             Authorization: `Bearer ${refreshToken}`,
           },
         },
@@ -113,7 +113,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         `${AppConstants.apiUrl}/api/v1/consumer/auth/me`,
         {
           headers: {
-            "User-Agent": Device.modelName,
+            ...defaultHeaders,
             Authorization: `Bearer ${accessToken}`,
           },
         },

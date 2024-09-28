@@ -44,7 +44,7 @@ const useCloudStorage = () => {
     return imageUrl;
   };
 
-  return { uploadImage };
+  return { uploadImage, isLoading: uploadMutation.isLoading };
 };
 
 export default useCloudStorage;

@@ -10,12 +10,13 @@
  * Do not distribute
  */
 
-import { SafeAreaView, View } from "react-native";
+import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import IconButton from "@/ui/IconButton";
+import SafeAreaView from "@/ui/SafeAreaView";
 import HeaderBackground from "@/components/Backgrounds/Header";
 
 interface HeaderProps {

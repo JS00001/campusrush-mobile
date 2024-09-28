@@ -16,25 +16,40 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
 interface FormHeaderProps {
-  onCancel: () => void;
-  onSave: () => void;
   style?: any;
+  disableSave?: boolean;
+  disableCancel?: boolean;
+  onSave: () => void;
+  onCancel: () => void;
 }
 
-const FormHeader: React.FC<FormHeaderProps> = ({ onCancel, onSave, style }) => {
+const FormHeader: React.FC<FormHeaderProps> = ({
+  style,
+  disableSave,
+  disableCancel,
+  onSave,
+  onCancel,
+}) => {
   const containerStyles = tw.style(
     "flex-row justify-between items-center py-3 w-full",
     style,
   );
 
+  const cancelTextStyles = tw.style(
+    "text-primary",
+    disableCancel && "disabled",
+  );
+
+  const saveTextStyles = tw.style("text-blue-600", disableSave && "disabled");
+
   return (
     <View style={containerStyles}>
-      <TouchableOpacity onPress={onCancel}>
-        <Text style={tw`text-primary`}>Cancel</Text>
+      <TouchableOpacity onPress={onCancel} disabled={disableCancel}>
+        <Text style={cancelTextStyles}>Cancel</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={onSave}>
-        <Text style={tw`text-blue-600`}>Save</Text>
+      <TouchableOpacity onPress={onSave} disabled={disableSave}>
+        <Text style={saveTextStyles}>Save</Text>
       </TouchableOpacity>
     </View>
   );

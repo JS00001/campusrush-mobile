@@ -34,6 +34,7 @@ const Landing: React.FC<Props> = ({ navigation }) => {
   return (
     <Layout.Root style={tw`bg-primary`}>
       <Layout.Content
+        safeAreaPosition="bottom"
         style={tw`bg-transparent`}
         contentContainerStyle={tw`justify-between h-full`}
       >

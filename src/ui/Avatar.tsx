@@ -11,7 +11,12 @@
  */
 
 import { Image } from "expo-image";
-import { TouchableOpacity, View, ViewProps } from "react-native";
+import {
+  ActivityIndicator,
+  TouchableOpacity,
+  View,
+  ViewProps,
+} from "react-native";
 
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
@@ -22,6 +27,7 @@ interface AvatarProps extends ViewProps {
   url?: string;
   size?: AvatarSize;
   editable?: boolean;
+  loading?: boolean;
   contentRing?: boolean;
   onPress?: () => void;
   style?: any;
@@ -54,12 +60,14 @@ const AvatarSizes = {
 const Avatar: React.FC<AvatarProps> = ({
   url,
   style,
+  loading,
   contentRing,
   size = "md",
   editable,
   onPress,
   ...props
 }) => {
+  const disabled = !onPress || loading;
   const iconSize = AvatarSizes[size].icon;
 
   const containerStyles = tw.style(
@@ -73,20 +81,32 @@ const Avatar: React.FC<AvatarProps> = ({
   );
 
   const editContainerStyles = tw.style(
-    "items-center justify-center",
+    "items-center justify-center z-20",
     "bg-slate-100 absolute bottom-0 right-0",
     "border-white rounded-full border-2",
     { width: AvatarSizes[size].editContainer },
     { height: AvatarSizes[size].editContainer },
   );
 
+  const loadingOverlayStyles = tw.style(
+    "flex items-center justify-center",
+    "absolute inset-0 z-10",
+    "rounded-full bg-black bg-opacity-75",
+  );
+
   return (
     <TouchableOpacity
       style={containerStyles}
-      disabled={!onPress}
+      disabled={disabled}
       onPress={onPress}
       {...props}
     >
+      {loading && (
+        <View style={loadingOverlayStyles}>
+          <ActivityIndicator color={tw.color("white")} />
+        </View>
+      )}
+
       {url && (
         <Image
           source={{ uri: url }}
@@ -94,9 +114,11 @@ const Avatar: React.FC<AvatarProps> = ({
           contentFit="cover"
         />
       )}
+
       {!url && (
         <Icon name="user-fill" size={iconSize} color={tw.color("slate-400")} />
       )}
+
       {editable && (
         <View style={editContainerStyles}>
           <Icon

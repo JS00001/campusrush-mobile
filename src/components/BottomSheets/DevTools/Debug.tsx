@@ -14,8 +14,6 @@ import { View } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Headline from "@/ui/Headline";
-import AppConstants from "@/constants";
 import { useAuth } from "@/providers/Auth";
 import { formatJSON } from "@/lib/util/string";
 
@@ -24,13 +22,6 @@ const Debug = () => {
 
   return (
     <View style={tw`gap-y-2`}>
-      <View style={tw`rounded-xl bg-slate-100 p-4`}>
-        <Headline
-          title="App Version"
-          subtitle={AppConstants.version as string}
-        />
-      </View>
-
       <View style={tw`rounded-xl bg-slate-100 p-4`}>
         <Text type="h3">Current Chapter</Text>
         <Text type="p4">{formatJSON(JSON.stringify(chapter))}</Text>

@@ -20,7 +20,11 @@ const HomeScreen = () => {
     <>
       <HomeBackground />
       <Layout.Root>
-        <Layout.Content removePadding style={tw`bg-transparent`}>
+        <Layout.Content
+          removePadding
+          safeAreaPosition="top"
+          style={tw`bg-transparent`}
+        >
           <HomeView />
         </Layout.Content>
       </Layout.Root>
