@@ -18,12 +18,10 @@ import {
   useDeleteChapterSession,
   useGetChapterSessions,
 } from "@/hooks/api/chapter";
-import Text from "@/ui/Text";
-import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
+import FlatList from "@/ui/FlatList";
 import Session from "@/components/Session";
 import ListItemLoader from "@/ui/Loaders/ListItem";
-import FlatList from "@/ui/FlatList";
 
 const SessionsView = () => {
   const sessionsQuery = useGetChapterSessions();
