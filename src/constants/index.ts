@@ -64,15 +64,11 @@ const AppConstants = {
   /**
    * The version of the app (Only changes during builds)
    */
-  version: ExpoConstants.expoConfig?.version,
+  version: `${ExpoConstants.expoConfig?.version}-${PackageJSON.updateVersion}`,
   /**
    * The build number of the app
    */
   buildNumber: ExpoConstants.expoConfig?.extra?.buildNumber,
-  /**
-   * The sub-version of the app
-   */
-  updateVersion: PackageJSON.updateVersion,
   /**
    * The project key used to initialize qonversion
    */

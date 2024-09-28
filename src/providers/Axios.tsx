@@ -10,10 +10,13 @@
  * Do not distribute
  */
 
+import axios, {
+  AxiosError,
+  AxiosHeaders,
+  InternalAxiosRequestConfig,
+} from "axios";
 import { useEffect } from "react";
-import * as Device from "expo-device";
 import Toast from "react-native-toast-message";
-import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 import type { API } from "@/types";
 
@@ -21,10 +24,14 @@ import { alert } from "@/lib/util";
 import AppConstants from "@/constants";
 import { httpLogger } from "@/lib/logger";
 import { useAuth } from "@/providers/Auth";
+import defaultHeaders from "@/constants/axios";
 import { useNetwork } from "@/providers/Network";
 
 const axiosClient = axios.create({
   baseURL: AppConstants.apiUrl,
+  headers: {
+    ...defaultHeaders,
+  },
 });
 
 const AxiosInterceptor: React.FC<{ children: React.ReactNode }> = ({
@@ -41,7 +48,6 @@ const AxiosInterceptor: React.FC<{ children: React.ReactNode }> = ({
     const requestInterceptor = async (config: InternalAxiosRequestConfig) => {
       const controller = new AbortController();
       const isInternetReachable = await verifyConnection();
-      const clientVersion = `${AppConstants.version} - ${AppConstants.updateVersion}`;
 
       httpLogger.debug(config.method?.toUpperCase(), config.url);
 
@@ -52,9 +58,6 @@ const AxiosInterceptor: React.FC<{ children: React.ReactNode }> = ({
       if (accessToken && !config.headers.Authorization) {
         config.headers["Authorization"] = `Bearer ${accessToken}`;
       }
-
-      config.headers["User-Agent"] = Device.modelName;
-      config.headers["Client-Version"] = clientVersion;
 
       return config;
     };

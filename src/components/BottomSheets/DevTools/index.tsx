@@ -21,7 +21,6 @@ import type { BottomSheetProps } from "../@types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import { useAuth } from "@/providers/Auth";
 import { BottomSheet } from "@/ui/BottomSheet";
 import SegmentedControl from "@/ui/SegmentedControl";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";

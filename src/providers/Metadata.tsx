@@ -54,10 +54,11 @@ const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!query.data || "error" in query.data) return;
 
     const { version, latestVersion } = query.data.data;
+    const appVersion = AppConstants.version.split("-")[0];
 
     const minimumClientVersion = getComparableVersion(version || "0.0.0");
     const latestClientVersion = getComparableVersion(latestVersion || "0.0.0");
-    const userVersion = getComparableVersion(AppConstants.version || "0.0.0");
+    const userVersion = getComparableVersion(appVersion || "0.0.0");
 
     if (userVersion === 0 || minimumClientVersion === 0) {
       setIsValidVersion(true);

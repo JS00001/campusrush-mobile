@@ -239,7 +239,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
               })}
 
               <Text type="p4" style={tw`text-center text-slate-400`}>
-                Version {AppConstants.version} - {AppConstants.updateVersion}
+                Version {AppConstants.version}
               </Text>
             </View>
           </ScrollView>

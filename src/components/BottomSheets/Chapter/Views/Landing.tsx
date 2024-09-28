@@ -217,18 +217,27 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
 };
 
 const ClientVersion: React.FC<{ version: string }> = ({ version = "--" }) => {
-  const currentVersion = `${AppConstants.version} - ${AppConstants.updateVersion}`;
+  // Check if the version begins with 'Web', if it does, its up to date
+  // If it begins with 'iOS', split the version and check if the update version is the same
+  // If it begins with anything else, it is not up to date
+  const outdated = (() => {
+    if (version === "--") return true;
+    if (version.startsWith("Web")) return false;
+    if (version.startsWith("iOS")) {
+      return version.split(" ")[1] !== AppConstants.version;
+    }
+  })();
 
   const containerStyles = tw.style(
-    version == currentVersion && "bg-green/25",
-    version !== currentVersion && "bg-yellow/25",
+    !outdated && "bg-green/25",
+    outdated && "bg-yellow/25",
     "py-0.5 px-3 rounded-full",
   );
 
   const textStyles = tw.style(
     "font-medium",
-    version === currentVersion && "text-green",
-    version !== currentVersion && "text-yellow",
+    !outdated && "text-green",
+    outdated && "text-yellow",
   );
 
   return (
