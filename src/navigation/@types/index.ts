@@ -105,6 +105,7 @@ export type MoreTabParams = {
   ManagePushNotifications: undefined;
   // Security
   Security: undefined;
+  Sessions: undefined;
   ChangePassword: undefined;
 };
 

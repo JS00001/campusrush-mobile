@@ -12,22 +12,22 @@
 
 import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
-import SecurityView from "@/views/security/Security";
+import SessionsView from "@/views/security/Sessions";
 
-const SecurityScreen: React.FC = () => {
+const SessionsScreen: React.FC = () => {
   return (
     <Layout.Root>
-      <Layout.Header title="Security" subtitle="Manage your account security" />
+      <Layout.Header
+        hasBackButton
+        title="Sessions"
+        subtitle="All current sessions. Log out of any session to secure your account."
+      />
 
-      <Layout.Content
-        gap={12}
-        scrollable
-        contentContainerStyle={tw`items-start`}
-      >
-        <SecurityView />
+      <Layout.Content gap={8} style={tw`pb-0`}>
+        <SessionsView />
       </Layout.Content>
     </Layout.Root>
   );
 };
 
-export default SecurityScreen;
+export default SessionsScreen;

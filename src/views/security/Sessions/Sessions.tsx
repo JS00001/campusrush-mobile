@@ -10,9 +10,7 @@
  * Do not distribute
  */
 
-import { View } from "react-native";
 import Toast from "react-native-toast-message";
-import { useNavigation } from "@react-navigation/native";
 
 import type { IRefreshToken } from "@/types";
 
@@ -23,23 +21,13 @@ import {
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
-import ListItem from "@/ui/ListItem";
 import Session from "@/components/Session";
 import ListItemLoader from "@/ui/Loaders/ListItem";
+import FlatList from "@/ui/FlatList";
 
-const SecurityView = () => {
-  const navigation = useNavigation();
+const SessionsView = () => {
   const sessionsQuery = useGetChapterSessions();
   const deleteSessionMutation = useDeleteChapterSession();
-
-  const onChangePasswordPress = () => {
-    navigation.navigate("Main", {
-      screen: "MoreTab",
-      params: {
-        screen: "ChangePassword",
-      },
-    });
-  };
 
   const onSessionRemove = (session: IRefreshToken) => {
     alert({
@@ -71,56 +59,26 @@ const SecurityView = () => {
 
   const sessions = (() => {
     const response = sessionsQuery.data;
-    if (!response || sessionsQuery.isError) {
-      return [];
-    }
-
+    if (!response || sessionsQuery.isError) return [];
     return response.data.sessions;
   })();
 
+  const onRefresh = async () => {
+    await sessionsQuery.refetch();
+  };
+
   return (
-    <>
-      <Text type="h3">Actions</Text>
-      <ListItem
-        size="lg"
-        icon="lock-password-fill"
-        title="Change Password"
-        subtitle="Update your current password"
-        onPress={onChangePasswordPress}
-      />
-
-      <View>
-        <Text type="h3">Sessions</Text>
-        <Text>
-          All of the devices that are currently logged in with your account. You
-          can remove sessions.
-        </Text>
-      </View>
-
-      {sessionsQuery.isLoading && <SessionsLoader />}
-
-      {!sessionsQuery.isLoading && !sessions.length && (
-        <Text type="p3" style={tw`self-center text-green`}>
-          No active sessions
-        </Text>
+    <FlatList
+      emptyListTitle="No active sessions"
+      emptyListSubtitle="Once you log in from a new device, it will appear here"
+      data={sessions}
+      renderItem={({ item }) => (
+        <Session session={item} onRemove={onSessionRemove.bind(null, item)} />
       )}
-
-      {!sessionsQuery.isLoading &&
-        sessions.map((session, index) => (
-          <Session
-            key={index}
-            session={session}
-            onRemove={onSessionRemove.bind(null, session)}
-          />
-        ))}
-    </>
+      loadingComponent={<ListItemLoader size="lg" />}
+      onRefresh={onRefresh}
+    />
   );
 };
 
-const SessionsLoader = () => {
-  const array = new Array(5).fill(null);
-
-  return array.map((_, index) => <ListItemLoader size="lg" key={index} />);
-};
-
-export default SecurityView;
+export default SessionsView;
