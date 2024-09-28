@@ -100,6 +100,7 @@ const TextInput: React.FC<TextInputProps> = ({
         returnKeyType="done"
         blurOnSubmit={true}
         style={inputClasses}
+        maxLength={1024}
         placeholder={placeholder}
         onChangeText={onChangeText}
         placeholderTextColor={tw.color("slate-300")}
