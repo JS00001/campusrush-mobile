@@ -72,11 +72,12 @@ const SessionsView = () => {
       emptyListTitle="No active sessions"
       emptyListSubtitle="Once you log in from a new device, it will appear here"
       data={sessions}
+      onRefresh={onRefresh}
+      loading={sessionsQuery.isLoading}
+      loadingComponent={<ListItemLoader size="lg" />}
       renderItem={({ item }) => (
         <Session session={item} onRemove={onSessionRemove.bind(null, item)} />
       )}
-      loadingComponent={<ListItemLoader size="lg" />}
-      onRefresh={onRefresh}
     />
   );
 };
