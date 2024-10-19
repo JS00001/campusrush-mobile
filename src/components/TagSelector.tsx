@@ -19,9 +19,9 @@ import ToggleChip from "@/ui/ToggleChip";
 import { useMetadataStore } from "@/store";
 
 interface TagSelectorProps extends ViewProps {
-  values?: string[];
+  values: string[];
   style?: any;
-  onChange?: (values: string[]) => void;
+  onChange: (values: string[]) => void;
 }
 
 const TagSelector: React.FC<TagSelectorProps> = ({

@@ -31,7 +31,7 @@ const ManualStep2: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
   setState,
 }) => {
   const formValidators = {
-    tags: z.array(z.string()).optional(),
+    tags: z.array(z.string()),
   };
 
   const form = useForm({

@@ -28,11 +28,11 @@ interface IContactStore extends IContactState {
   /** Clear all contacts back to initial state */
   clear: () => void;
   /** Set the contacts in the store */
-  setContacts: (field: keyof IContactStore, value: IPNM[]) => void;
+  setContacts: (field: keyof IContactState, value: IPNM[]) => void;
   /** Add contacts to the store */
-  addContacts: (field: keyof IContactStore, value: IPNM[] | IPNM) => void;
+  addContacts: (field: keyof IContactState, value: IPNM[] | IPNM) => void;
   /** Remove contacts from the store */
-  removeContacts: (field: keyof IContactStore, value: IPNM[] | IPNM) => void;
+  removeContacts: (field: keyof IContactState, value: IPNM[] | IPNM) => void;
 }
 
 export const useContactStore = create<IContactStore>()(
@@ -70,12 +70,12 @@ export const useContactStore = create<IContactStore>()(
        * Do not add any duplicates
        */
       const addContacts = (
-        field: keyof IContactStore,
+        field: keyof IContactState,
         value: IPNM[] | IPNM,
       ) => {
         return set((state) => {
-          const contacts = Array.isArray(value) ? value : [value];
-          const newContacts = (state[field] as IPNM[]).concat(contacts);
+          const contacts = [value].flat();
+          const newContacts = state[field].concat(contacts);
 
           return {
             ...state,
@@ -88,14 +88,16 @@ export const useContactStore = create<IContactStore>()(
        * Remove contacts from the store (either a single contact or an array of contacts)
        */
       const removeContacts = (
-        field: keyof IContactStore,
+        field: keyof IContactState,
         value: IPNM[] | IPNM,
       ) => {
         return set((state) => {
-          const contacts = Array.isArray(value) ? value : [value];
-          const newContacts = (state[field] as IPNM[]).filter(
-            (contact) => !contacts.includes(contact),
-          );
+          const removedContact = [value].flat().map((contact) => contact._id);
+
+          const newContacts = state[field].filter((contact) => {
+            const contactId = contact._id;
+            return !removedContact.includes(contactId);
+          });
 
           return {
             ...state,

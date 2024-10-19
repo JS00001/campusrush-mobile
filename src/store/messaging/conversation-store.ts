@@ -96,9 +96,7 @@ export const useConversationStore = create<IConversationStore>()(
        * Sets conversations in the store
        */
       const setConversations = (conversations: IConversation[]) => {
-        return set((state) => ({
-          conversations,
-        }));
+        return set({ conversations });
       };
 
       /**
@@ -107,10 +105,7 @@ export const useConversationStore = create<IConversationStore>()(
       // prettier-ignore
       const addConversations = (conversations: IConversation[] | IConversation) => {
         return set((state) => {
-          const newConversations = Array.isArray(conversations)
-            ? conversations
-            : [conversations];
-
+          const newConversations = [conversations].flat();
           const newConversationIds = newConversations.map((c) => c._id);
 
           const currentConversations = state.conversations;

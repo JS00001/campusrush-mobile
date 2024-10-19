@@ -10,9 +10,9 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
-import Badge from "@/ui/Badge";
 import Text from "@/ui/Text";
+import Badge from "@/ui/Badge";
+import tw from "@/lib/tailwind";
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
 interface TagViewProps extends TouchableOpacityProps {
@@ -50,7 +50,7 @@ const TagView: React.FC<TagViewProps> = ({
         ))}
       </View>
 
-      {tags.length === 0 && (
+      {isEmpty && (
         <Text type="p1" style={tw`text-primary`}>
           N/A
         </Text>

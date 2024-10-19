@@ -17,6 +17,9 @@ import { getContacts } from '@/api';
 import { useAuth } from '@/providers/Auth';
 import { useContactStore } from '@/store';
 
+/**
+ * Get the list of contacts for the chapter
+ */
 export const useGetContacts = () => {
   const { accessToken } = useAuth();
   const contactStore = useContactStore();
