@@ -12,7 +12,7 @@ export default {
   splash: {
     image: IS_DEV ? './assets/development-splash.png' : './assets/splash.png',
     resizeMode: 'contain',
-    backgroundColor: IS_DEV ? '#321BF7' : '#03014F',
+    backgroundColor: IS_DEV ? '#321BF7' : '#1A1940',
   },
   assetBundlePatterns: ['**/*'],
   ios: {
