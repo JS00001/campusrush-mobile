@@ -22,10 +22,11 @@ import type { ActionMenu, IMessage } from "@/types";
 import type { TimestampedData } from "@/lib/util/group";
 
 import Text from "@/ui/Text";
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import useCopy from "@/hooks/useCopy";
 import { useBottomSheet } from "@/providers/BottomSheet";
-import Icon from "../Icon";
+
 
 interface MessageContentProps {
   message: TimestampedData<IMessage>;
