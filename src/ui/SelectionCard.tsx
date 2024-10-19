@@ -64,7 +64,7 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
   const containerStyles = tw.style(
     "p-4 gap-y-2 rounded-xl w-full border",
     selected && "bg-white border-primary",
-    !selected && "bg-slate-100 border-transparent",
+    !selected && "bg-gray-100 border-transparent",
     disabled && "disabled",
     style,
   );

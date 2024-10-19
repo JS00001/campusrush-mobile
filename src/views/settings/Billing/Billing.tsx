@@ -34,9 +34,7 @@ const BillingView = () => {
   const { openBottomSheet } = useBottomSheet();
   const { entitlements, restorePurchases } = useQonversion();
 
-  const containerStyles = tw.style(
-    "bg-slate-100 rounded-xl p-5 gap-y-5 w-full",
-  );
+  const containerStyles = tw.style("bg-gray-100 rounded-xl p-5 gap-y-5 w-full");
 
   const onComparePlansPress = () => {
     openBottomSheet("PLAN_COMPARISON");
@@ -109,7 +107,7 @@ const BillingView = () => {
             <View>
               <Button
                 size="sm"
-                style={tw`bg-slate-200`}
+                style={tw`bg-gray-200`}
                 textStyle={tw`text-red`}
                 onPress={onManageBilling}
               >

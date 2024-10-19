@@ -33,7 +33,7 @@ const Conversation: React.FC<ConversationProps> = ({
   const navigation = useNavigation();
 
   const containerStyles = tw.style(
-    "bg-slate-100 w-full p-4 rounded-xl gap-6",
+    "bg-gray-100 w-full p-4 rounded-xl gap-6",
     "flex-row items-center justify-between",
     style,
   );

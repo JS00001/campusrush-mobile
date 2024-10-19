@@ -211,7 +211,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({
 
   const containerClasses = tw.style(
     "px-3 py-2 border-t items-start",
-    "border-slate-100",
+    "border-gray-100",
     !!(hasAttachments || pendingAttachments) && "gap-y-2.5",
   );
 

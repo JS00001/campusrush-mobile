@@ -67,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({
             <Text type="h1" style={tw`text-white`}>
               {title}
             </Text>
-            <Text style={tw`text-slate-300`}>{subtitle}</Text>
+            <Text style={tw`text-gray-300`}>{subtitle}</Text>
           </View>
         </SafeAreaView>
       </View>

@@ -22,7 +22,7 @@ const MenuItem: React.FC<ActionMenuItem> = ({ iconName, label, onPress }) => {
   const containerStyles = tw.style("flex-row gap-4 items-center px-6", "py-3");
 
   return (
-    <TouchableHighlight underlayColor={tw.color("slate-200")} onPress={onPress}>
+    <TouchableHighlight underlayColor={tw.color("gray-200")} onPress={onPress}>
       <View style={containerStyles}>
         <Icon name={iconName} size={20} color={tw.color("primary")} />
         <Text type="p1" style={tw`text-primary`}>

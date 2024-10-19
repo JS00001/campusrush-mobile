@@ -60,7 +60,7 @@ const ListItem: React.FC<ListItemProps> = ({
   const subtitleMaxLines = size != "md" ? 3 : 1;
 
   const containerStyles = tw.style(
-    "bg-slate-100 rounded-xl gap-4",
+    "bg-gray-100 rounded-xl gap-4",
     disabled && "disabled",
     size === "sm" && "p-4 gap-y-2 flex-col flex-1",
     size === "md" && "px-3 py-4 justify-between items-center flex-row w-full",
@@ -77,7 +77,7 @@ const ListItem: React.FC<ListItemProps> = ({
 
   const iconStyles = tw.style(
     !icon && "opacity-0",
-    size === "sm" && "rounded-lg p-2 bg-slate-200 self-start",
+    size === "sm" && "rounded-lg p-2 bg-gray-200 self-start",
   );
 
   return (

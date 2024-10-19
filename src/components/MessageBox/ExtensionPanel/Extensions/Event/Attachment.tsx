@@ -48,7 +48,7 @@ const EventAttachment: React.FC<EventAttachmentProps> = ({
     }
   };
 
-  const containerStyles = tw.style("w-56 rounded-lg bg-slate-100", "h-15");
+  const containerStyles = tw.style("w-56 rounded-lg bg-gray-100", "h-15");
 
   if (query.isLoading) {
     return (
@@ -75,7 +75,7 @@ const EventAttachment: React.FC<EventAttachmentProps> = ({
         style={tw`absolute -top-3.5 -right-3.5 rounded-full p-2`}
         onPress={handleRemovePress}
       >
-        <View style={tw`bg-slate-500 rounded-full p-0.5`}>
+        <View style={tw`bg-gray-500 rounded-full p-0.5`}>
           <Icon name="close-line" size={14} color={tw.color("white")} />
         </View>
       </TouchableOpacity>

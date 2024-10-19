@@ -82,12 +82,12 @@ interface StepProps {
 const Step: React.FC<StepProps> = ({ step, children }) => {
   const containerStyles = tw.style(
     "w-full flex-row items-start gap-4",
-    "p-4 rounded-xl bg-slate-100",
+    "p-4 rounded-xl bg-gray-100",
   );
 
   const stepContainerStyles = tw.style(
     "items-center justify-center",
-    "w-10 h-10 rounded-full bg-slate-200",
+    "w-10 h-10 rounded-full bg-gray-200",
   );
 
   return (

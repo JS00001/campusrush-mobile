@@ -42,11 +42,11 @@ const PrivacyPolicySheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   return (
     <BottomSheet
       innerRef={innerRef}
-      backgroundStyle={tw`bg-slate-100`}
+      backgroundStyle={tw`bg-gray-100`}
       children={() => (
         <BottomSheetContainer
-          style={tw`bg-slate-100`}
-          contentContainerStyle={tw`bg-slate-100`}
+          style={tw`bg-gray-100`}
+          contentContainerStyle={tw`bg-gray-100`}
         >
           {query.isLoading && <PrivacyPolicySkeleton />}
 

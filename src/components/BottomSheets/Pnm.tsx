@@ -42,7 +42,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
   return (
     <BottomSheet
       innerRef={innerRef}
-      handleStyle={tw`bg-slate-200 rounded-t-2xl`}
+      handleStyle={tw`bg-gray-200 rounded-t-2xl`}
       children={(props?: SheetData<"PNM">) => {
         const { pnmId } = props!.data;
         const posthog = usePosthog();
@@ -140,7 +140,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
 
         return (
           <>
-            <View style={tw`bg-slate-200 absolute h-26 w-full`} />
+            <View style={tw`bg-gray-200 absolute h-26 w-full`} />
 
             <BottomSheetContainer
               style={tw`pt-0`}

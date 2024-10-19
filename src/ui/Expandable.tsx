@@ -36,7 +36,7 @@ const Expandable: React.FC<ExpandableProps> = ({
 
   const iconName = expanded ? "arrow-up-s-fill" : "arrow-down-s-fill";
 
-  const containerStyles = tw.style("rounded-xl bg-slate-100 p-4 gap-4", style);
+  const containerStyles = tw.style("rounded-xl bg-gray-100 p-4 gap-4", style);
 
   const titleContainerStyles = tw.style(
     "w-full flex-row justify-between items-center",

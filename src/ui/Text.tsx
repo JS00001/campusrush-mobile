@@ -42,11 +42,11 @@ const TextTypes = {
   h1: tw.style("text-[32px] font-DMSans_Bold text-primary"),
   h2: tw.style("text-2xl font-semibold text-primary"),
   h3: tw.style("text-lg font-semibold text-primary"),
-  p1: tw.style("text-lg text-slate-500"),
-  p2: tw.style("text-base text-slate-500"),
-  p3: tw.style("text-sm text-slate-500"),
-  p4: tw.style("text-xs text-slate-500"),
-  p5: tw.style("text-[10px] text-slate-500"),
+  p1: tw.style("text-lg text-gray-500"),
+  p2: tw.style("text-base text-gray-500"),
+  p3: tw.style("text-sm text-gray-500"),
+  p4: tw.style("text-xs text-gray-500"),
+  p5: tw.style("text-[10px] text-gray-500"),
   custom: tw.style(""),
 };
 

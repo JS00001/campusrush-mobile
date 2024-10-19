@@ -70,10 +70,10 @@ const Select: React.FC<SelectProps> = ({
   const containerStyles = tw.style("gap-2 w-full", style);
 
   const selectStyles = tw.style(
-    "border bg-slate-100 rounded-xl p-4.5",
+    "border bg-gray-100 rounded-xl p-4.5",
     "flex-row justify-between items-center",
     error && "border-red",
-    !error && "border-slate-100",
+    !error && "border-gray-100",
   );
 
   const textStyles = tw.style(

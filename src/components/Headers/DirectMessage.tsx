@@ -62,7 +62,7 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({ pnmId }) => {
 };
 
 const LoadingState = () => {
-  const safeAreaStyles = tw.style("w-full border-b border-slate-200");
+  const safeAreaStyles = tw.style("w-full border-b border-gray-200");
 
   const headerStyles = tw.style(
     "justify-between flex-row items-center px-6 py-3",

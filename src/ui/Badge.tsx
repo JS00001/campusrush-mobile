@@ -35,7 +35,7 @@ const BadgeColors = {
   },
   secondary: {
     text: "text-primary",
-    container: "bg-slate-100",
+    container: "bg-gray-100",
   },
 };
 

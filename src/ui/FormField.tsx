@@ -102,23 +102,23 @@ const FormField: React.FC<FormFieldProps> = ({
   );
 
   const inputStyles = tw.style(
-    "border-2 px-5 py-5 rounded-xl text-lg leading-5 bg-slate-100",
+    "border-2 px-5 py-5 rounded-xl text-lg leading-5 bg-gray-100",
     // If we have an 'eye' icon, we need to add padding to the right of the input so we dont go under it
     secureTextEntry && "pr-12",
     // If there is a value or the input is focused, we need to add padding to the input to make it "look"
     // like the placeholder is in the input and they are both centered
     (focused || value) && "pt-7 pb-3",
     // DEFAULT State
-    !error && !focused && "border-slate-100",
+    !error && !focused && "border-gray-100",
     // FOCUS State
-    !error && focused && "border-slate-200",
+    !error && focused && "border-gray-200",
     // ERROR State
     error && "border-red",
     style,
   );
 
   const placeholderStyles = tw.style(
-    "absolute z-10 px-4 bg-slate-100 left-1 text-slate-500 flex-1",
+    "absolute z-10 px-4 bg-gray-100 left-1 text-gray-500 flex-1",
     disabled && "disabled",
     error && "text-red",
   );
@@ -174,7 +174,7 @@ const FormField: React.FC<FormFieldProps> = ({
       {/* When using a password input, the eye to reveal the password */}
       {secureTextEntry && (
         <TouchableOpacity style={eyeContainerStyles} onPress={onEyePress}>
-          <Icon name={eyeIconName} color={tw.color("slate-400")} size={16} />
+          <Icon name={eyeIconName} color={tw.color("gray-400")} size={16} />
         </TouchableOpacity>
       )}
     </Pressable>

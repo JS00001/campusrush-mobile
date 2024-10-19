@@ -172,13 +172,13 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
       onOpen={sidebarStore.openSidebar}
       onClose={sidebarStore.closeSidebar}
       renderDrawerContent={() => (
-        <SafeAreaView position="top" style={tw`bg-slate-100 h-full w-full`}>
+        <SafeAreaView position="top" style={tw`bg-gray-100 h-full w-full`}>
           <TouchableOpacity onPress={sidebarStore.closeSidebar}>
             <Icon
               name="close-fill"
               size={28}
               style={tw`p-4 self-start`}
-              color={tw.color("slate-800")}
+              color={tw.color("gray-800")}
             />
           </TouchableOpacity>
 
@@ -189,7 +189,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
             <View style={tw`gap-8`}>
               <Text
                 type="h1"
-                style={tw`px-6 text-slate-800 font-bold`}
+                style={tw`px-6 text-gray-800 font-bold`}
                 numberOfLines={1}
               >
                 Hey {chapter.firstName}!
@@ -238,7 +238,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                 return null;
               })}
 
-              <Text type="p4" style={tw`text-center text-slate-400`}>
+              <Text type="p4" style={tw`text-center text-gray-400`}>
                 Version {AppConstants.version}
               </Text>
             </View>

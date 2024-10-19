@@ -58,8 +58,8 @@ const Skeleton: React.FC<SkeletonProps> = ({
   const backgroundColor = animatedValue.interpolate({
     inputRange: [0, 1],
     outputRange: [
-      tw.color("slate-100") as string,
-      tw.color("slate-200") as string,
+      tw.color("gray-100") as string,
+      tw.color("gray-200") as string,
     ],
   });
 

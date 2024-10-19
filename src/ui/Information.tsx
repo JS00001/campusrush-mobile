@@ -79,7 +79,7 @@ const Information: React.FC<InformationProps> = ({
         <Icon
           name="information-line"
           size={InformationSizes[size].size}
-          color={tw.color("slate-400")}
+          color={tw.color("gray-400")}
         />
         {/* Touch area for the icon */}
         <TouchableOpacity onPress={handlePress} style={touchAreaStyles} />
@@ -98,7 +98,7 @@ const Information: React.FC<InformationProps> = ({
         <Icon
           name="information-line"
           size={InformationSizes[size].size}
-          color={tw.color("slate-400")}
+          color={tw.color("gray-400")}
         />
         {/* Touch area for the icon */}
         <TouchableOpacity onPress={handlePress} style={touchAreaStyles} />

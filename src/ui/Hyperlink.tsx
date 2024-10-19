@@ -27,7 +27,7 @@ interface HyperlinkProps extends TouchableOpacityProps {
  */
 const HyperlinkColors = {
   primary: "text-primary",
-  secondary: "text-slate-100",
+  secondary: "text-gray-100",
 };
 
 const Hyperlink: React.FC<HyperlinkProps> = ({

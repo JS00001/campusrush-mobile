@@ -73,7 +73,7 @@ const TextSuggestions: React.FC<TextSuggestionsProps> = ({
   };
 
   const containerStyles = tw.style(
-    "max-h-48 w-full border-t border-slate-100",
+    "max-h-48 w-full border-t border-gray-100",
     // Hide the container if there are no keywords
     keywords.length === 0 && "hidden",
   );
@@ -88,7 +88,7 @@ const TextSuggestions: React.FC<TextSuggestionsProps> = ({
         return (
           <TouchableOpacity
             key={index}
-            style={tw`px-4 border-b border-slate-100 py-3`}
+            style={tw`px-4 border-b border-gray-100 py-3`}
             onPress={onPress}
           >
             <Text style={tw`text-primary font-semibold`}>

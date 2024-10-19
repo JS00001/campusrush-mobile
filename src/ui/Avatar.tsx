@@ -72,7 +72,7 @@ const Avatar: React.FC<AvatarProps> = ({
 
   const containerStyles = tw.style(
     "rounded-full",
-    "bg-slate-100",
+    "bg-gray-100",
     "items-center justify-center",
     { width: AvatarSizes[size].container },
     { height: AvatarSizes[size].container },
@@ -82,7 +82,7 @@ const Avatar: React.FC<AvatarProps> = ({
 
   const editContainerStyles = tw.style(
     "items-center justify-center z-20",
-    "bg-slate-100 absolute bottom-0 right-0",
+    "bg-gray-100 absolute bottom-0 right-0",
     "border-white rounded-full border-2",
     { width: AvatarSizes[size].editContainer },
     { height: AvatarSizes[size].editContainer },
@@ -116,7 +116,7 @@ const Avatar: React.FC<AvatarProps> = ({
       )}
 
       {!url && (
-        <Icon name="user-fill" size={iconSize} color={tw.color("slate-400")} />
+        <Icon name="user-fill" size={iconSize} color={tw.color("gray-400")} />
       )}
 
       {editable && (

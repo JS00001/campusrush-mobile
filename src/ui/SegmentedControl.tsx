@@ -40,7 +40,7 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
       style={segmentedControlStyles}
       tintColor={tw.color("primary")}
       fontStyle={{
-        color: tw.color("slate-500"),
+        color: tw.color("gray-500"),
         fontSize: 14,
       }}
       activeFontStyle={{

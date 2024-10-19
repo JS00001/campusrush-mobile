@@ -148,14 +148,14 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
           {/* If the user has events, show them */}
           {!eventsQuery.isLoading && eventsQuery.events && (
             <BottomSheetScrollView showsVerticalScrollIndicator={false}>
-              <View style={tw`bg-slate-100 rounded-xl mb-16`}>
+              <View style={tw`bg-gray-100 rounded-xl mb-16`}>
                 {eventsQuery.events.map((event, index) => {
                   const isLast = index === eventsQuery.events.length - 1;
 
                   return (
                     <Fragment key={event._id}>
                       <EventCard event={event} onPress={onEventPress} />
-                      {!isLast && <View style={tw`h-[1px] bg-slate-200`} />}
+                      {!isLast && <View style={tw`h-[1px] bg-gray-200`} />}
                     </Fragment>
                   );
                 })}

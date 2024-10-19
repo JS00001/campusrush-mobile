@@ -39,7 +39,7 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
   }[notification.type] as IconType;
 
   const containerStyles = tw.style(
-    "bg-slate-100 p-4 rounded-xl",
+    "bg-gray-100 p-4 rounded-xl",
     "flex-row gap-4 items-center",
   );
 

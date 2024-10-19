@@ -36,7 +36,7 @@ const Statistics = () => {
     } else if (change < 0) {
       return tw.color("red");
     } else {
-      return tw.color("slate-500");
+      return tw.color("gray-500");
     }
   };
 

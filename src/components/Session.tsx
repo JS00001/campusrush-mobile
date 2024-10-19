@@ -32,7 +32,7 @@ const Session: React.FC<SessionProps> = ({
   ...props
 }) => {
   const containerStyles = tw.style(
-    "bg-slate-100 rounded-xl gap-4",
+    "bg-gray-100 rounded-xl gap-4",
     "px-7 py-4 justify-between items-center flex-row w-full",
     style,
   );

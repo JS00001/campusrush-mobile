@@ -112,7 +112,7 @@ const FlatList = <T,>({
           <ActivityIndicator
             size="small"
             style={tw`w-full p-2`}
-            color={tw.color("slate-600")}
+            color={tw.color("gray-600")}
           />
         </View>
       );
@@ -121,7 +121,7 @@ const FlatList = <T,>({
       <ActivityIndicator
         size="small"
         style={tw`w-full p-2`}
-        color={tw.color("slate-600")}
+        color={tw.color("gray-600")}
       />
     );
   };

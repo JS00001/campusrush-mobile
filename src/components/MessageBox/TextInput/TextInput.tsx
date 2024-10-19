@@ -83,7 +83,7 @@ const TextInput: React.FC<TextInputProps> = ({
 
   // Styling
   const containerClasses = tw.style(
-    "relative w-full -z-10 flex-row rounded-xl bg-slate-100 items-center",
+    "relative w-full -z-10 flex-row rounded-xl bg-gray-100 items-center",
     // Allow the input to shrink when the container is too small, (more content on one line)
     "flex-shrink",
   );
@@ -103,7 +103,7 @@ const TextInput: React.FC<TextInputProps> = ({
         maxLength={1024}
         placeholder={placeholder}
         onChangeText={onChangeText}
-        placeholderTextColor={tw.color("slate-300")}
+        placeholderTextColor={tw.color("gray-300")}
       >
         <Text style={tw.style("text-base leading-5 text-primary")}>
           {formattedText.map((word) => {

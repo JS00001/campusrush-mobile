@@ -121,7 +121,7 @@ const BillingScreen = () => {
   })();
 
   const featuresContainerStyle = tw.style(
-    "bg-slate-100",
+    "bg-gray-100",
     "w-full rounded-xl px-4 py-6 gap-y-6",
   );
 
@@ -232,7 +232,7 @@ const BillingScreen = () => {
         </View>
       </Layout.Content>
 
-      <Layout.Footer style={tw`bg-white border-t border-slate-200`}>
+      <Layout.Footer style={tw`bg-white border-t border-gray-200`}>
         <View style={footerViewStyle}>
           <Button size="lg" onPress={onPurchase} loading={purchaseLoading}>
             {buttonCTA}

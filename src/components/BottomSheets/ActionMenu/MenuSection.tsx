@@ -32,7 +32,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({
 }) => {
   const containerStyles = tw.style(
     "gap-y-3",
-    separator && "border-b border-slate-200 pb-4",
+    separator && "border-b border-gray-200 pb-4",
   );
 
   return (

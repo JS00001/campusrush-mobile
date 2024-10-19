@@ -41,7 +41,7 @@ const MessageContent: React.FC<MessageContentProps> = ({ message, error }) => {
 
   const bubbleContainerStyles = tw.style(
     "rounded-xl p-2.5 max-w-5/6 self-start self-end",
-    message.sent && "bg-blue-600",
+    message.sent && "bg-primary",
     !message.sent && "bg-gray-100",
   );
 

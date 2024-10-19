@@ -42,10 +42,10 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
     selected && "bg-white",
   );
 
-  const textStyles = tw.style("text-slate-600 font-medium");
+  const textStyles = tw.style("text-gray-600 font-medium");
 
   return (
-    <TouchableHighlight underlayColor={tw.color("slate-200")} onPress={onPress}>
+    <TouchableHighlight underlayColor={tw.color("gray-200")} onPress={onPress}>
       <View>
         {selected && (
           <View style={tw`w-1.5 h-full bg-blue-600 absolute z-10`} />
@@ -53,9 +53,9 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 
         <View style={containerStyles}>
           {loading ? (
-            <ActivityIndicator size={20} color={tw.color("slate-800")} />
+            <ActivityIndicator size={20} color={tw.color("gray-800")} />
           ) : (
-            <Icon size={18} name={icon} color={tw.color("slate-600")} />
+            <Icon size={18} name={icon} color={tw.color("gray-600")} />
           )}
 
           <Text type="p2" style={textStyles}>
