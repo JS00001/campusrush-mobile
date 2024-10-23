@@ -24,7 +24,7 @@ import useWebsiteMetadata from "@/hooks/useWebsiteMetadata";
 
 interface EventAttachmentProps extends ViewProps {
   event: string;
-  onRemove?: (event: string) => void;
+  onRemove?: () => void;
 }
 
 const EventAttachment: React.FC<EventAttachmentProps> = ({
@@ -43,9 +43,7 @@ const EventAttachment: React.FC<EventAttachmentProps> = ({
    * On press, remove the attachment
    */
   const handleRemovePress = () => {
-    if (onRemove) {
-      onRemove(event);
-    }
+    onRemove?.();
   };
 
   const containerStyles = tw.style("w-56 rounded-lg bg-gray-100", "h-15");

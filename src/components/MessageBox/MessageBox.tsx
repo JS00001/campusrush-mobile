@@ -178,7 +178,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({
   /**
    * Remove the current event
    */
-  const removeEvent = (event: string) => {
+  const removeEvent = () => {
     setAttachments((attachments) => ({
       ...attachments,
       events: [],
