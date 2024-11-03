@@ -58,14 +58,15 @@ const CustomPhoneNumberSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
               All texts to this number will show up in the app under 'Messages.'
             </Step>
             <Step step={2}>
-              New numbers that text you will automatically be added as PNMs.
+              Any message you send from the app will be sent to the PNMs phone
+              number, from the above phone number.
             </Step>
             <Step step={3}>
-              You can manage all your contacts right from the app.
+              New numbers that text you will automatically be added as PNMs.
             </Step>
+
             <Step step={4}>
-              Any message you send from the app will be sent to the PNMs phone
-              number, from your chapter's custom phone number.
+              You can manage all your contacts right from the app.
             </Step>
           </BottomSheetContainer>
         );
