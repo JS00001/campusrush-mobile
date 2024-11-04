@@ -17,7 +17,7 @@ import Skeleton from "@/ui/Skeleton";
 
 const EventLoader = () => {
   const containerClasses = tw.style(
-    "bg-slate-100 w-full p-4 rounded-xl gap-6",
+    "bg-gray-100 w-full p-4 rounded-xl gap-6",
     "flex-row items-center",
   );
 

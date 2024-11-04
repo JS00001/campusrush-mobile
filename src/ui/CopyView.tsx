@@ -35,12 +35,12 @@ const CopyView: React.FC<CopyViewProps> = ({
   const copy = useCopy();
 
   const containerStyles = tw.style(
-    "bg-slate-100 w-full rounded-xl p-4 pl-8",
+    "bg-gray-100 w-full rounded-xl p-4 pl-8",
     "flex-row items-center justify-between gap-x-2",
     style,
   );
 
-  const iconContainerStyles = tw.style("p-2 bg-slate-200 rounded-xl");
+  const iconContainerStyles = tw.style("p-2 bg-gray-200 rounded-xl");
 
   const onPress = () => {
     copy(content);
@@ -52,7 +52,7 @@ const CopyView: React.FC<CopyViewProps> = ({
         <Text numberOfLines={1} style={tw`text-primary`}>
           {title}
         </Text>
-        <Text type="p3" numberOfLines={1} style={tw`text-slate-500`}>
+        <Text type="p3" numberOfLines={1} style={tw`text-gray-500`}>
           {content}
         </Text>
       </View>

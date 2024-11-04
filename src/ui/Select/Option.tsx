@@ -25,7 +25,7 @@ interface OptionProps {
 const Option: React.FC<OptionProps> = ({ value, selected, onPress }) => {
   const containerStyles = tw.style(
     "w-full px-6 py-4 justify-between items-center flex-row",
-    "border-b border-slate-100",
+    "border-b border-gray-100",
   );
 
   const iconStyles = tw.style(

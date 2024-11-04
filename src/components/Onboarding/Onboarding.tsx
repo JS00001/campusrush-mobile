@@ -52,12 +52,12 @@ const Onboarding: React.FC<OnboardingProps> = ({
   smallBentoContent,
 }) => {
   const largeBentoCellStyles = tw.style(
-    "bg-slate-200 h-40 rounded-xl overflow-hidden",
+    "bg-gray-200 h-40 rounded-xl overflow-hidden",
     "flex-row items-center justify-between p-8",
   );
 
   return (
-    <SafeAreaView style={tw`flex-1 bg-slate-50 px-4 pt-20`} position="bottom">
+    <SafeAreaView style={tw`flex-1 bg-gray-50 px-4 pt-20`} position="bottom">
       {/* Bento grid and title */}
       <View style={tw`flex-1 gap-10`}>
         <View style={tw`gap-3`}>
@@ -88,7 +88,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
           {smallBentoContent && (
             <View style={tw`gap-3 h-40 flex-row overflow-hidden`}>
               {smallBentoContent.map((content, index) => (
-                <View key={index} style={tw`bg-slate-200 flex-1 rounded-xl`}>
+                <View key={index} style={tw`bg-gray-200 flex-1 rounded-xl`}>
                   {content}
                 </View>
               ))}

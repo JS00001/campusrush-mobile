@@ -18,11 +18,11 @@ import tw from "@/lib/tailwind";
 
 const toastContainerClasses = tw.style(
   "w-11/12 flex-row gap-4 p-4 rounded-lg",
-  "bg-slate-800 shadow-md",
+  "bg-gray-800 shadow-md",
 );
 
 const toastText1Classes = tw.style("text-white font-medium");
-const toastText2Classes = tw.style("text-slate-200");
+const toastText2Classes = tw.style("text-gray-200");
 
 const toastConfig = {
   /**

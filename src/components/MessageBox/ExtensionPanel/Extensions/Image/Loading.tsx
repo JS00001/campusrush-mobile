@@ -27,7 +27,7 @@ const ImageLoading = () => {
       <Skeleton height={60} width={60} borderRadius={12} />
 
       <TouchableOpacity disabled style={removeButtonStyles}>
-        <View style={tw`bg-slate-500 rounded-full p-0.5`}>
+        <View style={tw`bg-gray-500 rounded-full p-0.5`}>
           <Icon name="close-line" size={14} color={tw.color("white")} />
         </View>
       </TouchableOpacity>

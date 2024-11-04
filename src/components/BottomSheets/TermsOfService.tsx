@@ -42,7 +42,7 @@ const TermsOfServiceSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   return (
     <BottomSheet
       innerRef={innerRef}
-      backgroundStyle={tw`bg-slate-100`}
+      backgroundStyle={tw`bg-gray-100`}
       children={() => (
         <BottomSheetContainer>
           {query.isLoading && <TermsOfServiceSkeleton />}

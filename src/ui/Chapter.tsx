@@ -27,7 +27,7 @@ interface ChapterProps extends TouchableOpacityProps {
 const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
   const { openBottomSheet } = useBottomSheet();
 
-  const containerStyles = tw.style("bg-slate-100 rounded-xl p-5 gap-y-3");
+  const containerStyles = tw.style("bg-gray-100 rounded-xl p-5 gap-y-3");
 
   const onPress = () => {
     openBottomSheet("CHAPTER", { chapterId: chapter._id });

@@ -22,10 +22,10 @@ import type { ActionMenu, IMessage } from "@/types";
 import type { TimestampedData } from "@/lib/util/group";
 
 import Text from "@/ui/Text";
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import useCopy from "@/hooks/useCopy";
 import { useBottomSheet } from "@/providers/BottomSheet";
-import Icon from "../Icon";
 
 interface MessageContentProps {
   message: TimestampedData<IMessage>;
@@ -41,7 +41,7 @@ const MessageContent: React.FC<MessageContentProps> = ({ message, error }) => {
 
   const bubbleContainerStyles = tw.style(
     "rounded-xl p-2.5 max-w-5/6 self-start self-end",
-    message.sent && "bg-blue-600",
+    message.sent && "bg-primary",
     !message.sent && "bg-gray-100",
   );
 

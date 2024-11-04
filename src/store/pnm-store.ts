@@ -40,11 +40,12 @@ export const usePnmStore = create<IPnmStore>()(
       const initialState: IPnmState = {
         pnms: [],
       };
+
       /**
-       * Clears the store
+       * Clear the store
        */
       const clear = () => {
-        return set(initialState);
+        return set({ ...initialState });
       };
 
       /**
@@ -55,44 +56,41 @@ export const usePnmStore = create<IPnmStore>()(
       };
 
       /**
-       * Get a PNM by ID
+       * Get a PNM by their ID
        */
       const getPnm = (id: string) => {
-        const pnm = get().pnms.find((pnm) => pnm._id === id);
-
-        return pnm;
+        return get().pnms.find((pnm) => pnm._id === id);
       };
 
       /**
-       * Add a PNM to the store if it doesn't exist, or update it if it does
+       * Add or update a pnm in the store
        */
       const addOrUpdatePnm = (pnm: IPNM) => {
-        const pnmExists = get().pnms.some((p) => p._id === pnm._id);
+        const pnms = [...get().pnms];
+        const index = pnms.findIndex((p) => p._id === pnm._id);
 
-        // If the pnm exists, we update rather than add
-        if (pnmExists) {
-          const pnms = get().pnms.map((p) => (p._id === pnm._id ? pnm : p));
-
-          return set({ pnms });
+        if (index === -1) {
+          pnms.push(pnm);
+        } else {
+          pnms[index] = pnm;
         }
 
-        return set({ pnms: [...get().pnms, pnm] });
+        return set({ pnms });
       };
 
       /**
        * Delete a PNM from the store
        */
       const deletePnm = (id: string) => {
-        const pnms = get().pnms.filter((p) => p._id !== id);
-
+        const pnms = get().pnms.filter((pnm) => pnm._id !== id);
         return set({ pnms });
       };
 
       return {
         ...initialState,
         clear,
-        setPnms,
         getPnm,
+        setPnms,
         addOrUpdatePnm,
         deletePnm,
       };

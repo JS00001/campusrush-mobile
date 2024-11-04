@@ -17,13 +17,13 @@ import Skeleton from "@/ui/Skeleton";
 
 const NotificationLoader: React.FC = () => {
   const containerStyles = tw.style(
-    "bg-slate-100 p-4 rounded-xl",
+    "bg-gray-100 p-4 rounded-xl",
     "flex-row gap-4 items-center",
   );
 
   return (
     <View style={containerStyles}>
-      <View style={tw`p-4 rounded-full bg-slate-200`} />
+      <View style={tw`p-4 rounded-full bg-gray-200`} />
       <View style={tw`gap-2 flex-1`}>
         <Skeleton height="h-5" />
         <Skeleton width="w-32" height="h-4" />

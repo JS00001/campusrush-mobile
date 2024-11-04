@@ -85,8 +85,8 @@ const Chat: React.FC<Props> = ({ route }) => {
     if (!conversationQuery.data) return;
     if (conversationQuery.isLoading) return;
 
-    const fetchedConversation = (conversationQuery.data.pages[0] as any).data
-      .conversation;
+    const firstPage = conversationQuery.data.pages[0];
+    const fetchedConversation = firstPage.data.conversation;
 
     if (!fetchedConversation) return;
 

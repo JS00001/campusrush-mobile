@@ -61,7 +61,7 @@ const TextInput: React.FC<TextInputProps> = ({
   };
 
   const containerStyles = tw.style(
-    "relative w-full -z-10 flex-row rounded-full bg-slate-100 items-center pr-4",
+    "relative w-full -z-10 flex-row rounded-full bg-gray-100 items-center pr-4",
     icon && "pl-4",
     disabled && "disabled",
     contentContainerStyle,
@@ -71,18 +71,18 @@ const TextInput: React.FC<TextInputProps> = ({
     "py-4 text-base leading-5 px-4",
     icon && "pl-2",
     error && "border-red",
-    !error && "border-slate-100",
+    !error && "border-gray-100",
     style,
   );
 
   return (
     <Pressable style={containerStyles} onPress={onContainerPress}>
-      {icon && <Icon name={icon} size={18} color={tw.color("slate-400")} />}
+      {icon && <Icon name={icon} size={18} color={tw.color("gray-400")} />}
 
       <TextInputWithNoFontScaling
         ref={inputRef}
         placeholder={placeholder}
-        placeholderTextColor={tw.color("slate-300")}
+        placeholderTextColor={tw.color("gray-300")}
         editable={!disabled}
         style={inputStyles}
         onChangeText={onChangeText}

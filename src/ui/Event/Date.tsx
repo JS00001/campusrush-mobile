@@ -23,21 +23,19 @@ interface EventDateProps {
 
 const EventDate: React.FC<EventDateProps> = ({ month, day, weekday }) => {
   const containerStyles = tw.style(
-    "bg-white border border-slate-200 shadow w-14",
+    "bg-white border border-gray-200 shadow w-14",
     "pt-1 rounded-xl items-center",
   );
 
-  const monthStyles = tw.style(
-    "text-[10px] text-slate-500 uppercase leading-4",
-  );
+  const monthStyles = tw.style("text-[10px] text-gray-500 uppercase leading-4");
 
   const weekdayContainerStyles = tw.style(
-    "bg-slate-100 border-t border-slate-200 ",
+    "bg-gray-100 border-t border-gray-200 ",
     "mt-0.5 py-0.5 w-full rounded-b-xl",
   );
 
   const weekdayStyles = tw.style(
-    "text-[10px] text-slate-500 uppercase text-center",
+    "text-[10px] text-gray-500 uppercase text-center",
   );
 
   return (

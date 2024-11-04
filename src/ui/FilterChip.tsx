@@ -35,12 +35,12 @@ const FilterChipColors = {
     text: "text-white",
     container: "bg-primary",
     closeButtonText: "text-primary",
-    closeButtonContainer: "bg-slate-100",
+    closeButtonContainer: "bg-gray-100",
   },
   secondary: {
     text: "text-primary",
-    container: "bg-slate-100",
-    closeButtonText: "text-slate-100",
+    container: "bg-gray-100",
+    closeButtonText: "text-gray-100",
     closeButtonContainer: "bg-primary",
   },
 };

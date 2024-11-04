@@ -45,7 +45,7 @@ const Event: React.FC<EventProps> = ({
   };
 
   const containerStyles = tw.style(
-    "bg-slate-100 rounded-xl w-full",
+    "bg-gray-100 rounded-xl w-full",
     "flex-row justify-between items-center p-4",
     hasEventPassed && "disabled",
     style,

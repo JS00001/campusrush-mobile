@@ -168,7 +168,7 @@ const SettingsView = () => {
         Delete Account
       </Button>
 
-      <Text type="p4" style={tw`text-slate-600`}>
+      <Text type="p4" style={tw`text-gray-600`}>
         App Version: {AppConstants.version}
       </Text>
     </>

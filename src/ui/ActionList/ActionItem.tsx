@@ -31,7 +31,7 @@ const ActionItem: React.FC<ActionItemProps> = ({
   ...props
 }) => {
   const containerStyles = tw.style(
-    "justify-between items-center p-3 flex-row bg-slate-100",
+    "justify-between items-center p-3 flex-row bg-gray-100",
     style,
   );
 

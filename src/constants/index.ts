@@ -31,9 +31,9 @@ const environment = (() => {
 // All urls for all environments
 const urls = {
   development: {
-    apiUrl: 'https://donkey-pretty-initially.ngrok-free.app',
+    apiUrl: 'https://local-dev.campusrush.app',
     webUrl: 'http://localhost:3001',
-    websocketUrl: 'wss://donkey-pretty-initially.ngrok-free.app',
+    websocketUrl: 'wss://local-dev.campusrush.app',
   },
   staging: {
     apiUrl: 'https://greek-api.in-staging.space',

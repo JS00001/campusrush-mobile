@@ -28,7 +28,7 @@ const QrCode: React.FC<UseSheetFlowProps> = () => {
 
   const QRContainerStyles = tw.style(
     "w-full items-center",
-    "bg-slate-100 rounded-xl p-10",
+    "bg-gray-100 rounded-xl p-10",
   );
 
   return (

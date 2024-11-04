@@ -17,20 +17,20 @@ import Skeleton from "@/ui/Skeleton";
 
 const ChapterLoader = () => {
   return (
-    <View style={tw`bg-slate-100 rounded-xl p-5 gap-y-3`}>
+    <View style={tw`bg-gray-100 rounded-xl p-5 gap-y-3`}>
       <View style={tw`gap-y-1`}>
         <Skeleton width="w-40" height="h-5" />
         <Skeleton height="h-4" />
       </View>
 
       <View style={tw`flex-row items-center gap-2`}>
-        <View style={tw`p-4 rounded-full bg-slate-200`} />
+        <View style={tw`p-4 rounded-full bg-gray-200`} />
 
         <Skeleton height="h-4" style={tw`flex-1`} />
       </View>
 
       <View style={tw`flex-row items-center gap-2`}>
-        <View style={tw`p-4 rounded-full bg-slate-200`} />
+        <View style={tw`p-4 rounded-full bg-gray-200`} />
 
         <Skeleton height="h-4" style={tw`flex-1`} />
       </View>

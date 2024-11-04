@@ -2642,7 +2642,7 @@ const iconNames = [
   'train-line',
   'train-wifi-fill',
   'train-wifi-line',
-  'translate-2',
+  'trangray-2',
   'translate',
   'travesti-fill',
   'travesti-line',

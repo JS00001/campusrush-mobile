@@ -25,7 +25,7 @@ const Stepper: React.FC<StepperProps> = ({ currentStep, stepCount }) => {
       {Array.from({ length: stepCount }).map((_, index) => {
         const stepStyles = tw.style(
           "h-1.5 w-1.5 rounded-full",
-          index === currentStep - 1 ? "bg-primary" : "bg-slate-300",
+          index === currentStep - 1 ? "bg-primary" : "bg-gray-300",
         );
 
         return <View key={index} style={stepStyles} />;

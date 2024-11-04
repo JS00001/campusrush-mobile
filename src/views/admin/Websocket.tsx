@@ -46,7 +46,7 @@ const WebsocketView = () => {
         Reconnect Websocket
       </Button>
 
-      <View style={tw`rounded-xl bg-slate-100 p-4`}>
+      <View style={tw`rounded-xl bg-gray-100 p-4`}>
         <Headline
           title="Websocket Connected?"
           subtitle={websocket.connected ? "Yes, Connected" : "No"}
@@ -54,7 +54,7 @@ const WebsocketView = () => {
         />
       </View>
 
-      <View style={tw`rounded-xl bg-slate-100 p-4 gap-y-2`}>
+      <View style={tw`rounded-xl bg-gray-100 p-4 gap-y-2`}>
         <Text type="h3">Messages</Text>
 
         {websocket.logs.length === 0 && (
@@ -80,7 +80,7 @@ const WebsocketView = () => {
 
           const timeboxStyles = tw.style(
             "flex-row items-center gap-2",
-            "p-2 rounded-md bg-slate-200",
+            "p-2 rounded-md bg-gray-200",
           );
 
           return (

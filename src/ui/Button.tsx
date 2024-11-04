@@ -45,12 +45,12 @@ const ButtonColors = {
     icon: tw.color("white"),
   },
   secondary: {
-    container: "bg-slate-100",
+    container: "bg-gray-100",
     text: "text-primary",
     icon: tw.color("primary"),
   },
   tertiary: {
-    container: "bg-slate-200",
+    container: "bg-gray-200",
     text: "text-primary",
     icon: tw.color("primary"),
   },

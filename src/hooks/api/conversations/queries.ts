@@ -10,13 +10,16 @@
  * Do not distribute
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { useAuth } from '@/providers/Auth';
 import { useConversationStore } from '@/store';
 import { getConversation, getConversations } from '@/api';
 
+/**
+ * Get the messages for a specific conversation
+ */
 export const useGetConversation = (pnmId: string) => {
   const { accessToken } = useAuth();
 
@@ -40,15 +43,17 @@ export const useGetConversation = (pnmId: string) => {
   });
 };
 
+/**
+ * Get all of the conversations the chapter has
+ */
 export const useGetConversations = () => {
   const { accessToken } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
-
   const conversations = useConversationStore((s) => s.conversations);
   const setConversations = useConversationStore((s) => s.setConversations);
 
-  const query = useInfiniteQuery(['conversations', accessToken], {
+  const query = useInfiniteQuery({
     cacheTime: 0,
+    queryKey: ['conversations', accessToken],
     queryFn: async ({ pageParam = 0 }) => {
       const response = await getConversations({ offset: pageParam });
       if ('error' in response) throw response;
@@ -67,7 +72,6 @@ export const useGetConversations = () => {
 
   useEffect(() => {
     if (!query.data || query.isError) {
-      setIsLoading(query.isLoading);
       return;
     }
 
@@ -76,12 +80,11 @@ export const useGetConversations = () => {
     });
 
     setConversations(combinedConversations);
-    setIsLoading(query.isLoading);
   }, [query.data]);
 
   return {
     ...query,
     conversations,
-    isLoading: isLoading && !conversations.length,
+    isLoading: query.isLoading && !conversations.length,
   };
 };

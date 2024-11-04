@@ -10,21 +10,22 @@
  * Do not distribute
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
-import { useAuth } from '@/providers/Auth';
-import { useNotificationStore, useStatisticsStore } from '@/store';
 import {
   getChapterStatistics,
   getChapterSessions,
   getChapterNotifications,
 } from '@/api';
+import { useAuth } from '@/providers/Auth';
+import { useNotificationStore, useStatisticsStore } from '@/store';
 
+/**
+ * Get the chapter's statistics
+ */
 export const useGetChapterStatistics = () => {
   const { accessToken } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
-
   const statisticsStore = useStatisticsStore();
 
   const query = useQuery(['chapterStatistics', accessToken], {
@@ -37,15 +38,12 @@ export const useGetChapterStatistics = () => {
 
   useEffect(() => {
     if (!query.data || query.isError) {
-      setIsLoading(query.isLoading);
       return;
     }
 
     statisticsStore.setField('pnmCount', query.data.data.pnms);
     statisticsStore.setField('recentPnms', query.data.data.recentPnms);
     statisticsStore.setField('starredPnmCount', query.data.data.starredPnms);
-
-    setIsLoading(query.isLoading);
   }, [query.data]);
 
   return {
@@ -53,7 +51,7 @@ export const useGetChapterStatistics = () => {
     pnmCount: statisticsStore.pnmCount,
     starredPnmCount: statisticsStore.starredPnmCount,
     recentPnms: statisticsStore.recentPnms,
-    isLoading: isLoading && !statisticsStore.pnmCount,
+    isLoading: query.isLoading && !statisticsStore.pnmCount,
   };
 };
 
@@ -69,9 +67,11 @@ export const useGetChapterSessions = () => {
   });
 };
 
+/**
+ * Get a list of the chapter's notifications
+ */
 export const useGetNotifications = () => {
   const { accessToken } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
   const notificationStore = useNotificationStore();
 
   const query = useInfiniteQuery(['notifications', accessToken], {
@@ -94,7 +94,6 @@ export const useGetNotifications = () => {
 
   useEffect(() => {
     if (!query.data || query.isError) {
-      setIsLoading(query.isLoading);
       return;
     }
 
@@ -106,14 +105,12 @@ export const useGetNotifications = () => {
       count: query.data.pages[0].data.count,
       notifications: combinedNotifications,
     });
-
-    setIsLoading(query.isLoading);
   }, [query.data]);
 
   return {
     ...query,
-    isLoading: isLoading && !query.data,
     count: notificationStore.count,
     notifications: notificationStore.notifications,
+    isLoading: query.isLoading && !query.data,
   };
 };

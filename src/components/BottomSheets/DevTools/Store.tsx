@@ -71,7 +71,7 @@ const Store = () => {
           Refresh Store Data
         </Button>
 
-        <View style={tw`rounded-xl bg-slate-100 p-4`}>
+        <View style={tw`rounded-xl bg-gray-100 p-4`}>
           <Headline title="Store Size" subtitle={storeSize} />
         </View>
 

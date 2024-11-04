@@ -70,11 +70,11 @@ const IconButtonColors = {
     color: tw.color("white"),
   },
   secondary: {
-    container: "bg-slate-100",
+    container: "bg-gray-100",
     color: tw.color("primary"),
   },
   tertiary: {
-    container: "bg-slate-200",
+    container: "bg-gray-200",
     color: tw.color("primary"),
   },
 };

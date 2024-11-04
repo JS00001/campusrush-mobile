@@ -19,10 +19,11 @@ import { useEventStore } from '@/store';
 import { useAuth } from '@/providers/Auth';
 import { getEvent, getEvents } from '@/api';
 
+/**
+ * Get all of the events the chapter has
+ */
 export const useGetEvents = () => {
   const { accessToken } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
-
   const events = useEventStore((s) => s.events);
   const setEvents = useEventStore((s) => s.setEvents);
 
@@ -36,24 +37,24 @@ export const useGetEvents = () => {
 
   useEffect(() => {
     if (!query.data || query.isError) {
-      setIsLoading(query.isLoading);
       return;
     }
 
     setEvents(query.data.data.events);
-    setIsLoading(query.isLoading);
   }, [query.data]);
 
   return {
     ...query,
     events,
-    isLoading: isLoading && !events.length,
+    isLoading: query.isLoading && !events.length,
   };
 };
 
+/**
+ * Get a specific event by its ID
+ */
 export const useGetEvent = (id: string) => {
   const { accessToken } = useAuth();
-
   const event = useEventStore((s) => s.getEvent(id));
   const [responses, setResponses] = useState<IEventResponse[]>([]);
   const addOrUpdateEvent = useEventStore((s) => s.addOrUpdateEvent);

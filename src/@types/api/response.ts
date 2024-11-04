@@ -112,6 +112,8 @@ export type GetChapterStatisticsResponse = API.Response<{
   starredPnms: number;
   /** List of recent PNMs */
   recentPnms: IPNM[];
+  /** The number of messages the chapter has sent */
+  messageCount: number;
 }>;
 
 export type GetPnmsResponse = API.Response<{

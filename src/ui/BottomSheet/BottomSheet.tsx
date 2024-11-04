@@ -28,7 +28,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ children, ...props }) => {
   const windowHeight = Dimensions.get("window").height;
   const maxDynamicContentSize = windowHeight * MAX_HEIGHT_PERCENTAGE;
 
-  const handleIndicatorStyles = tw.style("bg-slate-500 rounded-full w-14");
+  const handleIndicatorStyles = tw.style("bg-gray-500 rounded-full w-14");
 
   return (
     <BottomSheetModal

@@ -10,17 +10,18 @@
  * Do not distribute
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { usePnmStore } from '@/store';
 import { getPnms, getPnm } from '@/api';
 import { useAuth } from '@/providers/Auth';
 
+/**
+ * Get all of the PNMs the chapter has
+ */
 export const useGetPnms = () => {
   const { accessToken } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
-
   const pnms = usePnmStore((s) => s.pnms);
   const setPnms = usePnmStore((s) => s.setPnms);
 
@@ -34,25 +35,24 @@ export const useGetPnms = () => {
 
   useEffect(() => {
     if (!query.data || query.isError) {
-      setIsLoading(query.isLoading);
       return;
     }
 
     setPnms(query.data.data.pnms);
-    setIsLoading(query.isLoading);
   }, [query.data]);
 
   return {
     ...query,
     pnms,
-    isLoading: isLoading && !pnms.length,
+    isLoading: query.isLoading && !pnms.length,
   };
 };
 
+/**
+ * Get a specific PNM by their ID
+ */
 export const useGetPnm = (id: string) => {
   const { accessToken } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
-
   const pnm = usePnmStore((s) => s.getPnm(id));
   const addOrUpdatePnm = usePnmStore((s) => s.addOrUpdatePnm);
 
@@ -66,17 +66,15 @@ export const useGetPnm = (id: string) => {
 
   useEffect(() => {
     if (!query.data || query.isError) {
-      setIsLoading(query.isLoading);
       return;
     }
 
     addOrUpdatePnm(query.data.data.pnm);
-    setIsLoading(query.isLoading);
   }, [query.data]);
 
   return {
     ...query,
     pnm,
-    isLoading: isLoading && !pnm,
+    isLoading: query.isLoading && !pnm,
   };
 };

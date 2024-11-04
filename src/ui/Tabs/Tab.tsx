@@ -26,7 +26,7 @@ const Tab: React.FC<TabProps> = ({ label, selected, disabled, onPress }) => {
   const containerStyles = tw.style(
     "rounded-lg py-1.5 px-6",
     selected && "bg-primary",
-    !selected && "bg-slate-100",
+    !selected && "bg-gray-100",
     disabled && "disabled",
   );
 
