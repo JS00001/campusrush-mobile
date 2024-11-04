@@ -27,7 +27,6 @@ import tw from "@/lib/tailwind";
 import useCopy from "@/hooks/useCopy";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
-
 interface MessageContentProps {
   message: TimestampedData<IMessage>;
   error?: boolean;
