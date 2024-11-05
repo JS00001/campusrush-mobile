@@ -45,24 +45,24 @@ const BillingScreen = () => {
    */
   const query = useQuery(["packages"], {
     queryFn: async () => {
-      const response = await Qonversion.getSharedInstance().products();
+      const offerings = await Qonversion.getSharedInstance().offerings();
+      const offering = offerings?.main;
+      const products = offering?.products;
 
-      const toObject = Object.fromEntries(response.entries());
+      if (!products) return [];
 
-      // Filter out the products that are not subscriptions
-      const filteredKeys = Object.keys(toObject).filter((key) => {
-        const product = toObject[key];
+      // Filter out the products that are not subscriptions or
+      // are sandbox products
+      const productionProducts = products.filter((product) => {
         return !product.qonversionID.startsWith("sandbox");
       });
 
-      const sortedKeys = filteredKeys.sort((a, b) => {
-        const aPrice = toObject[a].price as number;
-        const bPrice = toObject[b].price as number;
+      const sortedProducts = productionProducts.sort((a, b) => {
+        const aPrice = a.price as number;
+        const bPrice = b.price as number;
 
         return aPrice - bPrice;
       });
-
-      const sortedProducts = sortedKeys.map((key) => toObject[key]);
 
       return sortedProducts;
     },

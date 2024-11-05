@@ -18,6 +18,8 @@ import * as Sentry from "@sentry/react-native";
 import Toast from "react-native-toast-message";
 import { createContext, useEffect, useState, useContext } from "react";
 
+import qonversionConfig from "@/lib/qonversion";
+
 interface IQonversionContext {
   /** Whether or not the Qonversion SDK is fetching its initial values. */
   isLoading: boolean;
@@ -53,6 +55,9 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
    */
   useEffect(() => {
     (async () => {
+      // Now, we need to initialize the qonversion SDK
+      // so we can handle in-app purchases
+      Qonversion.initialize(qonversionConfig);
       await checkEntitlements();
       setIsLoading(false);
     })();
