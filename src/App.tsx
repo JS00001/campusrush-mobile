@@ -12,7 +12,6 @@
 
 import "react-native-console-time-polyfill";
 import { registerRootComponent } from "expo";
-import Qonversion from "react-native-qonversion";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
@@ -21,7 +20,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import queryClient from "@/lib/query-client";
 import AuthProvider from "@/providers/Auth";
-import qonversionConfig from "@/lib/qonversion";
 import AxiosIntercepter from "@/providers/Axios";
 import NetworkProvider from "@/providers/Network";
 import OverlayProvider from "@/providers/Overlay";
@@ -45,10 +43,6 @@ ExpoSplashScreen.preventAutoHideAsync();
 // Visible by shaking the screen in dev mode, or the admin panel
 // in production
 startNetworkLogging();
-
-// Now, we need to initialize the qonversion SDK
-// so we can handle in-app purchases
-Qonversion.initialize(qonversionConfig);
 
 const App = () => {
   return (

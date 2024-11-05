@@ -10,8 +10,18 @@
  * Do not distribute
  */
 
+import {
+  QonversionConfigBuilder,
+  LaunchMode,
+  Environment,
+} from 'react-native-qonversion';
+
 import AppConstants from '@/constants';
-import { QonversionConfigBuilder, LaunchMode } from 'react-native-qonversion';
+
+const environment =
+  AppConstants.environment === 'production'
+    ? Environment.PRODUCTION
+    : Environment.SANDBOX;
 
 /**
  * The configuration for the qonversion SDK
@@ -20,6 +30,7 @@ const qonversionConfig = new QonversionConfigBuilder(
   AppConstants.qonversionProjectKey,
   LaunchMode.SUBSCRIPTION_MANAGEMENT,
 )
+  .setEnvironment(environment)
   .setEntitlementsUpdateListener({
     onEntitlementsUpdated: (entitlements) => {},
   })
