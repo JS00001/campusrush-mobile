@@ -18,7 +18,7 @@ export default {
   ios: {
     supportsTablet: false,
     // Change for multiple builds
-    buildNumber: '2',
+    buildNumber: '3',
     bundleIdentifier: IS_DEV ? 'app.campusrush.dev' : 'app.campusrush',
     config: {
       usesNonExemptEncryption: false,
@@ -51,8 +51,24 @@ export default {
   plugins: [
     'expo-font',
     'expo-localization',
-    'expo-image-picker',
-    'expo-media-library',
+    [
+      'expo-image-picker',
+      {
+        photosPermission:
+          'Campus Rush needs access to your photos to upload avatars and images.',
+        cameraPermission:
+          'Campus Rush needs access to your camera to take photos and videos for avatars and messages.',
+      },
+    ],
+    [
+      'expo-media-library',
+      {
+        photosPermission:
+          'Campus Rush needs access to your photos to upload avatars and images.',
+        savePhotosPermission:
+          'Campus Rush needs access to save message images to your photos.',
+      },
+    ],
     [
       '@sentry/react-native/expo',
       {
