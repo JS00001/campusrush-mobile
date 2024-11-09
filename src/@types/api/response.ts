@@ -313,7 +313,7 @@ export type GetWebsiteMetadataResponse = {
   image?: string;
 };
 
-export type UploadAttachmentResponse = API.Response<{
+export type UploadFileResponse = API.Response<{
   /** Attachment URL */
   url: string;
 }>;

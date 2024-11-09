@@ -15,7 +15,7 @@ import type {
   SendMassMessageResponse,
   SendDirectMessageRequest,
   SendDirectMessageResponse,
-  UploadAttachmentResponse,
+  UploadFileResponse,
 } from '@/types';
 
 import { axiosClient } from '@/providers/Axios';
@@ -44,20 +44,4 @@ export const sendDirectMessage = async (data: SendDirectMessageRequest) => {
   const { data: responseData } = await axiosClient.post(url, data);
 
   return responseData as SendDirectMessageResponse;
-};
-
-/**
- * Request:     POST /api/v1/consumer/messaging/attachments
- * Description: Upload an attachment to be sent with a message
- */
-export const uploadAttachment = async (data: FormData) => {
-  const url = `${PREFIX}/attachment`;
-
-  const { data: responseData } = await axiosClient.post(url, data, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-
-  return responseData as UploadAttachmentResponse;
 };

@@ -20,3 +20,4 @@ export * from './requests/events';
 export * from './requests/external';
 export * from './requests/messaging';
 export * from './requests/pnms';
+export * from './requests/upload';
