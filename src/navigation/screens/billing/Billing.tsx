@@ -178,7 +178,7 @@ const BillingScreen = () => {
         </View>
 
         {/* Header */}
-        <View style={tw`px-6 py-6 z-10`}>
+        <View style={tw`px-6 py-2 z-10`}>
           <SafeAreaView
             position="top"
             style={tw`items-center justify-center gap-y-3 mt-6`}

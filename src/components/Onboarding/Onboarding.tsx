@@ -51,15 +51,17 @@ const Onboarding: React.FC<OnboardingProps> = ({
   largeBentoContent,
   smallBentoContent,
 }) => {
+  const containerStyles = tw.style("flex-1 bg-gray-50", "px-4 pt-20");
+
   const largeBentoCellStyles = tw.style(
     "bg-gray-200 h-40 rounded-xl overflow-hidden",
     "flex-row items-center justify-between p-8",
   );
 
   return (
-    <SafeAreaView style={tw`flex-1 bg-gray-50 px-4 pt-20`} position="bottom">
+    <SafeAreaView position="bottom" style={containerStyles}>
       {/* Bento grid and title */}
-      <View style={tw`flex-1 gap-10`}>
+      <View style={tw`flex-grow gap-10`}>
         <View style={tw`gap-3`}>
           {currentStep === 1 && (
             <Image

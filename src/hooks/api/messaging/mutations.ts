@@ -14,7 +14,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import type { SendDirectMessageRequest, SendMassMessageRequest } from '@/types';
 
-import { sendMassMessage, sendDirectMessage, uploadAttachment } from '@/api';
+import { sendMassMessage, sendDirectMessage, uploadFile } from '@/api';
 
 export const useSendMassMessage = () => {
   return useMutation({
@@ -36,10 +36,10 @@ export const useSendDirectMessage = () => {
   });
 };
 
-export const useUploadAttachment = () => {
+export const useUploadFile = () => {
   return useMutation({
     mutationFn: async (data: FormData) => {
-      const response = await uploadAttachment(data);
+      const response = await uploadFile(data);
       if ('error' in response) throw response;
       return response;
     },

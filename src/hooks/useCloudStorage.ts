@@ -12,10 +12,10 @@
 
 import { ImagePickerAsset } from 'expo-image-picker';
 
-import { useUploadAttachment } from '@/hooks/api/messaging';
+import { useUploadFile } from '@/hooks/api/messaging';
 
 const useCloudStorage = () => {
-  const uploadMutation = useUploadAttachment();
+  const uploadMutation = useUploadFile();
 
   /**
    * Upload an image to our R2 instance. Ensures that the image is SFW
