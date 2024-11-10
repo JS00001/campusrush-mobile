@@ -54,7 +54,7 @@ const RootNavigator = () => {
   }, [chapter, fontsLoaded, isPreferencesLoading]);
 
   // If the user is not logged in, we show the AuthStack
-  if (!chapter) return <AuthStack />;
+  if (lodash.isEmpty(chapter)) return <AuthStack />;
 
   // If the user is not verified, we show the VerificationStack
   if (!chapter.verified) return <VerificationStack />;

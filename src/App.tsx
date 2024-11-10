@@ -12,17 +12,18 @@
 
 import "react-native-console-time-polyfill";
 import { registerRootComponent } from "expo";
+import Toast from "react-native-toast-message";
 import * as ExpoSplashScreen from "expo-splash-screen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { startNetworkLogging } from "react-native-network-logger";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import toastConfig from "@/lib/toast";
 import queryClient from "@/lib/query-client";
 import AuthProvider from "@/providers/Auth";
 import UserProvider from "@/providers/User";
 import NetworkProvider from "@/providers/Network";
-import OverlayProvider from "@/providers/Overlay";
 import MetadataProvider from "@/providers/Metadata";
 import WebsocketProvider from "@/providers/Websocket";
 import EASUpdateProvider from "@/providers/EASUpdate";
@@ -58,17 +59,16 @@ const App = () => {
                       <AuthProvider>
                         <UserProvider>
                           <GestureHandlerRootView style={{ flex: 1 }}>
-                            <OverlayProvider>
-                              <BottomSheetModalProvider>
-                                <BottomSheetProvider>
-                                  <WebsocketProvider>
-                                    <GestureDetectorProvider>
-                                      <RootNavigator />
-                                    </GestureDetectorProvider>
-                                  </WebsocketProvider>
-                                </BottomSheetProvider>
-                              </BottomSheetModalProvider>
-                            </OverlayProvider>
+                            <Toast config={toastConfig} />
+                            <BottomSheetModalProvider>
+                              <BottomSheetProvider>
+                                <WebsocketProvider>
+                                  <GestureDetectorProvider>
+                                    <RootNavigator />
+                                  </GestureDetectorProvider>
+                                </WebsocketProvider>
+                              </BottomSheetProvider>
+                            </BottomSheetModalProvider>
                           </GestureHandlerRootView>
                         </UserProvider>
                       </AuthProvider>

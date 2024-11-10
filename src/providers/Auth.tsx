@@ -10,16 +10,25 @@
  * Do not distribute
  */
 
-import React from "react";
+import React, { useRef } from "react";
 
 import { useRefreshAccessToken } from "@/hooks/api/auth";
 
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { isLoading } = useRefreshAccessToken();
+  const initialized = useRef(false);
+  const { isPending } = useRefreshAccessToken();
 
-  if (isLoading) return null;
+  /**
+   * On the first app load, we want to fetch this query if needed (if the user is loggedin)
+   * then, we dont want to fetch it again (we only refresh the token once per app load)
+   * so we keep track of it already being initialized
+   */
+  if (isPending && !initialized.current) {
+    initialized.current = true;
+    return null;
+  }
 
   return children;
 };

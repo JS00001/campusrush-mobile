@@ -95,7 +95,7 @@ const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
     Linking.openURL(AppConstants.appStoreUrl);
   };
 
-  if (query.isLoading) return null;
+  // if (query.isLoading) return null;
 
   if (!isValidVersion) {
     return (

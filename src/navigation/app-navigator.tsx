@@ -32,12 +32,12 @@ import Create from "@/navigation/screens/conversation/Create";
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import TabBarIcon from "@/ui/TabBarIcon";
+import OverlayProvider from "@/providers/Overlay";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import { useGetNotifications } from "@/hooks/api/chapter";
 import NotificationsProvider from "@/providers/PushNotifications";
 import { useSidebarStore } from "@/store/overlay/sidebar-store";
 import { useGetConversations } from "@/hooks/api/conversations";
-
 /**
  * Tab Navigator for the App
  *
@@ -191,11 +191,13 @@ export const AppNavigator = () => {
   useGetNotifications();
 
   return (
-    <NotificationsProvider>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Main" component={MainNavigator} />
-        <Stack.Screen name="Conversation" component={ChatNavigator} />
-      </Stack.Navigator>
-    </NotificationsProvider>
+    <OverlayProvider>
+      <NotificationsProvider>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Main" component={MainNavigator} />
+          <Stack.Screen name="Conversation" component={ChatNavigator} />
+        </Stack.Navigator>
+      </NotificationsProvider>
+    </OverlayProvider>
   );
 };
