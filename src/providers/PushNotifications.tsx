@@ -69,34 +69,35 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
    * Every time the chapter changes, we will check the notification status
    * This is so that we can update the notification token if the user logs in
    */
-  useEffect(() => {
-    const pushNotificationStatus = async () => {
-      if (!isLoggedIn()) return;
-      if (lodash.isEmpty(entitlements)) return;
+  // PR_TODO: Reenable
+  // useEffect(() => {
+  //   const pushNotificationStatus = async () => {
+  //     if (!isLoggedIn()) return;
+  //     if (lodash.isEmpty(entitlements)) return;
 
-      const hasPermission = await hasPushNotificationPermission();
+  //     const hasPermission = await hasPushNotificationPermission();
 
-      if (hasPermission) {
-        await setPushNotificationToken();
-        return;
-      }
+  //     if (hasPermission) {
+  //       await setPushNotificationToken();
+  //       return;
+  //     }
 
-      const status = await requestPushNotificationPermission();
+  //     const status = await requestPushNotificationPermission();
 
-      // If we are granted permission, send the notification token
-      // to the server and enable notifications as a default
-      if (status === "granted") {
-        await setPushNotificationToken();
-        await setEnabled(true);
-        return;
-      }
+  //     // If we are granted permission, send the notification token
+  //     // to the server and enable notifications as a default
+  //     if (status === "granted") {
+  //       await setPushNotificationToken();
+  //       await setEnabled(true);
+  //       return;
+  //     }
 
-      // If we are not granted permission, disable notifications
-      await setEnabled(false);
-    };
+  //     // If we are not granted permission, disable notifications
+  //     await setEnabled(false);
+  //   };
 
-    pushNotificationStatus();
-  }, [entitlements]);
+  //   pushNotificationStatus();
+  // }, [entitlements]);
 
   /**
    * Whether we have permission to send notifications to the user

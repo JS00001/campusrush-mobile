@@ -29,7 +29,6 @@ import FormHeader from "@/components/Headers/Form";
 import useFormMutation from "@/hooks/useFormMutation";
 import useCloudStorage from "@/hooks/useCloudStorage";
 
-// PR_TODO: Add a query to this too, /pnms/:id
 const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
   innerRef,
   openBottomSheet,

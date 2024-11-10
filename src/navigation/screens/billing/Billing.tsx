@@ -18,6 +18,7 @@ import Qonversion, { PurchaseModel } from "react-native-qonversion";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import Skeleton from "@/ui/Skeleton";
 import { Layout } from "@/ui/Layout";
 import Hyperlink from "@/ui/Hyperlink";
 import Icon, { IconType } from "@/ui/Icon";
@@ -30,6 +31,7 @@ import { useGetMetadata } from "@/hooks/api/external";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import HeaderBackground from "@/components/Backgrounds/Header";
 import { useQonversion } from "@/providers/external/Qonversion";
+import ErrorMessage from "@/components/ErrorMessage";
 
 const BillingScreen = () => {
   const posthog = usePosthog();
@@ -75,21 +77,16 @@ const BillingScreen = () => {
   const isLoading = query.isLoading || metadataQuery.isLoading;
   const error = query.error || metadataQuery.error;
 
-  // PR_TODO: Loading and Error state
-  if (isLoading) return null;
-  if (error) return null;
-
   const subscription = query.data?.[0];
-  const metadata = metadataQuery.data!;
-
-  // TODO: Add a "No products found" message here
-  if (!subscription) return null;
+  const metadata = metadataQuery.data;
 
   /**
    * The header subtitle displays the price of the subscription along
    * with the trial if there is one
    */
   const headerSubtitle = (() => {
+    if (!subscription) return;
+
     if (subscription.trialPeriod) {
       const subtitleString = [
         "Free for",
@@ -111,6 +108,8 @@ const BillingScreen = () => {
    */
   const buttonCTA = (() => {
     let ctaString: string[];
+
+    if (!subscription) return;
 
     // If there is a trial period, tell the user about it
     if (subscription.trialPeriod) {
@@ -134,7 +133,7 @@ const BillingScreen = () => {
 
   const featuresContainerStyle = tw.style(
     "bg-gray-100",
-    "w-full rounded-xl px-4 py-6 gap-y-6",
+    "w-full rounded-xl px-4 py-8 gap-y-6",
   );
 
   const footerViewStyle = tw.style("px-6 pt-3 gap-y-3 items-center");
@@ -152,6 +151,7 @@ const BillingScreen = () => {
    * not throw an error if the buyer cancels the purchase
    */
   const onPurchase = async () => {
+    if (!subscription) return;
     setPurchaseLoading(true);
     const purchaseModel = subscription.toPurchaseModel() as PurchaseModel;
     await purchaseProduct(purchaseModel);
@@ -181,7 +181,7 @@ const BillingScreen = () => {
         </View>
 
         {/* Header */}
-        <View style={tw`px-6 py-2 z-10`}>
+        <View style={tw`px-6 py-4 z-10`}>
           <SafeAreaView
             position="top"
             style={tw`items-center justify-center gap-y-3 mt-6`}
@@ -200,37 +200,48 @@ const BillingScreen = () => {
       </Layout.CustomHeader>
 
       <Layout.Content scrollable gap={18}>
-        <View style={featuresContainerStyle}>
-          {metadata.entitlements.perks.featured.map((feature, index) => {
-            const containerStyles = tw.style("w-full gap-x-3 flex-row");
+        {/* Loading State */}
+        {isLoading && <Skeleton height={400} width="100%" />}
 
-            const textContainerStyles = tw.style("gap-y-1 shrink");
-            const titleStyles = tw.style("text-primary font-medium");
+        {/* Error State */}
+        {error && (
+          <ErrorMessage error={error} description="Could not load products" />
+        )}
 
-            return (
-              <View key={index} style={containerStyles}>
-                <Icon
-                  size={20}
-                  color={tw.color("primary")}
-                  name={feature.icon as IconType}
-                />
+        {/* Content */}
+        {metadata && subscription && (
+          <View style={featuresContainerStyle}>
+            {metadata.entitlements.perks.featured.map((feature, index) => {
+              const containerStyles = tw.style("w-full gap-x-3 flex-row");
 
-                <View style={textContainerStyles}>
-                  <Text type="p2" style={titleStyles}>
-                    {feature.title}
-                  </Text>
-                  <Text type="p3">{feature.description}</Text>
+              const textContainerStyles = tw.style("gap-y-1 shrink");
+              const titleStyles = tw.style("text-primary font-medium");
+
+              return (
+                <View key={index} style={containerStyles}>
+                  <Icon
+                    size={20}
+                    color={tw.color("primary")}
+                    name={feature.icon as IconType}
+                  />
+
+                  <View style={textContainerStyles}>
+                    <Text type="p2" style={titleStyles}>
+                      {feature.title}
+                    </Text>
+                    <Text type="p3">{feature.description}</Text>
+                  </View>
                 </View>
-              </View>
-            );
-          })}
+              );
+            })}
 
-          <View style={tw`mt-2 gap-y-2`}>
-            <Button size="sm" color="tertiary" onPress={onFeaturePress}>
-              View All Features
-            </Button>
+            <View style={tw`mt-2 gap-y-2`}>
+              <Button size="sm" color="tertiary" onPress={onFeaturePress}>
+                View All Features
+              </Button>
+            </View>
           </View>
-        </View>
+        )}
       </Layout.Content>
 
       <Layout.Footer style={tw`bg-white border-t border-gray-200`}>

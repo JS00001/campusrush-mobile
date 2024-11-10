@@ -26,9 +26,7 @@ import {
   BillingStack,
   VerificationStack,
 } from "@/navigation/stack-navigator";
-import { isLoggedIn } from "@/lib/auth";
 import { useUser } from "@/providers/User";
-import { useMetadata } from "@/providers/Metadata";
 import { usePreferences } from "@/providers/Preferences";
 import { AppNavigator } from "@/navigation/app-navigator";
 import { useQonversion } from "@/providers/external/Qonversion";
@@ -40,15 +38,12 @@ const RootNavigator = () => {
     DMSans_700Bold,
   });
 
-  const isAuthed = isLoggedIn();
   const { chapter } = useUser();
   const { entitlements } = useQonversion();
-  // PR_TODO: clean up?
-  const { isLoading: isMetadataLoading } = useMetadata();
   const { isLoading: isPreferencesLoading } = usePreferences();
 
   const shouldHideSplashScreen = () => {
-    return fontsLoaded && !isPreferencesLoading && !isMetadataLoading;
+    return fontsLoaded && !isPreferencesLoading;
   };
 
   // Hide the splash screen when the app is fully loaded
@@ -56,10 +51,10 @@ const RootNavigator = () => {
     if (shouldHideSplashScreen()) {
       ExpoSplashScreen.hideAsync();
     }
-  }, [chapter, fontsLoaded, isPreferencesLoading, isMetadataLoading]);
+  }, [chapter, fontsLoaded, isPreferencesLoading]);
 
   // If the user is not logged in, we show the AuthStack
-  if (!isAuthed) return <AuthStack />;
+  if (!chapter) return <AuthStack />;
 
   // If the user is not verified, we show the VerificationStack
   if (!chapter.verified) return <VerificationStack />;

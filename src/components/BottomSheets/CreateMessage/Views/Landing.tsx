@@ -28,6 +28,7 @@ import format from "@/lib/util/format";
 import { Action } from "@/ui/ActionList";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import HeadlineLoader from "@/ui/Loaders/Headline";
+import ErrorMessage from "@/components/ErrorMessage";
 
 import useSearch from "@/hooks/useSearch";
 import { useGetContacts } from "@/hooks/api/contacts";
@@ -50,9 +51,15 @@ const Landing: React.FC<UseSheetFlowProps> = ({
     fields: ["firstName", "lastName", "phoneNumber"],
   });
 
-  // PR_TODO: Error Loading State
+  // Error and Loading States
   if (contactsQuery.isLoading) return <LoadingState />;
-  if (contactsQuery.isError) return null;
+  if (contactsQuery.error)
+    return (
+      <ErrorMessage
+        error={contactsQuery.error}
+        description="Failed to load contacts"
+      />
+    );
 
   /**
    * Helper function for mass messaging (all uncontacted, all favorites, etc)

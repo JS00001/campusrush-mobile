@@ -21,6 +21,7 @@ import {
 import { alert } from "@/lib/util";
 import FlatList from "@/ui/FlatList";
 import Session from "@/components/Session";
+import ListItemLoader from "@/ui/Loaders/ListItem";
 
 const SessionsView = () => {
   const sessionsQuery = useGetChapterSessions();
@@ -56,17 +57,17 @@ const SessionsView = () => {
     await sessionsQuery.refetch();
   };
 
-  // PR_TODO: Loading and error states
-  if (sessionsQuery.isLoading) return null;
-  if (sessionsQuery.isError) return null;
-
-  const sessions = sessionsQuery.data!.sessions;
+  const sessions = sessionsQuery.data?.sessions || [];
 
   return (
     <FlatList
       emptyListTitle="No active sessions"
       emptyListSubtitle="Once you log in from a new device, it will appear here"
       data={sessions}
+      error={sessionsQuery.error}
+      errorDescription="Could not fetch sessions"
+      loading={sessionsQuery.isLoading}
+      loadingComponent={<ListItemLoader size="lg" />}
       onRefresh={onRefresh}
       renderItem={({ item }) => (
         <Session session={item} onRemove={onSessionRemove.bind(null, item)} />

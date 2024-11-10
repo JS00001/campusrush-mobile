@@ -10,7 +10,6 @@
  * Do not distribute
  */
 
-import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 
 import type {
@@ -32,6 +31,7 @@ import {
   resetPassword,
   changePassword,
 } from '@/api';
+import axios from '@/lib/axios';
 import usePosthog from '@/hooks/usePosthog';
 import queryClient from '@/lib/query-client';
 import { useQonversion } from '@/providers/external/Qonversion';

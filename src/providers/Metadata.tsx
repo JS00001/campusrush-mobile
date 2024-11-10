@@ -10,8 +10,8 @@
  * Do not distribute
  */
 import { Linking } from "react-native";
+import { useEffect, useState } from "react";
 import * as ExpoSplashScreen from "expo-splash-screen";
-import { useEffect, useContext, createContext, useState } from "react";
 
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
@@ -23,17 +23,9 @@ import { useGetMetadata } from "@/hooks/api/external";
 import { getComparableVersion } from "@/lib/util/string";
 import { usePreferences } from "@/providers/Preferences";
 
-interface IMetadataContext {
-  isLoading: boolean;
-  isValidVersion: boolean;
-}
-
-const MetadataContext = createContext<IMetadataContext>({} as IMetadataContext);
-
 const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  // PR_TODO: Make this context not a context, just use useGetMetadata fro all children
   const query = useGetMetadata();
   const [isValidVersion, setIsValidVersion] = useState(true);
   const { lastUpdateAlert, updatePreferences } = usePreferences();
@@ -103,39 +95,30 @@ const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
     Linking.openURL(AppConstants.appStoreUrl);
   };
 
+  if (query.isLoading) return null;
+
   if (!isValidVersion) {
     return (
-      <MetadataContext.Provider value={{ isLoading: true, isValidVersion }}>
-        <Layout.Root>
-          <Layout.Content contentContainerStyle={tw`justify-center`}>
-            <Headline
-              centerText
-              title="Uh Oh, You're Behind..."
-              subtitle="Update the app to the latest version to continue using CampusRush. Don't worry, we'll be here when you get back!"
-            />
-            <Button
-              size="sm"
-              color="secondary"
-              iconRight="external-link-line"
-              onPress={onUpdatePress}
-            >
-              Update App
-            </Button>
-          </Layout.Content>
-        </Layout.Root>
-      </MetadataContext.Provider>
+      <Layout.Root>
+        <Layout.Content contentContainerStyle={tw`justify-center`}>
+          <Headline
+            centerText
+            title="Uh Oh, You're Behind..."
+            subtitle="Update the app to the latest version to continue using CampusRush. Don't worry, we'll be here when you get back!"
+          />
+          <Button
+            size="sm"
+            color="secondary"
+            iconRight="external-link-line"
+            onPress={onUpdatePress}
+          >
+            Update App
+          </Button>
+        </Layout.Content>
+      </Layout.Root>
     );
   }
 
-  return (
-    <MetadataContext.Provider
-      value={{ isLoading: query.isLoading || !query.data, isValidVersion }}
-    >
-      {children}
-    </MetadataContext.Provider>
-  );
+  return children;
 };
-
-export const useMetadata = () => useContext(MetadataContext);
-
 export default MetadataProvider;

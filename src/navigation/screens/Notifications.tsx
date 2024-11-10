@@ -20,6 +20,7 @@ import Notification from "@/ui/Notification";
 import useFocusEffect from "@/hooks/useFocusEffect";
 import { useWebsocket } from "@/providers/Websocket";
 import { useGetNotifications } from "@/hooks/api/chapter";
+import NotificationLoader from "@/ui/Loaders/Notification";
 
 const NotificationsScreen: React.FC = () => {
   const { ws } = useWebsocket();
@@ -34,10 +35,6 @@ const NotificationsScreen: React.FC = () => {
     queryClient.invalidateQueries({ queryKey: ["notifications"] });
   }, []);
 
-  // PR_TODO: Loading and Error States
-  if (query.isLoading) return null;
-  if (query.error) return null;
-
   const onRefresh = async () => {
     await query.refetch();
   };
@@ -46,7 +43,7 @@ const NotificationsScreen: React.FC = () => {
     await query.fetchNextPage();
   };
 
-  const notifications = query.data!.notifications;
+  const notifications = query.data.notifications ?? [];
 
   return (
     <Layout.Root>
@@ -59,6 +56,10 @@ const NotificationsScreen: React.FC = () => {
         <FlatList
           emptyListTitle="No notifications"
           emptyListSubtitle="You're all caught up!"
+          loading={query.isLoading}
+          loadingComponent={<NotificationLoader />}
+          error={query.error}
+          errorDescription="Could not fetch notifications"
           disableOnEndReached={!query.hasNextPage}
           data={group.byDate(notifications, "createdAt")}
           renderItem={({ item }) => <Notification notification={item} />}

@@ -23,13 +23,13 @@ import Button from "@/ui/Button";
 import { alert } from "@/lib/util";
 import date from "@/lib/util/date";
 import Headline from "@/ui/Headline";
-import Skeleton from "@/ui/Skeleton";
 import format from "@/lib/util/format";
 import AppConstants from "@/constants";
 import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import ButtonGroup from "@/ui/ButtonGroup";
 import { BottomSheet } from "@/ui/BottomSheet";
+import ErrorMessage from "@/components/ErrorMessage";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const EventSheet: React.FC<BottomSheetProps> = ({
@@ -43,12 +43,23 @@ const EventSheet: React.FC<BottomSheetProps> = ({
     <BottomSheet
       innerRef={innerRef}
       children={(props?: SheetData<"EVENT">) => {
+        const initialEvent = props!.data.event;
+
         const deleteMutation = useDeleteEvent();
+        const getEventQuery = useGetEvent(initialEvent._id);
 
-        const event = format.event(props!.data.event);
+        const eventData = getEventQuery.data?.event || initialEvent;
+        const event = format.event(eventData);
 
-        // PR_TODO: Erro state, dont let this be loading state
-        if (!event) return <LoadingState />;
+        // Error State
+        if (getEventQuery.error || !event) {
+          return (
+            <ErrorMessage
+              error={getEventQuery.error}
+              description="Failed to load event"
+            />
+          );
+        }
 
         const eventUrl = `${AppConstants.eventUrl}/${event._id}`;
 
@@ -62,8 +73,7 @@ const EventSheet: React.FC<BottomSheetProps> = ({
                 text: "Delete",
                 style: "destructive",
                 onPress: async () => {
-                  const eventName = event?.title || "Event";
-
+                  const eventName = event.title;
                   await deleteMutation.mutateAsync({ id: event._id });
 
                   Toast.show({
@@ -145,28 +155,6 @@ const EventSheet: React.FC<BottomSheetProps> = ({
         );
       }}
     />
-  );
-};
-
-const LoadingState = () => {
-  return (
-    <BottomSheetContainer>
-      <View style={tw`mb-2 flex-row justify-between items-center gap-2`}>
-        <View style={tw`flex-1 gap-2`}>
-          <Skeleton height={24} />
-          <Skeleton width={"75%"} height={16} />
-        </View>
-
-        <View style={tw`flex-row gap-1`}>
-          <Skeleton width={48} height={48} borderRadius={999} />
-          <Skeleton width={48} height={48} borderRadius={999} />
-        </View>
-      </View>
-
-      <Skeleton height={332} />
-
-      <Skeleton height={54} />
-    </BottomSheetContainer>
   );
 };
 

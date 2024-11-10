@@ -21,7 +21,6 @@ import Button from "@/ui/Button";
 import Avatar from "@/ui/Avatar";
 import date from "@/lib/util/date";
 import { alert } from "@/lib/util";
-import Skeleton from "@/ui/Skeleton";
 import Headline from "@/ui/Headline";
 import format from "@/lib/util/format";
 import { Detail } from "@/ui/DetailList";
@@ -31,10 +30,10 @@ import ButtonGroup from "@/ui/ButtonGroup";
 import { useImageZoomStore } from "@/store";
 import usePosthog from "@/hooks/usePosthog";
 import { BottomSheet } from "@/ui/BottomSheet";
+import ErrorMessage from "@/components/ErrorMessage";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
-import { useDeletePnm, useUpdatePnm } from "@/hooks/api/pnms";
+import { useDeletePnm, useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
-// PR_TODO: Add a getPnm query somewhhere here
 const PnmSheet: React.FC<BottomSheetProps> = ({
   innerRef,
   handleClose,
@@ -45,7 +44,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
       innerRef={innerRef}
       handleStyle={tw`bg-gray-200 rounded-t-2xl`}
       children={(props?: SheetData<"PNM">) => {
-        const { pnm } = props!.data;
+        const initialPnm = props!.data.pnm;
 
         const posthog = usePosthog();
         const navigation = useNavigation();
@@ -53,6 +52,19 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
 
         const deleteMutation = useDeletePnm();
         const updateMutation = useUpdatePnm();
+        const getPnmQuery = useGetPnm(initialPnm._id);
+
+        const pnm = getPnmQuery.data?.pnm || initialPnm;
+
+        // Error State
+        if (getPnmQuery.error || !pnm) {
+          return (
+            <ErrorMessage
+              error={getPnmQuery.error}
+              description="Failed to load PNM"
+            />
+          );
+        }
 
         const onFavorite = async () => {
           const starred = !pnm.starred;
@@ -68,8 +80,6 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         };
 
         const onDelete = async () => {
-          if (!pnm) return;
-
           alert({
             title: "Delete PNM",
             message: `Are you sure you want to delete this PNM?`,
@@ -98,8 +108,6 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         };
 
         const onSendMessagePress = () => {
-          if (!pnm) return;
-
           handleClose();
           navigation.navigate("Conversation", {
             screen: "Chat",
@@ -190,28 +198,6 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         );
       }}
     ></BottomSheet>
-  );
-};
-
-const LoadingState = () => {
-  return (
-    <BottomSheetContainer>
-      <View style={tw`mb-2 flex-row justify-between items-center gap-2`}>
-        <View style={tw`flex-1 gap-2`}>
-          <Skeleton height={24} />
-          <Skeleton width={"75%"} height={16} />
-        </View>
-
-        <View style={tw`flex-row gap-1`}>
-          <Skeleton width={48} height={48} borderRadius={999} />
-          <Skeleton width={48} height={48} borderRadius={999} />
-        </View>
-      </View>
-
-      <Skeleton height={196} />
-
-      <Skeleton height={54} />
-    </BottomSheetContainer>
   );
 };
 

@@ -15,11 +15,12 @@ import {
   FlatListProps as RNFlatListProps,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import tw from "@/lib/tailwind";
 import Headline from "@/ui/Headline";
 import ListItemLoader from "@/ui/Loaders/ListItem";
+import ErrorMessage from "@/components/ErrorMessage";
 
 interface FlatListProps<T> extends Omit<RNFlatListProps<T>, "renderItem"> {
   /* The data to be rendered */
@@ -30,6 +31,10 @@ interface FlatListProps<T> extends Omit<RNFlatListProps<T>, "renderItem"> {
   style?: any;
   /* The content container style of this FlatList */
   contentContainerStyle?: any;
+  /** The components error, if it is in an error state */
+  error?: Error | null;
+  /** The components error description */
+  errorDescription?: string;
   /* Whether the list is loading or not (data being fetched) */
   loading?: boolean;
   /* Overrides the loading component to a custom one */
@@ -56,6 +61,8 @@ const FlatList = <T,>({
   contentContainerStyle,
   loading,
   loadingComponent,
+  error,
+  errorDescription,
   emptyListTitle = "No Content Found",
   emptyListSubtitle = "Try changing your filters",
   disableOnEndReached,
@@ -144,6 +151,15 @@ const FlatList = <T,>({
    * empty because there is no data, it will render the empty list component
    */
   const ListEmptyComponent = () => {
+    if (error) {
+      return (
+        <ErrorMessage
+          error={error}
+          description={errorDescription || "Could not load data"}
+        />
+      );
+    }
+
     if (loading) {
       return <LoadingComponent />;
     }

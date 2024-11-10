@@ -20,6 +20,7 @@ import Skeleton from "@/ui/Skeleton";
 import format from "@/lib/util/format";
 import SafeAreaView from "@/ui/SafeAreaView";
 import { useGetPnm } from "@/hooks/api/pnms";
+import ErrorMessage from "@/components/ErrorMessage";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
 interface DirectMessageHeaderProps {
@@ -34,22 +35,26 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({ pnmId }) => {
   useEffect(() => {
     if (pnmQuery.isLoading) return;
     // If we cannot find a PNM with the given ID, navigate back
-    if (!pnmQuery.data?.pnm) navigation.goBack();
+    if (!pnmQuery.data?.pnm || pnmQuery.error) navigation.goBack();
   }, [pnmQuery]);
 
+  // Loading and Error State
+  if (pnmQuery.isLoading) return <LoadingState />;
+  if (pnmQuery.error) {
+    return (
+      <ErrorMessage
+        error={pnmQuery.error}
+        description="Could not load PNM's profile"
+      />
+    );
+  }
+
+  const pnm = pnmQuery.data!.pnm;
+
   const onMenuButtonPress = () => {
-    // TODO: Cant press menu when loading, but this is still interactable
-    const pnm = pnmQuery.data?.pnm;
-    if (!pnm) return;
     Keyboard.dismiss();
     openBottomSheet("PNM", { pnm });
   };
-
-  // PR_TODO: Loading and Error State
-  if (pnmQuery.isLoading) return <LoadingState />;
-  if (pnmQuery.isError) return null;
-
-  const pnm = pnmQuery.data!.pnm;
 
   return (
     <Header

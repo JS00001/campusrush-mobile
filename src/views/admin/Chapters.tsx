@@ -138,11 +138,6 @@ const ChaptersView = () => {
 
   const inputPlaceholder = `Search ${search.data.length || ""} chapters`;
 
-  // PR_TODO: Loading and Error State/ check if we can do below
-  // M<ayube add new error state to the infinite query list
-  if (getChaptersQuery.isLoading) return null;
-  if (getChaptersQuery.isError) return null;
-
   return (
     <>
       <View style={tw`flex-row w-full gap-x-1`}>
@@ -173,6 +168,8 @@ const ChaptersView = () => {
       <FlatList
         data={search.data}
         onRefresh={onRefresh}
+        error={getChaptersQuery.error}
+        errorDescription="Could not fetch chapters"
         loadingComponent={<ChapterLoader />}
         loading={getChaptersQuery.isLoading}
         emptyListTitle="No Chapters Found"

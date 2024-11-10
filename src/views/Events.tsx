@@ -118,10 +118,6 @@ const EventsView = () => {
     await eventsQuery.refetch();
   };
 
-  // PR_TODO: Loading and error states
-  if (eventsQuery.isLoading) return null;
-  if (eventsQuery.isError) return null;
-
   return (
     <>
       <View style={tw`flex-row w-full gap-x-1`}>
@@ -155,8 +151,10 @@ const EventsView = () => {
       <FlatList
         data={search.data}
         onRefresh={onRefresh}
-        loadingComponent={<EventLoader />}
+        error={eventsQuery.error}
+        errorDescription="Could not fetch events"
         loading={eventsQuery.isLoading}
+        loadingComponent={<EventLoader />}
         emptyListTitle="No Events Found"
         emptyListSubtitle="Try changing your filters or creating a new event"
         renderItem={({ item: event }) => {

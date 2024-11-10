@@ -15,7 +15,9 @@ import { View, ViewProps } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Skeleton from "@/ui/Skeleton";
 import ToggleChip from "@/ui/ToggleChip";
+import ErrorMessage from "@/components/ErrorMessage";
 import { useGetMetadata } from "@/hooks/api/external";
 
 interface TagSelectorProps extends ViewProps {
@@ -33,9 +35,16 @@ const TagSelector: React.FC<TagSelectorProps> = ({
   const metadataQuery = useGetMetadata();
   const [selected, setSelected] = React.useState<string[]>(values);
 
-  // PR_TODO: Error and Loading States
-  if (metadataQuery.isLoading) return null;
-  if (metadataQuery.isError) return null;
+  // Error and Loading States
+  if (metadataQuery.isLoading) return <LoadingState />;
+  if (metadataQuery.isError) {
+    return (
+      <ErrorMessage
+        error={metadataQuery.error}
+        description="Could not load tags"
+      />
+    );
+  }
 
   const tagCategories = metadataQuery.data!.tags;
 
@@ -88,6 +97,22 @@ const TagSelector: React.FC<TagSelectorProps> = ({
               );
             })}
           </View>
+        </React.Fragment>
+      ))}
+    </View>
+  );
+};
+
+const LoadingState = () => {
+  const containerStyles = tw.style("gap-y-3 w-full");
+
+  return (
+    <View style={containerStyles}>
+      {/* All of the categories */}
+      {new Array(3).fill(0).map((_, i) => (
+        <React.Fragment key={i}>
+          <Skeleton height={24} width={100} />
+          <Skeleton height={96} width="100%" />
         </React.Fragment>
       ))}
     </View>

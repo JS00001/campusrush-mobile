@@ -33,6 +33,7 @@ import IconButton from "@/ui/IconButton";
 import Information from "@/ui/Information";
 import Menu, { MenuAction } from "@/ui/Menu";
 import { titleCase } from "@/lib/util/string";
+import ErrorMessage from "@/components/ErrorMessage";
 
 interface LandingProps extends UseSheetFlowProps {
   chapterId: string;
@@ -46,11 +47,18 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
   const revokeEntitlementMutation = useRevokeEntitlement();
 
   const isLoading = chapterQuery.isLoading || entitlementQuery.isLoading;
-  const isError = chapterQuery.isError || entitlementQuery.isError;
+  const error = chapterQuery.error || entitlementQuery.error;
 
-  // PR_TODO: Error Loading State
+  // Error and Loading State
   if (isLoading) return <LoadingState />;
-  if (isError) return <Text>Error</Text>;
+  if (error) {
+    return (
+      <ErrorMessage
+        error={chapterQuery.error}
+        description="Could not fetch chapter information"
+      />
+    );
+  }
 
   const chapter = chapterQuery.data!.chapter;
   const entitlements = entitlementQuery.data!.filter((entitlement) => {
@@ -89,9 +97,6 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
       id: chapterId,
       entitlementId,
     });
-
-    // PR_TODO: Proper refetch in the mutation rather than here
-    await entitlementQuery.refetch();
 
     Toast.show({
       type: "success",

@@ -109,10 +109,6 @@ const PnmsView = () => {
     await pnmsQuery.refetch();
   };
 
-  // PR_TODO: Loading and error state
-  if (pnmsQuery.isLoading) return null;
-  if (pnmsQuery.isError) return null;
-
   return (
     <>
       <View style={tw`flex-row w-full gap-x-1`}>

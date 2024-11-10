@@ -48,7 +48,6 @@ export const useDeleteChapter = () => {
 
 export const useDeleteChapterSession = () => {
   return useMutation({
-    // PR_TODO: Implement onSuccess for this
     mutationFn: async (data: DeleteChapterSessionRequest) => {
       const response = await deleteChapterSession(data);
       if ('error' in response) throw response;

@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { Keyboard } from "react-native";
+import { Keyboard, View } from "react-native";
 
 import type { IMessageContent } from "@/@types/message-box";
 import type { IMessage, SendDirectMessageRequest } from "@/types";
@@ -20,6 +20,7 @@ import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
 import FlatList from "@/ui/FlatList";
 import group from "@/lib/util/group";
+import Skeleton from "@/ui/Skeleton";
 import SocketInput from "@/lib/socketInput";
 import queryClient from "@/lib/query-client";
 import MessageBubble from "@/ui/MessageBubble";
@@ -41,10 +42,6 @@ const Chat: React.FC<Props> = ({ route }) => {
   const conversationQuery = useGetConversation(pnmId);
 
   const messages = conversationQuery.messages;
-
-  // PR_TODO: Loading and Error State
-  if (conversationQuery.isLoading) return null;
-  if (conversationQuery.isError) return null;
 
   /**
    * On the first render, set the conversation as opened
@@ -116,9 +113,17 @@ const Chat: React.FC<Props> = ({ route }) => {
         style={tw`w-full px-4`}
         // We need to add "padding top" because the flatlist is inverted
         contentContainerStyle={tw`pt-6 pb-0`}
-        ListEmptyComponent={<></>}
+        loading={conversationQuery.isLoading}
+        error={conversationQuery.error}
+        errorDescription="Could not fetch conversation"
         onEndReached={onEndReached}
         onScrollBeginDrag={onScrollBeginDrag}
+        loadingComponent={
+          <View style={tw`gap-2 w-full`}>
+            <Skeleton width="83%" height={64} style={tw`self-start`} />
+            <Skeleton width="83%" height={64} style={tw`self-end`} />
+          </View>
+        }
         renderItem={({ item }) => (
           <MessageBubble key={item._id} message={item} />
         )}

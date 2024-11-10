@@ -22,10 +22,6 @@ const Violations = () => {
   const query = useGetViolations();
   const { openBottomSheet } = useBottomSheet();
 
-  // PR_TODO: Warning and Error States
-  if (query.isLoading) return null;
-  if (query.isError) return null;
-
   const getIcon = (count: number) => {
     if (count <= 2) {
       return "check-fill";
@@ -50,7 +46,7 @@ const Violations = () => {
     await query.refetch();
   };
 
-  const violations = query.data!;
+  const violations = query.data ?? [];
 
   return (
     <Layout.Root>
@@ -66,8 +62,10 @@ const Violations = () => {
           numColumns={2}
           onRefresh={onRefresh}
           columnWrapperStyle={{ gap: 8 }}
-          loadingComponent={<ListItemLoader size="lg" />}
+          error={query.error}
+          errorDescription="Failed to load violations"
           loading={query.isLoading}
+          loadingComponent={<ListItemLoader size="lg" />}
           renderItem={({ item }) => {
             const onPress = () => {
               openBottomSheet("VIOLATIONS", { violations: item.violations });

@@ -25,6 +25,7 @@ import Information from "@/ui/Information";
 import { useUser } from "@/providers/User";
 import { useGetPnms } from "@/hooks/api/pnms";
 import ListItemLoader from "@/ui/Loaders/ListItem";
+import ErrorMessage from "@/components/ErrorMessage";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import RefreshControlView from "@/ui/RefreshControlView";
 
@@ -45,9 +46,15 @@ const HomeView = () => {
     await pnmQuery.refetch();
   };
 
-  // PR_TODO: Add loading and error states
+  // Loading and error states
   if (pnmQuery.isLoading) return <LoadingState />;
-  if (pnmQuery.error) return null;
+  if (pnmQuery.error)
+    return (
+      <ErrorMessage
+        error={pnmQuery.error}
+        description="Could not fetch account data"
+      />
+    );
 
   // Default data from the queries
   const pnms = pnmQuery.data?.pnms || [];
@@ -64,7 +71,7 @@ const HomeView = () => {
   return (
     <RefreshControlView
       tintColor="white"
-      refreshing={pnmQuery.isFetching}
+      refreshing={pnmQuery.isLoading}
       onRefresh={onRefresh}
     >
       {/* White background */}

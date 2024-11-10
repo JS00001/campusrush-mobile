@@ -26,6 +26,7 @@ import format from "@/lib/util/format";
 import { BottomSheet } from "@/ui/BottomSheet";
 import { useGetEvent } from "@/hooks/api/events";
 import ListItemLoader from "@/ui/Loaders/ListItem";
+import ErrorMessage from "@/components/ErrorMessage";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const EventResponsesSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
@@ -39,13 +40,21 @@ const EventResponsesSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
         const eventQuery = useGetEvent(eventId);
         const [activeTab, setActiveTab] = useState(0);
 
-        // PR_TODO: Loading and Error States
+        // Loading and Error States
         if (eventQuery.isLoading) return <LoadingState />;
-        if (eventQuery.isError) return <Text>Error</Text>;
+        if (eventQuery.error)
+          return (
+            <ErrorMessage
+              error={eventQuery.error}
+              description="Could not load event responses"
+            />
+          );
 
+        const responses = eventQuery.data!.responses;
         const event = format.event(eventQuery.data!.event);
-        // Get all responses, and ensure they are sorted by yes, maybe, no
-        const responses = eventQuery.data!.responses.sort((a, b) => {
+
+        // Ensure responses are sorted by yes, maybe, no
+        responses.sort((a, b) => {
           const order = { yes: 0, maybe: 1, no: 2 };
           return order[a.response] - order[b.response];
         });
@@ -77,8 +86,6 @@ const EventResponsesSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
 
           return icon as RemixIconType;
         };
-
-        if (!event || !responses) return <LoadingState />;
 
         return (
           <BottomSheetContainer

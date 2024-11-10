@@ -12,29 +12,11 @@
 
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
-import {
-  getChapterStatistics,
-  getChapterSessions,
-  getChapterNotifications,
-} from '@/api';
+import { getChapterSessions, getChapterNotifications } from '@/api';
 
 /**
- * Get the chapter's statistics
+ * Get a list of the chapters active sessions
  */
-// PR_TODO: Convert this to use the exisitng data, then remove this api route
-export const useGetChapterStatistics = () => {
-  const query = useQuery({
-    queryKey: ['chapterStatistics'],
-    queryFn: async () => {
-      const response = await getChapterStatistics();
-      if ('error' in response) throw response;
-      return response.data;
-    },
-  });
-
-  return query;
-};
-
 export const useGetChapterSessions = () => {
   return useQuery({
     queryKey: ['chapterSessions'],

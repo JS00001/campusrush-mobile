@@ -42,10 +42,10 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   const logoutMutation = useLogout();
   const notificationQuery = useGetNotifications();
 
-  // PR_TODO: Loading and Error States
-  // Puit this in the component itself, we need to render children
-  if (notificationQuery.isLoading) return null;
-  if (notificationQuery.isError) return null;
+  // TODO: Maybe create a standalone error state
+  // Error and Loading States: Put this in the component itself, we need to render children
+  if (notificationQuery.isLoading) return children;
+  if (notificationQuery.isError) return children;
 
   const notificationCount = notificationQuery.data.count;
 

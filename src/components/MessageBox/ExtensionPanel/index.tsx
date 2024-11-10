@@ -36,6 +36,7 @@ import AppConstants from "@/constants";
 import useCamera from "@/hooks/useCamera";
 import { useGetEvents } from "@/hooks/api/events";
 import useCloudStorage from "@/hooks/useCloudStorage";
+import ErrorMessage from "@/components/ErrorMessage";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   (
@@ -58,9 +59,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
       closePanel,
     }));
 
-    // PR_TODO: Loading and Error States: SEe below, we have in-code loading, just need error
-    if (eventsQuery.isLoading) return null;
-    if (eventsQuery.isError) return null;
+    const events = eventsQuery.data?.events;
 
     const openPanel = () => {
       setVisible(true);
@@ -121,8 +120,6 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
       <BottomSheetBackdrop {...props} opacity={0.5} onPress={closePanel} />
     );
 
-    const events = eventsQuery.data!.events;
-
     return (
       <BottomSheetModal
         ref={bottomSheetRef}
@@ -142,7 +139,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
           {eventsQuery.isLoading && <Skeleton width={"100%"} height={212} />}
 
           {/* If the user has no events, show a message */}
-          {!eventsQuery.isLoading && !events && (
+          {!eventsQuery.isLoading && !events?.length && (
             <Headline
               centerText
               style={tw`mt-12`}
@@ -151,8 +148,16 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
             />
           )}
 
+          {/* Error State */}
+          {eventsQuery.isError && (
+            <ErrorMessage
+              error={eventsQuery.error}
+              description="Could not fetch events"
+            />
+          )}
+
           {/* If the user has events, show them */}
-          {!eventsQuery.isLoading && events && (
+          {events?.length && (
             <BottomSheetScrollView showsVerticalScrollIndicator={false}>
               <View style={tw`bg-gray-100 rounded-xl mb-16`}>
                 {events.map((event, index) => {
