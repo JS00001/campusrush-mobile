@@ -145,7 +145,7 @@ const AppConstants = {
     /**
      * The last time the user was alerted to update the app
      */
-    lastUpdateAlert: 0,
+    lastUpdateAlert: '0.0.0',
   },
   /**
    * The maximum amount of images that can be attached to a message

@@ -9,8 +9,10 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
+
+import semver from "semver";
 import { Linking } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as ExpoSplashScreen from "expo-splash-screen";
 
 import tw from "@/lib/tailwind";
@@ -20,56 +22,50 @@ import { Layout } from "@/ui/Layout";
 import Headline from "@/ui/Headline";
 import AppConstants from "@/constants";
 import { useGetMetadata } from "@/hooks/api/external";
-import { getComparableVersion } from "@/lib/util/string";
 import { usePreferences } from "@/providers/Preferences";
 
 const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const query = useGetMetadata();
+  const initialized = useRef(false);
   const [isValidVersion, setIsValidVersion] = useState(true);
   const { lastUpdateAlert, updatePreferences } = usePreferences();
 
   /**
    * When the metadata is loaded, check if the version is valid
-   *
-   * If the user's client version is less than the minimum client version, then their
-   * API Calls wont work, so we need to force them to update
-   *
-   * If the user's client version is less than the latest client version, then we should
-   * Give a 'gentle' reminder to update, and update their preferences to reflect that they
-   * have seen the update alert
+   * and check if they need to update the app
    */
   useEffect(() => {
-    if (!query.data || "error" in query.data) return;
+    if (!query.data || query.isError) return;
 
-    const { version, latestVersion } = query.data;
-    const appVersion = AppConstants.version.split("-")[0];
+    // The app user's current version
+    const currentUserVersion = AppConstants.version.split("-")[0];
+    const minimumClientVersion = query.data.version;
+    const latestClientVersion = query.data.latestVersion;
 
-    const minimumClientVersion = getComparableVersion(version || "0.0.0");
-    const latestClientVersion = getComparableVersion(latestVersion || "0.0.0");
-    const userVersion = getComparableVersion(appVersion || "0.0.0");
-
-    if (userVersion === 0 || minimumClientVersion === 0) {
+    // If the user's version is >= the min version, they are good to go
+    if (semver.gte(currentUserVersion, minimumClientVersion)) {
       setIsValidVersion(true);
     }
 
-    // If the user's client version is less than the minimum client version, then their
-    // API Calls wont work, so we need to force them to update
-    if (userVersion < minimumClientVersion) {
+    // If the user's version is less than the min version, they need to update
+    if (semver.lt(currentUserVersion, minimumClientVersion)) {
       setIsValidVersion(false);
       ExpoSplashScreen.hideAsync();
+      updatePreferences({ lastUpdateAlert: latestClientVersion });
+      return;
     }
 
-    // If the user's client version is less than the latest client version, then we should
-    // Give a 'gentle' reminder to update (not forceful)
-    if (latestClientVersion > userVersion) {
-      if (lastUpdateAlert == latestClientVersion) return;
+    // If the user's version is less than the latest version, we should alert them that an update is available
+    if (semver.lt(currentUserVersion, latestClientVersion)) {
+      // If we have already alerted the user about the update, then we don't need to alert them again
+      if (semver.eq(lastUpdateAlert, latestClientVersion)) return;
 
       alert({
         title: "Update Available",
         message:
-          "A new version of CampusRush is available! Update now to get the latest features and bug fixes.",
+          "New version available! Update to get the latest features and fixes.",
         buttons: [
           {
             text: "Maybe Later",
@@ -95,7 +91,15 @@ const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
     Linking.openURL(AppConstants.appStoreUrl);
   };
 
-  // if (query.isLoading) return null;
+  /**
+   * On the first app load, we want to fetch this query if needed (if the user is loggedin)
+   * then, we dont want to fetch it again (we only refresh the token once per app load)
+   * so we keep track of it already being initialized
+   */
+  if (query.isLoading && !initialized.current) {
+    initialized.current = true;
+    return null;
+  }
 
   if (!isValidVersion) {
     return (
