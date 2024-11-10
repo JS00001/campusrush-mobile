@@ -157,7 +157,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
           )}
 
           {/* If the user has events, show them */}
-          {events?.length && (
+          {!!events?.length && (
             <BottomSheetScrollView showsVerticalScrollIndicator={false}>
               <View style={tw`bg-gray-100 rounded-xl mb-16`}>
                 {events.map((event, index) => {
