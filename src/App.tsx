@@ -59,7 +59,6 @@ const App = () => {
                       <AuthProvider>
                         <UserProvider>
                           <GestureHandlerRootView style={{ flex: 1 }}>
-                            <Toast config={toastConfig} />
                             <BottomSheetModalProvider>
                               <BottomSheetProvider>
                                 <WebsocketProvider>
@@ -69,6 +68,7 @@ const App = () => {
                                 </WebsocketProvider>
                               </BottomSheetProvider>
                             </BottomSheetModalProvider>
+                            <Toast config={toastConfig} />
                           </GestureHandlerRootView>
                         </UserProvider>
                       </AuthProvider>

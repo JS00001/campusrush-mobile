@@ -56,8 +56,6 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (!chapter) disconnect();
     else connect();
-
-    return () => disconnect();
   }, [chapter]);
 
   /**

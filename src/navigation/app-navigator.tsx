@@ -35,9 +35,10 @@ import TabBarIcon from "@/ui/TabBarIcon";
 import OverlayProvider from "@/providers/Overlay";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import { useGetNotifications } from "@/hooks/api/chapter";
-import NotificationsProvider from "@/providers/PushNotifications";
 import { useSidebarStore } from "@/store/overlay/sidebar-store";
 import { useGetConversations } from "@/hooks/api/conversations";
+import NotificationsProvider from "@/providers/PushNotifications";
+
 /**
  * Tab Navigator for the App
  *
@@ -186,9 +187,6 @@ const ChatNavigator = () => {
 
 export const AppNavigator = () => {
   const Stack = createNativeStackNavigator<AppStackParams>();
-
-  // TODO: make this better, incorporate into store
-  useGetNotifications();
 
   return (
     <OverlayProvider>

@@ -38,3 +38,8 @@ export const setRefreshToken = refreshTokenStorage.setToken;
 
 export const getAccessToken = accessTokenStorage.getToken;
 export const setAccessToken = accessTokenStorage.setToken;
+
+export const isLoggedIn = async () => {
+  const token = await getAccessToken();
+  return !!token;
+};

@@ -10,19 +10,16 @@
  * Do not distribute
  */
 
-import lodash from "lodash";
 import * as RNNotifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/native";
 import { createContext, useContext, useEffect, useRef } from "react";
 
 import type { IPNM, IEvent } from "@/types";
 
-import { isLoggedIn } from "@/lib/auth";
 import { useUser } from "@/providers/User";
 import queryClient from "@/lib/query-client";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 import { useBottomSheet } from "@/providers/BottomSheet";
-import { useQonversion } from "@/providers/external/Qonversion";
 
 interface IPushNotificationsContext {
   isLoading: boolean;
@@ -42,17 +39,16 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
   const { chapter } = useUser();
-  const { entitlements } = useQonversion();
   const { openBottomSheet } = useBottomSheet();
   const responseListener = useRef<RNNotifications.Subscription>();
 
   const navigation = useNavigation();
   const updateChapterMutation = useUpdateChapter();
 
-  const enabled = chapter?.notifications.enabled || false;
+  const enabled = chapter.notifications.enabled;
 
   /**
-   * Event listener for when a push notification is opened
+   * Listen for when a push notification is opened
    */
   useEffect(() => {
     responseListener.current =
@@ -66,38 +62,34 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   }, []);
 
   /**
-   * Every time the chapter changes, we will check the notification status
-   * This is so that we can update the notification token if the user logs in
+   * Check if we have permission to send notifications to the user, if so
+   * update the notificaiton push token in the backend
    */
-  // PR_TODO: Reenable
-  // useEffect(() => {
-  //   const pushNotificationStatus = async () => {
-  //     if (!isLoggedIn()) return;
-  //     if (lodash.isEmpty(entitlements)) return;
+  useEffect(() => {
+    const pushNotificationStatus = async () => {
+      const hasPermission = await hasPushNotificationPermission();
 
-  //     const hasPermission = await hasPushNotificationPermission();
+      if (hasPermission) {
+        await setPushNotificationToken();
+        return;
+      }
 
-  //     if (hasPermission) {
-  //       await setPushNotificationToken();
-  //       return;
-  //     }
+      const status = await requestPushNotificationPermission();
 
-  //     const status = await requestPushNotificationPermission();
+      // If we are granted permission, send the notification token
+      // to the server and enable notifications as a default
+      if (status === "granted") {
+        await setPushNotificationToken();
+        await setEnabled(true);
+        return;
+      }
 
-  //     // If we are granted permission, send the notification token
-  //     // to the server and enable notifications as a default
-  //     if (status === "granted") {
-  //       await setPushNotificationToken();
-  //       await setEnabled(true);
-  //       return;
-  //     }
+      // If we are not granted permission, disable notifications
+      await setEnabled(false);
+    };
 
-  //     // If we are not granted permission, disable notifications
-  //     await setEnabled(false);
-  //   };
-
-  //   pushNotificationStatus();
-  // }, [entitlements]);
+    pushNotificationStatus();
+  }, []);
 
   /**
    * Whether we have permission to send notifications to the user
@@ -121,9 +113,6 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
    * Updates the notification push token in the server
    */
   const setPushNotificationToken = async () => {
-    if (lodash.isEmpty(chapter)) return;
-    if (lodash.isEmpty(entitlements)) return;
-
     // Generate the notification token, we pass the project id
     // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
     const pushNotificationToken = await RNNotifications.getExpoPushTokenAsync({
@@ -142,9 +131,6 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
    * the notification status based on the value passed
    */
   const setEnabled = async (shouldEnable: boolean) => {
-    if (lodash.isEmpty(chapter)) return;
-    if (lodash.isEmpty(entitlements)) return;
-
     const hasPermission = await hasPushNotificationPermission();
 
     // If the value is false, update the notification status
@@ -191,9 +177,7 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     response: RNNotifications.NotificationResponse,
   ) => {
     const { data } = response.notification.request.content;
-
     if (!data) return;
-
     const { payload, notification } = data;
 
     // Handle notification
