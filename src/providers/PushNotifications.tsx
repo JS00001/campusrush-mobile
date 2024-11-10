@@ -12,16 +12,16 @@
 
 import lodash from "lodash";
 import * as RNNotifications from "expo-notifications";
-import { useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { createContext, useContext, useEffect, useRef } from "react";
 
 import type { IPNM, IEvent } from "@/types";
 
-import { useAuth } from "@/providers/Auth";
+import { isLoggedIn } from "@/lib/auth";
+import { useUser } from "@/providers/User";
+import queryClient from "@/lib/query-client";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 import { useBottomSheet } from "@/providers/BottomSheet";
-import { useGlobalStore, useNotificationStore } from "@/store";
 import { useQonversion } from "@/providers/external/Qonversion";
 
 interface IPushNotificationsContext {
@@ -41,17 +41,13 @@ RNNotifications.setNotificationHandler(null);
 const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
+  const { chapter } = useUser();
   const { entitlements } = useQonversion();
   const { openBottomSheet } = useBottomSheet();
-  const { chapter, setChapter, accessToken } = useAuth();
   const responseListener = useRef<RNNotifications.Subscription>();
 
   const navigation = useNavigation();
-  const queryClient = useQueryClient();
   const updateChapterMutation = useUpdateChapter();
-
-  const globalStore = useGlobalStore();
-  const notificationStore = useNotificationStore();
 
   const enabled = chapter?.notifications.enabled || false;
 
@@ -75,7 +71,7 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
    */
   useEffect(() => {
     const pushNotificationStatus = async () => {
-      if (lodash.isEmpty(chapter)) return;
+      if (!isLoggedIn()) return;
       if (lodash.isEmpty(entitlements)) return;
 
       const hasPermission = await hasPushNotificationPermission();
@@ -100,7 +96,7 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     };
 
     pushNotificationStatus();
-  }, [accessToken]);
+  }, [entitlements]);
 
   /**
    * Whether we have permission to send notifications to the user
@@ -182,11 +178,9 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
    * Update the notification status for the user in the server
    */
   const updatePushNotificationsEnabled = async (value: boolean) => {
-    const response = await updateChapterMutation.mutateAsync({
+    await updateChapterMutation.mutateAsync({
       notificationsEnabled: value,
     });
-
-    setChapter(response.data.chapter);
   };
 
   /**
@@ -200,27 +194,29 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     if (!data) return;
 
     const { payload, notification } = data;
-    if (notification) notificationStore.addOrUpdateNotification(notification);
+
+    // Handle notification
+    if (notification) {
+      queryClient.refetchQueries({ queryKey: ["notifications"] });
+    }
 
     if (payload.type === "NEW_MESSAGE") {
       const pnm: IPNM = payload.pnm;
-      queryClient.refetchQueries(["conversations", accessToken]);
-      queryClient.refetchQueries(["conversation", accessToken, pnm._id]);
+      queryClient.invalidateQueries({ queryKey: ["conversations"] });
+      queryClient.invalidateQueries({ queryKey: ["conversation", pnm._id] });
 
       navigation.navigate("Conversation", {
         screen: "Chat",
         initial: false,
-        params: {
-          pnm,
-        },
+        params: { pnm },
       });
     }
 
     if (payload.type === "NEW_PNM") {
       const pnm: IPNM = payload.pnm;
-      globalStore.addOrUpdatePnm(pnm);
-      openBottomSheet("PNM", { pnmId: pnm._id });
+      queryClient.invalidateQueries({ queryKey: ["pnms"] });
 
+      openBottomSheet("PNM", { pnm });
       navigation.navigate("Main", {
         screen: "PNMsTab",
         params: {
@@ -231,8 +227,10 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
 
     if (payload.type === "NEW_EVENT_RESPONSE") {
       const event: IEvent = payload.event;
-      openBottomSheet("EVENT", { eventId: event._id });
+      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({ queryKey: ["event", event._id] });
 
+      openBottomSheet("EVENT", { event });
       navigation.navigate("Main", {
         screen: "MoreTab",
         params: {
@@ -256,9 +254,9 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   return (
     <PushNotificationsContext.Provider
       value={{
-        isLoading: updateChapterMutation.isLoading,
         enabled,
         setEnabled,
+        isLoading: updateChapterMutation.isPending,
       }}
     >
       {children}

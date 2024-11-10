@@ -15,17 +15,15 @@ import { Layout } from "@/ui/Layout";
 import FlatList from "@/ui/FlatList";
 import group from "@/lib/util/group";
 import SocketInput from "@/lib/socketInput";
+import queryClient from "@/lib/query-client";
 import Notification from "@/ui/Notification";
-import { useNotificationStore } from "@/store";
 import useFocusEffect from "@/hooks/useFocusEffect";
 import { useWebsocket } from "@/providers/Websocket";
 import { useGetNotifications } from "@/hooks/api/chapter";
-import NotificationLoader from "@/ui/Loaders/Notification";
 
 const NotificationsScreen: React.FC = () => {
   const { ws } = useWebsocket();
   const query = useGetNotifications();
-  const notificationStore = useNotificationStore();
 
   useFocusEffect(() => {
     const message = new SocketInput({
@@ -33,8 +31,12 @@ const NotificationsScreen: React.FC = () => {
     });
 
     ws?.send(message.toString());
-    notificationStore.setState({ count: 0 });
-  }, [notificationStore.notifications]);
+    queryClient.invalidateQueries({ queryKey: ["notifications"] });
+  }, []);
+
+  // PR_TODO: Loading and Error States
+  if (query.isLoading) return null;
+  if (query.error) return null;
 
   const onRefresh = async () => {
     await query.refetch();
@@ -43,6 +45,8 @@ const NotificationsScreen: React.FC = () => {
   const onEndReached = async () => {
     await query.fetchNextPage();
   };
+
+  const notifications = query.data!.notifications;
 
   return (
     <Layout.Root>
@@ -56,9 +60,8 @@ const NotificationsScreen: React.FC = () => {
           emptyListTitle="No notifications"
           emptyListSubtitle="You're all caught up!"
           disableOnEndReached={!query.hasNextPage}
-          data={group.byDate(query.notifications, "createdAt")}
+          data={group.byDate(notifications, "createdAt")}
           renderItem={({ item }) => <Notification notification={item} />}
-          loadingComponent={<NotificationLoader />}
           onRefresh={onRefresh}
           onEndReached={onEndReached}
         />

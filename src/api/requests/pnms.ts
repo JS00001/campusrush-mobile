@@ -1,15 +1,3 @@
-/*
- * Created on Fri Feb 23 2024
- *
- * This software is the proprietary property of CampusRush.
- * All rights reserved. Unauthorized copying, modification, or distribution
- * of this software, in whole or in part, is strictly prohibited.
- * For licensing information contact CampusRush.
- *
- * Copyright (c) 2024 CampusRush
- * Do not distribute
- */
-
 import type {
   GetPnmsResponse,
   DeletePnmResponse,
@@ -20,11 +8,13 @@ import type {
   UpdatePnmRequest,
   UpdatePnmResponse,
   DeletePnmRequest,
+  DeletePnmsResponse,
+  DeletePnmsRequest,
 } from '@/types';
 
-import { axiosClient } from '@/providers/Axios';
+import axios from '@/lib/axios';
 
-const PREFIX = '/api/v1/consumer/pnms';
+const PREFIX = '/pnms';
 
 /**
  * Request:     GET /api/v1/consumer/pnms
@@ -33,21 +23,23 @@ const PREFIX = '/api/v1/consumer/pnms';
 export const getPnms = async () => {
   const url = `${PREFIX}`;
 
-  const { data } = await axiosClient.get(url);
+  const { data } = await axios.get<GetPnmsResponse>(url);
 
-  return data as GetPnmsResponse;
+  return data;
 };
 
 /**
- * Request:     DELETE /api/v1/consumer/pnms
- * Description: Delete ALL PNMs
+ * Request      DELETE /api/v1/consumer/pnms
+ * Description: Delete all PNMs
  */
-export const deletePnms = async () => {
+export const deletePnms = async (data?: DeletePnmsRequest) => {
   const url = `${PREFIX}`;
 
-  const { data } = await axiosClient.delete(url);
+  const { data: responseData } = await axios.delete<DeletePnmsResponse>(url, {
+    data,
+  });
 
-  return data as DeletePnmResponse;
+  return responseData;
 };
 
 /**
@@ -57,9 +49,9 @@ export const deletePnms = async () => {
 export const createPnm = async (data: CreatePnmRequest) => {
   const url = `${PREFIX}`;
 
-  const { data: responseData } = await axiosClient.post(url, data);
+  const { data: responseData } = await axios.post<CreatePnmResponse>(url, data);
 
-  return responseData as CreatePnmResponse;
+  return responseData;
 };
 
 /**
@@ -69,9 +61,9 @@ export const createPnm = async (data: CreatePnmRequest) => {
 export const getPnm = async (data: GetPnmRequest) => {
   const url = `${PREFIX}/${data.id}`;
 
-  const { data: responseData } = await axiosClient.get(url);
+  const { data: responseData } = await axios.get<GetPnmResponse>(url);
 
-  return responseData as GetPnmResponse;
+  return responseData;
 };
 
 /**
@@ -82,9 +74,9 @@ export const updatePnm = async (data: UpdatePnmRequest) => {
   const { id, ...rest } = data;
   const url = `${PREFIX}/${id}`;
 
-  const { data: responseData } = await axiosClient.put(url, rest);
+  const { data: responseData } = await axios.put<UpdatePnmResponse>(url, rest);
 
-  return responseData as UpdatePnmResponse;
+  return responseData;
 };
 
 /**
@@ -94,7 +86,7 @@ export const updatePnm = async (data: UpdatePnmRequest) => {
 export const deletePnm = async (data: DeletePnmRequest) => {
   const url = `${PREFIX}/${data.id}`;
 
-  const { data: responseData } = await axiosClient.delete(url);
+  const { data: responseData } = await axios.delete<DeletePnmResponse>(url);
 
-  return responseData as DeletePnmResponse;
+  return responseData;
 };

@@ -78,7 +78,7 @@ const ChangePasswordView = () => {
         onChangeText={form.setValue.bind(null, "confirmNewPassword")}
       />
 
-      <Button onPress={onSubmit} loading={updateMutation.isLoading}>
+      <Button onPress={onSubmit} loading={updateMutation.isPending}>
         Save Changes
       </Button>
     </>

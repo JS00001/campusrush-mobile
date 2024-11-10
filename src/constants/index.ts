@@ -29,21 +29,21 @@ const environment = (() => {
 })() as Environment;
 
 // All urls for all environments
-const urls = {
+export const Urls = {
   development: {
-    apiUrl: 'https://local-dev.campusrush.app',
-    webUrl: 'http://localhost:3001',
-    websocketUrl: 'wss://local-dev.campusrush.app',
+    ApiURL: 'https://local-dev.campusrush.app',
+    WebURL: 'http://localhost:3001',
+    WebsocketURL: 'wss://local-dev.campusrush.app',
   },
   staging: {
-    apiUrl: 'https://greek-api.in-staging.space',
-    webUrl: 'https://campusrush-forms.in-staging.space',
-    websocketUrl: 'wss://greek-api.in-staging.space',
+    ApiURL: 'https://greek-api.in-staging.space',
+    WebURL: 'https://campusrush-forms.in-staging.space',
+    WebsocketURL: 'wss://greek-api.in-staging.space',
   },
   production: {
-    apiUrl: 'https://api.campusrush.app',
-    webUrl: 'https://forms.campusrush.app',
-    websocketUrl: 'wss://api.campusrush.app',
+    ApiURL: 'https://api.campusrush.app',
+    WebURL: 'https://forms.campusrush.app',
+    WebsocketURL: 'wss://api.campusrush.app',
   },
 }[environment];
 
@@ -88,23 +88,23 @@ const AppConstants = {
   /**
    * The API url for the backend
    */
-  apiUrl: urls.apiUrl,
+  ApiURL: Urls.ApiURL,
   /**
    * The website url
    */
-  webUrl: urls.webUrl,
+  WebURL: Urls.WebURL,
   /**
    * The websocket url for the backend
    */
-  websocketUrl: urls.websocketUrl,
+  WebsocketURL: Urls.WebsocketURL,
   /**
    * The url to sharing
    */
-  sharingUrl: urls.webUrl + SHARING_URL,
+  sharingUrl: Urls.WebURL + SHARING_URL,
   /**
    * The url to events
    */
-  eventUrl: urls.webUrl + EVENT_URL,
+  eventUrl: Urls.WebURL + EVENT_URL,
   /**
    * The CMS/content url
    */

@@ -10,7 +10,6 @@
  * Do not distribute
  */
 
-import { useEffect } from 'react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import {
@@ -18,51 +17,31 @@ import {
   getChapterSessions,
   getChapterNotifications,
 } from '@/api';
-import { useAuth } from '@/providers/Auth';
-import { useNotificationStore, useStatisticsStore } from '@/store';
 
 /**
  * Get the chapter's statistics
  */
+// PR_TODO: Convert this to use the exisitng data, then remove this api route
 export const useGetChapterStatistics = () => {
-  const { accessToken } = useAuth();
-  const statisticsStore = useStatisticsStore();
-
-  const query = useQuery(['chapterStatistics', accessToken], {
+  const query = useQuery({
+    queryKey: ['chapterStatistics'],
     queryFn: async () => {
       const response = await getChapterStatistics();
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
   });
 
-  useEffect(() => {
-    if (!query.data || query.isError) {
-      return;
-    }
-
-    statisticsStore.setField('pnmCount', query.data.data.pnms);
-    statisticsStore.setField('recentPnms', query.data.data.recentPnms);
-    statisticsStore.setField('starredPnmCount', query.data.data.starredPnms);
-  }, [query.data]);
-
-  return {
-    ...query,
-    pnmCount: statisticsStore.pnmCount,
-    starredPnmCount: statisticsStore.starredPnmCount,
-    recentPnms: statisticsStore.recentPnms,
-    isLoading: query.isLoading && !statisticsStore.pnmCount,
-  };
+  return query;
 };
 
 export const useGetChapterSessions = () => {
-  const { accessToken } = useAuth();
-
-  return useQuery(['chapterSessions', accessToken], {
+  return useQuery({
+    queryKey: ['chapterSessions'],
     queryFn: async () => {
       const response = await getChapterSessions();
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
   });
 };
@@ -71,46 +50,39 @@ export const useGetChapterSessions = () => {
  * Get a list of the chapter's notifications
  */
 export const useGetNotifications = () => {
-  const { accessToken } = useAuth();
-  const notificationStore = useNotificationStore();
-
-  const query = useInfiniteQuery(['notifications', accessToken], {
-    cacheTime: 0,
+  const query = useInfiniteQuery({
+    initialPageParam: 0,
+    queryKey: ['notifications'],
     queryFn: async ({ pageParam = 0 }) => {
       const response = await getChapterNotifications({ offset: pageParam });
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
     getNextPageParam: (lastPage) => {
       if ('error' in lastPage) return undefined;
 
-      const hasNextPage = lastPage.data.hasNextPage;
+      const hasNextPage = lastPage.hasNextPage;
 
       if (!hasNextPage) return undefined;
 
-      return lastPage.data.nextOffset;
+      return lastPage.nextOffset;
     },
   });
 
-  useEffect(() => {
-    if (!query.data || query.isError) {
-      return;
-    }
+  // Combine all the notifications into a single array
+  const pages = query.data?.pages ?? [];
+  const count = pages.length ? pages[0].count : 0;
 
-    const combinedNotifications = query.data.pages.flatMap((page) => {
-      return page.data.notifications;
-    });
-
-    notificationStore.setState({
-      count: query.data.pages[0].data.count,
-      notifications: combinedNotifications,
-    });
-  }, [query.data]);
+  const notifications = pages.flatMap((page) => {
+    return page.notifications;
+  });
 
   return {
     ...query,
-    count: notificationStore.count,
-    notifications: notificationStore.notifications,
-    isLoading: query.isLoading && !query.data,
+    data: {
+      ...query.data,
+      count,
+      notifications,
+    },
   };
 };

@@ -18,12 +18,18 @@ import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Information from "@/ui/Information";
-import { useMetadataStore } from "@/store";
 import { BottomSheet } from "@/ui/BottomSheet";
+import { useGetMetadata } from "@/hooks/api/external";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
-  const entitlements = useMetadataStore((state) => state.metadata.entitlements);
+  const metadataQuery = useGetMetadata();
+
+  // PR_TODO: Loading and Error states
+  if (metadataQuery.isLoading) return null;
+  if (metadataQuery.isError) return null;
+
+  const entitlements = metadataQuery.data?.entitlements;
 
   return (
     <BottomSheet

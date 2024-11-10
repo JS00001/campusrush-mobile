@@ -29,8 +29,6 @@ export type DeletePnmResponse = API.Response<{}>;
 
 export type DeleteChapterSessionResponse = API.Response<{}>;
 
-export type DeletePnmsResponse = API.Response<{}>;
-
 export type GrantAdminChapterEntitlementsResponse = API.Response<{}>;
 
 export type RevokeAdminChapterEntitlementsResponse = API.Response<{}>;
@@ -355,4 +353,9 @@ export type GetNotificationsResponse = API.Response<{
   nextOffset: number;
   /** Indicates whether there is a next page of notifications */
   hasNextPage: boolean;
+}>;
+
+export type DeletePnmsResponse = API.Response<{
+  /** The PNMs left once deleted */
+  pnms: IPNM[];
 }>;

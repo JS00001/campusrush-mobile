@@ -12,7 +12,7 @@
 
 import { ImagePickerAsset } from 'expo-image-picker';
 
-import { useUploadFile } from '@/hooks/api/messaging';
+import { useUploadFile } from '@/hooks/api/upload';
 
 const useCloudStorage = () => {
   const uploadMutation = useUploadFile();
@@ -44,7 +44,7 @@ const useCloudStorage = () => {
     return imageUrl;
   };
 
-  return { uploadImage, isLoading: uploadMutation.isLoading };
+  return { uploadImage, isLoading: uploadMutation.isPending };
 };
 
 export default useCloudStorage;

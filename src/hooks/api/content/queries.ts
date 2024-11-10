@@ -14,7 +14,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getPrivacyPolicy, getTermsOfService } from '@/api';
 
 export const useGetTermsOfService = () => {
-  return useQuery(['termsOfService'], {
+  return useQuery({
+    queryKey: ['termsOfService'],
     queryFn: () => {
       return getTermsOfService();
     },
@@ -22,7 +23,8 @@ export const useGetTermsOfService = () => {
 };
 
 export const useGetPrivacyPolicy = () => {
-  return useQuery(['privacyPolicy'], {
+  return useQuery({
+    queryKey: ['privacyPolicy'],
     queryFn: () => {
       return getPrivacyPolicy();
     },

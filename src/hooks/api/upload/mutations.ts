@@ -10,17 +10,22 @@
  * Do not distribute
  */
 
-import { useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
-import { getMetadata } from '@/api';
+import { uploadFile } from '@/api';
+import usePosthog from '@/hooks/usePosthog';
 
-export const useGetMetadata = () => {
-  return useQuery({
-    queryKey: ['metadata'],
-    queryFn: async () => {
-      const response = await getMetadata();
+export const useUploadFile = () => {
+  const posthog = usePosthog();
+
+  return useMutation({
+    mutationFn: async (data: FormData) => {
+      const response = await uploadFile(data);
       if ('error' in response) throw response;
-      return response.data;
+      return response;
+    },
+    onSuccess: () => {
+      posthog.capture('FILE_UPLOADED');
     },
   });
 };

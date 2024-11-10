@@ -33,22 +33,23 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({ pnmId }) => {
 
   useEffect(() => {
     if (pnmQuery.isLoading) return;
-
     // If we cannot find a PNM with the given ID, navigate back
-    if (!pnmQuery.pnm) navigation.goBack();
-  }, [pnmQuery.pnm]);
+    if (!pnmQuery.data?.pnm) navigation.goBack();
+  }, [pnmQuery]);
 
   const onMenuButtonPress = () => {
+    // TODO: Cant press menu when loading, but this is still interactable
+    const pnm = pnmQuery.data?.pnm;
+    if (!pnm) return;
     Keyboard.dismiss();
-
-    openBottomSheet("PNM", {
-      pnmId,
-    });
+    openBottomSheet("PNM", { pnm });
   };
 
-  if (!pnmQuery.pnm) return <LoadingState />;
+  // PR_TODO: Loading and Error State
+  if (pnmQuery.isLoading) return <LoadingState />;
+  if (pnmQuery.isError) return null;
 
-  const pnm = pnmQuery.pnm;
+  const pnm = pnmQuery.data!.pnm;
 
   return (
     <Header

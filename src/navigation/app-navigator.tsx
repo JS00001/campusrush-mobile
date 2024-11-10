@@ -36,7 +36,7 @@ import { useBottomSheet } from "@/providers/BottomSheet";
 import { useGetNotifications } from "@/hooks/api/chapter";
 import NotificationsProvider from "@/providers/PushNotifications";
 import { useSidebarStore } from "@/store/overlay/sidebar-store";
-import { useConversationStore, useNotificationStore } from "@/store";
+import { useGetConversations } from "@/hooks/api/conversations";
 
 /**
  * Tab Navigator for the App
@@ -49,10 +49,13 @@ const MainNavigator = () => {
 
   const sidebar = useSidebarStore();
   const { openBottomSheet } = useBottomSheet();
-  const notificationStore = useNotificationStore();
-  const conversationStore = useConversationStore();
 
-  const unreadConverstions = conversationStore.conversations.filter((c) => {
+  const conversationsQuery = useGetConversations();
+  const notificationsQuery = useGetNotifications();
+
+  const conversations = conversationsQuery.conversations;
+  const notificationsCount = notificationsQuery.data.count;
+  const unreadConverstions = conversations.filter((c) => {
     return !c.read;
   }).length;
 
@@ -161,7 +164,7 @@ const MainNavigator = () => {
               focused={focused}
               focusedIcon="menu-3-fill"
               unfocusedIcon="menu-3-fill"
-              badgeCount={notificationStore.count}
+              badgeCount={notificationsCount}
             />
           ),
         }}

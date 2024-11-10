@@ -23,10 +23,12 @@ import ChapterLoader from "@/ui/Loaders/Chapter";
 import { useGetAdminChapters } from "@/hooks/api/admin";
 
 const ChaptersView = () => {
-  const getAdminChaptersQuery = useGetAdminChapters();
+  const getChaptersQuery = useGetAdminChapters();
+
+  const chapters = getChaptersQuery.data?.chapters || [];
 
   const search = useSearch({
-    data: getAdminChaptersQuery.chapters,
+    data: chapters,
     defaultSortingMethod: "LAST_ONLINE_DESC",
     filters: [
       {
@@ -131,10 +133,15 @@ const ChaptersView = () => {
   ];
 
   const onRefresh = async () => {
-    await getAdminChaptersQuery.refetch();
+    await getChaptersQuery.refetch();
   };
 
   const inputPlaceholder = `Search ${search.data.length || ""} chapters`;
+
+  // PR_TODO: Loading and Error State/ check if we can do below
+  // M<ayube add new error state to the infinite query list
+  if (getChaptersQuery.isLoading) return null;
+  if (getChaptersQuery.isError) return null;
 
   return (
     <>
@@ -167,7 +174,7 @@ const ChaptersView = () => {
         data={search.data}
         onRefresh={onRefresh}
         loadingComponent={<ChapterLoader />}
-        loading={getAdminChaptersQuery.isLoading}
+        loading={getChaptersQuery.isLoading}
         emptyListTitle="No Chapters Found"
         emptyListSubtitle="Try changing your filters"
         renderItem={({ item: chapter }) => <Chapter chapter={chapter} />}

@@ -21,7 +21,6 @@ import {
 import { alert } from "@/lib/util";
 import FlatList from "@/ui/FlatList";
 import Session from "@/components/Session";
-import ListItemLoader from "@/ui/Loaders/ListItem";
 
 const SessionsView = () => {
   const sessionsQuery = useGetChapterSessions();
@@ -42,8 +41,6 @@ const SessionsView = () => {
               id: session._id,
             });
 
-            sessionsQuery.refetch();
-
             Toast.show({
               type: "success",
               text1: "Session removed",
@@ -55,15 +52,15 @@ const SessionsView = () => {
     });
   };
 
-  const sessions = (() => {
-    const response = sessionsQuery.data;
-    if (!response || sessionsQuery.isError) return [];
-    return response.data.sessions;
-  })();
-
   const onRefresh = async () => {
     await sessionsQuery.refetch();
   };
+
+  // PR_TODO: Loading and error states
+  if (sessionsQuery.isLoading) return null;
+  if (sessionsQuery.isError) return null;
+
+  const sessions = sessionsQuery.data!.sessions;
 
   return (
     <FlatList
@@ -71,8 +68,6 @@ const SessionsView = () => {
       emptyListSubtitle="Once you log in from a new device, it will appear here"
       data={sessions}
       onRefresh={onRefresh}
-      loading={sessionsQuery.isLoading}
-      loadingComponent={<ListItemLoader size="lg" />}
       renderItem={({ item }) => (
         <Session session={item} onRemove={onSessionRemove.bind(null, item)} />
       )}

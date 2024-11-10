@@ -38,12 +38,21 @@ const Landing: React.FC<UseSheetFlowProps> = ({
   snapToIndex,
 }) => {
   const navigation = useNavigation();
-  const { all, starred, uncontacted, suggested, isLoading } = useGetContacts();
+  const contactsQuery = useGetContacts();
+
+  const all = contactsQuery.data?.all || [];
+  const starred = contactsQuery.data?.favorited || [];
+  const suggested = contactsQuery.data?.suggested || [];
+  const uncontacted = contactsQuery.data?.uncontacted || [];
 
   const search = useSearch({
     data: all,
     fields: ["firstName", "lastName", "phoneNumber"],
   });
+
+  // PR_TODO: Error Loading State
+  if (contactsQuery.isLoading) return <LoadingState />;
+  if (contactsQuery.isError) return null;
 
   /**
    * Helper function for mass messaging (all uncontacted, all favorites, etc)
@@ -126,12 +135,8 @@ const Landing: React.FC<UseSheetFlowProps> = ({
   };
 
   const placeholder = `Search ${all.length || ""} contacts`;
-
   const directMessageHeader = search.query ? "Results" : "Suggested Contacts";
-
   const pnms = search.query ? search.data : suggested;
-
-  if (isLoading) return <LoadingState />;
 
   return (
     <View style={tw`gap-y-6 flex-1`}>
@@ -183,7 +188,6 @@ const Landing: React.FC<UseSheetFlowProps> = ({
       <FlatList
         scrollEnabled={false}
         data={pnms}
-        loading={isLoading}
         emptyListTitle="No Contacts Found"
         emptyListSubtitle="Start by adding a new PNM"
         renderItem={({ item: pnm }) => (

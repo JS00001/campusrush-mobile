@@ -1,15 +1,3 @@
-/*
- * Created on Fri Feb 23 2024
- *
- * This software is the proprietary property of CampusRush.
- * All rights reserved. Unauthorized copying, modification, or distribution
- * of this software, in whole or in part, is strictly prohibited.
- * For licensing information contact CampusRush.
- *
- * Copyright (c) 2024 CampusRush
- * Do not distribute
- */
-
 import type {
   GetChapterStatisticsResponse,
   UpdateChapterRequest,
@@ -22,9 +10,9 @@ import type {
   GetNotificationsResponse,
 } from '@/types';
 
-import { axiosClient } from '@/providers/Axios';
+import axios from '@/lib/axios';
 
-const PREFIX = '/api/v1/consumer/chapter';
+const PREFIX = '/chapter';
 
 /**
  * Request:     GET /api/v1/consumer/chapter/statistics
@@ -33,9 +21,9 @@ const PREFIX = '/api/v1/consumer/chapter';
 export const getChapterStatistics = async () => {
   const url = `${PREFIX}/statistics`;
 
-  const { data } = await axiosClient.get(url);
+  const { data } = await axios.get<GetChapterStatisticsResponse>(url);
 
-  return data as GetChapterStatisticsResponse;
+  return data;
 };
 
 /**
@@ -45,9 +33,12 @@ export const getChapterStatistics = async () => {
 export const updateChapter = async (data: UpdateChapterRequest) => {
   const url = `${PREFIX}`;
 
-  const { data: responseData } = await axiosClient.put(url, data);
+  const { data: responseData } = await axios.put<UpdateChapterResponse>(
+    url,
+    data,
+  );
 
-  return responseData as UpdateChapterResponse;
+  return responseData;
 };
 
 /**
@@ -57,9 +48,9 @@ export const updateChapter = async (data: UpdateChapterRequest) => {
 export const deleteChapter = async () => {
   const url = `${PREFIX}`;
 
-  const { data } = await axiosClient.delete(url);
+  const { data } = await axios.delete<DeleteChapterResponse>(url);
 
-  return data as DeleteChapterResponse;
+  return data;
 };
 
 /**
@@ -69,9 +60,9 @@ export const deleteChapter = async () => {
 export const getChapterSessions = async () => {
   const url = `${PREFIX}/sessions`;
 
-  const { data } = await axiosClient.get(url);
+  const { data } = await axios.get<GetChapterSessionsResponse>(url);
 
-  return data as GetChapterSessionsResponse;
+  return data;
 };
 
 /**
@@ -83,9 +74,10 @@ export const deleteChapterSession = async (
 ) => {
   const url = `${PREFIX}/sessions/${data.id}`;
 
-  const { data: responseData } = await axiosClient.delete(url);
+  const { data: responseData } =
+    await axios.delete<DeleteChapterSessionResponse>(url);
 
-  return responseData as DeleteChapterSessionResponse;
+  return responseData;
 };
 
 /**
@@ -97,9 +89,12 @@ export const getChapterNotifications = async (
 ) => {
   const url = `${PREFIX}/notifications`;
 
-  const { data: responseData } = await axiosClient.get(url, {
-    params: data,
-  });
+  const { data: responseData } = await axios.get<GetNotificationsResponse>(
+    url,
+    {
+      params: data,
+    },
+  );
 
-  return responseData as GetNotificationsResponse;
+  return responseData;
 };

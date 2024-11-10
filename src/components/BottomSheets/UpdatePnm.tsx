@@ -19,16 +19,17 @@ import tw from "@/lib/tailwind";
 import Avatar from "@/ui/Avatar";
 import { Layout } from "@/ui/Layout";
 import FormField from "@/ui/FormField";
+import { useStatusStore } from "@/store";
 import useCamera from "@/hooks/useCamera";
 import TagView from "@/components/TagView";
 import { FormSheet } from "@/ui/BottomSheet";
+import { useUpdatePnm } from "@/hooks/api/pnms";
 import validators from "@/constants/validators";
 import FormHeader from "@/components/Headers/Form";
 import useFormMutation from "@/hooks/useFormMutation";
-import { usePnmStore, useStatusStore } from "@/store";
 import useCloudStorage from "@/hooks/useCloudStorage";
-import { useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
+// PR_TODO: Add a query to this too, /pnms/:id
 const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
   innerRef,
   openBottomSheet,
@@ -38,11 +39,9 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
     <FormSheet
       innerRef={innerRef}
       children={(props?: SheetData<"UPDATE_PNM">) => {
-        const { pnmId } = props!.data;
+        const { pnm } = props!.data;
 
         const camera = useCamera();
-        const pnmStore = usePnmStore();
-        const pnmQuery = useGetPnm(pnmId);
         const cloudStorage = useCloudStorage();
         const updatePnmMutation = useUpdatePnm();
         const setStatusOverlay = useStatusStore((s) => s.setStatusOverlay);
@@ -61,20 +60,18 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
         const form = useFormMutation({
           mutation: updatePnmMutation,
           validators: formValidators,
-          onSuccess: async ({ data }) => {
-            pnmStore.addOrUpdatePnm(data.pnm);
-            pnmQuery.refetch();
+          onSuccess: async () => {
             handleClose();
           },
           initialValues: {
-            id: pnmId,
-            firstName: pnmQuery.pnm?.firstName,
-            lastName: pnmQuery.pnm?.lastName,
-            phoneNumber: pnmQuery.pnm?.phoneNumber,
-            instagram: pnmQuery.pnm?.instagram,
-            snapchat: pnmQuery.pnm?.snapchat,
-            avatar: pnmQuery.pnm?.avatar,
-            tags: pnmQuery.pnm?.tags || [],
+            id: pnm._id,
+            firstName: pnm.firstName,
+            lastName: pnm.lastName,
+            phoneNumber: pnm.phoneNumber,
+            instagram: pnm.instagram,
+            snapchat: pnm.snapchat,
+            avatar: pnm.avatar,
+            tags: pnm.tags || [],
           },
         });
 

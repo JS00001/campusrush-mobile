@@ -16,7 +16,6 @@ import Toast from "react-native-toast-message";
 import { BottomSheetProps, SheetData } from "./@types";
 
 import useCopy from "@/hooks/useCopy";
-import { useEventStore } from "@/store";
 import { useDeleteEvent, useGetEvent } from "@/hooks/api/events";
 
 import tw from "@/lib/tailwind";
@@ -44,14 +43,14 @@ const EventSheet: React.FC<BottomSheetProps> = ({
     <BottomSheet
       innerRef={innerRef}
       children={(props?: SheetData<"EVENT">) => {
-        const { eventId } = props!.data;
-
-        const eventsStore = useEventStore();
         const deleteMutation = useDeleteEvent();
-        const eventQuery = useGetEvent(eventId);
 
-        const event = format.event(eventQuery.event!);
-        const eventUrl = `${AppConstants.eventUrl}/${eventId}`;
+        const event = format.event(props!.data.event);
+
+        // PR_TODO: Erro state, dont let this be loading state
+        if (!event) return <LoadingState />;
+
+        const eventUrl = `${AppConstants.eventUrl}/${event._id}`;
 
         const onDelete = async () => {
           alert({
@@ -65,8 +64,7 @@ const EventSheet: React.FC<BottomSheetProps> = ({
                 onPress: async () => {
                   const eventName = event?.title || "Event";
 
-                  await deleteMutation.mutateAsync({ id: eventId });
-                  eventsStore.deleteEvent(eventId);
+                  await deleteMutation.mutateAsync({ id: event._id });
 
                   Toast.show({
                     type: "success",
@@ -82,19 +80,17 @@ const EventSheet: React.FC<BottomSheetProps> = ({
         };
 
         const onEditPress = () => {
-          openBottomSheet("UPDATE_EVENT", { eventId });
+          openBottomSheet("UPDATE_EVENT", { event });
         };
 
         const onViewResponsesPress = () => {
           handleClose();
-          openBottomSheet("EVENT_RESPONSES", { eventId });
+          openBottomSheet("EVENT_RESPONSES", { eventId: event._id });
         };
 
         const onShare = () => {
           copy(eventUrl, "Event Link");
         };
-
-        if (!event) return <LoadingState />;
 
         return (
           <BottomSheetContainer>
@@ -119,7 +115,7 @@ const EventSheet: React.FC<BottomSheetProps> = ({
                   color="secondary"
                   iconName="delete-bin-6-line"
                   iconColor={tw.color("red")}
-                  loading={deleteMutation.isLoading}
+                  loading={deleteMutation.isPending}
                   onPress={onDelete}
                 />
               </View>

@@ -1,5 +1,5 @@
 /*
- * Created on Fri Feb 23 2024
+ * Created on Sat Nov 09 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -12,9 +12,9 @@
 
 import type { GetMetadataResponse } from '@/types';
 
-import { axiosClient } from '@/providers/Axios';
+import axios from '@/lib/axios';
 
-const PREFIX = '/api/v1/consumer/external';
+const PREFIX = '/external';
 
 /**
  * Request:     GET /api/v1/consumer/external/metadata
@@ -23,7 +23,7 @@ const PREFIX = '/api/v1/consumer/external';
 export const getMetadata = async () => {
   const url = `${PREFIX}/metadata`;
 
-  const { data } = await axiosClient.get(url);
+  const { data } = await axios.get<GetMetadataResponse>(url);
 
-  return data as GetMetadataResponse;
+  return data;
 };

@@ -15,10 +15,10 @@ import { View } from "react-native";
 import Text from "@/ui/Text";
 import CopyView from "@/ui/CopyView";
 import format from "@/lib/util/format";
-import { useAuth } from "@/providers/Auth";
+import { useUser } from "@/providers/User";
 
 const PhoneNumberView = () => {
-  const { chapter } = useAuth();
+  const { chapter } = useUser();
 
   const phoneNumber =
     format.phoneNumber(chapter.phoneNumber) || "Processing... Come back later.";

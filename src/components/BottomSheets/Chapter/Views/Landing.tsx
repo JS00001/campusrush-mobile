@@ -15,8 +15,8 @@ import Toast from "react-native-toast-message";
 
 import {
   useGetAdminChapter,
-  useGetAdminChapterEntitlements,
-  useRevokeAdminChapterEntitlement,
+  useGetEntitlements,
+  useRevokeEntitlement,
 } from "@/hooks/api/admin";
 import useCopy from "@/hooks/useCopy";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
@@ -42,13 +42,20 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
   const copy = useCopy();
 
   const chapterQuery = useGetAdminChapter(chapterId);
-  const entitlementQuery = useGetAdminChapterEntitlements(chapterId);
-  const revokeEntitlementMutation = useRevokeAdminChapterEntitlement();
+  const entitlementQuery = useGetEntitlements(chapterId);
+  const revokeEntitlementMutation = useRevokeEntitlement();
 
-  const chapter = chapterQuery.chapter;
-  const entitlements = entitlementQuery.entitlements.filter(
-    (entitlement) => entitlement.active,
-  );
+  const isLoading = chapterQuery.isLoading || entitlementQuery.isLoading;
+  const isError = chapterQuery.isError || entitlementQuery.isError;
+
+  // PR_TODO: Error Loading State
+  if (isLoading) return <LoadingState />;
+  if (isError) return <Text>Error</Text>;
+
+  const chapter = chapterQuery.data!.chapter;
+  const entitlements = entitlementQuery.data!.filter((entitlement) => {
+    return entitlement.active;
+  });
 
   const informationMenu: MenuAction[] = [
     {
@@ -83,6 +90,7 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
       entitlementId,
     });
 
+    // PR_TODO: Proper refetch in the mutation rather than here
     await entitlementQuery.refetch();
 
     Toast.show({
@@ -91,14 +99,6 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
       text2: "The entitlement has been successfully revoked",
     });
   };
-
-  if (chapterQuery.isLoading || entitlementQuery.isLoading) {
-    return <LoadingState />;
-  }
-
-  if (!chapter) {
-    return <LoadingState />;
-  }
 
   return (
     <View style={tw`gap-y-4`}>

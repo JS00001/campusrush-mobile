@@ -18,14 +18,9 @@ import type { IMessageContent } from "@/@types/message-box";
 import type { IPNM, SendMassMessageRequest } from "@/types";
 import type { ConversationStackProps } from "@/navigation/@types";
 
-import {
-  useContactStore,
-  useMessageStore,
-  useConversationStore,
-  useStatusStore,
-} from "@/store";
 import { alert } from "@/lib/util";
 import { Layout } from "@/ui/Layout";
+import { useStatusStore } from "@/store";
 import usePosthog from "@/hooks/usePosthog";
 import MessageBox from "@/components/MessageBox";
 import { useSendMassMessage } from "@/hooks/api/messaging";
@@ -37,13 +32,10 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
   const initialPnms = route.params.pnms;
 
   const posthog = usePosthog();
-  const [pnms, setPnms] = useState(initialPnms);
-
-  const contactStore = useContactStore();
-  const messageStore = useMessageStore();
-  const conversationStore = useConversationStore();
   const sendMassMessageMutation = useSendMassMessage();
   const setStatusOverlay = useStatusStore((s) => s.setStatusOverlay);
+
+  const [pnms, setPnms] = useState(initialPnms);
 
   /**
    * Verify that the user wants to send a mass message, then
@@ -98,27 +90,9 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
         pnms: pnms.map((pnm) => pnm._id),
       };
 
-      const res = await sendMassMessageMutation
-        .mutateAsync(payload)
-        .catch(() => {
-          setStatusOverlay("idle");
-        });
-
-      if (!res) return;
-
-      const messages = res.data.messages;
-      const conversations = res.data.conversations;
-
-      /**
-       * The API will return the conversations in a 'backwards' order so we need to reverse
-       * them to get them in chronological order
-       */
-      conversations.reverse();
-
-      conversationStore.addConversations(conversations);
-      contactStore.removeContacts("uncontacted", pnms);
-
-      messageStore.addOrUpdateMessages(messages);
+      await sendMassMessageMutation.mutateAsync(payload).catch(() => {
+        setStatusOverlay("idle");
+      });
     }
 
     Toast.show({

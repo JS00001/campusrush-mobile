@@ -51,7 +51,6 @@ import AdminNetwork from "@/navigation/screens/admin/Network";
 import AdminWebsocket from "@/navigation/screens/admin/Websocket";
 import AdminUITestingScreen from "@/navigation/screens/admin/UITesting";
 import AdminChaptersScreen from "@/navigation/screens/admin/Chapters";
-import AdminStatisticsScreen from "@/navigation/screens/admin/Statistics";
 import AdminViolationsScreen from "@/navigation/screens/admin/Violations";
 
 import SettingsScreen from "@/navigation/screens/settings/Settings";
@@ -291,11 +290,6 @@ export const MoreStack = () => {
       <Stack.Screen
         name="AdminNetwork"
         component={AdminNetwork}
-        options={{ gestureEnabled: false, animation: "none" }}
-      />
-      <Stack.Screen
-        name="AdminStatistics"
-        component={AdminStatisticsScreen}
         options={{ gestureEnabled: false, animation: "none" }}
       />
       <Stack.Screen

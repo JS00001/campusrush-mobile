@@ -24,9 +24,10 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
 import AppConstants from "@/constants";
-import { useAuth } from "@/providers/Auth";
+import { useUser } from "@/providers/User";
 import SafeAreaView from "@/ui/SafeAreaView";
-import { useNotificationStore } from "@/store";
+import { useLogout } from "@/hooks/api/auth";
+import { useGetNotifications } from "@/hooks/api/chapter";
 import { useSidebarStore } from "@/store/overlay/sidebar-store";
 
 interface SidebarProps {
@@ -34,10 +35,19 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ children }) => {
+  const { chapter } = useUser();
   const navigation = useNavigation();
   const sidebarStore = useSidebarStore();
-  const notificationStore = useNotificationStore();
-  const { chapter, mutations, logoutUser } = useAuth();
+
+  const logoutMutation = useLogout();
+  const notificationQuery = useGetNotifications();
+
+  // PR_TODO: Loading and Error States
+  // Puit this in the component itself, we need to render children
+  if (notificationQuery.isLoading) return null;
+  if (notificationQuery.isError) return null;
+
+  const notificationCount = notificationQuery.data.count;
 
   /**
    * Close the sidebar and navigate to the specified screen
@@ -66,7 +76,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           style: "destructive",
           text: "Yes, Sign Out",
           onPress: async () => {
-            await logoutUser();
+            await logoutMutation.mutateAsync();
             sidebarStore.closeSidebar();
           },
         },
@@ -89,7 +99,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           label: "Notifications",
           screen: "Notifications",
           newFeature: false,
-          badgeCount: notificationStore.count,
+          badgeCount: notificationCount,
         },
       ],
     },
@@ -111,7 +121,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         {
           icon: "logout-box-r-line",
           label: "Logout",
-          loading: mutations.logoutMutation.isLoading || false,
+          loading: logoutMutation.isPending,
           onPress: handleLogout,
           newFeature: false,
         },
@@ -125,12 +135,6 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           icon: "group-line",
           label: "Chapters",
           screen: "AdminChapters",
-          newFeature: false,
-        },
-        {
-          icon: "bar-chart-line",
-          label: "Statistics",
-          screen: "AdminStatistics",
           newFeature: false,
         },
         {

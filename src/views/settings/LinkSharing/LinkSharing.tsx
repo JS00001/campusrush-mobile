@@ -15,20 +15,16 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import CopyView from "@/ui/CopyView";
 import AppConstants from "@/constants";
-import { useAuth } from "@/providers/Auth";
+import { useUser } from "@/providers/User";
 import SelectionCard from "@/ui/SelectionCard";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 
 const LinkSharingView = () => {
+  const { chapter } = useUser();
   const mutation = useUpdateChapter();
-  const { chapter, setChapter } = useAuth();
 
   const handleSubmission = async (value: boolean) => {
-    const response = await mutation.mutateAsync({
-      linkSharingEnabled: value,
-    });
-
-    setChapter(response.data.chapter);
+    await mutation.mutateAsync({ linkSharingEnabled: value });
   };
 
   const linkSharingEnabledDescription = chapter.linkSharing.enabled
@@ -56,7 +52,7 @@ const LinkSharingView = () => {
           title="Enable Link Sharing"
           subtitle="Enable link sharing to allow PNMs to manually add themselves to your recruitment list via the link below."
           description={linkSharingEnabledDescription}
-          loading={mutation.isLoading}
+          loading={mutation.isPending}
           selected={chapter.linkSharing.enabled}
           onPress={handleSubmission.bind(null, true)}
         />
@@ -64,7 +60,7 @@ const LinkSharingView = () => {
           title="Disable Link Sharing"
           subtitle="Disable link sharing to prevent PNMs from manually adding themselves to your recruitment list."
           description={linkSharingDisabledDescription}
-          loading={mutation.isLoading}
+          loading={mutation.isPending}
           selected={!chapter.linkSharing.enabled}
           onPress={handleSubmission.bind(null, false)}
         />

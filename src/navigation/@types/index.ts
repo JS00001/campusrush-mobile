@@ -90,7 +90,6 @@ export type MoreTabParams = {
   // Events
   Events: undefined;
   // Admin
-  AdminStatistics: undefined;
   AdminChapters: undefined;
   AdminUITesting: undefined;
   AdminNetwork: undefined;

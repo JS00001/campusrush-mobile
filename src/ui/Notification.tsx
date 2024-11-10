@@ -45,7 +45,8 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
 
   const onPress = () => {
     if (notification.type === "NEW_PNM") {
-      openBottomSheet("PNM", { pnmId: notification.data.pnm._id });
+      const { pnm } = notification.data;
+      openBottomSheet("PNM", { pnm });
 
       navigation.navigate("Main", {
         screen: "PNMsTab",
@@ -56,7 +57,8 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
     }
 
     if (notification.type === "NEW_EVENT_RESPONSE") {
-      openBottomSheet("EVENT", { eventId: notification.data.event._id });
+      const { event } = notification.data;
+      openBottomSheet("EVENT", { event });
 
       navigation.navigate("Main", {
         screen: "MoreTab",

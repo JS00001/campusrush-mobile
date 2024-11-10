@@ -39,9 +39,13 @@ const EventResponsesSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
         const eventQuery = useGetEvent(eventId);
         const [activeTab, setActiveTab] = useState(0);
 
-        const event = format.event(eventQuery.event!);
+        // PR_TODO: Loading and Error States
+        if (eventQuery.isLoading) return <LoadingState />;
+        if (eventQuery.isError) return <Text>Error</Text>;
+
+        const event = format.event(eventQuery.data!.event);
         // Get all responses, and ensure they are sorted by yes, maybe, no
-        const responses = eventQuery.responses.sort((a, b) => {
+        const responses = eventQuery.data!.responses.sort((a, b) => {
           const order = { yes: 0, maybe: 1, no: 2 };
           return order[a.response] - order[b.response];
         });

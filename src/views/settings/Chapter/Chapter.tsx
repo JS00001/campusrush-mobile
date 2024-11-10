@@ -13,13 +13,13 @@ import Toast from "react-native-toast-message";
 
 import Button from "@/ui/Button";
 import FormField from "@/ui/FormField";
-import { useAuth } from "@/providers/Auth";
+import { useUser } from "@/providers/User";
 import validators from "@/constants/validators";
 import useFormMutation from "@/hooks/useFormMutation";
 import { useUpdateChapter } from "@/hooks/api/chapter";
 
 const ChapterView = () => {
-  const { chapter, setChapter } = useAuth();
+  const { chapter } = useUser();
   const updateMutation = useUpdateChapter();
 
   const formValidators = {
@@ -31,9 +31,7 @@ const ChapterView = () => {
   const form = useFormMutation({
     mutation: updateMutation,
     validators: formValidators,
-    onSuccess: async ({ data }) => {
-      setChapter(data.chapter);
-
+    onSuccess: async () => {
       Toast.show({
         type: "success",
         text1: "Updated Chapter",
@@ -81,7 +79,7 @@ const ChapterView = () => {
 
       <Button
         onPress={form.handleSubmission}
-        loading={updateMutation.isLoading}
+        loading={updateMutation.isPending}
       >
         Save Changes
       </Button>

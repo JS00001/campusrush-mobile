@@ -19,7 +19,6 @@ import { alert } from "@/lib/util";
 import { Layout } from "@/ui/Layout";
 import Headline from "@/ui/Headline";
 import AppConstants from "@/constants";
-import { useMetadataStore } from "@/store";
 import { useGetMetadata } from "@/hooks/api/external";
 import { getComparableVersion } from "@/lib/util/string";
 import { usePreferences } from "@/providers/Preferences";
@@ -34,11 +33,10 @@ const MetadataContext = createContext<IMetadataContext>({} as IMetadataContext);
 const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  // PR_TODO: Make this context not a context, just use useGetMetadata fro all children
   const query = useGetMetadata();
-  const { lastUpdateAlert, updatePreferences } = usePreferences();
-  const setMetadata = useMetadataStore((state) => state.setMetadata);
-
   const [isValidVersion, setIsValidVersion] = useState(true);
+  const { lastUpdateAlert, updatePreferences } = usePreferences();
 
   /**
    * When the metadata is loaded, check if the version is valid
@@ -53,7 +51,7 @@ const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (!query.data || "error" in query.data) return;
 
-    const { version, latestVersion } = query.data.data;
+    const { version, latestVersion } = query.data;
     const appVersion = AppConstants.version.split("-")[0];
 
     const minimumClientVersion = getComparableVersion(version || "0.0.0");
@@ -95,8 +93,6 @@ const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
 
       updatePreferences({ lastUpdateAlert: latestClientVersion });
     }
-
-    setMetadata(query.data);
   }, [query.data]);
 
   /**

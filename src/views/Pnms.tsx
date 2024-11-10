@@ -14,7 +14,6 @@ import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
-import { useGlobalStore } from "@/store";
 import useSearch from "@/hooks/useSearch";
 import PnmsList from "@/components/PnmsList";
 import { useDeletePnms, useGetPnms } from "@/hooks/api/pnms";
@@ -24,13 +23,13 @@ import IconButton from "@/ui/IconButton";
 import Menu, { MenuAction } from "@/ui/Menu";
 
 const PnmsView = () => {
-  const globalStore = useGlobalStore();
-
   const pnmsQuery = useGetPnms();
   const deleteAllPnmsMutation = useDeletePnms();
 
+  const pnms = pnmsQuery.data?.pnms || [];
+
   const search = useSearch({
-    data: pnmsQuery.pnms,
+    data: pnms,
     fields: ["firstName", "lastName", "phoneNumber"],
     filters: [
       {
@@ -95,9 +94,7 @@ const PnmsView = () => {
               text: "Yes, Delete",
               style: "destructive",
               onPress: async () => {
-                await deleteAllPnmsMutation.mutateAsync();
-                await pnmsQuery.refetch();
-                globalStore.resetPnmStores();
+                await deleteAllPnmsMutation.mutateAsync({});
               },
             },
           ],
@@ -106,11 +103,15 @@ const PnmsView = () => {
     },
   ];
 
-  const placeholder = `Search ${pnmsQuery.pnms.length || ""} PNMs`;
+  const placeholder = `Search ${pnms.length || ""} PNMs`;
 
   const onRefetch = async () => {
     await pnmsQuery.refetch();
   };
+
+  // PR_TODO: Loading and error state
+  if (pnmsQuery.isLoading) return null;
+  if (pnmsQuery.isError) return null;
 
   return (
     <>

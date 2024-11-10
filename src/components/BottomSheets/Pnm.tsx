@@ -28,12 +28,13 @@ import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import TagView from "@/components/TagView";
 import ButtonGroup from "@/ui/ButtonGroup";
+import { useImageZoomStore } from "@/store";
 import usePosthog from "@/hooks/usePosthog";
 import { BottomSheet } from "@/ui/BottomSheet";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
-import { useGlobalStore, useImageZoomStore, usePnmStore } from "@/store";
-import { useDeletePnm, useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
+import { useDeletePnm, useUpdatePnm } from "@/hooks/api/pnms";
 
+// PR_TODO: Add a getPnm query somewhhere here
 const PnmSheet: React.FC<BottomSheetProps> = ({
   innerRef,
   handleClose,
@@ -44,38 +45,22 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
       innerRef={innerRef}
       handleStyle={tw`bg-gray-200 rounded-t-2xl`}
       children={(props?: SheetData<"PNM">) => {
-        const { pnmId } = props!.data;
+        const { pnm } = props!.data;
+
         const posthog = usePosthog();
         const navigation = useNavigation();
-
-        const pnmStore = usePnmStore();
-        const globalStore = useGlobalStore();
         const { setImage } = useImageZoomStore();
 
-        const pnmQuery = useGetPnm(pnmId);
         const deleteMutation = useDeletePnm();
         const updateMutation = useUpdatePnm();
 
-        const pnm = pnmQuery.pnm;
-
         const onFavorite = async () => {
-          if (!pnm) return;
-
           const starred = !pnm.starred;
 
-          const response = await updateMutation.mutateAsync({
-            id: pnmId,
+          await updateMutation.mutateAsync({
+            id: pnm._id,
             starred,
           });
-
-          pnmStore.addOrUpdatePnm(response.data.pnm);
-          pnmQuery.refetch();
-
-          if (starred) {
-            globalStore.favoritePnm(pnm);
-          } else {
-            globalStore.unfavoritePnm(pnm);
-          }
 
           const EVENT_NAME = starred ? "PNM_FAVORITED" : "PNM_UNFAVORITED";
 
@@ -95,10 +80,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
                 style: "destructive",
                 onPress: async () => {
                   const displayName = pnm.displayName;
-                  await deleteMutation.mutateAsync({ id: pnmId });
-
-                  pnmStore.deletePnm(pnmId);
-                  globalStore.deletePnm(pnm);
+                  await deleteMutation.mutateAsync({ id: pnm._id });
 
                   Toast.show({
                     type: "success",
@@ -128,15 +110,13 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
         };
 
         const onEditPress = () => {
-          openBottomSheet("UPDATE_PNM", { pnmId });
+          openBottomSheet("UPDATE_PNM", { pnm });
         };
 
         const onAvatarPress = () => {
           if (!pnm?.avatar) return;
           setImage(pnm.avatar);
         };
-
-        if (!pnm) return <LoadingState />;
 
         return (
           <>
@@ -150,7 +130,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
                 <IconButton
                   size="sm"
                   color="secondary"
-                  loading={updateMutation.isLoading}
+                  loading={updateMutation.isPending}
                   iconName={pnm.starred ? "star-fill" : "star-line"}
                   // prettier-ignore
                   iconColor={pnm.starred ? tw.color("yellow") : tw.color("primary")}
@@ -159,7 +139,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
                 <IconButton
                   size="sm"
                   color="secondary"
-                  loading={deleteMutation.isLoading}
+                  loading={deleteMutation.isPending}
                   iconName="delete-bin-6-line"
                   iconColor={tw.color("red")}
                   onPress={onDelete}

@@ -14,33 +14,31 @@ import { z } from "zod";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 
+import {
+  useLogout,
+  useResendVerification,
+  useVerifyEmail,
+} from "@/hooks/api/auth";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import Hyperlink from "@/ui/Hyperlink";
 import FormField from "@/ui/FormField";
-import { useAuth } from "@/providers/Auth";
-import usePosthog from "@/hooks/usePosthog";
 import useFormMutation from "@/hooks/useFormMutation";
-import { useResendVerification, useVerifyEmail } from "@/hooks/api/auth";
 
 const VerificationView = () => {
-  const posthog = usePosthog();
-  const verifyEmailMutation = useVerifyEmail();
-  const { setChapter, logoutUser, mutations } = useAuth();
-  const resendVerificationMutation = useResendVerification();
+  const logoutMutation = useLogout();
+  const verifyMutation = useVerifyEmail();
+  const resendMutation = useResendVerification();
 
   const formValidators = {
     code: z.string().length(6, { message: "Invalid verification code" }),
   };
 
   const form = useFormMutation({
-    mutation: verifyEmailMutation,
+    mutation: verifyMutation,
     validators: formValidators,
     onSuccess: async ({ data }) => {
-      setChapter(data.chapter);
-      posthog.capture("CHAPTER_VERIFIED");
-
       Toast.show({
         type: "success",
         text1: "Successfully verified chapter",
@@ -50,7 +48,7 @@ const VerificationView = () => {
   });
 
   const resendVerificationEmail = async () => {
-    await resendVerificationMutation.mutateAsync();
+    await resendMutation.mutateAsync();
 
     Toast.show({
       type: "success",
@@ -60,7 +58,7 @@ const VerificationView = () => {
   };
 
   const onLogout = async () => {
-    await logoutUser();
+    await logoutMutation.mutateAsync();
   };
 
   return (
@@ -86,7 +84,7 @@ const VerificationView = () => {
           <Hyperlink
             color="primary"
             onPress={onLogout}
-            disabled={mutations.logoutMutation.isLoading}
+            disabled={logoutMutation.isPending}
           >
             Sign out
           </Hyperlink>

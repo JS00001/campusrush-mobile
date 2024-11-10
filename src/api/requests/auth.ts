@@ -1,15 +1,3 @@
-/*
- * Created on Fri Feb 23 2024
- *
- * This software is the proprietary property of CampusRush.
- * All rights reserved. Unauthorized copying, modification, or distribution
- * of this software, in whole or in part, is strictly prohibited.
- * For licensing information contact CampusRush.
- *
- * Copyright (c) 2024 CampusRush
- * Do not distribute
- */
-
 import type {
   GetChapterResponse,
   LoginRequest,
@@ -21,17 +9,15 @@ import type {
   VerifyChapterRequest,
   VerifyChapterResponse,
   ResendVerificationResponse,
-  RefreshAccessTokenRequest,
-  RefreshAccessTokenResponse,
   ResetPasswordRequest,
   ResetPasswordResponse,
   ChangePasswordRequest,
   ChangePasswordResponse,
 } from '@/types';
 
-import { axiosClient } from '@/providers/Axios';
+import axios from '@/lib/axios';
 
-const PREFIX = '/api/v1/consumer/auth';
+const PREFIX = '/auth';
 
 /**
  * Request:     GET /api/v1/consumer/auth/me
@@ -40,9 +26,9 @@ const PREFIX = '/api/v1/consumer/auth';
 export const getChapter = async () => {
   const url = `${PREFIX}/me`;
 
-  const { data } = await axiosClient.get(url);
+  const { data } = await axios.get<GetChapterResponse>(url);
 
-  return data as GetChapterResponse;
+  return data;
 };
 
 /**
@@ -52,9 +38,9 @@ export const getChapter = async () => {
 export const login = async (data: LoginRequest) => {
   const url = `${PREFIX}/login`;
 
-  const { data: responseData } = await axiosClient.post(url, data);
+  const { data: responseData } = await axios.post<LoginResponse>(url, data);
 
-  return responseData as LoginResponse;
+  return responseData;
 };
 
 /**
@@ -64,9 +50,9 @@ export const login = async (data: LoginRequest) => {
 export const register = async (data: RegisterRequest) => {
   const url = `${PREFIX}/register`;
 
-  const { data: responseData } = await axiosClient.post(url, data);
+  const { data: responseData } = await axios.post<RegisterResponse>(url, data);
 
-  return responseData as RegisterResponse;
+  return responseData;
 };
 
 /**
@@ -76,9 +62,9 @@ export const register = async (data: RegisterRequest) => {
 export const checkEmail = async (data: CheckEmailRequest) => {
   const url = `${PREFIX}/email-exists?email=${data.email}`;
 
-  const { data: responseData } = await axiosClient.get(url);
+  const { data: responseData } = await axios.get<CheckEmailResponse>(url);
 
-  return responseData as CheckEmailResponse;
+  return responseData;
 };
 
 /**
@@ -88,9 +74,12 @@ export const checkEmail = async (data: CheckEmailRequest) => {
 export const verifyChapter = async (data: VerifyChapterRequest) => {
   const url = `${PREFIX}/verify`;
 
-  const { data: responseData } = await axiosClient.post(url, data);
+  const { data: responseData } = await axios.post<VerifyChapterResponse>(
+    url,
+    data,
+  );
 
-  return responseData as VerifyChapterResponse;
+  return responseData;
 };
 
 /**
@@ -100,27 +89,10 @@ export const verifyChapter = async (data: VerifyChapterRequest) => {
 export const resendVerification = async () => {
   const url = `${PREFIX}/resend-verification`;
 
-  const { data: responseData } = await axiosClient.post(url);
+  const { data: responseData } =
+    await axios.post<ResendVerificationResponse>(url);
 
-  return responseData as ResendVerificationResponse;
-};
-
-/**
- * Request:     POST /api/v1/consumer/auth/refresh
- * Description: Refresh the access token
- */
-export const refresh = async (data: RefreshAccessTokenRequest) => {
-  const url = `${PREFIX}/refresh`;
-
-  const headers = {
-    Authorization: `Bearer ${data.refreshToken}`,
-  };
-
-  const { data: responseData } = await axiosClient.post(url, undefined, {
-    headers,
-  });
-
-  return responseData as RefreshAccessTokenResponse;
+  return responseData;
 };
 
 /**
@@ -130,9 +102,12 @@ export const refresh = async (data: RefreshAccessTokenRequest) => {
 export const resetPassword = async (data: ResetPasswordRequest) => {
   const url = `${PREFIX}/reset-password`;
 
-  const { data: responseData } = await axiosClient.post(url, data);
+  const { data: responseData } = await axios.post<ResetPasswordResponse>(
+    url,
+    data,
+  );
 
-  return responseData as ResetPasswordResponse;
+  return responseData;
 };
 
 /**
@@ -142,7 +117,10 @@ export const resetPassword = async (data: ResetPasswordRequest) => {
 export const changePassword = async (data: ChangePasswordRequest) => {
   const url = `${PREFIX}/change-password`;
 
-  const { data: responseData } = await axiosClient.post(url, data);
+  const { data: responseData } = await axios.post<ChangePasswordResponse>(
+    url,
+    data,
+  );
 
-  return responseData as ChangePasswordResponse;
+  return responseData;
 };

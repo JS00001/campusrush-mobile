@@ -16,7 +16,7 @@ import { View, ViewProps } from "react-native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import ToggleChip from "@/ui/ToggleChip";
-import { useMetadataStore } from "@/store";
+import { useGetMetadata } from "@/hooks/api/external";
 
 interface TagSelectorProps extends ViewProps {
   values: string[];
@@ -30,8 +30,14 @@ const TagSelector: React.FC<TagSelectorProps> = ({
   onChange,
   ...props
 }) => {
-  const tags = useMetadataStore((state) => state.metadata.tags);
+  const metadataQuery = useGetMetadata();
   const [selected, setSelected] = React.useState<string[]>(values);
+
+  // PR_TODO: Error and Loading States
+  if (metadataQuery.isLoading) return null;
+  if (metadataQuery.isError) return null;
+
+  const tagCategories = metadataQuery.data!.tags;
 
   /**
    * When a tag is selected, check if it is already in the selected array.
@@ -58,7 +64,7 @@ const TagSelector: React.FC<TagSelectorProps> = ({
   return (
     <View style={containerStyles} {...props}>
       {/* All of the categories */}
-      {tags?.map((category) => (
+      {tagCategories.map((category) => (
         <React.Fragment key={category.id}>
           <Text type="h3">{category.name}</Text>
           <View style={tw`flex-row gap-1 flex-wrap`}>

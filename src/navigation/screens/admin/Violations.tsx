@@ -22,6 +22,10 @@ const Violations = () => {
   const query = useGetViolations();
   const { openBottomSheet } = useBottomSheet();
 
+  // PR_TODO: Warning and Error States
+  if (query.isLoading) return null;
+  if (query.isError) return null;
+
   const getIcon = (count: number) => {
     if (count <= 2) {
       return "check-fill";
@@ -46,6 +50,8 @@ const Violations = () => {
     await query.refetch();
   };
 
+  const violations = query.data!;
+
   return (
     <Layout.Root>
       <Layout.Header
@@ -55,7 +61,7 @@ const Violations = () => {
 
       <Layout.Content contentContainerStyle={tw`p-0`}>
         <FlatList
-          data={query.violations}
+          data={violations}
           style={tw`p-6`}
           numColumns={2}
           onRefresh={onRefresh}

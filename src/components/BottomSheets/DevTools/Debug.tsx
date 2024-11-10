@@ -14,11 +14,11 @@ import { View } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import { useAuth } from "@/providers/Auth";
+import { useUser } from "@/providers/User";
 import { formatJSON } from "@/lib/util/string";
 
 const Debug = () => {
-  const { chapter } = useAuth();
+  const { chapter } = useUser();
 
   return (
     <View style={tw`gap-y-2`}>
