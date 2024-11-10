@@ -107,15 +107,16 @@ const Chat: React.FC<Props> = ({ route }) => {
 
       <FlatList
         inverted
+        hideEmptyList
         disableOnRefresh
-        disableOnEndReached={!conversationQuery.hasNextPage}
-        data={group.byDate<IMessage>(messages ?? [], "createdAt", true)}
         style={tw`w-full px-4`}
         // We need to add "padding top" because the flatlist is inverted
         contentContainerStyle={tw`pt-6 pb-0`}
         loading={conversationQuery.isLoading}
         error={conversationQuery.error}
         errorDescription="Could not fetch conversation"
+        disableOnEndReached={!conversationQuery.hasNextPage}
+        data={group.byDate<IMessage>(messages ?? [], "createdAt", true)}
         onEndReached={onEndReached}
         onScrollBeginDrag={onScrollBeginDrag}
         loadingComponent={

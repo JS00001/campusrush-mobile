@@ -269,6 +269,7 @@ export const MoreStack = () => {
       <Stack.Screen
         name="Notifications"
         component={NotificationsScreen}
+        options={{ gestureEnabled: false, animation: "none" }}
       />
 
       {/* Admin, and all sub screens */}

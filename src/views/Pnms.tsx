@@ -11,6 +11,7 @@
  */
 
 import { View } from "react-native";
+import Toast from "react-native-toast-message";
 
 import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
@@ -94,7 +95,13 @@ const PnmsView = () => {
               text: "Yes, Delete",
               style: "destructive",
               onPress: async () => {
+                const pnmCount = pnms.length;
                 await deleteAllPnmsMutation.mutateAsync({});
+                Toast.show({
+                  type: "success",
+                  text1: "Deleted All PNMs",
+                  text2: `${pnmCount} PNMs have been deleted.`,
+                });
               },
             },
           ],

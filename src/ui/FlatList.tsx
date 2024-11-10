@@ -39,6 +39,8 @@ interface FlatListProps<T> extends Omit<RNFlatListProps<T>, "renderItem"> {
   loading?: boolean;
   /* Overrides the loading component to a custom one */
   loadingComponent?: React.ReactElement;
+  /** Hide the empty list component */
+  hideEmptyList?: boolean;
   /* The title of the empty list, defaults to "No Content Found" */
   emptyListTitle?: string;
   /* The subtitle of the empty list, defaults to "Try changing your filters" */
@@ -63,6 +65,7 @@ const FlatList = <T,>({
   loadingComponent,
   error,
   errorDescription,
+  hideEmptyList,
   emptyListTitle = "No Content Found",
   emptyListSubtitle = "Try changing your filters",
   disableOnEndReached,
@@ -160,9 +163,8 @@ const FlatList = <T,>({
       );
     }
 
-    if (loading) {
-      return <LoadingComponent />;
-    }
+    if (loading) return <LoadingComponent />;
+    if (hideEmptyList) return null;
 
     return (
       <Headline

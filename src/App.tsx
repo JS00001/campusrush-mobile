@@ -35,6 +35,7 @@ import PreferencesProvider from "@/providers/Preferences";
 import PosthogProvider from "@/providers/external/Posthog";
 import QonversionProvider from "@/providers/external/Qonversion";
 import GestureDetectorProvider from "@/providers/GestureDetector";
+import StatusOverlay from "./components/Overlays/Status";
 
 // Prevent native splash screen from autohiding
 // when app/component is mounted
@@ -68,6 +69,8 @@ const App = () => {
                                 </WebsocketProvider>
                               </BottomSheetProvider>
                             </BottomSheetModalProvider>
+                            {/* TODO: Move to provider, we have an Overlay provider but its not global */}
+                            <StatusOverlay />
                             <Toast config={toastConfig} />
                           </GestureHandlerRootView>
                         </UserProvider>

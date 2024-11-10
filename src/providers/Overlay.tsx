@@ -11,7 +11,6 @@
  */
 
 import Sidebar from "@/components/Sidebar";
-import StatusOverlay from "@/components/Overlays/Status";
 import ImageZoomOverlay from "@/components/Overlays/ImageZoom";
 
 const OverlayProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -20,7 +19,6 @@ const OverlayProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <Sidebar>
       {children}
-      <StatusOverlay />
       <ImageZoomOverlay />
     </Sidebar>
   );
