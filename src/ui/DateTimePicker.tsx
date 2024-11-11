@@ -45,12 +45,12 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
     "flex-row items-center justify-between",
     "border-2 bg-gray-100 border-gray-100",
     disabled && "disabled",
-    error && "border-red",
+    error && "border-red-500",
   );
 
   const labelStyles = tw.style(
     "text-base text-gray-400 shrink",
-    error && "text-red",
+    error && "text-red-500",
   );
 
   const datePickerStyles = tw.style({

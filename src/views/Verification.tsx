@@ -72,7 +72,7 @@ const VerificationView = () => {
 
       <Button
         loading={form.loading}
-        iconRight="arrow-right-line"
+        iconRight="ArrowRight"
         onPress={form.handleSubmission}
       >
         Continue

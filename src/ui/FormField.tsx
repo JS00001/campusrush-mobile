@@ -113,14 +113,14 @@ const FormField: React.FC<FormFieldProps> = ({
     // FOCUS State
     !error && focused && "border-gray-200",
     // ERROR State
-    error && "border-red",
+    error && "border-red-500",
     style,
   );
 
   const placeholderStyles = tw.style(
     "absolute z-10 px-4 bg-gray-100 left-1 text-gray-500 flex-1",
     disabled && "disabled",
-    error && "text-red",
+    error && "text-red-500",
   );
 
   const animatedPlaceholderStyles = useAnimatedStyle(() => ({
@@ -135,7 +135,7 @@ const FormField: React.FC<FormFieldProps> = ({
     "h-full justify-center",
   );
 
-  const eyeIconName = hideValue ? "eye-line" : "eye-off-line";
+  const eyeIconName = hideValue ? "Eye" : "EyeSlash";
 
   return (
     <Pressable style={containerStyles} onPress={onContainerPress}>
@@ -174,7 +174,7 @@ const FormField: React.FC<FormFieldProps> = ({
       {/* When using a password input, the eye to reveal the password */}
       {secureTextEntry && (
         <TouchableOpacity style={eyeContainerStyles} onPress={onEyePress}>
-          <Icon name={eyeIconName} color={tw.color("gray-400")} size={16} />
+          <Icon icon={eyeIconName} color={tw.color("gray-400")} size={18} />
         </TouchableOpacity>
       )}
     </Pressable>

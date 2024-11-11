@@ -1,7 +1,7 @@
 {
   "name": "campusrush-mobile",
   "version": "1.0.78",
-  "updateVersion": "2024.11.11.1",
+  "updateVersion": "2024.11.11.2",
   "main": "src/App.tsx",
   "license": "All Rights Reserved",
   "scripts": {
@@ -12,7 +12,6 @@
     "types:check": "tsc --noEmit"
   },
   "dependencies": {
-    "@campusrush/remixicon-native": "^1.1.1",
     "@directus/sdk": "^13.0.1",
     "@expo-google-fonts/dm-sans": "^0.2.3",
     "@gorhom/bottom-sheet": "^4.5.1",
@@ -51,6 +50,7 @@
     "expo-updates": "~0.24.13",
     "immer": "^10.1.1",
     "lodash": "^4.17.21",
+    "phosphor-react-native": "^2.2.1",
     "posthog-react-native": "^2.9.2",
     "qonversion-sdk": "^1.0.5",
     "react": "18.2.0",

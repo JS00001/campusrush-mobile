@@ -34,7 +34,7 @@ const Expandable: React.FC<ExpandableProps> = ({
     setExpanded(!expanded);
   };
 
-  const iconName = expanded ? "arrow-up-s-fill" : "arrow-down-s-fill";
+  const iconName = expanded ? "CaretUp" : "CaretDown";
 
   const containerStyles = tw.style("rounded-xl bg-gray-100 p-4 gap-4", style);
 
@@ -50,7 +50,7 @@ const Expandable: React.FC<ExpandableProps> = ({
     >
       <View style={titleContainerStyles}>
         <Text type="h3">{title}</Text>
-        <Icon name={iconName} color={tw.color("primary")} />
+        <Icon icon={iconName} color={tw.color("primary")} />
       </View>
 
       {expanded && children}

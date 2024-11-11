@@ -9,21 +9,45 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
-import {
-  RemixIcon,
-  RemixIconProps,
-  RemixIconType,
-} from "@campusrush/remixicon-native";
+
+import { ElementType } from "react";
 import { View, ViewProps } from "react-native";
+import * as PhosphorIcon from "phosphor-react-native";
 
-export type IconType = RemixIconType;
+import tw from "@/lib/tailwind";
 
-interface IconProps extends RemixIconProps, ViewProps {}
+export type IconType =
+  | keyof typeof PhosphorIcon
+  | `${keyof typeof PhosphorIcon}Fill`;
 
-const Icon: React.FC<IconProps> = ({ name, size, color, ...props }) => {
+interface IconProps extends ViewProps {
+  icon: IconType;
+  color?: string;
+  size?: number;
+  weight?: "regular" | "fill" | "duotone";
+}
+
+const Icon: React.FC<IconProps> = ({
+  icon,
+  weight,
+  size = 24,
+  color = tw.color("primary"),
+  ...props
+}) => {
+  const iconName = icon.split("Fill")[0];
+  const IconComponent = PhosphorIcon[iconName] as ElementType;
+
+  const iconWeight = icon.includes("Fill") ? "fill" : weight || "regular";
+
   return (
     <View {...props}>
-      <RemixIcon name={name} size={size} color={color} />
+      <IconComponent
+        size={size}
+        color={color}
+        weight={iconWeight}
+        duotoneOpacity={0.1}
+        duotoneColor={tw.color("primary")}
+      />
     </View>
   );
 };

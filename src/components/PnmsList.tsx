@@ -127,8 +127,8 @@ const PnmsList: React.FC<PnmsListProps> = ({
         key={data._id}
         title={data.displayName}
         subtitle={format.phoneNumber(data.phoneNumber)}
-        icon={data.starred ? "star-fill" : undefined}
-        iconColor={tw.color("yellow")}
+        icon={data.starred ? "StarFill" : undefined}
+        iconColor={tw.color("yellow-500")}
         onPress={onPress}
       />
     );

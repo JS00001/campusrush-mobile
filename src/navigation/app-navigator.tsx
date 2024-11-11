@@ -73,6 +73,9 @@ const MainNavigator = () => {
         tabBarItemStyle: {
           margin: 5,
         },
+        tabBarLabelStyle: {
+          fontWeight: "600",
+        },
         headerShown: false,
         tabBarActiveTintColor: tw.color("primary"),
         tabBarInactiveTintColor: tw.color("gray-400"),
@@ -95,8 +98,8 @@ const MainNavigator = () => {
             <TabBarIcon
               color={color}
               focused={focused}
-              focusedIcon="home-fill"
-              unfocusedIcon="home-line"
+              focusedIcon="HouseSimpleFill"
+              unfocusedIcon="HouseSimple"
             />
           ),
         }}
@@ -110,8 +113,8 @@ const MainNavigator = () => {
             <TabBarIcon
               color={color}
               focused={focused}
-              focusedIcon="contacts-book-2-fill"
-              unfocusedIcon="contacts-book-2-line"
+              focusedIcon="UserListFill"
+              unfocusedIcon="UserList"
             />
           ),
         }}
@@ -128,7 +131,7 @@ const MainNavigator = () => {
         options={{
           tabBarLabel: "Add",
           tabBarIcon: ({ color }) => (
-            <Icon name="add-line" size={26} color={color} />
+            <Icon icon="Plus" size={26} color={color} />
           ),
         }}
       />
@@ -141,8 +144,8 @@ const MainNavigator = () => {
             <TabBarIcon
               color={color}
               focused={focused}
-              focusedIcon="chat-1-fill"
-              unfocusedIcon="chat-1-line"
+              focusedIcon="ChatCircleFill"
+              unfocusedIcon="ChatCircle"
               badgeCount={unreadConverstions}
             />
           ),
@@ -159,12 +162,13 @@ const MainNavigator = () => {
         })}
         options={{
           tabBarLabel: "More",
+          // PR_TODO: Check this icon
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               color={color}
               focused={focused}
-              focusedIcon="menu-3-fill"
-              unfocusedIcon="menu-3-fill"
+              focusedIcon="ListFill"
+              unfocusedIcon="List"
               badgeCount={notificationsCount}
             />
           ),

@@ -57,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({
           {hasBackButton && (
             <IconButton
               size="sm"
-              iconName="arrow-left-line"
+              iconName="ArrowLeft"
               color="primary"
               onPress={onBackPress}
             />

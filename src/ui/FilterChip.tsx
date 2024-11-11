@@ -106,7 +106,7 @@ const FilterChip: React.FC<FilterChipProps> = ({
 
       <TouchableOpacity style={closeButtonContainerStyles} onPress={onRemove}>
         <Icon
-          name="close-line"
+          icon="X"
           size={closeButtonSize}
           color={tw.color(closeButtonTextColor)}
         />

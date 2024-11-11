@@ -111,7 +111,7 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
         <Headline title={chapter.name} subtitle={chapter.school} />
 
         <Menu actions={informationMenu}>
-          <IconButton size="sm" color="secondary" iconName="more-fill" />
+          <IconButton size="sm" color="secondary" iconName="DotsThree" />
         </Menu>
       </View>
 
@@ -234,15 +234,15 @@ const ClientVersion: React.FC<{ version: string }> = ({ version = "--" }) => {
   })();
 
   const containerStyles = tw.style(
-    !outdated && "bg-green/25",
-    outdated && "bg-yellow/25",
+    !outdated && "bg-green-500/25",
+    outdated && "bg-yellow-500/25",
     "py-0.5 px-3 rounded-full",
   );
 
   const textStyles = tw.style(
     "font-medium",
-    !outdated && "text-green",
-    outdated && "text-yellow",
+    !outdated && "text-green-500",
+    outdated && "text-yellow-500",
   );
 
   return (

@@ -91,7 +91,7 @@ const HomeView = () => {
           <ListItem
             size="sm"
             pressable={false}
-            icon="user-fill"
+            icon="UserFill"
             titleStyle={tw`text-[32px] font-semibold leading-9`}
             title={pnmCount.toString()}
             subtitle="Current PNMs registered to rush"
@@ -100,7 +100,7 @@ const HomeView = () => {
           <ListItem
             size="sm"
             pressable={false}
-            icon="user-star-fill"
+            icon="StarFill"
             titleStyle={tw`text-[32px] font-semibold leading-9`}
             title={starredPnmCount.toString()}
             subtitle="PNMs saved as favorites"
@@ -134,8 +134,8 @@ const HomeView = () => {
               <ListItem
                 key={pnm._id}
                 ph-label="recent-pnm-list-item"
-                iconColor={tw.color("yellow")}
-                icon={pnm.starred ? "star-fill" : undefined}
+                iconColor={tw.color("yellow-500")}
+                icon={pnm.starred ? "StarFill" : undefined}
                 title={pnm.displayName}
                 subtitle={format.phoneNumber(pnm.phoneNumber)}
                 onPress={onRecentPnmPress.bind(null, pnm)}

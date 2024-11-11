@@ -1200,14 +1200,6 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
-"@campusrush/remixicon-native@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/@campusrush/remixicon-native/-/remixicon-native-1.1.1.tgz"
-  integrity sha512-MYXfApUiMRA/GTZDI0p7nFQ0Xx63Q6b6nyfdy0IRw3xDhGXtpLiCrh5crNGwXiRN/nNdduQH1zhhhUbeHRl4tg==
-  dependencies:
-    react-native-reanimated "^3.6.1"
-    react-native-svg "^14.1.0"
-
 "@directus/sdk@^13.0.1":
   version "13.0.2"
   resolved "https://registry.npmjs.org/@directus/sdk/-/sdk-13.0.2.tgz"
@@ -1824,6 +1816,11 @@
   dependencies:
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
+
+"@phosphor-icons/core@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@phosphor-icons/core/-/core-2.1.1.tgz#62a4cfbec9772f1a613a647da214fbb96f3ad39d"
+  integrity sha512-v4ARvrip4qBCImOE5rmPUylOEK4iiED9ZyKjcvzuezqMaiRASCHKcRIuvvxL/twvLpkfnEODCOJp5dM4eZilxQ==
 
 "@pkgjs/parseargs@^0.11.0":
   version "0.11.0"
@@ -6139,6 +6136,13 @@ path-type@^4.0.0:
   resolved "https://registry.npmjs.org/path-type/-/path-type-4.0.0.tgz"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+phosphor-react-native@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/phosphor-react-native/-/phosphor-react-native-2.2.1.tgz#c21cdb5444927c9f86a1ac3937b0dd0891dcab9c"
+  integrity sha512-WrM0qEyR82VJ4NV9DmJwfeK1fRbh7z+IkNwSu7LS2wMiwWjBj2PF+0R09Jgg+yvLQloARliVwZX0rhz7tebh6Q==
+  dependencies:
+    "@phosphor-icons/core" "^2.1.1"
+
 picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/picocolors/-/picocolors-1.0.0.tgz"
@@ -6529,7 +6533,7 @@ react-native-qrcode-svg@^6.2.0:
     prop-types "^15.8.0"
     qrcode "^1.5.1"
 
-react-native-reanimated@^3.6.1, react-native-reanimated@~3.6.2:
+react-native-reanimated@~3.6.2:
   version "3.6.3"
   resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-3.6.3.tgz"
   integrity sha512-2KkkPozoIvDbJcHuf8qeyoLROXQxizSi+2CTCkuNVkVZOxxY4B0Omvgq61aOQhSZUh/649x1YHoAaTyGMGDJUw==
@@ -6557,7 +6561,7 @@ react-native-static-safe-area-insets@^2.2.0:
   resolved "https://registry.npmjs.org/react-native-static-safe-area-insets/-/react-native-static-safe-area-insets-2.2.0.tgz"
   integrity sha512-TLTW2e2kRK3COSK8gMZzwp4wHguFCtcO18itDLn5av/xQblXt9ylu84o+qD9aKJCBfvtNzGOvqqTKqC5GJRZ/g==
 
-react-native-svg@14.1.0, react-native-svg@^14.1.0:
+react-native-svg@14.1.0:
   version "14.1.0"
   resolved "https://registry.npmjs.org/react-native-svg/-/react-native-svg-14.1.0.tgz"
   integrity sha512-HeseElmEk+AXGwFZl3h56s0LtYD9HyGdrpg8yd9QM26X+d7kjETrRQ9vCjtxuT5dCZEIQ5uggU1dQhzasnsCWA==

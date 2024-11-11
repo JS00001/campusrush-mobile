@@ -39,14 +39,14 @@ const SecurityView = () => {
     <>
       <ListItem
         size="lg"
-        icon="lock-password-fill"
+        icon="LockFill"
         title="Change Password"
         subtitle="Update your current password"
         onPress={onChangePasswordPress}
       />
       <ListItem
         size="lg"
-        icon="device-fill"
+        icon="DeviceMobileFill"
         title="Sessions"
         subtitle="Manage your active sessions"
         onPress={onSessionsPress}

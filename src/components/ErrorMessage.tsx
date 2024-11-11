@@ -50,7 +50,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
 
   return (
     <SafeAreaView position="top" style={containerStyles}>
-      <Icon size={24} name="alert-fill" color={tw.color("yellow")} />
+      <Icon icon="WarningFill" color={tw.color("yellow-500")} />
       <Text style={tw`text-center`}>{errorMessage}</Text>
     </SafeAreaView>
   );

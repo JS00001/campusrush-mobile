@@ -117,7 +117,7 @@ const Button: React.FC<ButtonProps> = ({
     >
       {iconLeft && (
         <Icon
-          name={iconLeft}
+          icon={iconLeft}
           color={colorStyle.icon}
           size={sizeStyle.icon}
           style={textStyles}
@@ -138,7 +138,7 @@ const Button: React.FC<ButtonProps> = ({
 
       {iconRight && (
         <Icon
-          name={iconRight}
+          icon={iconRight}
           color={colorStyle.icon}
           size={sizeStyle.icon}
           style={textStyles}

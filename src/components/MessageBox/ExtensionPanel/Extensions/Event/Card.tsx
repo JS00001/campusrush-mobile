@@ -55,7 +55,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, onPress }) => {
         </Text>
       </View>
 
-      <Icon name="add-fill" size={20} color={tw.color("primary")} />
+      <Icon icon="Plus" size={20} />
     </TouchableOpacity>
   );
 };

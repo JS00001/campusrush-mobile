@@ -122,7 +122,7 @@ const PnmsView = () => {
         <TextInput
           ph-label="search-pnms"
           autoCorrect={false}
-          icon="search-line"
+          icon="MagnifyingGlass"
           placeholder={placeholder}
           value={search.query}
           onChangeText={search.setQuery}
@@ -132,7 +132,7 @@ const PnmsView = () => {
         <Menu title="Filter By" actions={filterMenu}>
           <IconButton
             color="secondary"
-            iconName="filter-3-fill"
+            iconName="FunnelSimple"
             style={tw`flex-grow`}
           />
         </Menu>
@@ -140,7 +140,7 @@ const PnmsView = () => {
         <Menu actions={moreMenu}>
           <IconButton
             color="secondary"
-            iconName="more-fill"
+            iconName="DotsThree"
             style={tw`flex-grow`}
           />
         </Menu>

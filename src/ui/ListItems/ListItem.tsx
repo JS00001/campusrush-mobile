@@ -53,7 +53,7 @@ const ListItem: React.FC<ListItemProps> = ({
   ...props
 }) => {
   const label = "list-item";
-  const iconNameValue = icon || "circle-line";
+  const iconNameValue = icon || "Circle";
   const iconSizeValue = ListItemIconSizes[size];
   const iconColorValue = iconColor || tw.color("primary");
 
@@ -90,7 +90,7 @@ const ListItem: React.FC<ListItemProps> = ({
       <View style={contentContainerStyles}>
         <View style={iconStyles}>
           <Icon
-            name={iconNameValue}
+            icon={iconNameValue}
             size={iconSizeValue}
             color={iconColorValue}
           />
@@ -111,9 +111,7 @@ const ListItem: React.FC<ListItemProps> = ({
       </View>
 
       {/* Caret only for medium and large */}
-      {size !== "sm" && pressable && (
-        <Icon name="arrow-right-s-line" size={24} color={tw.color("primary")} />
-      )}
+      {size !== "sm" && pressable && <Icon size={16} icon="CaretRight" />}
     </TouchableOpacity>
   );
 };

@@ -87,7 +87,7 @@ const BillingView = () => {
             <IconLabel
               size="md"
               color="tertiary"
-              iconName="timer-fill"
+              iconName="Hourglass"
               title="Subscriber Since"
               subtitle={
                 date.toString(entitlement.firstPurchaseDate as Date) || "N/A"
@@ -97,7 +97,7 @@ const BillingView = () => {
             <IconLabel
               size="md"
               color="tertiary"
-              iconName="arrow-go-forward-fill"
+              iconName="ArrowClockwise"
               title={renewText}
               subtitle={
                 date.toString(entitlement.expirationDate as Date) || "N/A"
@@ -108,7 +108,7 @@ const BillingView = () => {
               <Button
                 size="sm"
                 style={tw`bg-gray-200`}
-                textStyle={tw`text-red`}
+                textStyle={tw`text-red-500`}
                 onPress={onManageBilling}
               >
                 Manage Subscription

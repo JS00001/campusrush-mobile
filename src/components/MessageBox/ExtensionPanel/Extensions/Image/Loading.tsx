@@ -28,7 +28,7 @@ const ImageLoading = () => {
 
       <TouchableOpacity disabled style={removeButtonStyles}>
         <View style={tw`bg-gray-500 rounded-full p-0.5`}>
-          <Icon name="close-line" size={14} color={tw.color("white")} />
+          <Icon icon="X" size={14} color={tw.color("white")} />
         </View>
       </TouchableOpacity>
     </View>

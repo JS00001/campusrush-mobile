@@ -87,12 +87,8 @@ const FeatureRow: React.FC<FeatureRowProps> = ({ feature, index = 1 }) => {
   );
 
   const booleanComponents = {
-    true: (
-      <Icon size={20} name="checkbox-circle-line" color={tw.color(`green`)} />
-    ),
-    false: (
-      <Icon size={20} name="close-circle-line" color={tw.color(`gray-400`)} />
-    ),
+    true: <Icon size={20} icon="CheckCircle" color={tw.color(`green`)} />,
+    false: <Icon size={20} icon="XCircle" color={tw.color(`gray-400`)} />,
   };
 
   return (

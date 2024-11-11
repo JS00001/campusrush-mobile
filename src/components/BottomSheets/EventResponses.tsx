@@ -12,8 +12,8 @@
 
 import { useState } from "react";
 import { View } from "react-native";
-import type { RemixIconType } from "@campusrush/remixicon-native";
 
+import type { IconType } from "@/ui/Icon";
 import type { BottomSheetProps, SheetData } from "./@types";
 
 import Tabs from "@/ui/Tabs";
@@ -79,12 +79,12 @@ const EventResponsesSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
 
         const getIcon = (response: "yes" | "no" | "maybe") => {
           const icon = {
-            yes: "check-fill",
-            no: "close-fill",
-            maybe: "question-mark",
+            yes: "Check",
+            no: "X",
+            maybe: "QuestionMark",
           }[response];
 
-          return icon as RemixIconType;
+          return icon as IconType;
         };
 
         return (

@@ -88,7 +88,7 @@ const RegistrationStep2 = () => {
       <Button
         loading={form.loading}
         onPress={form.handleSubmission}
-        iconRight="arrow-right-line"
+        iconRight="ArrowRight"
       >
         Continue
       </Button>

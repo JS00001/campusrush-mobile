@@ -45,7 +45,7 @@ const Session: React.FC<SessionProps> = ({
   return (
     <View style={containerStyles} {...props}>
       <View style={contentContainerStyles}>
-        <Icon name="smartphone-fill" size={24} color={tw.color("primary")} />
+        <Icon icon="DeviceMobile" />
 
         <View style={tw`shrink`}>
           <Text type="p2" style={tw`text-primary`}>
@@ -61,7 +61,7 @@ const Session: React.FC<SessionProps> = ({
       </View>
 
       <TouchableOpacity onPress={onRemove}>
-        <Icon name="close-fill" size={24} color={tw.color("red")} />
+        <Icon icon="X" color={tw.color("red-500")} />
       </TouchableOpacity>
     </View>
   );

@@ -26,7 +26,7 @@ const Overrides = () => {
     <>
       <Button
         color="secondary"
-        textStyle={tw`text-red`}
+        textStyle={tw`text-red-500`}
         onPress={resetPreferences}
       >
         Reset All Preferences

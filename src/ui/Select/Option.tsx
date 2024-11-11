@@ -36,7 +36,7 @@ const Option: React.FC<OptionProps> = ({ value, selected, onPress }) => {
   return (
     <TouchableOpacity style={containerStyles} onPress={onPress}>
       <Text style={tw`text-primary`}>{value}</Text>
-      <Icon name="check-fill" color={tw.color("primary")} style={iconStyles} />
+      <Icon icon="Check" color={tw.color("primary")} style={iconStyles} />
     </TouchableOpacity>
   );
 };

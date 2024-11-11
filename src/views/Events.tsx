@@ -180,7 +180,7 @@ const EventsView = () => {
         <TextInput
           ph-label="search-events"
           autoCorrect={false}
-          icon="search-line"
+          icon="MagnifyingGlass"
           placeholder={placeholder}
           value={search.query}
           onChangeText={search.setQuery}
@@ -190,14 +190,14 @@ const EventsView = () => {
         <Menu title="Filter By" actions={filterMenu}>
           <IconButton
             color="secondary"
-            iconName="filter-3-fill"
+            iconName="FunnelSimple"
             style={tw`flex-grow`}
           />
         </Menu>
         <Menu actions={moreMenu}>
           <IconButton
             color="secondary"
-            iconName="more-fill"
+            iconName="DotsThree"
             style={tw`flex-grow`}
           />
         </Menu>
@@ -223,7 +223,7 @@ const EventsView = () => {
 
       <ActionButton
         ph-label="create-event"
-        icon="add-line"
+        icon="Plus"
         onPress={onNewEventPress}
       />
     </>

@@ -45,7 +45,7 @@ const Select: React.FC<SelectProps> = ({
   const [expanded, setExpanded] = useState(false);
 
   const valueText = value || `Select ${placeholder}`;
-  const iconName: IconType = expanded ? "arrow-up-s-line" : "arrow-down-s-line";
+  const iconName: IconType = expanded ? "CaretUp" : "CaretDown";
 
   const toggleExpanded = () => {
     if (expanded) {
@@ -72,13 +72,13 @@ const Select: React.FC<SelectProps> = ({
   const selectStyles = tw.style(
     "border bg-gray-100 rounded-xl p-4.5",
     "flex-row justify-between items-center",
-    error && "border-red",
+    error && "border-red-500",
     !error && "border-gray-100",
   );
 
   const textStyles = tw.style(
     "font-medium",
-    error && "text-red",
+    error && "text-red-500",
     !error && "text-primary",
   );
 
@@ -91,7 +91,7 @@ const Select: React.FC<SelectProps> = ({
           <Text numberOfLines={1} type="h3" style={textStyles}>
             {valueText}
           </Text>
-          <Icon name={iconName} color={tw.color("primary")} />
+          <Icon icon={iconName} color={tw.color("primary")} />
         </TouchableOpacity>
       </View>
 

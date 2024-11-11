@@ -10,13 +10,13 @@
  * Do not distribute
  */
 
-import { Image } from "expo-image";
 import {
   ActivityIndicator,
   TouchableOpacity,
   View,
   ViewProps,
 } from "react-native";
+import { Image } from "expo-image";
 
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
@@ -116,16 +116,12 @@ const Avatar: React.FC<AvatarProps> = ({
       )}
 
       {!url && (
-        <Icon name="user-fill" size={iconSize} color={tw.color("gray-400")} />
+        <Icon icon="UserFill" size={iconSize} color={tw.color("gray-400")} />
       )}
 
       {editable && (
         <View style={editContainerStyles}>
-          <Icon
-            name="edit-2-line"
-            size={AvatarSizes[size].editIcon}
-            color={tw.color("primary")}
-          />
+          <Icon icon="PencilLine" size={AvatarSizes[size].editIcon} />
         </View>
       )}
     </TouchableOpacity>

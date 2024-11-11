@@ -155,7 +155,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({
       <TextInput
         ph-label="search-contacts"
         autoCorrect={false}
-        icon="search-line"
+        icon="MagnifyingGlass"
         placeholder={placeholder}
         onChangeText={search.setQuery}
         onFocus={() => snapToPosition?.("95%")}
@@ -171,17 +171,17 @@ const Landing: React.FC<UseSheetFlowProps> = ({
           <Action.List>
             <Action.Item
               title="Message All"
-              icon="group-fill"
+              icon="Users"
               onPress={onMessageAllPress}
             />
             <Action.Item
               title="Message Favorites"
-              icon="user-star-fill"
+              icon="Star"
               onPress={onMessageFavoritesPress}
             />
             <Action.Item
               title="Message Uncontacted"
-              icon="user-voice-fill"
+              icon="UserPlus"
               onPress={onMessageUncontactedPress}
             />
           </Action.List>
@@ -202,8 +202,8 @@ const Landing: React.FC<UseSheetFlowProps> = ({
             key={pnm._id}
             title={pnm.displayName}
             subtitle={format.phoneNumber(pnm.phoneNumber)}
-            icon={pnm.starred ? "star-fill" : undefined}
-            iconColor={tw.color("yellow")}
+            icon={pnm.starred ? "StarFill" : undefined}
+            iconColor={tw.color("yellow-500")}
             onPress={onDirectMessagePress.bind(null, pnm)}
           />
         )}

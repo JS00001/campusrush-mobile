@@ -115,16 +115,16 @@ const EventSheet: React.FC<BottomSheetProps> = ({
                 <IconButton
                   ph-label="share-event"
                   size="sm"
+                  iconName="Share"
                   color="secondary"
-                  iconName="share-line"
                   onPress={onShare}
                 />
                 <IconButton
                   ph-label="delete-event"
                   size="sm"
                   color="secondary"
-                  iconName="delete-bin-6-line"
-                  iconColor={tw.color("red")}
+                  iconName="Trash"
+                  iconColor={tw.color("red-500")}
                   loading={deleteMutation.isPending}
                   onPress={onDelete}
                 />

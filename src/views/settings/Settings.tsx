@@ -108,49 +108,49 @@ const SettingsView = () => {
         size="lg"
         title="Chapter"
         subtitle="Manage your chapter"
-        icon="building-2-fill"
+        icon="BuildingsFill"
         onPress={onChapterPress}
       />
       <ListItem
         size="lg"
         title="Notifications"
         subtitle="Manage your notifications"
-        icon="notification-2-fill"
+        icon="BellFill"
         onPress={onNotificationsPress}
       />
       <ListItem
         size="lg"
         title="Phone Number"
         subtitle="Your custom phone number "
-        icon="phone-fill"
+        icon="PhoneFill"
         onPress={onPhoneNumberPress}
       />
       <ListItem
         size="lg"
         title="Link Sharing"
         subtitle="Manage your link sharing"
-        icon="share-fill"
+        icon="LinkFill"
         onPress={onLinkSharingPress}
       />
       <ListItem
         size="lg"
         title="Billing"
         subtitle="Manage your billing"
-        icon="bank-card-2-fill"
+        icon="CreditCardFill"
         onPress={onBillingPress}
       />
 
       <View style={tw`w-full flex-row gap-3`}>
         <ListItem
           size="sm"
-          icon="file-list-3-fill"
+          icon="FilesFill"
           title="Terms of Service"
           subtitle="View our terms and conditions"
           onPress={onTermsOfServicePress}
         />
         <ListItem
           size="sm"
-          icon="shield-user-fill"
+          icon="ShieldChevronFill"
           title="Privacy Policy"
           subtitle="View our privacy policy"
           onPress={onPrivacyPolicyPress}
@@ -162,7 +162,7 @@ const SettingsView = () => {
         color="secondary"
         style={tw`w-full`}
         loading={deletionMutation.isPending}
-        textStyle={tw`text-red font-medium`}
+        textStyle={tw`text-red-500 font-medium`}
         onPress={onDeleteAccount}
       >
         Delete Account

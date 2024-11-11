@@ -38,7 +38,7 @@ const ActionItem: React.FC<ActionItemProps> = ({
   return (
     <TouchableOpacity style={containerStyles} onPress={onPress} {...props}>
       <IconLabel size="md" title={title} iconName={icon} color="tertiary" />
-      <Icon name="arrow-right-s-line" color={tw.color("primary")} size={18} />
+      <Icon icon="CaretRight" size={18} />
     </TouchableOpacity>
   );
 };

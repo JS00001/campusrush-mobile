@@ -36,17 +36,14 @@ interface IconLabelProps extends ViewProps {
 const IconLabelSizes = {
   sm: {
     icon: 16,
-    text: "p4",
     container: { padding: 6 },
   },
   md: {
     icon: 20,
-    text: "p4",
     container: { padding: 8 },
   },
   lg: {
     icon: 26,
-    text: "p2",
     container: { padding: 14 },
   },
 };
@@ -93,7 +90,7 @@ const IconLabel: React.FC<IconLabelProps> = ({
     <View style={containerStyles} {...props}>
       <View style={iconContainerStyles}>
         <Icon
-          name={iconName}
+          icon={iconName}
           color={IconColor}
           size={IconLabelSizes[size].icon}
         />

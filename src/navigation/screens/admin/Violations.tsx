@@ -24,21 +24,21 @@ const Violations = () => {
 
   const getIcon = (count: number) => {
     if (count <= 2) {
-      return "check-fill";
+      return "Check";
     } else if (count <= 5) {
-      return "error-warning-fill";
+      return "Warning";
     } else {
-      return "alert-fill";
+      return "WarningCircle";
     }
   };
 
   const getIconColor = (count: number) => {
     if (count <= 2) {
-      return tw.color("green");
+      return tw.color("green-500");
     } else if (count <= 5) {
-      return tw.color("yellow");
+      return tw.color("yellow-500");
     } else {
-      return tw.color("red");
+      return tw.color("red-500");
     }
   };
 

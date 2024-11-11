@@ -81,11 +81,7 @@ const ForgotPasswordStep2View = () => {
         onChangeText={form.setValue.bind(null, "confirmPassword")}
       />
 
-      <Button
-        loading={form.loading}
-        iconRight="arrow-right-line"
-        onPress={onSubmit}
-      >
+      <Button loading={form.loading} iconRight="ArrowRight" onPress={onSubmit}>
         Finish Changing Password
       </Button>
     </>

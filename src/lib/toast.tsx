@@ -30,7 +30,7 @@ const toastConfig = {
    */
   success: (props: any) => (
     <View style={toastContainerClasses}>
-      <Icon name="checkbox-circle-line" size={24} color="#10B981" />
+      <Icon icon="CheckCircle" color="#10B981" />
       <View style={tw`flex-1`}>
         <Text style={toastText1Classes} numberOfLines={1}>
           {props.text1}
@@ -46,7 +46,7 @@ const toastConfig = {
    */
   error: (props: any) => (
     <View style={toastContainerClasses}>
-      <Icon name="error-warning-line" size={24} color="#EF4444" />
+      <Icon icon="WarningCircle" color="#EF4444" />
       <View style={tw`flex-1`}>
         <Text style={toastText1Classes} numberOfLines={1}>
           {props.text1}
@@ -58,11 +58,11 @@ const toastConfig = {
     </View>
   ),
   /**
-   * The warning modal, shows a yellow warning icon with the content
+   * The warning modal, shows a yellow-500 warning icon with the content
    */
   warning: (props: any) => (
     <View style={toastContainerClasses}>
-      <Icon name="error-warning-line" size={24} color="#F59E0B" />
+      <Icon icon="Warning" size={24} color="#F59E0B" />
       <View style={tw`flex-1`}>
         <Text style={toastText1Classes} numberOfLines={1}>
           {props.text1}
@@ -78,7 +78,7 @@ const toastConfig = {
    */
   info: (props: any) => (
     <View style={toastContainerClasses}>
-      <Icon name="information-line" size={24} color="#3B82F6" />
+      <Icon icon="Info" size={24} color="#3B82F6" />
       <View style={tw`flex-1`}>
         <Text style={toastText1Classes} numberOfLines={1}>
           {props.text1}
