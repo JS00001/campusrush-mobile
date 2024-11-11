@@ -52,7 +52,7 @@ const ForgotPasswordStep1View = () => {
 
       <Button
         loading={form.loading}
-        iconRight="arrow-right-line"
+        iconRight="ArrowRight"
         onPress={form.handleSubmission}
       >
         Reset Password

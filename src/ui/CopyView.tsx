@@ -62,7 +62,7 @@ const CopyView: React.FC<CopyViewProps> = ({
         onPress={onPress}
         ph-label={label}
       >
-        <Icon name="file-copy-line" size={20} color={tw.color("primary")} />
+        <Icon icon="Copy" size={20} />
       </TouchableOpacity>
     </View>
   );

@@ -56,7 +56,7 @@ const Header: React.FC<HeaderProps> = ({
             <IconButton
               size="xs"
               color="secondary"
-              iconName="arrow-left-line"
+              iconName="ArrowLeft"
               style={tw`self-center`}
               onPress={onBackArrowPress}
             />
@@ -72,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({
           <IconButton
             size="xs"
             color="secondary"
-            iconName="information-2-line"
+            iconName="Info"
             onPress={onMenuButtonPress}
           />
         </InvisibleWrapper>

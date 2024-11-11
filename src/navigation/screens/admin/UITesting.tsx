@@ -21,41 +21,6 @@ type Props = MoreStackProps<"AdminUITesting">;
 const UITestingScreen: React.FC<Props> = ({}) => {
   const { openBottomSheet } = useBottomSheet();
 
-  const onPress = () => {
-    openBottomSheet("ACTION_MENU", [
-      {
-        header: "Quick Actions",
-        menuItems: [
-          {
-            iconName: "file-copy-line",
-            label: "Copy",
-            onPress: () => {},
-          },
-          {
-            iconName: "download-line",
-            label: "Save to Camera Roll",
-            onPress: () => {},
-          },
-        ],
-      },
-      {
-        header: "Quick Actions",
-        menuItems: [
-          {
-            iconName: "file-copy-line",
-            label: "Copy",
-            onPress: () => {},
-          },
-          {
-            iconName: "download-line",
-            label: "Save to Camera Roll",
-            onPress: () => {},
-          },
-        ],
-      },
-    ]);
-  };
-
   return (
     <Layout.Root>
       <Layout.Content safeAreaPosition="top" scrollable>
@@ -64,8 +29,6 @@ const UITestingScreen: React.FC<Props> = ({}) => {
           onPress={() => {}}
           tags={["tag1", "tag2", "tag3", "Sports", "Testing"]}
         />
-
-        <Button onPress={onPress}>Open Action Menu</Button>
       </Layout.Content>
     </Layout.Root>
   );

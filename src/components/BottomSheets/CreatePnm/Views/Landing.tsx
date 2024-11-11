@@ -13,8 +13,8 @@
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import tw from "@/lib/tailwind";
-import ListItem from "@/ui/ListItems/ListItem";
 import Headline from "@/ui/Headline";
+import ListItem from "@/ui/ListItems/ListItem";
 
 const Landing: React.FC<UseSheetFlowProps> = ({ nextView, setView }) => {
   const onQrCodePress = () => {
@@ -33,7 +33,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, setView }) => {
         size="lg"
         title="Share QR Code or Link"
         subtitle="Share a QR code with a PNM"
-        icon="qr-code-fill"
+        icon="QrCodeFill"
         ph-label="share-qr-code"
         onPress={onQrCodePress}
       />
@@ -41,7 +41,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, setView }) => {
         size="lg"
         title="Add PNM Manually"
         subtitle="Add a PNMs info manually"
-        icon="user-voice-fill"
+        icon="UserPlusFill"
         ph-label="add-pnm-manually"
         onPress={nextView}
       />

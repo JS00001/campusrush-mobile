@@ -47,7 +47,7 @@ const TabBarIcon: React.FC<TabBarIconProps> = ({
 
   return (
     <View>
-      <Icon name={icon} size={26} color={color} />
+      <Icon icon={icon} size={26} color={color} />
 
       {badgeCount > 0 && (
         <View style={badgeContainerStyles}>

@@ -90,7 +90,7 @@ const IconLabel: React.FC<IconLabelProps> = ({
     <View style={containerStyles} {...props}>
       <View style={iconContainerStyles}>
         <Icon
-          name={iconName}
+          icon={iconName}
           color={IconColor}
           size={IconLabelSizes[size].icon}
         />

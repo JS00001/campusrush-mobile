@@ -82,11 +82,7 @@ const RegistrationStep3View = () => {
         onChangeText={form.setValue.bind(null, "confirmPassword")}
       />
 
-      <Button
-        loading={form.loading}
-        onPress={onSubmit}
-        iconRight="arrow-right-line"
-      >
+      <Button loading={form.loading} onPress={onSubmit} iconRight="ArrowRight">
         Complete Registration
       </Button>
 

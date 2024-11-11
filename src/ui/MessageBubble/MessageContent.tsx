@@ -62,7 +62,7 @@ const MessageContent: React.FC<MessageContentProps> = ({ message, error }) => {
       header: "Quick Actions",
       menuItems: [
         {
-          iconName: "file-copy-line",
+          iconName: "Copy",
           label: "Copy Message",
           onPress: () => copy(message.content!, "Message"),
         },
@@ -85,7 +85,7 @@ const MessageContent: React.FC<MessageContentProps> = ({ message, error }) => {
   return (
     <View style={containerStyles}>
       {error && (
-        <Icon name="error-warning-line" color={tw.color("red-500")} size={18} />
+        <Icon icon="WarningCircle" color={tw.color("red-500")} size={18} />
       )}
       <Animated.View style={[bubbleContainerStyles, bubbleAnimationStyles]}>
         <Pressable onLongPress={onLongPress}>

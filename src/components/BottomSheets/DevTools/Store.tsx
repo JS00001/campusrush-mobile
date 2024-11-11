@@ -67,7 +67,7 @@ const Store = () => {
   return (
     <>
       <View style={tw`gap-y-2`}>
-        <Button iconLeft="refresh-line" onPress={fetchAsyncStorageData}>
+        <Button iconLeft="ArrowClockwise" onPress={fetchAsyncStorageData}>
           Refresh Store Data
         </Button>
 

@@ -84,7 +84,7 @@ const RegistrationStep1View = () => {
         onChange={form.setValue.bind(null, "name")}
       />
 
-      <Button onPress={handleSubmission} iconRight="arrow-right-line">
+      <Button onPress={handleSubmission} iconRight="ArrowRight">
         Continue
       </Button>
 

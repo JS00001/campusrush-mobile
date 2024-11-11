@@ -89,7 +89,7 @@ const MessagesView = () => {
         <TextInput
           ph-label="search-conversations"
           autoCorrect={false}
-          icon="search-line"
+          icon="MagnifyingGlass"
           placeholder={"Search Conversations"}
           value={search.query}
           onChangeText={search.setQuery}
@@ -99,7 +99,7 @@ const MessagesView = () => {
         <Menu actions={filterMenu}>
           <IconButton
             color="secondary"
-            iconName="filter-3-fill"
+            iconName="FunnelSimple"
             style={tw`flex-grow`}
           />
         </Menu>
@@ -122,7 +122,7 @@ const MessagesView = () => {
 
       <ActionButton
         ph-label="create-message"
-        icon="add-line"
+        icon="Plus"
         onPress={onNewChatPress}
       />
     </>

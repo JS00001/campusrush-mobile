@@ -77,7 +77,7 @@ const Information: React.FC<InformationProps> = ({
     return (
       <View ph-label={label} style={containerStyles} {...props}>
         <Icon
-          name="information-line"
+          icon="Info"
           size={InformationSizes[size].size}
           color={tw.color("gray-400")}
         />
@@ -96,7 +96,7 @@ const Information: React.FC<InformationProps> = ({
     >
       <View ph-label={label} style={containerStyles} {...props}>
         <Icon
-          name="information-line"
+          icon="Info"
           size={InformationSizes[size].size}
           color={tw.color("gray-400")}
         />

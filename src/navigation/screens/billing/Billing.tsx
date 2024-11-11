@@ -222,7 +222,7 @@ const BillingScreen = () => {
                   <Icon
                     size={20}
                     color={tw.color("primary")}
-                    name={feature.icon as IconType}
+                    icon={feature.icon as IconType}
                   />
 
                   <View style={textContainerStyles}>

@@ -63,7 +63,7 @@ const NetworkProvider: React.FC<{ children: React.ReactNode }> = ({
             <Button
               size="sm"
               color="secondary"
-              iconLeft="refresh-line"
+              iconLeft="ArrowClockwise"
               onPress={verifyConnection}
             >
               Retry

@@ -35,11 +35,7 @@ const CustomPhoneNumberSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
             contentContainerStyle={tw`items-center gap-y-4`}
           >
             <View style={badgeContainerStyles}>
-              <Icon
-                size={16}
-                name="sparkling-fill"
-                color={tw.color("blue-500")}
-              />
+              <Icon size={16} icon="SparkleFill" color={tw.color("blue-500")} />
               <Text type="p2" style={tw`text-blue-500`}>
                 Share this number with PNMs!
               </Text>

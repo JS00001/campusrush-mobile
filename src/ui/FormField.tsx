@@ -135,7 +135,7 @@ const FormField: React.FC<FormFieldProps> = ({
     "h-full justify-center",
   );
 
-  const eyeIconName = hideValue ? "eye-line" : "eye-off-line";
+  const eyeIconName = hideValue ? "Eye" : "EyeSlash";
 
   return (
     <Pressable style={containerStyles} onPress={onContainerPress}>
@@ -174,7 +174,7 @@ const FormField: React.FC<FormFieldProps> = ({
       {/* When using a password input, the eye to reveal the password */}
       {secureTextEntry && (
         <TouchableOpacity style={eyeContainerStyles} onPress={onEyePress}>
-          <Icon name={eyeIconName} color={tw.color("gray-400")} size={16} />
+          <Icon icon={eyeIconName} color={tw.color("gray-400")} size={18} />
         </TouchableOpacity>
       )}
     </Pressable>

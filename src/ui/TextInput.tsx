@@ -77,7 +77,7 @@ const TextInput: React.FC<TextInputProps> = ({
 
   return (
     <Pressable style={containerStyles} onPress={onContainerPress}>
-      {icon && <Icon name={icon} size={18} color={tw.color("gray-400")} />}
+      {icon && <Icon icon={icon} size={18} color={tw.color("gray-400")} />}
 
       <TextInputWithNoFontScaling
         ref={inputRef}

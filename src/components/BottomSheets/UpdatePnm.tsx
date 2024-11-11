@@ -92,7 +92,7 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
             header: "Edit Avatar",
             menuItems: [
               {
-                iconName: "camera-line",
+                iconName: "Camera",
                 label: "Take Photo",
                 onPress: async () => {
                   const image = await camera.takePhoto();
@@ -103,7 +103,7 @@ const UpdatePnmSheet: React.FC<BottomSheetProps> = ({
                 },
               },
               {
-                iconName: "image-line",
+                iconName: "Image",
                 label: "Choose from Gallery",
                 onPress: async () => {
                   const image = await camera.selectPhoto();

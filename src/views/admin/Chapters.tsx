@@ -143,7 +143,7 @@ const ChaptersView = () => {
       <View style={tw`flex-row w-full gap-x-1`}>
         <TextInput
           autoCorrect={false}
-          icon="search-line"
+          icon="MagnifyingGlass"
           placeholder={inputPlaceholder}
           value={search.query}
           onChangeText={search.setQuery}
@@ -153,14 +153,14 @@ const ChaptersView = () => {
         <Menu title="Filter By" actions={filterMenu}>
           <IconButton
             color="secondary"
-            iconName="filter-3-fill"
+            iconName="FunnelSimple"
             style={tw`flex-grow`}
           />
         </Menu>
         <Menu title="Sort By" actions={sortingMenu}>
           <IconButton
             color="secondary"
-            iconName="sort-number-asc"
+            iconName="SortAscending"
             style={tw`flex-grow`}
           />
         </Menu>

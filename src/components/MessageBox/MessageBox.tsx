@@ -274,7 +274,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({
               ph-label="show-extensions"
               size="sm"
               color="secondary"
-              iconName={extensionsVisible ? "close-line" : "add-fill"}
+              iconName={extensionsVisible ? "X" : "Plus"}
               // prettier-ignore
               iconColor={ extensionsVisible ? tw.color("red-500") : tw.color("primary")}
               onPress={onExtensionsPress}
@@ -292,7 +292,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({
               ph-label="send-message"
               size="sm"
               color="secondary"
-              iconName="send-plane-2-fill"
+              iconName="PaperPlaneRight"
               disabled={isButtonDisabled}
               onPress={onSendPress}
             />

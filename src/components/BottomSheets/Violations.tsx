@@ -33,17 +33,17 @@ const ViolationsSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
         const getIcon = (violation: string) => {
           switch (violation.toLowerCase()) {
             case "nudity":
-              return "body-scan-fill";
+              return "Person";
             case "drugs":
-              return "syringe-fill";
+              return "Syringe";
             case "gore":
-              return "emotion-unhappy-fill";
+              return "Skull";
             case "weapon":
-              return "knife-blood-fill";
+              return "Knife";
             case "minors":
-              return "parent-fill";
+              return "PersonSimple";
             default:
-              return "question-fill";
+              return "QuestionMark";
           }
         };
 

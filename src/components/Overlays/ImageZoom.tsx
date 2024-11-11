@@ -67,7 +67,7 @@ const ImageZoomOverlay = () => {
         size="sm"
         label="Close"
         color="secondary"
-        iconName="close-fill"
+        iconName="X"
         style={iconButtonStyles}
         onPress={clear}
       />

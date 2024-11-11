@@ -24,7 +24,7 @@ const MenuItem: React.FC<ActionMenuItem> = ({ iconName, label, onPress }) => {
   return (
     <TouchableHighlight underlayColor={tw.color("gray-200")} onPress={onPress}>
       <View style={containerStyles}>
-        <Icon name={iconName} size={20} color={tw.color("primary")} />
+        <Icon icon={iconName} size={20} />
         <Text type="p1" style={tw`text-primary`}>
           {label}
         </Text>

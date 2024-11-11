@@ -113,7 +113,7 @@ const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
           <Button
             size="sm"
             color="secondary"
-            iconRight="external-link-line"
+            iconRight="ArrowSquareOut"
             onPress={onUpdatePress}
           >
             Update App

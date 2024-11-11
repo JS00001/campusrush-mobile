@@ -55,7 +55,12 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           {loading ? (
             <ActivityIndicator size={20} color={tw.color("gray-800")} />
           ) : (
-            <Icon size={18} name={icon} color={tw.color("gray-600")} />
+            <Icon
+              size={18}
+              icon={icon}
+              color={tw.color("gray-600")}
+              weight="duotone"
+            />
           )}
 
           <Text type="p2" style={textStyles}>

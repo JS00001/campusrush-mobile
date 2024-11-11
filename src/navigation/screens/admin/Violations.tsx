@@ -24,11 +24,11 @@ const Violations = () => {
 
   const getIcon = (count: number) => {
     if (count <= 2) {
-      return "check-fill";
+      return "Check";
     } else if (count <= 5) {
-      return "error-warning-fill";
+      return "Warning";
     } else {
-      return "alert-fill";
+      return "WarningCircle";
     }
   };
 

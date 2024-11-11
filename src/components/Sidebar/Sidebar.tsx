@@ -89,13 +89,13 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
       label: "Essentials",
       items: [
         {
-          icon: "calendar-2-line",
+          icon: "Calendar",
           label: "Events",
           screen: "Events",
           newFeature: false,
         },
         {
-          icon: "notification-2-line",
+          icon: "Bell",
           label: "Notifications",
           screen: "Notifications",
           newFeature: false,
@@ -107,19 +107,19 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
       label: "Settings",
       items: [
         {
-          icon: "settings-3-line",
+          icon: "Gear",
           label: "Settings",
           screen: "Settings",
           newFeature: false,
         },
         {
-          icon: "shield-check-line",
+          icon: "ShieldCheck",
           label: "Security and Privacy",
           screen: "Security",
           newFeature: false,
         },
         {
-          icon: "logout-box-r-line",
+          icon: "SignOut",
           label: "Logout",
           loading: logoutMutation.isPending,
           onPress: handleLogout,
@@ -132,31 +132,31 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
       hidden: chapter.role !== "admin",
       items: [
         {
-          icon: "group-line",
+          icon: "UsersThree",
           label: "Chapters",
           screen: "AdminChapters",
           newFeature: false,
         },
         {
-          icon: "error-warning-line",
+          icon: "Warning",
           label: "Violations",
           screen: "AdminViolations",
           newFeature: false,
         },
         {
-          icon: "global-line",
+          icon: "Globe",
           label: "Websocket",
           screen: "AdminWebsocket",
           newFeature: false,
         },
         {
-          icon: "test-tube-line",
+          icon: "TestTube",
           label: "UI Testing",
           screen: "AdminUITesting",
           newFeature: false,
         },
         {
-          icon: "wifi-line",
+          icon: "WifiHigh",
           label: "Network",
           screen: "AdminNetwork",
           newFeature: false,
@@ -179,7 +179,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         <SafeAreaView position="top" style={tw`bg-gray-100 h-full w-full`}>
           <TouchableOpacity onPress={sidebarStore.closeSidebar}>
             <Icon
-              name="close-fill"
+              icon="X"
               size={28}
               style={tw`p-4 self-start`}
               color={tw.color("gray-800")}

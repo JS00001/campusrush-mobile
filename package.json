@@ -51,6 +51,7 @@
     "expo-updates": "~0.24.13",
     "immer": "^10.1.1",
     "lodash": "^4.17.21",
+    "phosphor-react-native": "^2.2.1",
     "posthog-react-native": "^2.9.2",
     "qonversion-sdk": "^1.0.5",
     "react": "18.2.0",

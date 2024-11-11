@@ -122,7 +122,7 @@ const IconButton: React.FC<IconButtonProps> = ({
       )}
 
       <Icon
-        name={iconName}
+        icon={iconName}
         color={iconColor || textColor}
         size={IconButtonSizes[size].icon}
         style={tw.style(loading && "opacity-0")}
