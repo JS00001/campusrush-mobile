@@ -162,7 +162,7 @@ const SettingsView = () => {
         color="secondary"
         style={tw`w-full`}
         loading={deletionMutation.isPending}
-        textStyle={tw`text-red font-medium`}
+        textStyle={tw`text-red-500 font-medium`}
         onPress={onDeleteAccount}
       >
         Delete Account

@@ -105,7 +105,7 @@ const MessageImage: React.FC<MessageImageProps> = ({ url, error }) => {
   return (
     <View style={containerStyles}>
       {error && (
-        <Icon name="error-warning-line" color={tw.color("red")} size={18} />
+        <Icon name="error-warning-line" color={tw.color("red-500")} size={18} />
       )}
       <Animated.View style={[imageContainerShadow, imageAnimationStyles]}>
         <Pressable onPress={onPress} onLongPress={onLongPress}>

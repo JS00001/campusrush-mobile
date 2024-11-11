@@ -203,7 +203,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({
             title={pnm.displayName}
             subtitle={format.phoneNumber(pnm.phoneNumber)}
             icon={pnm.starred ? "star-fill" : undefined}
-            iconColor={tw.color("yellow")}
+            iconColor={tw.color("yellow-500")}
             onPress={onDirectMessagePress.bind(null, pnm)}
           />
         )}

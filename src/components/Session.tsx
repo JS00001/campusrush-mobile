@@ -61,7 +61,7 @@ const Session: React.FC<SessionProps> = ({
       </View>
 
       <TouchableOpacity onPress={onRemove}>
-        <Icon name="close-fill" size={24} color={tw.color("red")} />
+        <Icon name="close-fill" size={24} color={tw.color("red-500")} />
       </TouchableOpacity>
     </View>
   );

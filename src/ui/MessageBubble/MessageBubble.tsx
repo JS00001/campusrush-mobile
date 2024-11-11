@@ -46,7 +46,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
   );
 
   const dateStyles = tw.style("text-gray-500 py-4", "self-center");
-  const errorStyles = tw.style("text-red pt-2", messagePositioning);
+  const errorStyles = tw.style("text-red-500 pt-2", messagePositioning);
   const timestampStyles = tw.style("text-gray-500 pt-2", messagePositioning);
 
   return (

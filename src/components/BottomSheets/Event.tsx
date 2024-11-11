@@ -124,7 +124,7 @@ const EventSheet: React.FC<BottomSheetProps> = ({
                   size="sm"
                   color="secondary"
                   iconName="delete-bin-6-line"
-                  iconColor={tw.color("red")}
+                  iconColor={tw.color("red-500")}
                   loading={deleteMutation.isPending}
                   onPress={onDelete}
                 />

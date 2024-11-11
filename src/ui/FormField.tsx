@@ -113,14 +113,14 @@ const FormField: React.FC<FormFieldProps> = ({
     // FOCUS State
     !error && focused && "border-gray-200",
     // ERROR State
-    error && "border-red",
+    error && "border-red-500",
     style,
   );
 
   const placeholderStyles = tw.style(
     "absolute z-10 px-4 bg-gray-100 left-1 text-gray-500 flex-1",
     disabled && "disabled",
-    error && "text-red",
+    error && "text-red-500",
   );
 
   const animatedPlaceholderStyles = useAnimatedStyle(() => ({

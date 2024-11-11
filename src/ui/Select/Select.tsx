@@ -72,13 +72,13 @@ const Select: React.FC<SelectProps> = ({
   const selectStyles = tw.style(
     "border bg-gray-100 rounded-xl p-4.5",
     "flex-row justify-between items-center",
-    error && "border-red",
+    error && "border-red-500",
     !error && "border-gray-100",
   );
 
   const textStyles = tw.style(
     "font-medium",
-    error && "text-red",
+    error && "text-red-500",
     !error && "text-primary",
   );
 

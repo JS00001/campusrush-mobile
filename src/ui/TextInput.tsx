@@ -70,7 +70,7 @@ const TextInput: React.FC<TextInputProps> = ({
   const inputStyles = tw.style(
     "py-4 text-base leading-5 px-4",
     icon && "pl-2",
-    error && "border-red",
+    error && "border-red-500",
     !error && "border-gray-100",
     style,
   );

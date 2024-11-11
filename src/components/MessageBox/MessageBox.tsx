@@ -276,7 +276,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({
               color="secondary"
               iconName={extensionsVisible ? "close-line" : "add-fill"}
               // prettier-ignore
-              iconColor={ extensionsVisible ? tw.color("red") : tw.color("primary")}
+              iconColor={ extensionsVisible ? tw.color("red-500") : tw.color("primary")}
               onPress={onExtensionsPress}
             />
 

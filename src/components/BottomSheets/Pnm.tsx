@@ -141,7 +141,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
                   loading={updateMutation.isPending}
                   iconName={pnm.starred ? "star-fill" : "star-line"}
                   // prettier-ignore
-                  iconColor={pnm.starred ? tw.color("yellow") : tw.color("primary")}
+                  iconColor={pnm.starred ? tw.color("yellow-500") : tw.color("primary")}
                   onPress={onFavorite}
                 />
                 <IconButton
@@ -149,7 +149,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
                   color="secondary"
                   loading={deleteMutation.isPending}
                   iconName="delete-bin-6-line"
-                  iconColor={tw.color("red")}
+                  iconColor={tw.color("red-500")}
                   onPress={onDelete}
                 />
               </View>

@@ -85,7 +85,7 @@ const MessageContent: React.FC<MessageContentProps> = ({ message, error }) => {
   return (
     <View style={containerStyles}>
       {error && (
-        <Icon name="error-warning-line" color={tw.color("red")} size={18} />
+        <Icon name="error-warning-line" color={tw.color("red-500")} size={18} />
       )}
       <Animated.View style={[bubbleContainerStyles, bubbleAnimationStyles]}>
         <Pressable onLongPress={onLongPress}>

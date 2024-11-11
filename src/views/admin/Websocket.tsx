@@ -30,7 +30,7 @@ const WebsocketView = () => {
   if (!Object.keys(websocket).length) {
     return (
       <View style={tw`gap-y-1 items-center`}>
-        <Icon name="alert-fill" size={36} color={tw.color("yellow")} />
+        <Icon name="alert-fill" size={36} color={tw.color("yellow-500")} />
         <Headline
           centerText
           title="No Websocket Provider Found"
@@ -50,7 +50,9 @@ const WebsocketView = () => {
         <Headline
           title="Websocket Connected?"
           subtitle={websocket.connected ? "Yes, Connected" : "No"}
-          subtitleStyle={websocket.connected ? tw`text-green` : tw`text-red`}
+          subtitleStyle={
+            websocket.connected ? tw`text-green-500` : tw`text-red-500`
+          }
         />
       </View>
 

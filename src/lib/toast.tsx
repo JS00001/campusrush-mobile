@@ -58,7 +58,7 @@ const toastConfig = {
     </View>
   ),
   /**
-   * The warning modal, shows a yellow warning icon with the content
+   * The warning modal, shows a yellow-500 warning icon with the content
    */
   warning: (props: any) => (
     <View style={toastContainerClasses}>

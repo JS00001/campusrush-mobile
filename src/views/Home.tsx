@@ -134,7 +134,7 @@ const HomeView = () => {
               <ListItem
                 key={pnm._id}
                 ph-label="recent-pnm-list-item"
-                iconColor={tw.color("yellow")}
+                iconColor={tw.color("yellow-500")}
                 icon={pnm.starred ? "star-fill" : undefined}
                 title={pnm.displayName}
                 subtitle={format.phoneNumber(pnm.phoneNumber)}

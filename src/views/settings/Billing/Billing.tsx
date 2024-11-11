@@ -108,7 +108,7 @@ const BillingView = () => {
               <Button
                 size="sm"
                 style={tw`bg-gray-200`}
-                textStyle={tw`text-red`}
+                textStyle={tw`text-red-500`}
                 onPress={onManageBilling}
               >
                 Manage Subscription

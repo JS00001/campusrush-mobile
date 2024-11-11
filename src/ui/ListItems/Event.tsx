@@ -74,29 +74,28 @@ const Event: React.FC<EventProps> = ({ event }) => {
   );
 
   const textStyles = tw.style(
-    "text-sm",
     !isEventInPast && "text-gray-500",
-    isEventInPast && "text-red",
+    isEventInPast && "text-red-500",
   );
 
   const yesResponseContainerStyles = tw.style(
     "px-2 py-1 rounded-lg self-start",
-    "bg-emerald-50 border border-emerald-600/20",
+    "bg-green-50 border border-green-600/20",
   );
 
   const maybeResponseContainerStyles = tw.style(
     "px-2 py-1 rounded-lg self-start",
-    "bg-amber-50 border border-amber-600/20",
+    "bg-yellow-50 border border-yellow-600/20",
   );
 
   const noResponseContainerStyles = tw.style(
     "px-2 py-1 rounded-lg self-start",
-    "bg-rose-50 border border-rose-600/20",
+    "bg-red-50 border border-red-600/20",
   );
 
   return (
     <TouchableOpacity onPress={onPress} style={containerStyles}>
-      <Text style={textStyles}>
+      <Text type="p3" style={textStyles}>
         {startDate} · {startTime} · {daysUntilEventText}
       </Text>
 
@@ -123,19 +122,19 @@ const Event: React.FC<EventProps> = ({ event }) => {
       {/* Responses */}
       <View style={tw`gap-1 pt-2 flex-row `}>
         <View style={yesResponseContainerStyles}>
-          <Text style={tw`text-xs text-emerald-700`}>
+          <Text style={tw`text-xs text-green-700`}>
             {event.responses.yes} · Yes
           </Text>
         </View>
 
         <View style={maybeResponseContainerStyles}>
-          <Text style={tw`text-xs text-amber-700`}>
+          <Text style={tw`text-xs text-yellow-700`}>
             {event.responses.maybe} · Maybe
           </Text>
         </View>
 
         <View style={noResponseContainerStyles}>
-          <Text style={tw`text-xs text-rose-700`}>
+          <Text type="p4" style={tw`text-red-700`}>
             {event.responses.no} · No
           </Text>
         </View>
