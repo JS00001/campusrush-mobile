@@ -17,7 +17,7 @@ import type { IPNM } from "@/types";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";
-import ListItem from "@/ui/ListItem";
+import ListItem from "@/ui/ListItems/ListItem";
 import FlatList from "@/ui/FlatList";
 import CopyView from "@/ui/CopyView";
 import format from "@/lib/util/format";

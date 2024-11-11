@@ -16,11 +16,11 @@ import { FlashList, FlashListProps } from "@shopify/flash-list";
 
 import type { IPNM } from "@/types";
 
-import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import ListItem from "@/ui/ListItem";
 import Headline from "@/ui/Headline";
 import format from "@/lib/util/format";
+import StickyHeader from "@/ui/StickyHeader";
+import ListItem from "@/ui/ListItems/ListItem";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
@@ -113,7 +113,7 @@ const PnmsList: React.FC<PnmsListProps> = ({
    */
   const ItemComponent = ({ item: data }: { item: ListDataTypes }) => {
     if (typeof data === "string") {
-      return <Text style={tw`bg-white w-full font-medium`}>{data}</Text>;
+      return <StickyHeader>{data}</StickyHeader>;
     }
 
     const onPress = () => {

@@ -20,7 +20,7 @@ import Tabs from "@/ui/Tabs";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Headline from "@/ui/Headline";
-import ListItem from "@/ui/ListItem";
+import ListItem from "@/ui/ListItems/ListItem";
 import Skeleton from "@/ui/Skeleton";
 import format from "@/lib/util/format";
 import { BottomSheet } from "@/ui/BottomSheet";
@@ -92,7 +92,7 @@ const EventResponsesSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
             style={tw`px-0`}
             contentContainerStyle={tw`gap-y-6`}
           >
-            <Text type="h1" style={tw`px-6`} numberOfLines={2}>
+            <Text type="h2" style={tw`px-6`} numberOfLines={2}>
               {event.title}
             </Text>
 

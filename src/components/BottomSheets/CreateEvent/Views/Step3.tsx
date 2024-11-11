@@ -18,7 +18,7 @@ import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 import type { CreateEventState } from "..";
 
 import Button from "@/ui/Button";
-import ListItem from "@/ui/ListItem";
+import ListItem from "@/ui/ListItems/ListItem";
 import Headline from "@/ui/Headline";
 import ButtonGroup from "@/ui/ButtonGroup";
 import usePosthog from "@/hooks/usePosthog";

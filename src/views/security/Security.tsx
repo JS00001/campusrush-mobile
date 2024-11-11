@@ -12,7 +12,7 @@
 
 import { useNavigation } from "@react-navigation/native";
 
-import ListItem from "@/ui/ListItem";
+import ListItem from "@/ui/ListItems/ListItem";
 
 const SecurityView = () => {
   const navigation = useNavigation();

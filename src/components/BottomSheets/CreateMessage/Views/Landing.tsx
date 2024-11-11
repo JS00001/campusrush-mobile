@@ -21,7 +21,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Headline from "@/ui/Headline";
 import FlatList from "@/ui/FlatList";
-import ListItem from "@/ui/ListItem";
+import ListItem from "@/ui/ListItems/ListItem";
 import Skeleton from "@/ui/Skeleton";
 import TextInput from "@/ui/TextInput";
 import format from "@/lib/util/format";

@@ -26,6 +26,15 @@ export interface IEvent {
   startDate: Date;
   /** The end date of the event */
   endDate: Date;
+  /** The number of people who have responded to the event */
+  responses: {
+    /** How many people responded with yes */
+    yes: number;
+    /** How many people responded with no */
+    no: number;
+    /** How many people responded with maybe */
+    maybe: number;
+  };
   /** The time the event was created */
   createdAt: Date;
   /** The time the event was last updated */

@@ -21,7 +21,7 @@ import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
 import Menu, { MenuAction } from "@/ui/Menu";
 import ActionButton from "@/ui/ActionButton";
-import Conversation from "@/ui/Conversation";
+import Conversation from "@/ui/ListItems/Conversation";
 import ConversationLoader from "@/ui/Loaders/Conversation";
 import { useGetConversations } from "@/hooks/api/conversations";
 

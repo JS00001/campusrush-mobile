@@ -17,7 +17,7 @@ import { BottomSheetProps, SheetData } from "./@types";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
-import ListItem from "@/ui/ListItem";
+import ListItem from "@/ui/ListItems/ListItem";
 import CopyAction from "@/ui/CopyAction";
 import { BottomSheet } from "@/ui/BottomSheet";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";

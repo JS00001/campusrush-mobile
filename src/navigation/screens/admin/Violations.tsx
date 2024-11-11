@@ -12,7 +12,7 @@
 
 import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
-import ListItem from "@/ui/ListItem";
+import ListItem from "@/ui/ListItems/ListItem";
 import FlatList from "@/ui/FlatList";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import { useGetViolations } from "@/hooks/api/admin";
