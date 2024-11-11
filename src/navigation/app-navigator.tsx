@@ -32,7 +32,7 @@ import Create from "@/navigation/screens/conversation/Create";
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import TabBarIcon from "@/ui/TabBarIcon";
-import OverlayProvider from "@/providers/Overlay";
+import Sidebar from "@/components/Sidebar";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import { useGetNotifications } from "@/hooks/api/chapter";
 import { useSidebarStore } from "@/store/overlay/sidebar-store";
@@ -189,13 +189,13 @@ export const AppNavigator = () => {
   const Stack = createNativeStackNavigator<AppStackParams>();
 
   return (
-    <OverlayProvider>
-      <NotificationsProvider>
+    <NotificationsProvider>
+      <Sidebar>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Main" component={MainNavigator} />
           <Stack.Screen name="Conversation" component={ChatNavigator} />
         </Stack.Navigator>
-      </NotificationsProvider>
-    </OverlayProvider>
+      </Sidebar>
+    </NotificationsProvider>
   );
 };
