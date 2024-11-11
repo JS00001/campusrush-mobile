@@ -82,7 +82,7 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
     <View style={tw`gap-y-2`}>
       <TouchableOpacity style={containerStyles} onPress={onPress}>
         <IconLabel
-          size="xs"
+          size="md"
           color="tertiary"
           iconName={iconType}
           iconColor={tw.color("primary")}

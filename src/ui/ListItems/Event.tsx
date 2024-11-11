@@ -107,13 +107,13 @@ const Event: React.FC<EventProps> = ({ event }) => {
       {/* Details */}
       <View style={tw`gap-2`}>
         <IconLabel
-          size="xss"
+          size="sm"
           color="tertiary"
           title={event.location}
           iconName="map-pin-fill"
         />
         <IconLabel
-          size="xss"
+          size="sm"
           color="tertiary"
           title={event.description}
           iconName="information-2-fill"

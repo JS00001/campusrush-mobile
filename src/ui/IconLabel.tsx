@@ -18,8 +18,7 @@ import Icon, { IconType } from "@/ui/Icon";
 
 export type IconLabelColor = "primary" | "secondary" | "tertiary";
 
-// PR_TODO: Make scale less drastic
-export type IconLabelSize = "xss" | "xs" | "sm" | "md" | "lg";
+export type IconLabelSize = "sm" | "md" | "lg";
 
 interface IconLabelProps extends ViewProps {
   iconName: IconType;
@@ -35,25 +34,15 @@ interface IconLabelProps extends ViewProps {
  * The sizes for all of the IconLabel components
  */
 const IconLabelSizes = {
-  xss: {
+  sm: {
     icon: 16,
     text: "p4",
     container: { padding: 6 },
   },
-  xs: {
+  md: {
     icon: 20,
     text: "p4",
     container: { padding: 8 },
-  },
-  sm: {
-    icon: 22,
-    text: "p4",
-    container: { padding: 10 },
-  },
-  md: {
-    icon: 24,
-    text: "p3",
-    container: { padding: 12 },
   },
   lg: {
     icon: 26,

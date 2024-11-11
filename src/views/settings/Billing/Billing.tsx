@@ -85,7 +85,7 @@ const BillingView = () => {
             </View>
 
             <IconLabel
-              size="xs"
+              size="md"
               color="tertiary"
               iconName="timer-fill"
               title="Subscriber Since"
@@ -95,7 +95,7 @@ const BillingView = () => {
             />
 
             <IconLabel
-              size="xs"
+              size="md"
               color="tertiary"
               iconName="arrow-go-forward-fill"
               title={renewText}

@@ -41,14 +41,14 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
       </View>
 
       <IconLabel
-        size="xs"
+        size="md"
         color="tertiary"
         iconName="mail-fill"
         title="Email"
         subtitle={chapter.email}
       />
       <IconLabel
-        size="xs"
+        size="md"
         color="tertiary"
         iconName="time-fill"
         title="Last Seen"
