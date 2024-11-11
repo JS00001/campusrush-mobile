@@ -49,6 +49,7 @@ const Conversation: React.FC<ConversationProps> = ({
       screen: "Chat",
       params: {
         pnm: conversation.pnm as IPNM,
+        messages: conversation.messages,
       },
     });
   };

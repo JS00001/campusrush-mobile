@@ -41,7 +41,10 @@ const Chat: React.FC<Props> = ({ route }) => {
   const sendMessageMutation = useSendDirectMessage();
   const conversationQuery = useGetConversation(pnmId);
 
-  const messages = conversationQuery.messages;
+  // Allow for first x messages to be preloaded
+  const messages = conversationQuery.messages.length
+    ? conversationQuery.messages
+    : route.params.messages;
 
   /**
    * On the first render, set the conversation as opened
