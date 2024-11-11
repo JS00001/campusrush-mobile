@@ -112,14 +112,18 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
       const entitlements = await Qonversion.getSharedInstance().restore();
       setActiveEntitlements(entitlements);
 
-      // TODO: why this in try
+      Toast.show({
+        type: "success",
+        text1: "Purchases restored",
+        text2: "Your purchases have been restored",
+      });
+    } catch (e) {
+      Sentry.captureException(e);
       Toast.show({
         type: "error",
         text1: "No purchases found",
         text2: "You have no purchases to restore",
       });
-    } catch (e) {
-      Sentry.captureException(e);
     }
   };
 

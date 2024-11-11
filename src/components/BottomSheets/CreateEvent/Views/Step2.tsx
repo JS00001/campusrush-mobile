@@ -95,7 +95,7 @@ const Step2: React.FC<UseSheetFlowProps<CreateEventState>> = ({
 
   // TODO: Cleanup
   const onDateTimeChange = (
-    event: DateTimePickerEvent,
+    _: DateTimePickerEvent,
     field: "startDate" | "endDate",
     date?: Date,
   ) => {
