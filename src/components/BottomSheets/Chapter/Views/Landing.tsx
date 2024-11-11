@@ -15,8 +15,8 @@ import Toast from "react-native-toast-message";
 
 import {
   useGetAdminChapter,
-  useGetAdminChapterEntitlements,
-  useRevokeAdminChapterEntitlement,
+  useGetEntitlements,
+  useRevokeEntitlement,
 } from "@/hooks/api/admin";
 import useCopy from "@/hooks/useCopy";
 import { UseSheetFlowProps } from "@/hooks/useSheetFlow";
@@ -33,6 +33,7 @@ import IconButton from "@/ui/IconButton";
 import Information from "@/ui/Information";
 import Menu, { MenuAction } from "@/ui/Menu";
 import { titleCase } from "@/lib/util/string";
+import ErrorMessage from "@/components/ErrorMessage";
 
 interface LandingProps extends UseSheetFlowProps {
   chapterId: string;
@@ -42,13 +43,27 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
   const copy = useCopy();
 
   const chapterQuery = useGetAdminChapter(chapterId);
-  const entitlementQuery = useGetAdminChapterEntitlements(chapterId);
-  const revokeEntitlementMutation = useRevokeAdminChapterEntitlement();
+  const entitlementQuery = useGetEntitlements(chapterId);
+  const revokeEntitlementMutation = useRevokeEntitlement();
 
-  const chapter = chapterQuery.chapter;
-  const entitlements = entitlementQuery.entitlements.filter(
-    (entitlement) => entitlement.active,
-  );
+  const isLoading = chapterQuery.isLoading || entitlementQuery.isLoading;
+  const error = chapterQuery.error || entitlementQuery.error;
+
+  // Error and Loading State
+  if (isLoading) return <LoadingState />;
+  if (error) {
+    return (
+      <ErrorMessage
+        error={chapterQuery.error}
+        description="Could not fetch chapter information"
+      />
+    );
+  }
+
+  const chapter = chapterQuery.data!.chapter;
+  const entitlements = entitlementQuery.data!.filter((entitlement) => {
+    return entitlement.active;
+  });
 
   const informationMenu: MenuAction[] = [
     {
@@ -83,22 +98,12 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
       entitlementId,
     });
 
-    await entitlementQuery.refetch();
-
     Toast.show({
       type: "success",
       text1: "Entitlement Revoked",
       text2: "The entitlement has been successfully revoked",
     });
   };
-
-  if (chapterQuery.isLoading || entitlementQuery.isLoading) {
-    return <LoadingState />;
-  }
-
-  if (!chapter) {
-    return <LoadingState />;
-  }
 
   return (
     <View style={tw`gap-y-4`}>

@@ -1,15 +1,3 @@
-/*
- * Created on Sun Aug 11 2024
- *
- * This software is the proprietary property of CampusRush.
- * All rights reserved. Unauthorized copying, modification, or distribution
- * of this software, in whole or in part, is strictly prohibited.
- * For licensing information contact CampusRush.
- *
- * Copyright (c) 2024 CampusRush
- * Do not distribute
- */
-
 import type {
   GetConversationsRequest,
   GetConversationsResponse,
@@ -17,9 +5,9 @@ import type {
   GetConversationResponse,
 } from '@/types';
 
-import { axiosClient } from '@/providers/Axios';
+import axios from '@/lib/axios';
 
-const PREFIX = '/api/v1/consumer/conversations';
+const PREFIX = '/conversations';
 
 /**
  * Request:     GET /api/v1/consumer/messaging/conversations
@@ -28,11 +16,14 @@ const PREFIX = '/api/v1/consumer/conversations';
 export const getConversations = async (data: GetConversationsRequest) => {
   const url = `${PREFIX}`;
 
-  const { data: responseData } = await axiosClient.get(url, {
-    params: data,
-  });
+  const { data: responseData } = await axios.get<GetConversationsResponse>(
+    url,
+    {
+      params: data,
+    },
+  );
 
-  return responseData as GetConversationsResponse;
+  return responseData;
 };
 
 /**
@@ -42,7 +33,7 @@ export const getConversations = async (data: GetConversationsRequest) => {
 export const getConversation = async (data: GetConversationRequest) => {
   const url = `${PREFIX}/${data.pnmId}?offset=${data.offset}`;
 
-  const { data: responseData } = await axiosClient.get(url);
+  const { data: responseData } = await axios.get<GetConversationResponse>(url);
 
-  return responseData as GetConversationResponse;
+  return responseData;
 };

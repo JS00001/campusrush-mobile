@@ -15,11 +15,12 @@ import { useQuery } from '@tanstack/react-query';
 import { getMetadata } from '@/api';
 
 export const useGetMetadata = () => {
-  return useQuery(['metadata'], {
+  return useQuery({
+    queryKey: ['metadata'],
     queryFn: async () => {
       const response = await getMetadata();
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
   });
 };

@@ -12,7 +12,7 @@
 
 import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
-import ListItem from "@/ui/ListItem";
+import ListItem from "@/ui/ListItems/ListItem";
 import FlatList from "@/ui/FlatList";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import { useGetViolations } from "@/hooks/api/admin";
@@ -46,6 +46,8 @@ const Violations = () => {
     await query.refetch();
   };
 
+  const violations = query.data ?? [];
+
   return (
     <Layout.Root>
       <Layout.Header
@@ -55,13 +57,15 @@ const Violations = () => {
 
       <Layout.Content contentContainerStyle={tw`p-0`}>
         <FlatList
-          data={query.violations}
+          data={violations}
           style={tw`p-6`}
           numColumns={2}
           onRefresh={onRefresh}
           columnWrapperStyle={{ gap: 8 }}
-          loadingComponent={<ListItemLoader size="lg" />}
+          error={query.error}
+          errorDescription="Failed to load violations"
           loading={query.isLoading}
+          loadingComponent={<ListItemLoader size="lg" />}
           renderItem={({ item }) => {
             const onPress = () => {
               openBottomSheet("VIOLATIONS", { violations: item.violations });

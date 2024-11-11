@@ -14,18 +14,14 @@ import { z } from "zod";
 
 import Button from "@/ui/Button";
 import FormField from "@/ui/FormField";
-import { useAuth } from "@/providers/Auth";
-import usePosthog from "@/hooks/usePosthog";
 import validators from "@/constants/validators";
 import { useForgotPasswordStore } from "@/store";
 import { useChangePassword } from "@/hooks/api/auth";
 import useFormMutation from "@/hooks/useFormMutation";
 
 const ForgotPasswordStep2View = () => {
-  const posthog = usePosthog();
   const mutation = useChangePassword();
   const store = useForgotPasswordStore();
-  const { authenticateUser } = useAuth();
 
   const formValidators = {
     email: z.any(),
@@ -43,17 +39,7 @@ const ForgotPasswordStep2View = () => {
       password: store.password,
       confirmPassword: store.confirmPassword,
     },
-    onSuccess: async ({ data }) => {
-      const userData = {
-        chapter: data.chapter,
-        accessToken: data.accessToken,
-        refreshToken: data.refreshToken,
-      };
-
-      await authenticateUser(userData);
-
-      posthog.capture("RESET_PASSWORD_COMPLETED");
-
+    onSuccess: async () => {
       store.clear();
     },
   });

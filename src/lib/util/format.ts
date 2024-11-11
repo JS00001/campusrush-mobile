@@ -31,9 +31,7 @@ export interface FormattedEvent extends IEvent {
 /**
  * Extract date information from an event
  */
-const formatEvent = (event?: IEvent): FormattedEvent | null => {
-  if (!event) return null;
-
+const formatEvent = (event: IEvent): FormattedEvent => {
   const startDate = new Date(event.startDate);
   const endDate = new Date(event.endDate);
 

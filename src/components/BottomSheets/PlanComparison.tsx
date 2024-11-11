@@ -17,34 +17,50 @@ import type { BottomSheetProps } from "./@types";
 import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Skeleton from "@/ui/Skeleton";
 import Information from "@/ui/Information";
-import { useMetadataStore } from "@/store";
 import { BottomSheet } from "@/ui/BottomSheet";
+import ErrorMessage from "@/components/ErrorMessage";
+import { useGetMetadata } from "@/hooks/api/external";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
-  const entitlements = useMetadataStore((state) => state.metadata.entitlements);
-
   return (
     <BottomSheet
       innerRef={innerRef}
-      children={() => (
-        <BottomSheetContainer style={tw`px-0`}>
-          <View style={tw`items-center p-6 gap-y-1`}>
-            <Text type="h1">Features</Text>
-            <Text type="p1">
-              CampusRush offers the best recruitment experience for greek
-              chapters of all sizes.
-            </Text>
-          </View>
+      children={() => {
+        const metadataQuery = useGetMetadata();
 
-          <View style={tw`flex-1 w-full`}>
-            {(entitlements?.perks.all || []).map((perk, i) => {
-              return <FeatureRow key={i} index={i} feature={perk} />;
-            })}
-          </View>
-        </BottomSheetContainer>
-      )}
+        // Loading and Error states
+        if (metadataQuery.isLoading) return <LoadingState />;
+        if (metadataQuery.error)
+          return (
+            <ErrorMessage
+              error={metadataQuery.error}
+              description="Could not fetch feature comparison data"
+            />
+          );
+
+        const entitlements = metadataQuery.data?.entitlements;
+
+        return (
+          <BottomSheetContainer style={tw`px-0`}>
+            <View style={tw`items-center p-6 gap-y-1`}>
+              <Text type="h1">Features</Text>
+              <Text type="p1">
+                CampusRush offers the best recruitment experience for greek
+                chapters of all sizes.
+              </Text>
+            </View>
+
+            <View style={tw`flex-1 w-full`}>
+              {(entitlements?.perks.all || []).map((perk, i) => {
+                return <FeatureRow key={i} index={i} feature={perk} />;
+              })}
+            </View>
+          </BottomSheetContainer>
+        );
+      }}
     />
   );
 };
@@ -104,6 +120,19 @@ const FeatureRow: React.FC<FeatureRowProps> = ({ feature, index = 1 }) => {
         </View>
       )}
     </View>
+  );
+};
+
+const LoadingState = () => {
+  return (
+    <BottomSheetContainer style={tw`px-4`}>
+      <View style={tw`items-center p-6 gap-y-1`}>
+        <Skeleton height={48} width={200} />
+        <Skeleton height={54} width="100%" />
+      </View>
+
+      <Skeleton height={500} width="100%" />
+    </BottomSheetContainer>
   );
 };
 

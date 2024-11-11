@@ -23,15 +23,16 @@ const EventLoader = () => {
 
   return (
     <View style={containerClasses}>
-      <View style={tw`flex-row gap-5 flex-shrink`}>
-        {/* Date and Time */}
-        <Skeleton width="w-16" height="h-18" />
+      <View style={tw`gap-2 flex-shrink`}>
+        <Skeleton width="w-40" height="h-4" />
+        <Skeleton height="h-6" width="w-72" />
+        <Skeleton height="h-10" width="w-64" />
+        <Skeleton height="h-10" width="w-64" />
 
-        {/* Information */}
-        <View style={tw`flex-1 gap-y-2`}>
-          <Skeleton width="w-40" height="h-6" />
-          <Skeleton height="h-4" />
-          <Skeleton height="h-4" />
+        <View style={tw`flex-row gap-1`}>
+          <Skeleton height="h-6" width="w-16" />
+          <Skeleton height="h-6" width="w-16" />
+          <Skeleton height="h-6" width="w-16" />
         </View>
       </View>
     </View>

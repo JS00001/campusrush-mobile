@@ -15,8 +15,10 @@ import { View, ViewProps } from "react-native";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import Skeleton from "@/ui/Skeleton";
 import ToggleChip from "@/ui/ToggleChip";
-import { useMetadataStore } from "@/store";
+import ErrorMessage from "@/components/ErrorMessage";
+import { useGetMetadata } from "@/hooks/api/external";
 
 interface TagSelectorProps extends ViewProps {
   values: string[];
@@ -30,8 +32,21 @@ const TagSelector: React.FC<TagSelectorProps> = ({
   onChange,
   ...props
 }) => {
-  const tags = useMetadataStore((state) => state.metadata.tags);
+  const metadataQuery = useGetMetadata();
   const [selected, setSelected] = React.useState<string[]>(values);
+
+  // Error and Loading States
+  if (metadataQuery.isLoading) return <LoadingState />;
+  if (metadataQuery.isError) {
+    return (
+      <ErrorMessage
+        error={metadataQuery.error}
+        description="Could not load tags"
+      />
+    );
+  }
+
+  const tagCategories = metadataQuery.data!.tags;
 
   /**
    * When a tag is selected, check if it is already in the selected array.
@@ -58,7 +73,7 @@ const TagSelector: React.FC<TagSelectorProps> = ({
   return (
     <View style={containerStyles} {...props}>
       {/* All of the categories */}
-      {tags?.map((category) => (
+      {tagCategories.map((category) => (
         <React.Fragment key={category.id}>
           <Text type="h3">{category.name}</Text>
           <View style={tw`flex-row gap-1 flex-wrap`}>
@@ -82,6 +97,22 @@ const TagSelector: React.FC<TagSelectorProps> = ({
               );
             })}
           </View>
+        </React.Fragment>
+      ))}
+    </View>
+  );
+};
+
+const LoadingState = () => {
+  const containerStyles = tw.style("gap-y-3 w-full");
+
+  return (
+    <View style={containerStyles}>
+      {/* All of the categories */}
+      {new Array(3).fill(0).map((_, i) => (
+        <React.Fragment key={i}>
+          <Skeleton height={24} width={100} />
+          <Skeleton height={96} width="100%" />
         </React.Fragment>
       ))}
     </View>

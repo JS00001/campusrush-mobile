@@ -17,7 +17,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import { alert } from "@/lib/util";
-import ListItem from "@/ui/ListItem";
+import ListItem from "@/ui/ListItems/ListItem";
 import AppConstants from "@/constants";
 import { useDeleteChapter } from "@/hooks/api/chapter";
 import { useBottomSheet } from "@/providers/BottomSheet";
@@ -161,7 +161,7 @@ const SettingsView = () => {
         size="sm"
         color="secondary"
         style={tw`w-full`}
-        loading={deletionMutation.isLoading}
+        loading={deletionMutation.isPending}
         textStyle={tw`text-red font-medium`}
         onPress={onDeleteAccount}
       >

@@ -10,32 +10,34 @@
  * Do not distribute
  */
 
+import { useMemo } from "react";
 import { View } from "react-native";
+import Toast from "react-native-toast-message";
 
 import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
-import { useEventStore } from "@/store";
-import useSearch from "@/hooks/useSearch";
-import { useBottomSheet } from "@/providers/BottomSheet";
-import { useDeleteEvents, useGetEvents } from "@/hooks/api/events";
-
-import Event from "@/ui/Event";
 import FlatList from "@/ui/FlatList";
 import TextInput from "@/ui/TextInput";
+import Event from "@/ui/ListItems/Event";
 import IconButton from "@/ui/IconButton";
+import useSearch from "@/hooks/useSearch";
 import EventLoader from "@/ui/Loaders/Event";
 import ActionButton from "@/ui/ActionButton";
 import Menu, { MenuAction } from "@/ui/Menu";
+import StickyHeader from "@/ui/StickyHeader";
+import { useBottomSheet } from "@/providers/BottomSheet";
+import { useDeleteEvents, useGetEvents } from "@/hooks/api/events";
 
 const EventsView = () => {
   const { openBottomSheet } = useBottomSheet();
 
-  const eventStore = useEventStore();
   const eventsQuery = useGetEvents();
   const deleteAllEventsMutation = useDeleteEvents();
 
+  const events = eventsQuery.data?.events || [];
+
   const search = useSearch({
-    data: eventsQuery.events,
+    data: events,
     filters: [
       {
         id: "PAST",
@@ -99,9 +101,13 @@ const EventsView = () => {
               text: "Yes, Delete",
               style: "destructive",
               onPress: async () => {
+                const eventCount = events.length;
                 await deleteAllEventsMutation.mutateAsync();
-                await eventsQuery.refetch();
-                eventStore.clear();
+                Toast.show({
+                  type: "success",
+                  text1: "All Events Deleted",
+                  text2: `${eventCount} events have been deleted`,
+                });
               },
             },
           ],
@@ -110,7 +116,55 @@ const EventsView = () => {
     },
   ];
 
-  const placeholder = `Search ${eventsQuery.events.length || ""} Events`;
+  const placeholder = `Search ${events.length} Events`;
+
+  /**
+   * Create groupings of events by date, and extract
+   * the indices of the sticky headers (the dates)
+   */
+  const [data, stickyHeaderIndices] = useMemo(() => {
+    /**
+     * Take the list of events and reduce them into a list like this:
+     * {
+     *  "Date": ['Feb 26 · Monday', event1, event2],
+     *  "Date": ['Feb 27 · Tuesday', event3, event4],
+     * }
+     */
+    const groupedEvents = search.data.reduce((accumulator, event) => {
+      const startDate = new Date(event.startDate);
+      const weekday = startDate.toLocaleString("en-US", { weekday: "long" });
+      const date = startDate.toLocaleString("en-US", {
+        month: "short",
+        day: "numeric",
+      });
+
+      const key = `${date} · ${weekday}`;
+
+      if (accumulator[key]) {
+        accumulator[key].push(event);
+      } else {
+        accumulator[key] = [key, event];
+      }
+
+      return accumulator;
+    }, {});
+
+    // Sort the keys by date, and flatten the list
+    const sortedKeys = Object.keys(groupedEvents)
+      .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
+      .flatMap((key) => groupedEvents[key]);
+
+    // Get the indices of the sticky headers
+    const stickyHeaderIndices = sortedKeys.reduce((indices, item, i) => {
+      if (typeof item === "string") {
+        indices.push(i);
+      }
+
+      return indices;
+    }, []);
+
+    return [sortedKeys, stickyHeaderIndices];
+  }, [search.data]);
 
   const onNewEventPress = () => {
     openBottomSheet("CREATE_EVENT");
@@ -122,7 +176,7 @@ const EventsView = () => {
 
   return (
     <>
-      <View style={tw`flex-row w-full gap-x-1`}>
+      <View style={tw`flex-row relative w-full gap-x-1`}>
         <TextInput
           ph-label="search-events"
           autoCorrect={false}
@@ -140,7 +194,6 @@ const EventsView = () => {
             style={tw`flex-grow`}
           />
         </Menu>
-
         <Menu actions={moreMenu}>
           <IconButton
             color="secondary"
@@ -151,20 +204,20 @@ const EventsView = () => {
       </View>
 
       <FlatList
-        data={search.data}
+        data={data}
         onRefresh={onRefresh}
-        loadingComponent={<EventLoader />}
-        loading={eventsQuery.isLoading}
+        error={eventsQuery.error}
+        errorDescription="Could not fetch events"
         emptyListTitle="No Events Found"
         emptyListSubtitle="Try changing your filters or creating a new event"
+        loading={eventsQuery.isLoading}
+        loadingComponent={<EventLoader />}
+        stickyHeaderIndices={stickyHeaderIndices}
         renderItem={({ item: event }) => {
-          const handlePress = () => {
-            openBottomSheet("EVENT", {
-              eventId: event._id,
-            });
-          };
-
-          return <Event event={event} onPress={handlePress} />;
+          if (typeof event === "string") {
+            return <StickyHeader>{event}</StickyHeader>;
+          }
+          return <Event event={event} />;
         }}
       />
 

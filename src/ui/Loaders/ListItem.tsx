@@ -14,7 +14,7 @@ import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";
-import { ListItemSize } from "@/ui/ListItem";
+import { ListItemSize } from "@/ui/ListItems/ListItem";
 import HeadlineLoader from "@/ui/Loaders/Headline";
 
 interface ListItemLoaderProps {

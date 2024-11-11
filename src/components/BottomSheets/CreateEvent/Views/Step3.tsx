@@ -18,9 +18,8 @@ import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 import type { CreateEventState } from "..";
 
 import Button from "@/ui/Button";
-import ListItem from "@/ui/ListItem";
+import ListItem from "@/ui/ListItems/ListItem";
 import Headline from "@/ui/Headline";
-import { useEventStore } from "@/store";
 import ButtonGroup from "@/ui/ButtonGroup";
 import usePosthog from "@/hooks/usePosthog";
 import { useCreateEvent } from "@/hooks/api/events";
@@ -33,10 +32,9 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
 }) => {
   const posthog = usePosthog();
   const mutation = useCreateEvent();
-  const eventStore = useEventStore();
 
   const handleSubmission = async () => {
-    const response = await mutation.mutateAsync(state as CreateEventRequest);
+    await mutation.mutateAsync(state as CreateEventRequest);
 
     setState({
       title: undefined,
@@ -46,15 +44,11 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
       endDate: new Date().toISOString(),
     });
 
-    eventStore.addOrUpdateEvent(response.data.event);
-
     Toast.show({
       type: "success",
       text1: "Successfully created event",
       text2: "Your event has been successfully created",
     });
-
-    posthog.capture("EVENT_CREATED");
 
     handleClose();
   };
@@ -85,7 +79,6 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
       <Headline title="Finalize" subtitle="Does this look correct?" />
 
       {/* The list of all the form fields and their values */}
-
       <ListItem
         pressable={false}
         title="Title"
@@ -118,14 +111,14 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
           size="sm"
           color="secondary"
           onPress={prevView}
-          disabled={mutation.isLoading}
+          disabled={mutation.isPending}
         >
           No, Go Back
         </Button>
         <Button
           size="sm"
           onPress={handleSubmission}
-          loading={mutation.isLoading}
+          loading={mutation.isPending}
         >
           Yes, Create
         </Button>

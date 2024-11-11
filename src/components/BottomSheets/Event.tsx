@@ -16,7 +16,6 @@ import Toast from "react-native-toast-message";
 import { BottomSheetProps, SheetData } from "./@types";
 
 import useCopy from "@/hooks/useCopy";
-import { useEventStore } from "@/store";
 import { useDeleteEvent, useGetEvent } from "@/hooks/api/events";
 
 import tw from "@/lib/tailwind";
@@ -24,13 +23,13 @@ import Button from "@/ui/Button";
 import { alert } from "@/lib/util";
 import date from "@/lib/util/date";
 import Headline from "@/ui/Headline";
-import Skeleton from "@/ui/Skeleton";
 import format from "@/lib/util/format";
 import AppConstants from "@/constants";
 import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import ButtonGroup from "@/ui/ButtonGroup";
 import { BottomSheet } from "@/ui/BottomSheet";
+import ErrorMessage from "@/components/ErrorMessage";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const EventSheet: React.FC<BottomSheetProps> = ({
@@ -44,14 +43,25 @@ const EventSheet: React.FC<BottomSheetProps> = ({
     <BottomSheet
       innerRef={innerRef}
       children={(props?: SheetData<"EVENT">) => {
-        const { eventId } = props!.data;
+        const initialEvent = props!.data.event;
 
-        const eventsStore = useEventStore();
         const deleteMutation = useDeleteEvent();
-        const eventQuery = useGetEvent(eventId);
+        const getEventQuery = useGetEvent(initialEvent._id);
 
-        const event = format.event(eventQuery.event!);
-        const eventUrl = `${AppConstants.eventUrl}/${eventId}`;
+        const eventData = getEventQuery.data?.event || initialEvent;
+        const event = format.event(eventData);
+
+        // Error State
+        if (getEventQuery.error || !event) {
+          return (
+            <ErrorMessage
+              error={getEventQuery.error}
+              description="Failed to load event"
+            />
+          );
+        }
+
+        const eventUrl = `${AppConstants.eventUrl}/${event._id}`;
 
         const onDelete = async () => {
           alert({
@@ -63,10 +73,8 @@ const EventSheet: React.FC<BottomSheetProps> = ({
                 text: "Delete",
                 style: "destructive",
                 onPress: async () => {
-                  const eventName = event?.title || "Event";
-
-                  await deleteMutation.mutateAsync({ id: eventId });
-                  eventsStore.deleteEvent(eventId);
+                  const eventName = event.title;
+                  await deleteMutation.mutateAsync({ id: event._id });
 
                   Toast.show({
                     type: "success",
@@ -82,19 +90,17 @@ const EventSheet: React.FC<BottomSheetProps> = ({
         };
 
         const onEditPress = () => {
-          openBottomSheet("UPDATE_EVENT", { eventId });
+          openBottomSheet("UPDATE_EVENT", { event });
         };
 
         const onViewResponsesPress = () => {
           handleClose();
-          openBottomSheet("EVENT_RESPONSES", { eventId });
+          openBottomSheet("EVENT_RESPONSES", { eventId: event._id });
         };
 
         const onShare = () => {
           copy(eventUrl, "Event Link");
         };
-
-        if (!event) return <LoadingState />;
 
         return (
           <BottomSheetContainer>
@@ -119,7 +125,7 @@ const EventSheet: React.FC<BottomSheetProps> = ({
                   color="secondary"
                   iconName="delete-bin-6-line"
                   iconColor={tw.color("red")}
-                  loading={deleteMutation.isLoading}
+                  loading={deleteMutation.isPending}
                   onPress={onDelete}
                 />
               </View>
@@ -149,28 +155,6 @@ const EventSheet: React.FC<BottomSheetProps> = ({
         );
       }}
     />
-  );
-};
-
-const LoadingState = () => {
-  return (
-    <BottomSheetContainer>
-      <View style={tw`mb-2 flex-row justify-between items-center gap-2`}>
-        <View style={tw`flex-1 gap-2`}>
-          <Skeleton height={24} />
-          <Skeleton width={"75%"} height={16} />
-        </View>
-
-        <View style={tw`flex-row gap-1`}>
-          <Skeleton width={48} height={48} borderRadius={999} />
-          <Skeleton width={48} height={48} borderRadius={999} />
-        </View>
-      </View>
-
-      <Skeleton height={332} />
-
-      <Skeleton height={54} />
-    </BottomSheetContainer>
   );
 };
 

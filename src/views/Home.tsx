@@ -11,52 +11,67 @@
  */
 
 import { View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 import type { IPNM } from "@/types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Skeleton from "@/ui/Skeleton";
-import ListItem from "@/ui/ListItem";
+import ListItem from "@/ui/ListItems/ListItem";
 import FlatList from "@/ui/FlatList";
 import CopyView from "@/ui/CopyView";
 import format from "@/lib/util/format";
-import IconButton from "@/ui/IconButton";
-import { useAuth } from "@/providers/Auth";
 import Information from "@/ui/Information";
+import { useUser } from "@/providers/User";
+import { useGetPnms } from "@/hooks/api/pnms";
 import ListItemLoader from "@/ui/Loaders/ListItem";
+import ErrorMessage from "@/components/ErrorMessage";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import RefreshControlView from "@/ui/RefreshControlView";
-import { useGetChapterStatistics } from "@/hooks/api/chapter";
 
 const HomeView = () => {
-  const { chapter } = useAuth();
+  const { chapter } = useUser();
+  const pnmQuery = useGetPnms();
   const { openBottomSheet } = useBottomSheet();
-  const statisticsQuery = useGetChapterStatistics();
-
-  const onRefresh = async () => {
-    await statisticsQuery.refetch();
-  };
 
   const onRecentPnmPress = (pnm: IPNM) => {
-    openBottomSheet("PNM", {
-      pnmId: pnm._id,
-    });
+    openBottomSheet("PNM", { pnm });
   };
 
   const onChapterPhoneNumberPress = () => {
     openBottomSheet("CUSTOM_PHONE_NUMBER");
   };
 
-  if (statisticsQuery.isLoading) {
-    return <LoadingState />;
-  }
+  const onRefresh = async () => {
+    await pnmQuery.refetch();
+  };
+
+  // Loading and error states
+  if (pnmQuery.isLoading) return <LoadingState />;
+  if (pnmQuery.error)
+    return (
+      <ErrorMessage
+        error={pnmQuery.error}
+        description="Could not fetch account data"
+      />
+    );
+
+  // Default data from the queries
+  const pnms = pnmQuery.data?.pnms || [];
+
+  // Statistics
+  const pnmCount = pnms.length || 0;
+  const starredPnmCount = pnms.filter((pnm) => pnm.starred).length;
+  const recentPnms = pnms
+    .sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    })
+    .slice(0, 5);
 
   return (
     <RefreshControlView
       tintColor="white"
-      refreshing={statisticsQuery.isLoading}
+      refreshing={pnmQuery.isLoading}
       onRefresh={onRefresh}
     >
       {/* White background */}
@@ -78,7 +93,7 @@ const HomeView = () => {
             pressable={false}
             icon="user-fill"
             titleStyle={tw`text-[32px] font-semibold leading-9`}
-            title={statisticsQuery.pnmCount?.toString() || "0"}
+            title={pnmCount.toString()}
             subtitle="Current PNMs registered to rush"
           />
 
@@ -87,7 +102,7 @@ const HomeView = () => {
             pressable={false}
             icon="user-star-fill"
             titleStyle={tw`text-[32px] font-semibold leading-9`}
-            title={statisticsQuery.starredPnmCount?.toString() || "0"}
+            title={starredPnmCount.toString()}
             subtitle="PNMs saved as favorites"
           />
         </View>
@@ -112,8 +127,7 @@ const HomeView = () => {
           <Text type="h3">Recently Added PNMs</Text>
           <FlatList
             scrollEnabled={false}
-            data={statisticsQuery.recentPnms}
-            loading={statisticsQuery.isLoading}
+            data={recentPnms}
             emptyListTitle="No Recent PNMs"
             emptyListSubtitle="Add a new PNM to get started"
             renderItem={({ item: pnm }) => (

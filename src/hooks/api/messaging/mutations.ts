@@ -10,38 +10,76 @@
  * Do not distribute
  */
 
-import { useMutation } from '@tanstack/react-query';
+import { InfiniteData, useMutation } from '@tanstack/react-query';
 
-import type { SendDirectMessageRequest, SendMassMessageRequest } from '@/types';
+import type {
+  IConversation,
+  SendDirectMessageRequest,
+  SendMassMessageRequest,
+} from '@/types';
 
-import { sendMassMessage, sendDirectMessage, uploadFile } from '@/api';
+import usePosthog from '@/hooks/usePosthog';
+import queryClient from '@/lib/query-client';
+import { sendMassMessage, sendDirectMessage } from '@/api';
+
+type IGetConversation = InfiniteData<{ conversation?: IConversation }>;
 
 export const useSendMassMessage = () => {
+  const posthog = usePosthog();
+
   return useMutation({
     mutationFn: async (data: SendMassMessageRequest) => {
       const response = await sendMassMessage(data);
       if ('error' in response) throw response;
       return response;
     },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['conversations'] });
+      queryClient.refetchQueries({ queryKey: ['contacts'] });
+      posthog.capture('MASS_MESSAGE_SENT', {
+        target_count: variables.pnms.length,
+      });
+    },
   });
 };
 
 export const useSendDirectMessage = () => {
+  const posthog = usePosthog();
+
   return useMutation({
     mutationFn: async (data: SendDirectMessageRequest) => {
       const response = await sendDirectMessage(data);
       if ('error' in response) throw response;
       return response;
     },
-  });
-};
+    onMutate: async (data) => {
+      // Optimistically update the UI
+      await queryClient.cancelQueries({ queryKey: ['conversations'] });
+      await queryClient.cancelQueries({ queryKey: ['conversation', data.pnm] });
 
-export const useUploadFile = () => {
-  return useMutation({
-    mutationFn: async (data: FormData) => {
-      const response = await uploadFile(data);
-      if ('error' in response) throw response;
-      return response;
+      const previousResponse = queryClient.getQueryData<IGetConversation>([
+        'conversation',
+        data.pnm,
+      ]);
+
+      queryClient.addMessage(data.pnm, data);
+
+      return { previousResponse };
+    },
+    onError: (_, variables, context) => {
+      // Rollback to the previous state
+      queryClient.setQueryData<IGetConversation>(
+        ['conversation', variables.pnm],
+        context?.previousResponse,
+      );
+    },
+    onSettled: (res) => {
+      // Refetch the conversations list and the conversation
+      const pnmId = res?.data.conversation.pnm;
+      queryClient.refetchQueries({ queryKey: ['contacts'] });
+      queryClient.invalidateQueries({ queryKey: ['conversations'] });
+      queryClient.invalidateQueries({ queryKey: ['conversation', pnmId] });
+      posthog.capture('DIRECT_MESSAGE_SENT');
     },
   });
 };

@@ -13,7 +13,7 @@
 import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
-import Chapter from "@/ui/Chapter";
+import Chapter from "@/ui/ListItems/Chapter";
 import FlatList from "@/ui/FlatList";
 import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
@@ -23,10 +23,12 @@ import ChapterLoader from "@/ui/Loaders/Chapter";
 import { useGetAdminChapters } from "@/hooks/api/admin";
 
 const ChaptersView = () => {
-  const getAdminChaptersQuery = useGetAdminChapters();
+  const getChaptersQuery = useGetAdminChapters();
+
+  const chapters = getChaptersQuery.data?.chapters || [];
 
   const search = useSearch({
-    data: getAdminChaptersQuery.chapters,
+    data: chapters,
     defaultSortingMethod: "LAST_ONLINE_DESC",
     filters: [
       {
@@ -131,7 +133,7 @@ const ChaptersView = () => {
   ];
 
   const onRefresh = async () => {
-    await getAdminChaptersQuery.refetch();
+    await getChaptersQuery.refetch();
   };
 
   const inputPlaceholder = `Search ${search.data.length || ""} chapters`;
@@ -166,8 +168,10 @@ const ChaptersView = () => {
       <FlatList
         data={search.data}
         onRefresh={onRefresh}
+        error={getChaptersQuery.error}
+        errorDescription="Could not fetch chapters"
         loadingComponent={<ChapterLoader />}
-        loading={getAdminChaptersQuery.isLoading}
+        loading={getChaptersQuery.isLoading}
         emptyListTitle="No Chapters Found"
         emptyListSubtitle="Try changing your filters"
         renderItem={({ item: chapter }) => <Chapter chapter={chapter} />}

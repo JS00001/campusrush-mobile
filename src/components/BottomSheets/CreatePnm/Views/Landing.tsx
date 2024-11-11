@@ -13,7 +13,7 @@
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import tw from "@/lib/tailwind";
-import ListItem from "@/ui/ListItem";
+import ListItem from "@/ui/ListItems/ListItem";
 import Headline from "@/ui/Headline";
 
 const Landing: React.FC<UseSheetFlowProps> = ({ nextView, setView }) => {

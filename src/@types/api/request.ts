@@ -257,3 +257,8 @@ export interface GetNotificationsRequest {
   /** Offset for retrieving notifications */
   offset: number;
 }
+
+export interface DeletePnmsRequest {
+  /** Array of IDs of the potential new members (PNMs) to be deleted */
+  pnms?: string[];
+}

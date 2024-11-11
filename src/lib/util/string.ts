@@ -42,29 +42,6 @@ export const isJSON = (string: string) => {
 };
 
 /**
- * Take a version like "1.0.0" and convert it to "010000"
- */
-export const getComparableVersion = (version: string) => {
-  const parts = version.split('.');
-
-  const paddedParts = parts.map((part, index) => {
-    if (index === 0) {
-      while (part.length < 2) {
-        part = '0' + part;
-      }
-    } else {
-      while (part.length < 2) {
-        part = part + '0';
-      }
-    }
-
-    return part;
-  });
-
-  return parseInt(paddedParts.join(''));
-};
-
-/**
  * Put a string into title case
  */
 export const titleCase = (string: string) => {

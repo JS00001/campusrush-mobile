@@ -11,10 +11,10 @@
  */
 
 import { View } from "react-native";
+import Toast from "react-native-toast-message";
 
 import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
-import { useGlobalStore } from "@/store";
 import useSearch from "@/hooks/useSearch";
 import PnmsList from "@/components/PnmsList";
 import { useDeletePnms, useGetPnms } from "@/hooks/api/pnms";
@@ -24,13 +24,13 @@ import IconButton from "@/ui/IconButton";
 import Menu, { MenuAction } from "@/ui/Menu";
 
 const PnmsView = () => {
-  const globalStore = useGlobalStore();
-
   const pnmsQuery = useGetPnms();
   const deleteAllPnmsMutation = useDeletePnms();
 
+  const pnms = pnmsQuery.data?.pnms || [];
+
   const search = useSearch({
-    data: pnmsQuery.pnms,
+    data: pnms,
     fields: ["firstName", "lastName", "phoneNumber"],
     filters: [
       {
@@ -95,9 +95,13 @@ const PnmsView = () => {
               text: "Yes, Delete",
               style: "destructive",
               onPress: async () => {
-                await deleteAllPnmsMutation.mutateAsync();
-                await pnmsQuery.refetch();
-                globalStore.resetPnmStores();
+                const pnmCount = pnms.length;
+                await deleteAllPnmsMutation.mutateAsync({});
+                Toast.show({
+                  type: "success",
+                  text1: "Deleted All PNMs",
+                  text2: `${pnmCount} PNMs have been deleted.`,
+                });
               },
             },
           ],
@@ -106,7 +110,7 @@ const PnmsView = () => {
     },
   ];
 
-  const placeholder = `Search ${pnmsQuery.pnms.length || ""} PNMs`;
+  const placeholder = `Search ${pnms.length || ""} PNMs`;
 
   const onRefetch = async () => {
     await pnmsQuery.refetch();

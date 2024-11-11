@@ -19,8 +19,8 @@ import Button from "@/ui/Button";
 import useForm from "@/hooks/useForm";
 import ButtonGroup from "@/ui/ButtonGroup";
 import DateTimePicker from "@/ui/DateTimePicker";
+import { useGrantEntitlement } from "@/hooks/api/admin";
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
-import { useGrantAdminChapterEntitlement } from "@/hooks/api/admin";
 
 interface ManageBillingProps extends UseSheetFlowProps {
   chapterId: string;
@@ -30,8 +30,7 @@ const ManageBilling: React.FC<ManageBillingProps> = ({
   chapterId,
   prevView,
 }) => {
-  const currentTime = new Date();
-  const grantEntitlementMutation = useGrantAdminChapterEntitlement();
+  const grantEntitlementMutation = useGrantEntitlement();
 
   const formValidators = {
     expires: z.any(),
@@ -44,6 +43,7 @@ const ManageBilling: React.FC<ManageBillingProps> = ({
     },
   });
 
+  const currentTime = new Date();
   const expires = new Date(parseInt(form.state.expires.value));
 
   useEffect(() => {
@@ -106,7 +106,7 @@ const ManageBilling: React.FC<ManageBillingProps> = ({
 
         <Button
           size="sm"
-          loading={grantEntitlementMutation.isLoading}
+          loading={grantEntitlementMutation.isPending}
           onPress={handleSubmission}
         >
           Grant Pro

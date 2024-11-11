@@ -11,21 +11,17 @@
  */
 
 import Toast from "react-native-toast-message";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 import type { WebsocketLog, WebsocketMessage } from "@/types/websocket";
 
-import {
-  useConversationStore,
-  useGlobalStore,
-  useMessageStore,
-  useNotificationStore,
-} from "@/store";
 import AppConstants from "@/constants";
 import { isJSON } from "@/lib/util/string";
-import { useAuth } from "@/providers/Auth";
+import { useUser } from "@/providers/User";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import { LogLevels, websocketLogger } from "@/lib/logger";
+import { getAccessToken } from "@/lib/auth";
+import queryClient from "@/lib/query-client";
 
 const MAX_LOGS = 100;
 
@@ -44,16 +40,11 @@ const WebsocketContext = createContext<IWebsocketContext>(
 const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { accessToken } = useAuth();
+  const { chapter } = useUser();
   const { openBottomSheet } = useBottomSheet();
 
-  const [ws, setWs] = useState<WebSocket | null>(null);
+  const ws = useRef<WebSocket | null>(null);
   const [logs, setLogs] = useState<WebsocketLog[]>([]);
-
-  const globalStore = useGlobalStore();
-  const messageStore = useMessageStore();
-  const notificationStore = useNotificationStore();
-  const conversationStore = useConversationStore();
 
   let reconnectAttempts = 0;
 
@@ -63,18 +54,16 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
    * disconnect the websocket
    */
   useEffect(() => {
-    if (!accessToken) {
-      disconnect();
-      return;
-    }
-
-    connect();
-  }, [accessToken]);
+    if (!chapter) disconnect();
+    else connect();
+  }, [chapter]);
 
   /**
    * Attempt to connect to the websocket
    */
-  const connect = () => {
+  const connect = async () => {
+    const accessToken = await getAccessToken();
+
     if (!accessToken) {
       websocketLogger.error("No access token for connection");
       return;
@@ -83,17 +72,17 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
     sendLog("Attempting to connect to websocket");
 
     // If we are already connected, don't try to connect again
-    if (ws && ws.readyState === ws.OPEN) {
+    if (ws.current && ws.current.readyState === ws.current.OPEN) {
       sendLog("Already connected to websocket");
       return;
     }
 
     // If we are storing a connection, but are not currently connected, close the connection
-    if (ws) {
-      ws.close();
+    if (ws.current) {
+      ws.current.close();
     }
 
-    const connection = new WebSocket(AppConstants.websocketUrl, accessToken);
+    const connection = new WebSocket(AppConstants.WebsocketURL, accessToken);
 
     // Create all of the listeners for the websocket
     connection.onopen = onOpen;
@@ -107,11 +96,9 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
    */
   const onOpen = (event: Event) => {
     const websocket = event.target as WebSocket;
-
-    setWs(websocket);
-    sendLog(`Connected to ${AppConstants.websocketUrl}`);
-
+    ws.current = websocket;
     reconnectAttempts = 0;
+    sendLog(`Connected to ${AppConstants.WebsocketURL}`);
   };
 
   /**
@@ -136,8 +123,13 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
     const socketMessage = parsedJSON as WebsocketMessage;
 
     const notification = socketMessage.data.notification;
-    if (notification) notificationStore.addOrUpdateNotification(notification);
 
+    // Handle notifications
+    if (notification) {
+      queryClient.refetchQueries({ queryKey: ["notifications"] });
+    }
+
+    // Handle toast notifications
     if (socketMessage.toastNotification) {
       Toast.show({
         type: "info",
@@ -153,22 +145,12 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
       const conversation = socketMessage.data.payload.conversation;
 
       const pnmId = conversation.pnm._id;
-      const existingMessages = messageStore.getMessages(pnmId) || [];
-
-      conversationStore.addConversations(conversation);
-
-      // If we are just opening the conversation, the message store is empty (This store is in memory)
-      // So we should add all of the messages we know about
-      if (!existingMessages.length) {
-        messageStore.addOrUpdateMessages(conversation.messages.reverse());
-      } else {
-        messageStore.addOrUpdateMessages(conversation.messages[0]);
-      }
+      queryClient.invalidateQueries({ queryKey: ["conversations"] });
+      queryClient.invalidateQueries({ queryKey: ["conversation", pnmId] });
     }
 
     if (socketMessage.type === "NEW_PNM") {
-      const pnm = socketMessage.data.payload.pnm;
-      globalStore.addOrUpdatePnm(pnm);
+      queryClient.invalidateQueries({ queryKey: ["pnms"] });
     }
 
     if (socketMessage.type === "NEW_DYNAMIC_NOTIFICATION") {
@@ -183,7 +165,15 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
     if (socketMessage.type === "MESSAGE_ERROR") {
       const message = socketMessage.data.payload.message;
-      messageStore.addOrUpdateMessages(message);
+      queryClient.invalidateQueries({
+        queryKey: ["conversation", message.pnm],
+      });
+    }
+
+    if (socketMessage.type === "NEW_EVENT_RESPONSE") {
+      const event = socketMessage.data.payload.event;
+      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({ queryKey: ["event", event._id] });
     }
   };
 
@@ -199,7 +189,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
-    setWs(null);
+    ws.current = null;
   };
 
   /**
@@ -222,11 +212,11 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
    * Close a websocket connection
    */
   const disconnect = () => {
-    if (!ws) {
+    if (!ws.current) {
       return;
     }
 
-    ws.close(1000, "CLIENT_CLOSE");
+    ws.current.close(1000, "CLIENT_CLOSE");
     sendLog("Closing websocket connection");
   };
 
@@ -243,12 +233,12 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
     setLogs((logs) => [log, ...logs].slice(0, MAX_LOGS));
   };
 
-  const connected = ws?.readyState === WebSocket.OPEN;
+  const connected = ws.current?.readyState === WebSocket.OPEN;
 
   return (
     <WebsocketContext.Provider
       value={{
-        ws,
+        ws: ws.current,
         connected,
         logs,
         disconnect,

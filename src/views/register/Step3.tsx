@@ -14,8 +14,6 @@ import { z } from "zod";
 
 import Button from "@/ui/Button";
 import FormField from "@/ui/FormField";
-import { useAuth } from "@/providers/Auth";
-import usePosthog from "@/hooks/usePosthog";
 import { useRegistrationStore } from "@/store";
 import { useRegister } from "@/hooks/api/auth";
 import validators from "@/constants/validators";
@@ -23,10 +21,8 @@ import useFormMutation from "@/hooks/useFormMutation";
 import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep3View = () => {
-  const posthog = usePosthog();
   const mutation = useRegister();
   const store = useRegistrationStore();
-  const { authenticateUser } = useAuth();
 
   const formValidators = {
     name: z.any(),
@@ -50,17 +46,7 @@ const RegistrationStep3View = () => {
       password: store.password,
       confirmPassword: store.confirmPassword,
     },
-    onSuccess: async ({ data }) => {
-      const userData = {
-        chapter: data.chapter,
-        accessToken: data.accessToken,
-        refreshToken: data.refreshToken,
-      };
-
-      await authenticateUser(userData);
-
-      posthog.capture("REGISTRATION_COMPLETED");
-
+    onSuccess: async () => {
       store.clear();
     },
   });

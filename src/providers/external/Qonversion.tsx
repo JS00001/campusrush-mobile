@@ -13,21 +13,24 @@
 import Qonversion, {
   PurchaseModel,
   Entitlement,
+  UserPropertyKey,
 } from "react-native-qonversion";
 import * as Sentry from "@sentry/react-native";
 import Toast from "react-native-toast-message";
 import { createContext, useEffect, useState, useContext } from "react";
 
+import type { IChapter } from "@/types";
+
 import qonversionConfig from "@/lib/qonversion";
 
 interface IQonversionContext {
-  /** Whether or not the Qonversion SDK is fetching its initial values. */
-  isLoading: boolean;
-  /** The ids of the active entitlements. */
-  entitlementIds: string[];
   /** The active entitlements. */
   entitlements: Entitlement[];
 
+  /** Login the user with the chapter data */
+  login(chapter: IChapter): Promise<void>;
+  /** Logout the user */
+  logout(): Promise<void>;
   /** Restore purchases by checking if the account has any active entitlements. */
   restorePurchases(): Promise<void>;
   /** Update the active entitlements to match the server. */
@@ -35,7 +38,7 @@ interface IQonversionContext {
   /** Purchase the selected product. */
   purchaseProduct(purchaseModal: PurchaseModel): Promise<void>;
   /** Set the active entitlements. */
-  setEntitlements(entitlements: Map<string, Entitlement>): void;
+  setEntitlements(entitlements: Entitlement[]): void;
 }
 
 const QonversionContext = createContext<IQonversionContext>(
@@ -45,39 +48,48 @@ const QonversionContext = createContext<IQonversionContext>(
 const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [entitlementIds, setEntitlementIds] = useState<string[]>([]);
-  const [entitlementState, setEntitlementState] = useState<Entitlement[]>([]);
+  const [entitlements, setEntitlements] = useState<Entitlement[]>([]);
 
   /**
    * On initial load, set the entitlements for the user
    * so we know if they are authorized
    */
   useEffect(() => {
-    (async () => {
-      // Now, we need to initialize the qonversion SDK
-      // so we can handle in-app purchases
-      Qonversion.initialize(qonversionConfig);
-      await checkEntitlements();
-      setIsLoading(false);
-    })();
+    Qonversion.initialize(qonversionConfig);
   }, []);
+
+  /**
+   * Take a chapter and login the user so they can access
+   * their entitlements
+   */
+  const login = async (chapter: IChapter) => {
+    Qonversion.getSharedInstance().identify(chapter.billing.qonversionId);
+    Qonversion.getSharedInstance().setUserProperty(
+      UserPropertyKey.EMAIL,
+      chapter.email,
+    );
+
+    await checkEntitlements();
+  };
+
+  /**
+   * Logout the user and remove their entitlements
+   */
+  const logout = async () => {
+    Qonversion.getSharedInstance().logout();
+    setEntitlements([]);
+  };
 
   /**
    * Takes an array of entitlements and sets the active entitlements
    * using only their ids.
    */
-  const setEntitlements = (entitlements: Map<string, Entitlement>) => {
+  const setActiveEntitlements = (entitlements: Map<string, Entitlement>) => {
     const activeEntitlements = Array.from(entitlements.values()).filter(
       (entitlement) => entitlement.isActive,
     );
 
-    const activeEntitlementIds = activeEntitlements.map(
-      (entitlement) => entitlement.id,
-    );
-
-    setEntitlementState(activeEntitlements);
-    setEntitlementIds(activeEntitlementIds);
+    setEntitlements(activeEntitlements);
   };
 
   /**
@@ -88,7 +100,7 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
     const qonversionInstance = Qonversion.getSharedInstance();
     const fetchedEntitlements = await qonversionInstance.checkEntitlements();
 
-    setEntitlements(fetchedEntitlements);
+    setActiveEntitlements(fetchedEntitlements);
   };
 
   /**
@@ -98,16 +110,20 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
   const restorePurchases = async () => {
     try {
       const entitlements = await Qonversion.getSharedInstance().restore();
+      setActiveEntitlements(entitlements);
 
-      setEntitlements(entitlements);
-
+      Toast.show({
+        type: "success",
+        text1: "Purchases restored",
+        text2: "Your purchases have been restored",
+      });
+    } catch (e) {
+      Sentry.captureException(e);
       Toast.show({
         type: "error",
         text1: "No purchases found",
         text2: "You have no purchases to restore",
       });
-    } catch (e) {
-      Sentry.captureException(e);
     }
   };
 
@@ -120,7 +136,7 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
       const qonversionInstance = Qonversion.getSharedInstance();
       const entitlements = await qonversionInstance.purchase(purchaseModel);
 
-      setEntitlements(entitlements);
+      setActiveEntitlements(entitlements);
     } catch (e: any) {
       if (e.userCancelled) return;
       Sentry.captureException(e);
@@ -130,10 +146,10 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <QonversionContext.Provider
       value={{
-        isLoading,
-        entitlements: entitlementState,
-        entitlementIds,
+        entitlements,
 
+        login,
+        logout,
         purchaseProduct,
         restorePurchases,
         setEntitlements,

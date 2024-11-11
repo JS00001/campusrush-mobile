@@ -13,13 +13,13 @@
 import { View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
-import { useAuth } from "@/providers/Auth";
+import { useUser } from "@/providers/User";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
 const GestureDetectorProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { chapter } = useAuth();
+  const { chapter } = useUser();
   const { openBottomSheet } = useBottomSheet();
 
   const onTripleFingerTap = (event: any) => {

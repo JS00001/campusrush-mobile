@@ -13,68 +13,36 @@
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-import { usePnmStore } from '@/store';
 import { getPnms, getPnm } from '@/api';
-import { useAuth } from '@/providers/Auth';
 
 /**
  * Get all of the PNMs the chapter has
  */
 export const useGetPnms = () => {
-  const { accessToken } = useAuth();
-  const pnms = usePnmStore((s) => s.pnms);
-  const setPnms = usePnmStore((s) => s.setPnms);
-
-  const query = useQuery(['pnms', accessToken], {
+  const query = useQuery({
+    queryKey: ['pnms'],
     queryFn: async () => {
       const response = await getPnms();
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
   });
 
-  useEffect(() => {
-    if (!query.data || query.isError) {
-      return;
-    }
-
-    setPnms(query.data.data.pnms);
-  }, [query.data]);
-
-  return {
-    ...query,
-    pnms,
-    isLoading: query.isLoading && !pnms.length,
-  };
+  return query;
 };
 
 /**
  * Get a specific PNM by their ID
  */
 export const useGetPnm = (id: string) => {
-  const { accessToken } = useAuth();
-  const pnm = usePnmStore((s) => s.getPnm(id));
-  const addOrUpdatePnm = usePnmStore((s) => s.addOrUpdatePnm);
-
-  const query = useQuery(['pnm', id, accessToken], {
+  const query = useQuery({
+    queryKey: ['pnm', id],
     queryFn: async () => {
       const response = await getPnm({ id });
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
   });
 
-  useEffect(() => {
-    if (!query.data || query.isError) {
-      return;
-    }
-
-    addOrUpdatePnm(query.data.data.pnm);
-  }, [query.data]);
-
-  return {
-    ...query,
-    pnm,
-    isLoading: query.isLoading && !pnm,
-  };
+  return query;
 };

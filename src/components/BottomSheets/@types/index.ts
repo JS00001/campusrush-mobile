@@ -11,7 +11,7 @@
  */
 
 import type { IconType } from '@/ui/Icon';
-import type { ActionMenu, IViolation } from '@/types';
+import type { ActionMenu, IEvent, IPNM, IViolation } from '@/types';
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
@@ -54,11 +54,11 @@ export interface IndividualSheetProps {
     message: string;
   };
   /* View information about an event */
-  EVENT: { eventId: string };
+  EVENT: { event: IEvent };
   /* View responses to an event */
   EVENT_RESPONSES: { eventId: string };
   /* View information about a pnm */
-  PNM: { pnmId: string };
+  PNM: { pnm: IPNM };
   /* Compare billing plans */
   PLAN_COMPARISON: undefined;
   /* View the privacy policy */
@@ -71,9 +71,9 @@ export interface IndividualSheetProps {
   /* View the terms of service */
   TERMS_OF_SERVICE: undefined;
   /* Update information about a pnm */
-  UPDATE_PNM: { pnmId: string };
+  UPDATE_PNM: { pnm: IPNM };
   /* Update information about an event */
-  UPDATE_EVENT: { eventId: string };
+  UPDATE_EVENT: { event: IEvent };
   /** Violations for a chapter */
   VIOLATIONS: { violations: IViolation[] };
 }

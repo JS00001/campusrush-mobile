@@ -20,12 +20,13 @@ import Tabs from "@/ui/Tabs";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Headline from "@/ui/Headline";
-import ListItem from "@/ui/ListItem";
+import ListItem from "@/ui/ListItems/ListItem";
 import Skeleton from "@/ui/Skeleton";
 import format from "@/lib/util/format";
 import { BottomSheet } from "@/ui/BottomSheet";
 import { useGetEvent } from "@/hooks/api/events";
 import ListItemLoader from "@/ui/Loaders/ListItem";
+import ErrorMessage from "@/components/ErrorMessage";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const EventResponsesSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
@@ -39,9 +40,21 @@ const EventResponsesSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
         const eventQuery = useGetEvent(eventId);
         const [activeTab, setActiveTab] = useState(0);
 
-        const event = format.event(eventQuery.event!);
-        // Get all responses, and ensure they are sorted by yes, maybe, no
-        const responses = eventQuery.responses.sort((a, b) => {
+        // Loading and Error States
+        if (eventQuery.isLoading) return <LoadingState />;
+        if (eventQuery.error)
+          return (
+            <ErrorMessage
+              error={eventQuery.error}
+              description="Could not load event responses"
+            />
+          );
+
+        const responses = eventQuery.data!.responses;
+        const event = format.event(eventQuery.data!.event);
+
+        // Ensure responses are sorted by yes, maybe, no
+        responses.sort((a, b) => {
           const order = { yes: 0, maybe: 1, no: 2 };
           return order[a.response] - order[b.response];
         });
@@ -74,14 +87,12 @@ const EventResponsesSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
           return icon as RemixIconType;
         };
 
-        if (!event || !responses) return <LoadingState />;
-
         return (
           <BottomSheetContainer
             style={tw`px-0`}
             contentContainerStyle={tw`gap-y-6`}
           >
-            <Text type="h1" style={tw`px-6`} numberOfLines={2}>
+            <Text type="h2" style={tw`px-6`} numberOfLines={2}>
               {event.title}
             </Text>
 
