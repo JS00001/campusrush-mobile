@@ -20,7 +20,6 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import Headline from "@/ui/Headline";
 import FormField from "@/ui/FormField";
-import { useGlobalStore } from "@/store";
 import ButtonGroup from "@/ui/ButtonGroup";
 import TagView from "@/components/TagView";
 import usePosthog from "@/hooks/usePosthog";
@@ -41,11 +40,10 @@ const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
   };
 
   const posthog = usePosthog();
-  const mutation = useCreatePnm();
-  const globalStore = useGlobalStore();
+  const createPnmMutation = useCreatePnm();
 
   const handleSubmission = async () => {
-    const response = await mutation.mutateAsync(state as CreatePnmRequest);
+    await createPnmMutation.mutateAsync(state as CreatePnmRequest);
 
     setState({
       firstName: undefined,
@@ -55,8 +53,6 @@ const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
       snapchat: undefined,
       tags: [],
     });
-
-    globalStore.addOrUpdatePnm(response.data.pnm);
 
     Toast.show({
       type: "success",
@@ -94,14 +90,14 @@ const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
           size="sm"
           color="secondary"
           onPress={prevView}
-          disabled={mutation.isLoading}
+          disabled={createPnmMutation.isPending}
         >
           No, Go Back
         </Button>
         <Button
           size="sm"
           onPress={handleSubmission}
-          loading={mutation.isLoading}
+          loading={createPnmMutation.isPending}
         >
           Yes, Create
         </Button>

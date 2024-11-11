@@ -24,22 +24,34 @@ import {
   sendChapterNotification,
 } from '@/api';
 
-export const useGrantAdminChapterEntitlement = () => {
+import queryClient from '@/lib/query-client';
+
+export const useGrantEntitlement = () => {
   return useMutation({
     mutationFn: async (data: GrantAdminChapterEntitlementRequest) => {
       const response = await grantAdminChapterEntitlement(data);
       if ('error' in response) throw response;
       return response;
     },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ['adminChapterEntitlements', variables.id],
+      });
+    },
   });
 };
 
-export const useRevokeAdminChapterEntitlement = () => {
+export const useRevokeEntitlement = () => {
   return useMutation({
     mutationFn: (data: RevokeAdminChapterEntitlementRequest) => {
       const response = revokeAdminChapterEntitlement(data);
       if ('error' in response) throw response;
       return response;
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ['adminChapterEntitlements', variables.id],
+      });
     },
   });
 };

@@ -10,73 +10,38 @@
  * Do not distribute
  */
 
-import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-import type { IEventResponse } from '@/types';
-
-import { useEventStore } from '@/store';
-import { useAuth } from '@/providers/Auth';
 import { getEvent, getEvents } from '@/api';
 
 /**
  * Get all of the events the chapter has
  */
 export const useGetEvents = () => {
-  const { accessToken } = useAuth();
-  const events = useEventStore((s) => s.events);
-  const setEvents = useEventStore((s) => s.setEvents);
-
-  const query = useQuery(['events', accessToken], {
+  const query = useQuery({
+    queryKey: ['events'],
     queryFn: async () => {
       const response = await getEvents();
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
   });
 
-  useEffect(() => {
-    if (!query.data || query.isError) {
-      return;
-    }
-
-    setEvents(query.data.data.events);
-  }, [query.data]);
-
-  return {
-    ...query,
-    events,
-    isLoading: query.isLoading && !events.length,
-  };
+  return query;
 };
 
 /**
  * Get a specific event by its ID
  */
 export const useGetEvent = (id: string) => {
-  const { accessToken } = useAuth();
-  const event = useEventStore((s) => s.getEvent(id));
-  const [responses, setResponses] = useState<IEventResponse[]>([]);
-  const addOrUpdateEvent = useEventStore((s) => s.addOrUpdateEvent);
-
-  const query = useQuery(['event', id, accessToken], {
+  const query = useQuery({
+    queryKey: ['event', id],
     queryFn: async () => {
       const response = await getEvent({ id });
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
   });
 
-  useEffect(() => {
-    if (!query.data || query.isError) return;
-
-    addOrUpdateEvent(query.data.data.event);
-    setResponses(query.data.data.responses);
-  }, [query.data]);
-
-  return {
-    ...query,
-    event,
-    responses,
-  };
+  return query;
 };

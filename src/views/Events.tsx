@@ -14,7 +14,6 @@ import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
-import { useEventStore } from "@/store";
 import useSearch from "@/hooks/useSearch";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import { useDeleteEvents, useGetEvents } from "@/hooks/api/events";
@@ -30,12 +29,13 @@ import Menu, { MenuAction } from "@/ui/Menu";
 const EventsView = () => {
   const { openBottomSheet } = useBottomSheet();
 
-  const eventStore = useEventStore();
   const eventsQuery = useGetEvents();
   const deleteAllEventsMutation = useDeleteEvents();
 
+  const events = eventsQuery.data?.events || [];
+
   const search = useSearch({
-    data: eventsQuery.events,
+    data: events,
     filters: [
       {
         id: "PAST",
@@ -100,8 +100,6 @@ const EventsView = () => {
               style: "destructive",
               onPress: async () => {
                 await deleteAllEventsMutation.mutateAsync();
-                await eventsQuery.refetch();
-                eventStore.clear();
               },
             },
           ],
@@ -110,7 +108,7 @@ const EventsView = () => {
     },
   ];
 
-  const placeholder = `Search ${eventsQuery.events.length || ""} Events`;
+  const placeholder = `Search ${events.length || ""} Events`;
 
   const onNewEventPress = () => {
     openBottomSheet("CREATE_EVENT");
@@ -153,15 +151,15 @@ const EventsView = () => {
       <FlatList
         data={search.data}
         onRefresh={onRefresh}
-        loadingComponent={<EventLoader />}
+        error={eventsQuery.error}
+        errorDescription="Could not fetch events"
         loading={eventsQuery.isLoading}
+        loadingComponent={<EventLoader />}
         emptyListTitle="No Events Found"
         emptyListSubtitle="Try changing your filters or creating a new event"
         renderItem={({ item: event }) => {
           const handlePress = () => {
-            openBottomSheet("EVENT", {
-              eventId: event._id,
-            });
+            openBottomSheet("EVENT", { event });
           };
 
           return <Event event={event} onPress={handlePress} />;

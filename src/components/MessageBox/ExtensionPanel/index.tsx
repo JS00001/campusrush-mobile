@@ -36,6 +36,7 @@ import AppConstants from "@/constants";
 import useCamera from "@/hooks/useCamera";
 import { useGetEvents } from "@/hooks/api/events";
 import useCloudStorage from "@/hooks/useCloudStorage";
+import ErrorMessage from "@/components/ErrorMessage";
 
 const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
   (
@@ -58,6 +59,8 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
       closePanel,
     }));
 
+    const events = eventsQuery.data?.events;
+
     const openPanel = () => {
       setVisible(true);
       Haptic.selectionAsync();
@@ -70,7 +73,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
     };
 
     const onEventPress = (event: IEvent) => {
-      const eventURL = `${AppConstants.webUrl}/events/${event._id}`;
+      const eventURL = `${AppConstants.WebURL}/events/${event._id}`;
 
       setAttachments((attachments) => ({
         ...attachments,
@@ -136,7 +139,7 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
           {eventsQuery.isLoading && <Skeleton width={"100%"} height={212} />}
 
           {/* If the user has no events, show a message */}
-          {!eventsQuery.isLoading && !eventsQuery.events && (
+          {!eventsQuery.isLoading && !events?.length && (
             <Headline
               centerText
               style={tw`mt-12`}
@@ -145,12 +148,20 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
             />
           )}
 
+          {/* Error State */}
+          {eventsQuery.isError && (
+            <ErrorMessage
+              error={eventsQuery.error}
+              description="Could not fetch events"
+            />
+          )}
+
           {/* If the user has events, show them */}
-          {!eventsQuery.isLoading && eventsQuery.events && (
+          {!!events?.length && (
             <BottomSheetScrollView showsVerticalScrollIndicator={false}>
               <View style={tw`bg-gray-100 rounded-xl mb-16`}>
-                {eventsQuery.events.map((event, index) => {
-                  const isLast = index === eventsQuery.events.length - 1;
+                {events.map((event, index) => {
+                  const isLast = index === events.length - 1;
 
                   return (
                     <Fragment key={event._id}>

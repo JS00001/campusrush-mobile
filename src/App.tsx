@@ -18,11 +18,11 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { startNetworkLogging } from "react-native-network-logger";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import queryClient from "@/lib/query-client";
 import AuthProvider from "@/providers/Auth";
-import AxiosIntercepter from "@/providers/Axios";
-import NetworkProvider from "@/providers/Network";
+import UserProvider from "@/providers/User";
+import queryClient from "@/lib/query-client";
 import OverlayProvider from "@/providers/Overlay";
+import NetworkProvider from "@/providers/Network";
 import MetadataProvider from "@/providers/Metadata";
 import WebsocketProvider from "@/providers/Websocket";
 import EASUpdateProvider from "@/providers/EASUpdate";
@@ -56,7 +56,7 @@ const App = () => {
                   <NavigationProvider>
                     <PosthogProvider>
                       <AuthProvider>
-                        <AxiosIntercepter>
+                        <UserProvider>
                           <GestureHandlerRootView style={{ flex: 1 }}>
                             <OverlayProvider>
                               <BottomSheetModalProvider>
@@ -70,7 +70,7 @@ const App = () => {
                               </BottomSheetModalProvider>
                             </OverlayProvider>
                           </GestureHandlerRootView>
-                        </AxiosIntercepter>
+                        </UserProvider>
                       </AuthProvider>
                     </PosthogProvider>
                   </NavigationProvider>

@@ -132,7 +132,7 @@ const SendNotification: React.FC<SendNotificationProps> = ({
 
         <Button
           size="sm"
-          loading={sendNotificationMutation.isLoading}
+          loading={sendNotificationMutation.isPending}
           onPress={form.handleSubmission}
         >
           Send Notification

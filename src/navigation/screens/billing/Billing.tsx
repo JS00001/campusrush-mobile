@@ -18,24 +18,29 @@ import Qonversion, { PurchaseModel } from "react-native-qonversion";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
+import Skeleton from "@/ui/Skeleton";
 import { Layout } from "@/ui/Layout";
 import Hyperlink from "@/ui/Hyperlink";
 import Icon, { IconType } from "@/ui/Icon";
-import { useAuth } from "@/providers/Auth";
-import { useMetadataStore } from "@/store";
+import { useUser } from "@/providers/User";
 import usePosthog from "@/hooks/usePosthog";
 import SafeAreaView from "@/ui/SafeAreaView";
+import { useLogout } from "@/hooks/api/auth";
 import Logo32 from "@/components/Logos/Logo32";
+import { useGetMetadata } from "@/hooks/api/external";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import HeaderBackground from "@/components/Backgrounds/Header";
 import { useQonversion } from "@/providers/external/Qonversion";
+import ErrorMessage from "@/components/ErrorMessage";
 
 const BillingScreen = () => {
   const posthog = usePosthog();
-  const metadataStore = useMetadataStore();
-  const { chapter, logoutUser } = useAuth();
+  const { chapter } = useUser();
   const { openBottomSheet } = useBottomSheet();
   const { purchaseProduct, restorePurchases } = useQonversion();
+
+  const logoutMutation = useLogout();
+  const metadataQuery = useGetMetadata();
 
   const [purchaseLoading, setPurchaseLoading] = useState(false);
 
@@ -43,7 +48,8 @@ const BillingScreen = () => {
    * Fetch all of the products from Qonversion and
    * sort them by their price
    */
-  const query = useQuery(["packages"], {
+  const query = useQuery({
+    queryKey: ["packages"],
     queryFn: async () => {
       const offerings = await Qonversion.getSharedInstance().offerings();
       const offering = offerings?.main;
@@ -68,16 +74,20 @@ const BillingScreen = () => {
     },
   });
 
+  const isLoading = query.isLoading || metadataQuery.isLoading;
+  const error = query.error || metadataQuery.error;
+
   const subscription = query.data?.[0];
+  const metadata = metadataQuery.data;
 
   /**
    * The header subtitle displays the price of the subscription along
    * with the trial if there is one
    */
   const headerSubtitle = (() => {
-    if (!subscription) return null;
+    if (!subscription) return;
 
-    if (subscription?.trialPeriod) {
+    if (subscription.trialPeriod) {
       const subtitleString = [
         "Free for",
         `${subscription.trialPeriod.unitCount}-${subscription.trialPeriod.unit.toLowerCase()}s`,
@@ -98,7 +108,8 @@ const BillingScreen = () => {
    */
   const buttonCTA = (() => {
     let ctaString: string[];
-    if (!subscription) return null;
+
+    if (!subscription) return;
 
     // If there is a trial period, tell the user about it
     if (subscription.trialPeriod) {
@@ -122,7 +133,7 @@ const BillingScreen = () => {
 
   const featuresContainerStyle = tw.style(
     "bg-gray-100",
-    "w-full rounded-xl px-4 py-6 gap-y-6",
+    "w-full rounded-xl px-4 py-8 gap-y-6",
   );
 
   const footerViewStyle = tw.style("px-6 pt-3 gap-y-3 items-center");
@@ -140,12 +151,10 @@ const BillingScreen = () => {
    * not throw an error if the buyer cancels the purchase
    */
   const onPurchase = async () => {
+    if (!subscription) return;
     setPurchaseLoading(true);
-
-    const purchaseModel = subscription?.toPurchaseModel() as PurchaseModel;
-
+    const purchaseModel = subscription.toPurchaseModel() as PurchaseModel;
     await purchaseProduct(purchaseModel);
-
     setPurchaseLoading(false);
   };
 
@@ -160,14 +169,8 @@ const BillingScreen = () => {
    * When the logout button is pressed, log the user out
    */
   const onLogout = async () => {
-    await logoutUser();
+    await logoutMutation.mutateAsync();
   };
-
-  // TODO: Add loading to this
-  if (query.isLoading && query.isFetching) return null;
-
-  // TODO: Add a "No products found" message here
-  if (!subscription) return null;
 
   return (
     <Layout.Root>
@@ -178,7 +181,7 @@ const BillingScreen = () => {
         </View>
 
         {/* Header */}
-        <View style={tw`px-6 py-2 z-10`}>
+        <View style={tw`px-6 py-4 z-10`}>
           <SafeAreaView
             position="top"
             style={tw`items-center justify-center gap-y-3 mt-6`}
@@ -197,9 +200,18 @@ const BillingScreen = () => {
       </Layout.CustomHeader>
 
       <Layout.Content scrollable gap={18}>
-        <View style={featuresContainerStyle}>
-          {metadataStore.metadata.entitlements?.perks.featured.map(
-            (feature, index) => {
+        {/* Loading State */}
+        {isLoading && <Skeleton height={400} width="100%" />}
+
+        {/* Error State */}
+        {error && (
+          <ErrorMessage error={error} description="Could not load products" />
+        )}
+
+        {/* Content */}
+        {metadata && subscription && (
+          <View style={featuresContainerStyle}>
+            {metadata.entitlements.perks.featured.map((feature, index) => {
               const containerStyles = tw.style("w-full gap-x-3 flex-row");
 
               const textContainerStyles = tw.style("gap-y-1 shrink");
@@ -221,15 +233,15 @@ const BillingScreen = () => {
                   </View>
                 </View>
               );
-            },
-          )}
+            })}
 
-          <View style={tw`mt-2 gap-y-2`}>
-            <Button size="sm" color="tertiary" onPress={onFeaturePress}>
-              View All Features
-            </Button>
+            <View style={tw`mt-2 gap-y-2`}>
+              <Button size="sm" color="tertiary" onPress={onFeaturePress}>
+                View All Features
+              </Button>
+            </View>
           </View>
-        </View>
+        )}
       </Layout.Content>
 
       <Layout.Footer style={tw`bg-white border-t border-gray-200`}>

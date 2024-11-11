@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 interface IUseSearch<T> {
   /** The data to be filtered */
@@ -55,7 +55,6 @@ const useSearch = <T extends Object | String>({
 
   const [query, setQuery] = useState('');
   const [focused, setFocused] = useState(false);
-  const [filteredData, setFilteredData] = useState<T[]>(data);
   const [filter, setFilter] = useState<FilterID>(defaultFilter);
   const [sortingMethod, setSortingMethod] =
     useState<SortID>(defaultSortingMethod);
@@ -64,66 +63,53 @@ const useSearch = <T extends Object | String>({
    * When the query, data, or filter changes, filter the data
    * and return the updated data
    */
-  useEffect(() => {
-    const matchedData = data.filter((item) => {
+  const filteredData = useMemo(() => {
+    // First, filter by search query
+    let matchedData = data.filter((item) => {
       if (fields.length) {
         return fields.some((field) => {
           const value = item[field];
-
           if (!value) return false;
-
           return JSON.stringify(value)
             .toLowerCase()
             .includes(query.toLowerCase());
         });
       }
 
-      // Check if data is an array of strings rather than objects
       if (typeof item === 'string') {
         return item.toLowerCase().includes(query.toLowerCase());
       }
 
       const values = Object.values(item).join(' ').toLowerCase();
-
       return values.includes(query.toLowerCase());
     });
 
-    // If there is a sorting method, sort the data
+    // Apply sorting if needed
     if (sortingMethod !== 'NO_SORT') {
-      matchedData.sort((a, b) => {
-        const sortMethod = sortingMethods.find((s) => s.id === sortingMethod);
+      const sortMethod = sortingMethods.find((s) => s.id === sortingMethod);
+      if (sortMethod) {
+        matchedData = [...matchedData].sort((a, b) => {
+          const aValue = a[sortMethod.key];
+          const bValue = b[sortMethod.key];
 
-        if (!sortMethod) return 0;
-
-        const aValue = a[sortMethod.key];
-        const bValue = b[sortMethod.key];
-
-        if (sortMethod.direction === 'asc') {
-          if (aValue > bValue) return 1;
-          if (aValue < bValue) return -1;
-          return 0;
-        }
-
-        if (aValue > bValue) return -1;
-        if (aValue < bValue) return 1;
-        return 0;
-      });
+          if (sortMethod.direction === 'asc') {
+            return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+          }
+          return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+        });
+      }
     }
 
-    // If there is a filter, apply the filter
+    // Apply filters if needed
     if (filter !== 'NO_FILTER') {
       const filterFn = filters.find((f) => f.id === filter)?.filterFn;
-
       if (filterFn) {
-        const filtered = filterFn(matchedData);
-        setFilteredData(filtered);
+        matchedData = filterFn(matchedData);
       }
-
-      return;
     }
 
-    setFilteredData(matchedData);
-  }, [query, filter, sortingMethod, data]);
+    return matchedData;
+  }, [data, query, filter, sortingMethod, fields, filters, sortingMethods]);
 
   return {
     filter,

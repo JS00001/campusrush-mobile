@@ -26,12 +26,10 @@ import {
   BillingStack,
   VerificationStack,
 } from "@/navigation/stack-navigator";
-import { AppNavigator } from "@/navigation/app-navigator";
-
-import { useAuth } from "@/providers/Auth";
-import { useMetadata } from "@/providers/Metadata";
-import { useQonversion } from "@/providers/external/Qonversion";
+import { useUser } from "@/providers/User";
 import { usePreferences } from "@/providers/Preferences";
+import { AppNavigator } from "@/navigation/app-navigator";
+import { useQonversion } from "@/providers/external/Qonversion";
 
 const RootNavigator = () => {
   const [fontsLoaded] = useFonts({
@@ -40,19 +38,12 @@ const RootNavigator = () => {
     DMSans_700Bold,
   });
 
-  const { isLoading: isMetadataLoading } = useMetadata();
+  const { chapter } = useUser();
+  const { entitlements } = useQonversion();
   const { isLoading: isPreferencesLoading } = usePreferences();
-  const { isLoading: isAuthLoading, refreshToken, chapter } = useAuth();
-  const { isLoading: isQonversionLoading, entitlements } = useQonversion();
 
   const shouldHideSplashScreen = () => {
-    return (
-      fontsLoaded &&
-      !isAuthLoading &&
-      !isPreferencesLoading &&
-      !isMetadataLoading &&
-      !isQonversionLoading
-    );
+    return fontsLoaded && !isPreferencesLoading;
   };
 
   // Hide the splash screen when the app is fully loaded
@@ -60,25 +51,13 @@ const RootNavigator = () => {
     if (shouldHideSplashScreen()) {
       ExpoSplashScreen.hideAsync();
     }
-  }, [
-    fontsLoaded,
-    isAuthLoading,
-    isPreferencesLoading,
-    isMetadataLoading,
-    isQonversionLoading,
-  ]);
-
-  // If the user is loading, we can't render the app
-  if (isAuthLoading && !refreshToken && !chapter) return null;
-
-  // If the fonts are not loaded or the user is loading, we can't render the app
-  if (!fontsLoaded || isAuthLoading) return null;
+  }, [chapter, fontsLoaded, isPreferencesLoading]);
 
   // If the user is not logged in, we show the AuthStack
-  if (!refreshToken) return <AuthStack />;
+  if (lodash.isEmpty(chapter)) return <AuthStack />;
 
   // If the user is not verified, we show the VerificationStack
-  if (!chapter?.verified) return <VerificationStack />;
+  if (!chapter.verified) return <VerificationStack />;
 
   // If the user has no active entitlements, we show the BillingStack
   if (lodash.isEmpty(entitlements)) return <BillingStack />;

@@ -16,15 +16,22 @@ import type {
   DeleteChapterSessionRequest,
   UpdateChapterRequest,
 } from '@/types';
-
+import usePosthog from '@/hooks/usePosthog';
+import queryClient from '@/lib/query-client';
 import { updateChapter, deleteChapter, deleteChapterSession } from '@/api';
 
 export const useUpdateChapter = () => {
+  const posthog = usePosthog();
+
   return useMutation({
     mutationFn: async (data: UpdateChapterRequest) => {
       const response = await updateChapter(data);
       if ('error' in response) throw response;
       return response;
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['chapter'] });
+      posthog.capture('CHAPTER_UPDATED');
     },
   });
 };
@@ -45,6 +52,9 @@ export const useDeleteChapterSession = () => {
       const response = await deleteChapterSession(data);
       if ('error' in response) throw response;
       return response;
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['chapterSessions'] });
     },
   });
 };

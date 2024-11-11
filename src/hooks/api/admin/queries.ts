@@ -10,11 +10,7 @@
  * Do not distribute
  */
 
-import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import type { Entitlement } from 'qonversion-sdk';
-
-import type { IChapter, IViolation } from '@/types';
 
 import {
   getAdminChapter,
@@ -23,148 +19,67 @@ import {
   getAdminStatistics,
   getViolations,
 } from '@/api';
-import { useAuth } from '@/providers/Auth';
-import { useAdminStatisticsStore } from '@/store';
 
 export const useGetAdminChapters = () => {
-  const { accessToken } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
-  const [chapters, setChapters] = useState<IChapter[]>([]);
-
-  const query = useQuery(['adminChapters', accessToken], {
+  const query = useQuery({
+    queryKey: ['adminChapters'],
     queryFn: async () => {
       const response = await getAdminChapters();
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
   });
 
-  useEffect(() => {
-    if (!query.data) {
-      setIsLoading(query.isLoading);
-      return;
-    }
-
-    setChapters(query.data.data.chapters);
-    setIsLoading(query.isLoading);
-  }, [query.data]);
-
-  return {
-    ...query,
-    chapters,
-    isLoading: isLoading && !chapters.length,
-  };
+  return query;
 };
 
 export const useGetViolations = () => {
-  const { accessToken } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
-  const [violations, setViolations] = useState<
-    {
-      chapter: IChapter;
-      violations: IViolation[];
-    }[]
-  >([]);
-
-  const query = useQuery(['violations', accessToken], {
+  const query = useQuery({
+    queryKey: ['violations'],
     queryFn: async () => {
       const response = await getViolations();
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
   });
-
-  useEffect(() => {
-    if (!query.data || query.isError) {
-      setIsLoading(query.isLoading);
-      return;
-    }
-
-    setViolations(query.data.data);
-    setIsLoading(query.isLoading);
-  }, [query.data]);
-
-  return {
-    ...query,
-    violations,
-    isLoading: isLoading && !violations.length,
-  };
+  return query;
 };
 
 export const useGetAdminChapter = (id: string) => {
-  const { accessToken } = useAuth();
-  const [chapter, setChapter] = useState<IChapter | null>(null);
-
-  const query = useQuery(['adminChapter', accessToken, id], {
+  const query = useQuery({
+    queryKey: ['adminChapter', id],
     queryFn: async () => {
       const response = await getAdminChapter({ id });
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
   });
 
-  useEffect(() => {
-    if (!query.data || query.isError) return;
-
-    setChapter(query.data.data.chapter);
-  }, [query.data]);
-
-  return {
-    ...query,
-    chapter,
-  };
+  return query;
 };
 
-export const useGetAdminChapterEntitlements = (id: string) => {
-  const { accessToken } = useAuth();
-  const [entitlements, setEntitlements] = useState<Entitlement[]>([]);
-
-  const query = useQuery(['adminChapterEntitlements', accessToken, id], {
+export const useGetEntitlements = (id: string) => {
+  const query = useQuery({
+    queryKey: ['adminChapterEntitlements', id],
     queryFn: async () => {
       const response = await getAdminChapterEntitlements({ id });
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
   });
 
-  useEffect(() => {
-    if (!query.data || query.isError) return;
-
-    setEntitlements(query.data.data);
-  }, [query.data]);
-
-  return {
-    ...query,
-    entitlements,
-  };
+  return query;
 };
 
 export const useGetAdminStatistics = () => {
-  const { accessToken } = useAuth();
-  const statisticsStore = useAdminStatisticsStore();
-  const [isLoading, setIsLoading] = useState(true);
-
-  const query = useQuery(['adminStatistics', accessToken], {
+  const query = useQuery({
+    queryKey: ['adminStatistics'],
     queryFn: async () => {
       const response = await getAdminStatistics();
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
   });
 
-  useEffect(() => {
-    if (!query.data || query.isError) {
-      setIsLoading(query.isLoading);
-      return;
-    }
-
-    statisticsStore.setState(query.data.data);
-  }, [query.data]);
-
-  return {
-    ...query,
-    ...statisticsStore,
-    isLoading:
-      isLoading && !Object.values(statisticsStore).some((stat) => stat.current),
-  };
+  return query;
 };

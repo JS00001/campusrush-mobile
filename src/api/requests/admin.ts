@@ -1,15 +1,3 @@
-/*
- * Created on Fri Feb 23 2024
- *
- * This software is the proprietary property of CampusRush.
- * All rights reserved. Unauthorized copying, modification, or distribution
- * of this software, in whole or in part, is strictly prohibited.
- * For licensing information contact CampusRush.
- *
- * Copyright (c) 2024 CampusRush
- * Do not distribute
- */
-
 import type {
   GetAdminChaptersResponse,
   GetAdminChapterRequest,
@@ -26,9 +14,9 @@ import type {
   GetViolationsResponse,
 } from '@/types';
 
-import { axiosClient } from '@/providers/Axios';
+import axios from '@/lib/axios';
 
-const PREFIX = '/api/v1/consumer/admin';
+const PREFIX = '/admin';
 
 /**
  * Request:     GET /api/v1/consumer/admin/chapters
@@ -37,9 +25,9 @@ const PREFIX = '/api/v1/consumer/admin';
 export const getAdminChapters = async () => {
   const url = `${PREFIX}/chapters`;
 
-  const { data } = await axiosClient.get(url);
+  const { data } = await axios.get<GetAdminChaptersResponse>(url);
 
-  return data as GetAdminChaptersResponse;
+  return data;
 };
 
 /**
@@ -49,9 +37,9 @@ export const getAdminChapters = async () => {
 export const getAdminChapter = async (data: GetAdminChapterRequest) => {
   const url = `${PREFIX}/chapters/${data.id}`;
 
-  const { data: responseData } = await axiosClient.get(url);
+  const { data: responseData } = await axios.get<GetAdminChapterResponse>(url);
 
-  return responseData as GetAdminChapterResponse;
+  return responseData;
 };
 
 /**
@@ -63,9 +51,10 @@ export const getAdminChapterEntitlements = async (
 ) => {
   const url = `${PREFIX}/chapters/${data.id}/entitlements`;
 
-  const { data: responseData } = await axiosClient.get(url);
+  const { data: responseData } =
+    await axios.get<GetAdminChapterEntitlementsResponse>(url);
 
-  return responseData as GetAdminChapterEntitlementsResponse;
+  return responseData;
 };
 
 /**
@@ -77,9 +66,10 @@ export const grantAdminChapterEntitlement = async (
 ) => {
   const url = `${PREFIX}/chapters/${data.id}/entitlements`;
 
-  const { data: responseData } = await axiosClient.put(url, data);
+  const { data: responseData } =
+    await axios.put<GrantAdminChapterEntitlementsResponse>(url, data);
 
-  return responseData as GrantAdminChapterEntitlementsResponse;
+  return responseData;
 };
 
 /**
@@ -91,9 +81,10 @@ export const revokeAdminChapterEntitlement = async (
 ) => {
   const url = `${PREFIX}/chapters/${data.id}/entitlements`;
 
-  const { data: responseData } = await axiosClient.delete(url, { data });
+  const { data: responseData } =
+    await axios.delete<RevokeAdminChapterEntitlementsResponse>(url, { data });
 
-  return responseData as RevokeAdminChapterEntitlementsResponse;
+  return responseData;
 };
 
 /**
@@ -105,9 +96,10 @@ export const sendChapterNotification = async (
 ) => {
   const url = `${PREFIX}/chapters/${data.id}/notification`;
 
-  const { data: responseData } = await axiosClient.post(url, data);
+  const { data: responseData } =
+    await axios.post<SendChapterNotificationResponse>(url, data);
 
-  return responseData as SendChapterNotificationResponse;
+  return responseData;
 };
 
 /**
@@ -117,9 +109,9 @@ export const sendChapterNotification = async (
 export const getAdminStatistics = async () => {
   const url = `${PREFIX}/statistics`;
 
-  const { data } = await axiosClient.get(url);
+  const { data } = await axios.get<GetAdminStatisticsResponse>(url);
 
-  return data as GetAdminStatisticsResponse;
+  return data;
 };
 
 /**
@@ -129,7 +121,7 @@ export const getAdminStatistics = async () => {
 export const getViolations = async () => {
   const url = `${PREFIX}/violations`;
 
-  const { data } = await axiosClient.get(url);
+  const { data } = await axios.get<GetViolationsResponse>(url);
 
-  return data as GetViolationsResponse;
+  return data;
 };

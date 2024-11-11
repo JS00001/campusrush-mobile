@@ -17,7 +17,6 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import Hyperlink from "@/ui/Hyperlink";
 import FormField from "@/ui/FormField";
-import { useAuth } from "@/providers/Auth";
 import { useLogin } from "@/hooks/api/auth";
 import validators from "@/constants/validators";
 import useFormMutation from "@/hooks/useFormMutation";
@@ -26,7 +25,6 @@ import TermsAndConditions from "@/components/TermsAndConditions";
 
 const LoginView = () => {
   const mutation = useLogin();
-  const { authenticateUser } = useAuth();
   const navigation = useNavigation<AuthStackHook>();
 
   const formValidators = {
@@ -37,15 +35,6 @@ const LoginView = () => {
   const form = useFormMutation({
     mutation,
     validators: formValidators,
-    onSuccess: async ({ data }) => {
-      const userData = {
-        chapter: data.chapter,
-        accessToken: data.accessToken,
-        refreshToken: data.refreshToken,
-      };
-
-      await authenticateUser(userData);
-    },
   });
 
   const onForgotPasswordPress = () => {

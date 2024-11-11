@@ -10,49 +10,22 @@
  * Do not distribute
  */
 
-import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { getContacts } from '@/api';
-import { useAuth } from '@/providers/Auth';
-import { useContactStore } from '@/store';
 
 /**
  * Get the list of contacts for the chapter
  */
 export const useGetContacts = () => {
-  const { accessToken } = useAuth();
-  const contactStore = useContactStore();
-  const [isLoading, setIsLoading] = useState(true);
-
-  const query = useQuery(['contacts', accessToken], {
+  const query = useQuery({
+    queryKey: ['contacts'],
     queryFn: async () => {
       const response = await getContacts();
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
   });
 
-  useEffect(() => {
-    if (!query.data || query.isError) {
-      setIsLoading(query.isLoading);
-      return;
-    }
-
-    contactStore.setContacts('all', query.data.data.all);
-    contactStore.setContacts('suggested', query.data.data.suggested);
-    contactStore.setContacts('starred', query.data.data.favorited);
-    contactStore.setContacts('uncontacted', query.data.data.uncontacted);
-
-    setIsLoading(query.isLoading);
-  }, [query.data]);
-
-  return {
-    ...query,
-    all: contactStore.all,
-    suggested: contactStore.suggested,
-    starred: contactStore.starred,
-    uncontacted: contactStore.uncontacted,
-    isLoading: isLoading && !contactStore.all.length,
-  };
+  return query;
 };

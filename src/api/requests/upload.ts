@@ -12,9 +12,9 @@
 
 import type { UploadFileResponse } from '@/types';
 
-import { axiosClient } from '@/providers/Axios';
+import axios from '@/lib/axios';
 
-const PREFIX = '/api/v1/consumer/upload';
+const PREFIX = '/upload';
 
 /**
  * Request:     POST /api/v1/consumer/upload
@@ -23,11 +23,15 @@ const PREFIX = '/api/v1/consumer/upload';
 export const uploadFile = async (data: FormData) => {
   const url = `${PREFIX}/`;
 
-  const { data: responseData } = await axiosClient.post(url, data, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
+  const { data: responseData } = await axios.post<UploadFileResponse>(
+    url,
+    data,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     },
-  });
+  );
 
-  return responseData as UploadFileResponse;
+  return responseData;
 };

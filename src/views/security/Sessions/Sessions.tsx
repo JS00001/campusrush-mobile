@@ -42,8 +42,6 @@ const SessionsView = () => {
               id: session._id,
             });
 
-            sessionsQuery.refetch();
-
             Toast.show({
               type: "success",
               text1: "Session removed",
@@ -55,24 +53,22 @@ const SessionsView = () => {
     });
   };
 
-  const sessions = (() => {
-    const response = sessionsQuery.data;
-    if (!response || sessionsQuery.isError) return [];
-    return response.data.sessions;
-  })();
-
   const onRefresh = async () => {
     await sessionsQuery.refetch();
   };
+
+  const sessions = sessionsQuery.data?.sessions || [];
 
   return (
     <FlatList
       emptyListTitle="No active sessions"
       emptyListSubtitle="Once you log in from a new device, it will appear here"
       data={sessions}
-      onRefresh={onRefresh}
+      error={sessionsQuery.error}
+      errorDescription="Could not fetch sessions"
       loading={sessionsQuery.isLoading}
       loadingComponent={<ListItemLoader size="lg" />}
+      onRefresh={onRefresh}
       renderItem={({ item }) => (
         <Session session={item} onRemove={onSessionRemove.bind(null, item)} />
       )}

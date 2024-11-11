@@ -19,10 +19,10 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import CopyView from "@/ui/CopyView";
 import AppConstants from "@/constants";
-import { useAuth } from "@/providers/Auth";
+import { useUser } from "@/providers/User";
 
 const QrCode: React.FC<UseSheetFlowProps> = () => {
-  const { chapter } = useAuth();
+  const { chapter } = useUser();
 
   const linkSharingCode = `${AppConstants.sharingUrl}/${chapter.linkSharing.code}`;
 

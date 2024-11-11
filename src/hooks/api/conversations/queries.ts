@@ -1,5 +1,5 @@
 /*
- * Created on Fri Feb 23 2024
+ * Created on Sat Nov 09 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,81 +10,77 @@
  * Do not distribute
  */
 
-import { useEffect } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { useAuth } from '@/providers/Auth';
-import { useConversationStore } from '@/store';
 import { getConversation, getConversations } from '@/api';
 
 /**
  * Get the messages for a specific conversation
  */
 export const useGetConversation = (pnmId: string) => {
-  const { accessToken } = useAuth();
-
-  return useInfiniteQuery({
-    cacheTime: 0,
-    queryKey: ['conversation', accessToken, pnmId],
-    queryFn: async ({ pageParam = 0 }) => {
+  const query = useInfiniteQuery({
+    staleTime: 0,
+    initialPageParam: 0,
+    queryKey: ['conversation', pnmId],
+    queryFn: async ({ pageParam }) => {
       const response = await getConversation({ offset: pageParam, pnmId });
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
     getNextPageParam: (lastPage) => {
       if ('error' in lastPage) return undefined;
 
-      const hasNextPage = lastPage.data.hasNextPage;
+      const hasNextPage = lastPage.hasNextPage;
 
       if (!hasNextPage) return undefined;
 
-      return lastPage.data.nextOffset;
+      return lastPage.nextOffset;
     },
   });
+
+  // Combine all of the paginated data into one array
+  const pages = query.data?.pages ?? [];
+  const conversation = pages[0]?.conversation;
+  const messages = pages.flatMap((page) => {
+    return page.conversation?.messages ?? [];
+  });
+
+  return {
+    ...query,
+    conversation,
+    messages,
+  };
 };
 
 /**
  * Get all of the conversations the chapter has
  */
 export const useGetConversations = () => {
-  const { accessToken } = useAuth();
-  const conversations = useConversationStore((s) => s.conversations);
-  const setConversations = useConversationStore((s) => s.setConversations);
-
   const query = useInfiniteQuery({
-    cacheTime: 0,
-    queryKey: ['conversations', accessToken],
-    queryFn: async ({ pageParam = 0 }) => {
+    initialPageParam: 0,
+    queryKey: ['conversations'],
+    queryFn: async ({ pageParam }) => {
       const response = await getConversations({ offset: pageParam });
       if ('error' in response) throw response;
-      return response;
+      return response.data;
     },
     getNextPageParam: (lastPage) => {
       if ('error' in lastPage) return undefined;
 
-      const hasNextPage = lastPage.data.hasNextPage;
+      const hasNextPage = lastPage.hasNextPage;
 
       if (!hasNextPage) return undefined;
 
-      return lastPage.data.nextOffset;
+      return lastPage.nextOffset;
     },
   });
 
-  useEffect(() => {
-    if (!query.data || query.isError) {
-      return;
-    }
-
-    const combinedConversations = query.data.pages.flatMap((page) => {
-      return page.data.conversations;
-    });
-
-    setConversations(combinedConversations);
-  }, [query.data]);
+  // Combine all of the paginated data into one array
+  const pages = query.data?.pages ?? [];
+  const conversations = pages.flatMap((page) => page.conversations);
 
   return {
     ...query,
     conversations,
-    isLoading: query.isLoading && !conversations.length,
   };
 };

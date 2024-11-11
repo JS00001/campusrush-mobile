@@ -1,15 +1,3 @@
-/*
- * Created on Fri Feb 23 2024
- *
- * This software is the proprietary property of CampusRush.
- * All rights reserved. Unauthorized copying, modification, or distribution
- * of this software, in whole or in part, is strictly prohibited.
- * For licensing information contact CampusRush.
- *
- * Copyright (c) 2024 CampusRush
- * Do not distribute
- */
-
 import type {
   GetEventsResponse,
   DeleteEventResponse,
@@ -22,9 +10,9 @@ import type {
   DeleteEventRequest,
 } from '@/types';
 
-import { axiosClient } from '@/providers/Axios';
+import axios from '@/lib/axios';
 
-const PREFIX = '/api/v1/consumer/events';
+const PREFIX = '/events';
 
 /**
  * Request:     GET /api/v1/consumer/events
@@ -33,9 +21,9 @@ const PREFIX = '/api/v1/consumer/events';
 export const getEvents = async () => {
   const url = `${PREFIX}`;
 
-  const { data: responseData } = await axiosClient.get(url);
+  const { data } = await axios.get<GetEventsResponse>(url);
 
-  return responseData as GetEventsResponse;
+  return data;
 };
 
 /**
@@ -45,9 +33,9 @@ export const getEvents = async () => {
 export const deleteEvents = async () => {
   const url = `${PREFIX}`;
 
-  const { data } = await axiosClient.delete(url);
+  const { data } = await axios.delete<DeleteEventResponse>(url);
 
-  return data as DeleteEventResponse;
+  return data;
 };
 
 /**
@@ -57,9 +45,9 @@ export const deleteEvents = async () => {
 export const getEvent = async (data: GetEventRequest) => {
   const url = `${PREFIX}/${data.id}`;
 
-  const { data: responseData } = await axiosClient.get(url);
+  const { data: responseData } = await axios.get<GetEventResponse>(url);
 
-  return responseData as GetEventResponse;
+  return responseData;
 };
 
 /**
@@ -69,9 +57,12 @@ export const getEvent = async (data: GetEventRequest) => {
 export const createEvent = async (data: CreateEventRequest) => {
   const url = `${PREFIX}`;
 
-  const { data: responseData } = await axiosClient.post(url, data);
+  const { data: responseData } = await axios.post<CreateEventResponse>(
+    url,
+    data,
+  );
 
-  return responseData as CreateEventResponse;
+  return responseData;
 };
 
 /**
@@ -82,9 +73,12 @@ export const updateEvent = async (data: UpdateEventRequest) => {
   const { id, ...rest } = data;
   const url = `${PREFIX}/${id}`;
 
-  const { data: responseData } = await axiosClient.put(url, rest);
+  const { data: responseData } = await axios.put<UpdateEventResponse>(
+    url,
+    rest,
+  );
 
-  return responseData as UpdateEventResponse;
+  return responseData;
 };
 
 /**
@@ -94,7 +88,7 @@ export const updateEvent = async (data: UpdateEventRequest) => {
 export const deleteEvent = async (data: DeleteEventRequest) => {
   const url = `${PREFIX}/${data.id}`;
 
-  const { data: responseData } = await axiosClient.delete(url);
+  const { data: responseData } = await axios.delete<DeleteEventResponse>(url);
 
-  return responseData as DeleteEventResponse;
+  return responseData;
 };

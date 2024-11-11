@@ -11,11 +11,11 @@
  */
 
 import { Layout } from "@/ui/Layout";
-import { useAuth } from "@/providers/Auth";
+import { useUser } from "@/providers/User";
 import VerificationView from "@/views/Verification";
 
 const VerificationScreen = () => {
-  const { chapter } = useAuth();
+  const { chapter } = useUser();
 
   return (
     <Layout.Root>

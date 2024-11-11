@@ -34,13 +34,13 @@ const ImageZoomOverlay = () => {
   useEffect(() => {
     if (image) {
       setHidden(false);
-      opacity.value = withTiming(1, { duration: 250 });
-      scale.value = withTiming(1, { duration: 250 });
+      opacity.value = withTiming(1, { duration: 150 });
+      scale.value = withTiming(1, { duration: 150 });
     } else {
-      opacity.value = withTiming(0.5, { duration: 250 }, () => {
+      opacity.value = withTiming(0, { duration: 150 }, () => {
         runOnJS(setHidden)(true);
       });
-      scale.value = withTiming(0, { duration: 250 });
+      scale.value = withTiming(0.85, { duration: 150 });
     }
   }, [image]);
 

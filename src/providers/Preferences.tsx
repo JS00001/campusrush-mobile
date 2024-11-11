@@ -25,6 +25,7 @@ const PreferencesContext = createContext<IPreferencesContext>(
   {} as IPreferencesContext,
 );
 
+// TODO: Make this use react query for async actions, not this buggy solution
 const PreferencesProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {

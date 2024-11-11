@@ -12,9 +12,9 @@
 
 import type { GetContactsResponse } from '@/types';
 
-import { axiosClient } from '@/providers/Axios';
+import axios from '@/lib/axios';
 
-const PREFIX = '/api/v1/consumer/contacts';
+const PREFIX = '/contacts';
 
 /**
  * Request:     GET /api/v1/consumer/contacts
@@ -23,7 +23,7 @@ const PREFIX = '/api/v1/consumer/contacts';
 export const getContacts = async () => {
   const url = `${PREFIX}`;
 
-  const { data } = await axiosClient.get(url);
+  const { data } = await axios.get<GetContactsResponse>(url);
 
-  return data as GetContactsResponse;
+  return data;
 };

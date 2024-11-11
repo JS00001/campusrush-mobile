@@ -14,9 +14,9 @@ import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
 import { BottomSheetProps, SheetData } from "./@types";
 
+import { useStatusStore } from "@/store";
+import { useUpdateEvent } from "@/hooks/api/events";
 import useFormMutation from "@/hooks/useFormMutation";
-import { useEventStore, useStatusStore } from "@/store";
-import { useGetEvent, useUpdateEvent } from "@/hooks/api/events";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -35,16 +35,14 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
     <FormSheet
       innerRef={innerRef}
       children={(props?: SheetData<"UPDATE_EVENT">) => {
-        const { eventId } = props!.data;
+        const { event } = props!.data;
 
-        const eventStore = useEventStore();
-        const eventQuery = useGetEvent(eventId);
         const updateEventMutation = useUpdateEvent();
         const setStatusOverlay = useStatusStore((s) => s.setStatusOverlay);
 
         const currentDate = new Date();
-        const startDate = eventQuery.event?.startDate || new Date();
-        const endDate = eventQuery.event?.endDate || new Date();
+        const startDate = event.startDate || new Date();
+        const endDate = event.endDate || new Date();
 
         const formValidators = {
           id: validators.objectId,
@@ -58,16 +56,14 @@ const UpdateEventSheet: React.FC<BottomSheetProps> = ({
         const form = useFormMutation({
           mutation: updateEventMutation,
           validators: formValidators,
-          onSuccess: async ({ data }) => {
-            eventStore.addOrUpdateEvent(data.event);
-            eventQuery.refetch();
+          onSuccess: async () => {
             handleClose();
           },
           initialValues: {
-            id: eventId,
-            title: eventQuery.event?.title,
-            location: eventQuery.event?.location,
-            description: eventQuery.event?.description,
+            id: event._id,
+            title: event.title,
+            location: event.location,
+            description: event.description,
             startDate: new Date(startDate).toISOString(),
             endDate: new Date(endDate).toISOString(),
           },

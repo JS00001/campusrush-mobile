@@ -15,12 +15,11 @@ import type {
   SendMassMessageResponse,
   SendDirectMessageRequest,
   SendDirectMessageResponse,
-  UploadFileResponse,
 } from '@/types';
 
-import { axiosClient } from '@/providers/Axios';
+import axios from '@/lib/axios';
 
-const PREFIX = '/api/v1/consumer/messaging';
+const PREFIX = '/messaging';
 
 /**
  * Request:     POST /api/v1/consumer/messaging/send/mass
@@ -29,9 +28,12 @@ const PREFIX = '/api/v1/consumer/messaging';
 export const sendMassMessage = async (data: SendMassMessageRequest) => {
   const url = `${PREFIX}/mass`;
 
-  const { data: responseData } = await axiosClient.post(url, data);
+  const { data: responseData } = await axios.post<SendMassMessageResponse>(
+    url,
+    data,
+  );
 
-  return responseData as SendMassMessageResponse;
+  return responseData;
 };
 
 /**
@@ -41,7 +43,10 @@ export const sendMassMessage = async (data: SendMassMessageRequest) => {
 export const sendDirectMessage = async (data: SendDirectMessageRequest) => {
   const url = `${PREFIX}/direct`;
 
-  const { data: responseData } = await axiosClient.post(url, data);
+  const { data: responseData } = await axios.post<SendDirectMessageResponse>(
+    url,
+    data,
+  );
 
-  return responseData as SendDirectMessageResponse;
+  return responseData;
 };

@@ -117,7 +117,7 @@ const PnmsList: React.FC<PnmsListProps> = ({
     }
 
     const onPress = () => {
-      openBottomSheet("PNM", { pnmId: data._id });
+      openBottomSheet("PNM", { pnm: data });
     };
 
     return (
