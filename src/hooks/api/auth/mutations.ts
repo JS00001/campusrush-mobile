@@ -188,7 +188,7 @@ export const useChangePassword = () => {
       setAccessToken(res.data.accessToken);
       setRefreshToken(res.data.refreshToken);
 
-      queryClient.setQueryData(['chapter'], { chapter: res.data });
+      queryClient.setQueryData(['chapter'], { chapter: res.data.chapter });
       posthog.capture('CHANGE_PASSWORD');
     },
   });
