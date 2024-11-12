@@ -17,13 +17,13 @@ jobs:
       - name: 🏗️ Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: 20.10
           cache: yarn
 
       - name: 🏗 Setup EAS
         uses: expo/expo-github-action@v8
         with:
-          eas-version: latest
+          eas-version: 12.6.2
           token: ${{ secrets.PRODUCTION_EXPO_TOKEN }}
 
       - name: 🔍 Check that the PR is to the main branch
@@ -63,7 +63,7 @@ jobs:
 
       - name: 🚀 Update the app, if 'Update' is true
         if: env.update == 'true'
-        run: eas update --channel production --non-interactive --platform ios --message 'update production'
+        run: eas update --channel production --non-interactive --platform ios --message 'update production build'
 
       - name: ⚙️ Upload sourcemaps to sentry
         if: env.update == 'true'

@@ -171,17 +171,17 @@ const Landing: React.FC<UseSheetFlowProps> = ({
           <Action.List>
             <Action.Item
               title="Message All"
-              icon="Users"
+              icon="UsersFill"
               onPress={onMessageAllPress}
             />
             <Action.Item
               title="Message Favorites"
-              icon="Star"
+              icon="StarFill"
               onPress={onMessageFavoritesPress}
             />
             <Action.Item
               title="Message Uncontacted"
-              icon="UserPlus"
+              icon="UserPlusFill"
               onPress={onMessageUncontactedPress}
             />
           </Action.List>
