@@ -115,7 +115,7 @@ const EventSheet: React.FC<BottomSheetProps> = ({
                 <IconButton
                   ph-label="share-event"
                   size="sm"
-                  iconName="Share"
+                  iconName="ShareFat"
                   color="secondary"
                   onPress={onShare}
                 />
