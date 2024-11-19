@@ -54,15 +54,20 @@ export interface RefreshAccessTokenRequest {
 }
 
 export interface UpdateChapterRequest {
-  /** Updated first name for the chapter leader */
+  /** Whether link sharing is enabled */
+  linkSharingEnabled?: boolean;
+}
+
+export interface UpdateUserRequest {
+  /** Updated first name for the user */
   firstName?: string;
-  /** Updated last name for the chapter leader */
+  /** Updated last name for the user */
   lastName?: string;
-  /** Updated email for the chapter leader */
+  /** Updated email for the user */
   email?: string;
   /** Current password for security verification */
   currentPassword?: string;
-  /** New password for updating the chapter leader's password */
+  /** New password for updating the user's password */
   newPassword?: string;
   /** Confirming the new password */
   confirmNewPassword?: string;
@@ -70,8 +75,6 @@ export interface UpdateChapterRequest {
   notificationPushToken?: string;
   /** Flag indicating if notifications are enabled */
   notificationsEnabled?: boolean;
-  /** Whether link sharing is enabled */
-  linkSharingEnabled?: boolean;
 }
 
 export interface GetConversationRequest {

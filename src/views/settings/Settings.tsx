@@ -106,8 +106,8 @@ const SettingsView = () => {
     <>
       <ListItem
         size="lg"
-        title="Chapter"
-        subtitle="Manage your chapter"
+        title="General"
+        subtitle="Manage your general information"
         icon="BuildingsFill"
         onPress={onChapterPress}
       />
@@ -150,7 +150,7 @@ const SettingsView = () => {
         />
         <ListItem
           size="sm"
-          icon="ShieldChevronFill"
+          icon="FilesFill"
           title="Privacy Policy"
           subtitle="View our privacy policy"
           onPress={onPrivacyPolicyPress}

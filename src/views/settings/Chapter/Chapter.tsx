@@ -15,12 +15,12 @@ import Button from "@/ui/Button";
 import FormField from "@/ui/FormField";
 import { useUser } from "@/providers/User";
 import validators from "@/constants/validators";
+import { useUpdateUser } from "@/hooks/api/user";
 import useFormMutation from "@/hooks/useFormMutation";
-import { useUpdateChapter } from "@/hooks/api/chapter";
 
 const ChapterView = () => {
-  const { chapter } = useUser();
-  const updateMutation = useUpdateChapter();
+  const { user, chapter } = useUser();
+  const updateMutation = useUpdateUser();
 
   const formValidators = {
     email: validators.email.optional(),
@@ -39,9 +39,9 @@ const ChapterView = () => {
       });
     },
     initialValues: {
-      email: chapter?.email,
-      firstName: chapter?.firstName,
-      lastName: chapter?.lastName,
+      email: user?.email,
+      firstName: user?.firstName,
+      lastName: user?.lastName,
     },
   });
 

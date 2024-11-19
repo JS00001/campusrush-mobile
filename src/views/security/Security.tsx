@@ -26,32 +26,14 @@ const SecurityView = () => {
     });
   };
 
-  const onSessionsPress = () => {
-    navigation.navigate("Main", {
-      screen: "MoreTab",
-      params: {
-        screen: "Sessions",
-      },
-    });
-  };
-
   return (
-    <>
-      <ListItem
-        size="lg"
-        icon="LockFill"
-        title="Change Password"
-        subtitle="Update your current password"
-        onPress={onChangePasswordPress}
-      />
-      <ListItem
-        size="lg"
-        icon="DeviceMobileFill"
-        title="Sessions"
-        subtitle="Manage your active sessions"
-        onPress={onSessionsPress}
-      />
-    </>
+    <ListItem
+      size="lg"
+      icon="LockFill"
+      title="Change Password"
+      subtitle="Update your current password"
+      onPress={onChangePasswordPress}
+    />
   );
 };
 

@@ -74,7 +74,7 @@ const Violations = () => {
             return (
               <ListItem
                 size="lg"
-                title={`${item.chapter.firstName} ${item.chapter.lastName}`}
+                title={`${item.user.firstName} ${item.user.lastName}`}
                 subtitle={`${item.violations.length} Violations\nClick to View`}
                 icon={getIcon(item.violations.length)}
                 iconColor={getIconColor(item.violations.length)}

@@ -31,7 +31,7 @@ export const useUpdateChapter = () => {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['chapter'] });
-      posthog.capture('CHAPTER_UPDATED');
+      posthog.capture('chapter_updated');
     },
   });
 };

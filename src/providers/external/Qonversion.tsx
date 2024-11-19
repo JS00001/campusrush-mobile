@@ -64,10 +64,12 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
    */
   const login = async (chapter: IChapter) => {
     Qonversion.getSharedInstance().identify(chapter.billing.qonversionId);
-    Qonversion.getSharedInstance().setUserProperty(
-      UserPropertyKey.EMAIL,
-      chapter.email,
-    );
+
+    // PR_TODO: Update to use an email from the backend or smth
+    // Qonversion.getSharedInstance().setUserProperty(
+    //   UserPropertyKey.EMAIL,
+    //   chapter.email,
+    // );
 
     await checkEntitlements();
   };

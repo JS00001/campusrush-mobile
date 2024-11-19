@@ -35,8 +35,8 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ children }) => {
-  const { chapter } = useUser();
   const navigation = useNavigation();
+  const { chapter, user } = useUser();
   const sidebarStore = useSidebarStore();
 
   const logoutMutation = useLogout();
@@ -129,7 +129,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
     },
     {
       label: "Admin",
-      hidden: chapter.role !== "admin",
+      hidden: user.systemRole !== "admin",
       items: [
         {
           icon: "UsersThree",
@@ -196,7 +196,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                 style={tw`px-6 text-gray-800 font-bold`}
                 numberOfLines={1}
               >
-                Hey {chapter.firstName}!
+                Hey {user.firstName}!
               </Text>
 
               {SidebarSections.map((section, index) => {

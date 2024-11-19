@@ -40,7 +40,8 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
         <Text>{chapter.school}</Text>
       </View>
 
-      <IconLabel
+      {/* PR_TODO */}
+      {/* <IconLabel
         size="md"
         color="tertiary"
         iconName="Envelope"
@@ -53,7 +54,7 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
         iconName="Clock"
         title="Last Seen"
         subtitle={dateUtil.timeAgo(chapter.lastOnline)}
-      />
+      /> */}
     </TouchableOpacity>
   );
 };

@@ -13,12 +13,12 @@
 import { View } from "react-native";
 
 import tw from "@/lib/tailwind";
-import Chapter from "@/ui/ListItems/Chapter";
 import FlatList from "@/ui/FlatList";
 import TextInput from "@/ui/TextInput";
 import IconButton from "@/ui/IconButton";
 import useSearch from "@/hooks/useSearch";
 import Menu, { MenuAction } from "@/ui/Menu";
+import Chapter from "@/ui/ListItems/Chapter";
 import ChapterLoader from "@/ui/Loaders/Chapter";
 import { useGetAdminChapters } from "@/hooks/api/admin";
 
@@ -51,16 +51,17 @@ const ChaptersView = () => {
         key: "createdAt",
         direction: "asc",
       },
-      {
-        id: "LAST_ONLINE_DESC",
-        key: "lastOnline",
-        direction: "desc",
-      },
-      {
-        id: "LAST_ONLINE_ASC",
-        key: "lastOnline",
-        direction: "asc",
-      },
+      // PR_TODO
+      // {
+      //   id: "LAST_ONLINE_DESC",
+      //   key: "lastOnline",
+      //   direction: "desc",
+      // },
+      // {
+      //   id: "LAST_ONLINE_ASC",
+      //   key: "lastOnline",
+      //   direction: "asc",
+      // },
     ],
   });
 

@@ -121,9 +121,8 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
       </Text>
 
       <Detail.List>
-        <Detail.Item title="Email" value={chapter.email} />
-        <Detail.Item title="First Name" value={chapter.firstName} />
-        <Detail.Item title="Last Name" value={chapter.lastName} />
+        <Detail.Item title="First Name" value={chapter.ownerFirstName} />
+        <Detail.Item title="Last Name" value={chapter.ownerLastName} />
         <Detail.Item
           title="PNM Count"
           value={`${chapter.pnms.length || "--"}`}
@@ -140,14 +139,6 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
       </Text>
 
       <Detail.List>
-        <Detail.Item
-          title="Client Version"
-          value={<ClientVersion version={chapter.clientVersion} />}
-        />
-        <Detail.Item
-          title="Last Seen"
-          value={date.timeAgo(chapter.lastOnline)}
-        />
         <Detail.Item
           title="Created On"
           value={date.toString(chapter.createdAt)}

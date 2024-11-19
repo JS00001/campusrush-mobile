@@ -22,6 +22,7 @@ import type { Metadata } from '../app';
 import type { EntitlementDetails } from '../entitlements';
 import type { IViolation } from '../models/violation';
 import { INotification } from '../models/notification';
+import { IUser } from '../models/user';
 
 export type LogoutResponse = API.Response<{}>;
 
@@ -47,6 +48,8 @@ export type GetChaptersResponse = API.Response<{
 }>;
 
 export type LoginResponse = API.Response<{
+  /** User information */
+  user: IUser;
   /** Chapter information */
   chapter: IChapter;
   /** Access token for authentication */
@@ -56,6 +59,8 @@ export type LoginResponse = API.Response<{
 }>;
 
 export type RegisterResponse = API.Response<{
+  /** User information */
+  user: IUser;
   /** Chapter information */
   chapter: IChapter;
   /** Access token for authentication */
@@ -65,6 +70,8 @@ export type RegisterResponse = API.Response<{
 }>;
 
 export type ChangePasswordResponse = API.Response<{
+  /** User information */
+  user: IUser;
   /** Chapter information */
   chapter: IChapter;
   /** Access token for authentication */
@@ -73,7 +80,9 @@ export type ChangePasswordResponse = API.Response<{
   refreshToken: string;
 }>;
 
-export type GetChapterResponse = API.Response<{
+export type GetUserResponse = API.Response<{
+  /** User information */
+  user: IUser;
   /** Chapter information */
   chapter: IChapter;
 }>;
@@ -84,7 +93,16 @@ export type CheckEmailResponse = API.Response<{
 }>;
 
 export type VerifyChapterResponse = API.Response<{
+  /** User information */
+  user: IUser;
   /** Chapter information */
+  chapter: IChapter;
+}>;
+
+export type UpdateUserResponse = API.Response<{
+  /** Updated user information */
+  user: IUser;
+  /** Updated chapter information */
   chapter: IChapter;
 }>;
 
@@ -338,7 +356,7 @@ export type GetAdminStatisticsResponse = API.Response<{
 export type GetViolationsResponse = API.Response<
   {
     /** The chapter who has the violation */
-    chapter: IChapter;
+    user: IUser;
     /** The list of violations */
     violations: IViolation[];
   }[]

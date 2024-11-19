@@ -61,7 +61,6 @@ import SettingsNotificationsScreen from "@/navigation/screens/settings/ManagePus
 import SettingsChapterScreen from "@/navigation/screens/settings/ManageChapter";
 
 import SettingsSecurityScreen from "@/navigation/screens/security/Security";
-import SettingsSessionsScreen from "@/navigation/screens/security/Sessions";
 import SettingsChangePasswordScreen from "@/navigation/screens/security/ChangePassword";
 
 /**
@@ -335,10 +334,6 @@ export const MoreStack = () => {
       <Stack.Screen
         name="ChangePassword"
         component={SettingsChangePasswordScreen}
-      />
-      <Stack.Screen
-        name="Sessions"
-        component={SettingsSessionsScreen}
       />
     </Stack.Navigator>
   );

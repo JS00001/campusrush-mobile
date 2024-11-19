@@ -18,8 +18,8 @@ const ChapterScreen: React.FC = () => {
     <Layout.Root>
       <Layout.Header
         hasBackButton
-        title="Chapter"
-        subtitle="Manage your chapter"
+        title="General"
+        subtitle="Manage your general information"
       />
 
       <Layout.Content gap={12} scrollable>

@@ -51,18 +51,25 @@ export const useLogin = () => {
     mutationFn: async (data: LoginRequest) => {
       const response = await login(data);
       if ('error' in response) throw response;
+      const user = response.data.user;
       const chapter = response.data.chapter;
       // Login to 3rd party services
       await qonversion.login(chapter);
-      posthog.identify(chapter._id, { role: chapter.role });
+      posthog.identify(chapter._id, {
+        role: user.systemRole,
+        chapterRole: user.chapterRole,
+      });
       return response;
     },
     onSuccess: async (res) => {
       setAccessToken(res.data.accessToken);
       setRefreshToken(res.data.refreshToken);
 
-      queryClient.setQueryData(['chapter'], { chapter: res.data.chapter });
-      posthog.capture('LOGIN');
+      posthog.capture('login');
+      queryClient.setQueryData(['user'], {
+        user: res.data.user,
+        chapter: res.data.chapter,
+      });
     },
   });
 };
@@ -81,17 +88,25 @@ export const useRegister = () => {
     mutationFn: async (data: RegisterRequest) => {
       const response = await register(data);
       if ('error' in response) throw response;
+      // Login to 3rd party services
+      const user = response.data.user;
       const chapter = response.data.chapter;
       await qonversion.login(chapter);
-      posthog.identify(chapter._id, { role: chapter.role });
+      posthog.identify(chapter._id, {
+        role: user.systemRole,
+        chapterRole: user.chapterRole,
+      });
       return response;
     },
     onSuccess: async (res) => {
       setAccessToken(res.data.accessToken);
       setRefreshToken(res.data.refreshToken);
 
-      queryClient.setQueryData(['chapter'], { chapter: res.data.chapter });
-      posthog.capture('REGISTER');
+      posthog.capture('register');
+      queryClient.setQueryData(['user'], {
+        user: res.data.user,
+        chapter: res.data.chapter,
+      });
     },
   });
 };
@@ -123,8 +138,11 @@ export const useVerifyEmail = () => {
       return response;
     },
     onSuccess: async (res) => {
-      queryClient.setQueryData(['chapter'], { chapter: res.data.chapter });
-      posthog.capture('EMAIL_VERIFIED');
+      posthog.capture('email_verified');
+      queryClient.setQueryData(['user'], {
+        user: res.data.user,
+        chapter: res.data.chapter,
+      });
     },
   });
 };
@@ -142,7 +160,7 @@ export const useResendVerification = () => {
       return response;
     },
     onSuccess: async () => {
-      posthog.capture('RESEND_VERIFICATION');
+      posthog.capture('resend_verification');
     },
   });
 };
@@ -160,7 +178,7 @@ export const useResetPassword = () => {
       return response;
     },
     onSuccess: async () => {
-      posthog.capture('RESET_PASSWORD');
+      posthog.capture('reset_password');
     },
   });
 };
@@ -179,17 +197,24 @@ export const useChangePassword = () => {
     mutationFn: async (data: ChangePasswordRequest) => {
       const response = await changePassword(data);
       if ('error' in response) throw response;
+      const user = response.data.user;
       const chapter = response.data.chapter;
       await qonversion.login(chapter);
-      posthog.identify(chapter._id, { role: chapter.role });
+      posthog.identify(chapter._id, {
+        role: user.systemRole,
+        chapterRole: user.chapterRole,
+      });
       return response;
     },
     onSuccess: async (res) => {
       setAccessToken(res.data.accessToken);
       setRefreshToken(res.data.refreshToken);
 
-      queryClient.setQueryData(['chapter'], { chapter: res.data.chapter });
-      posthog.capture('CHANGE_PASSWORD');
+      posthog.capture('change_password');
+      queryClient.setQueryData(['user'], {
+        user: res.data.user,
+        chapter: res.data.chapter,
+      });
     },
   });
 };
@@ -221,7 +246,7 @@ export const useLogout = () => {
       setAccessToken(null);
       setRefreshToken(null);
 
-      posthog.capture('LOGOUT');
+      posthog.capture('logout');
       posthog.reset();
       queryClient.resetQueries();
       await qonversion.logout();

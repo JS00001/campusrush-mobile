@@ -19,12 +19,12 @@ import { useBottomSheet } from "@/providers/BottomSheet";
 const GestureDetectorProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { chapter } = useUser();
+  const { user } = useUser();
   const { openBottomSheet } = useBottomSheet();
 
   const onTripleFingerTap = (event: any) => {
     if (event.numberOfTouches === 3) {
-      if (__DEV__ || chapter.role === "admin") {
+      if (__DEV__ || user.systemRole === "admin") {
         openBottomSheet("DEVELOPER_TOOLS");
       }
     }

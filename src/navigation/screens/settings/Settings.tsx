@@ -16,7 +16,10 @@ import SettingsView from "@/views/settings";
 const SettingsScreen = () => {
   return (
     <Layout.Root>
-      <Layout.Header title="Settings" subtitle="Manage your chapter" />
+      <Layout.Header
+        title="Settings"
+        subtitle="Manage your CampusRush account"
+      />
 
       <Layout.Content scrollable gap={12}>
         <SettingsView />

@@ -18,7 +18,7 @@ import type { IPNM, IEvent } from "@/types";
 
 import { useUser } from "@/providers/User";
 import queryClient from "@/lib/query-client";
-import { useUpdateChapter } from "@/hooks/api/chapter";
+import { useUpdateUser } from "@/hooks/api/user";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
 interface IPushNotificationsContext {
@@ -38,14 +38,14 @@ RNNotifications.setNotificationHandler(null);
 const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
-  const { chapter } = useUser();
+  const { user } = useUser();
   const { openBottomSheet } = useBottomSheet();
   const responseListener = useRef<RNNotifications.Subscription>();
 
   const navigation = useNavigation();
-  const updateChapterMutation = useUpdateChapter();
+  const updateUserMutation = useUpdateUser();
 
-  const enabled = chapter.notifications.enabled;
+  const enabled = user.notifications.enabled;
 
   /**
    * Listen for when a push notification is opened
@@ -120,7 +120,7 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     });
 
     if (pushNotificationToken.data) {
-      updateChapterMutation.mutate({
+      updateUserMutation.mutate({
         notificationPushToken: pushNotificationToken.data,
       });
     }
@@ -165,7 +165,7 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
    * Update the notification status for the user in the server
    */
   const updatePushNotificationsEnabled = async (value: boolean) => {
-    await updateChapterMutation.mutateAsync({
+    await updateUserMutation.mutateAsync({
       notificationsEnabled: value,
     });
   };
@@ -241,7 +241,7 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
       value={{
         enabled,
         setEnabled,
-        isLoading: updateChapterMutation.isPending,
+        isLoading: updateUserMutation.isPending,
       }}
     >
       {children}

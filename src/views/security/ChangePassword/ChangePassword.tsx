@@ -14,11 +14,11 @@ import Toast from "react-native-toast-message";
 import Button from "@/ui/Button";
 import FormField from "@/ui/FormField";
 import validators from "@/constants/validators";
+import { useUpdateUser } from "@/hooks/api/user";
 import useFormMutation from "@/hooks/useFormMutation";
-import { useUpdateChapter } from "@/hooks/api/chapter";
 
 const ChangePasswordView = () => {
-  const updateMutation = useUpdateChapter();
+  const updateMutation = useUpdateUser();
 
   const formValidators = {
     currentPassword: validators.password,

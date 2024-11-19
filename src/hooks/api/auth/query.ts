@@ -15,32 +15,7 @@ import { useQuery } from '@tanstack/react-query';
 import type { RefreshAccessTokenResponse } from '@/types';
 
 import axios from '@/lib/axios';
-import { getChapter } from '@/api';
-import usePosthog from '@/hooks/usePosthog';
 import { getRefreshToken, setAccessToken } from '@/lib/auth';
-import { useQonversion } from '@/providers/external/Qonversion';
-
-export const useGetChapter = () => {
-  const posthog = usePosthog();
-  const qonversion = useQonversion();
-
-  const query = useQuery({
-    retry: 0,
-    staleTime: Infinity,
-    queryKey: ['chapter'],
-    queryFn: async () => {
-      const response = await getChapter();
-      if ('error' in response) throw response;
-      const chapter = response.data.chapter;
-      // Login to 3rd party services
-      await qonversion.login(chapter);
-      posthog.identify(chapter._id, { role: chapter.role });
-      return response.data;
-    },
-  });
-
-  return query;
-};
 
 export const useRefreshAccessToken = () => {
   return useQuery({
