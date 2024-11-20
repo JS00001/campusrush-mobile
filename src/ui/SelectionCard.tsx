@@ -91,7 +91,7 @@ const SelectionCard: React.FC<SelectionCardProps> = ({
       {/* Selected icon (checkmark) */}
       {selected && (
         <View style={tw`absolute p-4 right-0`}>
-          <Icon size={20} icon="CheckCircle" color={tw.color("primary")} />
+          <Icon size={20} icon="CheckCircleFill" color={tw.color("primary")} />
         </View>
       )}
 
