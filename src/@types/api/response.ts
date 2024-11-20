@@ -11,7 +11,7 @@
  */
 
 import type { API } from '.';
-import type { IChapter } from '../models/chapter';
+import type { IAdminChapter, IChapter } from '../models/chapter';
 import type { IConversation } from '../models/conversation';
 import type { IEvent } from '../models/event';
 import type { IEventResponse } from '../models/eventResponse';
@@ -139,7 +139,7 @@ export type GetPnmsResponse = API.Response<{
 
 export type GetAdminChaptersResponse = API.Response<{
   /** List of admin chapters */
-  chapters: IChapter[];
+  chapters: IAdminChapter[];
 }>;
 
 export type GetConversationResponse = API.Response<{
@@ -250,7 +250,7 @@ export type GetEventResponse = API.Response<{
 
 export type GetAdminChapterResponse = API.Response<{
   /** Admin chapter information */
-  chapter: IChapter;
+  chapter: IAdminChapter;
 }>;
 
 export type GetChapterSessionsResponse = API.Response<{

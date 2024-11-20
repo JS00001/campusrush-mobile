@@ -51,17 +51,16 @@ const ChaptersView = () => {
         key: "createdAt",
         direction: "asc",
       },
-      // PR_TODO
-      // {
-      //   id: "LAST_ONLINE_DESC",
-      //   key: "lastOnline",
-      //   direction: "desc",
-      // },
-      // {
-      //   id: "LAST_ONLINE_ASC",
-      //   key: "lastOnline",
-      //   direction: "asc",
-      // },
+      {
+        id: "LAST_ONLINE_DESC",
+        key: "lastOnline",
+        direction: "desc",
+      },
+      {
+        id: "LAST_ONLINE_ASC",
+        key: "lastOnline",
+        direction: "asc",
+      },
     ],
   });
 

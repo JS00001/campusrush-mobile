@@ -35,8 +35,8 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ children }) => {
+  const { user } = useUser();
   const navigation = useNavigation();
-  const { chapter, user } = useUser();
   const sidebarStore = useSidebarStore();
 
   const logoutMutation = useLogout();

@@ -15,10 +15,15 @@ export interface IChapter {
   _id: string;
   /** The name of the chapters organization, IE: Delta Chi */
   name: string;
-  /** The name of the chapters owner */
-  ownerFirstName: string;
-  /** The last name of the chapters owner */
-  ownerLastName: string;
+  /** The chapter's owner */
+  owner: {
+    /** The owner's first name */
+    firstName: string;
+    /** The owner's last name */
+    lastName: string;
+    /** The owner's email */
+    email: string;
+  };
   /** The school of the chapter */
   school: string;
   /** The pnms that the chapter has added */
@@ -44,4 +49,10 @@ export interface IChapter {
     /** Whether the chapter has enabled link sharing or not */
     enabled: boolean;
   };
+}
+
+/** A chapter with more information that admin's could need */
+export interface IAdminChapter extends IChapter {
+  /** When the chapter was last online */
+  lastOnline: Date;
 }
