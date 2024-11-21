@@ -12,11 +12,12 @@
 
 import { createContext, useContext, useRef } from "react";
 
-import type { IChapter } from "@/types";
+import type { IChapter, IUser } from "@/types";
 
-import { useGetChapter } from "@/hooks/api/auth";
+import { useGetUser } from "@/hooks/api/user";
 
 interface IUserContext {
+  user: IUser;
   chapter: IChapter;
 }
 
@@ -26,10 +27,11 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const initialized = useRef(false);
-  const { isPending, data } = useGetChapter();
+  const { isPending, data } = useGetUser();
 
   // Mark chapter as defined, and make sure we only use it in the main app
-  const chapter = data?.chapter!;
+  const chapter = (data?.chapter || {}) as IChapter;
+  const user = (data?.user || {}) as IUser;
 
   /**
    * On the first app load, we want to fetch this query if needed (if the user is loggedin)
@@ -42,7 +44,9 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   }
 
   return (
-    <UserContext.Provider value={{ chapter }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ user, chapter }}>
+      {children}
+    </UserContext.Provider>
   );
 };
 

@@ -1,5 +1,5 @@
 /*
- * Created on Fri Feb 23 2024
+ * Created on Mon Nov 18 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -12,40 +12,24 @@
 
 import { useMutation } from '@tanstack/react-query';
 
-import type { UpdateChapterRequest } from '@/types';
+import type { UpdateUserRequest } from '@/@types';
 
 import usePosthog from '@/hooks/usePosthog';
 import queryClient from '@/lib/query-client';
-import { updateChapter, deleteChapter } from '@/api';
+import { updateUser } from '@/api/requests/user';
 
-export const useUpdateChapter = () => {
+export const useUpdateUser = () => {
   const posthog = usePosthog();
 
   return useMutation({
-    mutationFn: async (data: UpdateChapterRequest) => {
-      const response = await updateChapter(data);
+    mutationFn: async (data: UpdateUserRequest) => {
+      const response = await updateUser(data);
       if ('error' in response) throw response;
       return response;
     },
     onSuccess: async (response) => {
       queryClient.setQueryData(['user'], response.data);
       posthog.capture('chapter_updated');
-    },
-  });
-};
-
-export const useDeleteChapter = () => {
-  const posthog = usePosthog();
-
-  return useMutation({
-    mutationFn: async () => {
-      const response = await deleteChapter();
-      if ('error' in response) throw response;
-      return response;
-    },
-    onSuccess: async (response) => {
-      queryClient.setQueryData(['user'], response.data);
-      posthog.capture('chapter_deleted');
     },
   });
 };

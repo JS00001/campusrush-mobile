@@ -30,8 +30,8 @@ import { useBottomSheet } from "@/providers/BottomSheet";
 import RefreshControlView from "@/ui/RefreshControlView";
 
 const HomeView = () => {
-  const { chapter } = useUser();
   const pnmQuery = useGetPnms();
+  const { user, chapter } = useUser();
   const { openBottomSheet } = useBottomSheet();
 
   const onRecentPnmPress = (pnm: IPNM) => {
@@ -80,7 +80,7 @@ const HomeView = () => {
       <View style={tw`w-full items-start p-6 gap-y-6`}>
         {/* Header */}
         <Text type="h1" numberOfLines={1} style={tw`text-white shrink`}>
-          Welcome {chapter.firstName}
+          Welcome {user.firstName}
         </Text>
 
         {/* Chapter Statistics */}

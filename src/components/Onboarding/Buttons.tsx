@@ -44,7 +44,7 @@ const OnboardingButtons: React.FC<OnboardingButtonsProps> = ({
       navigation.navigate("Billing");
       updatePreferences({ onboardingComplete: true });
 
-      posthog.capture("ONBOARDING_COMPLETE", {
+      posthog.capture("onboarding_complete", {
         fromPage: pages[currentStep - 1],
       });
 
@@ -52,7 +52,7 @@ const OnboardingButtons: React.FC<OnboardingButtonsProps> = ({
     }
 
     navigation.navigate(pages[currentStep]);
-    posthog.capture("ONBOARDING_NEXT_PRESS", {
+    posthog.capture("onboarding_next_pressed", {
       from_page: pages[currentStep - 1],
       to_page: pages[currentStep],
     });

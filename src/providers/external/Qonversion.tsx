@@ -66,7 +66,7 @@ const QonversionProvider: React.FC<{ children: React.ReactNode }> = ({
     Qonversion.getSharedInstance().identify(chapter.billing.qonversionId);
     Qonversion.getSharedInstance().setUserProperty(
       UserPropertyKey.EMAIL,
-      chapter.email,
+      chapter.owner.email,
     );
 
     await checkEntitlements();

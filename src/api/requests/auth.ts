@@ -1,5 +1,4 @@
 import type {
-  GetChapterResponse,
   LoginRequest,
   LoginResponse,
   RegisterRequest,
@@ -18,18 +17,6 @@ import type {
 import axios from '@/lib/axios';
 
 const PREFIX = '/auth';
-
-/**
- * Request:     GET /api/v1/consumer/auth/me
- * Description: Get the current chapter
- */
-export const getChapter = async () => {
-  const url = `${PREFIX}/me`;
-
-  const { data } = await axios.get<GetChapterResponse>(url);
-
-  return data;
-};
 
 /**
  * Request:     POST /api/v1/consumer/auth/login

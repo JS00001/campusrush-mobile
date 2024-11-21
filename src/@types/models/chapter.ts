@@ -10,51 +10,36 @@
  * Do not distribute
  */
 
-/** The base account */
 export interface IChapter {
   /** The id of the chapter */
   _id: string;
   /** The name of the chapters organization, IE: Delta Chi */
   name: string;
-  /** The first name of the chapter's user */
-  firstName: string;
-  /** The last name of the chapter's user */
-  lastName: string;
-  /** The email of the chapter's user */
-  email: string;
+  /** The chapter's owner */
+  owner: {
+    /** The owner's first name */
+    firstName: string;
+    /** The owner's last name */
+    lastName: string;
+    /** The owner's email */
+    email: string;
+  };
   /** The school of the chapter */
   school: string;
-  /** Whether the chapter has verified their email or not */
-  verified: boolean;
   /** The pnms that the chapter has added */
   pnms: string[];
-  /** The role of the chapter */
-  role: 'user' | 'admin';
   /** The custom phone number of the chapter (the number that PNMs will message) */
   phoneNumber: string;
-  /** The date the phone number was created */
-  phoneNumberCreatedAt: Date;
   /** Whether the chapter has an active subscription or not */
   isPro: boolean;
-  /** The date the chapter was last active (last time they hit the API) */
-  lastOnline: Date;
-  /** The client version that the chapter is currently on */
-  clientVersion: string;
   /** The date the chapter was created */
   createdAt: Date;
   /** The date the chapter was last updated */
   updatedAt: Date;
-
   /** All of the billing information for the chapter */
   billing: {
     /** The Qonversion customer id of the chapter. Set on creation */
     qonversionId: string;
-  };
-
-  /** All notifications information for the chapter */
-  notifications: {
-    /** Whether the chapter has enabled push notifications or not */
-    enabled: boolean;
   };
 
   /** All of the information about the chapters sharing link */
@@ -64,4 +49,10 @@ export interface IChapter {
     /** Whether the chapter has enabled link sharing or not */
     enabled: boolean;
   };
+}
+
+/** A chapter with more information that admin's could need */
+export interface IAdminChapter extends IChapter {
+  /** When the chapter was last online */
+  lastOnline: Date;
 }

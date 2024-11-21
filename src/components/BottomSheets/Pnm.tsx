@@ -74,7 +74,7 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
             starred,
           });
 
-          const EVENT_NAME = starred ? "PNM_FAVORITED" : "PNM_UNFAVORITED";
+          const EVENT_NAME = starred ? "pnm_favorited" : "pnm_unfavorited";
 
           posthog.capture(EVENT_NAME);
         };
@@ -99,8 +99,6 @@ const PnmSheet: React.FC<BottomSheetProps> = ({
                   });
 
                   handleClose();
-
-                  posthog.capture("PNM_DELETED");
                 },
               },
             ],

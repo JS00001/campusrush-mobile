@@ -56,7 +56,7 @@ const RegistrationStep1View = () => {
     store.setField("name", form.state.name.value);
     store.setField("school", form.state.school.value);
 
-    posthog.capture("REGISTRATION_STEP_1_COMPLETED", {
+    posthog.capture("registration_step_1_completed", {
       chapter_name: form.state.name.value,
       chapter_school: form.state.school.value,
     });

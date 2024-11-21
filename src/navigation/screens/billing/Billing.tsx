@@ -35,7 +35,7 @@ import ErrorMessage from "@/components/ErrorMessage";
 
 const BillingScreen = () => {
   const posthog = usePosthog();
-  const { chapter } = useUser();
+  const { chapter, user } = useUser();
   const { openBottomSheet } = useBottomSheet();
   const { purchaseProduct, restorePurchases } = useQonversion();
 
@@ -142,7 +142,7 @@ const BillingScreen = () => {
    * When the feature button is pressed, open the plan comparison bottom sheet
    */
   const onFeaturePress = () => {
-    posthog.capture("COMPARE_PLANS_BUTTON_PRESSED");
+    posthog.capture("compare_plans_button_pressed");
     openBottomSheet("PLAN_COMPARISON");
   };
 
@@ -255,7 +255,7 @@ const BillingScreen = () => {
             <Hyperlink style={tw`text-xs`} onPress={onTermsPress}>
               Terms
             </Hyperlink>
-            . If {chapter.email} is not your email,{" "}
+            . If {user.email} is not your email,{" "}
             <Hyperlink style={tw`text-xs`} onPress={onLogout}>
               Sign out.
             </Hyperlink>{" "}

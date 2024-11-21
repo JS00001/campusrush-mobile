@@ -58,17 +58,15 @@ const Create: React.FC<Props> = ({ navigation, route }) => {
       });
 
       if (pressedButtonId === "cancel") {
-        posthog.capture("MASS_MESSAGE_CANCELLED", { pnmCount: pnms.length });
+        posthog.capture("mass_message_cancelled", { pnmCount: pnms.length });
         return { cancelled: true };
       }
 
-      posthog.capture("MASS_MESSAGE_SENT", { pnmCount: pnms.length });
       sendMessages(messages);
       return { cancelled: false };
     }
 
     sendMessages(messages);
-    posthog.capture("MASS_MESSAGE_SENT", { pnmCount: pnms.length });
     return { cancelled: false };
   };
 

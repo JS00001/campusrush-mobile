@@ -42,7 +42,7 @@ export const useDeletePnms = () => {
       await queryClient.invalidateQueries({ queryKey: ['conversations'] });
 
       await queryClient.setQueryData(['pnms'], { pnms: res.data.pnms });
-      posthog.capture('PNMS_DELETED', { count: variables?.pnms?.length || 0 });
+      posthog.capture('pnms_deleted', { count: variables?.pnms?.length || 0 });
     },
   });
 };
@@ -68,7 +68,7 @@ export const useCreatePnm = () => {
         return { pnms: [...previous.pnms, res.data.pnm] };
       });
 
-      posthog.capture('PNM_CREATED');
+      posthog.capture('pnm_created');
     },
   });
 };
@@ -94,7 +94,7 @@ export const useUpdatePnm = () => {
         pnm: res.data.pnm,
       });
 
-      posthog.capture('PNM_UPDATED');
+      posthog.capture('pnm_updated');
     },
   });
 };
@@ -120,7 +120,7 @@ export const useDeletePnm = () => {
         pnms: previous?.pnms.filter((pnm) => pnm._id !== variables.id) || [],
       }));
 
-      posthog.capture('PNM_DELETED');
+      posthog.capture('pnm_deleted');
     },
   });
 };

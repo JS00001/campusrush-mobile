@@ -25,7 +25,7 @@ export const useUploadFile = () => {
       return response;
     },
     onSuccess: () => {
-      posthog.capture('FILE_UPLOADED');
+      posthog.capture('file_uploaded');
     },
   });
 };

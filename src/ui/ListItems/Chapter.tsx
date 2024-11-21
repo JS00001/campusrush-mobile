@@ -12,7 +12,7 @@
 
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
-import type { IChapter } from "@/types";
+import type { IAdminChapter } from "@/types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -21,7 +21,7 @@ import IconLabel from "@/ui/IconLabel";
 import { useBottomSheet } from "@/providers/BottomSheet";
 
 interface ChapterProps extends TouchableOpacityProps {
-  chapter: IChapter;
+  chapter: IAdminChapter;
 }
 
 const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
@@ -45,7 +45,7 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
         color="tertiary"
         iconName="Envelope"
         title="Email"
-        subtitle={chapter.email}
+        subtitle={chapter.owner.email}
       />
       <IconLabel
         size="md"

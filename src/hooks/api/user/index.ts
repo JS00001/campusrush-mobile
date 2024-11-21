@@ -1,5 +1,5 @@
 /*
- * Created on Sun Aug 11 2024
+ * Created on Mon Nov 18 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,6 +10,5 @@
  * Do not distribute
  */
 
-import SessionsView from "./Sessions";
-
-export default SessionsView;
+export * from './mutations';
+export * from './queries';

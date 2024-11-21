@@ -10,23 +10,9 @@
  * Do not distribute
  */
 
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { getChapterSessions, getChapterNotifications } from '@/api';
-
-/**
- * Get a list of the chapters active sessions
- */
-export const useGetChapterSessions = () => {
-  return useQuery({
-    queryKey: ['chapterSessions'],
-    queryFn: async () => {
-      const response = await getChapterSessions();
-      if ('error' in response) throw response;
-      return response.data;
-    },
-  });
-};
+import { getChapterNotifications } from '@/api';
 
 /**
  * Get a list of the chapter's notifications

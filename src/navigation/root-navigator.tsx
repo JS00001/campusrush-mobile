@@ -38,7 +38,7 @@ const RootNavigator = () => {
     DMSans_700Bold,
   });
 
-  const { chapter } = useUser();
+  const { chapter, user } = useUser();
   const { entitlements } = useQonversion();
   const { isLoading: isPreferencesLoading } = usePreferences();
 
@@ -54,10 +54,10 @@ const RootNavigator = () => {
   }, [chapter, fontsLoaded, isPreferencesLoading]);
 
   // If the user is not logged in, we show the AuthStack
-  if (lodash.isEmpty(chapter)) return <AuthStack />;
+  if (lodash.isEmpty(chapter) || lodash.isEmpty(user)) return <AuthStack />;
 
   // If the user is not verified, we show the VerificationStack
-  if (!chapter.verified) return <VerificationStack />;
+  if (!user.verified) return <VerificationStack />;
 
   // If the user has no active entitlements, we show the BillingStack
   if (lodash.isEmpty(entitlements)) return <BillingStack />;

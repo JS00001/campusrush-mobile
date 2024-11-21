@@ -15,13 +15,13 @@ import { useUser } from "@/providers/User";
 import VerificationView from "@/views/Verification";
 
 const VerificationScreen = () => {
-  const { chapter } = useUser();
+  const { user } = useUser();
 
   return (
     <Layout.Root>
       <Layout.Header
         title="Verification"
-        subtitle={`We have sent a verification code sent to ${chapter?.email}. Enter it below.`}
+        subtitle={`We have sent a verification code sent to ${user.email}. Enter it below.`}
       />
 
       <Layout.Content scrollable gap={18}>

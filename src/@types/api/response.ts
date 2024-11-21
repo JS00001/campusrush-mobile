@@ -11,23 +11,21 @@
  */
 
 import type { API } from '.';
-import type { IChapter } from '../models/chapter';
+import type { IAdminChapter, IChapter } from '../models/chapter';
 import type { IConversation } from '../models/conversation';
 import type { IEvent } from '../models/event';
 import type { IEventResponse } from '../models/eventResponse';
 import type { IMessage } from '../models/message';
 import type { IPNM } from '../models/pnm';
-import type { IRefreshToken } from '../models/refreshToken';
 import type { Metadata } from '../app';
 import type { EntitlementDetails } from '../entitlements';
 import type { IViolation } from '../models/violation';
-import { INotification } from '../models/notification';
+import type { INotification } from '../models/notification';
+import type { IUser } from '../models/user';
 
 export type LogoutResponse = API.Response<{}>;
 
 export type DeletePnmResponse = API.Response<{}>;
-
-export type DeleteChapterSessionResponse = API.Response<{}>;
 
 export type GrantAdminChapterEntitlementsResponse = API.Response<{}>;
 
@@ -47,6 +45,8 @@ export type GetChaptersResponse = API.Response<{
 }>;
 
 export type LoginResponse = API.Response<{
+  /** User information */
+  user: IUser;
   /** Chapter information */
   chapter: IChapter;
   /** Access token for authentication */
@@ -56,6 +56,8 @@ export type LoginResponse = API.Response<{
 }>;
 
 export type RegisterResponse = API.Response<{
+  /** User information */
+  user: IUser;
   /** Chapter information */
   chapter: IChapter;
   /** Access token for authentication */
@@ -65,6 +67,8 @@ export type RegisterResponse = API.Response<{
 }>;
 
 export type ChangePasswordResponse = API.Response<{
+  /** User information */
+  user: IUser;
   /** Chapter information */
   chapter: IChapter;
   /** Access token for authentication */
@@ -73,7 +77,9 @@ export type ChangePasswordResponse = API.Response<{
   refreshToken: string;
 }>;
 
-export type GetChapterResponse = API.Response<{
+export type GetUserResponse = API.Response<{
+  /** User information */
+  user: IUser;
   /** Chapter information */
   chapter: IChapter;
 }>;
@@ -84,7 +90,16 @@ export type CheckEmailResponse = API.Response<{
 }>;
 
 export type VerifyChapterResponse = API.Response<{
+  /** User information */
+  user: IUser;
   /** Chapter information */
+  chapter: IChapter;
+}>;
+
+export type UpdateUserResponse = API.Response<{
+  /** Updated user information */
+  user: IUser;
+  /** Updated chapter information */
   chapter: IChapter;
 }>;
 
@@ -99,6 +114,8 @@ export type RefreshAccessTokenResponse = API.Response<{
 }>;
 
 export type UpdateChapterResponse = API.Response<{
+  /** The user for the chapter */
+  user: IUser;
   /** Updated chapter information */
   chapter: IChapter;
 }>;
@@ -121,7 +138,7 @@ export type GetPnmsResponse = API.Response<{
 
 export type GetAdminChaptersResponse = API.Response<{
   /** List of admin chapters */
-  chapters: IChapter[];
+  chapters: IAdminChapter[];
 }>;
 
 export type GetConversationResponse = API.Response<{
@@ -232,12 +249,7 @@ export type GetEventResponse = API.Response<{
 
 export type GetAdminChapterResponse = API.Response<{
   /** Admin chapter information */
-  chapter: IChapter;
-}>;
-
-export type GetChapterSessionsResponse = API.Response<{
-  /** List of sessions */
-  sessions: IRefreshToken[];
+  chapter: IAdminChapter;
 }>;
 
 export type GetAdminChapterEntitlementsResponse = API.Response<
@@ -338,7 +350,7 @@ export type GetAdminStatisticsResponse = API.Response<{
 export type GetViolationsResponse = API.Response<
   {
     /** The chapter who has the violation */
-    chapter: IChapter;
+    user: IUser;
     /** The list of violations */
     violations: IViolation[];
   }[]

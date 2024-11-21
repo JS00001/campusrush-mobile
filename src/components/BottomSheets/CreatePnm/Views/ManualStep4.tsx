@@ -60,8 +60,6 @@ const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
       text2: "The PNM has been added to your contacts",
     });
 
-    posthog.capture("PNM_CREATED_MANUALLY");
-
     handleClose();
   };
 
