@@ -114,6 +114,8 @@ export type RefreshAccessTokenResponse = API.Response<{
 }>;
 
 export type UpdateChapterResponse = API.Response<{
+  /** The user for the chapter */
+  user: IUser;
   /** Updated chapter information */
   chapter: IChapter;
 }>;
