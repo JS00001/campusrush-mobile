@@ -17,18 +17,15 @@ import type { IEvent } from '../models/event';
 import type { IEventResponse } from '../models/eventResponse';
 import type { IMessage } from '../models/message';
 import type { IPNM } from '../models/pnm';
-import type { IRefreshToken } from '../models/refreshToken';
 import type { Metadata } from '../app';
 import type { EntitlementDetails } from '../entitlements';
 import type { IViolation } from '../models/violation';
-import { INotification } from '../models/notification';
-import { IUser } from '../models/user';
+import type { INotification } from '../models/notification';
+import type { IUser } from '../models/user';
 
 export type LogoutResponse = API.Response<{}>;
 
 export type DeletePnmResponse = API.Response<{}>;
-
-export type DeleteChapterSessionResponse = API.Response<{}>;
 
 export type GrantAdminChapterEntitlementsResponse = API.Response<{}>;
 
@@ -251,11 +248,6 @@ export type GetEventResponse = API.Response<{
 export type GetAdminChapterResponse = API.Response<{
   /** Admin chapter information */
   chapter: IAdminChapter;
-}>;
-
-export type GetChapterSessionsResponse = API.Response<{
-  /** List of sessions */
-  sessions: IRefreshToken[];
 }>;
 
 export type GetAdminChapterEntitlementsResponse = API.Response<

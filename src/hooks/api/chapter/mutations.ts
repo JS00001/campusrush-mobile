@@ -12,13 +12,11 @@
 
 import { useMutation } from '@tanstack/react-query';
 
-import type {
-  DeleteChapterSessionRequest,
-  UpdateChapterRequest,
-} from '@/types';
+import type { UpdateChapterRequest } from '@/types';
+
 import usePosthog from '@/hooks/usePosthog';
 import queryClient from '@/lib/query-client';
-import { updateChapter, deleteChapter, deleteChapterSession } from '@/api';
+import { updateChapter, deleteChapter } from '@/api';
 
 export const useUpdateChapter = () => {
   const posthog = usePosthog();
@@ -29,32 +27,25 @@ export const useUpdateChapter = () => {
       if ('error' in response) throw response;
       return response;
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['chapter'] });
+    onSuccess: async (response) => {
+      queryClient.setQueryData(['user'], response.data);
       posthog.capture('chapter_updated');
     },
   });
 };
 
 export const useDeleteChapter = () => {
+  const posthog = usePosthog();
+
   return useMutation({
     mutationFn: async () => {
       const response = await deleteChapter();
       if ('error' in response) throw response;
       return response;
     },
-  });
-};
-
-export const useDeleteChapterSession = () => {
-  return useMutation({
-    mutationFn: async (data: DeleteChapterSessionRequest) => {
-      const response = await deleteChapterSession(data);
-      if ('error' in response) throw response;
-      return response;
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['chapterSessions'] });
+    onSuccess: async (response) => {
+      queryClient.setQueryData(['user'], response.data);
+      posthog.capture('chapter_deleted');
     },
   });
 };

@@ -27,8 +27,8 @@ export const useUpdateUser = () => {
       if ('error' in response) throw response;
       return response;
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['user'] });
+    onSuccess: async (response) => {
+      queryClient.setQueryData(['user'], response.data);
       posthog.capture('chapter_updated');
     },
   });

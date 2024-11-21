@@ -22,8 +22,6 @@ export * from './models/notification';
 export * from './models/pnm';
 export * from './models/user';
 export * from './models/violation';
-export * from './models/refreshToken';
-
 export * from './api';
 export * from './api/cms';
 export * from './api/response';

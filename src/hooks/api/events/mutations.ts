@@ -44,7 +44,7 @@ export const useCreateEvent = () => {
         return { events: [...previous.events, res.data.event] };
       });
 
-      posthog.capture('EVENT_CREATED');
+      posthog.capture('event_created');
     },
   });
 };
@@ -71,7 +71,7 @@ export const useUpdateEvent = () => {
         },
       );
 
-      posthog.capture('EVENT_UPDATED');
+      posthog.capture('event_updated');
     },
   });
 };
@@ -93,7 +93,7 @@ export const useDeleteEvent = () => {
         events: prev?.events.filter((e) => e._id !== variables.id) || [],
       }));
 
-      posthog.capture('EVENT_DELETED');
+      posthog.capture('event_deleted');
     },
   });
 };
@@ -112,7 +112,7 @@ export const useDeleteEvents = () => {
         events: [],
       });
 
-      posthog.capture('EVENTS_DELETED');
+      posthog.capture('events_deleted');
     },
   });
 };

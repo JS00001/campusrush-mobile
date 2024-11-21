@@ -142,7 +142,7 @@ const BillingScreen = () => {
    * When the feature button is pressed, open the plan comparison bottom sheet
    */
   const onFeaturePress = () => {
-    posthog.capture("COMPARE_PLANS_BUTTON_PRESSED");
+    posthog.capture("compare_plans_button_pressed");
     openBottomSheet("PLAN_COMPARISON");
   };
 

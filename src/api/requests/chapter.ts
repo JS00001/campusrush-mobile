@@ -3,9 +3,6 @@ import type {
   UpdateChapterRequest,
   UpdateChapterResponse,
   DeleteChapterResponse,
-  GetChapterSessionsResponse,
-  DeleteChapterSessionRequest,
-  DeleteChapterSessionResponse,
   GetNotificationsRequest,
   GetNotificationsResponse,
 } from '@/types';
@@ -51,33 +48,6 @@ export const deleteChapter = async () => {
   const { data } = await axios.delete<DeleteChapterResponse>(url);
 
   return data;
-};
-
-/**
- * Request:    GET /api/v1/consumer/chapter/sessions
- * Description: Get a chapter's sessions
- */
-export const getChapterSessions = async () => {
-  const url = `${PREFIX}/sessions`;
-
-  const { data } = await axios.get<GetChapterSessionsResponse>(url);
-
-  return data;
-};
-
-/**
- * Request:    DELETE /api/v1/consumer/chapter/sessions/:id
- * Description: Delete a chapter's session
- */
-export const deleteChapterSession = async (
-  data: DeleteChapterSessionRequest,
-) => {
-  const url = `${PREFIX}/sessions/${data.id}`;
-
-  const { data: responseData } =
-    await axios.delete<DeleteChapterSessionResponse>(url);
-
-  return responseData;
 };
 
 /**

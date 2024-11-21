@@ -52,7 +52,7 @@ const RegistrationStep2 = () => {
       store.setField("firstName", form.state.firstName.value);
       store.setField("lastName", form.state.lastName.value);
 
-      posthog.capture("REGISTRATION_STEP_2_COMPLETED", {
+      posthog.capture("registration_step_2_completed", {
         chapter_name: store.name,
         chapter_email: form.state.email.value,
         chapter_first_name: form.state.firstName.value,

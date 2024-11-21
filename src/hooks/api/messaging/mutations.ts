@@ -36,7 +36,7 @@ export const useSendMassMessage = () => {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['conversations'] });
       queryClient.refetchQueries({ queryKey: ['contacts'] });
-      posthog.capture('MASS_MESSAGE_SENT', {
+      posthog.capture('mass_message_sent', {
         target_count: variables.pnms.length,
       });
     },
@@ -79,7 +79,7 @@ export const useSendDirectMessage = () => {
       queryClient.refetchQueries({ queryKey: ['contacts'] });
       queryClient.invalidateQueries({ queryKey: ['conversations'] });
       queryClient.invalidateQueries({ queryKey: ['conversation', pnmId] });
-      posthog.capture('DIRECT_MESSAGE_SENT');
+      posthog.capture('direct_message_sent');
     },
   });
 };

@@ -10,7 +10,6 @@
  * Do not distribute
  */
 
-import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { getPnms, getPnm } from '@/api';

@@ -222,11 +222,6 @@ export interface RevokeAdminChapterEntitlementRequest {
   entitlementId: string;
 }
 
-export interface DeleteChapterSessionRequest {
-  /** The ID of the session to be deleted */
-  id: string;
-}
-
 export interface ResetPasswordRequest {
   /** The email of the chapter to reset the password */
   email: string;
