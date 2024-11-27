@@ -40,7 +40,7 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
 }) => {
   const { user } = useUser();
   const { openBottomSheet } = useBottomSheet();
-  const responseListener = useRef<RNNotifications.Subscription>();
+  const responseListener = useRef<RNNotifications.EventSubscription>();
 
   const navigation = useNavigation();
   const updateUserMutation = useUpdateUser();

@@ -9,14 +9,15 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
-import { logger as RNLogger } from 'react-native-logs';
+import { consoleTransport, logger as RNLogger } from 'react-native-logs';
 
 export type LogLevels = 'debug' | 'info' | 'warn' | 'error';
 
 // TODO: Add file transport that can be viewed
-export const logger = RNLogger.createLogger<LogLevels>({
+export const logger = RNLogger.createLogger({
   async: false,
   printDate: false,
+  transport: consoleTransport,
   levels: {
     debug: 0,
     info: 1,
@@ -25,8 +26,8 @@ export const logger = RNLogger.createLogger<LogLevels>({
   },
   transportOptions: {
     colors: {
-      debug: 'gray',
-      info: 'gray',
+      debug: 'grey',
+      info: 'grey',
       warn: 'yellowBright',
       error: 'redBright',
     },
