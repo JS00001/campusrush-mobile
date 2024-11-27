@@ -13,8 +13,8 @@
 import { TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import type { IconType } from "@/ui/Icon";
 import type { INotification } from "@/types";
+import type { IconType } from "@/constants/icons";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";

@@ -16,7 +16,7 @@ import type { IMessage } from './models/message';
 import type { IConversation } from './models/conversation';
 import type { INotification } from './models/notification';
 
-import type { IconType } from '@/ui/Icon';
+import type { IconType } from '@/constants/icons';
 
 interface PNMData {
   pnm: IPNM;

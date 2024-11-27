@@ -13,7 +13,7 @@
 import { useState } from "react";
 import { View } from "react-native";
 
-import type { IconType } from "@/ui/Icon";
+import type { IconType } from "@/constants/icons";
 import type { BottomSheetProps, SheetData } from "./@types";
 
 import Tabs from "@/ui/Tabs";

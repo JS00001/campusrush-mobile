@@ -15,11 +15,13 @@ import { useRef, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { TouchableOpacity, View, ViewProps } from "react-native";
 
+import type { IconType } from "@/constants/icons";
+
 import OptionSheet from "./OptionSheet";
 
 import Text from "@/ui/Text";
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
-import Icon, { IconType } from "@/ui/Icon";
 
 interface SelectProps extends ViewProps {
   options: string[];

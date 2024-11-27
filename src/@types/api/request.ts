@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import type { IconType } from '@/ui/Icon';
+import type { IconType } from '@/constants/icons';
 
 export interface LoginRequest {
   /** The chapter's email */

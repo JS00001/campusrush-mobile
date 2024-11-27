@@ -17,9 +17,11 @@ import {
   TouchableOpacityProps,
 } from "react-native";
 
+import type { IconType } from "@/constants/icons";
+
+import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Icon, { IconType } from "@/ui/Icon";
 
 export type IconButtonColor = "primary" | "secondary" | "tertiary";
 

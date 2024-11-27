@@ -16,9 +16,11 @@ import {
   TouchableOpacityProps,
 } from "react-native";
 
+import type { IconType } from "@/constants/icons";
+
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import Text, { TextType } from "@/ui/Text";
-import Icon, { IconType } from "@/ui/Icon";
 
 export type ButtonSize = "sm" | "lg";
 

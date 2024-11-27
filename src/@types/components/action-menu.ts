@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import { IconType } from '@/ui/Icon';
+import type { IconType } from '@/constants/icons';
 
 export type ActionMenu = ActionMenuSection[];
 

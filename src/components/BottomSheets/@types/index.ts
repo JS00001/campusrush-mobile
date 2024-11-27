@@ -10,7 +10,7 @@
  * Do not distribute
  */
 
-import type { IconType } from '@/ui/Icon';
+import type { IconType } from '@/constants/icons';
 import type { ActionMenu, IEvent, IPNM, IViolation } from '@/types';
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';

@@ -15,27 +15,29 @@ import { View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import Qonversion, { PurchaseModel } from "react-native-qonversion";
 
+import type { IconType } from "@/constants/icons";
+
+import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import Skeleton from "@/ui/Skeleton";
 import { Layout } from "@/ui/Layout";
 import Hyperlink from "@/ui/Hyperlink";
-import Icon, { IconType } from "@/ui/Icon";
 import { useUser } from "@/providers/User";
 import usePosthog from "@/hooks/usePosthog";
 import SafeAreaView from "@/ui/SafeAreaView";
 import { useLogout } from "@/hooks/api/auth";
 import Logo32 from "@/components/Logos/Logo32";
+import ErrorMessage from "@/components/ErrorMessage";
 import { useGetMetadata } from "@/hooks/api/external";
 import { useBottomSheet } from "@/providers/BottomSheet";
 import HeaderBackground from "@/components/Backgrounds/Header";
 import { useQonversion } from "@/providers/external/Qonversion";
-import ErrorMessage from "@/components/ErrorMessage";
 
 const BillingScreen = () => {
+  const { user } = useUser();
   const posthog = usePosthog();
-  const { chapter, user } = useUser();
   const { openBottomSheet } = useBottomSheet();
   const { purchaseProduct, restorePurchases } = useQonversion();
 

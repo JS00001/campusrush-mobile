@@ -11,7 +11,7 @@
  */
 
 import type { MoreTabParams } from '@/navigation/@types';
-import type { IconType } from '@/ui/Icon';
+import type { IconType } from '@/constants/icons';
 
 export type ISidebar = ISidebarSection[];
 

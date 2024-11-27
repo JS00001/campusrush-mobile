@@ -17,8 +17,10 @@ import {
 } from "react-native";
 import { useRef } from "react";
 
+import type { IconType } from "@/constants/icons";
+
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
-import Icon, { IconType } from "@/ui/Icon";
 
 // This is a hack to disable font scaling for all text input components
 export const TextInputWithNoFontScaling = Object.assign(RNTextInput, {
