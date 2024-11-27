@@ -104,7 +104,6 @@ const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         const BottomSheet = BottomSheets[name];
 
         const props = {
-          key: name,
           openBottomSheet,
           handleClose: () => closeBottomSheet(name),
           snapToIndex: (i: number) => snapToIndex(name, i),
@@ -116,7 +115,7 @@ const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
 
         if (!BottomSheet) return null;
 
-        return <BottomSheet {...props} />;
+        return <BottomSheet key={name} {...props} />;
       })}
     </BottomSheetContext.Provider>
   );

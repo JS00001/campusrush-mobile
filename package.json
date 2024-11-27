@@ -80,15 +80,13 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@babel/plugin-transform-template-literals": "^7.25.9",
     "@types/lodash": "^4.14.197",
     "@types/react": "~18.3.12",
     "@types/semver": "^7.5.8",
     "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.4.1",
     "typescript": "~5.3.3"
-  },
-  "resolutions": {
-    "react-native-reanimated": "~3.6.2"
   },
   "private": true
 }
