@@ -33,7 +33,8 @@ const GestureDetectorProvider: React.FC<{ children: React.ReactNode }> = ({
   const threeFingerGesture = Gesture.Tap()
     .numberOfTaps(1)
     .maxDistance(20)
-    .onTouchesDown(onTripleFingerTap);
+    .onTouchesDown(onTripleFingerTap)
+    .runOnJS(true);
 
   return (
     <GestureDetector gesture={threeFingerGesture}>
