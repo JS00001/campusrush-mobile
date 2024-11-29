@@ -30,11 +30,12 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
   const navigation = useNavigation();
   const { openBottomSheet } = useBottomSheet();
 
-  const iconType = {
+  const iconType = ({
     NEW_PNM: "User",
     NEW_EVENT_RESPONSE: "Calendar",
     NEW_DYNAMIC_NOTIFICATION: "Info",
-  }[notification.type] as IconType;
+    NEW_FORM_RESPONSE: "ListBullets",
+  }[notification.type] || "Bell") as IconType;
 
   const containerStyles = tw.style(
     "bg-gray-100 p-4 rounded-xl",
