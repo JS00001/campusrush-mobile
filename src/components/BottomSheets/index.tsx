@@ -15,6 +15,8 @@ import CreateMessageSheet from "./CreateMessage";
 import CreateEventSheet from "./CreateEvent";
 import CreateFormSheet from "./CreateForm";
 
+import ActionMenuSheet from "./ActionMenu";
+import ManageFormFieldSheet from "./CreateForm/Components/ManageFormField";
 import CreatePnmSheet from "./CreatePnm";
 import CustomPhoneNumberSheet from "./CustomPhoneNumber";
 import DeveloperToolsSheet from "./DevTools";
@@ -31,12 +33,12 @@ import TermsOfServiceSheet from "./TermsOfService";
 import UpdatePnmSheet from "./UpdatePnm";
 import UpdateEventSheet from "./UpdateEvent";
 import ViolationsSheet from "./Violations";
-import ActionMenuSheet from "./ActionMenu";
 
 import type { IndividualSheetName } from "./@types";
 
 const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   ACTION_MENU: ActionMenuSheet,
+  MANAGE_FORM_FIELD: ManageFormFieldSheet,
   CHAPTER: ChapterSheet,
   CREATE_MESSAGE: CreateMessageSheet,
   CREATE_EVENT: CreateEventSheet,

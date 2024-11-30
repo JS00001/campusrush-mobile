@@ -10,8 +10,15 @@
  * Do not distribute
  */
 
+import type {
+  ActionMenu,
+  IEvent,
+  IForm,
+  IFormField,
+  IPNM,
+  IViolation,
+} from '@/types';
 import type { IconType } from '@/constants/icons';
-import type { ActionMenu, IEvent, IForm, IPNM, IViolation } from '@/types';
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
@@ -34,6 +41,11 @@ export type IndividualSheetName = keyof IndividualSheetProps;
 export interface IndividualSheetProps {
   /** An action menu sheet */
   ACTION_MENU: ActionMenu;
+  /** The sub-sheet for creating a form, add a field  */
+  MANAGE_FORM_FIELD: {
+    field?: IFormField;
+    onFieldChange: (field: IFormField) => void;
+  };
   /** View information about a chapter */
   CHAPTER: { chapterId: string };
   /** Begin sending a message to a user (or multiple) */

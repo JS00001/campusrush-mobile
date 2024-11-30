@@ -11,16 +11,14 @@
  */
 
 import { z } from "zod";
-import uuid from "react-native-uuid";
 import * as Haptic from "expo-haptics";
 import Toast from "react-native-toast-message";
 import { TouchableOpacity, View } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 
 import type { BottomSheetProps } from "../@types";
-import { FieldType, IFormField } from "@/@types";
 
-import FormFieldComponent from "./FormFieldComponent";
+import CustomFormField from "./Components/CustomFormField";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -29,6 +27,7 @@ import Headline from "@/ui/Headline";
 import FormField from "@/ui/FormField";
 import { FormSheet } from "@/ui/BottomSheet";
 import validators from "@/constants/validators";
+import { FieldType, IFormField } from "@/@types";
 import { useCreateForm } from "@/hooks/api/forms";
 import FormHeader from "@/components/Headers/Form";
 import useFormMutation from "@/hooks/useFormMutation";
@@ -36,6 +35,7 @@ import useFormMutation from "@/hooks/useFormMutation";
 const CreateFormSheet: React.FC<BottomSheetProps> = ({
   innerRef,
   handleClose,
+  openBottomSheet,
 }) => {
   const createFormMutation = useCreateForm();
 
@@ -72,14 +72,11 @@ const CreateFormSheet: React.FC<BottomSheetProps> = ({
   });
 
   const onAddField = () => {
-    const newField: IFormField = {
-      id: uuid.v4(),
-      name: "Test",
-      required: true,
-      type: FieldType.TEXT,
-    };
-
-    form.setValue("fields", [...form.state.fields.value, newField]);
+    openBottomSheet("MANAGE_FORM_FIELD", {
+      onFieldChange: (field: IFormField) => {
+        form.setValue("fields", [...form.state.fields.value, field]);
+      },
+    });
   };
 
   const fields = form.state.fields.value as IFormField[];
@@ -112,7 +109,7 @@ const CreateFormSheet: React.FC<BottomSheetProps> = ({
         />
 
         <View style={tw`disabled`} pointerEvents="none">
-          <FormFieldComponent
+          <CustomFormField
             item={{
               id: "first_name",
               name: "First Name",
@@ -120,7 +117,7 @@ const CreateFormSheet: React.FC<BottomSheetProps> = ({
               required: true,
             }}
           />
-          <FormFieldComponent
+          <CustomFormField
             item={{
               id: "last_name",
               name: "Last Name",
@@ -128,7 +125,7 @@ const CreateFormSheet: React.FC<BottomSheetProps> = ({
               required: true,
             }}
           />
-          <FormFieldComponent
+          <CustomFormField
             item={{
               id: "phone_number",
               name: "PhoneNumber",
@@ -159,7 +156,7 @@ const CreateFormSheet: React.FC<BottomSheetProps> = ({
             data={fields}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item) => item.id}
-            renderItem={(props) => <FormFieldComponent {...props} />}
+            renderItem={(props) => <CustomFormField {...props} />}
             onDragEnd={({ data }) => {
               form.setValue("fields", data);
               Haptic.impactAsync(Haptic.ImpactFeedbackStyle.Medium);

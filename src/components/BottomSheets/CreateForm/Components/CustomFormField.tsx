@@ -22,11 +22,9 @@ import tw from "@/lib/tailwind";
 import { FieldType } from "@/@types";
 import { IconType } from "@/constants/icons";
 
-type FormFieldComponentProps =
-  | RenderItemParams<IFormField>
-  | { item: IFormField };
+type CustomFormFieldProps = RenderItemParams<IFormField> | { item: IFormField };
 
-const FormFieldComponent: React.FC<FormFieldComponentProps> = ({
+const CustomFormField: React.FC<CustomFormFieldProps> = ({
   item,
   ...props
 }) => {
@@ -57,11 +55,16 @@ const FormFieldComponent: React.FC<FormFieldComponentProps> = ({
         <Text style={tw`text-primary`}>{formFieldName}</Text>
       </View>
 
-      <TouchableOpacity onPressIn={onPressIn}>
-        <Icon icon="DotsSixVertical" size={24} color={tw.color("gray-500")} />
-      </TouchableOpacity>
+      <View style={tw`flex-row items-center gap-2`}>
+        <TouchableOpacity>
+          <Icon icon="PencilLine" size={16} color={tw.color("gray-500")} />
+        </TouchableOpacity>
+        <TouchableOpacity onPressIn={onPressIn}>
+          <Icon icon="DotsSixVertical" size={24} color={tw.color("gray-500")} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
-export default FormFieldComponent;
+export default CustomFormField;
