@@ -63,12 +63,12 @@ const ButtonColors = {
  */
 const ButtonSizes = {
   sm: {
-    container: "px-2 py-3.5",
+    container: "px-2 py-3",
     text: "p2",
     icon: 16,
   },
   lg: {
-    container: "px-5 py-4.5",
+    container: "px-5 py-4",
     text: "p2",
     icon: 20,
   },

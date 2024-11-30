@@ -63,6 +63,10 @@ import SettingsChapterScreen from "@/navigation/screens/settings/ManageChapter";
 import SettingsSecurityScreen from "@/navigation/screens/security/Security";
 import SettingsChangePasswordScreen from "@/navigation/screens/security/ChangePassword";
 
+import FormsScreen from "@/navigation/screens/forms/Forms";
+import EditFormScreen from "@/navigation/screens/forms/Edit";
+import CreateFormScreen from "@/navigation/screens/forms/Create";
+
 /**
  * Stack Navigator for Auth Screens
  *
@@ -334,6 +338,21 @@ export const MoreStack = () => {
       <Stack.Screen
         name="ChangePassword"
         component={SettingsChangePasswordScreen}
+      />
+
+      {/* Forms and all subscreens */}
+      <Stack.Screen
+        name="Forms"
+        component={FormsScreen}
+        options={{ gestureEnabled: false, animation: "none" }}
+      />
+      <Stack.Screen
+        name="EditForm"
+        component={EditFormScreen}
+      />
+      <Stack.Screen
+        name="CreateForm"
+        component={CreateFormScreen}
       />
     </Stack.Navigator>
   );
