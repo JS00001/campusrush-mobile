@@ -24,11 +24,13 @@ import useSearch from "@/hooks/useSearch";
 import FormLoader from "@/ui/Loaders/Form";
 import Menu, { MenuAction } from "@/ui/Menu";
 import ActionButton from "@/ui/ActionButton";
+import { useBottomSheet } from "@/providers/BottomSheet";
 import { useDeleteForms, useGetForms } from "@/hooks/api/forms";
 
 const FormsScreen = () => {
   const query = useGetForms();
   const deleteFormsMutation = useDeleteForms();
+  const { openBottomSheet } = useBottomSheet();
 
   const forms = query.data?.forms ?? [];
   const search = useSearch({ data: forms });
@@ -72,7 +74,9 @@ const FormsScreen = () => {
 
   const placeholder = `Search ${forms.length} Forms`;
 
-  const onNewFormPress = () => {};
+  const onNewFormPress = () => {
+    openBottomSheet("CREATE_FORM");
+  };
 
   const onRefresh = async () => {
     await query.refetch();

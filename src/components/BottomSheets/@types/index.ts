@@ -16,15 +16,15 @@ import type { ActionMenu, IEvent, IForm, IPNM, IViolation } from '@/types';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 export interface BottomSheetProps {
-  /* Reference to the bottom sheet */
+  /** Reference to the bottom sheet */
   innerRef: (ref: BottomSheetModal) => void;
-  /* Close the opened bottom sheet */
+  /** Close the opened bottom sheet */
   handleClose: () => void;
-  /* Snap the bottom sheet to a specific index */
+  /** Snap the bottom sheet to a specific index */
   snapToIndex: (index: number) => void;
-  /* Snap the bottom sheet to a specific position */
+  /** Snap the bottom sheet to a specific position */
   snapToPosition: (position: string) => void;
-  /* Open a bottom sheet  from the list of registered bottom sheets */
+  /** Open a bottom sheet  from the list of registered bottom sheets */
   // prettier-ignore
   openBottomSheet: <T extends IndividualSheetName>(name: T, props?: IndividualSheetProps[T]) => void;
 }
@@ -34,13 +34,15 @@ export type IndividualSheetName = keyof IndividualSheetProps;
 export interface IndividualSheetProps {
   /** An action menu sheet */
   ACTION_MENU: ActionMenu;
-  /* View information about a chapter */
+  /** View information about a chapter */
   CHAPTER: { chapterId: string };
-  /* Begin sending a message to a user (or multiple) */
+  /** Begin sending a message to a user (or multiple) */
   CREATE_MESSAGE: undefined;
-  /* Begin the new event flow */
+  /** Begin the new event flow */
   CREATE_EVENT: undefined;
-  /* Begin the new pnm flow */
+  /** Begin the new form flow */
+  CREATE_FORM: undefined;
+  /** Begin the new pnm flow */
   CREATE_PNM: undefined;
   /** Details about a custom phone number */
   CUSTOM_PHONE_NUMBER: undefined;
@@ -53,30 +55,30 @@ export interface IndividualSheetProps {
     title: string;
     message: string;
   };
-  /* View information about an event */
+  /** View information about an event */
   EVENT: { event: IEvent };
-  /* View responses to an event */
+  /** View responses to an event */
   EVENT_RESPONSES: { eventId: string };
-  /* View information about a form */
+  /** View information about a form */
   FORM: { form: IForm };
-  /* View all of a forms responses */
+  /** View all of a forms responses */
   FORM_RESPONSES: { formId: string };
-  /* View information about a pnm */
+  /** View information about a pnm */
   PNM: { pnm: IPNM };
-  /* Compare billing plans */
+  /** Compare billing plans */
   PLAN_COMPARISON: undefined;
-  /* View the privacy policy */
+  /** View the privacy policy */
   PRIVACY_POLICY: undefined;
-  /* Select a number of badge-like tags */
+  /** Select a number of badge-like tags */
   TAG_SELECTOR: {
     values: string[];
     onTagChange: (tags: string[]) => void;
   };
-  /* View the terms of service */
+  /** View the terms of service */
   TERMS_OF_SERVICE: undefined;
-  /* Update information about a pnm */
+  /** Update information about a pnm */
   UPDATE_PNM: { pnm: IPNM };
-  /* Update information about an event */
+  /** Update information about an event */
   UPDATE_EVENT: { event: IEvent };
   /** Violations for a chapter */
   VIOLATIONS: { violations: IViolation[] };

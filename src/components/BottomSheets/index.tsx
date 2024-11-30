@@ -13,6 +13,8 @@
 import ChapterSheet from "./Chapter/index";
 import CreateMessageSheet from "./CreateMessage";
 import CreateEventSheet from "./CreateEvent";
+import CreateFormSheet from "./CreateForm";
+
 import CreatePnmSheet from "./CreatePnm";
 import CustomPhoneNumberSheet from "./CustomPhoneNumber";
 import DeveloperToolsSheet from "./DevTools";
@@ -38,6 +40,7 @@ const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   CHAPTER: ChapterSheet,
   CREATE_MESSAGE: CreateMessageSheet,
   CREATE_EVENT: CreateEventSheet,
+  CREATE_FORM: CreateFormSheet,
   CREATE_PNM: CreatePnmSheet,
   CUSTOM_PHONE_NUMBER: CustomPhoneNumberSheet,
   DEVELOPER_TOOLS: DeveloperToolsSheet,

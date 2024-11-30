@@ -26,12 +26,14 @@ import Chat from 'phosphor-react-native/src/icons/Chat';
 import ChatCircle from 'phosphor-react-native/src/icons/ChatCircle';
 import ChatsCircle from 'phosphor-react-native/src/icons/ChatsCircle';
 import Check from 'phosphor-react-native/src/icons/Check';
+import CheckSquareOffset from 'phosphor-react-native/src/icons/CheckSquareOffset';
 import Circle from 'phosphor-react-native/src/icons/Circle';
 import Clock from 'phosphor-react-native/src/icons/Clock';
 import Copy from 'phosphor-react-native/src/icons/Copy';
 import CheckCircle from 'phosphor-react-native/src/icons/CheckCircle';
 import CreditCard from 'phosphor-react-native/src/icons/CreditCard';
 import DotsThree from 'phosphor-react-native/src/icons/DotsThree';
+import DotsSixVertical from 'phosphor-react-native/src/icons/DotsSixVertical';
 import DownloadSimple from 'phosphor-react-native/src/icons/DownloadSimple';
 import Envelope from 'phosphor-react-native/src/icons/Envelope';
 import Eye from 'phosphor-react-native/src/icons/Eye';
@@ -53,6 +55,7 @@ import Lock from 'phosphor-react-native/src/icons/Lock';
 import MagnifyingGlass from 'phosphor-react-native/src/icons/MagnifyingGlass';
 import MapPinSimple from 'phosphor-react-native/src/icons/MapPinSimple';
 import PaperPlaneRight from 'phosphor-react-native/src/icons/PaperPlaneRight';
+import Paragraph from 'phosphor-react-native/src/icons/Paragraph';
 import PencilLine from 'phosphor-react-native/src/icons/PencilLine';
 import Person from 'phosphor-react-native/src/icons/Person';
 import PersonSimple from 'phosphor-react-native/src/icons/PersonSimple';
@@ -69,6 +72,7 @@ import Sparkle from 'phosphor-react-native/src/icons/Sparkle';
 import Star from 'phosphor-react-native/src/icons/Star';
 import Syringe from 'phosphor-react-native/src/icons/Syringe';
 import TestTube from 'phosphor-react-native/src/icons/TestTube';
+import TextAa from 'phosphor-react-native/src/icons/TextAa';
 import Trash from 'phosphor-react-native/src/icons/Trash';
 import User from 'phosphor-react-native/src/icons/User';
 import UserList from 'phosphor-react-native/src/icons/UserList';
@@ -106,11 +110,13 @@ export const Icons = {
   ChatsCircle,
   Check,
   CheckCircle,
+  CheckSquareOffset,
   Circle,
   Clock,
   Copy,
   CreditCard,
   DotsThree,
+  DotsSixVertical,
   DownloadSimple,
   Envelope,
   Eye,
@@ -132,6 +138,7 @@ export const Icons = {
   MagnifyingGlass,
   MapPinSimple,
   PaperPlaneRight,
+  Paragraph,
   PencilLine,
   Person,
   PersonSimple,
@@ -148,6 +155,7 @@ export const Icons = {
   Star,
   Syringe,
   TestTube,
+  TextAa,
   Trash,
   User,
   UserList,
