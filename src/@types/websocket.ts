@@ -17,6 +17,8 @@ import type { IConversation } from './models/conversation';
 import type { INotification } from './models/notification';
 
 import type { IconType } from '@/constants/icons';
+import { IForm } from './models/form';
+import { IFormResponse } from './models/form-response';
 
 interface PNMData {
   pnm: IPNM;
@@ -42,13 +44,19 @@ interface MessageErrorData {
   message: IMessage;
 }
 
+interface FormResponseData {
+  form: IForm;
+  response: IFormResponse;
+}
+
 /** Union of all possible payloads */
 type Payload =
   | PNMData
   | ConversationData
   | EventData
   | DynamicNotificationData
-  | MessageErrorData;
+  | MessageErrorData
+  | FormResponseData;
 
 /** Message structure */
 interface BaseMessage<T extends Payload> {
@@ -65,6 +73,7 @@ type Message =
   | (BaseMessage<PNMData> & { type: 'NEW_PNM' })
   | (BaseMessage<EventData> & { type: 'NEW_EVENT_RESPONSE' })
   | (BaseMessage<MessageErrorData> & { type: 'MESSAGE_ERROR' })
+  | (BaseMessage<FormResponseData> & { type: 'NEW_FORM_RESPONSE' })
   | (BaseMessage<DynamicNotificationData> & {
       type: 'NEW_DYNAMIC_NOTIFICATION';
     });

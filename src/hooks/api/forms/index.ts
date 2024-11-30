@@ -10,16 +10,5 @@
  * Do not distribute
  */
 
-import tw from "@/lib/tailwind";
-import { Layout } from "@/ui/Layout";
-const FormsScreen = () => {
-  return (
-    <Layout.Root>
-      <Layout.Header title="Forms" subtitle="Manage and share your Forms" />
-
-      <Layout.Content gap={8} contentContainerStyle={tw`pb-0`}></Layout.Content>
-    </Layout.Root>
-  );
-};
-
-export default FormsScreen;
+export * from './mutations';
+export * from './queries';

@@ -12,7 +12,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 
-import { getPnms, getPnm } from '@/api';
+import { getPnms, getPnm, getPnmResponses } from '@/api';
 
 /**
  * Get all of the PNMs the chapter has
@@ -38,6 +38,22 @@ export const useGetPnm = (id: string) => {
     queryKey: ['pnm', id],
     queryFn: async () => {
       const response = await getPnm({ id });
+      if ('error' in response) throw response;
+      return response.data;
+    },
+  });
+
+  return query;
+};
+
+/**
+ * Get a specific PNM's form responses
+ */
+export const useGetPnmResponses = (id: string) => {
+  const query = useQuery({
+    queryKey: ['pnm-responses', id],
+    queryFn: async () => {
+      const response = await getPnmResponses({ id });
       if ('error' in response) throw response;
       return response.data;
     },

@@ -151,6 +151,10 @@ const AppConstants = {
    * The maximum amount of images that can be attached to a message
    */
   maxImages: 3,
+  /**
+   * The reserved form id's for the form editor
+   */
+  formReservedIds: ['first_name', 'last_name', 'phone_number'],
 };
 
 export default AppConstants;

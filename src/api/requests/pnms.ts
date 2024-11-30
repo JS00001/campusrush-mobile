@@ -10,6 +10,8 @@ import type {
   DeletePnmRequest,
   DeletePnmsResponse,
   DeletePnmsRequest,
+  GetPnmResponsesRequest,
+  GetPnmResponsesResponse,
 } from '@/types';
 
 import axios from '@/lib/axios';
@@ -87,6 +89,18 @@ export const deletePnm = async (data: DeletePnmRequest) => {
   const url = `${PREFIX}/${data.id}`;
 
   const { data: responseData } = await axios.delete<DeletePnmResponse>(url);
+
+  return responseData;
+};
+
+/**
+ * Request:     GET /api/v1/consumer/pnms/:id/responses
+ * Description: Get all form responses for a PNM
+ */
+export const getPnmResponses = async (data: GetPnmResponsesRequest) => {
+  const url = `${PREFIX}/${data.id}/responses`;
+
+  const { data: responseData } = await axios.get<GetPnmResponsesResponse>(url);
 
   return responseData;
 };

@@ -12,7 +12,7 @@
 
 import { z } from 'zod';
 
-import iconNames from './icon-names';
+import Icons from './icons';
 import { colorHexRegex } from './regex';
 
 const validators = {
@@ -162,7 +162,7 @@ const validators = {
   /**
    * An icon name validator
    */
-  iconName: z.enum(iconNames, {
+  iconName: z.enum(Object.keys(Icons) as [string, ...string[]], {
     errorMap: () => ({
       message: 'Invalid icon name',
     }),

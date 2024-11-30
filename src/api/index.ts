@@ -18,6 +18,7 @@ export * from './requests/content';
 export * from './requests/conversations';
 export * from './requests/events';
 export * from './requests/external';
+export * from './requests/forms';
 export * from './requests/messaging';
 export * from './requests/pnms';
 export * from './requests/upload';

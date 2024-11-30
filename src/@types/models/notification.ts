@@ -13,6 +13,7 @@
 export type NotificationType =
   | 'NEW_PNM'
   | 'NEW_EVENT_RESPONSE'
+  | 'NEW_FORM_RESPONSE'
   | 'NEW_DYNAMIC_NOTIFICATION';
 
 /**
