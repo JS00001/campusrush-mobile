@@ -59,6 +59,8 @@ export interface IndividualSheetProps {
   EVENT_RESPONSES: { eventId: string };
   /* View information about a form */
   FORM: { form: IForm };
+  /* View all of a forms responses */
+  FORM_RESPONSES: { formId: string };
   /* View information about a pnm */
   PNM: { pnm: IPNM };
   /* Compare billing plans */

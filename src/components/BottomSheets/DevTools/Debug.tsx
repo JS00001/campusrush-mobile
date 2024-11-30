@@ -23,7 +23,7 @@ const Debug = () => {
   return (
     <View style={tw`gap-y-2`}>
       <View style={tw`rounded-xl bg-gray-100 p-4`}>
-        <Text type="h3">Current Chapter</Text>
+        <Text type="h4">Current Chapter</Text>
         <Text type="p4">{formatJSON(JSON.stringify(chapter))}</Text>
       </View>
     </View>

@@ -86,7 +86,7 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
 
   const onViewResponsesPress = () => {
     handleClose();
-    // openBottomSheet("EVENT_RESPONSES", { eventId: event._id });
+    openBottomSheet("FORM_RESPONSES", { formId: form._id });
   };
 
   const onShare = () => {

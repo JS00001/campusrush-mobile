@@ -47,7 +47,7 @@ const Headline: React.FC<HeadlineProps> = ({
 
   return (
     <View style={containerStyles} {...props}>
-      <Text type="h2" style={titleStyles} numberOfLines={1}>
+      <Text type="h3" style={titleStyles} numberOfLines={1}>
         {title}
       </Text>
       <Text style={subtitleStyles}>{subtitle}</Text>

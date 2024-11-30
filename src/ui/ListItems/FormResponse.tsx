@@ -12,11 +12,12 @@
 
 import { View, TouchableOpacity } from "react-native";
 
-import { FieldType, type IForm, type IFormResponse, type IPNM } from "@/types";
+import type { IForm, IFormResponse, IPNM } from "@/types";
 
 import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
+import { FieldType } from "@/@types";
 import AppConstants from "@/constants";
 import IconLabel from "@/ui/IconLabel";
 import { useBottomSheet } from "@/providers/BottomSheet";
@@ -37,9 +38,9 @@ const FormResponse: React.FC<FormResponseProps> = ({ response }) => {
     return !AppConstants.formReservedIds.includes(field.id);
   });
 
-  // If they exist, get the first 3 response.responses, and their matching form fields
+  // If they exist, get the first 2 response.responses, and their matching form fields
   // so that we can display them in the list item
-  const responses = fields.slice(0, 3).map((field) => {
+  const responses = fields.slice(0, 2).map((field) => {
     const responseValue = (() => {
       const value = response.responses[field.id];
       if (field.type === FieldType.CHECKBOX) return !!value ? "Yes" : "No";
@@ -59,8 +60,8 @@ const FormResponse: React.FC<FormResponseProps> = ({ response }) => {
   return (
     <TouchableOpacity onPress={onClick} style={containerClasses}>
       <View style={tw`gap-1.5`}>
-        <Text type="h3" numberOfLines={1}>
-          {response.form.title}
+        <Text type="h4" numberOfLines={1}>
+          {response.pnm.displayName}
         </Text>
 
         <View style={tw`gap-2`}>
@@ -75,7 +76,9 @@ const FormResponse: React.FC<FormResponseProps> = ({ response }) => {
           ))}
         </View>
 
-        <Text type="p2">... and {remainingFieldCount} more responses</Text>
+        {remainingFieldCount > 0 && (
+          <Text type="p2">... and {remainingFieldCount} more responses</Text>
+        )}
       </View>
 
       <Icon icon="CaretRight" size={16} />

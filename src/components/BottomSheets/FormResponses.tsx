@@ -10,10 +10,85 @@
  * Do not distribute
  */
 
-interface FormResponsesSheetProps {}
+import { View } from "react-native";
 
-const FormResponsesSheet: React.FC<FormResponsesSheetProps> = () => {
-  return <></>;
+import type { IForm } from "@/types";
+import type { BottomSheetProps, SheetData } from "./@types";
+
+import tw from "@/lib/tailwind";
+import date from "@/lib/util/date";
+import Headline from "@/ui/Headline";
+import Skeleton from "@/ui/Skeleton";
+import { useGetForm } from "@/hooks/api/forms";
+import { BottomSheet } from "@/ui/BottomSheet";
+import ErrorMessage from "@/components/ErrorMessage";
+import FormResponse from "@/ui/ListItems/FormResponse";
+import BottomSheetContainer from "@/ui/BottomSheet/Container";
+
+type Props = BottomSheetProps & SheetData<"FORM_RESPONSES">;
+
+// TODO: Add search to this, must use BACKEND to search
+const Content: React.FC<Props> = ({ data }) => {
+  const query = useGetForm(data.formId);
+
+  const responses = query.data?.responses || [];
+  const form = query.data?.form || ({} as IForm);
+
+  // Loading & Error State
+  if (query.isLoading) return <LoadingState />;
+  if (query.isError || !form) {
+    return (
+      <ErrorMessage
+        error={query.error}
+        description="Could not fetch the form"
+      />
+    );
+  }
+
+  return (
+    <BottomSheetContainer contentContainerStyle={tw`gap-y-4`}>
+      <Headline
+        style={tw`shrink`}
+        title={`${form.title}'s Responses`}
+        subtitle={`Last response ${date.timeAgo(form.lastResponseAt)}`}
+      />
+
+      <View style={tw`gap-2`}>
+        {responses.map((response, i) => {
+          const formattedResponse = { ...response, form };
+          return <FormResponse key={i} response={formattedResponse} />;
+        })}
+      </View>
+    </BottomSheetContainer>
+  );
+};
+
+const LoadingState = () => {
+  return (
+    <BottomSheetContainer contentContainerStyle={tw`gap-y-4`}>
+      <View style={tw`gap-1`}>
+        <Skeleton height={24} width="50%" borderRadius={4} />
+        <Skeleton height={20} width="100%" borderRadius={4} />
+      </View>
+
+      <View style={tw`gap-2`}>
+        {new Array(3).fill(null).map((_, i) => (
+          <Skeleton height={172} width="100%" key={i} />
+        ))}
+      </View>
+    </BottomSheetContainer>
+  );
+};
+
+const FormResponsesSheet: React.FC<BottomSheetProps> = (props) => {
+  return (
+    <BottomSheet
+      innerRef={props.innerRef}
+      children={(data?: SheetData<"FORM_RESPONSES">) => {
+        return <Content data={data!.data} {...props} />;
+      }}
+    />
+  );
 };
 
 export default FormResponsesSheet;

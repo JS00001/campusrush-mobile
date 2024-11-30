@@ -67,12 +67,12 @@ const Event: React.FC<EventProps> = ({ event }) => {
 
   return (
     <TouchableOpacity onPress={onPress} style={containerStyles}>
-      <View style={tw`gap-3 shrink`}>
-        <View style={tw`gap-1`}>
+      <View style={tw`gap-2 shrink`}>
+        <View>
           <Text type="p3" style={textStyles}>
             Starts at {startTime}
           </Text>
-          <Text type="h3" numberOfLines={1}>
+          <Text type="h4" numberOfLines={1}>
             {event.title}
           </Text>
         </View>

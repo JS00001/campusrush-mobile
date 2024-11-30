@@ -80,7 +80,7 @@ const BillingView = () => {
         return (
           <View style={containerStyles} key={entitlement.id}>
             <View>
-              <Text type="h3">{titleCase(entitlement.id)} Subscription</Text>
+              <Text type="h4">{titleCase(entitlement.id)} Subscription</Text>
               <Text>Thank you for choosing CampusRush</Text>
             </View>
 

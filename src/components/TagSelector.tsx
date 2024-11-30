@@ -75,7 +75,7 @@ const TagSelector: React.FC<TagSelectorProps> = ({
       {/* All of the categories */}
       {tagCategories.map((category) => (
         <React.Fragment key={category.id}>
-          <Text type="h3">{category.name}</Text>
+          <Text type="h4">{category.name}</Text>
           <View style={tw`flex-row gap-1 flex-wrap`}>
             {/* All of the tags in each category */}
             {category.tags.map((tag) => {

@@ -36,7 +36,7 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
   return (
     <TouchableOpacity style={containerStyles} onPress={onPress}>
       <View>
-        <Text type="h3">{chapter.name}</Text>
+        <Text type="h4">{chapter.name}</Text>
         <Text>{chapter.school}</Text>
       </View>
 

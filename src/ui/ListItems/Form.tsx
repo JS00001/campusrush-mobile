@@ -42,14 +42,15 @@ const Form: React.FC<FormProps> = ({ form }) => {
 
   return (
     <TouchableOpacity onPress={onPress} style={containerStyles}>
-      <View style={tw`flex-col gap-1.5`}>
-        <Text type="p3" style={tw`text-gray-500`}>
-          Last response {date.timeAgo(form.lastResponseAt)}
-        </Text>
-
-        <Text type="h3" numberOfLines={1}>
-          {form.title}
-        </Text>
+      <View style={tw`flex-col gap-2`}>
+        <View>
+          <Text type="p3" style={tw`text-gray-500`}>
+            Last response {date.timeAgo(form.lastResponseAt)}
+          </Text>
+          <Text type="h4" numberOfLines={1}>
+            {form.title}
+          </Text>
+        </View>
 
         {/* Details */}
         <View style={tw`gap-2`}>

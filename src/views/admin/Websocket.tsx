@@ -57,7 +57,7 @@ const WebsocketView = () => {
       </View>
 
       <View style={tw`rounded-xl bg-gray-100 p-4 gap-y-2`}>
-        <Text type="h3">Messages</Text>
+        <Text type="h4">Messages</Text>
 
         {websocket.logs.length === 0 && (
           <Text>

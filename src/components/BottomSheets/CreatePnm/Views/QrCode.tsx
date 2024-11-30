@@ -34,7 +34,7 @@ const QrCode: React.FC<UseSheetFlowProps> = () => {
   return (
     <>
       <View style={tw`w-full`}>
-        <Text type="h3">Share a Form</Text>
+        <Text type="h4">Share a Form</Text>
         <Text>Send the QR code below to PNMs, or share the link below. </Text>
       </View>
 
@@ -47,7 +47,7 @@ const QrCode: React.FC<UseSheetFlowProps> = () => {
         />
       </View>
 
-      <Text type="h3" style={tw`self-center`}>
+      <Text type="h4" style={tw`self-center`}>
         Or
       </Text>
       <CopyView title="Form URL" content={linkSharingCode} />
