@@ -98,9 +98,13 @@ const IconLabel: React.FC<IconLabelProps> = ({
         />
       </View>
 
-      <View>
-        {title && <Text style={tw`text-primary`}>{title}</Text>}
-        {subtitle && <Text>{subtitle}</Text>}
+      <View style={tw`flex-shrink`}>
+        {title && (
+          <Text numberOfLines={1} style={tw`text-primary`}>
+            {title}
+          </Text>
+        )}
+        {subtitle && <Text numberOfLines={1}>{subtitle}</Text>}
       </View>
     </View>
   );

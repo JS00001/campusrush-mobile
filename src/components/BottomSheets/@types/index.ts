@@ -11,7 +11,7 @@
  */
 
 import type { IconType } from '@/constants/icons';
-import type { ActionMenu, IEvent, IPNM, IViolation } from '@/types';
+import type { ActionMenu, IEvent, IForm, IPNM, IViolation } from '@/types';
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
@@ -57,6 +57,8 @@ export interface IndividualSheetProps {
   EVENT: { event: IEvent };
   /* View responses to an event */
   EVENT_RESPONSES: { eventId: string };
+  /* View information about a form */
+  FORM: { form: IForm };
   /* View information about a pnm */
   PNM: { pnm: IPNM };
   /* Compare billing plans */

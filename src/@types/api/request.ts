@@ -265,7 +265,7 @@ export interface DeletePnmsRequest {
 
 export interface DeleteFormsRequest {
   /** Array of IDs of the forms to be deleted */
-  forms: string[];
+  forms?: string[];
 }
 
 export interface CreateFormRequest {

@@ -50,6 +50,7 @@ export const Urls = {
 // Endpoints for the web
 export const SHARING_URL = '/sharing';
 export const EVENT_URL = '/events';
+export const FORM_URL = '/forms';
 
 const AppConstants = {
   /**
@@ -105,6 +106,10 @@ const AppConstants = {
    * The url to events
    */
   eventUrl: Urls.WebURL + EVENT_URL,
+  /**
+   * The url to forms
+   */
+  formUrl: Urls.WebURL + FORM_URL,
   /**
    * The CMS/content url
    */

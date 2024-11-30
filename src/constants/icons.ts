@@ -24,6 +24,7 @@ import CaretRight from 'phosphor-react-native/src/icons/CaretRight';
 import CaretUp from 'phosphor-react-native/src/icons/CaretUp';
 import Chat from 'phosphor-react-native/src/icons/Chat';
 import ChatCircle from 'phosphor-react-native/src/icons/ChatCircle';
+import ChatsCircle from 'phosphor-react-native/src/icons/ChatsCircle';
 import Check from 'phosphor-react-native/src/icons/Check';
 import Circle from 'phosphor-react-native/src/icons/Circle';
 import Clock from 'phosphor-react-native/src/icons/Clock';
@@ -102,6 +103,7 @@ export const Icons = {
   CaretUp,
   Chat,
   ChatCircle,
+  ChatsCircle,
   Check,
   CheckCircle,
   Circle,

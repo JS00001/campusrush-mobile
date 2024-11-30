@@ -155,7 +155,7 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
           <Headline
             style={tw`shrink`}
             title={pnm.displayName}
-            subtitle={`Added on ${date.toString(pnm.createdAt)}`}
+            subtitle={`Created on ${date.toString(pnm.createdAt)}`}
           />
         </View>
 

@@ -35,7 +35,7 @@ const Headline: React.FC<HeadlineProps> = ({
   ...props
 }) => {
   const containerStyles = tw.style(
-    "flex-col gap-y-1",
+    "flex-col",
     centerText && "items-center",
     style,
   );

@@ -1,5 +1,5 @@
 /*
- * Created on Mon Feb 26 2024
+ * Created on Sat Nov 30 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -16,14 +16,12 @@ import Toast from "react-native-toast-message";
 import { BottomSheetProps, SheetData } from "./@types";
 
 import useCopy from "@/hooks/useCopy";
-import { useDeleteEvent, useGetEvent } from "@/hooks/api/events";
 
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import { alert } from "@/lib/util";
 import date from "@/lib/util/date";
 import Headline from "@/ui/Headline";
-import format from "@/lib/util/format";
 import AppConstants from "@/constants";
 import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
@@ -31,49 +29,48 @@ import ButtonGroup from "@/ui/ButtonGroup";
 import { BottomSheet } from "@/ui/BottomSheet";
 import ErrorMessage from "@/components/ErrorMessage";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
+import { useDeleteForm, useGetForm } from "@/hooks/api/forms";
 
-type Props = BottomSheetProps & SheetData<"EVENT">;
+type Props = BottomSheetProps & SheetData<"FORM">;
 
 const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
-  const initialEvent = data.event;
+  const initialForm = data.form;
 
   const copy = useCopy();
+  const deleteMutation = useDeleteForm();
+  const query = useGetForm(initialForm._id);
 
-  const deleteMutation = useDeleteEvent();
-  const getEventQuery = useGetEvent(initialEvent._id);
-
-  const eventData = getEventQuery.data?.event || initialEvent;
-  const event = format.event(eventData);
+  const form = query.data?.form || initialForm;
 
   // Error State
-  if (getEventQuery.error || !event) {
+  if (query.isError || !form) {
     return (
       <ErrorMessage
-        error={getEventQuery.error}
-        description="Failed to load event"
+        error={query.error}
+        description="Could not fetch the form"
       />
     );
   }
 
-  const eventUrl = `${AppConstants.eventUrl}/${event._id}`;
+  const formUrl = `${AppConstants.formUrl}/${form._id}`;
 
   const onDelete = async () => {
     alert({
-      title: "Delete Event",
-      message: "Are you sure you want to delete this event?",
+      title: "Delete Form",
+      message: "Are you sure you want to delete this form?",
       buttons: [
         { text: "Cancel", style: "cancel" },
         {
           text: "Delete",
           style: "destructive",
           onPress: async () => {
-            const eventName = event.title;
-            await deleteMutation.mutateAsync({ id: event._id });
+            const formName = form.title;
+            await deleteMutation.mutateAsync({ id: form._id });
 
             Toast.show({
               type: "success",
-              text1: "Event deleted",
-              text2: `${eventName} has been deleted successfully`,
+              text1: "Form deleted",
+              text2: `${formName} has been deleted successfully`,
             });
 
             handleClose();
@@ -84,16 +81,16 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
   };
 
   const onEditPress = () => {
-    openBottomSheet("UPDATE_EVENT", { event });
+    // openBottomSheet("UPDATE_EVENT", { event });
   };
 
   const onViewResponsesPress = () => {
     handleClose();
-    openBottomSheet("EVENT_RESPONSES", { eventId: event._id });
+    // openBottomSheet("EVENT_RESPONSES", { eventId: event._id });
   };
 
   const onShare = () => {
-    copy(eventUrl, "Event Link");
+    copy(formUrl, "Form Link");
   };
 
   return (
@@ -101,20 +98,20 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
       <View style={tw`mb-2 flex-row justify-between items-center`}>
         <Headline
           style={tw`shrink`}
-          title={event.title}
-          subtitle={`Created on ${date.toString(event.createdAt)}`}
+          title={form.title}
+          subtitle={`Created on ${date.toString(form.createdAt)}`}
         />
 
         <View style={tw`flex-row gap-1`}>
           <IconButton
-            ph-label="share-event"
+            ph-label="share-form"
             size="sm"
             iconName="Link"
             color="secondary"
             onPress={onShare}
           />
           <IconButton
-            ph-label="delete-event"
+            ph-label="delete-form"
             size="sm"
             color="secondary"
             iconName="Trash"
@@ -127,14 +124,21 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
 
       <Detail.List>
         <Detail.Item
-          layout="vertical"
-          title="Description"
-          value={event.description}
+          title="Last Response"
+          value={date.timeAgo(form.lastResponseAt)}
         />
-        <Detail.Item title="Date" value={event.dateString} />
-        <Detail.Item title="Starts at" value={event.start.time} />
-        <Detail.Item title="Ends at" value={event.end.time} />
-        <Detail.Item title="Location" value={event.location} />
+        <Detail.Item
+          title="Status"
+          value={form.enabled ? "Form enabled" : "Form disabled"}
+        />
+        <Detail.Item
+          title="Response Count"
+          value={`${form.responseCount} responses`}
+        />
+        <Detail.Item
+          title="Questions"
+          value={`${form.fields.length} questions`}
+        />
       </Detail.List>
 
       <ButtonGroup>
@@ -149,15 +153,15 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
   );
 };
 
-const EventSheet: React.FC<BottomSheetProps> = (props) => {
+const FormSheet: React.FC<BottomSheetProps> = (props) => {
   return (
     <BottomSheet
       innerRef={props.innerRef}
-      children={(data?: SheetData<"EVENT">) => {
+      children={(data?: SheetData<"FORM">) => {
         return <Content data={data!.data} {...props} />;
       }}
     />
   );
 };
 
-export default EventSheet;
+export default FormSheet;

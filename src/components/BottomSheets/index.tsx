@@ -19,6 +19,7 @@ import DeveloperToolsSheet from "./DevTools";
 import DynamicNotificationSheet from "./DynamicNotification";
 import EventSheet from "./Event";
 import EventResponsesSheet from "./EventResponses";
+import FormSheet from "./Form";
 import PnmSheet from "./Pnm";
 import PlanComparisonSheet from "./PlanComparison";
 import PrivacyPolicySheet from "./PrivacyPolicy";
@@ -42,6 +43,7 @@ const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   DYNAMIC_NOTIFICATION: DynamicNotificationSheet,
   EVENT: EventSheet,
   EVENT_RESPONSES: EventResponsesSheet,
+  FORM: FormSheet,
   PNM: PnmSheet,
   PLAN_COMPARISON: PlanComparisonSheet,
   PRIVACY_POLICY: PrivacyPolicySheet,
