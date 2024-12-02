@@ -65,8 +65,9 @@ const FormResponse: React.FC<FormResponseProps> = ({ response }) => {
         </Text>
 
         <View style={tw`gap-2`}>
-          {responses.map(({ field, responseValue }) => (
+          {responses.map(({ field, responseValue }, index) => (
             <IconLabel
+              key={index}
               size="sm"
               color="tertiary"
               iconName="ListBullets"

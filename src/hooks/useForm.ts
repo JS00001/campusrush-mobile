@@ -56,7 +56,7 @@ const useForm = <T extends Record<string, any>>({
    */
   const transformedState = Object.fromEntries(
     Object.entries(state).map(([key, value]) => [key, value.value]),
-  );
+  ) as { [K in TFields]: any };
 
   /**
    * Set the value of a field in the state, this is essentially a more
@@ -70,6 +70,13 @@ const useForm = <T extends Record<string, any>>({
         error: '',
       },
     }));
+  };
+
+  /**
+   * Get all values from the state
+   */
+  const getValues = () => {
+    return transformedState;
   };
 
   /**
@@ -117,6 +124,7 @@ const useForm = <T extends Record<string, any>>({
   return {
     state,
     clear,
+    getValues,
     setValue,
     setError,
     validateState,

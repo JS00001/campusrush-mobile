@@ -53,6 +53,9 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
   }
 
   const formUrl = `${AppConstants.formUrl}/${form._id}`;
+  const lastResponseAt = form.lastResponseAt
+    ? `Last response ${date.timeAgo(form.lastResponseAt)}`
+    : "No responses yet";
 
   const onDelete = async () => {
     alert({
@@ -123,10 +126,7 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
       </View>
 
       <Detail.List>
-        <Detail.Item
-          title="Last Response"
-          value={date.timeAgo(form.lastResponseAt)}
-        />
+        <Detail.Item title="Last Response" value={lastResponseAt} />
         <Detail.Item
           title="Status"
           value={form.enabled ? "Form enabled" : "Form disabled"}

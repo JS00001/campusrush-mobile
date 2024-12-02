@@ -41,11 +41,6 @@ export type IndividualSheetName = keyof IndividualSheetProps;
 export interface IndividualSheetProps {
   /** An action menu sheet */
   ACTION_MENU: ActionMenu;
-  /** The sub-sheet for creating a form, add a field  */
-  MANAGE_FORM_FIELD: {
-    field?: IFormField;
-    onFieldChange: (field: IFormField) => void;
-  };
   /** View information about a chapter */
   CHAPTER: { chapterId: string };
   /** Begin sending a message to a user (or multiple) */
@@ -75,6 +70,11 @@ export interface IndividualSheetProps {
   FORM: { form: IForm };
   /** View all of a forms responses */
   FORM_RESPONSES: { formId: string };
+  /** The sub-sheet for creating a form, add a field  */
+  MANAGE_FORM_FIELD: {
+    field?: IFormField;
+    onFieldChange: (field: IFormField) => void;
+  };
   /** View information about a pnm */
   PNM: { pnm: IPNM };
   /** Compare billing plans */

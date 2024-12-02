@@ -15,6 +15,7 @@ import { TouchableOpacity, View } from "react-native";
 import { RenderItemParams } from "react-native-draggable-flatlist";
 
 import type { IFormField } from "@/types";
+import type { IndividualSheetName, IndividualSheetProps } from "../../@types";
 
 import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
@@ -22,10 +23,23 @@ import tw from "@/lib/tailwind";
 import { FieldType } from "@/@types";
 import { IconType } from "@/constants/icons";
 
-type CustomFormFieldProps = RenderItemParams<IFormField> | { item: IFormField };
+type CustomFormFieldProps = (
+  | RenderItemParams<IFormField>
+  | { item: IFormField }
+) & {
+  onDelete?: (id: string) => void;
+  onChange?: (id: string, value: Partial<IFormField>) => void;
+  openBottomSheet?: <T extends IndividualSheetName>(
+    name: T,
+    props?: IndividualSheetProps[T],
+  ) => void;
+};
 
 const CustomFormField: React.FC<CustomFormFieldProps> = ({
   item,
+  onChange,
+  onDelete,
+  openBottomSheet,
   ...props
 }) => {
   const icon: IconType = (() => {
@@ -33,6 +47,19 @@ const CustomFormField: React.FC<CustomFormFieldProps> = ({
     else if (item.type === FieldType.CHECKBOX) return "CheckSquareOffset";
     return "TextAa";
   })();
+
+  const onDeleteField = () => {
+    onDelete?.(item.id);
+  };
+
+  const onEditField = () => {
+    openBottomSheet?.("MANAGE_FORM_FIELD", {
+      field: item,
+      onFieldChange: (value) => {
+        onChange?.(item.id, value);
+      },
+    });
+  };
 
   const onPressIn = () => {
     if ("drag" in props) {
@@ -56,11 +83,18 @@ const CustomFormField: React.FC<CustomFormFieldProps> = ({
       </View>
 
       <View style={tw`flex-row items-center gap-2`}>
-        <TouchableOpacity>
-          <Icon icon="PencilLine" size={16} color={tw.color("gray-500")} />
+        <TouchableOpacity onPress={onEditField}>
+          <Icon size={16} icon="PencilLine" color={tw.color("gray-500")} />
         </TouchableOpacity>
+
+        {onDelete && (
+          <TouchableOpacity onPress={onDeleteField}>
+            <Icon size={16} icon="Trash" color={tw.color("red-500")} />
+          </TouchableOpacity>
+        )}
+
         <TouchableOpacity onPressIn={onPressIn}>
-          <Icon icon="DotsSixVertical" size={24} color={tw.color("gray-500")} />
+          <Icon icon="DotsSixVertical" size={16} color={tw.color("gray-500")} />
         </TouchableOpacity>
       </View>
     </View>

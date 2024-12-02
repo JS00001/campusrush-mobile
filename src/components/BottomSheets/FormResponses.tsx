@@ -45,12 +45,16 @@ const Content: React.FC<Props> = ({ data }) => {
     );
   }
 
+  const lastResponseAt = form.lastResponseAt
+    ? `Last response ${date.timeAgo(form.lastResponseAt)}`
+    : "No responses yet";
+
   return (
     <BottomSheetContainer contentContainerStyle={tw`gap-y-4`}>
       <Headline
         style={tw`shrink`}
         title={`${form.title}'s Responses`}
-        subtitle={`Last response ${date.timeAgo(form.lastResponseAt)}`}
+        subtitle={lastResponseAt}
       />
 
       <View style={tw`gap-2`}>

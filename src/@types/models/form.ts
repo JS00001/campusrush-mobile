@@ -16,16 +16,16 @@ export interface IForm {
   title: string;
   responseCount: number;
   enabled: boolean;
-  lastResponseAt: Date;
+  lastResponseAt?: Date;
   fields: IFormField[];
   createdAt: Date;
   updatedAt: Date;
 }
 
 export enum FieldType {
-  TEXT = "text",
-  LONGTEXT = "longtext",
-  CHECKBOX = "checkbox",
+  TEXT = 'text',
+  LONGTEXT = 'longtext',
+  CHECKBOX = 'checkbox',
 }
 
 export interface IFormField {

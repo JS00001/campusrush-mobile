@@ -25,6 +25,7 @@ import tw from "@/lib/tailwind";
 import { Layout } from "@/ui/Layout";
 import Headline from "@/ui/Headline";
 import FormField from "@/ui/FormField";
+import { useStatusStore } from "@/store";
 import { FormSheet } from "@/ui/BottomSheet";
 import validators from "@/constants/validators";
 import { FieldType, IFormField } from "@/@types";
@@ -38,9 +39,9 @@ const CreateFormSheet: React.FC<BottomSheetProps> = ({
   openBottomSheet,
 }) => {
   const createFormMutation = useCreateForm();
+  const { setStatusOverlay } = useStatusStore();
 
   const formValidators = {
-    id: validators.objectId,
     title: validators.shortContentString,
     enabled: z.boolean(),
     fields: z.array(
@@ -71,12 +72,41 @@ const CreateFormSheet: React.FC<BottomSheetProps> = ({
     },
   });
 
+  const onDeleteField = (id: string) => {
+    const updatedFields = form.state.fields.value.filter((f: IFormField) => {
+      return f.id !== id;
+    });
+
+    form.setValue("fields", updatedFields);
+  };
+
+  const onUpdateField = (id: string, field: Partial<IFormField>) => {
+    const updatedFields = form.state.fields.value.map((f: IFormField) => {
+      return f.id === id ? { ...f, ...field } : f;
+    });
+
+    form.setValue("fields", updatedFields);
+  };
+
   const onAddField = () => {
     openBottomSheet("MANAGE_FORM_FIELD", {
       onFieldChange: (field: IFormField) => {
         form.setValue("fields", [...form.state.fields.value, field]);
       },
     });
+  };
+
+  const handleSubmission = async () => {
+    setStatusOverlay("loading");
+    const isValid = form.validateState();
+
+    if (!isValid) {
+      setStatusOverlay("idle");
+      return;
+    }
+
+    await form.handleSubmission();
+    setStatusOverlay("idle");
   };
 
   const fields = form.state.fields.value as IFormField[];
@@ -89,9 +119,9 @@ const CreateFormSheet: React.FC<BottomSheetProps> = ({
         contentContainerStyle={tw`pt-0 items-start gap-4 pb-4`}
       >
         <FormHeader
-          disableSave={false}
+          disableSave={form.loading}
           onCancel={handleClose}
-          onSave={() => {}}
+          onSave={handleSubmission}
         />
 
         <Text type="h1">Create Form</Text>
@@ -156,7 +186,16 @@ const CreateFormSheet: React.FC<BottomSheetProps> = ({
             data={fields}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item) => item.id}
-            renderItem={(props) => <CustomFormField {...props} />}
+            renderItem={(props) => {
+              return (
+                <CustomFormField
+                  {...props}
+                  onChange={onUpdateField}
+                  onDelete={onDeleteField}
+                  openBottomSheet={openBottomSheet}
+                />
+              );
+            }}
             onDragEnd={({ data }) => {
               form.setValue("fields", data);
               Haptic.impactAsync(Haptic.ImpactFeedbackStyle.Medium);

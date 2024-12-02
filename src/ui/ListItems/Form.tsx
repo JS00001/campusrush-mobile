@@ -34,6 +34,9 @@ const Form: React.FC<FormProps> = ({ form }) => {
 
   const responseCount = form.responseCount || "No";
   const responseText = responseCount === 1 ? "response" : "responses";
+  const lastResponseAt = form.lastResponseAt
+    ? `Last response ${date.timeAgo(form.lastResponseAt)}`
+    : "No responses yet";
 
   const containerStyles = tw.style(
     "flex-row gap-2 justify-between items-center",
@@ -45,7 +48,7 @@ const Form: React.FC<FormProps> = ({ form }) => {
       <View style={tw`flex-col gap-2`}>
         <View>
           <Text type="p3" style={tw`text-gray-500`}>
-            Last response {date.timeAgo(form.lastResponseAt)}
+            {lastResponseAt}
           </Text>
           <Text type="h4" numberOfLines={1}>
             {form.title}
