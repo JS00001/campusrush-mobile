@@ -48,7 +48,7 @@ export interface IndividualSheetProps {
   /** Begin the new event flow */
   CREATE_EVENT: undefined;
   /** Begin the new form flow */
-  CREATE_FORM: undefined;
+  FORM_EDITOR: { form?: IForm };
   /** Begin the new pnm flow */
   CREATE_PNM: undefined;
   /** Details about a custom phone number */

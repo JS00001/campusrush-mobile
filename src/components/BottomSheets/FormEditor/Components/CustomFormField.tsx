@@ -77,9 +77,9 @@ const CustomFormField: React.FC<CustomFormFieldProps> = ({
 
   return (
     <View style={containerStyles}>
-      <View style={tw`gap-2 flex-row items-center`}>
+      <View style={tw`gap-4 flex-row items-center shrink`}>
         <Icon icon={icon} size={20} color={tw.color("gray-500")} />
-        <Text style={tw`text-primary`}>{formFieldName}</Text>
+        <Text style={tw`text-primary shrink`}>{formFieldName}</Text>
       </View>
 
       <View style={tw`flex-row items-center gap-2`}>

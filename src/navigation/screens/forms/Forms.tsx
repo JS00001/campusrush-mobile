@@ -75,7 +75,7 @@ const FormsScreen = () => {
   const placeholder = `Search ${forms.length} Forms`;
 
   const onNewFormPress = () => {
-    openBottomSheet("CREATE_FORM");
+    openBottomSheet("FORM_EDITOR");
   };
 
   const onRefresh = async () => {

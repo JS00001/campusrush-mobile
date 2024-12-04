@@ -13,10 +13,10 @@
 import ChapterSheet from "./Chapter/index";
 import CreateMessageSheet from "./CreateMessage";
 import CreateEventSheet from "./CreateEvent";
-import CreateFormSheet from "./CreateForm";
+import FormEditorSheet from "./FormEditor";
 
 import ActionMenuSheet from "./ActionMenu";
-import ManageFormFieldSheet from "./CreateForm/Components/ManageFormField";
+import ManageFormFieldSheet from "./FormEditor/Components/ManageFormField";
 import CreatePnmSheet from "./CreatePnm";
 import CustomPhoneNumberSheet from "./CustomPhoneNumber";
 import DeveloperToolsSheet from "./DevTools";
@@ -38,11 +38,10 @@ import type { IndividualSheetName } from "./@types";
 
 const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   ACTION_MENU: ActionMenuSheet,
-  MANAGE_FORM_FIELD: ManageFormFieldSheet,
   CHAPTER: ChapterSheet,
   CREATE_MESSAGE: CreateMessageSheet,
   CREATE_EVENT: CreateEventSheet,
-  CREATE_FORM: CreateFormSheet,
+  FORM_EDITOR: FormEditorSheet,
   CREATE_PNM: CreatePnmSheet,
   CUSTOM_PHONE_NUMBER: CustomPhoneNumberSheet,
   DEVELOPER_TOOLS: DeveloperToolsSheet,
@@ -51,6 +50,7 @@ const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   EVENT_RESPONSES: EventResponsesSheet,
   FORM: FormSheet,
   FORM_RESPONSES: FormResponsesSheet,
+  MANAGE_FORM_FIELD: ManageFormFieldSheet,
   PNM: PnmSheet,
   PLAN_COMPARISON: PlanComparisonSheet,
   PRIVACY_POLICY: PrivacyPolicySheet,

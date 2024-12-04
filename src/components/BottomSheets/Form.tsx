@@ -84,7 +84,7 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
   };
 
   const onEditPress = () => {
-    // openBottomSheet("UPDATE_EVENT", { event });
+    openBottomSheet("FORM_EDITOR", { form });
   };
 
   const onViewResponsesPress = () => {
