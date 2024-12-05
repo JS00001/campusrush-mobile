@@ -64,7 +64,7 @@ const FormResponse: React.FC<FormResponseProps> = ({ response }) => {
 
   return (
     <TouchableOpacity onPress={onClick} style={containerClasses}>
-      <View style={tw`gap-1.5`}>
+      <View style={tw`gap-1.5 shrink`}>
         <Text type="h4" numberOfLines={1}>
           {response.pnm.displayName}
         </Text>
