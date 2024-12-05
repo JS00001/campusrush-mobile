@@ -21,11 +21,13 @@
  * Do not distribute
  */
 
+import { useState } from "react";
 import { FlatList, View } from "react-native";
-import { useCallback, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import Option from "./Option";
+
+import type { ISelectOption } from "./@types";
 
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
@@ -36,14 +38,14 @@ import { BottomSheet } from "@/ui/BottomSheet";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 import useKeyboardListener from "@/hooks/useKeyboardListener";
 
-interface OptionSheetProps {
+interface OptionSheetProps<T = any> {
   placeholder: string;
   searchable: boolean;
+  options: ISelectOption<T>[];
   value: string | null;
-  options: string[];
   innerRef: React.RefObject<BottomSheetModal>;
   closeSheet: () => void;
-  onChange: (value: string | null) => void;
+  onChange: (value: string) => void;
 }
 
 const OptionSheet: React.FC<OptionSheetProps> = ({
@@ -67,6 +69,7 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
   const [selected, setSelected] = useState(value);
   const search = useSearch({
     data: options,
+    fields: ["label"],
   });
 
   const handleSheetChanges = (index: number) => {
@@ -79,6 +82,7 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
   };
 
   const onDonePress = () => {
+    if (!selected) return;
     onChange(selected);
     closeSheet();
   };
@@ -110,22 +114,14 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
               No results found
             </Text>
           }
-          renderItem={({ item, index }) => {
-            const isSelected = selected === item;
-
-            const handleOptionPress = () => {
-              setSelected(item);
-            };
-
-            return (
-              <Option
-                value={item}
-                key={index}
-                selected={isSelected}
-                onPress={handleOptionPress}
-              />
-            );
-          }}
+          renderItem={({ item, index }) => (
+            <Option
+              key={index}
+              value={item.label}
+              selected={selected === item.value}
+              onPress={() => setSelected(item.value)}
+            />
+          )}
         />
 
         <View style={tw`px-6`}>

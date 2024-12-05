@@ -14,11 +14,10 @@ import { z } from "zod";
 import { View } from "react-native";
 import uuid from "react-native-uuid";
 
+import type { ISelectOption } from "@/ui/Select/@types";
 import type { BottomSheetProps, SheetData } from "../../@types";
 
 import Text from "@/ui/Text";
-import { BottomSheet } from "@/ui/BottomSheet";
-
 import tw from "@/lib/tailwind";
 import Select from "@/ui/Select";
 import Button from "@/ui/Button";
@@ -28,6 +27,7 @@ import { FieldType } from "@/@types";
 import useForm from "@/hooks/useForm";
 import FormField from "@/ui/FormField";
 import ButtonGroup from "@/ui/ButtonGroup";
+import { BottomSheet } from "@/ui/BottomSheet";
 import validators from "@/constants/validators";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 import useKeyboardListener from "@/hooks/useKeyboardListener";
@@ -57,6 +57,21 @@ const Content: React.FC<Props> = ({
       required: z.boolean(),
     },
   });
+
+  const selectOptions: ISelectOption[] = [
+    {
+      label: "Text",
+      value: FieldType.TEXT,
+    },
+    {
+      label: "Paragraph",
+      value: FieldType.LONGTEXT,
+    },
+    {
+      label: "Checkbox",
+      value: FieldType.CHECKBOX,
+    },
+  ];
 
   const onSave = () => {
     const isValid = form.validateState();
@@ -89,10 +104,10 @@ const Content: React.FC<Props> = ({
       />
 
       <Select
+        options={selectOptions}
         placeholder="Field Type"
         error={form.state.type.error}
         value={form.state.type.value}
-        options={[FieldType.TEXT, FieldType.LONGTEXT, FieldType.CHECKBOX]}
         onChange={(value) => form.setValue("type", value)}
       />
 

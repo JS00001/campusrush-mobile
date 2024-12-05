@@ -28,7 +28,7 @@ const BottomSheetContainer: React.FC<BottomSheetContainerProps> = ({
   children,
   ...props
 }) => {
-  const containerStyles = tw.style("p-6", style);
+  const containerStyles = tw.style("px-6 py-4", style);
 
   const contentContainerStyles = tw.style(
     "gap-y-2 pb-16",

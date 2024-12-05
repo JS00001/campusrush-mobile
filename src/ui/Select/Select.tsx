@@ -15,6 +15,7 @@ import { useRef, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { TouchableOpacity, ViewProps } from "react-native";
 
+import { ISelectOption } from "./@types";
 import type { IconType } from "@/constants/icons";
 
 import OptionSheet from "./OptionSheet";
@@ -23,14 +24,21 @@ import Text from "@/ui/Text";
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 
-interface SelectProps extends ViewProps {
-  options: string[];
+interface SelectProps<T = any> extends ViewProps {
+  /** The placeholder when no item is selected */
   placeholder: string;
+  /** This value should be unique. Its the value of the select */
   value: string | null;
+  /** The options to select from */
+  options: ISelectOption<T>[];
+  /** If the select is searchable */
   searchable?: boolean;
+  /** The error message to display */
   error?: string;
+  /** The style of the select */
   style?: any;
-  onChange: (value: string | null) => void;
+  /** The function to call when the value changes */
+  onChange: (value: string) => void;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -45,8 +53,9 @@ const Select: React.FC<SelectProps> = ({
   const sheetRef = useRef<BottomSheetModal>(null);
   const [expanded, setExpanded] = useState(false);
 
-  const valueText = value || `Select ${placeholder}`;
+  const label = options.find((o) => o.value === value)?.label;
   const iconName: IconType = expanded ? "CaretUp" : "CaretDown";
+  const valueText = label || `Select ${placeholder}`;
 
   const toggleExpanded = () => {
     if (expanded) {
@@ -93,13 +102,13 @@ const Select: React.FC<SelectProps> = ({
       </TouchableOpacity>
 
       <OptionSheet
-        searchable={!!searchable}
         innerRef={sheetRef}
         value={value}
         options={options}
+        searchable={!!searchable}
         placeholder={placeholder}
-        onChange={onChange}
         closeSheet={closeSheet}
+        onChange={onChange}
       />
     </>
   );

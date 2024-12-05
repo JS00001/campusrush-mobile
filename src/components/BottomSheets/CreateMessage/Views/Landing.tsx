@@ -146,7 +146,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({
   const pnms = search.query ? search.data : suggested;
 
   return (
-    <View style={tw`gap-y-6 flex-1`}>
+    <View style={tw`gap-y-4 flex-1`}>
       <Headline
         title="New Message"
         subtitle="Start a new message with potential members"
