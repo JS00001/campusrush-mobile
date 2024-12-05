@@ -15,6 +15,7 @@ import type {
   IEvent,
   IForm,
   IFormField,
+  IFormResponse,
   IPNM,
   IViolation,
 } from '@/types';
@@ -70,6 +71,11 @@ export interface IndividualSheetProps {
   FORM: { form: IForm };
   /** View all of a forms responses */
   FORM_RESPONSES: { formId: string };
+  /** View a specific form response */
+  FORM_RESPONSE: {
+    fields: IFormField[];
+    response: IFormResponse;
+  };
   /** The sub-sheet for creating a form, add a field  */
   MANAGE_FORM_FIELD: {
     field?: IFormField;

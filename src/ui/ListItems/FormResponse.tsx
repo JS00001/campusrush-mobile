@@ -32,7 +32,12 @@ interface FormResponseProps {
 const FormResponse: React.FC<FormResponseProps> = ({ response }) => {
   const { openBottomSheet } = useBottomSheet();
 
-  const onClick = () => {};
+  const onClick = () => {
+    openBottomSheet("FORM_RESPONSE", {
+      response,
+      fields: response.form.fields,
+    });
+  };
 
   const fields = response.form.fields.filter((field) => {
     return !AppConstants.formReservedIds.includes(field.id);

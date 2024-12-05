@@ -37,7 +37,7 @@ import { useCreateForm, useUpdateForm } from "@/hooks/api/forms";
 type Props = BottomSheetProps & SheetData<"FORM_EDITOR">;
 
 const FormEditorContent: React.FC<Props> = ({
-  data,
+  data = {},
   handleClose,
   openBottomSheet,
 }) => {
