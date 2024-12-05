@@ -57,8 +57,8 @@ const FormField: React.FC<FormFieldProps> = ({
   ...props
 }) => {
   const inputRef = useRef<RNTextInput>(null);
-  const placeholderY = useSharedValue(20);
-  const placeholderSize = useSharedValue(18);
+  const placeholderY = useSharedValue(18);
+  const placeholderSize = useSharedValue(16);
 
   const [focused, setFocused] = useState(false);
   const [hideValue, setHideValue] = useState(secureTextEntry);
@@ -71,7 +71,7 @@ const FormField: React.FC<FormFieldProps> = ({
   // If we set a value to undefined (clearing the input), animate the placeholder back down
   useEffect(() => {
     if (value === undefined) {
-      animatePlaceholder(20, 18);
+      animatePlaceholder(18, 16);
     }
   }, [value]);
 
@@ -102,12 +102,12 @@ const FormField: React.FC<FormFieldProps> = ({
   );
 
   const inputStyles = tw.style(
-    "border-2 px-5 py-5 rounded-xl text-lg leading-5 bg-gray-100",
+    "border-2 px-5 py-4 rounded-xl text-base leading-5 bg-gray-100",
     // If we have an 'eye' icon, we need to add padding to the right of the input so we dont go under it
     secureTextEntry && "pr-12",
     // If there is a value or the input is focused, we need to add padding to the input to make it "look"
     // like the placeholder is in the input and they are both centered
-    (focused || value) && "pt-7 pb-3",
+    (focused || value) && "pt-6 pb-2",
     // DEFAULT State
     !error && !focused && "border-gray-100",
     // FOCUS State
@@ -118,7 +118,7 @@ const FormField: React.FC<FormFieldProps> = ({
   );
 
   const placeholderStyles = tw.style(
-    "absolute z-10 px-4 bg-gray-100 left-1 text-gray-500 flex-1",
+    "absolute z-10 px-4 bg-gray-100 left-1.5 text-gray-500 flex-1",
     disabled && "disabled",
     error && "text-red-500",
   );
@@ -128,7 +128,7 @@ const FormField: React.FC<FormFieldProps> = ({
     fontSize: placeholderSize.value,
   }));
 
-  const valueStyles = tw.style("text-lg leading-5 text-primary");
+  const valueStyles = tw.style("text-base leading-5 text-primary");
 
   const eyeContainerStyles = tw.style(
     "absolute z-10 right-0 px-4",
@@ -156,7 +156,7 @@ const FormField: React.FC<FormFieldProps> = ({
           onBlur?.(e);
           setFocused(false);
 
-          if (!value) animatePlaceholder(20, 18);
+          if (!value) animatePlaceholder(18, 16);
         }}
         {...props}
       >

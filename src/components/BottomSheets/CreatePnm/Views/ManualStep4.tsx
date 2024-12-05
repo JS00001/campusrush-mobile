@@ -85,7 +85,6 @@ const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
 
       <ButtonGroup>
         <Button
-          size="sm"
           color="secondary"
           onPress={prevView}
           disabled={createPnmMutation.isPending}
@@ -93,7 +92,6 @@ const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
           No, Go Back
         </Button>
         <Button
-          size="sm"
           onPress={handleSubmission}
           loading={createPnmMutation.isPending}
         >

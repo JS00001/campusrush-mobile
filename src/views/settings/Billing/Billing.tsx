@@ -106,7 +106,6 @@ const BillingView = () => {
 
             <View>
               <Button
-                size="sm"
                 style={tw`bg-gray-200`}
                 textStyle={tw`text-red-500`}
                 onPress={onManageBilling}
@@ -114,7 +113,6 @@ const BillingView = () => {
                 Manage Subscription
               </Button>
               <Button
-                size="sm"
                 style={tw`bg-transparent`}
                 textStyle={tw`text-primary`}
                 onPress={onComparePlansPress}

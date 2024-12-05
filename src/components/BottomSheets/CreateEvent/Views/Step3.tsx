@@ -108,18 +108,13 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
 
       <ButtonGroup>
         <Button
-          size="sm"
           color="secondary"
           onPress={prevView}
           disabled={mutation.isPending}
         >
           No, Go Back
         </Button>
-        <Button
-          size="sm"
-          onPress={handleSubmission}
-          loading={mutation.isPending}
-        >
+        <Button onPress={handleSubmission} loading={mutation.isPending}>
           Yes, Create
         </Button>
       </ButtonGroup>

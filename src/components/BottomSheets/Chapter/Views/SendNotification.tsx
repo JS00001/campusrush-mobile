@@ -126,12 +126,11 @@ const SendNotification: React.FC<SendNotificationProps> = ({
       </View>
 
       <ButtonGroup>
-        <Button size="sm" color="secondary" onPress={onBackPress}>
+        <Button color="secondary" onPress={onBackPress}>
           Go Back
         </Button>
 
         <Button
-          size="sm"
           loading={sendNotificationMutation.isPending}
           onPress={form.handleSubmission}
         >

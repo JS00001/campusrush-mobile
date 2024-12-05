@@ -33,7 +33,7 @@ const NavigationTab: React.FC<NavigationTabProps> = ({
 
   const textStyles = tw.style(
     "text-center",
-    selected && "text-primary font-medium",
+    selected && "text-primary font-semibold",
     !selected && "text-gray-500",
   );
 

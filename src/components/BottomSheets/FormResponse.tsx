@@ -50,6 +50,7 @@ const FormResponseSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
                 if (field.type === FieldType.CHECKBOX) {
                   const response = !!pnmResponse;
 
+                  // PR_TODO: Cleanup
                   return (
                     <View
                       key={field.id}

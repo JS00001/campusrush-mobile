@@ -77,26 +77,26 @@ const ManualStep3: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
         subtitle="Enter the PNM's known social media. This step is optional."
       />
 
-      <FormField
-        placeholder="Instagram"
-        value={form.state.instagram.value}
-        error={form.state.instagram.error}
-        onChangeText={form.setValue.bind(null, "instagram")}
-      />
-      <FormField
-        placeholder="Snapchat"
-        value={form.state.snapchat.value}
-        error={form.state.snapchat.error}
-        onChangeText={form.setValue.bind(null, "snapchat")}
-      />
+      <View style={tw`gap-y-2`}>
+        <FormField
+          placeholder="Instagram"
+          value={form.state.instagram.value}
+          error={form.state.instagram.error}
+          onChangeText={form.setValue.bind(null, "instagram")}
+        />
+        <FormField
+          placeholder="Snapchat"
+          value={form.state.snapchat.value}
+          error={form.state.snapchat.error}
+          onChangeText={form.setValue.bind(null, "snapchat")}
+        />
+      </View>
 
       <ButtonGroup>
-        <Button size="sm" color="secondary" onPress={prevView}>
+        <Button color="secondary" onPress={prevView}>
           Go Back
         </Button>
-        <Button size="sm" onPress={handleSubmission}>
-          Next
-        </Button>
+        <Button onPress={handleSubmission}>Next</Button>
       </ButtonGroup>
     </View>
   );

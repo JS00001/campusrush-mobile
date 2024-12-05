@@ -112,30 +112,34 @@ const Step2: React.FC<UseSheetFlowProps<CreateEventState>> = ({
           subtitle="Enter when your event starts and ends. This can be changed later."
         />
 
-        <DateTimePicker
-          label="Starts at"
-          mode="datetime"
-          value={startDate}
-          minimumDate={currentTime}
-          error={form.state.startDate.error}
-          onChange={(event, date) => onDateTimeChange(event, "startDate", date)}
-        />
-        <DateTimePicker
-          label="Ends at"
-          mode="datetime"
-          value={endDate}
-          minimumDate={startDate}
-          error={form.state.endDate.error}
-          onChange={(event, date) => onDateTimeChange(event, "endDate", date)}
-        />
+        <View style={tw`gap-y-2`}>
+          <DateTimePicker
+            label="Starts at"
+            mode="datetime"
+            value={startDate}
+            minimumDate={currentTime}
+            error={form.state.startDate.error}
+            onChange={(event, date) => {
+              return onDateTimeChange(event, "startDate", date);
+            }}
+          />
+          <DateTimePicker
+            label="Ends at"
+            mode="datetime"
+            value={endDate}
+            minimumDate={startDate}
+            error={form.state.endDate.error}
+            onChange={(event, date) => {
+              return onDateTimeChange(event, "endDate", date);
+            }}
+          />
+        </View>
 
         <ButtonGroup>
-          <Button size="sm" color="secondary" onPress={prevView}>
+          <Button color="secondary" onPress={prevView}>
             Go Back
           </Button>
-          <Button size="sm" onPress={handleSubmission}>
-            Next
-          </Button>
+          <Button onPress={handleSubmission}>Next</Button>
         </ButtonGroup>
       </View>
     </>

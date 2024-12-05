@@ -129,9 +129,7 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
         />
 
         <View style={tw`px-6`}>
-          <Button size="sm" onPress={onDonePress}>
-            Done
-          </Button>
+          <Button onPress={onDonePress}>Done</Button>
         </View>
       </BottomSheetContainer>
     </BottomSheet>

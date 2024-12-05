@@ -140,12 +140,10 @@ const Content: React.FC<Props> = ({ data, close }) => {
       </Detail.List>
 
       <ButtonGroup>
-        <Button size="sm" color="secondary" onPress={onEditPress}>
+        <Button color="secondary" onPress={onEditPress}>
           Edit
         </Button>
-        <Button size="sm" onPress={onViewResponsesPress}>
-          View Responses
-        </Button>
+        <Button onPress={onViewResponsesPress}>View Responses</Button>
       </ButtonGroup>
     </BottomSheetContainer>
   );

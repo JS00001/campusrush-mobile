@@ -23,6 +23,8 @@ import schools from "@/constants/schools";
 import chapters from "@/constants/chapters";
 import usePosthog from "@/hooks/usePosthog";
 import { AuthStackHook } from "@/navigation/@types";
+import tw from "@/lib/tailwind";
+import { View } from "react-native";
 
 const RegistrationStep1View = () => {
   const posthog = usePosthog();
@@ -74,7 +76,6 @@ const RegistrationStep1View = () => {
         error={form.state.school.error}
         onChange={form.setValue.bind(null, "school")}
       />
-
       <Select
         searchable
         placeholder="Chapter Name"

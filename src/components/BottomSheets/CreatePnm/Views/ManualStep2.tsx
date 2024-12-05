@@ -68,12 +68,10 @@ const ManualStep2: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
       />
 
       <ButtonGroup>
-        <Button size="sm" color="secondary" onPress={prevView}>
+        <Button color="secondary" onPress={prevView}>
           Go Back
         </Button>
-        <Button size="sm" onPress={handleSubmission}>
-          Next
-        </Button>
+        <Button onPress={handleSubmission}>Next</Button>
       </ButtonGroup>
     </View>
   );

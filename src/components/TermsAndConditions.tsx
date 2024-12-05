@@ -34,12 +34,16 @@ const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ color }) => {
 
   return (
     <View>
-      <Text style={tw`mt-8 text-center`}>By continuing, you agree to our</Text>
+      <Text type="p3" style={tw`text-center`}>
+        By continuing, you agree to our
+      </Text>
       <View style={tw`flex-row justify-center`}>
         <Hyperlink color={color} onPress={onTermsOfServicePress}>
           Terms of Service
         </Hyperlink>
-        <Text style={tw`text-center`}>&nbsp;and&nbsp;</Text>
+        <Text type="p3" style={tw`text-center`}>
+          &nbsp;and&nbsp;
+        </Text>
         <Hyperlink color={color} onPress={onPrivacyPolicyPress}>
           Privacy Policy
         </Hyperlink>

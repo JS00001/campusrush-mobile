@@ -66,17 +66,17 @@ const OnboardingButtons: React.FC<OnboardingButtonsProps> = ({
 
   if (isFirstStep) {
     return (
-      <Button size="sm" color="primary" onPress={handleNextPress}>
+      <Button color="primary" onPress={handleNextPress}>
         Start Tour
       </Button>
     );
   } else {
     return (
       <ButtonGroup>
-        <Button size="sm" color="tertiary" onPress={handleBackPress}>
+        <Button color="tertiary" onPress={handleBackPress}>
           Back
         </Button>
-        <Button size="sm" color="primary" onPress={handleNextPress}>
+        <Button color="primary" onPress={handleNextPress}>
           {primaryText}
         </Button>
       </ButtonGroup>

@@ -157,7 +157,6 @@ const SettingsView = () => {
       </View>
 
       <Button
-        size="sm"
         color="secondary"
         style={tw`w-full`}
         loading={deletionMutation.isPending}

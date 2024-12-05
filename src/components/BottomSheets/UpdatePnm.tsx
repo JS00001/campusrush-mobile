@@ -11,6 +11,7 @@
  */
 
 import { z } from "zod";
+import { View } from "react-native";
 
 import type { ActionMenu } from "@/types";
 import type { BottomSheetProps, SheetData } from "./@types";
@@ -117,28 +118,28 @@ const UpdatePnmSheetContent: React.FC<Props> = ({ data, close }) => {
   };
 
   return (
-    <Layout.Root>
-      <Layout.Content
-        scrollable
-        gap={12}
-        safeAreaPosition="top"
-        contentContainerStyle={tw`pt-0 items-start`}
-      >
-        <FormHeader
-          disableSave={form.loading || cloudStorage.isLoading}
-          onCancel={close}
-          onSave={handleSubmission}
-        />
+    <Layout.Content
+      scrollable
+      gap={12}
+      safeAreaPosition="top"
+      contentContainerStyle={tw`pt-0 items-start`}
+    >
+      <FormHeader
+        disableSave={form.loading || cloudStorage.isLoading}
+        onCancel={close}
+        onSave={handleSubmission}
+      />
 
-        <Avatar
-          editable
-          size="lg"
-          style={tw`self-center`}
-          url={form.state.avatar.value}
-          loading={cloudStorage.isLoading}
-          onPress={onEditPress}
-        />
+      <Avatar
+        editable
+        size="lg"
+        style={tw`self-center`}
+        url={form.state.avatar.value}
+        loading={cloudStorage.isLoading}
+        onPress={onEditPress}
+      />
 
+      <View style={tw`gap-y-2 w-full`}>
         <FormField
           placeholder="First Name"
           value={form.state.firstName.value}
@@ -170,8 +171,8 @@ const UpdatePnmSheetContent: React.FC<Props> = ({ data, close }) => {
           onChangeText={form.setValue.bind(null, "snapchat")}
         />
         <TagView tags={form.state.tags.value} onPress={onTagsPress} />
-      </Layout.Content>
-    </Layout.Root>
+      </View>
+    </Layout.Content>
   );
 };
 

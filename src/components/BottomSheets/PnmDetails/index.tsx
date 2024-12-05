@@ -181,12 +181,10 @@ const Content: React.FC<Props> = ({ data, close }) => {
       {/* Floating bottom button container */}
       <View style={tw`bg-white absolute px-6 bottom-0 pb-8 pt-4 w-full`}>
         <ButtonGroup>
-          <Button size="sm" color="secondary" onPress={onEditPress}>
+          <Button color="secondary" onPress={onEditPress}>
             Edit
           </Button>
-          <Button size="sm" onPress={onSendMessagePress}>
-            Send Message
-          </Button>
+          <Button onPress={onSendMessagePress}>Send Message</Button>
         </ButtonGroup>
       </View>
     </>

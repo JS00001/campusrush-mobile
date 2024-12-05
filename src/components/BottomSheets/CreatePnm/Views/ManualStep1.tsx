@@ -35,7 +35,7 @@ const ManualStep1: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
 }) => {
   useKeyboardListener({
     onKeyboardWillShow: () => {
-      snapToPosition("90%");
+      snapToPosition("85%");
     },
     onKeyboardWillHide: () => {
       snapToIndex(0);
@@ -79,32 +79,32 @@ const ManualStep1: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
         subtitle="Enter the PNM's name and contact information"
       />
 
-      <FormField
-        placeholder="First Name"
-        value={form.state.firstName.value}
-        error={form.state.firstName.error}
-        onChangeText={form.setValue.bind(null, "firstName")}
-      />
-      <FormField
-        placeholder="Last Name"
-        value={form.state.lastName.value}
-        error={form.state.lastName.error}
-        onChangeText={form.setValue.bind(null, "lastName")}
-      />
-      <FormField
-        placeholder="Phone Number"
-        value={form.state.phoneNumber.value}
-        error={form.state.phoneNumber.error}
-        onChangeText={form.setValue.bind(null, "phoneNumber")}
-      />
+      <View style={tw`gap-y-2`}>
+        <FormField
+          placeholder="First Name"
+          value={form.state.firstName.value}
+          error={form.state.firstName.error}
+          onChangeText={form.setValue.bind(null, "firstName")}
+        />
+        <FormField
+          placeholder="Last Name"
+          value={form.state.lastName.value}
+          error={form.state.lastName.error}
+          onChangeText={form.setValue.bind(null, "lastName")}
+        />
+        <FormField
+          placeholder="Phone Number"
+          value={form.state.phoneNumber.value}
+          error={form.state.phoneNumber.error}
+          onChangeText={form.setValue.bind(null, "phoneNumber")}
+        />
+      </View>
 
       <ButtonGroup>
-        <Button size="sm" color="secondary" onPress={prevView}>
+        <Button color="secondary" onPress={prevView}>
           Go Back
         </Button>
-        <Button size="sm" onPress={handleSubmission}>
-          Next
-        </Button>
+        <Button onPress={handleSubmission}>Next</Button>
       </ButtonGroup>
     </View>
   );

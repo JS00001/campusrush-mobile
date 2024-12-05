@@ -63,7 +63,7 @@ const Searchbox: React.FC<TextInputProps> = ({
   const containerStyles = tw.style(
     "relative w-full -z-10 flex-row items-center",
     "rounded-full grow-0 h-12",
-    "pl-2 pr-4 bg-gray-100",
+    "px-4 bg-gray-100",
     disabled && "disabled",
     contentContainerStyle,
   );
@@ -77,12 +77,12 @@ const Searchbox: React.FC<TextInputProps> = ({
 
   return (
     <Pressable style={containerStyles} onPress={onContainerPress}>
-      <Icon icon="MagnifyingGlass" size={18} color={tw.color("gray-400")} />
+      <Icon icon="MagnifyingGlass" size={18} color={tw.color("gray-500")} />
 
       <TextInputWithNoFontScaling
         ref={inputRef}
         placeholder={placeholder}
-        placeholderTextColor={tw.color("gray-300")}
+        placeholderTextColor={tw.color("gray-500")}
         editable={!disabled}
         style={inputStyles}
         onChangeText={onChangeText}

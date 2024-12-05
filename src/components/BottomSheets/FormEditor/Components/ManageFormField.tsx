@@ -106,10 +106,10 @@ const Content: React.FC<Props> = ({
       </View>
 
       <ButtonGroup>
-        <Button size="sm" color="secondary" onPress={close}>
+        <Button color="secondary" onPress={close}>
           Cancel
         </Button>
-        <Button size="sm" color="primary" onPress={onSave}>
+        <Button color="primary" onPress={onSave}>
           Save
         </Button>
       </ButtonGroup>

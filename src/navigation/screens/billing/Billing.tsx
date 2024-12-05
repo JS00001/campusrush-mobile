@@ -238,7 +238,7 @@ const BillingScreen = () => {
             })}
 
             <View style={tw`mt-2 gap-y-2`}>
-              <Button size="sm" color="tertiary" onPress={onFeaturePress}>
+              <Button color="tertiary" onPress={onFeaturePress}>
                 View All Features
               </Button>
             </View>
@@ -248,7 +248,7 @@ const BillingScreen = () => {
 
       <Layout.Footer style={tw`bg-white border-t border-gray-200`}>
         <View style={footerViewStyle}>
-          <Button size="lg" onPress={onPurchase} loading={purchaseLoading}>
+          <Button onPress={onPurchase} loading={purchaseLoading}>
             {buttonCTA}
           </Button>
 

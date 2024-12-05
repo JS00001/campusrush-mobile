@@ -43,7 +43,7 @@ const LoginView = () => {
 
   return (
     <View style={tw`justify-between w-full flex-1`}>
-      <View style={tw`gap-y-4.5 flex-col items-center`}>
+      <View style={tw`gap-y-3 flex-col items-center`}>
         <FormField
           placeholder="Email"
           error={form.state.email.error}

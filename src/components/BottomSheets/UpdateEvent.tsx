@@ -10,6 +10,7 @@
  * Do not distribute
  */
 import { z } from "zod";
+import { View } from "react-native";
 import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
 import { BottomSheetProps, SheetData } from "./@types";
@@ -117,51 +118,54 @@ const UpdateEventSheetContent: React.FC<Props> = ({ data, close }) => {
           Edit Event
         </Text>
 
-        <FormField
-          placeholder="Title"
-          value={form.state.title.value}
-          error={form.state.title.error}
-          onChangeText={form.setValue.bind(null, "title")}
-        />
-        <FormField
-          placeholder="Location"
-          value={form.state.location.value}
-          error={form.state.location.error}
-          onChangeText={form.setValue.bind(null, "location")}
-        />
+        <View style={tw`gap-y-2 w-full`}>
+          <FormField
+            placeholder="Title"
+            value={form.state.title.value}
+            error={form.state.title.error}
+            onChangeText={form.setValue.bind(null, "title")}
+          />
 
-        <DateTimePicker
-          label="Starts at"
-          mode="datetime"
-          value={newStartDate}
-          minimumDate={currentDate}
-          error={form.state.startDate.error}
-          onChange={(event, date) => {
-            return onDateTimeChange(event, "startDate", date);
-          }}
-        />
+          <FormField
+            placeholder="Location"
+            value={form.state.location.value}
+            error={form.state.location.error}
+            onChangeText={form.setValue.bind(null, "location")}
+          />
 
-        <DateTimePicker
-          label="Ends at"
-          mode="datetime"
-          value={newEndDate}
-          minimumDate={newStartDate}
-          error={form.state.endDate.error}
-          onChange={(event, date) => {
-            return onDateTimeChange(event, "endDate", date);
-          }}
-        />
+          <DateTimePicker
+            label="Starts at"
+            mode="datetime"
+            value={newStartDate}
+            minimumDate={currentDate}
+            error={form.state.startDate.error}
+            onChange={(event, date) => {
+              return onDateTimeChange(event, "startDate", date);
+            }}
+          />
 
-        <FormField
-          multiline
-          blurOnSubmit
-          returnKeyType="done"
-          style={tw`h-36`}
-          placeholder="Description"
-          value={form.state.description.value}
-          error={form.state.description.error}
-          onChangeText={form.setValue.bind(null, "description")}
-        />
+          <DateTimePicker
+            label="Ends at"
+            mode="datetime"
+            value={newEndDate}
+            minimumDate={newStartDate}
+            error={form.state.endDate.error}
+            onChange={(event, date) => {
+              return onDateTimeChange(event, "endDate", date);
+            }}
+          />
+
+          <FormField
+            multiline
+            blurOnSubmit
+            returnKeyType="done"
+            style={tw`h-36`}
+            placeholder="Description"
+            value={form.state.description.value}
+            error={form.state.description.error}
+            onChangeText={form.setValue.bind(null, "description")}
+          />
+        </View>
       </Layout.Content>
     </Layout.Root>
   );
