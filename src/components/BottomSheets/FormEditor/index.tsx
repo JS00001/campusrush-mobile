@@ -11,9 +11,11 @@
  */
 
 import { z } from "zod";
+import React from "react";
 import * as Haptic from "expo-haptics";
 import Toast from "react-native-toast-message";
 import { TouchableOpacity, View } from "react-native";
+import { ScrollView } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 
 import type { BottomSheetProps, SheetData } from "../@types";
@@ -138,12 +140,13 @@ const FormEditorContent: React.FC<Props> = ({ data = {}, close }) => {
   };
 
   const fields = form.state.fields.value as IFormField[];
+  const formHeader = isEditing ? "Edit Form" : "Create Form";
 
   return (
     <Layout.Content
       gap={12}
       safeAreaPosition="top"
-      contentContainerStyle={tw`pt-0 items-start gap-4 pb-4`}
+      contentContainerStyle={tw`p-0 px-6`}
     >
       <FormHeader
         disableSave={form.loading}
@@ -151,67 +154,76 @@ const FormEditorContent: React.FC<Props> = ({ data = {}, close }) => {
         onSave={handleSubmission}
       />
 
-      <Text type="h1">Create Form</Text>
+      <ScrollView
+        stickyHeaderIndices={[4]}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={tw`gap-4`}
+      >
+        <Text type="h1">{formHeader}</Text>
 
-      <FormField
-        placeholder="Form Title"
-        value={form.state.title.value}
-        error={form.state.title.error}
-        onChangeText={form.setValue.bind(null, "title")}
-      />
-
-      <Headline
-        title="General Information"
-        subtitle="This information is required on all forms"
-      />
-
-      <View style={tw`disabled`} pointerEvents="none">
-        <CustomFormField
-          item={{
-            id: "first_name",
-            name: "First Name",
-            type: FieldType.TEXT,
-            required: true,
-          }}
+        <FormField
+          placeholder="Form Title"
+          value={form.state.title.value}
+          error={form.state.title.error}
+          onChangeText={form.setValue.bind(null, "title")}
         />
-        <CustomFormField
-          item={{
-            id: "last_name",
-            name: "Last Name",
-            type: FieldType.TEXT,
-            required: true,
-          }}
-        />
-        <CustomFormField
-          item={{
-            id: "phone_number",
-            name: "PhoneNumber",
-            type: FieldType.TEXT,
-            required: true,
-          }}
-        />
-      </View>
 
-      <View style={tw`flex-row items-center justify-between w-full`}>
         <Headline
-          title="Custom Fields"
-          subtitle="Add your own fields to the form"
+          title="General Information"
+          subtitle="This information is required on all forms"
         />
 
-        <TouchableOpacity
-          style={tw`bg-gray-100 px-2 py-1 rounded-full`}
-          onPress={onAddField}
-        >
-          <Text type="p3" style={tw`text-primary`}>
-            Add Field
-          </Text>
-        </TouchableOpacity>
-      </View>
+        <View style={tw`disabled`} pointerEvents="none">
+          <CustomFormField
+            item={{
+              id: "first_name",
+              name: "First Name",
+              type: FieldType.TEXT,
+              required: true,
+            }}
+          />
+          <CustomFormField
+            item={{
+              id: "last_name",
+              name: "Last Name",
+              type: FieldType.TEXT,
+              required: true,
+            }}
+          />
+          <CustomFormField
+            item={{
+              id: "phone_number",
+              name: "PhoneNumber",
+              type: FieldType.TEXT,
+              required: true,
+            }}
+          />
+        </View>
 
-      <View style={tw`flex-1`}>
+        {/* Custom fields should be a pinned item when scrolling */}
+        <React.Fragment>
+          <View style={tw`bg-white flex-row items-center pb-2 justify-between`}>
+            <Headline
+              title="Custom Fields"
+              subtitle="Add your own fields to the form"
+            />
+
+            <TouchableOpacity
+              style={tw`bg-gray-100 px-2 py-1 rounded-full`}
+              onPress={onAddField}
+            >
+              <Text type="p3" style={tw`text-primary`}>
+                Add Field
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </React.Fragment>
+
         <DraggableFlatList
           data={fields}
-          showsVerticalScrollIndicator={false}
+          scrollEnabled={false}
+          // TODO: Look at this.
+          dragHitSlop={{ left: -300 }}
           keyExtractor={(item) => item.id}
           renderItem={(props) => {
             return (
@@ -227,7 +239,7 @@ const FormEditorContent: React.FC<Props> = ({ data = {}, close }) => {
             Haptic.impactAsync(Haptic.ImpactFeedbackStyle.Medium);
           }}
         />
-      </View>
+      </ScrollView>
     </Layout.Content>
   );
 };

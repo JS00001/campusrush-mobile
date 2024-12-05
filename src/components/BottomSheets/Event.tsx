@@ -110,14 +110,14 @@ const Content: React.FC<Props> = ({ data, close }) => {
         <View style={tw`flex-row gap-1`}>
           <IconButton
             ph-label="share-event"
-            size="md"
+            size="sm"
             iconName="Link"
             color="secondary"
             onPress={onShare}
           />
           <IconButton
             ph-label="delete-event"
-            size="md"
+            size="sm"
             color="secondary"
             iconName="Trash"
             iconColor={tw.color("red-500")}

@@ -84,9 +84,7 @@ const HomeView = () => {
         </Text>
 
         {/* Chapter Statistics */}
-        <Text type="h4" style={tw`text-white`}>
-          Chapter Statistics
-        </Text>
+        <Text style={tw`text-white font-semibold`}>Chapter Statistics</Text>
         <View style={tw`w-full flex-row gap-5`}>
           <ListItem
             size="sm"
@@ -110,7 +108,9 @@ const HomeView = () => {
         {/* Chapter Phone Number */}
         <View style={tw`gap-2`}>
           <View style={tw`flex-row gap-1 items-center`}>
-            <Text type="h4">Chapter Phone Number</Text>
+            <Text style={tw`text-primary font-semibold`}>
+              Chapter Phone Number
+            </Text>
             <Information size="sm" onPress={onChapterPhoneNumberPress} />
           </View>
           <CopyView
@@ -124,7 +124,9 @@ const HomeView = () => {
 
         {/* Recently Added PNMs */}
         <View style={tw`gap-2 w-full`}>
-          <Text type="h4">Recently Added PNMs</Text>
+          <Text style={tw`text-primary font-semibold`}>
+            Recently Added PNMs
+          </Text>
           <FlatList
             scrollEnabled={false}
             data={recentPnms}

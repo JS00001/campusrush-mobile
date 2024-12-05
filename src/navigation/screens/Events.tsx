@@ -19,7 +19,7 @@ const EventsScreen = () => {
     <Layout.Root>
       <Layout.Header title="Events" subtitle="Manage and share your events" />
 
-      <Layout.Content gap={8} contentContainerStyle={tw`pb-0`}>
+      <Layout.Content gap={12} contentContainerStyle={tw`pb-0`}>
         <EventsView />
       </Layout.Content>
     </Layout.Root>

@@ -30,7 +30,7 @@ const DetailItem: React.FC<DetailItemProps> = ({
 }) => {
   const containerStyles = tw.style(
     "bg-gray-100 p-4 justify-between",
-    layout === "vertical" && "flex-col gap-4",
+    layout === "vertical" && "flex-col gap-1",
     layout === "horizontal" && "flex-row gap-4",
   );
 

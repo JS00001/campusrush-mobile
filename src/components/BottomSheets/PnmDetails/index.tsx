@@ -130,13 +130,13 @@ const Content: React.FC<Props> = ({ data, close }) => {
     <>
       <BottomSheetContainer
         style={tw`p-0 rounded-t-3xl`}
-        contentContainerStyle={tw`gap-y-6 pt-6 px-6 pb-26`}
+        contentContainerStyle={tw`gap-y-4 pt-6 px-6 pb-26`}
       >
-        <View style={tw`bg-gray-200 absolute h-32 left-0 right-0`} />
+        <View style={tw`bg-gray-200 absolute h-28 left-0 right-0`} />
 
         <View style={tw`flex-row gap-1 justify-end`}>
           <IconButton
-            size="md"
+            size="sm"
             color="secondary"
             loading={updateMutation.isPending}
             iconName={pnm.starred ? "StarFill" : "Star"}
@@ -145,7 +145,7 @@ const Content: React.FC<Props> = ({ data, close }) => {
             onPress={onFavorite}
           />
           <IconButton
-            size="md"
+            size="sm"
             color="secondary"
             iconName="Trash"
             iconColor={tw.color("red-500")}
@@ -162,6 +162,7 @@ const Content: React.FC<Props> = ({ data, close }) => {
           />
           <Headline
             style={tw`shrink`}
+            titleStyle={tw`text-xl`}
             title={pnm.displayName}
             subtitle={`Created on ${date.toString(pnm.createdAt)}`}
           />

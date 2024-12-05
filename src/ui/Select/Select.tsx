@@ -69,7 +69,7 @@ const Select: React.FC<SelectProps> = ({
   };
 
   const selectStyles = tw.style(
-    "border bg-gray-100 rounded-xl p-4 w-full",
+    "border bg-gray-100 rounded-xl py-4 px-6 w-full",
     "flex-row justify-between items-center",
     error && "border-red-500",
     !error && "border-gray-100",
@@ -86,7 +86,7 @@ const Select: React.FC<SelectProps> = ({
   return (
     <>
       <TouchableOpacity style={selectStyles} onPress={toggleExpanded}>
-        <Text numberOfLines={1} type="h4" style={textStyles}>
+        <Text numberOfLines={1} style={textStyles}>
           {valueText}
         </Text>
         <Icon icon={iconName} size={16} color={tw.color("primary")} />

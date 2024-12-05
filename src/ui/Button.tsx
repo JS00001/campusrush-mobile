@@ -83,7 +83,7 @@ const Button: React.FC<ButtonProps> = ({
   );
 
   const textStyles = tw.style(
-    "text-center font-medium",
+    "text-center font-medium text-base",
     loading && "opacity-0",
     colorStyle.text,
     textStyle,
