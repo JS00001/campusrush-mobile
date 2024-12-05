@@ -17,7 +17,7 @@ import { useBottomSheetStore } from "@/store";
 
 import tw from "@/lib/tailwind";
 import FlatList from "@/ui/FlatList";
-import TextInput from "@/ui/TextInput";
+import Searchbox from "@/ui/Searchbox";
 import IconButton from "@/ui/IconButton";
 import Menu, { MenuAction } from "@/ui/Menu";
 import ActionButton from "@/ui/ActionButton";
@@ -86,10 +86,9 @@ const MessagesView = () => {
   return (
     <>
       <View style={tw`flex-row w-full gap-x-1`}>
-        <TextInput
+        <Searchbox
           ph-label="search-conversations"
           autoCorrect={false}
-          icon="MagnifyingGlass"
           placeholder={"Search Conversations"}
           value={search.query}
           onChangeText={search.setQuery}
@@ -98,6 +97,7 @@ const MessagesView = () => {
 
         <Menu actions={filterMenu}>
           <IconButton
+            size="lg"
             color="secondary"
             iconName="FunnelSimple"
             style={tw`flex-grow`}

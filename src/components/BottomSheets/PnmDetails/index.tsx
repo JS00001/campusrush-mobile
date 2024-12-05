@@ -136,7 +136,7 @@ const Content: React.FC<Props> = ({ data, close }) => {
 
         <View style={tw`flex-row gap-1 justify-end`}>
           <IconButton
-            size="sm"
+            size="md"
             color="secondary"
             loading={updateMutation.isPending}
             iconName={pnm.starred ? "StarFill" : "Star"}
@@ -145,7 +145,7 @@ const Content: React.FC<Props> = ({ data, close }) => {
             onPress={onFavorite}
           />
           <IconButton
-            size="sm"
+            size="md"
             color="secondary"
             iconName="Trash"
             iconColor={tw.color("red-500")}

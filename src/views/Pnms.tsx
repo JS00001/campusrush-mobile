@@ -15,13 +15,12 @@ import Toast from "react-native-toast-message";
 
 import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
+import Searchbox from "@/ui/Searchbox";
+import IconButton from "@/ui/IconButton";
 import useSearch from "@/hooks/useSearch";
 import PnmsList from "@/components/PnmsList";
-import { useDeletePnms, useGetPnms } from "@/hooks/api/pnms";
-
-import TextInput from "@/ui/TextInput";
-import IconButton from "@/ui/IconButton";
 import Menu, { MenuAction } from "@/ui/Menu";
+import { useDeletePnms, useGetPnms } from "@/hooks/api/pnms";
 
 const PnmsView = () => {
   const pnmsQuery = useGetPnms();
@@ -119,10 +118,9 @@ const PnmsView = () => {
   return (
     <>
       <View style={tw`flex-row w-full gap-x-1`}>
-        <TextInput
+        <Searchbox
           ph-label="search-pnms"
           autoCorrect={false}
-          icon="MagnifyingGlass"
           placeholder={placeholder}
           value={search.query}
           onChangeText={search.setQuery}
@@ -131,6 +129,7 @@ const PnmsView = () => {
 
         <Menu title="Filter By" actions={filterMenu}>
           <IconButton
+            size="lg"
             color="secondary"
             iconName="FunnelSimple"
             style={tw`flex-grow`}
@@ -139,6 +138,7 @@ const PnmsView = () => {
 
         <Menu actions={moreMenu}>
           <IconButton
+            size="lg"
             color="secondary"
             iconName="DotsThree"
             style={tw`flex-grow`}

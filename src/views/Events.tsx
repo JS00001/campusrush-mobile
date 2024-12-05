@@ -17,7 +17,7 @@ import Toast from "react-native-toast-message";
 import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
 import FlatList from "@/ui/FlatList";
-import TextInput from "@/ui/TextInput";
+import Searchbox from "@/ui/Searchbox";
 import Event from "@/ui/ListItems/Event";
 import IconButton from "@/ui/IconButton";
 import useSearch from "@/hooks/useSearch";
@@ -177,10 +177,9 @@ const EventsView = () => {
   return (
     <>
       <View style={tw`flex-row relative w-full gap-x-1`}>
-        <TextInput
+        <Searchbox
           ph-label="search-events"
           autoCorrect={false}
-          icon="MagnifyingGlass"
           placeholder={placeholder}
           value={search.query}
           onChangeText={search.setQuery}
@@ -189,6 +188,7 @@ const EventsView = () => {
 
         <Menu title="Filter By" actions={filterMenu}>
           <IconButton
+            size="lg"
             color="secondary"
             iconName="FunnelSimple"
             style={tw`flex-grow`}
@@ -196,6 +196,7 @@ const EventsView = () => {
         </Menu>
         <Menu actions={moreMenu}>
           <IconButton
+            size="lg"
             color="secondary"
             iconName="DotsThree"
             style={tw`flex-grow`}

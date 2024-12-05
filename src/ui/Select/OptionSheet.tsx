@@ -30,7 +30,7 @@ import Option from "./Option";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
-import TextInput from "@/ui/TextInput";
+import Searchbox from "@/ui/Searchbox";
 import useSearch from "@/hooks/useSearch";
 import { BottomSheet } from "@/ui/BottomSheet";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
@@ -93,7 +93,7 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
         <View style={tw`px-6 gap-3`}>
           <Text type="h1">{placeholder}</Text>
           {searchable && (
-            <TextInput
+            <Searchbox
               placeholder={inputPlaceholder}
               value={search.query}
               onChangeText={search.setQuery}

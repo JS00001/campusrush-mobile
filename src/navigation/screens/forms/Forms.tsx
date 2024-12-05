@@ -17,7 +17,7 @@ import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
 import { Layout } from "@/ui/Layout";
 import FlatList from "@/ui/FlatList";
-import TextInput from "@/ui/TextInput";
+import Searchbox from "@/ui/Searchbox";
 import Form from "@/ui/ListItems/Form";
 import IconButton from "@/ui/IconButton";
 import useSearch from "@/hooks/useSearch";
@@ -88,10 +88,9 @@ const FormsScreen = () => {
 
       <Layout.Content gap={8} contentContainerStyle={tw`pb-0`}>
         <View style={tw`flex-row w-full gap-x-1 relative`}>
-          <TextInput
+          <Searchbox
             ph-label="search-forms"
             autoCorrect={false}
-            icon="MagnifyingGlass"
             placeholder={placeholder}
             value={search.query}
             onChangeText={search.setQuery}
@@ -99,6 +98,7 @@ const FormsScreen = () => {
           />
           <Menu actions={moreMenu}>
             <IconButton
+              size="lg"
               color="secondary"
               iconName="DotsThree"
               style={tw`flex-grow`}

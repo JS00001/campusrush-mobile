@@ -111,7 +111,7 @@ const Landing: React.FC<LandingProps> = ({ chapterId, setView }) => {
         <Headline title={chapter.name} subtitle={chapter.school} />
 
         <Menu actions={informationMenu}>
-          <IconButton size="sm" color="secondary" iconName="DotsThree" />
+          <IconButton size="md" color="secondary" iconName="DotsThree" />
         </Menu>
       </View>
 

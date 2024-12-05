@@ -21,11 +21,11 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Headline from "@/ui/Headline";
 import FlatList from "@/ui/FlatList";
-import ListItem from "@/ui/ListItems/ListItem";
+import Searchbox from "@/ui/Searchbox";
 import Skeleton from "@/ui/Skeleton";
-import TextInput from "@/ui/TextInput";
 import format from "@/lib/util/format";
 import { Action } from "@/ui/ActionList";
+import ListItem from "@/ui/ListItems/ListItem";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import HeadlineLoader from "@/ui/Loaders/Headline";
 import ErrorMessage from "@/components/ErrorMessage";
@@ -152,10 +152,9 @@ const Landing: React.FC<UseSheetFlowProps> = ({
         subtitle="Start a new message with potential members"
       />
 
-      <TextInput
+      <Searchbox
         ph-label="search-contacts"
         autoCorrect={false}
-        icon="MagnifyingGlass"
         placeholder={placeholder}
         onChangeText={search.setQuery}
         onFocus={() => snapToPosition?.("95%")}

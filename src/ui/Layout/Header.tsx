@@ -56,7 +56,7 @@ const Header: React.FC<HeaderProps> = ({
         <SafeAreaView style={contentContainerStyles}>
           {hasBackButton && (
             <IconButton
-              size="sm"
+              size="md"
               iconName="ArrowLeft"
               color="primary"
               onPress={onBackPress}
