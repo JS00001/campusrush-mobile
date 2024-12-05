@@ -29,9 +29,9 @@ import EASUpdateProvider from "@/providers/EASUpdate";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
 import SentryProvider from "@/providers/external/Sentry";
-import BottomSheetProvider from "@/providers/BottomSheet";
 import PreferencesProvider from "@/providers/Preferences";
 import PosthogProvider from "@/providers/external/Posthog";
+import BottomSheetsComponent from "@/components/BottomSheets";
 import QonversionProvider from "@/providers/external/Qonversion";
 import GestureDetectorProvider from "@/providers/GestureDetector";
 
@@ -60,13 +60,12 @@ const App = () => {
                           <GestureHandlerRootView style={{ flex: 1 }}>
                             <OverlayProvider>
                               <BottomSheetModalProvider>
-                                <BottomSheetProvider>
-                                  <WebsocketProvider>
-                                    <GestureDetectorProvider>
-                                      <RootNavigator />
-                                    </GestureDetectorProvider>
-                                  </WebsocketProvider>
-                                </BottomSheetProvider>
+                                <WebsocketProvider>
+                                  <GestureDetectorProvider>
+                                    <BottomSheetsComponent />
+                                    <RootNavigator />
+                                  </GestureDetectorProvider>
+                                </WebsocketProvider>
                               </BottomSheetModalProvider>
                             </OverlayProvider>
                           </GestureHandlerRootView>

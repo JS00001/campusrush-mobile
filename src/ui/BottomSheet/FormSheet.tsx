@@ -16,12 +16,12 @@ import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/typ
 
 interface FormSheetProps extends BottomSheetModalProps {
   innerRef?: React.Ref<BottomSheetModalMethods>;
-  handleCloseModalPress?: () => void;
+  closeModalPress?: () => void;
 }
 
 const FormSheet: React.FC<FormSheetProps> = ({
   children,
-  handleCloseModalPress,
+  closeModalPress,
   ...props
 }) => {
   const snapPoints = useMemo(() => ["100%"], []);

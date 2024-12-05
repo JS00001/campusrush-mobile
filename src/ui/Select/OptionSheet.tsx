@@ -42,7 +42,7 @@ interface OptionSheetProps {
   value: string | null;
   options: string[];
   innerRef: React.RefObject<BottomSheetModal>;
-  handleCloseSheet: () => void;
+  closeSheet: () => void;
   onChange: (value: string | null) => void;
 }
 
@@ -53,7 +53,7 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
   options,
   innerRef,
   onChange,
-  handleCloseSheet,
+  closeSheet,
 }) => {
   useKeyboardListener({
     onKeyboardWillShow: () => {
@@ -73,14 +73,14 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
     // When the sheet closes...
     if (index === -1) {
       search.setQuery("");
-      handleCloseSheet();
+      closeSheet();
       setSelected(value);
     }
   };
 
   const onDonePress = () => {
     onChange(selected);
-    handleCloseSheet();
+    closeSheet();
   };
 
   const inputPlaceholder = `Search ${options.length || ""} options`;

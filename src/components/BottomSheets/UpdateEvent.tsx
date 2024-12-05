@@ -29,7 +29,7 @@ import FormHeader from "@/components/Headers/Form";
 
 type Props = BottomSheetProps & SheetData<"UPDATE_EVENT">;
 
-const UpdateEventSheetContent: React.FC<Props> = ({ data, handleClose }) => {
+const UpdateEventSheetContent: React.FC<Props> = ({ data, close }) => {
   const event = data.event;
 
   const updateEventMutation = useUpdateEvent();
@@ -52,7 +52,7 @@ const UpdateEventSheetContent: React.FC<Props> = ({ data, handleClose }) => {
     mutation: updateEventMutation,
     validators: formValidators,
     onSuccess: async () => {
-      handleClose();
+      close();
     },
     initialValues: {
       id: event._id,
@@ -111,7 +111,7 @@ const UpdateEventSheetContent: React.FC<Props> = ({ data, handleClose }) => {
         safeAreaPosition="top"
         contentContainerStyle={tw`pt-0 items-start`}
       >
-        <FormHeader onSave={handleSubmission} onCancel={handleClose} />
+        <FormHeader onSave={handleSubmission} onCancel={close} />
 
         <Text type="h1" style={tw`text-primary`}>
           Edit Event

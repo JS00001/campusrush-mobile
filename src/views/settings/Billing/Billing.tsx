@@ -24,20 +24,20 @@ import { alert } from "@/lib/util";
 import Headline from "@/ui/Headline";
 import IconLabel from "@/ui/IconLabel";
 import Hyperlink from "@/ui/Hyperlink";
+import { useBottomSheetStore } from "@/store";
 import { titleCase } from "@/lib/util/string";
 import { useQonversion } from "@/providers/external/Qonversion";
-import { useBottomSheet } from "@/providers/BottomSheet";
 
 const BillingView = () => {
   const URL = "https://apps.apple.com/account/subscriptions";
 
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
   const { entitlements, restorePurchases } = useQonversion();
 
   const containerStyles = tw.style("bg-gray-100 rounded-xl p-5 gap-y-5 w-full");
 
   const onComparePlansPress = () => {
-    openBottomSheet("PLAN_COMPARISON");
+    bottomSheetStore.open("PLAN_COMPARISON");
   };
 
   const onManageBilling = () => {

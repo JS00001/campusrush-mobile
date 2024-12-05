@@ -23,7 +23,7 @@ interface IUseSheetFlow<T extends Record<string, any>> {
   /** Function to snap to a specific position */
   snapToPosition: (position: string) => void;
   /** Function to close the bottom sheet */
-  handleClose: () => void;
+  close: () => void;
 }
 
 export interface UseSheetFlowProps<
@@ -40,7 +40,7 @@ export interface UseSheetFlowProps<
   /** Function to go to the previous view */
   prevView: () => void;
   /** Function to close the bottom sheet */
-  handleClose: () => void;
+  close: () => void;
   /** Function to snap to a specific index */
   snapToIndex: (index: number) => void;
   /** Function to snap to a specific position */
@@ -52,7 +52,7 @@ const useSheetFlow = <T extends Record<string, any>>({
   state,
   snapToIndex,
   snapToPosition,
-  handleClose,
+  close,
 }: IUseSheetFlow<T>) => {
   const [currentView, setCurrentView] = useState(0);
   const [handledState, setHandledState] = useState(state);
@@ -95,7 +95,7 @@ const useSheetFlow = <T extends Record<string, any>>({
     prevView,
     setState: setHandledState,
     setView: setCurrentView,
-    handleClose,
+    close,
     snapToIndex,
     snapToPosition,
   };

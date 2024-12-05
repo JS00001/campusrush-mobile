@@ -26,26 +26,23 @@ import { Layout } from "@/ui/Layout";
 import Headline from "@/ui/Headline";
 import FormField from "@/ui/FormField";
 import AppConstants from "@/constants";
-import { useStatusStore } from "@/store";
 import { FormSheet } from "@/ui/BottomSheet";
 import validators from "@/constants/validators";
 import { FieldType, IFormField } from "@/@types";
 import FormHeader from "@/components/Headers/Form";
 import useFormMutation from "@/hooks/useFormMutation";
+import { useBottomSheetStore, useStatusStore } from "@/store";
 import { useCreateForm, useUpdateForm } from "@/hooks/api/forms";
 
 type Props = BottomSheetProps & SheetData<"FORM_EDITOR">;
 
-const FormEditorContent: React.FC<Props> = ({
-  data = {},
-  handleClose,
-  openBottomSheet,
-}) => {
+const FormEditorContent: React.FC<Props> = ({ data = {}, close }) => {
   const isEditing = !!data.form;
 
   const createFormMutation = useCreateForm();
   const updateFormMutation = useUpdateForm();
   const { setStatusOverlay } = useStatusStore();
+  const bottomSheetStore = useBottomSheetStore();
 
   const commonFormValidators = {
     title: validators.shortContentString,
@@ -69,7 +66,7 @@ const FormEditorContent: React.FC<Props> = ({
       fields: [],
     },
     onSuccess: async () => {
-      handleClose();
+      close();
       Toast.show({
         type: "success",
         text1: "Created Form",
@@ -92,7 +89,7 @@ const FormEditorContent: React.FC<Props> = ({
       }),
     },
     onSuccess: async () => {
-      handleClose();
+      close();
       Toast.show({
         type: "success",
         text1: "Updated Form",
@@ -120,7 +117,7 @@ const FormEditorContent: React.FC<Props> = ({
   };
 
   const onAddField = () => {
-    openBottomSheet("MANAGE_FORM_FIELD", {
+    bottomSheetStore.open("MANAGE_FORM_FIELD", {
       onFieldChange: (field: IFormField) => {
         form.setValue("fields", [...form.state.fields.value, field]);
       },
@@ -150,7 +147,7 @@ const FormEditorContent: React.FC<Props> = ({
     >
       <FormHeader
         disableSave={form.loading}
-        onCancel={handleClose}
+        onCancel={close}
         onSave={handleSubmission}
       />
 
@@ -222,7 +219,6 @@ const FormEditorContent: React.FC<Props> = ({
                 {...props}
                 onChange={onUpdateField}
                 onDelete={onDeleteField}
-                openBottomSheet={openBottomSheet}
               />
             );
           }}

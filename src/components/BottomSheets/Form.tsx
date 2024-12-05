@@ -26,6 +26,7 @@ import AppConstants from "@/constants";
 import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import ButtonGroup from "@/ui/ButtonGroup";
+import { useBottomSheetStore } from "@/store";
 import { BottomSheet } from "@/ui/BottomSheet";
 import ErrorMessage from "@/components/ErrorMessage";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
@@ -33,10 +34,12 @@ import { useDeleteForm, useGetForm } from "@/hooks/api/forms";
 
 type Props = BottomSheetProps & SheetData<"FORM">;
 
-const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
+const Content: React.FC<Props> = ({ data, close }) => {
   const initialForm = data.form;
 
   const copy = useCopy();
+  const bottomSheetStore = useBottomSheetStore();
+
   const deleteMutation = useDeleteForm();
   const query = useGetForm(initialForm._id);
 
@@ -76,7 +79,7 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
               text2: `${formName} has been deleted successfully`,
             });
 
-            handleClose();
+            close();
           },
         },
       ],
@@ -84,12 +87,12 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
   };
 
   const onEditPress = () => {
-    openBottomSheet("FORM_EDITOR", { form });
+    bottomSheetStore.open("FORM_EDITOR", { form });
   };
 
   const onViewResponsesPress = () => {
-    handleClose();
-    openBottomSheet("FORM_RESPONSES", { formId: form._id });
+    close();
+    bottomSheetStore.open("FORM_RESPONSES", { formId: form._id });
   };
 
   const onShare = () => {

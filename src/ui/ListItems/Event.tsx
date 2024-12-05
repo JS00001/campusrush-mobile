@@ -18,14 +18,14 @@ import Text from "@/ui/Text";
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import IconLabel from "@/ui/IconLabel";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 interface EventProps {
   event: IEvent;
 }
 
 const Event: React.FC<EventProps> = ({ event }) => {
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const isEventInPast = new Date(event.startDate) < new Date();
 
@@ -36,7 +36,7 @@ const Event: React.FC<EventProps> = ({ event }) => {
   });
 
   const onPress = () => {
-    openBottomSheet("EVENT", { event });
+    bottomSheetStore.open("EVENT", { event });
   };
 
   const containerStyles = tw.style(

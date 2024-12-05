@@ -25,11 +25,11 @@ import EventLoader from "@/ui/Loaders/Event";
 import ActionButton from "@/ui/ActionButton";
 import Menu, { MenuAction } from "@/ui/Menu";
 import StickyHeader from "@/ui/StickyHeader";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 import { useDeleteEvents, useGetEvents } from "@/hooks/api/events";
 
 const EventsView = () => {
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const eventsQuery = useGetEvents();
   const deleteAllEventsMutation = useDeleteEvents();
@@ -167,7 +167,7 @@ const EventsView = () => {
   }, [search.data]);
 
   const onNewEventPress = () => {
-    openBottomSheet("CREATE_EVENT");
+    bottomSheetStore.open("CREATE_EVENT");
   };
 
   const onRefresh = async () => {

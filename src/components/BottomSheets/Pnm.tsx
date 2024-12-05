@@ -27,21 +27,22 @@ import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import TagView from "@/components/TagView";
 import ButtonGroup from "@/ui/ButtonGroup";
-import { useImageZoomStore } from "@/store";
 import usePosthog from "@/hooks/usePosthog";
 import { BottomSheet } from "@/ui/BottomSheet";
 import ErrorMessage from "@/components/ErrorMessage";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
+import { useBottomSheetStore, useImageZoomStore } from "@/store";
 import { useDeletePnm, useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
 type Props = BottomSheetProps & SheetData<"PNM">;
 
-const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
+const Content: React.FC<Props> = ({ data, close }) => {
   const initialPnm = data.pnm;
 
   const posthog = usePosthog();
   const navigation = useNavigation();
   const { setImage } = useImageZoomStore();
+  const bottomSheetStore = useBottomSheetStore();
 
   const deleteMutation = useDeletePnm();
   const updateMutation = useUpdatePnm();
@@ -91,7 +92,7 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
               text2: `${displayName} has been removed from your contacts`,
             });
 
-            handleClose();
+            close();
           },
         },
       ],
@@ -99,7 +100,7 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
   };
 
   const onSendMessagePress = () => {
-    handleClose();
+    close();
     navigation.navigate("Conversation", {
       screen: "Chat",
       params: {
@@ -109,7 +110,7 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
   };
 
   const onEditPress = () => {
-    openBottomSheet("UPDATE_PNM", { pnm });
+    bottomSheetStore.open("UPDATE_PNM", { pnm });
   };
 
   const onAvatarPress = () => {

@@ -17,23 +17,22 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import { alert } from "@/lib/util";
-import ListItem from "@/ui/ListItems/ListItem";
 import AppConstants from "@/constants";
+import { useBottomSheetStore } from "@/store";
+import ListItem from "@/ui/ListItems/ListItem";
 import { useDeleteChapter } from "@/hooks/api/chapter";
-import { useBottomSheet } from "@/providers/BottomSheet";
 
 const SettingsView = () => {
   const navigation = useNavigation();
   const deletionMutation = useDeleteChapter();
-
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const onTermsOfServicePress = () => {
-    openBottomSheet("TERMS_OF_SERVICE");
+    bottomSheetStore.open("TERMS_OF_SERVICE");
   };
 
   const onPrivacyPolicyPress = () => {
-    openBottomSheet("PRIVACY_POLICY");
+    bottomSheetStore.open("PRIVACY_POLICY");
   };
 
   const onChapterPress = () => {

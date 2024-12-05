@@ -24,13 +24,13 @@ import useSearch from "@/hooks/useSearch";
 import FormLoader from "@/ui/Loaders/Form";
 import Menu, { MenuAction } from "@/ui/Menu";
 import ActionButton from "@/ui/ActionButton";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 import { useDeleteForms, useGetForms } from "@/hooks/api/forms";
 
 const FormsScreen = () => {
   const query = useGetForms();
   const deleteFormsMutation = useDeleteForms();
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const forms = query.data?.forms ?? [];
   const search = useSearch({ data: forms });
@@ -75,7 +75,7 @@ const FormsScreen = () => {
   const placeholder = `Search ${forms.length} Forms`;
 
   const onNewFormPress = () => {
-    openBottomSheet("FORM_EDITOR");
+    bottomSheetStore.open("FORM_EDITOR");
   };
 
   const onRefresh = async () => {

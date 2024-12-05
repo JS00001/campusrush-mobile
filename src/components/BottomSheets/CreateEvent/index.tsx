@@ -30,7 +30,7 @@ export interface CreateEventState {
 
 const CreateEventSheet: React.FC<BottomSheetProps> = ({
   innerRef,
-  handleClose,
+  close,
   snapToIndex,
   snapToPosition,
 }) => {
@@ -45,7 +45,7 @@ const CreateEventSheet: React.FC<BottomSheetProps> = ({
       endDate: new Date().toISOString(),
     },
     views,
-    handleClose,
+    close,
     snapToIndex,
     snapToPosition,
   });

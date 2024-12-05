@@ -29,7 +29,7 @@ const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
   state,
   setState,
   prevView,
-  handleClose,
+  close,
 }) => {
   const fields = {
     firstName: "First Name",
@@ -60,7 +60,7 @@ const ManualStep4: React.FC<UseSheetFlowProps<CreatePnmState>> = ({
       text2: "The PNM has been added to your contacts",
     });
 
-    handleClose();
+    close();
   };
 
   return (

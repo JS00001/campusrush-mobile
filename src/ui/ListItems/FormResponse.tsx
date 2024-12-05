@@ -20,7 +20,7 @@ import tw from "@/lib/tailwind";
 import { FieldType } from "@/@types";
 import AppConstants from "@/constants";
 import IconLabel from "@/ui/IconLabel";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 interface FormResponseProps {
   response: Omit<IFormResponse, "form" | "pnm"> & {
@@ -30,10 +30,10 @@ interface FormResponseProps {
 }
 
 const FormResponse: React.FC<FormResponseProps> = ({ response }) => {
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const onClick = () => {
-    openBottomSheet("FORM_RESPONSE", {
+    bottomSheetStore.open("FORM_RESPONSE", {
       response,
       fields: response.form.fields,
     });

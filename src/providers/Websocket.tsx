@@ -18,7 +18,7 @@ import type { WebsocketLog, WebsocketMessage } from "@/types/websocket";
 import AppConstants from "@/constants";
 import { isJSON } from "@/lib/util/string";
 import { useUser } from "@/providers/User";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 import { LogLevels, websocketLogger } from "@/lib/logger";
 import { getAccessToken } from "@/lib/auth";
 import queryClient from "@/lib/query-client";
@@ -41,7 +41,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { chapter } = useUser();
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const ws = useRef<WebSocket | null>(null);
   const [logs, setLogs] = useState<WebsocketLog[]>([]);
@@ -155,7 +155,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
     if (socketMessage.type === "NEW_DYNAMIC_NOTIFICATION") {
       const data = socketMessage.data.payload;
-      openBottomSheet("DYNAMIC_NOTIFICATION", {
+      bottomSheetStore.open("DYNAMIC_NOTIFICATION", {
         title: data.title,
         message: data.message,
         iconName: data.iconName,

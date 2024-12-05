@@ -28,7 +28,7 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
   state,
   setState,
   prevView,
-  handleClose,
+  close,
 }) => {
   const posthog = usePosthog();
   const mutation = useCreateEvent();
@@ -50,7 +50,7 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
       text2: "Your event has been successfully created",
     });
 
-    handleClose();
+    close();
   };
 
   const startDate = new Date(state.startDate);

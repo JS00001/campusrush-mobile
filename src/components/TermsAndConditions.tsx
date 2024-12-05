@@ -15,21 +15,21 @@ import { View } from "react-native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Hyperlink from "@/ui/Hyperlink";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 interface TermsAndConditionsProps {
   color?: "primary" | "secondary";
 }
 
 const TermsAndConditions: React.FC<TermsAndConditionsProps> = ({ color }) => {
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const onTermsOfServicePress = () => {
-    openBottomSheet("TERMS_OF_SERVICE");
+    bottomSheetStore.open("TERMS_OF_SERVICE");
   };
 
   const onPrivacyPolicyPress = () => {
-    openBottomSheet("PRIVACY_POLICY");
+    bottomSheetStore.open("PRIVACY_POLICY");
   };
 
   return (

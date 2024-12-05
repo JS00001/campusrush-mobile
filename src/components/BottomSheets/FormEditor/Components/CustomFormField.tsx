@@ -15,13 +15,13 @@ import { TouchableOpacity, View } from "react-native";
 import { RenderItemParams } from "react-native-draggable-flatlist";
 
 import type { IFormField } from "@/types";
-import type { IndividualSheetName, IndividualSheetProps } from "../../@types";
 
 import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import { FieldType } from "@/@types";
 import { IconType } from "@/constants/icons";
+import { useBottomSheetStore } from "@/store";
 
 type CustomFormFieldProps = (
   | RenderItemParams<IFormField>
@@ -29,19 +29,16 @@ type CustomFormFieldProps = (
 ) & {
   onDelete?: (id: string) => void;
   onChange?: (id: string, value: Partial<IFormField>) => void;
-  openBottomSheet?: <T extends IndividualSheetName>(
-    name: T,
-    props?: IndividualSheetProps[T],
-  ) => void;
 };
 
 const CustomFormField: React.FC<CustomFormFieldProps> = ({
   item,
   onChange,
   onDelete,
-  openBottomSheet,
   ...props
 }) => {
+  const bottomSheetStore = useBottomSheetStore();
+
   const icon: IconType = (() => {
     if (item.type === FieldType.LONGTEXT) return "Paragraph";
     else if (item.type === FieldType.CHECKBOX) return "CheckSquareOffset";
@@ -53,7 +50,7 @@ const CustomFormField: React.FC<CustomFormFieldProps> = ({
   };
 
   const onEditField = () => {
-    openBottomSheet?.("MANAGE_FORM_FIELD", {
+    bottomSheetStore.open?.("MANAGE_FORM_FIELD", {
       field: item,
       onFieldChange: (value) => {
         onChange?.(item.id, value);

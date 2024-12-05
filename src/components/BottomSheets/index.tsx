@@ -10,11 +10,12 @@
  * Do not distribute
  */
 
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+
 import ChapterSheet from "./Chapter/index";
 import CreateMessageSheet from "./CreateMessage";
 import CreateEventSheet from "./CreateEvent";
 import FormEditorSheet from "./FormEditor";
-
 import ActionMenuSheet from "./ActionMenu";
 import ManageFormFieldSheet from "./FormEditor/Components/ManageFormField";
 import CreatePnmSheet from "./CreatePnm";
@@ -37,6 +38,12 @@ import ViolationsSheet from "./Violations";
 
 import type { IndividualSheetName } from "./@types";
 
+import { useBottomSheetStore } from "@/store";
+import { useCallback, useMemo } from "react";
+
+/**
+ * The list of all bottom sheets we want to support
+ */
 const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   ACTION_MENU: ActionMenuSheet,
   CHAPTER: ChapterSheet,
@@ -63,4 +70,30 @@ const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   VIOLATIONS: ViolationsSheet,
 };
 
-export default BottomSheets;
+/**
+ * The component to render all bottom sheets and handle their visibility
+ */
+const BottomSheetsComponent = () => {
+  const close = useBottomSheetStore((state) => state.close);
+  const register = useBottomSheetStore((state) => state.register);
+  const snapToIndex = useBottomSheetStore((state) => state.snapToIndex);
+  const snapToPosition = useBottomSheetStore((state) => state.snapToPosition);
+
+  return Object.keys(BottomSheets).map((key) => {
+    const name: IndividualSheetName = key as IndividualSheetName;
+    const Sheet = BottomSheets[name];
+
+    if (!Sheet) return null;
+
+    const props = {
+      close: () => close(name),
+      snapToIndex: (i: number) => snapToIndex(name, i),
+      snapToPosition: (pos: string) => snapToPosition(name, pos),
+      innerRef: (ref: BottomSheetModal) => register(name, ref),
+    };
+
+    return <Sheet key={name} {...props} />;
+  });
+};
+
+export default BottomSheetsComponent;

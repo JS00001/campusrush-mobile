@@ -37,7 +37,7 @@ type Props = BottomSheetProps & SheetData<"MANAGE_FORM_FIELD">;
 // PR_TODO: Cleanup the ui of this
 const Content: React.FC<Props> = ({
   data: { field, onFieldChange },
-  handleClose,
+  close,
   snapToIndex,
   snapToPosition,
 }) => {
@@ -64,7 +64,7 @@ const Content: React.FC<Props> = ({
     if (isValid) {
       const values = form.getValues();
       onFieldChange(values);
-      handleClose();
+      close();
     }
   };
 
@@ -106,7 +106,7 @@ const Content: React.FC<Props> = ({
       </View>
 
       <ButtonGroup>
-        <Button size="sm" color="secondary" onPress={handleClose}>
+        <Button size="sm" color="secondary" onPress={close}>
           Cancel
         </Button>
         <Button size="sm" color="primary" onPress={onSave}>

@@ -31,14 +31,14 @@ import { useLogout } from "@/hooks/api/auth";
 import Logo32 from "@/components/Logos/Logo32";
 import ErrorMessage from "@/components/ErrorMessage";
 import { useGetMetadata } from "@/hooks/api/external";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 import HeaderBackground from "@/components/Backgrounds/Header";
 import { useQonversion } from "@/providers/external/Qonversion";
 
 const BillingScreen = () => {
   const { user } = useUser();
   const posthog = usePosthog();
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
   const { purchaseProduct, restorePurchases } = useQonversion();
 
   const logoutMutation = useLogout();
@@ -145,7 +145,7 @@ const BillingScreen = () => {
    */
   const onFeaturePress = () => {
     posthog.capture("compare_plans_button_pressed");
-    openBottomSheet("PLAN_COMPARISON");
+    bottomSheetStore.open("PLAN_COMPARISON");
   };
 
   /**
@@ -164,7 +164,7 @@ const BillingScreen = () => {
    * When the terms and conditions button is pressed, open the terms and conditions
    */
   const onTermsPress = () => {
-    openBottomSheet("TERMS_OF_SERVICE");
+    bottomSheetStore.open("TERMS_OF_SERVICE");
   };
 
   /**

@@ -34,7 +34,7 @@ import useSearch from "@/hooks/useSearch";
 import { useGetContacts } from "@/hooks/api/contacts";
 
 const Landing: React.FC<UseSheetFlowProps> = ({
-  handleClose,
+  close,
   snapToPosition,
   snapToIndex,
 }) => {
@@ -94,7 +94,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({
       })
     }
 
-    handleClose();
+    close();
   }
 
   /**
@@ -138,7 +138,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({
       },
     });
 
-    handleClose();
+    close();
   };
 
   const placeholder = `Search ${all.length || ""} contacts`;

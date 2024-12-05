@@ -13,13 +13,13 @@
 import { Layout } from "@/ui/Layout";
 import TagView from "@/components/TagView";
 import type { MoreStackProps } from "@/navigation/@types";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 import Button from "@/ui/Button";
 
 type Props = MoreStackProps<"AdminUITesting">;
 
 const UITestingScreen: React.FC<Props> = ({}) => {
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   return (
     <Layout.Root>

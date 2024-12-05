@@ -13,7 +13,7 @@
 import { View } from "react-native";
 
 import useSearch from "@/hooks/useSearch";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 import tw from "@/lib/tailwind";
 import FlatList from "@/ui/FlatList";
@@ -26,7 +26,7 @@ import ConversationLoader from "@/ui/Loaders/Conversation";
 import { useGetConversations } from "@/hooks/api/conversations";
 
 const MessagesView = () => {
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
   const conversationsQuery = useGetConversations();
 
   const search = useSearch({
@@ -72,7 +72,7 @@ const MessagesView = () => {
     search.filter !== "NO_FILTER";
 
   const onNewChatPress = () => {
-    openBottomSheet("CREATE_MESSAGE");
+    bottomSheetStore.open("CREATE_MESSAGE");
   };
 
   const onRefresh = async () => {

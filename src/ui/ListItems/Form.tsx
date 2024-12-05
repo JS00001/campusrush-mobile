@@ -19,17 +19,17 @@ import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 import IconLabel from "@/ui/IconLabel";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 interface FormProps {
   form: IForm;
 }
 
 const Form: React.FC<FormProps> = ({ form }) => {
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const onPress = () => {
-    openBottomSheet("FORM", { form });
+    bottomSheetStore.open("FORM", { form });
   };
 
   const responseCount = form.responseCount || "No";

@@ -14,18 +14,18 @@ import { View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 import { useUser } from "@/providers/User";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 const GestureDetectorProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { user } = useUser();
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const onTripleFingerTap = (event: any) => {
     if (event.numberOfTouches === 3) {
       if (__DEV__ || user.systemRole === "admin") {
-        openBottomSheet("DEVELOPER_TOOLS");
+        bottomSheetStore.open("DEVELOPER_TOOLS");
       }
     }
   };

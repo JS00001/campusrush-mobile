@@ -20,7 +20,7 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 import IconLabel from "@/ui/IconLabel";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 interface NotificationProps {
   notification: INotification;
@@ -28,7 +28,7 @@ interface NotificationProps {
 
 const Notification: React.FC<NotificationProps> = ({ notification }) => {
   const navigation = useNavigation();
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const iconType = ({
     NEW_PNM: "User",
@@ -45,7 +45,7 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
   const onPress = () => {
     if (notification.type === "NEW_PNM") {
       const { pnm } = notification.data;
-      openBottomSheet("PNM", { pnm });
+      bottomSheetStore.open("PNM", { pnm });
 
       navigation.navigate("Main", {
         screen: "PNMsTab",
@@ -57,7 +57,7 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
 
     if (notification.type === "NEW_EVENT_RESPONSE") {
       const { event } = notification.data;
-      openBottomSheet("EVENT", { event });
+      bottomSheetStore.open("EVENT", { event });
 
       navigation.navigate("Main", {
         screen: "MoreTab",
@@ -70,7 +70,7 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
     if (notification.type === "NEW_DYNAMIC_NOTIFICATION") {
       const { title, message, iconName, iconColor } = notification.data;
 
-      openBottomSheet("DYNAMIC_NOTIFICATION", {
+      bottomSheetStore.open("DYNAMIC_NOTIFICATION", {
         title,
         message,
         iconName,

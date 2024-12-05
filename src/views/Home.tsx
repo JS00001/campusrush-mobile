@@ -26,20 +26,20 @@ import { useUser } from "@/providers/User";
 import { useGetPnms } from "@/hooks/api/pnms";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import ErrorMessage from "@/components/ErrorMessage";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 import RefreshControlView from "@/ui/RefreshControlView";
 
 const HomeView = () => {
   const pnmQuery = useGetPnms();
   const { user, chapter } = useUser();
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const onRecentPnmPress = (pnm: IPNM) => {
-    openBottomSheet("PNM", { pnm });
+    bottomSheetStore.open("PNM", { pnm });
   };
 
   const onChapterPhoneNumberPress = () => {
-    openBottomSheet("CUSTOM_PHONE_NUMBER");
+    bottomSheetStore.open("CUSTOM_PHONE_NUMBER");
   };
 
   const onRefresh = async () => {

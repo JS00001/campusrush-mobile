@@ -18,19 +18,19 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import dateUtil from "@/lib/util/date";
 import IconLabel from "@/ui/IconLabel";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 interface ChapterProps extends TouchableOpacityProps {
   chapter: IAdminChapter;
 }
 
 const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const containerStyles = tw.style("bg-gray-100 rounded-xl p-5 gap-y-3");
 
   const onPress = () => {
-    openBottomSheet("CHAPTER", { chapterId: chapter._id });
+    bottomSheetStore.open("CHAPTER", { chapterId: chapter._id });
   };
 
   return (

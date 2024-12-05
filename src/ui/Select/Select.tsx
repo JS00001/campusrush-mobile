@@ -51,7 +51,7 @@ const Select: React.FC<SelectProps> = ({
 
   const toggleExpanded = () => {
     if (expanded) {
-      handleCloseSheet();
+      closeSheet();
       return;
     }
 
@@ -64,7 +64,7 @@ const Select: React.FC<SelectProps> = ({
     sheetRef.current?.present();
   };
 
-  const handleCloseSheet = () => {
+  const closeSheet = () => {
     setExpanded(false);
     sheetRef.current?.dismiss();
   };
@@ -104,7 +104,7 @@ const Select: React.FC<SelectProps> = ({
         options={options}
         placeholder={placeholder}
         onChange={onChange}
-        handleCloseSheet={handleCloseSheet}
+        closeSheet={closeSheet}
       />
     </>
   );

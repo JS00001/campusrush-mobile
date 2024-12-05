@@ -19,7 +19,6 @@ import tw from "@/lib/tailwind";
 import Avatar from "@/ui/Avatar";
 import { Layout } from "@/ui/Layout";
 import FormField from "@/ui/FormField";
-import { useStatusStore } from "@/store";
 import useCamera from "@/hooks/useCamera";
 import TagView from "@/components/TagView";
 import { FormSheet } from "@/ui/BottomSheet";
@@ -28,19 +27,17 @@ import validators from "@/constants/validators";
 import FormHeader from "@/components/Headers/Form";
 import useFormMutation from "@/hooks/useFormMutation";
 import useCloudStorage from "@/hooks/useCloudStorage";
+import { useBottomSheetStore, useStatusStore } from "@/store";
 
 type Props = BottomSheetProps & SheetData<"UPDATE_PNM">;
 
-const UpdatePnmSheetContent: React.FC<Props> = ({
-  data,
-  openBottomSheet,
-  handleClose,
-}) => {
+const UpdatePnmSheetContent: React.FC<Props> = ({ data, close }) => {
   const pnm = data.pnm;
 
   const camera = useCamera();
   const cloudStorage = useCloudStorage();
   const updatePnmMutation = useUpdatePnm();
+  const bottomSheetStore = useBottomSheetStore();
   const setStatusOverlay = useStatusStore((s) => s.setStatusOverlay);
 
   const formValidators = {
@@ -57,9 +54,6 @@ const UpdatePnmSheetContent: React.FC<Props> = ({
   const form = useFormMutation({
     mutation: updatePnmMutation,
     validators: formValidators,
-    onSuccess: async () => {
-      handleClose();
-    },
     initialValues: {
       id: pnm._id,
       firstName: pnm.firstName,
@@ -70,10 +64,13 @@ const UpdatePnmSheetContent: React.FC<Props> = ({
       avatar: pnm.avatar,
       tags: pnm.tags || [],
     },
+    onSuccess: async () => {
+      close();
+    },
   });
 
   const onTagsPress = () => {
-    openBottomSheet("TAG_SELECTOR", {
+    bottomSheetStore.open("TAG_SELECTOR", {
       values: form.state.tags.value,
       onTagChange: form.setValue.bind(null, "tags"),
     });
@@ -116,7 +113,7 @@ const UpdatePnmSheetContent: React.FC<Props> = ({
   ];
 
   const onEditPress = () => {
-    openBottomSheet("ACTION_MENU", editAvatarMenu);
+    bottomSheetStore.open("ACTION_MENU", editAvatarMenu);
   };
 
   return (
@@ -129,7 +126,7 @@ const UpdatePnmSheetContent: React.FC<Props> = ({
       >
         <FormHeader
           disableSave={form.loading || cloudStorage.isLoading}
-          onCancel={handleClose}
+          onCancel={close}
           onSave={handleSubmission}
         />
 

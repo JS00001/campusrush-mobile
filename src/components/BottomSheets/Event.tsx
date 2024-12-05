@@ -28,16 +28,18 @@ import AppConstants from "@/constants";
 import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import ButtonGroup from "@/ui/ButtonGroup";
+import { useBottomSheetStore } from "@/store";
 import { BottomSheet } from "@/ui/BottomSheet";
 import ErrorMessage from "@/components/ErrorMessage";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 type Props = BottomSheetProps & SheetData<"EVENT">;
 
-const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
+const Content: React.FC<Props> = ({ data, close }) => {
   const initialEvent = data.event;
 
   const copy = useCopy();
+  const bottomSheetStore = useBottomSheetStore();
 
   const deleteMutation = useDeleteEvent();
   const getEventQuery = useGetEvent(initialEvent._id);
@@ -76,7 +78,7 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
               text2: `${eventName} has been deleted successfully`,
             });
 
-            handleClose();
+            close();
           },
         },
       ],
@@ -84,12 +86,12 @@ const Content: React.FC<Props> = ({ data, openBottomSheet, handleClose }) => {
   };
 
   const onEditPress = () => {
-    openBottomSheet("UPDATE_EVENT", { event });
+    bottomSheetStore.open("UPDATE_EVENT", { event });
   };
 
   const onViewResponsesPress = () => {
-    handleClose();
-    openBottomSheet("EVENT_RESPONSES", { eventId: event._id });
+    close();
+    bottomSheetStore.open("EVENT_RESPONSES", { eventId: event._id });
   };
 
   const onShare = () => {

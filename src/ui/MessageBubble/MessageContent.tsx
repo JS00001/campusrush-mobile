@@ -25,8 +25,7 @@ import Text from "@/ui/Text";
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import useCopy from "@/hooks/useCopy";
-import { useBottomSheet } from "@/providers/BottomSheet";
-
+import { useBottomSheetStore } from "@/store";
 interface MessageContentProps {
   message: TimestampedData<IMessage>;
   error?: boolean;
@@ -35,7 +34,7 @@ interface MessageContentProps {
 const MessageContent: React.FC<MessageContentProps> = ({ message, error }) => {
   const copy = useCopy();
   const scale = useSharedValue(1);
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const containerStyles = tw.style("flex-row items-center self-end gap-1");
 
@@ -79,7 +78,8 @@ const MessageContent: React.FC<MessageContentProps> = ({ message, error }) => {
         scale.value = withTiming(1, { duration: 300 });
       },
     );
-    openBottomSheet("ACTION_MENU", messageMenu);
+
+    bottomSheetStore.open("ACTION_MENU", messageMenu);
   };
 
   return (

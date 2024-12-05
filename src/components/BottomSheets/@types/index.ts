@@ -27,14 +27,11 @@ export interface BottomSheetProps {
   /** Reference to the bottom sheet */
   innerRef: (ref: BottomSheetModal) => void;
   /** Close the opened bottom sheet */
-  handleClose: () => void;
+  close: () => void;
   /** Snap the bottom sheet to a specific index */
   snapToIndex: (index: number) => void;
   /** Snap the bottom sheet to a specific position */
   snapToPosition: (position: string) => void;
-  /** Open a bottom sheet  from the list of registered bottom sheets */
-  // prettier-ignore
-  openBottomSheet: <T extends IndividualSheetName>(name: T, props?: IndividualSheetProps[T]) => void;
 }
 
 export type IndividualSheetName = keyof IndividualSheetProps;
