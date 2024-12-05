@@ -39,7 +39,6 @@ import ViolationsSheet from "./Violations";
 import type { IndividualSheetName } from "./@types";
 
 import { useBottomSheetStore } from "@/store";
-import { useCallback, useMemo } from "react";
 
 /**
  * The list of all bottom sheets we want to support
@@ -74,6 +73,9 @@ const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
  * The component to render all bottom sheets and handle their visibility
  */
 const BottomSheetsComponent = () => {
+  // These MUST use selectors to avoid infinite re-rendering due to the 'register'
+  // method updating the state, therefore re-rendering this, which re-registers the
+  // bottom sheet, and so on.
   const close = useBottomSheetStore((state) => state.close);
   const register = useBottomSheetStore((state) => state.register);
   const snapToIndex = useBottomSheetStore((state) => state.snapToIndex);
