@@ -13,9 +13,9 @@
 import { z } from "zod";
 import React from "react";
 import * as Haptic from "expo-haptics";
+import { ScrollView } from "react-native";
 import Toast from "react-native-toast-message";
 import { TouchableOpacity, View } from "react-native";
-import { ScrollView } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 
 import type { BottomSheetProps, SheetData } from "../@types";
@@ -146,7 +146,7 @@ const FormEditorContent: React.FC<Props> = ({ data = {}, close }) => {
     <Layout.Content
       gap={12}
       safeAreaPosition="top"
-      contentContainerStyle={tw`p-0 px-6`}
+      contentContainerStyle={tw`pt-0 pb-6 px-6`}
     >
       <FormHeader
         disableSave={form.loading}
@@ -202,7 +202,9 @@ const FormEditorContent: React.FC<Props> = ({ data = {}, close }) => {
 
         {/* Custom fields should be a pinned item when scrolling */}
         <React.Fragment>
-          <View style={tw`bg-white flex-row items-center pb-2 justify-between`}>
+          <View
+            style={tw`bg-white flex-row items-center -my-2 py-2 justify-between`}
+          >
             <Headline
               title="Custom Fields"
               subtitle="Add your own fields to the form"
