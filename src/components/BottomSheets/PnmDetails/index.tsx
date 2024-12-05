@@ -13,6 +13,7 @@
 import { useState } from "react";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
 
 import General from "./Views/General";
 import FormResponses from "./Views/FormResponses";
@@ -22,16 +23,17 @@ import { BottomSheetProps, SheetData } from "../@types";
 import Tabs from "@/ui/Tabs";
 import tw from "@/lib/tailwind";
 import Avatar from "@/ui/Avatar";
+import Button from "@/ui/Button";
 import date from "@/lib/util/date";
 import { alert } from "@/lib/util";
 import Headline from "@/ui/Headline";
 import IconButton from "@/ui/IconButton";
 import usePosthog from "@/hooks/usePosthog";
-import { useImageZoomStore } from "@/store";
+import ButtonGroup from "@/ui/ButtonGroup";
 import { BottomSheet } from "@/ui/BottomSheet";
 import ErrorMessage from "@/components/ErrorMessage";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
-
+import { useBottomSheetStore, useImageZoomStore } from "@/store";
 import { useDeletePnm, useGetPnm, useUpdatePnm } from "@/hooks/api/pnms";
 
 enum PnmDetailsTab {
@@ -41,12 +43,14 @@ enum PnmDetailsTab {
 
 type Props = BottomSheetProps & SheetData<"PNM">;
 
-const Content: React.FC<Props> = ({ data, close, snapToPosition }) => {
+const Content: React.FC<Props> = ({ data, close }) => {
   const initialPnm = data.pnm;
   const [tab, setTab] = useState(PnmDetailsTab.GENERAL);
 
   const posthog = usePosthog();
+  const navigation = useNavigation();
   const { setImage } = useImageZoomStore();
+  const bottomSheetStore = useBottomSheetStore();
 
   const deleteMutation = useDeletePnm();
   const updateMutation = useUpdatePnm();
@@ -63,6 +67,20 @@ const Content: React.FC<Props> = ({ data, close, snapToPosition }) => {
       />
     );
   }
+
+  const onSendMessagePress = () => {
+    close();
+    navigation.navigate("Conversation", {
+      screen: "Chat",
+      params: {
+        pnm,
+      },
+    });
+  };
+
+  const onEditPress = () => {
+    bottomSheetStore.open("UPDATE_PNM", { pnm });
+  };
 
   const onFavorite = async () => {
     const starred = !pnm.starred;
@@ -109,60 +127,69 @@ const Content: React.FC<Props> = ({ data, close, snapToPosition }) => {
   };
 
   return (
-    <BottomSheetContainer
-      style={tw`p-0`}
-      contentContainerStyle={tw`gap-y-6 pt-6 px-6 pb-8 rounded-t-3xl`}
-    >
-      <View
-        style={tw`bg-gray-200 absolute h-32 left-0 right-0 rounded-t-3xl`}
-      />
+    <>
+      <BottomSheetContainer
+        style={tw`p-0 rounded-t-3xl`}
+        contentContainerStyle={tw`gap-y-6 pt-6 px-6 pb-26`}
+      >
+        <View style={tw`bg-gray-200 absolute h-32 left-0 right-0`} />
 
-      <View style={tw`flex-row gap-1 justify-end`}>
-        <IconButton
-          size="sm"
-          color="secondary"
-          loading={updateMutation.isPending}
-          iconName={pnm.starred ? "StarFill" : "Star"}
-          // prettier-ignore
-          iconColor={pnm.starred ? tw.color("yellow-500") : tw.color("primary")}
-          onPress={onFavorite}
+        <View style={tw`flex-row gap-1 justify-end`}>
+          <IconButton
+            size="sm"
+            color="secondary"
+            loading={updateMutation.isPending}
+            iconName={pnm.starred ? "StarFill" : "Star"}
+            // prettier-ignore
+            iconColor={pnm.starred ? tw.color("yellow-500") : tw.color("primary")}
+            onPress={onFavorite}
+          />
+          <IconButton
+            size="sm"
+            color="secondary"
+            iconName="Trash"
+            iconColor={tw.color("red-500")}
+            loading={deleteMutation.isPending}
+            onPress={onDelete}
+          />
+        </View>
+
+        <View style={tw`gap-y-2`}>
+          <Avatar
+            contentRing
+            url={pnm.avatar}
+            onPress={pnm.avatar ? onAvatarPress : undefined}
+          />
+          <Headline
+            style={tw`shrink`}
+            title={pnm.displayName}
+            subtitle={`Created on ${date.toString(pnm.createdAt)}`}
+          />
+        </View>
+
+        <Tabs
+          type="navigation"
+          tabs={["General", "Form Responses"]}
+          currentIndex={tab}
+          onChange={setTab}
         />
-        <IconButton
-          size="sm"
-          color="secondary"
-          iconName="Trash"
-          iconColor={tw.color("red-500")}
-          loading={deleteMutation.isPending}
-          onPress={onDelete}
-        />
+
+        {tab === PnmDetailsTab.GENERAL && <General pnm={pnm} />}
+        {tab === PnmDetailsTab.FORM_RESPONSES && <FormResponses pnm={pnm} />}
+      </BottomSheetContainer>
+
+      {/* Floating bottom button container */}
+      <View style={tw`bg-white absolute px-6 bottom-0 pb-8 pt-4 w-full`}>
+        <ButtonGroup>
+          <Button size="sm" color="secondary" onPress={onEditPress}>
+            Edit
+          </Button>
+          <Button size="sm" onPress={onSendMessagePress}>
+            Send Message
+          </Button>
+        </ButtonGroup>
       </View>
-
-      <View style={tw`gap-y-2`}>
-        <Avatar
-          contentRing
-          url={pnm.avatar}
-          onPress={pnm.avatar ? onAvatarPress : undefined}
-        />
-        <Headline
-          style={tw`shrink`}
-          title={pnm.displayName}
-          subtitle={`Created on ${date.toString(pnm.createdAt)}`}
-        />
-      </View>
-
-      <Tabs
-        type="navigation"
-        tabs={["General", "Form Responses"]}
-        currentIndex={tab}
-        onChange={setTab}
-      />
-
-      {/* General Information */}
-      {tab === PnmDetailsTab.GENERAL && <General pnm={pnm} />}
-
-      {/* Form Responses */}
-      {tab === PnmDetailsTab.FORM_RESPONSES && <FormResponses pnm={pnm} />}
-    </BottomSheetContainer>
+    </>
   );
 };
 

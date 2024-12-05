@@ -89,7 +89,7 @@ const Avatar: React.FC<AvatarProps> = ({
   );
 
   const loadingOverlayStyles = tw.style(
-    "flex items-center justify-center",
+    "items-center justify-center",
     "absolute inset-0 z-10",
     "rounded-full bg-black bg-opacity-75",
   );

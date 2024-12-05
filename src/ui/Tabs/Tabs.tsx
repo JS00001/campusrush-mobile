@@ -36,13 +36,16 @@ const Tabs: React.FC<TabsProps> = ({
   onChange,
 }) => {
   const contentStyle = tw.style(
-    "grow-0",
+    "shrink-0 grow-0",
     type === "navigation" && "border-b border-gray-200",
     style,
   );
 
   const contentContainerStyles = tw.style(
-    "gap-1 min-w-full",
+    "gap-1",
+    // In navigation mode, set the width to full so that all items
+    // are the same size. This control will NOT exceed the screen width
+    type === "navigation" && "w-full",
     contentContainerStyle,
   );
 

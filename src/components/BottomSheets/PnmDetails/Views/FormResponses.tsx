@@ -12,12 +12,12 @@
 
 import type { IPNM } from "@/types";
 
+import tw from "@/lib/tailwind";
 import FlatList from "@/ui/FlatList";
 import ErrorMessage from "@/components/ErrorMessage";
 import { useGetPnmResponses } from "@/hooks/api/pnms";
 import FormResponse from "@/ui/ListItems/FormResponse";
 import FormResponseLoader from "@/ui/Loaders/FormResponse";
-import tw from "@/lib/tailwind";
 
 interface ViewProps {
   pnm: IPNM;
@@ -37,14 +37,20 @@ const FormResponses: React.FC<ViewProps> = ({ pnm }) => {
 
   const responses = responseQuery.data?.responses || [];
 
-  const data = [...responses, ...responses, ...responses, ...responses];
+  const contentContainerStyle = tw.style(
+    // Set the minimum height such that the 'no-data' message is centered
+    "pb-0 min-h-48",
+    // If this is loading, we want to bypass the flatlist's rendering of 12 loading
+    // components, just show one loading component
+    responseQuery.isLoading && "h-48",
+  );
 
   return (
     <FlatList
+      data={responses}
       scrollEnabled={false}
-      data={data}
-      contentContainerStyle={tw`pb-0`}
       loading={responseQuery.isLoading}
+      contentContainerStyle={contentContainerStyle}
       loadingComponent={<FormResponseLoader />}
       emptyListTitle="No Responses Found"
       emptyListSubtitle="This PNM has not submitted any forms"
