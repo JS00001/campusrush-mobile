@@ -29,11 +29,11 @@ import type {
 import type { IEvent } from "@/types";
 
 import tw from "@/lib/tailwind";
-import Tab from "@/ui/Tabs/Tab";
 import Skeleton from "@/ui/Skeleton";
 import Headline from "@/ui/Headline";
 import AppConstants from "@/constants";
 import useCamera from "@/hooks/useCamera";
+import FilterTab from "@/ui/Tabs/FilterTab";
 import { useGetEvents } from "@/hooks/api/events";
 import useCloudStorage from "@/hooks/useCloudStorage";
 import ErrorMessage from "@/components/ErrorMessage";
@@ -131,8 +131,12 @@ const ExtensionPanel = forwardRef<ExtensionPanelRef, ExtensionPanelProps>(
       >
         <View style={tw`px-3 pt-3 gap-y-3 flex-1`}>
           <View style={tw`flex-row gap-1`}>
-            <Tab selected={true} label="Events" onPress={() => {}} />
-            <Tab selected={false} label="Photos" onPress={onPhotosPress} />
+            <FilterTab selected={true} label="Events" onPress={() => {}} />
+            <FilterTab
+              selected={false}
+              label="Photos"
+              onPress={onPhotosPress}
+            />
           </View>
 
           {/* If the query is loading, show a loading skeleton */}

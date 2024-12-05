@@ -89,7 +89,7 @@ const EventResponsesContent: React.FC<SheetData<"EVENT_RESPONSES">> = ({
         {event.title}
       </Text>
       <Tabs
-        options={tabsOptions}
+        tabs={tabsOptions}
         currentIndex={activeTab}
         onChange={setActiveTab}
         contentContainerStyle={tw`px-6`}

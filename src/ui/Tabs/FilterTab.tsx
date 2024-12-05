@@ -15,19 +15,17 @@ import { TouchableOpacity } from "react-native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 
-interface TabProps {
+interface FilterTabProps {
   label: string;
   selected: boolean;
-  disabled?: boolean;
   onPress: () => void;
 }
 
-const Tab: React.FC<TabProps> = ({ label, selected, disabled, onPress }) => {
+const FilterTab: React.FC<FilterTabProps> = ({ label, selected, onPress }) => {
   const containerStyles = tw.style(
     "rounded-lg py-1.5 px-6",
     selected && "bg-primary",
     !selected && "bg-gray-100",
-    disabled && "disabled",
   );
 
   const textStyles = tw.style(
@@ -36,11 +34,7 @@ const Tab: React.FC<TabProps> = ({ label, selected, disabled, onPress }) => {
   );
 
   return (
-    <TouchableOpacity
-      disabled={disabled}
-      style={containerStyles}
-      onPress={onPress}
-    >
+    <TouchableOpacity style={containerStyles} onPress={onPress}>
       <Text type="p3" style={textStyles}>
         {label}
       </Text>
@@ -48,4 +42,4 @@ const Tab: React.FC<TabProps> = ({ label, selected, disabled, onPress }) => {
   );
 };
 
-export default Tab;
+export default FilterTab;

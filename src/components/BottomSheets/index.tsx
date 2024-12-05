@@ -27,7 +27,7 @@ import EventResponsesSheet from "./EventResponses";
 import FormSheet from "./Form";
 import FormResponseSheet from "./FormResponse";
 import FormResponsesSheet from "./FormResponses";
-import PnmSheet from "./Pnm";
+import PnmSheet from "./PnmDetails";
 import PlanComparisonSheet from "./PlanComparison";
 import PrivacyPolicySheet from "./PrivacyPolicy";
 import TagSelectorSheet from "./TagSelector";
