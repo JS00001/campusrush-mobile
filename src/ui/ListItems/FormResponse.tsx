@@ -23,13 +23,17 @@ import IconLabel from "@/ui/IconLabel";
 import { useBottomSheetStore } from "@/store";
 
 interface FormResponseProps {
+  displayFormTitle?: boolean;
   response: Omit<IFormResponse, "form" | "pnm"> & {
     form: IForm;
     pnm: IPNM;
   };
 }
 
-const FormResponse: React.FC<FormResponseProps> = ({ response }) => {
+const FormResponse: React.FC<FormResponseProps> = ({
+  displayFormTitle,
+  response,
+}) => {
   const bottomSheetStore = useBottomSheetStore();
 
   const onClick = () => {
@@ -56,6 +60,9 @@ const FormResponse: React.FC<FormResponseProps> = ({ response }) => {
   });
 
   const remainingFieldCount = fields.length - responses.length;
+  const title = displayFormTitle
+    ? response.form.title
+    : response.pnm.displayName;
 
   const containerClasses = tw.style(
     "flex-row items-center gap-2 justify-between",
@@ -66,7 +73,7 @@ const FormResponse: React.FC<FormResponseProps> = ({ response }) => {
     <TouchableOpacity onPress={onClick} style={containerClasses}>
       <View style={tw`gap-1.5 shrink`}>
         <Text type="h4" numberOfLines={1}>
-          {response.pnm.displayName}
+          {title}
         </Text>
 
         <View style={tw`gap-2`}>

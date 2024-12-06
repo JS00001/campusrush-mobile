@@ -67,6 +67,18 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
       });
     }
 
+    if (notification.type === "NEW_FORM_RESPONSE") {
+      const { form } = notification.data;
+      bottomSheetStore.open("FORM_RESPONSES", { formId: form._id });
+
+      navigation.navigate("Main", {
+        screen: "MoreTab",
+        params: {
+          screen: "Forms",
+        },
+      });
+    }
+
     if (notification.type === "NEW_DYNAMIC_NOTIFICATION") {
       const { title, message, iconName, iconColor } = notification.data;
 

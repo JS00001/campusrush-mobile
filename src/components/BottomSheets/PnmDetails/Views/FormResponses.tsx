@@ -54,7 +54,9 @@ const FormResponses: React.FC<ViewProps> = ({ pnm }) => {
       loadingComponent={<FormResponseLoader />}
       emptyListTitle="No Responses Found"
       emptyListSubtitle="This PNM has not submitted any forms"
-      renderItem={({ item: response }) => <FormResponse response={response} />}
+      renderItem={({ item: response }) => (
+        <FormResponse displayFormTitle response={response} />
+      )}
     />
   );
 };
