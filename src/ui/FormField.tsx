@@ -17,6 +17,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Animated, {
+  runOnUI,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -79,8 +80,10 @@ const FormField: React.FC<FormFieldProps> = ({
    * Animate between the placeholder's focused and unfocused states
    */
   const animatePlaceholder = (toYValue: number, toFontSize: number) => {
-    placeholderY.value = withTiming(toYValue, { duration: 200 });
-    placeholderSize.value = withTiming(toFontSize, { duration: 200 });
+    runOnUI(() => {
+      placeholderY.value = withTiming(toYValue, { duration: 200 });
+      placeholderSize.value = withTiming(toFontSize, { duration: 200 });
+    })();
   };
 
   /**
@@ -102,7 +105,7 @@ const FormField: React.FC<FormFieldProps> = ({
   );
 
   const inputStyles = tw.style(
-    "border-2 px-5 py-4 rounded-xl text-base leading-5 bg-gray-100",
+    "border px-5 py-4 rounded-xl text-base leading-5 bg-gray-100",
     // If we have an 'eye' icon, we need to add padding to the right of the input so we dont go under it
     secureTextEntry && "pr-12",
     // If there is a value or the input is focused, we need to add padding to the input to make it "look"

@@ -13,7 +13,7 @@
 import * as Haptic from "expo-haptics";
 import { useRef, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { TouchableOpacity, ViewProps } from "react-native";
+import { TouchableOpacity, View, ViewProps } from "react-native";
 
 import { ISelectOption } from "./@types";
 import type { IconType } from "@/constants/icons";
@@ -55,7 +55,7 @@ const Select: React.FC<SelectProps> = ({
 
   const label = options.find((o) => o.value === value)?.label;
   const iconName: IconType = expanded ? "CaretUp" : "CaretDown";
-  const valueText = label || `Select ${placeholder}`;
+  const displayValue = label || error || `Select ${placeholder}`;
 
   const toggleExpanded = () => {
     if (expanded) {
@@ -78,8 +78,9 @@ const Select: React.FC<SelectProps> = ({
   };
 
   const selectStyles = tw.style(
-    "border bg-gray-100 rounded-xl py-4 px-6 w-full",
+    "border bg-gray-100 rounded-xl px-5 w-full",
     "flex-row justify-between items-center",
+    value ? "py-2" : "py-4",
     error && "border-red-500",
     !error && "border-gray-100",
     style,
@@ -92,12 +93,22 @@ const Select: React.FC<SelectProps> = ({
     value && !error && "text-primary",
   );
 
+  const labelStyles = tw.style("text-gray-500", error && "text-red-500");
+
   return (
     <>
       <TouchableOpacity style={selectStyles} onPress={toggleExpanded}>
-        <Text numberOfLines={1} style={textStyles}>
-          {valueText}
-        </Text>
+        <View>
+          {value && (
+            <Text type="p4" style={labelStyles}>
+              {error || placeholder}
+            </Text>
+          )}
+
+          <Text numberOfLines={1} style={textStyles}>
+            {displayValue}
+          </Text>
+        </View>
         <Icon icon={iconName} size={16} color={tw.color("primary")} />
       </TouchableOpacity>
 

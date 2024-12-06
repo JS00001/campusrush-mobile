@@ -117,13 +117,11 @@ const SendNotification: React.FC<SendNotificationProps> = ({
         onChangeText={form.setValue.bind(null, "message")}
       />
 
-      <View style={tw`flex-row items-center gap-2`}>
-        <Switch
-          value={form.state.testMode.value}
-          onValueChange={form.setValue.bind(null, "testMode")}
-        />
-        <Text>Test Mode (Send to yourself)</Text>
-      </View>
+      <Switch
+        label="Test Mode? (Send to yourself)"
+        value={form.state.testMode.value}
+        onValueChange={form.setValue.bind(null, "testMode")}
+      />
 
       <ButtonGroup>
         <Button color="secondary" onPress={onBackPress}>

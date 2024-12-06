@@ -11,14 +11,11 @@
  */
 
 import { z } from "zod";
-import { View } from "react-native";
 import uuid from "react-native-uuid";
 
 import type { ISelectOption } from "@/ui/Select/@types";
 import type { BottomSheetProps, SheetData } from "../../@types";
 
-import Text from "@/ui/Text";
-import tw from "@/lib/tailwind";
 import Select from "@/ui/Select";
 import Button from "@/ui/Button";
 import Switch from "@/ui/Switch";
@@ -34,7 +31,6 @@ import useKeyboardListener from "@/hooks/useKeyboardListener";
 
 type Props = BottomSheetProps & SheetData<"MANAGE_FORM_FIELD">;
 
-// PR_TODO: Cleanup the ui of this
 const Content: React.FC<Props> = ({
   data: { field, onFieldChange },
   close,
@@ -45,7 +41,7 @@ const Content: React.FC<Props> = ({
     name: "",
     id: uuid.v4(),
     required: false,
-    type: FieldType.TEXT,
+    type: undefined,
   };
 
   const form = useForm({
@@ -53,7 +49,10 @@ const Content: React.FC<Props> = ({
     validators: {
       id: validators.shortContentString,
       name: validators.shortContentString,
-      type: z.enum(["text", "longtext", "checkbox"]),
+      type: z.enum(["text", "longtext", "checkbox"], {
+        required_error: "Field type is required",
+        invalid_type_error: "Invalid field type",
+      }),
       required: z.boolean(),
     },
   });
@@ -111,14 +110,11 @@ const Content: React.FC<Props> = ({
         onChange={(value) => form.setValue("type", value)}
       />
 
-      {/* PR_TODO: Make this one component */}
-      <View style={tw`flex-row items-center gap-2`}>
-        <Switch
-          value={form.state.required.value}
-          onValueChange={(value) => form.setValue("required", value)}
-        />
-        <Text>Required?</Text>
-      </View>
+      <Switch
+        label="Required?"
+        value={form.state.required.value}
+        onValueChange={(value) => form.setValue("required", value)}
+      />
 
       <ButtonGroup>
         <Button color="secondary" onPress={close}>

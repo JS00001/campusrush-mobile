@@ -10,13 +10,39 @@
  * Do not distribute
  */
 
+import {
+  View,
+  Switch as RNSwitch,
+  SwitchProps as RNSwitchProps,
+} from "react-native";
+
+import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import { SwitchProps as RNSwitchProps, Switch as RNSwitch } from "react-native";
+import { useRef } from "react";
 
-interface SwitchProps extends RNSwitchProps {}
+interface SwitchProps extends RNSwitchProps {
+  label?: string;
+}
 
-const Switch: React.FC<SwitchProps> = ({ ...props }) => {
-  return <RNSwitch {...props} trackColor={{ true: tw.color("primary") }} />;
+const Switch: React.FC<SwitchProps> = ({ label, style, ...props }) => {
+  const switchRef = useRef<RNSwitch>(null);
+
+  const switchStyles = tw.style({
+    transform: [{ scaleX: 0.85 }, { scaleY: 0.85 }],
+  });
+
+  return (
+    <View style={tw`flex-row items-center gap-2`}>
+      <RNSwitch
+        {...props}
+        ref={switchRef}
+        style={[switchStyles, style]}
+        trackColor={{ true: tw.color("primary") }}
+      />
+
+      {label && <Text>{label}</Text>}
+    </View>
+  );
 };
 
 export default Switch;

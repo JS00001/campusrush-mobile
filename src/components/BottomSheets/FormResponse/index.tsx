@@ -11,17 +11,17 @@
  */
 
 import { View } from "react-native";
-import Checkbox from "expo-checkbox";
 
-import AppConstants from "@/constants";
-import type { BottomSheetProps, SheetData } from "./@types";
+import CheckboxValue from "./Components/CheckboxValue";
 
-import Text from "@/ui/Text";
+import type { BottomSheetProps, SheetData } from "../@types";
+
 import tw from "@/lib/tailwind";
 import Headline from "@/ui/Headline";
 import { FieldType } from "@/@types";
 import FormField from "@/ui/FormField";
 import format from "@/lib/util/format";
+import AppConstants from "@/constants";
 import { BottomSheet } from "@/ui/BottomSheet";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
@@ -49,36 +49,12 @@ const FormResponseSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
 
                 if (field.type === FieldType.CHECKBOX) {
                   const response = !!pnmResponse;
-
-                  // PR_TODO: Cleanup
                   return (
-                    <View
+                    <CheckboxValue
                       key={field.id}
-                      style={tw`rounded-xl gap-2 bg-gray-100 px-4 py-2`}
-                    >
-                      <Text type="p4" numberOfLines={2}>
-                        {fieldName}
-                      </Text>
-
-                      <View style={tw`gap-1`}>
-                        <View style={tw`flex-row gap-2 items-center`}>
-                          <Checkbox
-                            color={tw.color("primary")}
-                            value={response}
-                            disabled
-                          />
-                          <Text type="p2">Yes</Text>
-                        </View>
-                        <View style={tw`flex-row gap-2 items-center`}>
-                          <Checkbox
-                            color={tw.color("primary")}
-                            value={!response}
-                            disabled
-                          />
-                          <Text type="p2">No</Text>
-                        </View>
-                      </View>
-                    </View>
+                      fieldName={fieldName}
+                      response={response}
+                    />
                   );
                 }
 
