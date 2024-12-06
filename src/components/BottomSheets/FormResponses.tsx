@@ -19,6 +19,7 @@ import tw from "@/lib/tailwind";
 import date from "@/lib/util/date";
 import Headline from "@/ui/Headline";
 import Skeleton from "@/ui/Skeleton";
+import FlatList from "@/ui/FlatList";
 import { useGetForm } from "@/hooks/api/forms";
 import { BottomSheet } from "@/ui/BottomSheet";
 import ErrorMessage from "@/components/ErrorMessage";
@@ -57,12 +58,17 @@ const Content: React.FC<Props> = ({ data }) => {
         subtitle={lastResponseAt}
       />
 
-      <View style={tw`gap-2`}>
-        {responses.map((response, i) => {
+      <FlatList
+        data={responses}
+        scrollEnabled={false}
+        contentContainerStyle={tw`gap-2 pb-0`}
+        emptyListTitle="No responses yet"
+        emptyListSubtitle="Share this form to start collecting responses"
+        renderItem={({ item: response }) => {
           const formattedResponse = { ...response, form };
-          return <FormResponse key={i} response={formattedResponse} />;
-        })}
-      </View>
+          return <FormResponse response={formattedResponse} />;
+        }}
+      />
     </BottomSheetContainer>
   );
 };

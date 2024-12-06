@@ -162,7 +162,6 @@ const MainNavigator = () => {
         })}
         options={{
           tabBarLabel: "More",
-          // PR_TODO: Check this icon
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               color={color}
