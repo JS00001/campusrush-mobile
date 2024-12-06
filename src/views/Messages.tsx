@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { useState } from "react";
 import { View } from "react-native";
 
 import useSearch from "@/hooks/useSearch";
@@ -26,8 +27,10 @@ import ConversationLoader from "@/ui/Loaders/Conversation";
 import { useGetConversations } from "@/hooks/api/conversations";
 
 const MessagesView = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
   const bottomSheetStore = useBottomSheetStore();
-  const conversationsQuery = useGetConversations();
+  const conversationsQuery = useGetConversations(searchQuery);
 
   const search = useSearch({
     data: conversationsQuery.conversations,
@@ -37,7 +40,6 @@ const MessagesView = () => {
         filterFn: (data) => data.filter((conversation) => !conversation.read),
       },
     ],
-    fields: ["pnm"],
   });
 
   /**
@@ -90,8 +92,8 @@ const MessagesView = () => {
           ph-label="search-conversations"
           autoCorrect={false}
           placeholder={"Search Conversations"}
-          value={search.query}
-          onChangeText={search.setQuery}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
           contentContainerStyle={tw`flex-shrink`}
         />
 

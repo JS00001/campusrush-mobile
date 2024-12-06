@@ -92,7 +92,7 @@ const Content: React.FC<Props> = ({ data, close }) => {
 
   const onViewResponsesPress = () => {
     close();
-    bottomSheetStore.open("FORM_RESPONSES", { formId: form._id });
+    bottomSheetStore.open("FORM_RESPONSES", { form });
   };
 
   const onShare = () => {

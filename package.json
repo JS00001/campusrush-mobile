@@ -78,6 +78,7 @@
     "react-native-walkthrough-tooltip": "^1.5.0",
     "semver": "^7.6.3",
     "twrnc": "^3.6.3",
+    "use-debounce": "^10.0.4",
     "zod": "^3.22.4",
     "zustand": "^4.4.4"
   },

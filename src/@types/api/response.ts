@@ -399,6 +399,9 @@ export type UpdateFormResponse = API.Response<{
 export type GetFormResponse = API.Response<{
   /** Form information */
   form: IForm;
+}>;
+
+export type GetFormResponsesResponse = API.Response<{
   /** List of responses to the form */
   responses: IFormResponse[];
 }>;

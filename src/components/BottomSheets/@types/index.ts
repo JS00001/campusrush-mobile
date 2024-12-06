@@ -67,7 +67,7 @@ export interface IndividualSheetProps {
   /** View information about a form */
   FORM: { form: IForm };
   /** View all of a forms responses */
-  FORM_RESPONSES: { formId: string };
+  FORM_RESPONSES: { form: IForm };
   /** View a specific form response */
   FORM_RESPONSE: {
     fields: IFormField[];

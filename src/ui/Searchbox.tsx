@@ -81,6 +81,7 @@ const Searchbox: React.FC<TextInputProps> = ({
 
       <TextInputWithNoFontScaling
         ref={inputRef}
+        autoComplete="off"
         placeholder={placeholder}
         placeholderTextColor={tw.color("gray-500")}
         editable={!disabled}

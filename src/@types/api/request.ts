@@ -94,6 +94,8 @@ export interface FocusConversationRequest {
 export interface GetConversationsRequest {
   /** Offset for retrieving conversations */
   offset: number;
+  /** Search query for conversations */
+  search?: string;
 }
 
 export interface SendMassMessageRequest {
@@ -280,6 +282,13 @@ export interface CreateFormRequest {
 export interface GetFormRequest {
   /** The ID of the form to be retrieved */
   id: string;
+}
+
+export interface GetFormResponsesRequest {
+  /** The ID of the form to retrieve responses */
+  id: string;
+  /** The search query for responses */
+  search?: string;
 }
 
 export interface UpdateFormRequest {

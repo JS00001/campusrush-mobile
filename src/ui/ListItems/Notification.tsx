@@ -69,7 +69,7 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
 
     if (notification.type === "NEW_FORM_RESPONSE") {
       const { form } = notification.data;
-      bottomSheetStore.open("FORM_RESPONSES", { formId: form._id });
+      bottomSheetStore.open("FORM_RESPONSES", { form });
 
       navigation.navigate("Main", {
         screen: "MoreTab",

@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import { useDebounce } from 'use-debounce';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { getConversation, getConversations } from '@/api';
@@ -55,12 +56,17 @@ export const useGetConversation = (pnmId: string) => {
 /**
  * Get all of the conversations the chapter has
  */
-export const useGetConversations = () => {
+export const useGetConversations = (search: string = '') => {
+  const [debouncedSearch] = useDebounce(search, 300);
+
   const query = useInfiniteQuery({
     initialPageParam: 0,
-    queryKey: ['conversations'],
+    queryKey: ['conversations', debouncedSearch],
     queryFn: async ({ pageParam }) => {
-      const response = await getConversations({ offset: pageParam });
+      const response = await getConversations({
+        offset: pageParam,
+        search: debouncedSearch,
+      });
       if ('error' in response) throw response;
       return response.data;
     },
@@ -73,6 +79,7 @@ export const useGetConversations = () => {
 
       return lastPage.nextOffset;
     },
+    placeholderData: (prev) => prev,
   });
 
   // Combine all of the paginated data into one array

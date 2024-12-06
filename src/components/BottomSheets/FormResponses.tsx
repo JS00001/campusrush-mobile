@@ -12,7 +12,6 @@
 
 import { View } from "react-native";
 
-import type { IForm } from "@/types";
 import type { BottomSheetProps, SheetData } from "./@types";
 
 import tw from "@/lib/tailwind";
@@ -20,20 +19,33 @@ import date from "@/lib/util/date";
 import Headline from "@/ui/Headline";
 import Skeleton from "@/ui/Skeleton";
 import FlatList from "@/ui/FlatList";
-import { useGetForm } from "@/hooks/api/forms";
 import { BottomSheet } from "@/ui/BottomSheet";
 import ErrorMessage from "@/components/ErrorMessage";
 import FormResponse from "@/ui/ListItems/FormResponse";
+import { useGetFormResponses } from "@/hooks/api/forms";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
+import { useState } from "react";
+import Searchbox from "@/ui/Searchbox";
+import useKeyboardListener from "@/hooks/useKeyboardListener";
 
 type Props = BottomSheetProps & SheetData<"FORM_RESPONSES">;
 
 // TODO: Add search to this, must use BACKEND to search
-const Content: React.FC<Props> = ({ data }) => {
-  const query = useGetForm(data.formId);
+const Content: React.FC<Props> = ({ data, snapToIndex, snapToPosition }) => {
+  const form = data.form;
+  const [search, setSearch] = useState("");
+  const query = useGetFormResponses(form._id, search);
+
+  useKeyboardListener({
+    onKeyboardWillShow: () => {
+      snapToPosition("90%");
+    },
+    onKeyboardWillHide: () => {
+      snapToIndex(0);
+    },
+  });
 
   const responses = query.data?.responses || [];
-  const form = query.data?.form || ({} as IForm);
 
   // Loading & Error State
   if (query.isLoading) return <LoadingState />;
@@ -46,6 +58,7 @@ const Content: React.FC<Props> = ({ data }) => {
     );
   }
 
+  const placeholder = `Search ${responses.length} responses`;
   const lastResponseAt = form.lastResponseAt
     ? `Last response ${date.timeAgo(form.lastResponseAt)}`
     : "No responses yet";
@@ -56,6 +69,12 @@ const Content: React.FC<Props> = ({ data }) => {
         style={tw`shrink`}
         title={`${form.title}'s Responses`}
         subtitle={lastResponseAt}
+      />
+
+      <Searchbox
+        value={search}
+        placeholder={placeholder}
+        onChangeText={setSearch}
       />
 
       <FlatList

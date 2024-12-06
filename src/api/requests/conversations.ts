@@ -15,12 +15,12 @@ const PREFIX = '/conversations';
  */
 export const getConversations = async (data: GetConversationsRequest) => {
   const url = `${PREFIX}`;
+  // Remove empty string search
+  const search = data.search || undefined;
 
   const { data: responseData } = await axios.get<GetConversationsResponse>(
     url,
-    {
-      params: data,
-    },
+    { params: { offset: data.offset, search } },
   );
 
   return responseData;

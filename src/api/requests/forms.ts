@@ -16,6 +16,8 @@ import {
   DeleteFormsResponse,
   GetFormRequest,
   GetFormResponse,
+  GetFormResponsesRequest,
+  GetFormResponsesResponse,
   UpdateFormRequest,
   UpdateFormResponse,
   type DeleteFormsRequest,
@@ -79,6 +81,22 @@ export const getForm = async (data: GetFormRequest) => {
   return responseData;
 };
 
+/**
+ * Request:     GET /api/v1/consumer/forms/:id/responses
+ * Description: Get all responses for a form by id
+ */
+export const getFormResponses = async (data: GetFormResponsesRequest) => {
+  const url = `${PREFIX}/${data.id}/responses`;
+  // Remove empty string search
+  const search = data.search || undefined;
+
+  const { data: responseData } = await axios.get<GetFormResponsesResponse>(
+    url,
+    { params: { search } },
+  );
+
+  return responseData;
+};
 /**
  * Request:     PUT /api/v1/consumer/forms/:id
  * Description: Update a form by id

@@ -10,9 +10,10 @@
  * Do not distribute
  */
 
+import { useDebounce } from 'use-debounce';
 import { useQuery } from '@tanstack/react-query';
 
-import { getForm, getForms } from '@/api';
+import { getForm, getFormResponses, getForms } from '@/api';
 
 /**
  * Get all of the forms the chapter has
@@ -39,6 +40,25 @@ export const useGetForm = (id: string) => {
     queryKey: ['form', id],
     queryFn: async () => {
       const response = await getForm({ id });
+      if ('error' in response) throw response;
+      return response.data;
+    },
+  });
+
+  return query;
+};
+
+/**
+ * Get form responses for a specific form
+ */
+export const useGetFormResponses = (id: string, search: string = '') => {
+  const [debouncedSearch] = useDebounce(search, 300);
+
+  const query = useQuery({
+    queryKey: ['formResponses', id, debouncedSearch],
+    placeholderData: (prev) => prev,
+    queryFn: async () => {
+      const response = await getFormResponses({ id, search: debouncedSearch });
       if ('error' in response) throw response;
       return response.data;
     },
