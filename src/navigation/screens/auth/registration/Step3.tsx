@@ -22,7 +22,7 @@ const RegistrationStep3Screen: React.FC = () => {
         subtitle="Choose a secure password"
       />
 
-      <Layout.Content scrollable keyboardAvoiding gap={18}>
+      <Layout.Content scrollable keyboardAvoiding gap={12}>
         <RegistrationStep3View />
       </Layout.Content>
     </Layout.Root>

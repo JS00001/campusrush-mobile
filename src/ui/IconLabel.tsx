@@ -12,9 +12,11 @@
 
 import { View, ViewProps } from "react-native";
 
+import type { IconType } from "@/constants/icons";
+
 import Text from "@/ui/Text";
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
-import Icon, { IconType } from "@/ui/Icon";
 
 export type IconLabelColor = "primary" | "secondary" | "tertiary";
 
@@ -96,9 +98,13 @@ const IconLabel: React.FC<IconLabelProps> = ({
         />
       </View>
 
-      <View>
-        {title && <Text style={tw`text-primary`}>{title}</Text>}
-        {subtitle && <Text>{subtitle}</Text>}
+      <View style={tw`flex-shrink`}>
+        {title && (
+          <Text numberOfLines={1} style={tw`text-primary`}>
+            {title}
+          </Text>
+        )}
+        {subtitle && <Text numberOfLines={1}>{subtitle}</Text>}
       </View>
     </View>
   );

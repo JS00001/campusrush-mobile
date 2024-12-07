@@ -26,6 +26,7 @@ export type TextType =
   | "h1"
   | "h2"
   | "h3"
+  | "h4"
   | "p1"
   | "p2"
   | "p3"
@@ -39,9 +40,10 @@ export interface TextProps extends RNTextProps {
 }
 
 const TextTypes = {
-  h1: tw.style("text-[32px] font-DMSans_Bold text-primary"),
+  h1: tw.style("text-[28px] font-DMSans_Bold text-primary"),
   h2: tw.style("text-2xl font-semibold text-primary"),
-  h3: tw.style("text-lg font-semibold text-primary"),
+  h3: tw.style("text-xl font-medium text-primary"),
+  h4: tw.style("text-lg font-medium text-primary"),
   p1: tw.style("text-lg text-gray-500"),
   p2: tw.style("text-base text-gray-500"),
   p3: tw.style("text-sm text-gray-500"),

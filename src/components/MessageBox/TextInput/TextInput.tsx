@@ -16,7 +16,7 @@ import { Pressable, TextInput as RNTextInput } from "react-native";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import AppConstants from "@/constants";
-import { TextInputWithNoFontScaling } from "@/ui/TextInput";
+import { TextInputWithNoFontScaling } from "@/ui/Searchbox";
 
 interface TextInputProps {
   value: string;

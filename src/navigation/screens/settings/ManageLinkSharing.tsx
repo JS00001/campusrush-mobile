@@ -35,7 +35,7 @@ const LinkSharingScreen = () => {
       />
 
       <Layout.Content
-        gap={16}
+        gap={12}
         scrollable
         contentContainerStyle={tw`items-start`}
       >

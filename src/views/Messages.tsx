@@ -10,14 +10,15 @@
  * Do not distribute
  */
 
+import { useState } from "react";
 import { View } from "react-native";
 
 import useSearch from "@/hooks/useSearch";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 import tw from "@/lib/tailwind";
 import FlatList from "@/ui/FlatList";
-import TextInput from "@/ui/TextInput";
+import Searchbox from "@/ui/Searchbox";
 import IconButton from "@/ui/IconButton";
 import Menu, { MenuAction } from "@/ui/Menu";
 import ActionButton from "@/ui/ActionButton";
@@ -26,8 +27,10 @@ import ConversationLoader from "@/ui/Loaders/Conversation";
 import { useGetConversations } from "@/hooks/api/conversations";
 
 const MessagesView = () => {
-  const { openBottomSheet } = useBottomSheet();
-  const conversationsQuery = useGetConversations();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const bottomSheetStore = useBottomSheetStore();
+  const conversationsQuery = useGetConversations(searchQuery);
 
   const search = useSearch({
     data: conversationsQuery.conversations,
@@ -37,7 +40,6 @@ const MessagesView = () => {
         filterFn: (data) => data.filter((conversation) => !conversation.read),
       },
     ],
-    fields: ["pnm"],
   });
 
   /**
@@ -72,7 +74,7 @@ const MessagesView = () => {
     search.filter !== "NO_FILTER";
 
   const onNewChatPress = () => {
-    openBottomSheet("CREATE_MESSAGE");
+    bottomSheetStore.open("CREATE_MESSAGE");
   };
 
   const onRefresh = async () => {
@@ -86,18 +88,18 @@ const MessagesView = () => {
   return (
     <>
       <View style={tw`flex-row w-full gap-x-1`}>
-        <TextInput
+        <Searchbox
           ph-label="search-conversations"
           autoCorrect={false}
-          icon="MagnifyingGlass"
           placeholder={"Search Conversations"}
-          value={search.query}
-          onChangeText={search.setQuery}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
           contentContainerStyle={tw`flex-shrink`}
         />
 
         <Menu actions={filterMenu}>
           <IconButton
+            size="lg"
             color="secondary"
             iconName="FunnelSimple"
             style={tw`flex-grow`}

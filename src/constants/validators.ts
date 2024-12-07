@@ -12,7 +12,7 @@
 
 import { z } from 'zod';
 
-import iconNames from './icon-names';
+import Icons from './icons';
 import { colorHexRegex } from './regex';
 
 const validators = {
@@ -58,7 +58,7 @@ const validators = {
       invalid_type_error: 'First name must be a string',
     })
     .min(1, {
-      message: 'Name must be at least 1 character',
+      message: 'First name is required',
     })
     .max(32, {
       message: 'Name must be at most 32 characters',
@@ -72,7 +72,7 @@ const validators = {
       invalid_type_error: 'Last name must be a string',
     })
     .min(1, {
-      message: 'Name must be at least 1 character',
+      message: 'Last name is required',
     })
     .max(48, {
       message: 'Name must be at most 48 characters',
@@ -111,7 +111,7 @@ const validators = {
       invalid_type_error: 'Content must be a string',
     })
     .min(1, {
-      message: 'Must be at least 1 character',
+      message: 'Content is required',
     })
     .max(128, {
       message: 'Must be at most 128 characters',
@@ -125,7 +125,7 @@ const validators = {
       invalid_type_error: 'Content must be a string',
     })
     .min(1, {
-      message: 'Must be at least 1 character',
+      message: 'Content is required',
     })
     .max(1024, {
       message: 'Must be at most 1024 characters',
@@ -162,7 +162,7 @@ const validators = {
   /**
    * An icon name validator
    */
-  iconName: z.enum(iconNames, {
+  iconName: z.enum(Object.keys(Icons) as [string, ...string[]], {
     errorMap: () => ({
       message: 'Invalid icon name',
     }),

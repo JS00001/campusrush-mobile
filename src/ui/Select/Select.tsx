@@ -15,20 +15,30 @@ import { useRef, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { TouchableOpacity, View, ViewProps } from "react-native";
 
+import { ISelectOption } from "./@types";
+import type { IconType } from "@/constants/icons";
+
 import OptionSheet from "./OptionSheet";
 
 import Text from "@/ui/Text";
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
-import Icon, { IconType } from "@/ui/Icon";
 
-interface SelectProps extends ViewProps {
-  options: string[];
+interface SelectProps<T = any> extends ViewProps {
+  /** The placeholder when no item is selected */
   placeholder: string;
+  /** This value should be unique. Its the value of the select */
   value: string | null;
+  /** The options to select from */
+  options: ISelectOption<T>[];
+  /** If the select is searchable */
   searchable?: boolean;
+  /** The error message to display */
   error?: string;
+  /** The style of the select */
   style?: any;
-  onChange: (value: string | null) => void;
+  /** The function to call when the value changes */
+  onChange: (value: string) => void;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -39,17 +49,17 @@ const Select: React.FC<SelectProps> = ({
   value,
   style,
   onChange,
-  ...props
 }) => {
   const sheetRef = useRef<BottomSheetModal>(null);
   const [expanded, setExpanded] = useState(false);
 
-  const valueText = value || `Select ${placeholder}`;
+  const label = options.find((o) => o.value === value)?.label;
   const iconName: IconType = expanded ? "CaretUp" : "CaretDown";
+  const displayValue = label || error || `Select ${placeholder}`;
 
   const toggleExpanded = () => {
     if (expanded) {
-      handleCloseSheet();
+      closeSheet();
       return;
     }
 
@@ -62,47 +72,54 @@ const Select: React.FC<SelectProps> = ({
     sheetRef.current?.present();
   };
 
-  const handleCloseSheet = () => {
+  const closeSheet = () => {
     setExpanded(false);
     sheetRef.current?.dismiss();
   };
 
-  const containerStyles = tw.style("gap-2 w-full", style);
-
   const selectStyles = tw.style(
-    "border bg-gray-100 rounded-xl p-4.5",
+    "border bg-gray-100 rounded-xl px-5 w-full",
     "flex-row justify-between items-center",
+    value ? "py-2" : "py-4",
     error && "border-red-500",
     !error && "border-gray-100",
+    style,
   );
 
   const textStyles = tw.style(
-    "font-medium",
+    "text-base",
     error && "text-red-500",
-    !error && "text-primary",
+    !value && !error && "text-gray-500",
+    value && !error && "text-primary",
   );
+
+  const labelStyles = tw.style("text-gray-500", error && "text-red-500");
 
   return (
     <>
-      <View style={containerStyles} {...props}>
-        <Text style={textStyles}>{error || placeholder}</Text>
+      <TouchableOpacity style={selectStyles} onPress={toggleExpanded}>
+        <View>
+          {value && (
+            <Text type="p4" style={labelStyles}>
+              {error || placeholder}
+            </Text>
+          )}
 
-        <TouchableOpacity style={selectStyles} onPress={toggleExpanded}>
-          <Text numberOfLines={1} type="h3" style={textStyles}>
-            {valueText}
+          <Text numberOfLines={1} style={textStyles}>
+            {displayValue}
           </Text>
-          <Icon icon={iconName} color={tw.color("primary")} />
-        </TouchableOpacity>
-      </View>
+        </View>
+        <Icon icon={iconName} size={16} color={tw.color("primary")} />
+      </TouchableOpacity>
 
       <OptionSheet
-        searchable={!!searchable}
         innerRef={sheetRef}
         value={value}
         options={options}
+        searchable={!!searchable}
         placeholder={placeholder}
+        closeSheet={closeSheet}
         onChange={onChange}
-        handleCloseSheet={handleCloseSheet}
       />
     </>
   );

@@ -272,7 +272,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({
           <View style={inputContainerClasses}>
             <IconButton
               ph-label="show-extensions"
-              size="sm"
+              size="md"
               color="secondary"
               iconName={extensionsVisible ? "X" : "Plus"}
               // prettier-ignore
@@ -290,7 +290,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({
 
             <IconButton
               ph-label="send-message"
-              size="sm"
+              size="md"
               color="secondary"
               iconName="PaperPlaneRight"
               disabled={isButtonDisabled}

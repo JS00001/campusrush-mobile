@@ -45,7 +45,7 @@ const Landing: React.FC<Props> = ({ navigation }) => {
           </Typewriter>
         </View>
 
-        <View style={tw`w-full`}>
+        <View style={tw`w-full gap-4`}>
           <Button color="secondary" onPress={handleCreateAccount}>
             Create Account
           </Button>

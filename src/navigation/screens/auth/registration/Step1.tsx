@@ -22,7 +22,7 @@ const RegistrationStep1Screen = () => {
         subtitle="Please provide your chapters information"
       />
 
-      <Layout.Content gap={18} keyboardAvoiding>
+      <Layout.Content gap={12} keyboardAvoiding>
         <RegistrationStep1View />
       </Layout.Content>
     </Layout.Root>

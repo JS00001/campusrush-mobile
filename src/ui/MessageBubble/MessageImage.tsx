@@ -25,7 +25,7 @@ import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import useCamera from "@/hooks/useCamera";
 import { useImageZoomStore } from "@/store";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 interface MessageImageProps {
   url: string;
@@ -36,7 +36,7 @@ const MessageImage: React.FC<MessageImageProps> = ({ url, error }) => {
   const camera = useCamera();
   const scale = useSharedValue(1);
   const { setImage } = useImageZoomStore();
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const containerStyles = tw.style("flex-row items-center self-end gap-1");
 
@@ -99,7 +99,7 @@ const MessageImage: React.FC<MessageImageProps> = ({ url, error }) => {
         scale.value = withTiming(1, { duration: 300 });
       },
     );
-    openBottomSheet("ACTION_MENU", imageMenu);
+    bottomSheetStore.open("ACTION_MENU", imageMenu);
   };
 
   return (

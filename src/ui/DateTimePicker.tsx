@@ -41,17 +41,14 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
   };
 
   const containerStyles = tw.style(
-    "w-full h-16 rounded-xl p-3 -gap-8",
+    "w-full h-14 rounded-xl p-3 -gap-8",
     "flex-row items-center justify-between",
-    "border-2 bg-gray-100 border-gray-100",
+    "border bg-gray-100 border-gray-100",
     disabled && "disabled",
     error && "border-red-500",
   );
 
-  const labelStyles = tw.style(
-    "text-base text-gray-400 shrink",
-    error && "text-red-500",
-  );
+  const labelStyles = tw.style("text-base shrink", error && "text-red-500");
 
   const datePickerStyles = tw.style({
     // This gets the color more accurate to the design

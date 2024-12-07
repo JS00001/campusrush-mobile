@@ -100,12 +100,11 @@ const ManageBilling: React.FC<ManageBillingProps> = ({
       />
 
       <ButtonGroup>
-        <Button size="sm" color="secondary" onPress={prevView}>
+        <Button color="secondary" onPress={prevView}>
           Go Back
         </Button>
 
         <Button
-          size="sm"
           loading={grantEntitlementMutation.isPending}
           onPress={handleSubmission}
         >

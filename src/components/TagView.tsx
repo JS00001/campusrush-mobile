@@ -32,14 +32,14 @@ const TagView: React.FC<TagViewProps> = ({
   const containerStyles = tw.style(
     "w-full",
     !hideContainer && "px-5 py-2 rounded-xl bg-gray-100",
-    isEmpty ? "gap-y-0.5" : "gap-y-2",
+    isEmpty ? "gap-y-0" : "gap-y-2",
     style,
   );
 
   return (
     <TouchableOpacity style={containerStyles} {...props}>
       {!hideContainer && (
-        <Text type="p4" style={tw`text-gray-400`}>
+        <Text type="p4" style={tw`text-gray-500`}>
           Tags
         </Text>
       )}
@@ -51,7 +51,7 @@ const TagView: React.FC<TagViewProps> = ({
       </View>
 
       {isEmpty && (
-        <Text type="p1" style={tw`text-primary`}>
+        <Text type="p2" style={tw`text-primary`}>
           N/A
         </Text>
       )}

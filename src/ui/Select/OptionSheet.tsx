@@ -21,29 +21,31 @@
  * Do not distribute
  */
 
+import { useState } from "react";
 import { FlatList, View } from "react-native";
-import { useCallback, useState } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import Option from "./Option";
 
+import type { ISelectOption } from "./@types";
+
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
-import TextInput from "@/ui/TextInput";
+import Searchbox from "@/ui/Searchbox";
 import useSearch from "@/hooks/useSearch";
 import { BottomSheet } from "@/ui/BottomSheet";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 import useKeyboardListener from "@/hooks/useKeyboardListener";
 
-interface OptionSheetProps {
+interface OptionSheetProps<T = any> {
   placeholder: string;
   searchable: boolean;
+  options: ISelectOption<T>[];
   value: string | null;
-  options: string[];
   innerRef: React.RefObject<BottomSheetModal>;
-  handleCloseSheet: () => void;
-  onChange: (value: string | null) => void;
+  closeSheet: () => void;
+  onChange: (value: string) => void;
 }
 
 const OptionSheet: React.FC<OptionSheetProps> = ({
@@ -53,7 +55,7 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
   options,
   innerRef,
   onChange,
-  handleCloseSheet,
+  closeSheet,
 }) => {
   useKeyboardListener({
     onKeyboardWillShow: () => {
@@ -67,20 +69,22 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
   const [selected, setSelected] = useState(value);
   const search = useSearch({
     data: options,
+    fields: ["label"],
   });
 
   const handleSheetChanges = (index: number) => {
     // When the sheet closes...
     if (index === -1) {
       search.setQuery("");
-      handleCloseSheet();
+      closeSheet();
       setSelected(value);
     }
   };
 
   const onDonePress = () => {
+    if (!selected) return;
     onChange(selected);
-    handleCloseSheet();
+    closeSheet();
   };
 
   const inputPlaceholder = `Search ${options.length || ""} options`;
@@ -93,7 +97,7 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
         <View style={tw`px-6 gap-3`}>
           <Text type="h1">{placeholder}</Text>
           {searchable && (
-            <TextInput
+            <Searchbox
               placeholder={inputPlaceholder}
               value={search.query}
               onChangeText={search.setQuery}
@@ -106,32 +110,22 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
           style={tw`max-h-64`}
           keyboardShouldPersistTaps="handled"
           ListEmptyComponent={
-            <Text type="h3" style={tw`px-4.5 py-3 font-normal`}>
+            <Text type="h4" style={tw`px-4.5 py-3 font-normal`}>
               No results found
             </Text>
           }
-          renderItem={({ item, index }) => {
-            const isSelected = selected === item;
-
-            const handleOptionPress = () => {
-              setSelected(item);
-            };
-
-            return (
-              <Option
-                value={item}
-                key={index}
-                selected={isSelected}
-                onPress={handleOptionPress}
-              />
-            );
-          }}
+          renderItem={({ item, index }) => (
+            <Option
+              key={index}
+              value={item.label}
+              selected={selected === item.value}
+              onPress={() => setSelected(item.value)}
+            />
+          )}
         />
 
         <View style={tw`px-6`}>
-          <Button size="sm" onPress={onDonePress}>
-            Done
-          </Button>
+          <Button onPress={onDonePress}>Done</Button>
         </View>
       </BottomSheetContainer>
     </BottomSheet>

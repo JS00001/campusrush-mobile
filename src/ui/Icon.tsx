@@ -10,15 +10,10 @@
  * Do not distribute
  */
 
-import { ElementType } from "react";
 import { View, ViewProps } from "react-native";
-import * as PhosphorIcon from "phosphor-react-native";
 
 import tw from "@/lib/tailwind";
-
-export type IconType =
-  | keyof typeof PhosphorIcon
-  | `${keyof typeof PhosphorIcon}Fill`;
+import Icons, { IconType } from "@/constants/icons";
 
 interface IconProps extends ViewProps {
   icon: IconType;
@@ -35,7 +30,7 @@ const Icon: React.FC<IconProps> = ({
   ...props
 }) => {
   const iconName = icon.split("Fill")[0];
-  const IconComponent = PhosphorIcon[iconName] as ElementType;
+  const IconComponent = Icons[iconName];
 
   const iconWeight = icon.includes("Fill") ? "fill" : weight || "regular";
 

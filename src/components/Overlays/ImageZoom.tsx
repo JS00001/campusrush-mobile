@@ -64,7 +64,7 @@ const ImageZoomOverlay = () => {
   return (
     <Animated.View style={[containerClasses, animatedContainerStyle]}>
       <IconButton
-        size="sm"
+        size="md"
         label="Close"
         color="secondary"
         iconName="X"

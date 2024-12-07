@@ -61,7 +61,6 @@ const NetworkProvider: React.FC<{ children: React.ReactNode }> = ({
             />
 
             <Button
-              size="sm"
               color="secondary"
               iconLeft="ArrowClockwise"
               onPress={verifyConnection}

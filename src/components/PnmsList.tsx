@@ -22,7 +22,7 @@ import format from "@/lib/util/format";
 import StickyHeader from "@/ui/StickyHeader";
 import ListItem from "@/ui/ListItems/ListItem";
 import ListItemLoader from "@/ui/Loaders/ListItem";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 type ListDataTypes = IPNM | string;
 
@@ -38,7 +38,7 @@ const PnmsList: React.FC<PnmsListProps> = ({
   loading,
   ...props
 }) => {
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
   const [isRefetching, setIsRefetching] = useState(false);
 
   /**
@@ -117,7 +117,7 @@ const PnmsList: React.FC<PnmsListProps> = ({
     }
 
     const onPress = () => {
-      openBottomSheet("PNM", { pnm: data });
+      bottomSheetStore.open("PNM", { pnm: data });
     };
 
     return (

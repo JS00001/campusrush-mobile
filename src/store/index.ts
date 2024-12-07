@@ -14,5 +14,7 @@ export * from './auth/registration-store';
 
 export * from './overlay/image-zoom-store';
 export * from './overlay/status-store';
+export * from './overlay/bottom-sheet-store';
+export * from './overlay/sidebar-store';
 
 export * from './auth/forgot-password-store';

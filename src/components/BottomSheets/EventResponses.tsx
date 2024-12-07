@@ -13,7 +13,7 @@
 import { useState } from "react";
 import { View } from "react-native";
 
-import type { IconType } from "@/ui/Icon";
+import type { IconType } from "@/constants/icons";
 import type { BottomSheetProps, SheetData } from "./@types";
 
 import Tabs from "@/ui/Tabs";
@@ -29,107 +29,106 @@ import ListItemLoader from "@/ui/Loaders/ListItem";
 import ErrorMessage from "@/components/ErrorMessage";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
+const EventResponsesContent: React.FC<SheetData<"EVENT_RESPONSES">> = ({
+  data,
+}) => {
+  const { eventId } = data;
+
+  const eventQuery = useGetEvent(eventId);
+  const [activeTab, setActiveTab] = useState(0);
+
+  if (eventQuery.isLoading) return <LoadingState />;
+  if (eventQuery.error)
+    return (
+      <ErrorMessage
+        error={eventQuery.error}
+        description="Could not load event responses"
+      />
+    );
+
+  const responses = eventQuery.data!.responses;
+  const event = format.event(eventQuery.data!.event);
+
+  responses.sort((a, b) => {
+    const order = { yes: 0, maybe: 1, no: 2 };
+    return order[a.response] - order[b.response];
+  });
+
+  const yesResponses = responses.filter((r) => r.response === "yes");
+  const noResponses = responses.filter((r) => r.response === "no");
+  const maybeResponses = responses.filter((r) => r.response === "maybe");
+
+  const tabsOptions = [
+    `All (${responses.length})`,
+    `Yes (${yesResponses.length})`,
+    `Maybe (${maybeResponses.length})`,
+    `No (${noResponses.length})`,
+  ];
+
+  const dataMap = {
+    0: responses,
+    1: yesResponses,
+    2: maybeResponses,
+    3: noResponses,
+  };
+  const dataToDisplay = dataMap[activeTab];
+
+  const getIcon = (response: "yes" | "no" | "maybe") => {
+    const icon = {
+      yes: "Check",
+      no: "X",
+      maybe: "QuestionMark",
+    }[response];
+
+    return icon as IconType;
+  };
+
+  return (
+    <BottomSheetContainer style={tw`px-0`} contentContainerStyle={tw`gap-y-6`}>
+      <Text type="h2" style={tw`px-6`} numberOfLines={2}>
+        {event.title}
+      </Text>
+      <Tabs
+        tabs={tabsOptions}
+        currentIndex={activeTab}
+        onChange={setActiveTab}
+        contentContainerStyle={tw`px-6`}
+      />
+      <View style={tw`px-6`}>
+        {!dataToDisplay?.length && (
+          <Headline
+            centerText
+            style={tw`py-12`}
+            title="No Responses"
+            subtitle="There are no responses yet for this event"
+          />
+        )}
+        {dataToDisplay && (
+          <View style={tw`gap-y-2`}>
+            {dataToDisplay.map((response, index) => (
+              <ListItem
+                key={index}
+                size="md"
+                pressable={false}
+                title={response.pnm.displayName}
+                subtitle={format.phoneNumber(response.pnm.phoneNumber)}
+                icon={getIcon(response.response)}
+              />
+            ))}
+          </View>
+        )}
+      </View>
+    </BottomSheetContainer>
+  );
+};
+
 const EventResponsesSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   return (
     <BottomSheet
       innerRef={innerRef}
       enablePanDownToClose={false}
       children={(props?: SheetData<"EVENT_RESPONSES">) => {
-        const { eventId } = props!.data;
-
-        const eventQuery = useGetEvent(eventId);
-        const [activeTab, setActiveTab] = useState(0);
-
-        // Loading and Error States
-        if (eventQuery.isLoading) return <LoadingState />;
-        if (eventQuery.error)
-          return (
-            <ErrorMessage
-              error={eventQuery.error}
-              description="Could not load event responses"
-            />
-          );
-
-        const responses = eventQuery.data!.responses;
-        const event = format.event(eventQuery.data!.event);
-
-        // Ensure responses are sorted by yes, maybe, no
-        responses.sort((a, b) => {
-          const order = { yes: 0, maybe: 1, no: 2 };
-          return order[a.response] - order[b.response];
-        });
-
-        const yesResponses = responses.filter((r) => r.response === "yes");
-        const noResponses = responses.filter((r) => r.response === "no");
-        const maybeResponses = responses.filter((r) => r.response === "maybe");
-
-        const tabsOptions = [
-          `All (${responses.length})`,
-          `Yes (${yesResponses.length})`,
-          `Maybe (${maybeResponses.length})`,
-          `No (${noResponses.length})`,
-        ];
-
-        const data = {
-          0: responses,
-          1: yesResponses,
-          2: maybeResponses,
-          3: noResponses,
-        }[activeTab];
-
-        const getIcon = (response: "yes" | "no" | "maybe") => {
-          const icon = {
-            yes: "Check",
-            no: "X",
-            maybe: "QuestionMark",
-          }[response];
-
-          return icon as IconType;
-        };
-
-        return (
-          <BottomSheetContainer
-            style={tw`px-0`}
-            contentContainerStyle={tw`gap-y-6`}
-          >
-            <Text type="h2" style={tw`px-6`} numberOfLines={2}>
-              {event.title}
-            </Text>
-
-            <Tabs
-              options={tabsOptions}
-              currentIndex={activeTab}
-              onChange={setActiveTab}
-              contentContainerStyle={tw`px-6`}
-            />
-
-            <View style={tw`px-6`}>
-              {!data?.length && (
-                <Headline
-                  centerText
-                  style={tw`py-12`}
-                  title="No Responses"
-                  subtitle="There are no responses yet for this event"
-                />
-              )}
-
-              {data && (
-                <View style={tw`gap-y-2`}>
-                  {data.map((response, index) => (
-                    <ListItem
-                      key={index}
-                      size="md"
-                      pressable={false}
-                      title={response.pnm.displayName}
-                      subtitle={format.phoneNumber(response.pnm.phoneNumber)}
-                      icon={getIcon(response.response)}
-                    />
-                  ))}
-                </View>
-              )}
-            </View>
-          </BottomSheetContainer>
-        );
+        return <EventResponsesContent data={props!.data} />;
       }}
     />
   );

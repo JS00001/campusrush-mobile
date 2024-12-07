@@ -10,6 +10,10 @@
  * Do not distribute
  */
 
+import {
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from "react-native-reanimated";
 import "react-native-console-time-polyfill";
 import { registerRootComponent } from "expo";
 import * as ExpoSplashScreen from "expo-splash-screen";
@@ -29,9 +33,9 @@ import EASUpdateProvider from "@/providers/EASUpdate";
 import RootNavigator from "@/navigation/root-navigator";
 import NavigationProvider from "@/providers/Navigation";
 import SentryProvider from "@/providers/external/Sentry";
-import BottomSheetProvider from "@/providers/BottomSheet";
 import PreferencesProvider from "@/providers/Preferences";
 import PosthogProvider from "@/providers/external/Posthog";
+import BottomSheetsComponent from "@/components/BottomSheets";
 import QonversionProvider from "@/providers/external/Qonversion";
 import GestureDetectorProvider from "@/providers/GestureDetector";
 
@@ -43,6 +47,13 @@ ExpoSplashScreen.preventAutoHideAsync();
 // Visible by shaking the screen in dev mode, or the admin panel
 // in production
 startNetworkLogging();
+
+// Configure reanimated logger to not log strict mode
+// messages. Some of these issues are due to gorhom bottom sheet
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.error,
+  strict: false,
+});
 
 const App = () => {
   return (
@@ -60,13 +71,12 @@ const App = () => {
                           <GestureHandlerRootView style={{ flex: 1 }}>
                             <OverlayProvider>
                               <BottomSheetModalProvider>
-                                <BottomSheetProvider>
-                                  <WebsocketProvider>
-                                    <GestureDetectorProvider>
-                                      <RootNavigator />
-                                    </GestureDetectorProvider>
-                                  </WebsocketProvider>
-                                </BottomSheetProvider>
+                                <WebsocketProvider>
+                                  <GestureDetectorProvider>
+                                    <BottomSheetsComponent />
+                                    <RootNavigator />
+                                  </GestureDetectorProvider>
+                                </WebsocketProvider>
                               </BottomSheetModalProvider>
                             </OverlayProvider>
                           </GestureHandlerRootView>

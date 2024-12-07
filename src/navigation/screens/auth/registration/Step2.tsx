@@ -22,7 +22,7 @@ const RegistrationStep2Screen = () => {
         subtitle="Please provide your personal details"
       />
 
-      <Layout.Content scrollable keyboardAvoiding gap={18}>
+      <Layout.Content scrollable keyboardAvoiding gap={12}>
         <RegistrationStep2View />
       </Layout.Content>
     </Layout.Root>

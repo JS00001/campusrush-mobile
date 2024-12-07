@@ -76,7 +76,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
             <View style={largeBentoCellStyles}>
               <View>
                 {largeBentoContent.map((content, index) => (
-                  <Text key={index} type="h3" style={tw`text-primary`}>
+                  <Text key={index} type="h4" style={tw`text-primary`}>
                     {content}
                   </Text>
                 ))}

@@ -19,12 +19,15 @@ import BottomSheetBackdrop from "./Backdrop";
 import tw from "@/lib/tailwind";
 
 interface BottomSheetProps extends BottomSheetModalProps {
+  MAX_HEIGHT_PERCENTAGE?: number;
   innerRef?: React.Ref<BottomSheetModal>;
 }
 
-const BottomSheet: React.FC<BottomSheetProps> = ({ children, ...props }) => {
-  const MAX_HEIGHT_PERCENTAGE = 0.9;
-
+const BottomSheet: React.FC<BottomSheetProps> = ({
+  MAX_HEIGHT_PERCENTAGE = 0.9,
+  children,
+  ...props
+}) => {
   const windowHeight = Dimensions.get("window").height;
   const maxDynamicContentSize = windowHeight * MAX_HEIGHT_PERCENTAGE;
 

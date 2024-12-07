@@ -22,7 +22,7 @@ import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const ChapterSheet: React.FC<BottomSheetProps> = ({
   innerRef,
-  handleClose,
+  close,
   snapToIndex,
   snapToPosition,
 }) => {
@@ -31,7 +31,7 @@ const ChapterSheet: React.FC<BottomSheetProps> = ({
   const sheetFlow = useSheetFlow({
     state: {},
     views,
-    handleClose,
+    close,
     snapToIndex,
     snapToPosition,
   });

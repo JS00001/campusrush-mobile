@@ -17,9 +17,11 @@ import {
   TouchableOpacityProps,
 } from "react-native";
 
+import type { IconType } from "@/constants/icons";
+
+import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
-import Icon, { IconType } from "@/ui/Icon";
 
 export type IconButtonColor = "primary" | "secondary" | "tertiary";
 
@@ -39,25 +41,20 @@ interface IconButtonProps extends TouchableOpacityProps {
  * The sizes for all of the IconButton components
  */
 const IconButtonSizes = {
-  xs: {
+  sm: {
     icon: 20,
     text: "p4",
     container: { padding: 8 },
   },
-  sm: {
+  md: {
     icon: 22,
     text: "p4",
     container: { padding: 10 },
   },
-  md: {
+  lg: {
     icon: 24,
     text: "p3",
     container: { padding: 12 },
-  },
-  lg: {
-    icon: 26,
-    text: "p2",
-    container: { padding: 14 },
   },
 };
 

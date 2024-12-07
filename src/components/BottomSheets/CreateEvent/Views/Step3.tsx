@@ -28,7 +28,7 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
   state,
   setState,
   prevView,
-  handleClose,
+  close,
 }) => {
   const posthog = usePosthog();
   const mutation = useCreateEvent();
@@ -50,7 +50,7 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
       text2: "Your event has been successfully created",
     });
 
-    handleClose();
+    close();
   };
 
   const startDate = new Date(state.startDate);
@@ -108,18 +108,13 @@ const Step3: React.FC<UseSheetFlowProps<CreateEventState>> = ({
 
       <ButtonGroup>
         <Button
-          size="sm"
           color="secondary"
           onPress={prevView}
           disabled={mutation.isPending}
         >
           No, Go Back
         </Button>
-        <Button
-          size="sm"
-          onPress={handleSubmission}
-          loading={mutation.isPending}
-        >
+        <Button onPress={handleSubmission} loading={mutation.isPending}>
           Yes, Create
         </Button>
       </ButtonGroup>

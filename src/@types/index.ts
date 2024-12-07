@@ -16,12 +16,15 @@ export * from './entitlements';
 export * from './models/chapter';
 export * from './models/conversation';
 export * from './models/event';
-export * from './models/eventResponse';
+export * from './models/event-response';
+export * from './models/form';
+export * from './models/form-response';
 export * from './models/message';
 export * from './models/notification';
 export * from './models/pnm';
 export * from './models/user';
 export * from './models/violation';
+
 export * from './api';
 export * from './api/cms';
 export * from './api/response';

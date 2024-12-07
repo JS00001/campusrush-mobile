@@ -14,7 +14,7 @@ import type { API } from '.';
 import type { IAdminChapter, IChapter } from '../models/chapter';
 import type { IConversation } from '../models/conversation';
 import type { IEvent } from '../models/event';
-import type { IEventResponse } from '../models/eventResponse';
+import type { IEventResponse } from '../models/event-response';
 import type { IMessage } from '../models/message';
 import type { IPNM } from '../models/pnm';
 import type { Metadata } from '../app';
@@ -22,10 +22,14 @@ import type { EntitlementDetails } from '../entitlements';
 import type { IViolation } from '../models/violation';
 import type { INotification } from '../models/notification';
 import type { IUser } from '../models/user';
+import type { IForm } from '../models/form';
+import type { IFormResponse } from '../models/form-response';
 
 export type LogoutResponse = API.Response<{}>;
 
 export type DeletePnmResponse = API.Response<{}>;
+
+export type DeleteFormResponse = API.Response<{}>;
 
 export type GrantAdminChapterEntitlementsResponse = API.Response<{}>;
 
@@ -370,4 +374,42 @@ export type GetNotificationsResponse = API.Response<{
 export type DeletePnmsResponse = API.Response<{
   /** The PNMs left once deleted */
   pnms: IPNM[];
+}>;
+
+export type GetFormsResponse = API.Response<{
+  /** List of forms */
+  forms: IForm[];
+}>;
+
+export type DeleteFormsResponse = API.Response<{
+  /** List of forms after deletion */
+  forms: IForm[];
+}>;
+
+export type CreateFormResponse = API.Response<{
+  /** Created form information */
+  form: IForm;
+}>;
+
+export type UpdateFormResponse = API.Response<{
+  /** Updated form information */
+  form: IForm;
+}>;
+
+export type GetFormResponse = API.Response<{
+  /** Form information */
+  form: IForm;
+}>;
+
+export type GetFormResponsesResponse = API.Response<{
+  /** List of responses to the form */
+  responses: IFormResponse[];
+}>;
+
+export type GetPnmResponsesResponse = API.Response<{
+  /** List of responses to the form */
+  responses: (Omit<IFormResponse, 'form' | 'pnm'> & {
+    form: IForm;
+    pnm: IPNM;
+  })[];
 }>;

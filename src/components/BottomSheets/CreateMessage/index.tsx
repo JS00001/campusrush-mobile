@@ -20,7 +20,7 @@ import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 export const CreateMessageSheet: React.FC<BottomSheetProps> = ({
   innerRef,
-  handleClose,
+  close,
   snapToIndex,
   snapToPosition,
 }) => {
@@ -29,7 +29,7 @@ export const CreateMessageSheet: React.FC<BottomSheetProps> = ({
   const sheetFlow = useSheetFlow({
     state: {},
     views,
-    handleClose,
+    close,
     snapToIndex,
     snapToPosition,
   });

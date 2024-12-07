@@ -19,7 +19,7 @@ import type { IPNM, IEvent } from "@/types";
 import { useUser } from "@/providers/User";
 import queryClient from "@/lib/query-client";
 import { useUpdateUser } from "@/hooks/api/user";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 interface IPushNotificationsContext {
   isLoading: boolean;
@@ -39,8 +39,8 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
   const { user } = useUser();
-  const { openBottomSheet } = useBottomSheet();
-  const responseListener = useRef<RNNotifications.Subscription>();
+  const bottomSheetStore = useBottomSheetStore();
+  const responseListener = useRef<RNNotifications.EventSubscription>();
 
   const navigation = useNavigation();
   const updateUserMutation = useUpdateUser();
@@ -201,7 +201,7 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
       const pnm: IPNM = payload.pnm;
       queryClient.invalidateQueries({ queryKey: ["pnms"] });
 
-      openBottomSheet("PNM", { pnm });
+      bottomSheetStore.open("PNM", { pnm });
       navigation.navigate("Main", {
         screen: "PNMsTab",
         params: {
@@ -215,7 +215,7 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
       queryClient.invalidateQueries({ queryKey: ["events"] });
       queryClient.invalidateQueries({ queryKey: ["event", event._id] });
 
-      openBottomSheet("EVENT", { event });
+      bottomSheetStore.open("EVENT", { event });
       navigation.navigate("Main", {
         screen: "MoreTab",
         params: {
@@ -227,7 +227,7 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
     if (payload.type === "NEW_DYNAMIC_NOTIFICATION") {
       const { title, message, iconName, iconColor } = payload;
 
-      openBottomSheet("DYNAMIC_NOTIFICATION", {
+      bottomSheetStore.open("DYNAMIC_NOTIFICATION", {
         title,
         message,
         iconName,

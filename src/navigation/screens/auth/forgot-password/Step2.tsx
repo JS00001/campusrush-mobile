@@ -22,7 +22,7 @@ const ForgotPasswordStep2Screen = () => {
         subtitle="We sent a password reset code to your email. Enter it below along with your new password"
       />
 
-      <Layout.Content scrollable keyboardAvoiding gap={18}>
+      <Layout.Content scrollable keyboardAvoiding gap={12}>
         <ForgotPasswordStep2View />
       </Layout.Content>
     </Layout.Root>

@@ -21,11 +21,11 @@ import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Headline from "@/ui/Headline";
 import FlatList from "@/ui/FlatList";
-import ListItem from "@/ui/ListItems/ListItem";
+import Searchbox from "@/ui/Searchbox";
 import Skeleton from "@/ui/Skeleton";
-import TextInput from "@/ui/TextInput";
 import format from "@/lib/util/format";
 import { Action } from "@/ui/ActionList";
+import ListItem from "@/ui/ListItems/ListItem";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import HeadlineLoader from "@/ui/Loaders/Headline";
 import ErrorMessage from "@/components/ErrorMessage";
@@ -34,7 +34,7 @@ import useSearch from "@/hooks/useSearch";
 import { useGetContacts } from "@/hooks/api/contacts";
 
 const Landing: React.FC<UseSheetFlowProps> = ({
-  handleClose,
+  close,
   snapToPosition,
   snapToIndex,
 }) => {
@@ -94,7 +94,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({
       })
     }
 
-    handleClose();
+    close();
   }
 
   /**
@@ -138,7 +138,7 @@ const Landing: React.FC<UseSheetFlowProps> = ({
       },
     });
 
-    handleClose();
+    close();
   };
 
   const placeholder = `Search ${all.length || ""} contacts`;
@@ -146,16 +146,15 @@ const Landing: React.FC<UseSheetFlowProps> = ({
   const pnms = search.query ? search.data : suggested;
 
   return (
-    <View style={tw`gap-y-6 flex-1`}>
+    <View style={tw`gap-y-4 flex-1`}>
       <Headline
         title="New Message"
         subtitle="Start a new message with potential members"
       />
 
-      <TextInput
+      <Searchbox
         ph-label="search-contacts"
         autoCorrect={false}
-        icon="MagnifyingGlass"
         placeholder={placeholder}
         onChangeText={search.setQuery}
         onFocus={() => snapToPosition?.("95%")}

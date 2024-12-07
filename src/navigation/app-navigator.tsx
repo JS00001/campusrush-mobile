@@ -33,7 +33,7 @@ import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import TabBarIcon from "@/ui/TabBarIcon";
 import Sidebar from "@/components/Sidebar";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 import { useGetNotifications } from "@/hooks/api/chapter";
 import { useSidebarStore } from "@/store/overlay/sidebar-store";
 import { useGetConversations } from "@/hooks/api/conversations";
@@ -49,7 +49,7 @@ const MainNavigator = () => {
   const Tab = createBottomTabNavigator<MainStackParams>();
 
   const sidebar = useSidebarStore();
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const conversationsQuery = useGetConversations();
   const notificationsQuery = useGetNotifications();
@@ -61,7 +61,7 @@ const MainNavigator = () => {
   }).length;
 
   const onAddTabPress = () => {
-    openBottomSheet("CREATE_PNM");
+    bottomSheetStore.open("CREATE_PNM");
   };
 
   return (
@@ -162,7 +162,6 @@ const MainNavigator = () => {
         })}
         options={{
           tabBarLabel: "More",
-          // PR_TODO: Check this icon
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               color={color}

@@ -34,23 +34,19 @@ const Headline: React.FC<HeadlineProps> = ({
 
   ...props
 }) => {
-  const containerStyles = tw.style(
-    "flex-col gap-y-1",
-    centerText && "items-center",
-    style,
-  );
-
+  const containerStyles = tw.style(centerText && "items-center", style);
   const textStyles = tw.style(centerText && "text-center");
-
   const titleStyles = tw.style(textStyles, titleStyle);
   const subtitleStyles = tw.style(textStyles, subtitleStyle);
 
   return (
     <View style={containerStyles} {...props}>
-      <Text type="h2" style={titleStyles} numberOfLines={1}>
+      <Text type="h4" style={titleStyles} numberOfLines={1}>
         {title}
       </Text>
-      <Text style={subtitleStyles}>{subtitle}</Text>
+      <Text type="p3" style={subtitleStyles}>
+        {subtitle}
+      </Text>
     </View>
   );
 };

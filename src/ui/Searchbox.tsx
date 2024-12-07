@@ -17,8 +17,10 @@ import {
 } from "react-native";
 import { useRef } from "react";
 
+import type { IconType } from "@/constants/icons";
+
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
-import Icon, { IconType } from "@/ui/Icon";
 
 // This is a hack to disable font scaling for all text input components
 export const TextInputWithNoFontScaling = Object.assign(RNTextInput, {
@@ -32,17 +34,15 @@ interface TextInputProps extends RNTextInputProps {
   placeholder: string;
   style?: any;
   contentContainerStyle?: any;
-  icon?: IconType;
   error?: string;
   disabled?: boolean;
 }
 
-const TextInput: React.FC<TextInputProps> = ({
+const Searchbox: React.FC<TextInputProps> = ({
   placeholder,
   disabled,
   style,
   contentContainerStyle,
-  icon,
   error,
   value,
   onFocus,
@@ -61,15 +61,15 @@ const TextInput: React.FC<TextInputProps> = ({
   };
 
   const containerStyles = tw.style(
-    "relative w-full -z-10 flex-row rounded-full bg-gray-100 items-center pr-4",
-    icon && "pl-4",
+    "relative w-full -z-10 flex-row items-center",
+    "rounded-full grow-0 h-12",
+    "px-4 bg-gray-100",
     disabled && "disabled",
     contentContainerStyle,
   );
 
   const inputStyles = tw.style(
-    "py-4 text-base leading-5 px-4",
-    icon && "pl-2",
+    "text-base leading-5 px-4 pl-2",
     error && "border-red-500",
     !error && "border-gray-100",
     style,
@@ -77,12 +77,13 @@ const TextInput: React.FC<TextInputProps> = ({
 
   return (
     <Pressable style={containerStyles} onPress={onContainerPress}>
-      {icon && <Icon icon={icon} size={18} color={tw.color("gray-400")} />}
+      <Icon icon="MagnifyingGlass" size={18} color={tw.color("gray-500")} />
 
       <TextInputWithNoFontScaling
         ref={inputRef}
+        autoComplete="off"
         placeholder={placeholder}
-        placeholderTextColor={tw.color("gray-300")}
+        placeholderTextColor={tw.color("gray-500")}
         editable={!disabled}
         style={inputStyles}
         onChangeText={onChangeText}
@@ -94,4 +95,4 @@ const TextInput: React.FC<TextInputProps> = ({
   );
 };
 
-export default TextInput;
+export default Searchbox;

@@ -16,11 +16,11 @@ import ListItem from "@/ui/ListItems/ListItem";
 import FlatList from "@/ui/FlatList";
 import ListItemLoader from "@/ui/Loaders/ListItem";
 import { useGetViolations } from "@/hooks/api/admin";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 const Violations = () => {
   const query = useGetViolations();
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const getIcon = (count: number) => {
     if (count <= 2) {
@@ -68,7 +68,9 @@ const Violations = () => {
           loadingComponent={<ListItemLoader size="lg" />}
           renderItem={({ item }) => {
             const onPress = () => {
-              openBottomSheet("VIOLATIONS", { violations: item.violations });
+              bottomSheetStore.open("VIOLATIONS", {
+                violations: item.violations,
+              });
             };
 
             return (

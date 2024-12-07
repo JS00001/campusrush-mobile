@@ -26,7 +26,7 @@ const PhoneNumberView = () => {
   return (
     <>
       <View>
-        <Text type="h3">Phone Information</Text>
+        <Text type="h4">Phone Information</Text>
         <Text>
           All messages to this phone number will show up in your 'Messages'
           inbox.

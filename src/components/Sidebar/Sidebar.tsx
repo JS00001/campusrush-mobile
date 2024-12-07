@@ -95,6 +95,12 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           newFeature: false,
         },
         {
+          icon: "ListBullets",
+          label: "Forms",
+          screen: "Forms",
+          newFeature: false,
+        },
+        {
           icon: "Bell",
           label: "Notifications",
           screen: "Notifications",

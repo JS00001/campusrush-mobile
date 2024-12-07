@@ -21,7 +21,7 @@ import format from "@/lib/util/format";
 import SafeAreaView from "@/ui/SafeAreaView";
 import { useGetPnm } from "@/hooks/api/pnms";
 import ErrorMessage from "@/components/ErrorMessage";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 interface DirectMessageHeaderProps {
   pnmId: string;
@@ -30,7 +30,7 @@ interface DirectMessageHeaderProps {
 const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({ pnmId }) => {
   const pnmQuery = useGetPnm(pnmId);
   const navigation = useNavigation();
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   useEffect(() => {
     if (pnmQuery.isLoading) return;
@@ -53,7 +53,7 @@ const DirectMessageHeader: React.FC<DirectMessageHeaderProps> = ({ pnmId }) => {
 
   const onMenuButtonPress = () => {
     Keyboard.dismiss();
-    openBottomSheet("PNM", { pnm });
+    bottomSheetStore.open("PNM", { pnm });
   };
 
   return (

@@ -44,7 +44,9 @@ const Hyperlink: React.FC<HyperlinkProps> = ({
 
   return (
     <TouchableOpacity {...props}>
-      <Text style={textStyles}>{children}</Text>
+      <Text type="p3" style={textStyles}>
+        {children}
+      </Text>
     </TouchableOpacity>
   );
 };

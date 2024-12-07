@@ -24,20 +24,20 @@ import { alert } from "@/lib/util";
 import Headline from "@/ui/Headline";
 import IconLabel from "@/ui/IconLabel";
 import Hyperlink from "@/ui/Hyperlink";
+import { useBottomSheetStore } from "@/store";
 import { titleCase } from "@/lib/util/string";
 import { useQonversion } from "@/providers/external/Qonversion";
-import { useBottomSheet } from "@/providers/BottomSheet";
 
 const BillingView = () => {
   const URL = "https://apps.apple.com/account/subscriptions";
 
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
   const { entitlements, restorePurchases } = useQonversion();
 
   const containerStyles = tw.style("bg-gray-100 rounded-xl p-5 gap-y-5 w-full");
 
   const onComparePlansPress = () => {
-    openBottomSheet("PLAN_COMPARISON");
+    bottomSheetStore.open("PLAN_COMPARISON");
   };
 
   const onManageBilling = () => {
@@ -80,7 +80,7 @@ const BillingView = () => {
         return (
           <View style={containerStyles} key={entitlement.id}>
             <View>
-              <Text type="h3">{titleCase(entitlement.id)} Subscription</Text>
+              <Text type="h4">{titleCase(entitlement.id)} Subscription</Text>
               <Text>Thank you for choosing CampusRush</Text>
             </View>
 
@@ -106,7 +106,6 @@ const BillingView = () => {
 
             <View>
               <Button
-                size="sm"
                 style={tw`bg-gray-200`}
                 textStyle={tw`text-red-500`}
                 onPress={onManageBilling}
@@ -114,7 +113,6 @@ const BillingView = () => {
                 Manage Subscription
               </Button>
               <Button
-                size="sm"
                 style={tw`bg-transparent`}
                 textStyle={tw`text-primary`}
                 onPress={onComparePlansPress}

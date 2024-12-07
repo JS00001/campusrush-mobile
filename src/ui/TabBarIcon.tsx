@@ -12,9 +12,11 @@
 
 import { View } from "react-native";
 
+import type { IconType } from "@/constants/icons";
+
 import Text from "@/ui/Text";
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
-import Icon, { IconType } from "@/ui/Icon";
 
 interface TabBarIconProps {
   focused: boolean;

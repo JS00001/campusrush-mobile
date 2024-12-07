@@ -50,6 +50,7 @@ export const Urls = {
 // Endpoints for the web
 export const SHARING_URL = '/sharing';
 export const EVENT_URL = '/events';
+export const FORM_URL = '/forms';
 
 const AppConstants = {
   /**
@@ -106,6 +107,10 @@ const AppConstants = {
    */
   eventUrl: Urls.WebURL + EVENT_URL,
   /**
+   * The url to forms
+   */
+  formUrl: Urls.WebURL + FORM_URL,
+  /**
    * The CMS/content url
    */
   contentUrl: 'https://content.campusrush.app',
@@ -151,6 +156,10 @@ const AppConstants = {
    * The maximum amount of images that can be attached to a message
    */
   maxImages: 3,
+  /**
+   * The reserved form id's for the form editor
+   */
+  formReservedIds: ['first_name', 'last_name', 'phone_number'],
 };
 
 export default AppConstants;

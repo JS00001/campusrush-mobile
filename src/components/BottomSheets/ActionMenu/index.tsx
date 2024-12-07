@@ -32,10 +32,7 @@ import tw from "@/lib/tailwind";
 import { BottomSheet } from "@/ui/BottomSheet";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
-const ActionMenuSheet: React.FC<BottomSheetProps> = ({
-  innerRef,
-  handleClose,
-}) => {
+const ActionMenuSheet: React.FC<BottomSheetProps> = ({ innerRef, close }) => {
   return (
     <BottomSheet
       innerRef={innerRef}
@@ -44,7 +41,7 @@ const ActionMenuSheet: React.FC<BottomSheetProps> = ({
 
         const onMenuItemPress = () => {
           Haptic.notificationAsync(Haptic.NotificationFeedbackType.Success);
-          handleClose();
+          close();
         };
 
         return (

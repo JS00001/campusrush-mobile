@@ -77,32 +77,32 @@ const Step1: React.FC<UseSheetFlowProps<CreateEventState>> = ({
         subtitle="Enter your events information below. You can always edit this information later."
       />
 
-      <FormField
-        placeholder="Title"
-        value={form.state.title.value}
-        error={form.state.title.error}
-        onChangeText={form.setValue.bind(null, "title")}
-      />
-      <FormField
-        placeholder="Location"
-        value={form.state.location.value}
-        error={form.state.location.error}
-        onChangeText={form.setValue.bind(null, "location")}
-      />
-      <FormField
-        multiline
-        blurOnSubmit
-        returnKeyType="done"
-        value={form.state.description.value}
-        placeholder="Description"
-        style={tw`h-36`}
-        error={form.state.description.error}
-        onChangeText={form.setValue.bind(null, "description")}
-      />
+      <View style={tw`gap-y-2`}>
+        <FormField
+          placeholder="Title"
+          value={form.state.title.value}
+          error={form.state.title.error}
+          onChangeText={form.setValue.bind(null, "title")}
+        />
+        <FormField
+          placeholder="Location"
+          value={form.state.location.value}
+          error={form.state.location.error}
+          onChangeText={form.setValue.bind(null, "location")}
+        />
+        <FormField
+          multiline
+          blurOnSubmit
+          returnKeyType="done"
+          value={form.state.description.value}
+          placeholder="Description"
+          style={tw`h-36`}
+          error={form.state.description.error}
+          onChangeText={form.setValue.bind(null, "description")}
+        />
+      </View>
 
-      <Button size="sm" onPress={handleSubmission}>
-        Next
-      </Button>
+      <Button onPress={handleSubmission}>Next</Button>
     </View>
   );
 };

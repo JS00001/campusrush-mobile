@@ -10,30 +10,24 @@
  * Do not distribute
  */
 
-import { useMemo } from "react";
 import { TouchableOpacity, View } from "react-native";
 
 import type { IEvent } from "@/types";
 
 import Text from "@/ui/Text";
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import IconLabel from "@/ui/IconLabel";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 
 interface EventProps {
   event: IEvent;
 }
 
 const Event: React.FC<EventProps> = ({ event }) => {
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
 
   const isEventInPast = new Date(event.startDate) < new Date();
-
-  // Format start to: Month Day
-  const startDate = new Date(event.startDate).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-  });
 
   // Format start to: HH:MM AM/PM
   const startTime = new Date(event.startDate).toLocaleTimeString("en-US", {
@@ -41,34 +35,12 @@ const Event: React.FC<EventProps> = ({ event }) => {
     minute: "2-digit",
   });
 
-  // Calculate days until event, or days since event
-  const daysUntilEventText = useMemo(() => {
-    const millisecondsInDay = 1000 * 60 * 60 * 24;
-
-    const today = new Date();
-    const eventDate = new Date(event.startDate);
-    today.setHours(0, 0, 0, 0);
-    eventDate.setHours(0, 0, 0, 0);
-
-    const daysUntilEvent = Math.floor(
-      (eventDate.getTime() - today.getTime()) / millisecondsInDay,
-    );
-
-    if (daysUntilEvent === 0) return "Today";
-    if (daysUntilEvent === 1) return "Tomorrow";
-    if (daysUntilEvent === -1) return "Yesterday";
-
-    return daysUntilEvent > 0
-      ? `In ${daysUntilEvent} days`
-      : `${-daysUntilEvent} days ago`;
-  }, [event.startDate]);
-
   const onPress = () => {
-    openBottomSheet("EVENT", { event });
+    bottomSheetStore.open("EVENT", { event });
   };
 
   const containerStyles = tw.style(
-    "flex-col gap-1.5",
+    "flex-row gap-2 justify-between items-center",
     "p-5 rounded-xl relative bg-gray-100",
     isEventInPast && "disabled",
   );
@@ -95,50 +67,55 @@ const Event: React.FC<EventProps> = ({ event }) => {
 
   return (
     <TouchableOpacity onPress={onPress} style={containerStyles}>
-      <Text type="p3" style={textStyles}>
-        {startDate} · {startTime} · {daysUntilEventText}
-      </Text>
+      <View style={tw`gap-2 shrink`}>
+        <View>
+          <Text type="p3" style={textStyles}>
+            Starts at {startTime}
+          </Text>
+          <Text type="h4" numberOfLines={1}>
+            {event.title}
+          </Text>
+        </View>
 
-      <Text type="h3" numberOfLines={1}>
-        {event.title}
-      </Text>
+        {/* Details */}
+        <View style={tw`gap-2`}>
+          <IconLabel
+            size="sm"
+            color="tertiary"
+            subtitle={event.location}
+            iconName="MapPinSimple"
+          />
+          <IconLabel
+            size="sm"
+            color="tertiary"
+            subtitle={event.description}
+            iconName="Info"
+          />
+        </View>
 
-      {/* Details */}
-      <View style={tw`gap-2`}>
-        <IconLabel
-          size="sm"
-          color="tertiary"
-          title={event.location}
-          iconName="MapPinSimple"
-        />
-        <IconLabel
-          size="sm"
-          color="tertiary"
-          title={event.description}
-          iconName="Info"
-        />
+        {/* Responses */}
+        <View style={tw`gap-1 pt-2 flex-row `}>
+          <View style={yesResponseContainerStyles}>
+            <Text style={tw`text-xs text-green-700`}>
+              {event.responses.yes} · Yes
+            </Text>
+          </View>
+
+          <View style={maybeResponseContainerStyles}>
+            <Text style={tw`text-xs text-yellow-700`}>
+              {event.responses.maybe} · Maybe
+            </Text>
+          </View>
+
+          <View style={noResponseContainerStyles}>
+            <Text type="p4" style={tw`text-red-700`}>
+              {event.responses.no} · No
+            </Text>
+          </View>
+        </View>
       </View>
 
-      {/* Responses */}
-      <View style={tw`gap-1 pt-2 flex-row `}>
-        <View style={yesResponseContainerStyles}>
-          <Text style={tw`text-xs text-green-700`}>
-            {event.responses.yes} · Yes
-          </Text>
-        </View>
-
-        <View style={maybeResponseContainerStyles}>
-          <Text style={tw`text-xs text-yellow-700`}>
-            {event.responses.maybe} · Maybe
-          </Text>
-        </View>
-
-        <View style={noResponseContainerStyles}>
-          <Text type="p4" style={tw`text-red-700`}>
-            {event.responses.no} · No
-          </Text>
-        </View>
-      </View>
+      <Icon size={16} icon="CaretRight" />
     </TouchableOpacity>
   );
 };

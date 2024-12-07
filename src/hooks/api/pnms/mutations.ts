@@ -38,10 +38,11 @@ export const useDeletePnms = () => {
       return response;
     },
     onSuccess: async (res, variables) => {
-      await queryClient.invalidateQueries({ queryKey: ['contacts'] });
-      await queryClient.invalidateQueries({ queryKey: ['conversations'] });
+      // PR_TODO: When deleting pnms, need to invalidate form queries
+      queryClient.invalidateQueries({ queryKey: ['contacts'] });
+      queryClient.invalidateQueries({ queryKey: ['conversations'] });
 
-      await queryClient.setQueryData(['pnms'], { pnms: res.data.pnms });
+      queryClient.setQueryData(['pnms'], { pnms: res.data.pnms });
       posthog.capture('pnms_deleted', { count: variables?.pnms?.length || 0 });
     },
   });

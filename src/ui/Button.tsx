@@ -16,16 +16,15 @@ import {
   TouchableOpacityProps,
 } from "react-native";
 
-import tw from "@/lib/tailwind";
-import Text, { TextType } from "@/ui/Text";
-import Icon, { IconType } from "@/ui/Icon";
+import type { IconType } from "@/constants/icons";
 
-export type ButtonSize = "sm" | "lg";
+import Icon from "@/ui/Icon";
+import Text from "@/ui/Text";
+import tw from "@/lib/tailwind";
 
 export type ButtonColor = "primary" | "secondary" | "tertiary";
 
 interface ButtonProps extends TouchableOpacityProps {
-  size?: ButtonSize;
   color?: ButtonColor;
   iconLeft?: IconType;
   iconRight?: IconType;
@@ -56,23 +55,7 @@ const ButtonColors = {
   },
 };
 
-/**
- * The size of the button
- */
-const ButtonSizes = {
-  sm: {
-    container: "px-2 py-3.5",
-    text: "p2",
-    icon: 16,
-  },
-  lg: {
-    container: "px-5 py-4.5",
-    text: "p2",
-    icon: 20,
-  },
-};
 const Button: React.FC<ButtonProps> = ({
-  size = "lg",
   color = "primary",
   iconLeft,
   iconRight,
@@ -89,20 +72,18 @@ const Button: React.FC<ButtonProps> = ({
   // Set the button to disabled if it's loading or if it's explicitly disabled
   disabled = loading || disabled;
 
-  const sizeStyle = ButtonSizes[size];
   const colorStyle = ButtonColors[color];
-  const textType = sizeStyle.text as TextType;
 
   const containerStyles = tw.style(
-    "flex flex-row items-center justify-center rounded-xl gap-2.5 w-full",
+    "flex-row items-center justify-center gap-2.5 w-full",
+    "px-2 py-3 rounded-xl ",
     disabled && "disabled",
     colorStyle.container,
-    sizeStyle.container,
     style,
   );
 
   const textStyles = tw.style(
-    "text-center font-medium",
+    "text-center font-medium text-base",
     loading && "opacity-0",
     colorStyle.text,
     textStyle,
@@ -117,16 +98,14 @@ const Button: React.FC<ButtonProps> = ({
     >
       {iconLeft && (
         <Icon
+          size={16}
           icon={iconLeft}
           color={colorStyle.icon}
-          size={sizeStyle.icon}
           style={textStyles}
         />
       )}
 
-      <Text type={textType} style={textStyles}>
-        {children}
-      </Text>
+      <Text style={textStyles}>{children}</Text>
 
       {loading && (
         <ActivityIndicator
@@ -138,9 +117,9 @@ const Button: React.FC<ButtonProps> = ({
 
       {iconRight && (
         <Icon
+          size={16}
           icon={iconRight}
           color={colorStyle.icon}
-          size={sizeStyle.icon}
           style={textStyles}
         />
       )}

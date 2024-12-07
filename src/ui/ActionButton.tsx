@@ -10,10 +10,11 @@
  * Do not distribute
  */
 
-import Icon, { IconType } from "@/ui/Icon";
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+import type { IconType } from "@/constants/icons";
 
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
+import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
 interface ActionButtonProps extends TouchableOpacityProps {
   icon: IconType;

@@ -15,28 +15,30 @@ import { View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import Qonversion, { PurchaseModel } from "react-native-qonversion";
 
+import type { IconType } from "@/constants/icons";
+
+import Icon from "@/ui/Icon";
 import Text from "@/ui/Text";
 import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import Skeleton from "@/ui/Skeleton";
 import { Layout } from "@/ui/Layout";
 import Hyperlink from "@/ui/Hyperlink";
-import Icon, { IconType } from "@/ui/Icon";
 import { useUser } from "@/providers/User";
 import usePosthog from "@/hooks/usePosthog";
 import SafeAreaView from "@/ui/SafeAreaView";
 import { useLogout } from "@/hooks/api/auth";
 import Logo32 from "@/components/Logos/Logo32";
+import ErrorMessage from "@/components/ErrorMessage";
 import { useGetMetadata } from "@/hooks/api/external";
-import { useBottomSheet } from "@/providers/BottomSheet";
+import { useBottomSheetStore } from "@/store";
 import HeaderBackground from "@/components/Backgrounds/Header";
 import { useQonversion } from "@/providers/external/Qonversion";
-import ErrorMessage from "@/components/ErrorMessage";
 
 const BillingScreen = () => {
+  const { user } = useUser();
   const posthog = usePosthog();
-  const { chapter, user } = useUser();
-  const { openBottomSheet } = useBottomSheet();
+  const bottomSheetStore = useBottomSheetStore();
   const { purchaseProduct, restorePurchases } = useQonversion();
 
   const logoutMutation = useLogout();
@@ -143,7 +145,7 @@ const BillingScreen = () => {
    */
   const onFeaturePress = () => {
     posthog.capture("compare_plans_button_pressed");
-    openBottomSheet("PLAN_COMPARISON");
+    bottomSheetStore.open("PLAN_COMPARISON");
   };
 
   /**
@@ -162,7 +164,7 @@ const BillingScreen = () => {
    * When the terms and conditions button is pressed, open the terms and conditions
    */
   const onTermsPress = () => {
-    openBottomSheet("TERMS_OF_SERVICE");
+    bottomSheetStore.open("TERMS_OF_SERVICE");
   };
 
   /**
@@ -236,7 +238,7 @@ const BillingScreen = () => {
             })}
 
             <View style={tw`mt-2 gap-y-2`}>
-              <Button size="sm" color="tertiary" onPress={onFeaturePress}>
+              <Button color="tertiary" onPress={onFeaturePress}>
                 View All Features
               </Button>
             </View>
@@ -246,7 +248,7 @@ const BillingScreen = () => {
 
       <Layout.Footer style={tw`bg-white border-t border-gray-200`}>
         <View style={footerViewStyle}>
-          <Button size="lg" onPress={onPurchase} loading={purchaseLoading}>
+          <Button onPress={onPurchase} loading={purchaseLoading}>
             {buttonCTA}
           </Button>
 

@@ -13,54 +13,67 @@
 import { ScrollViewProps } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import Tab from "./Tab";
+import FilterTab from "./FilterTab";
+import NavigationTab from "./NavigationTab";
 
 import tw from "@/lib/tailwind";
 
 interface TabsProps extends ScrollViewProps {
-  options: string[];
+  tabs: string[];
   currentIndex: number;
-  disabledIndex?: number[];
+  type?: "filter" | "navigation";
   style?: any;
   contentContainerStyle?: any;
   onChange: (index: number) => void;
 }
 
 const Tabs: React.FC<TabsProps> = ({
-  options,
+  tabs,
   currentIndex,
-  disabledIndex = [],
+  type = "filter",
   style,
   contentContainerStyle,
   onChange,
 }) => {
-  const contentStyle = tw.style("grow-0", style);
-  const contentContainerStyles = tw.style("gap-1", contentContainerStyle);
+  const contentStyle = tw.style(
+    "shrink-0 grow-0",
+    type === "navigation" && "border-b border-gray-200",
+    style,
+  );
+
+  const contentContainerStyles = tw.style(
+    "gap-1",
+    // In navigation mode, set the width to full so that all items
+    // are the same size. This control will NOT exceed the screen width
+    type === "navigation" && "w-full",
+    contentContainerStyle,
+  );
 
   return (
     <ScrollView
       horizontal
       style={contentStyle}
+      scrollEnabled={type === "filter"}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={contentContainerStyles}
     >
-      {options.map((option, index) => {
-        const isSelected = currentIndex === index;
-
-        const handlePress = () => {
-          onChange(index);
-        };
-
-        return (
-          <Tab
+      {tabs.map((option, index) =>
+        type === "filter" ? (
+          <FilterTab
             key={index}
             label={option}
-            selected={isSelected}
-            disabled={disabledIndex.includes(index)}
-            onPress={handlePress}
+            selected={currentIndex === index}
+            onPress={() => onChange(index)}
           />
-        );
-      })}
+        ) : (
+          <NavigationTab
+            key={index}
+            label={option}
+            selected={currentIndex === index}
+            onPress={() => onChange(index)}
+          />
+        ),
+      )}
     </ScrollView>
   );
 };

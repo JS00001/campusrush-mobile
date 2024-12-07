@@ -34,7 +34,7 @@ export interface CreatePnmState {
 
 const CreatePnmSheet: React.FC<BottomSheetProps> = ({
   innerRef,
-  handleClose,
+  close,
   snapToIndex,
   snapToPosition,
 }) => {
@@ -57,7 +57,7 @@ const CreatePnmSheet: React.FC<BottomSheetProps> = ({
       snapchat: undefined,
     },
     views,
-    handleClose,
+    close,
     snapToIndex,
     snapToPosition,
   });

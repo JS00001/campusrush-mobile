@@ -111,7 +111,6 @@ const MetadataProvider: React.FC<{ children: React.ReactNode }> = ({
             subtitle="Update the app to the latest version to continue using CampusRush. Don't worry, we'll be here when you get back!"
           />
           <Button
-            size="sm"
             color="secondary"
             iconRight="ArrowSquareOut"
             onPress={onUpdatePress}

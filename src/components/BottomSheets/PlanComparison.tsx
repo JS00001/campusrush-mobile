@@ -26,42 +26,43 @@ import BottomSheetContainer from "@/ui/BottomSheet/Container";
 
 const PlanComparisonSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
   return (
-    <BottomSheet
-      innerRef={innerRef}
-      children={() => {
-        const metadataQuery = useGetMetadata();
+    <BottomSheet innerRef={innerRef}>
+      <PlanComparisonSheetContent />
+    </BottomSheet>
+  );
+};
 
-        // Loading and Error states
-        if (metadataQuery.isLoading) return <LoadingState />;
-        if (metadataQuery.error)
-          return (
-            <ErrorMessage
-              error={metadataQuery.error}
-              description="Could not fetch feature comparison data"
-            />
-          );
+const PlanComparisonSheetContent: React.FC = () => {
+  const metadataQuery = useGetMetadata();
 
-        const entitlements = metadataQuery.data?.entitlements;
+  // Loading and Error states
+  if (metadataQuery.isLoading) return <LoadingState />;
+  if (metadataQuery.error)
+    return (
+      <ErrorMessage
+        error={metadataQuery.error}
+        description="Could not fetch feature comparison data"
+      />
+    );
 
-        return (
-          <BottomSheetContainer style={tw`px-0`}>
-            <View style={tw`items-center p-6 gap-y-1`}>
-              <Text type="h1">Features</Text>
-              <Text type="p1">
-                CampusRush offers the best recruitment experience for greek
-                chapters of all sizes.
-              </Text>
-            </View>
+  const entitlements = metadataQuery.data?.entitlements;
 
-            <View style={tw`flex-1 w-full`}>
-              {(entitlements?.perks.all || []).map((perk, i) => {
-                return <FeatureRow key={i} index={i} feature={perk} />;
-              })}
-            </View>
-          </BottomSheetContainer>
-        );
-      }}
-    />
+  return (
+    <BottomSheetContainer style={tw`px-0`}>
+      <View style={tw`items-center p-6 gap-y-1`}>
+        <Text type="h1">Features</Text>
+        <Text type="p1">
+          CampusRush offers the best recruitment experience for greek chapters
+          of all sizes.
+        </Text>
+      </View>
+
+      <View style={tw`flex-1 w-full`}>
+        {(entitlements?.perks.all || []).map((perk, i) => {
+          return <FeatureRow key={i} index={i} feature={perk} />;
+        })}
+      </View>
+    </BottomSheetContainer>
   );
 };
 
@@ -87,7 +88,7 @@ const FeatureRow: React.FC<FeatureRowProps> = ({ feature, index = 1 }) => {
   );
 
   const booleanComponents = {
-    true: <Icon size={20} icon="CheckCircle" color={tw.color(`green`)} />,
+    true: <Icon size={20} icon="CheckCircle" color={tw.color(`green-500`)} />,
     false: <Icon size={20} icon="XCircle" color={tw.color(`gray-400`)} />,
   };
 

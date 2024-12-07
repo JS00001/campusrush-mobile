@@ -54,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({
         <View style={leftColumnStyles}>
           <InvisibleWrapper visible={hasBackButton}>
             <IconButton
-              size="xs"
+              size="sm"
               color="secondary"
               iconName="ArrowLeft"
               style={tw`self-center`}
@@ -63,14 +63,14 @@ const Header: React.FC<HeaderProps> = ({
           </InvisibleWrapper>
 
           <View>
-            <Text type="h3">{title}</Text>
+            <Text type="h4">{title}</Text>
             <Text type="p3">{subtitle}</Text>
           </View>
         </View>
 
         <InvisibleWrapper visible={hasMenuButton}>
           <IconButton
-            size="xs"
+            size="sm"
             color="secondary"
             iconName="Info"
             onPress={onMenuButtonPress}

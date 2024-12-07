@@ -12,9 +12,11 @@
 
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
+import type { IconType } from "@/constants/icons";
+
+import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import IconLabel from "@/ui/IconLabel";
-import Icon, { IconType } from "@/ui/Icon";
 
 export interface ActionItemProps extends TouchableOpacityProps {
   icon: IconType;

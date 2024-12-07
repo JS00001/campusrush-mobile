@@ -13,16 +13,17 @@
 import { z } from "zod";
 import { useNavigation } from "@react-navigation/native";
 
+import type { AuthStackHook } from "@/navigation/@types";
+import type { ISelectOption } from "@/ui/Select/@types";
+
 import Button from "@/ui/Button";
 import Select from "@/ui/Select";
 import useForm from "@/hooks/useForm";
-import { useRegistrationStore } from "@/store";
-import TermsAndConditions from "@/components/TermsAndConditions";
-
 import schools from "@/constants/schools";
 import chapters from "@/constants/chapters";
 import usePosthog from "@/hooks/usePosthog";
-import { AuthStackHook } from "@/navigation/@types";
+import { useRegistrationStore } from "@/store";
+import TermsAndConditions from "@/components/TermsAndConditions";
 
 const RegistrationStep1View = () => {
   const posthog = usePosthog();
@@ -45,6 +46,16 @@ const RegistrationStep1View = () => {
       school: store.school,
     },
   });
+
+  const schoolOptions: ISelectOption[] = schools.map((school) => ({
+    label: school,
+    value: school,
+  }));
+
+  const chapterOptions: ISelectOption[] = chapters.map((chapter) => ({
+    label: chapter,
+    value: chapter,
+  }));
 
   const handleSubmission = () => {
     const isValid = form.validateState();
@@ -69,16 +80,15 @@ const RegistrationStep1View = () => {
       <Select
         searchable
         placeholder="School Name"
-        options={schools}
+        options={schoolOptions}
         value={form.state.school.value}
         error={form.state.school.error}
         onChange={form.setValue.bind(null, "school")}
       />
-
       <Select
         searchable
         placeholder="Chapter Name"
-        options={chapters}
+        options={chapterOptions}
         value={form.state.name.value}
         error={form.state.name.error}
         onChange={form.setValue.bind(null, "name")}

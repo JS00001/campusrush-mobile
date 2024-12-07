@@ -10,7 +10,9 @@
  * Do not distribute
  */
 
-import type { IconType } from '@/ui/Icon';
+import type { IFormField } from '../';
+
+import type { IconType } from '@/constants/icons';
 
 export interface LoginRequest {
   /** The chapter's email */
@@ -92,6 +94,8 @@ export interface FocusConversationRequest {
 export interface GetConversationsRequest {
   /** Offset for retrieving conversations */
   offset: number;
+  /** Search query for conversations */
+  search?: string;
 }
 
 export interface SendMassMessageRequest {
@@ -259,4 +263,56 @@ export interface GetNotificationsRequest {
 export interface DeletePnmsRequest {
   /** Array of IDs of the potential new members (PNMs) to be deleted */
   pnms?: string[];
+}
+
+export interface DeleteFormsRequest {
+  /** Array of IDs of the forms to be deleted */
+  forms?: string[];
+}
+
+export interface CreateFormRequest {
+  /** Title of the form to be created */
+  title: string;
+  /** Whether the form is enabled or not */
+  enabled: boolean;
+  /** The fields to include in the form */
+  fields: IFormField[];
+}
+
+export interface GetFormRequest {
+  /** The ID of the form to be retrieved */
+  id: string;
+}
+
+export interface GetFormResponsesRequest {
+  /** The ID of the form to retrieve responses */
+  id: string;
+  /** The search query for responses */
+  search?: string;
+}
+
+export interface UpdateFormRequest {
+  /** ID of the form to be updated */
+  id: string;
+  /** Updated title of the form */
+  title: string;
+  /** Updated enabled status of the form */
+  enabled: boolean;
+  /** Updated fields to include in the form */
+  fields: IFormField[];
+}
+
+export interface GetFormResponsesRequest {
+  /** The ID of the form to retrieve responses */
+  id: string;
+}
+
+export interface DeleteFormRequest {
+  /** ID of the form to be deleted */
+  id: string;
+}
+
+export interface GetPnmResponsesRequest {
+  /** The ID of the PNM to retrieve responses */
+  id: string;
 }
