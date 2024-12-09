@@ -30,6 +30,8 @@ export interface Metadata {
   latestVersion: string;
   /** All tags that can be used */
   tags: TagCategory[];
+  /** All area codes that can be used ({areaCode: state}) */
+  areaCodes: Record<string, string>;
   /** All entitlements and their descriptions */
   entitlements: EntitlementDetails;
 }

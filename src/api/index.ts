@@ -12,6 +12,7 @@
 
 export * from './requests/admin';
 export * from './requests/auth';
+export * from './requests/billing';
 export * from './requests/chapter';
 export * from './requests/contacts';
 export * from './requests/content';

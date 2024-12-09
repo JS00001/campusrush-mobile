@@ -1,5 +1,5 @@
 /*
- * Created on Fri Mar 15 2024
+ * Created on Mon Dec 09 2024
  *
  * This software is the proprietary property of CampusRush.
  * All rights reserved. Unauthorized copying, modification, or distribution
@@ -10,6 +10,7 @@
  * Do not distribute
  */
 
+import React, { forwardRef } from "react";
 import { View, ViewProps } from "react-native";
 
 import tw from "@/lib/tailwind";
@@ -18,14 +19,16 @@ interface LayoutProps extends ViewProps {
   style?: any;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, style, ...props }) => {
-  const containerStyles = tw.style("flex-1 z-10", style);
+const Layout = forwardRef<View, LayoutProps>(
+  ({ children, style, ...props }, ref) => {
+    const containerStyles = tw.style("flex-1 z-10", style);
 
-  return (
-    <View style={containerStyles} {...props}>
-      {children}
-    </View>
-  );
-};
+    return (
+      <View style={containerStyles} ref={ref} {...props}>
+        {children}
+      </View>
+    );
+  },
+);
 
 export default Layout;

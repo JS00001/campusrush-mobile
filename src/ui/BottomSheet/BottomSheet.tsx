@@ -20,11 +20,13 @@ import tw from "@/lib/tailwind";
 
 interface BottomSheetProps extends BottomSheetModalProps {
   MAX_HEIGHT_PERCENTAGE?: number;
+  disableClose?: boolean;
   innerRef?: React.Ref<BottomSheetModal>;
 }
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
   MAX_HEIGHT_PERCENTAGE = 0.9,
+  disableClose,
   children,
   ...props
 }) => {
@@ -37,10 +39,14 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     <BottomSheetModal
       enableDynamicSizing
       ref={props.innerRef}
+      enablePanDownToClose={!disableClose}
       backgroundStyle={tw`rounded-3xl`}
-      backdropComponent={BottomSheetBackdrop}
       handleIndicatorStyle={handleIndicatorStyles}
       maxDynamicContentSize={maxDynamicContentSize}
+      backdropComponent={(props) => {
+        const pressBehavior = disableClose ? "none" : "close";
+        return <BottomSheetBackdrop {...props} pressBehavior={pressBehavior} />;
+      }}
       {...props}
     >
       {children}

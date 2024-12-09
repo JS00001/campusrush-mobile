@@ -11,6 +11,7 @@
  */
 
 import Toast from "react-native-toast-message";
+import { useDebouncedCallback } from "use-debounce";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 import type { WebsocketLog, WebsocketMessage } from "@/types/websocket";
@@ -18,10 +19,10 @@ import type { WebsocketLog, WebsocketMessage } from "@/types/websocket";
 import AppConstants from "@/constants";
 import { isJSON } from "@/lib/util/string";
 import { useUser } from "@/providers/User";
-import { useBottomSheetStore } from "@/store";
-import { LogLevels, websocketLogger } from "@/lib/logger";
 import { getAccessToken } from "@/lib/auth";
 import queryClient from "@/lib/query-client";
+import { useBottomSheetStore } from "@/store";
+import { LogLevels, websocketLogger } from "@/lib/logger";
 
 const MAX_LOGS = 100;
 
@@ -61,7 +62,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   /**
    * Attempt to connect to the websocket
    */
-  const connect = async () => {
+  const connect = useDebouncedCallback(async () => {
     const accessToken = await getAccessToken();
 
     if (!accessToken) {
@@ -89,7 +90,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
     connection.onerror = onError;
     connection.onmessage = onMessage;
     connection.onclose = onClose;
-  };
+  }, 1000);
 
   /**
    * When the websocket opens its connection

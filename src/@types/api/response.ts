@@ -413,3 +413,8 @@ export type GetPnmResponsesResponse = API.Response<{
     pnm: IPNM;
   })[];
 }>;
+
+export type purchasePhoneNumberResponse = API.Response<{
+  /** The phone number that was purchased */
+  phoneNumber: string;
+}>;
