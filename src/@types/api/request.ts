@@ -316,3 +316,8 @@ export interface GetPnmResponsesRequest {
   /** The ID of the PNM to retrieve responses */
   id: string;
 }
+
+export interface PurchasePhoneNumberRequest {
+  /** The area code of the phone number */
+  areaCode: string;
+}

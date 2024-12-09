@@ -10,16 +10,34 @@
  * Do not distribute
  */
 
+import { useCallback } from "react";
+
 import tw from "@/lib/tailwind";
 import HomeView from "@/views/Home";
 import { Layout } from "@/ui/Layout";
+import { useUser } from "@/providers/User";
+import { useBottomSheetStore } from "@/store";
 import HomeBackground from "@/components/Backgrounds/Home";
 
 const HomeScreen = () => {
+  const { chapter } = useUser();
+  const bottomSheetStore = useBottomSheetStore();
+
+  /**
+   * When the page loads, if the user is recently a pro user
+   * and they don't have a phone number, open the purchase phone number
+   * sheet so they can confirm their phone number.
+   */
+  const onScreenLoad = useCallback(() => {
+    if (chapter.isPro && !chapter.phoneNumber) {
+      bottomSheetStore.open("PURCHASE_PHONE_NUMBER");
+    }
+  }, [chapter]);
+
   return (
     <>
       <HomeBackground />
-      <Layout.Root>
+      <Layout.Root ref={onScreenLoad}>
         <Layout.Content
           removePadding
           safeAreaPosition="top"

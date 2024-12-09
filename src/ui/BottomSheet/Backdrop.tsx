@@ -10,12 +10,12 @@
  * Do not distribute
  */
 
-import {
-  BottomSheetBackdrop as RNBottomSheetBackdrop,
-  BottomSheetBackdropProps,
-} from "@gorhom/bottom-sheet";
+import { BottomSheetBackdrop as RNBottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import { BottomSheetDefaultBackdropProps } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types";
 
-const BottomSheetBackdrop: React.FC<BottomSheetBackdropProps> = (props) => {
+const BottomSheetBackdrop: React.FC<BottomSheetDefaultBackdropProps> = (
+  props,
+) => {
   return (
     <RNBottomSheetBackdrop
       {...props}

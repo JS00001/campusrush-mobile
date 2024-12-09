@@ -102,6 +102,7 @@ const useSheetFlow = <T extends Record<string, any>>({
 
   return {
     props,
+    currentViewIndex: currentView,
     currentView: views[currentView],
     onBottomSheetChange,
   };

@@ -39,6 +39,7 @@ import ViolationsSheet from "./Violations";
 import type { IndividualSheetName } from "./@types";
 
 import { useBottomSheetStore } from "@/store";
+import PurchasePhoneNumberSheet from "./PurchasePhoneNumber";
 
 /**
  * The list of all bottom sheets we want to support
@@ -62,6 +63,7 @@ const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   PNM: PnmSheet,
   PLAN_COMPARISON: PlanComparisonSheet,
   PRIVACY_POLICY: PrivacyPolicySheet,
+  PURCHASE_PHONE_NUMBER: PurchasePhoneNumberSheet,
   TAG_SELECTOR: TagSelectorSheet,
   TERMS_OF_SERVICE: TermsOfServiceSheet,
   UPDATE_PNM: UpdatePnmSheet,

@@ -15,6 +15,7 @@ import { createContext, useContext, useRef } from "react";
 import type { IChapter, IUser } from "@/types";
 
 import { useGetUser } from "@/hooks/api/user";
+import { useQonversion } from "./external/Qonversion";
 
 interface IUserContext {
   user: IUser;
@@ -27,11 +28,14 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const initialized = useRef(false);
+  const { entitlements } = useQonversion();
   const { isPending, data } = useGetUser();
 
   // Mark chapter as defined, and make sure we only use it in the main app
   const chapter = (data?.chapter || {}) as IChapter;
   const user = (data?.user || {}) as IUser;
+
+  chapter.isPro = chapter.isPro || !!entitlements.length;
 
   /**
    * On the first app load, we want to fetch this query if needed (if the user is loggedin)

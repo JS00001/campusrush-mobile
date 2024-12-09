@@ -84,6 +84,8 @@ export interface IndividualSheetProps {
   PLAN_COMPARISON: undefined;
   /** View the privacy policy */
   PRIVACY_POLICY: undefined;
+  /** Purchase a custom phone number */
+  PURCHASE_PHONE_NUMBER: undefined;
   /** Select a number of badge-like tags */
   TAG_SELECTOR: {
     values: string[];
