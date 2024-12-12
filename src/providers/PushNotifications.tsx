@@ -14,12 +14,12 @@ import * as RNNotifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/native";
 import { createContext, useContext, useEffect, useRef } from "react";
 
-import type { IPNM, IEvent } from "@/types";
+import type { IPNM, IEvent, IForm } from "@/types";
 
 import { useUser } from "@/providers/User";
 import queryClient from "@/lib/query-client";
-import { useUpdateUser } from "@/hooks/api/user";
 import { useBottomSheetStore } from "@/store";
+import { useUpdateUser } from "@/hooks/api/user";
 
 interface IPushNotificationsContext {
   isLoading: boolean;
@@ -232,6 +232,22 @@ const PushNotificationsProvider: React.FC<{ children?: React.ReactNode }> = ({
         message,
         iconName,
         iconColor,
+      });
+    }
+
+    if (payload.type === "NEW_FORM_RESPONSE") {
+      const form: IForm = payload.form;
+      const pnmId = payload.response.pnm._id;
+      queryClient.invalidateQueries({ queryKey: ["forms"] });
+      queryClient.invalidateQueries({ queryKey: ["form", form._id] });
+      queryClient.invalidateQueries({ queryKey: ["pnmResponses", pnmId] });
+
+      bottomSheetStore.open("FORM_RESPONSES", { form });
+      navigation.navigate("Main", {
+        screen: "MoreTab",
+        params: {
+          screen: "Forms",
+        },
       });
     }
   };

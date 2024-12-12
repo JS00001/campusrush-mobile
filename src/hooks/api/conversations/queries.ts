@@ -84,10 +84,13 @@ export const useGetConversations = (search: string = '') => {
 
   // Combine all of the paginated data into one array
   const pages = query.data?.pages ?? [];
+  // Get the unreadCount from the last fetched page, since this is most recent
+  const unreadCount = pages[pages.length - 1]?.unreadCount ?? 0;
   const conversations = pages.flatMap((page) => page.conversations);
 
   return {
     ...query,
+    unreadCount,
     conversations,
   };
 };

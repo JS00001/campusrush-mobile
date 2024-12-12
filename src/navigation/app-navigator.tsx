@@ -54,11 +54,8 @@ const MainNavigator = () => {
   const conversationsQuery = useGetConversations();
   const notificationsQuery = useGetNotifications();
 
-  const conversations = conversationsQuery.conversations;
   const notificationsCount = notificationsQuery.data.count;
-  const unreadConverstions = conversations.filter((c) => {
-    return !c.read;
-  }).length;
+  const unreadConverstions = conversationsQuery.unreadCount;
 
   const onAddTabPress = () => {
     bottomSheetStore.open("CREATE_PNM");

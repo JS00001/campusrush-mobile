@@ -21,7 +21,10 @@ import { IConversation, IMessage, SendDirectMessageRequest } from '@/types';
 
 type IGetConversation = InfiniteData<{ conversation?: IConversation }>;
 
-type IGetConversations = InfiniteData<{ conversations?: IConversation[] }>;
+type IGetConversations = InfiniteData<{
+  conversations?: IConversation[];
+  unreadCount: number;
+}>;
 
 /**
  * Query client with helper methods for updating states
@@ -32,25 +35,32 @@ class QueryClient extends RQQueryClient {
    * query
    */
   public readConversation(pnmId: string) {
-    this.setQueryData<IGetConversations>(['conversations'], (oldData) => {
-      return produce(oldData, (draft) => {
-        if (!draft) return;
-        const pageIndex = draft.pages.findIndex((page) => {
-          return page.conversations?.some((c) => c.pnm._id === pnmId);
+    this.setQueriesData<IGetConversations>(
+      { queryKey: ['conversations'] },
+      (oldData) => {
+        return produce(oldData, (draft) => {
+          if (!draft) return;
+
+          const page = draft.pages.find((page) => {
+            return page.conversations?.some((c) => c.pnm._id === pnmId);
+          });
+
+          if (!page) return;
+
+          const conversation = page.conversations?.find((c) => {
+            return c.pnm._id === pnmId;
+          });
+
+          if (!conversation) return;
+          // If the old conversation was not read, then we need to mark
+          // the page as read
+          if (!conversation.read) {
+            draft.pages[draft.pages.length - 1].unreadCount -= 1;
+          }
+          conversation.read = true;
         });
-
-        if (pageIndex === -1) return;
-
-        const page = draft.pages[pageIndex];
-        const conversationIndex = page.conversations!.findIndex((c) => {
-          return c.pnm._id === pnmId;
-        });
-
-        if (conversationIndex === -1) return;
-
-        draft.pages[pageIndex].conversations![conversationIndex].read = true;
-      });
-    });
+      },
+    );
   }
 
   /**
