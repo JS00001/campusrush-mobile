@@ -9,9 +9,9 @@
  * Copyright (c) 2024 CampusRush
  * Do not distribute
  */
-
 import Toast from "react-native-toast-message";
 import { useDebouncedCallback } from "use-debounce";
+import { useNavigation } from "@react-navigation/native";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 import type { WebsocketLog, WebsocketMessage } from "@/types/websocket";
@@ -42,6 +42,7 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { chapter } = useUser();
+  const navigation = useNavigation();
   const bottomSheetStore = useBottomSheetStore();
 
   const ws = useRef<WebSocket | null>(null);
@@ -122,7 +123,6 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     const socketMessage = parsedJSON as WebsocketMessage;
-
     const notification = socketMessage.data.notification;
 
     // Handle notifications
@@ -130,51 +130,109 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
       queryClient.refetchQueries({ queryKey: ["notifications"] });
     }
 
-    // Handle toast notifications
-    if (socketMessage.toastNotification) {
-      Toast.show({
-        type: "info",
-        text1: socketMessage.toastNotification.title,
-        text2: socketMessage.toastNotification.body,
-      });
-    }
-
     sendLog(`Received '${socketMessage.type}' message from websocket`);
 
-    // Handle the different types of messages that can be received
-    if (socketMessage.type === "NEW_MESSAGE") {
-      const conversation = socketMessage.data.payload.conversation;
+    switch (socketMessage.type) {
+      case "NEW_MESSAGE": {
+        const conversation = socketMessage.data.payload.conversation;
+        const pnmId = conversation.pnm._id;
+        queryClient.invalidateQueries({ queryKey: ["conversations"] });
+        queryClient.invalidateQueries({ queryKey: ["conversation", pnmId] });
+        break;
+      }
 
-      const pnmId = conversation.pnm._id;
-      queryClient.invalidateQueries({ queryKey: ["conversations"] });
-      queryClient.invalidateQueries({ queryKey: ["conversation", pnmId] });
-    }
+      case "NEW_PNM": {
+        const pnm = socketMessage.data.payload.pnm;
+        queryClient.invalidateQueries({ queryKey: ["contacts"] });
+        queryClient.invalidateQueries({ queryKey: ["pnms"] });
 
-    if (socketMessage.type === "NEW_PNM") {
-      queryClient.invalidateQueries({ queryKey: ["pnms"] });
-    }
+        // Handle toast notifications
+        if (!socketMessage.toastNotification) return;
+        Toast.show({
+          type: "info",
+          text1: socketMessage.toastNotification.title,
+          text2: socketMessage.toastNotification.body,
+          onPress: () => {
+            bottomSheetStore.open("PNM", { pnm });
+            navigation.navigate("Main", {
+              screen: "PNMsTab",
+              params: {
+                screen: "PNMs",
+              },
+            });
+          },
+        });
 
-    if (socketMessage.type === "NEW_DYNAMIC_NOTIFICATION") {
-      const data = socketMessage.data.payload;
-      bottomSheetStore.open("DYNAMIC_NOTIFICATION", {
-        title: data.title,
-        message: data.message,
-        iconName: data.iconName,
-        iconColor: data.iconColor,
-      });
-    }
+        break;
+      }
 
-    if (socketMessage.type === "MESSAGE_ERROR") {
-      const message = socketMessage.data.payload.message;
-      queryClient.invalidateQueries({
-        queryKey: ["conversation", message.pnm],
-      });
-    }
+      case "MESSAGE_ERROR": {
+        const message = socketMessage.data.payload.message;
+        queryClient.invalidateQueries({
+          queryKey: ["conversation", message.pnm],
+        });
+        break;
+      }
 
-    if (socketMessage.type === "NEW_EVENT_RESPONSE") {
-      const event = socketMessage.data.payload.event;
-      queryClient.invalidateQueries({ queryKey: ["events"] });
-      queryClient.invalidateQueries({ queryKey: ["event", event._id] });
+      case "NEW_DYNAMIC_NOTIFICATION": {
+        const data = socketMessage.data.payload;
+        bottomSheetStore.open("DYNAMIC_NOTIFICATION", {
+          title: data.title,
+          message: data.message,
+          iconName: data.iconName,
+          iconColor: data.iconColor,
+        });
+        break;
+      }
+
+      case "NEW_EVENT_RESPONSE": {
+        const event = socketMessage.data.payload.event;
+        queryClient.invalidateQueries({ queryKey: ["events"] });
+        queryClient.invalidateQueries({ queryKey: ["event", event._id] });
+
+        // Handle toast notifications
+        if (!socketMessage.toastNotification) return;
+        Toast.show({
+          type: "info",
+          text1: socketMessage.toastNotification.title,
+          text2: socketMessage.toastNotification.body,
+          onPress: () => {
+            bottomSheetStore.open("EVENT", { event });
+            navigation.navigate("Main", {
+              screen: "MoreTab",
+              params: {
+                screen: "Events",
+              },
+            });
+          },
+        });
+        break;
+      }
+
+      case "NEW_FORM_RESPONSE": {
+        const form = socketMessage.data.payload.form;
+        const pnmId = socketMessage.data.payload.response.pnm._id;
+        queryClient.invalidateQueries({ queryKey: ["forms"] });
+        queryClient.invalidateQueries({ queryKey: ["form", form._id] });
+        queryClient.invalidateQueries({ queryKey: ["pnmResponses", pnmId] });
+
+        // Handle toast notifications
+        if (!socketMessage.toastNotification) return;
+        Toast.show({
+          type: "info",
+          text1: socketMessage.toastNotification.title,
+          text2: socketMessage.toastNotification.body,
+          onPress: () => {
+            bottomSheetStore.open("FORM_RESPONSES", { form });
+            navigation.navigate("Main", {
+              screen: "MoreTab",
+              params: {
+                screen: "Forms",
+              },
+            });
+          },
+        });
+      }
     }
   };
 

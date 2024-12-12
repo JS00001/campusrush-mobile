@@ -160,6 +160,8 @@ export type FocusConversationResponse = API.Response<{
 }>;
 
 export type GetConversationsResponse = API.Response<{
+  /** Unread conversations count */
+  unreadCount: number;
   /** List of conversations */
   conversations: IConversation[];
   /** Offset for the next conversation retrieval */
