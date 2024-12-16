@@ -144,7 +144,7 @@ const Content: React.FC<Props> = ({ data, close }) => {
         <View style={tw`bg-gray-200 absolute h-28 left-0 right-0`} />
 
         <RoleGuard role={ChapterRole.Editor}>
-          <View style={tw`flex-row gap-1 absolute right-6 top-6`}>
+          <View style={tw`flex-row gap-1 absolute z-10 right-6 top-6`}>
             <IconButton
               size="sm"
               color="secondary"
@@ -194,7 +194,7 @@ const Content: React.FC<Props> = ({ data, close }) => {
       <RoleGuard role={ChapterRole.Editor}>
         <View style={tw`bg-white absolute px-6 bottom-0 pb-8 pt-4 w-full`}>
           <ButtonGroup>
-            <Button disabled color="secondary" onPress={onEditPress}>
+            <Button color="secondary" onPress={onEditPress}>
               Edit
             </Button>
             <Button onPress={onSendMessagePress}>Send Message</Button>
