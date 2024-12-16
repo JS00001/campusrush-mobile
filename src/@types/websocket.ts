@@ -11,14 +11,14 @@
  */
 
 import type { IPNM } from './models/pnm';
+import type { IForm } from './models/form';
 import type { IEvent } from './models/event';
 import type { IMessage } from './models/message';
 import type { IConversation } from './models/conversation';
-import type { INotification } from './models/notification';
+import type { INotification, NotificationType } from './models/notification';
+import type { IFormResponse } from './models/form-response';
 
 import type { IconType } from '@/constants/icons';
-import { IForm } from './models/form';
-import { IFormResponse } from './models/form-response';
 
 interface PNMData {
   pnm: IPNM;
@@ -59,23 +59,24 @@ type Payload =
   | FormResponseData;
 
 /** Message structure */
-interface BaseMessage<T extends Payload> {
+interface BaseMessage<T extends Payload = any> {
   type: string;
   data: {
-    payload: T;
-    notification: INotification | null;
+    payload?: T;
+    notification?: INotification | null;
   };
 }
 
 /** All WebSocket message types */
 type Message =
-  | (BaseMessage<ConversationData> & { type: 'NEW_MESSAGE' })
-  | (BaseMessage<PNMData> & { type: 'NEW_PNM' })
-  | (BaseMessage<EventData> & { type: 'NEW_EVENT_RESPONSE' })
-  | (BaseMessage<MessageErrorData> & { type: 'MESSAGE_ERROR' })
-  | (BaseMessage<FormResponseData> & { type: 'NEW_FORM_RESPONSE' })
+  | (BaseMessage<ConversationData> & { type: NotificationType.NewMessage })
+  | (BaseMessage<PNMData> & { type: NotificationType.NewPnm })
+  | (BaseMessage<EventData> & { type: NotificationType.NewEventResponse })
+  | (BaseMessage<MessageErrorData> & { type: NotificationType.MessageError })
+  | (BaseMessage<FormResponseData> & { type: NotificationType.NewFormResponse })
+  | (BaseMessage & { type: NotificationType.RoleUpdated })
   | (BaseMessage<DynamicNotificationData> & {
-      type: 'NEW_DYNAMIC_NOTIFICATION';
+      type: NotificationType.NewDynamicNotification;
     });
 
 /** WebSocket message with optional toast notification */

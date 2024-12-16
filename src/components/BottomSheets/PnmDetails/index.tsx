@@ -27,10 +27,13 @@ import Button from "@/ui/Button";
 import date from "@/lib/util/date";
 import { alert } from "@/lib/util";
 import Headline from "@/ui/Headline";
+import { ChapterRole } from "@/@types";
 import IconButton from "@/ui/IconButton";
-import usePosthog from "@/hooks/usePosthog";
 import ButtonGroup from "@/ui/ButtonGroup";
+import { useUser } from "@/providers/User";
+import usePosthog from "@/hooks/usePosthog";
 import { BottomSheet } from "@/ui/BottomSheet";
+import RoleGuard from "@/components/RoleGuard";
 import ErrorMessage from "@/components/ErrorMessage";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 import { useBottomSheetStore, useImageZoomStore } from "@/store";
@@ -49,6 +52,7 @@ const Content: React.FC<Props> = ({ data, close }) => {
 
   const posthog = usePosthog();
   const navigation = useNavigation();
+  const { hasPermission } = useUser();
   const { setImage } = useImageZoomStore();
   const bottomSheetStore = useBottomSheetStore();
 
@@ -126,35 +130,42 @@ const Content: React.FC<Props> = ({ data, close }) => {
     setImage(pnm.avatar);
   };
 
+  const contentContainerStyle = tw.style(
+    "gap-y-4 pt-6 px-6",
+    hasPermission(ChapterRole.Editor) ? "pb-26" : "pb-10",
+  );
+
   return (
     <>
       <BottomSheetContainer
         style={tw`p-0 rounded-t-3xl`}
-        contentContainerStyle={tw`gap-y-4 pt-6 px-6 pb-26`}
+        contentContainerStyle={contentContainerStyle}
       >
         <View style={tw`bg-gray-200 absolute h-28 left-0 right-0`} />
 
-        <View style={tw`flex-row gap-1 justify-end`}>
-          <IconButton
-            size="sm"
-            color="secondary"
-            loading={updateMutation.isPending}
-            iconName={pnm.starred ? "StarFill" : "Star"}
-            // prettier-ignore
-            iconColor={pnm.starred ? tw.color("yellow-500") : tw.color("primary")}
-            onPress={onFavorite}
-          />
-          <IconButton
-            size="sm"
-            color="secondary"
-            iconName="Trash"
-            iconColor={tw.color("red-500")}
-            loading={deleteMutation.isPending}
-            onPress={onDelete}
-          />
-        </View>
+        <RoleGuard role={ChapterRole.Editor}>
+          <View style={tw`flex-row gap-1 absolute right-6 top-6`}>
+            <IconButton
+              size="sm"
+              color="secondary"
+              loading={updateMutation.isPending}
+              iconName={pnm.starred ? "StarFill" : "Star"}
+              // prettier-ignore
+              iconColor={pnm.starred ? tw.color("yellow-500") : tw.color("primary")}
+              onPress={onFavorite}
+            />
+            <IconButton
+              size="sm"
+              color="secondary"
+              iconName="Trash"
+              iconColor={tw.color("red-500")}
+              loading={deleteMutation.isPending}
+              onPress={onDelete}
+            />
+          </View>
+        </RoleGuard>
 
-        <View style={tw`gap-y-2`}>
+        <View style={tw`gap-y-2 pt-12`}>
           <Avatar
             contentRing
             url={pnm.avatar}
@@ -180,14 +191,16 @@ const Content: React.FC<Props> = ({ data, close }) => {
       </BottomSheetContainer>
 
       {/* Floating bottom button container */}
-      <View style={tw`bg-white absolute px-6 bottom-0 pb-8 pt-4 w-full`}>
-        <ButtonGroup>
-          <Button color="secondary" onPress={onEditPress}>
-            Edit
-          </Button>
-          <Button onPress={onSendMessagePress}>Send Message</Button>
-        </ButtonGroup>
-      </View>
+      <RoleGuard role={ChapterRole.Editor}>
+        <View style={tw`bg-white absolute px-6 bottom-0 pb-8 pt-4 w-full`}>
+          <ButtonGroup>
+            <Button disabled color="secondary" onPress={onEditPress}>
+              Edit
+            </Button>
+            <Button onPress={onSendMessagePress}>Send Message</Button>
+          </ButtonGroup>
+        </View>
+      </RoleGuard>
     </>
   );
 };

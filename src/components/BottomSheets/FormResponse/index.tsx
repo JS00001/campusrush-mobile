@@ -47,7 +47,7 @@ const FormResponseSheet: React.FC<BottomSheetProps> = ({ innerRef }) => {
                 const fieldName = field.name + (field.required ? "*" : "");
                 const pnmResponse = response.responses[field.id];
 
-                if (field.type === FieldType.CHECKBOX) {
+                if (field.type === FieldType.Checkbox) {
                   const response = !!pnmResponse;
                   return (
                     <CheckboxValue

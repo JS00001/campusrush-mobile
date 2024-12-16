@@ -21,6 +21,9 @@ import useSearch from "@/hooks/useSearch";
 import PnmsList from "@/components/PnmsList";
 import Menu, { MenuAction } from "@/ui/Menu";
 import { useDeletePnms, useGetPnms } from "@/hooks/api/pnms";
+import RoleGuard from "@/components/RoleGuard";
+import Chapter from "@/ui/ListItems/Chapter";
+import { ChapterRole } from "@/@types";
 
 const PnmsView = () => {
   const pnmsQuery = useGetPnms();
@@ -136,14 +139,16 @@ const PnmsView = () => {
           />
         </Menu>
 
-        <Menu actions={moreMenu}>
-          <IconButton
-            size="lg"
-            color="secondary"
-            iconName="DotsThree"
-            style={tw`flex-grow`}
-          />
-        </Menu>
+        <RoleGuard role={ChapterRole.Editor}>
+          <Menu actions={moreMenu}>
+            <IconButton
+              size="lg"
+              color="secondary"
+              iconName="DotsThree"
+              style={tw`flex-grow`}
+            />
+          </Menu>
+        </RoleGuard>
       </View>
 
       <PnmsList

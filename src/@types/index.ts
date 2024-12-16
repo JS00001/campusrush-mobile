@@ -14,6 +14,7 @@ export * from './app';
 export * from './entitlements';
 
 export * from './models/chapter';
+export * from './models/chapter-invite';
 export * from './models/conversation';
 export * from './models/event';
 export * from './models/event-response';

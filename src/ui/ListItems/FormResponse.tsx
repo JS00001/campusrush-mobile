@@ -52,7 +52,7 @@ const FormResponse: React.FC<FormResponseProps> = ({
   const responses = fields.slice(0, 2).map((field) => {
     const responseValue = (() => {
       const value = response.responses[field.id];
-      if (field.type === FieldType.CHECKBOX) return !!value ? "Yes" : "No";
+      if (field.type === FieldType.Checkbox) return !!value ? "Yes" : "No";
       else return (value as string) || "N/A";
     })();
 

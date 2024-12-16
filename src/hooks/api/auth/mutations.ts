@@ -17,6 +17,7 @@ import type {
   CheckEmailRequest,
   LoginRequest,
   LogoutResponse,
+  RegisterChapterInviteRequest,
   RegisterRequest,
   ResetPasswordRequest,
   VerifyChapterRequest,
@@ -30,6 +31,7 @@ import {
   resendVerification,
   resetPassword,
   changePassword,
+  registerChapterInvite,
 } from '@/api';
 import axios from '@/lib/axios';
 import usePosthog from '@/hooks/usePosthog';
@@ -49,6 +51,7 @@ export const useLogin = () => {
 
   return useMutation({
     mutationFn: async (data: LoginRequest) => {
+      // Login to main account
       const response = await login(data);
       if ('error' in response) throw response;
       const user = response.data.user;
@@ -62,10 +65,9 @@ export const useLogin = () => {
       return response;
     },
     onSuccess: async (res) => {
+      posthog.capture('login');
       setAccessToken(res.data.accessToken);
       setRefreshToken(res.data.refreshToken);
-
-      posthog.capture('login');
       queryClient.setQueryData(['user'], {
         user: res.data.user,
         chapter: res.data.chapter,
@@ -86,6 +88,7 @@ export const useRegister = () => {
 
   return useMutation({
     mutationFn: async (data: RegisterRequest) => {
+      // Register main account
       const response = await register(data);
       if ('error' in response) throw response;
       // Login to 3rd party services
@@ -99,10 +102,46 @@ export const useRegister = () => {
       return response;
     },
     onSuccess: async (res) => {
+      posthog.capture('register');
       setAccessToken(res.data.accessToken);
       setRefreshToken(res.data.refreshToken);
+      queryClient.setQueryData(['user'], {
+        user: res.data.user,
+        chapter: res.data.chapter,
+      });
+    },
+  });
+};
 
-      posthog.capture('register');
+/**
+ * Create a sub-user for the chapter via invitation, then:
+ * - Log them into the payment provider to validate their entitlements
+ * - Identify them in Posthog for analytics
+ * - Set the access token, refreshToken, and chapter
+ */
+export const useRegisterChapterInvite = () => {
+  const posthog = usePosthog();
+  const qonversion = useQonversion();
+
+  return useMutation({
+    mutationFn: async (data: RegisterChapterInviteRequest) => {
+      // Register for main account
+      const res = await registerChapterInvite(data);
+      if ('error' in res) throw res;
+      // Login to 3rd party services
+      const user = res.data.user;
+      const chapter = res.data.chapter;
+      await qonversion.login(chapter);
+      posthog.identify(chapter._id, {
+        role: user.systemRole,
+        chapterRole: user.chapterRole,
+      });
+      return res;
+    },
+    onSuccess: async (res) => {
+      posthog.capture('register_chapter_invite');
+      setAccessToken(res.data.accessToken);
+      setRefreshToken(res.data.refreshToken);
       queryClient.setQueryData(['user'], {
         user: res.data.user,
         chapter: res.data.chapter,
@@ -195,8 +234,10 @@ export const useChangePassword = () => {
 
   return useMutation({
     mutationFn: async (data: ChangePasswordRequest) => {
+      // Change password for main account
       const response = await changePassword(data);
       if ('error' in response) throw response;
+      // Login to 3rd party services
       const user = response.data.user;
       const chapter = response.data.chapter;
       await qonversion.login(chapter);
@@ -207,10 +248,9 @@ export const useChangePassword = () => {
       return response;
     },
     onSuccess: async (res) => {
+      posthog.capture('change_password');
       setAccessToken(res.data.accessToken);
       setRefreshToken(res.data.refreshToken);
-
-      posthog.capture('change_password');
       queryClient.setQueryData(['user'], {
         user: res.data.user,
         chapter: res.data.chapter,
@@ -231,6 +271,7 @@ export const useLogout = () => {
 
   return useMutation({
     mutationFn: async () => {
+      // Log the user out of the main account
       const refreshToken = await getRefreshToken();
       const res = await axios.post(`/auth/logout`, undefined, {
         headers: {
@@ -243,10 +284,9 @@ export const useLogout = () => {
       return response;
     },
     onSuccess: async () => {
+      posthog.capture('logout');
       setAccessToken(null);
       setRefreshToken(null);
-
-      posthog.capture('logout');
       posthog.reset();
       queryClient.resetQueries();
       await qonversion.logout();

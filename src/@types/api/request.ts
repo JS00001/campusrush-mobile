@@ -11,6 +11,7 @@
  */
 
 import type { IFormField } from '../';
+import { ChapterRole } from '../models/user';
 
 import type { IconType } from '@/constants/icons';
 
@@ -320,4 +321,41 @@ export interface GetPnmResponsesRequest {
 export interface PurchasePhoneNumberRequest {
   /** The area code of the phone number */
   areaCode: string;
+}
+
+export interface CreateChapterUserRequest {
+  /** The email of the new user */
+  email: string;
+  /** The role of the new user */
+  role: ChapterRole;
+}
+
+export interface DeleteChapterUserRequest {
+  /** The ID of the user to be deleted */
+  id: string;
+}
+
+export interface UpdateChapterUserRequest {
+  /** The ID of the user to be updated */
+  id: string;
+  /** Updated role of the user */
+  role: ChapterRole;
+}
+
+export interface GetChapterInviteRequest {
+  /** The ID of the invite to be retrieved */
+  id: string;
+}
+
+export interface RegisterChapterInviteRequest {
+  /** The ID of the invite to be registered */
+  id: string;
+  /** The first name of the user */
+  firstName: string;
+  /** The last name of the user */
+  lastName: string;
+  /** The password of the user */
+  password: string;
+  /** The confirmation of the password */
+  confirmPassword: string;
 }

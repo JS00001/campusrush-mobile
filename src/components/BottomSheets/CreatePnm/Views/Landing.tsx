@@ -10,6 +10,8 @@
  * Do not distribute
  */
 
+import { ChapterRole } from "@/@types";
+import RoleGuard from "@/components/RoleGuard";
 import type { UseSheetFlowProps } from "@/hooks/useSheetFlow";
 
 import tw from "@/lib/tailwind";
@@ -37,14 +39,17 @@ const Landing: React.FC<UseSheetFlowProps> = ({ nextView, setView }) => {
         ph-label="share-qr-code"
         onPress={onQrCodePress}
       />
-      <ListItem
-        size="lg"
-        title="Add PNM Manually"
-        subtitle="Add a PNMs info manually"
-        icon="UserPlusFill"
-        ph-label="add-pnm-manually"
-        onPress={nextView}
-      />
+
+      <RoleGuard role={ChapterRole.Editor}>
+        <ListItem
+          size="lg"
+          title="Add PNM Manually"
+          subtitle="Add a PNMs info manually"
+          icon="UserPlusFill"
+          ph-label="add-pnm-manually"
+          onPress={nextView}
+        />
+      </RoleGuard>
     </>
   );
 };

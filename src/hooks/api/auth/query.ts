@@ -16,6 +16,7 @@ import type { RefreshAccessTokenResponse } from '@/types';
 
 import axios from '@/lib/axios';
 import { getRefreshToken, setAccessToken } from '@/lib/auth';
+import { getChapterInvite } from '@/api';
 
 export const useRefreshAccessToken = () => {
   return useQuery({
@@ -39,4 +40,17 @@ export const useRefreshAccessToken = () => {
       return response.data;
     },
   });
+};
+
+export const useGetChapterInvite = (id: string) => {
+  const query = useQuery({
+    queryKey: ['chapterInvite', id],
+    queryFn: async () => {
+      const res = await getChapterInvite({ id });
+      if ('error' in res) throw res;
+      return res.data;
+    },
+  });
+
+  return query;
 };

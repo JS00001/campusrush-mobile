@@ -23,11 +23,13 @@ import { alert } from "@/lib/util";
 import date from "@/lib/util/date";
 import Headline from "@/ui/Headline";
 import AppConstants from "@/constants";
+import { ChapterRole } from "@/@types";
 import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import ButtonGroup from "@/ui/ButtonGroup";
 import { useBottomSheetStore } from "@/store";
 import { BottomSheet } from "@/ui/BottomSheet";
+import RoleGuard from "@/components/RoleGuard";
 import ErrorMessage from "@/components/ErrorMessage";
 import BottomSheetContainer from "@/ui/BottomSheet/Container";
 import { useDeleteForm, useGetForm } from "@/hooks/api/forms";
@@ -116,15 +118,18 @@ const Content: React.FC<Props> = ({ data, close }) => {
             color="secondary"
             onPress={onShare}
           />
-          <IconButton
-            ph-label="delete-form"
-            size="sm"
-            color="secondary"
-            iconName="Trash"
-            iconColor={tw.color("red-500")}
-            loading={deleteMutation.isPending}
-            onPress={onDelete}
-          />
+
+          <RoleGuard role={ChapterRole.Editor}>
+            <IconButton
+              ph-label="delete-form"
+              size="sm"
+              color="secondary"
+              iconName="Trash"
+              iconColor={tw.color("red-500")}
+              loading={deleteMutation.isPending}
+              onPress={onDelete}
+            />
+          </RoleGuard>
         </View>
       </View>
 
@@ -145,9 +150,11 @@ const Content: React.FC<Props> = ({ data, close }) => {
       </Detail.List>
 
       <ButtonGroup>
-        <Button color="secondary" onPress={onEditPress}>
-          Edit
-        </Button>
+        <RoleGuard role={ChapterRole.Editor}>
+          <Button color="secondary" onPress={onEditPress}>
+            Edit
+          </Button>
+        </RoleGuard>
         <Button onPress={onViewResponsesPress}>View Responses</Button>
       </ButtonGroup>
     </BottomSheetContainer>

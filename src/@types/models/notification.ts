@@ -10,11 +10,16 @@
  * Do not distribute
  */
 
-export type NotificationType =
-  | 'NEW_PNM'
-  | 'NEW_EVENT_RESPONSE'
-  | 'NEW_FORM_RESPONSE'
-  | 'NEW_DYNAMIC_NOTIFICATION';
+export enum NotificationType {
+  NewMessage = 'NEW_MESSAGE',
+  NewPnm = 'NEW_PNM',
+  NewEventResponse = 'NEW_EVENT_RESPONSE',
+  NewDynamicNotification = 'NEW_DYNAMIC_NOTIFICATION',
+  NewFormResponse = 'NEW_FORM_RESPONSE',
+  RoleUpdated = 'ROLE_UPDATED',
+  MessageError = 'MESSAGE_ERROR',
+  Custom = 'CUSTOM',
+}
 
 /**
  * All internal fields that are stored about a notification

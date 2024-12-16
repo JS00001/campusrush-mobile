@@ -10,6 +10,18 @@
  * Do not distribute
  */
 
+export enum ChapterRole {
+  Owner = 'owner',
+  Admin = 'admin',
+  Editor = 'editor',
+  Viewer = 'viewer',
+}
+
+export enum SystemRole {
+  Admin = 'admin',
+  User = 'user',
+}
+
 export interface IUser {
   /** The id of the user */
   _id: string;
@@ -24,9 +36,9 @@ export interface IUser {
   /** Whether the user has verified their email or not */
   verified: boolean;
   /** The role of the user */
-  chapterRole: 'owner' | 'user';
+  chapterRole: ChapterRole;
   /** The system role of the user */
-  systemRole: 'admin' | 'user';
+  systemRole: SystemRole;
   /** The date the user was last active (last time they hit the API) */
   lastOnline: Date;
   /** The client version that the user is currently on */

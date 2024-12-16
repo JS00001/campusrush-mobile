@@ -18,8 +18,10 @@ import tw from "@/lib/tailwind";
 import Button from "@/ui/Button";
 import { alert } from "@/lib/util";
 import AppConstants from "@/constants";
+import { ChapterRole } from "@/@types";
 import { useBottomSheetStore } from "@/store";
 import ListItem from "@/ui/ListItems/ListItem";
+import RoleGuard from "@/components/RoleGuard";
 import { useDeleteChapter } from "@/hooks/api/chapter";
 
 const SettingsView = () => {
@@ -124,20 +126,24 @@ const SettingsView = () => {
         icon="PhoneFill"
         onPress={onPhoneNumberPress}
       />
-      <ListItem
-        size="lg"
-        title="Link Sharing"
-        subtitle="Manage your link sharing"
-        icon="LinkFill"
-        onPress={onLinkSharingPress}
-      />
-      <ListItem
-        size="lg"
-        title="Billing"
-        subtitle="Manage your billing"
-        icon="CreditCardFill"
-        onPress={onBillingPress}
-      />
+      <RoleGuard role={ChapterRole.Editor}>
+        <ListItem
+          size="lg"
+          title="Link Sharing"
+          subtitle="Manage your link sharing"
+          icon="LinkFill"
+          onPress={onLinkSharingPress}
+        />
+      </RoleGuard>
+      <RoleGuard role={ChapterRole.Admin}>
+        <ListItem
+          size="lg"
+          title="Billing"
+          subtitle="Manage your billing"
+          icon="CreditCardFill"
+          onPress={onBillingPress}
+        />
+      </RoleGuard>
 
       <View style={tw`w-full flex-row gap-3`}>
         <ListItem
@@ -156,15 +162,17 @@ const SettingsView = () => {
         />
       </View>
 
-      <Button
-        color="secondary"
-        style={tw`w-full`}
-        loading={deletionMutation.isPending}
-        textStyle={tw`text-red-500 font-medium`}
-        onPress={onDeleteAccount}
-      >
-        Delete Account
-      </Button>
+      <RoleGuard role={ChapterRole.Owner}>
+        <Button
+          color="secondary"
+          style={tw`w-full`}
+          loading={deletionMutation.isPending}
+          textStyle={tw`text-red-500 font-medium`}
+          onPress={onDeleteAccount}
+        >
+          Delete Account
+        </Button>
+      </RoleGuard>
 
       <Text type="p4" style={tw`text-gray-600`}>
         App Version: {AppConstants.version}

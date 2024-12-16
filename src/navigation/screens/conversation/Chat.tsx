@@ -13,7 +13,11 @@
 import { Keyboard, View } from "react-native";
 
 import type { IMessageContent } from "@/@types/message-box";
-import type { IMessage, SendDirectMessageRequest } from "@/types";
+import {
+  ChapterRole,
+  type IMessage,
+  type SendDirectMessageRequest,
+} from "@/@types";
 import type { ConversationStackProps } from "@/navigation/@types";
 
 import tw from "@/lib/tailwind";
@@ -23,6 +27,7 @@ import group from "@/lib/util/group";
 import Skeleton from "@/ui/Skeleton";
 import SocketInput from "@/lib/socketInput";
 import queryClient from "@/lib/query-client";
+import RoleGuard from "@/components/RoleGuard";
 import MessageBubble from "@/ui/MessageBubble";
 import MessageBox from "@/components/MessageBox";
 import useFocusEffect from "@/hooks/useFocusEffect";
@@ -114,7 +119,7 @@ const Chat: React.FC<Props> = ({ route }) => {
         disableOnRefresh
         style={tw`w-full px-4`}
         // We need to add "padding top" because the flatlist is inverted
-        contentContainerStyle={tw`pt-6 pb-0`}
+        contentContainerStyle={tw`pt-6`}
         loading={conversationQuery.isLoading}
         error={conversationQuery.error}
         errorDescription="Could not fetch conversation"
@@ -133,13 +138,15 @@ const Chat: React.FC<Props> = ({ route }) => {
         )}
       />
 
-      <Layout.Footer>
-        <MessageBox
-          massMessage={false}
-          onSend={sendDirectMessages}
-          disableSend={sendMessageMutation.isPending}
-        />
-      </Layout.Footer>
+      <RoleGuard role={ChapterRole.Editor}>
+        <Layout.Footer>
+          <MessageBox
+            massMessage={false}
+            onSend={sendDirectMessages}
+            disableSend={sendMessageMutation.isPending}
+          />
+        </Layout.Footer>
+      </RoleGuard>
     </Layout.Root>
   );
 };

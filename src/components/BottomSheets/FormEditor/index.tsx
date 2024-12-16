@@ -178,7 +178,7 @@ const FormEditorContent: React.FC<Props> = ({ data = {}, close }) => {
             item={{
               id: "first_name",
               name: "First Name",
-              type: FieldType.TEXT,
+              type: FieldType.Text,
               required: true,
             }}
           />
@@ -186,7 +186,7 @@ const FormEditorContent: React.FC<Props> = ({ data = {}, close }) => {
             item={{
               id: "last_name",
               name: "Last Name",
-              type: FieldType.TEXT,
+              type: FieldType.Text,
               required: true,
             }}
           />
@@ -194,7 +194,7 @@ const FormEditorContent: React.FC<Props> = ({ data = {}, close }) => {
             item={{
               id: "phone_number",
               name: "PhoneNumber",
-              type: FieldType.TEXT,
+              type: FieldType.Text,
               required: true,
             }}
           />

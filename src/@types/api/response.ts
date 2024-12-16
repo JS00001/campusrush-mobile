@@ -24,6 +24,7 @@ import type { INotification } from '../models/notification';
 import type { IUser } from '../models/user';
 import type { IForm } from '../models/form';
 import type { IFormResponse } from '../models/form-response';
+import type { IChapterInvite } from '../models/chapter-invite';
 
 export type LogoutResponse = API.Response<{}>;
 
@@ -40,6 +41,10 @@ export type ResetPasswordResponse = API.Response<{}>;
 export type SendChapterNotificationResponse = API.Response<{}>;
 
 export type GetEntitlementsResponse = API.Response<EntitlementDetails>;
+
+export type CreateChapterUserResponse = API.Response<{}>;
+
+export type DeleteChapterUserResponse = API.Response<{}>;
 
 export type GetChaptersResponse = API.Response<{
   /** List of chapters */
@@ -416,7 +421,47 @@ export type GetPnmResponsesResponse = API.Response<{
   })[];
 }>;
 
-export type purchasePhoneNumberResponse = API.Response<{
+export type PurchasePhoneNumberResponse = API.Response<{
   /** The phone number that was purchased */
   phoneNumber: string;
+}>;
+
+export type GetChapterUsersResponse = API.Response<{
+  /** List of users */
+  users: IUser[];
+}>;
+
+export type UpdateChapterUserResponse = API.Response<{
+  /** Updated user information */
+  user: IUser;
+}>;
+
+export type GetChapterInviteResponse = API.Response<{
+  /** The invite information */
+  invite: IChapterInvite;
+  /** The chapter information */
+  chapter: {
+    /** The chapters name */
+    name: string;
+    /** The chapters school */
+    school: string;
+    /** The chapters owner */
+    owner: {
+      /** The owner's first name */
+      firstName: string;
+      /** The owner's last name */
+      lastName: string;
+    };
+  };
+}>;
+
+export type RegisterChapterInviteResponse = API.Response<{
+  /** User information */
+  user: IUser;
+  /** Chapter information */
+  chapter: IChapter;
+  /** Access token for authentication */
+  accessToken: string;
+  /** Refresh token for token refreshing */
+  refreshToken: string;
 }>;

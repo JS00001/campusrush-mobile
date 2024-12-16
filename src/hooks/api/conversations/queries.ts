@@ -30,18 +30,15 @@ export const useGetConversation = (pnmId: string) => {
     },
     getNextPageParam: (lastPage) => {
       if ('error' in lastPage) return undefined;
-
       const hasNextPage = lastPage.hasNextPage;
-
       if (!hasNextPage) return undefined;
-
       return lastPage.nextOffset;
     },
   });
 
   // Combine all of the paginated data into one array
   const pages = query.data?.pages ?? [];
-  const conversation = pages[0]?.conversation;
+  const conversation = pages.length ? pages[0].conversation : undefined;
   const messages = pages.flatMap((page) => {
     return page.conversation?.messages ?? [];
   });
@@ -72,13 +69,12 @@ export const useGetConversations = (search: string = '') => {
     },
     getNextPageParam: (lastPage) => {
       if ('error' in lastPage) return undefined;
-
       const hasNextPage = lastPage.hasNextPage;
-
       if (!hasNextPage) return undefined;
-
       return lastPage.nextOffset;
     },
+    // Each debouncedSearch update causes a new search with a new isLoading state
+    // so we need to prevent this state by using the previous response.
     placeholderData: (prev) => prev,
   });
 

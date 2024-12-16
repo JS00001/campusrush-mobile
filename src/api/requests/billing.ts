@@ -24,7 +24,7 @@
 import axios from '@/lib/axios';
 
 import type {
-  purchasePhoneNumberResponse,
+  PurchasePhoneNumberResponse,
   PurchasePhoneNumberRequest,
 } from '@/types';
 
@@ -37,7 +37,7 @@ const PREFIX = '/billing';
 export const purchasePhoneNumber = async (data: PurchasePhoneNumberRequest) => {
   const url = `${PREFIX}/phone-number`;
 
-  const { data: responseData } = await axios.post<purchasePhoneNumberResponse>(
+  const { data: responseData } = await axios.post<PurchasePhoneNumberResponse>(
     url,
     data,
   );

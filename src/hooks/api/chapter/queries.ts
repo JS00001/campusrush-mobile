@@ -10,9 +10,9 @@
  * Do not distribute
  */
 
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
-import { getChapterNotifications } from '@/api';
+import { getChapterNotifications, getChapterUsers } from '@/api';
 
 /**
  * Get a list of the chapter's notifications
@@ -28,11 +28,8 @@ export const useGetNotifications = () => {
     },
     getNextPageParam: (lastPage) => {
       if ('error' in lastPage) return undefined;
-
       const hasNextPage = lastPage.hasNextPage;
-
       if (!hasNextPage) return undefined;
-
       return lastPage.nextOffset;
     },
   });
@@ -53,4 +50,20 @@ export const useGetNotifications = () => {
       notifications,
     },
   };
+};
+
+/**
+ * Get a list of all the chapter's sub-users
+ */
+export const useGetChapterUsers = () => {
+  const query = useQuery({
+    queryKey: ['chapterUsers'],
+    queryFn: async () => {
+      const res = await getChapterUsers();
+      if ('error' in res) throw res;
+      return res.data;
+    },
+  });
+
+  return query;
 };

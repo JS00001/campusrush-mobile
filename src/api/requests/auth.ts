@@ -1,3 +1,15 @@
+/*
+ * Created on Mon Dec 16 2024
+ *
+ * This software is the proprietary property of CampusRush.
+ * All rights reserved. Unauthorized copying, modification, or distribution
+ * of this software, in whole or in part, is strictly prohibited.
+ * For licensing information contact CampusRush.
+ *
+ * Copyright (c) 2024 CampusRush
+ * Do not distribute
+ */
+
 import type {
   LoginRequest,
   LoginResponse,
@@ -12,6 +24,10 @@ import type {
   ResetPasswordResponse,
   ChangePasswordRequest,
   ChangePasswordResponse,
+  GetChapterInviteRequest,
+  GetChapterInviteResponse,
+  RegisterChapterInviteRequest,
+  RegisterChapterInviteResponse,
 } from '@/types';
 
 import axios from '@/lib/axios';
@@ -108,6 +124,33 @@ export const changePassword = async (data: ChangePasswordRequest) => {
     url,
     data,
   );
+
+  return responseData;
+};
+
+/**
+ * Request:    POST /api/v1/consumer/auth/invite/:id
+ * Description: Accept an invitation
+ */
+export const registerChapterInvite = async (
+  data: RegisterChapterInviteRequest,
+) => {
+  const url = `${PREFIX}/invite/${data.id}`;
+
+  const { data: responseData } =
+    await axios.post<RegisterChapterInviteResponse>(url, data);
+
+  return responseData;
+};
+
+/**
+ * Request:     GET /api/v1/consumer/auth/invite/:id
+ * Description: Get the invitation details
+ */
+export const getChapterInvite = async (data: GetChapterInviteRequest) => {
+  const url = `${PREFIX}/invite/${data.id}`;
+
+  const { data: responseData } = await axios.get<GetChapterInviteResponse>(url);
 
   return responseData;
 };

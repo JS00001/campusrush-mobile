@@ -18,10 +18,12 @@ import { useBottomSheetStore } from "@/store";
 
 import tw from "@/lib/tailwind";
 import FlatList from "@/ui/FlatList";
+import { ChapterRole } from "@/@types";
 import Searchbox from "@/ui/Searchbox";
 import IconButton from "@/ui/IconButton";
 import Menu, { MenuAction } from "@/ui/Menu";
 import ActionButton from "@/ui/ActionButton";
+import RoleGuard from "@/components/RoleGuard";
 import Conversation from "@/ui/ListItems/Conversation";
 import ConversationLoader from "@/ui/Loaders/Conversation";
 import { useGetConversations } from "@/hooks/api/conversations";
@@ -122,11 +124,13 @@ const MessagesView = () => {
         )}
       />
 
-      <ActionButton
-        ph-label="create-message"
-        icon="Plus"
-        onPress={onNewChatPress}
-      />
+      <RoleGuard role={ChapterRole.Editor}>
+        <ActionButton
+          ph-label="create-message"
+          icon="Plus"
+          onPress={onNewChatPress}
+        />
+      </RoleGuard>
     </>
   );
 };

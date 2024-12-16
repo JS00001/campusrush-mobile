@@ -18,6 +18,7 @@ import tw from "@/lib/tailwind";
 import { alert } from "@/lib/util";
 import FlatList from "@/ui/FlatList";
 import Searchbox from "@/ui/Searchbox";
+import { ChapterRole } from "@/@types";
 import Event from "@/ui/ListItems/Event";
 import IconButton from "@/ui/IconButton";
 import useSearch from "@/hooks/useSearch";
@@ -26,6 +27,7 @@ import ActionButton from "@/ui/ActionButton";
 import Menu, { MenuAction } from "@/ui/Menu";
 import StickyHeader from "@/ui/StickyHeader";
 import { useBottomSheetStore } from "@/store";
+import RoleGuard from "@/components/RoleGuard";
 import { useDeleteEvents, useGetEvents } from "@/hooks/api/events";
 
 const EventsView = () => {
@@ -194,14 +196,17 @@ const EventsView = () => {
             style={tw`flex-grow`}
           />
         </Menu>
-        <Menu actions={moreMenu}>
-          <IconButton
-            size="lg"
-            color="secondary"
-            iconName="DotsThree"
-            style={tw`flex-grow`}
-          />
-        </Menu>
+
+        <RoleGuard role={ChapterRole.Editor}>
+          <Menu actions={moreMenu}>
+            <IconButton
+              size="lg"
+              color="secondary"
+              iconName="DotsThree"
+              style={tw`flex-grow`}
+            />
+          </Menu>
+        </RoleGuard>
       </View>
 
       <FlatList
@@ -222,11 +227,13 @@ const EventsView = () => {
         }}
       />
 
-      <ActionButton
-        ph-label="create-event"
-        icon="Plus"
-        onPress={onNewEventPress}
-      />
+      <RoleGuard role={ChapterRole.Editor}>
+        <ActionButton
+          ph-label="create-event"
+          icon="Plus"
+          onPress={onNewEventPress}
+        />
+      </RoleGuard>
     </>
   );
 };
