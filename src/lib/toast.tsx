@@ -25,7 +25,6 @@ const toastContainerClasses = tw.style(
 const toastText1Classes = tw.style("text-white font-medium");
 const toastText2Classes = tw.style("text-gray-200");
 
-// TODO: Make the props: any into the proper type, and support the onPress listener
 const toastConfig = {
   /**
    * The successs modal, shows a green checkmark with the content
@@ -33,8 +32,8 @@ const toastConfig = {
   success: (props: BaseToastProps) => (
     <TouchableOpacity
       style={toastContainerClasses}
+      disabled={isNoop(props.onPress)}
       onPress={props.onPress}
-      disabled={!props.onPress}
     >
       <Icon icon="CheckCircle" color="#10B981" />
       <View style={tw`flex-1`}>
@@ -53,8 +52,8 @@ const toastConfig = {
   error: (props: BaseToastProps) => (
     <TouchableOpacity
       style={toastContainerClasses}
+      disabled={isNoop(props.onPress)}
       onPress={props.onPress}
-      disabled={!props.onPress}
     >
       <Icon icon="WarningCircle" color="#EF4444" />
       <View style={tw`flex-1`}>
@@ -73,8 +72,8 @@ const toastConfig = {
   warning: (props: BaseToastProps) => (
     <TouchableOpacity
       style={toastContainerClasses}
+      disabled={isNoop(props.onPress)}
       onPress={props.onPress}
-      disabled={!props.onPress}
     >
       <Icon icon="Warning" size={24} color="#F59E0B" />
       <View style={tw`flex-1`}>
@@ -90,23 +89,35 @@ const toastConfig = {
   /**
    * The info modal, shows a blue info icon with the content
    */
-  info: (props: BaseToastProps) => (
-    <TouchableOpacity
-      style={toastContainerClasses}
-      onPress={props.onPress}
-      disabled={!props.onPress}
-    >
-      <Icon icon="Info" size={24} color="#3B82F6" />
-      <View style={tw`flex-1`}>
-        <Text style={toastText1Classes} numberOfLines={1}>
-          {props.text1}
-        </Text>
-        <Text style={toastText2Classes} numberOfLines={2}>
-          {props.text2}
-        </Text>
-      </View>
-    </TouchableOpacity>
-  ),
+  info: (props: BaseToastProps) => {
+    return (
+      <TouchableOpacity
+        style={toastContainerClasses}
+        disabled={isNoop(props.onPress)}
+        onPress={props.onPress}
+      >
+        <Icon icon="Info" size={24} color="#3B82F6" />
+        <View style={tw`flex-1`}>
+          <Text style={toastText1Classes} numberOfLines={1}>
+            {props.text1}
+          </Text>
+          <Text style={toastText2Classes} numberOfLines={2}>
+            {props.text2}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  },
+};
+
+const isNoop = (func: any) => {
+  const isFunction = typeof func === "function";
+  const isNoop = func
+    .toString()
+    .replace(/\s/g, "")
+    .startsWith("functionnoop()");
+
+  return !isFunction || isNoop;
 };
 
 export default toastConfig;
