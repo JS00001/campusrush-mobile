@@ -359,3 +359,8 @@ export interface RegisterChapterInviteRequest {
   /** The confirmation of the password */
   confirmPassword: string;
 }
+
+export interface RefreshAccessTokenRequest {
+  /** Refresh token for token refreshing */
+  refreshToken?: string;
+}

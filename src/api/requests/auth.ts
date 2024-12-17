@@ -28,6 +28,8 @@ import type {
   GetChapterInviteResponse,
   RegisterChapterInviteRequest,
   RegisterChapterInviteResponse,
+  RefreshAccessTokenRequest,
+  RefreshAccessTokenResponse,
 } from '@/types';
 
 import axios from '@/lib/axios';
@@ -54,6 +56,28 @@ export const register = async (data: RegisterRequest) => {
   const url = `${PREFIX}/register`;
 
   const { data: responseData } = await axios.post<RegisterResponse>(url, data);
+
+  return responseData;
+};
+
+/**
+ * Request:     POST /api/v1/consumer/auth/refresh
+ * Description: Refresh the access token
+ */
+export const refresh = async (data: RefreshAccessTokenRequest) => {
+  const url = `${PREFIX}/refresh`;
+
+  const headers = {
+    Authorization: `Bearer ${data.refreshToken}`,
+  };
+
+  const { data: responseData } = await axios.post<RefreshAccessTokenResponse>(
+    url,
+    undefined,
+    {
+      headers,
+    },
+  );
 
   return responseData;
 };
