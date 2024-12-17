@@ -118,6 +118,7 @@ const OptionSheet: React.FC<OptionSheetProps> = ({
             <Option
               key={index}
               value={item.label}
+              disabled={item.disabled}
               selected={selected === item.value}
               onPress={() => setSelected(item.value)}
             />

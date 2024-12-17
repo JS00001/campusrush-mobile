@@ -18,6 +18,7 @@ import Text from "@/ui/Text";
 import Icon from "@/ui/Icon";
 import tw from "@/lib/tailwind";
 import IconLabel from "@/ui/IconLabel";
+import StatusBadge from "@/ui/StatusBadge";
 import { useBottomSheetStore } from "@/store";
 
 interface EventProps {
@@ -50,21 +51,6 @@ const Event: React.FC<EventProps> = ({ event }) => {
     isEventInPast && "text-red-500",
   );
 
-  const yesResponseContainerStyles = tw.style(
-    "px-2 py-1 rounded-lg self-start",
-    "bg-green-50 border border-green-600/20",
-  );
-
-  const maybeResponseContainerStyles = tw.style(
-    "px-2 py-1 rounded-lg self-start",
-    "bg-yellow-50 border border-yellow-600/20",
-  );
-
-  const noResponseContainerStyles = tw.style(
-    "px-2 py-1 rounded-lg self-start",
-    "bg-red-50 border border-red-600/20",
-  );
-
   return (
     <TouchableOpacity onPress={onPress} style={containerStyles}>
       <View style={tw`gap-2 shrink`}>
@@ -95,23 +81,11 @@ const Event: React.FC<EventProps> = ({ event }) => {
 
         {/* Responses */}
         <View style={tw`gap-1 pt-2 flex-row `}>
-          <View style={yesResponseContainerStyles}>
-            <Text style={tw`text-xs text-green-700`}>
-              {event.responses.yes} · Yes
-            </Text>
-          </View>
-
-          <View style={maybeResponseContainerStyles}>
-            <Text style={tw`text-xs text-yellow-700`}>
-              {event.responses.maybe} · Maybe
-            </Text>
-          </View>
-
-          <View style={noResponseContainerStyles}>
-            <Text type="p4" style={tw`text-red-700`}>
-              {event.responses.no} · No
-            </Text>
-          </View>
+          <StatusBadge color="success">{event.responses.yes} · Yes</StatusBadge>
+          <StatusBadge color="warning">
+            {event.responses.maybe} · Maybe
+          </StatusBadge>
+          <StatusBadge color="danger">{event.responses.no} · No</StatusBadge>
         </View>
       </View>
 

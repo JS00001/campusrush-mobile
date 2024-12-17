@@ -123,7 +123,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           icon: "UsersThree",
           label: "Manage Users",
           screen: "ManageUsers",
-          newFeature: false,
+          newFeature: true,
           hidden: !hasPermission(ChapterRole.Admin),
         },
         {

@@ -19,7 +19,7 @@ import FormEditorSheet from "./FormEditor";
 import ActionMenuSheet from "./ActionMenu";
 import ManageFormFieldSheet from "./FormEditor/Components/ManageFormField";
 import CreatePnmSheet from "./CreatePnm";
-import CreateUserSheet from "./CreateUser";
+import ManageUserSheet from "./ManageUser";
 import CustomPhoneNumberSheet from "./CustomPhoneNumber";
 import DeveloperToolsSheet from "./DevTools";
 import DynamicNotificationSheet from "./DynamicNotification";
@@ -50,7 +50,6 @@ const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   CHAPTER: ChapterSheet,
   CREATE_MESSAGE: CreateMessageSheet,
   CREATE_EVENT: CreateEventSheet,
-  CREATE_USER: CreateUserSheet,
   FORM_EDITOR: FormEditorSheet,
   CREATE_PNM: CreatePnmSheet,
   CUSTOM_PHONE_NUMBER: CustomPhoneNumberSheet,
@@ -62,6 +61,7 @@ const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   FORM_RESPONSE: FormResponseSheet,
   FORM_RESPONSES: FormResponsesSheet,
   MANAGE_FORM_FIELD: ManageFormFieldSheet,
+  MANAGE_USER: ManageUserSheet,
   PNM: PnmSheet,
   PLAN_COMPARISON: PlanComparisonSheet,
   PRIVACY_POLICY: PrivacyPolicySheet,

@@ -17,6 +17,7 @@ import type {
   IFormField,
   IFormResponse,
   IPNM,
+  IUser,
   IViolation,
 } from '@/types';
 import type { IconType } from '@/constants/icons';
@@ -52,7 +53,7 @@ export interface IndividualSheetProps {
   /** Details about a custom phone number */
   CUSTOM_PHONE_NUMBER: undefined;
   /** Create a new user for the chapter */
-  CREATE_USER: undefined;
+  MANAGE_USER: { user?: IUser };
   /** Developer tools, only available to admins */
   DEVELOPER_TOOLS: undefined;
   /** A dynamic notification from a websocket event or push notification */

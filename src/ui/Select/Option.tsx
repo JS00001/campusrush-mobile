@@ -19,13 +19,20 @@ import tw from "@/lib/tailwind";
 interface OptionProps {
   value: string;
   selected?: boolean;
+  disabled?: boolean;
   onPress?: () => void;
 }
 
-const Option: React.FC<OptionProps> = ({ value, selected, onPress }) => {
+const Option: React.FC<OptionProps> = ({
+  value,
+  selected,
+  disabled,
+  onPress,
+}) => {
   const containerStyles = tw.style(
     "w-full px-6 py-4 justify-between items-center flex-row",
     "border-b border-gray-100",
+    disabled && "disabled",
   );
 
   const iconStyles = tw.style(
@@ -34,7 +41,11 @@ const Option: React.FC<OptionProps> = ({ value, selected, onPress }) => {
   );
 
   return (
-    <TouchableOpacity style={containerStyles} onPress={onPress}>
+    <TouchableOpacity
+      style={containerStyles}
+      onPress={onPress}
+      disabled={disabled}
+    >
       <Text style={tw`text-primary`}>{value}</Text>
       <Icon icon="Check" color={tw.color("primary")} style={iconStyles} />
     </TouchableOpacity>
