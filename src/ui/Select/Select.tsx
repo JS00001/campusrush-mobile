@@ -80,7 +80,7 @@ const Select: React.FC<SelectProps> = ({
   const selectStyles = tw.style(
     "border bg-gray-100 rounded-xl px-5 w-full",
     "flex-row justify-between items-center",
-    value ? "py-2" : "py-4",
+    value ? "py-1.5" : "py-3.5",
     error && "border-red-500",
     !error && "border-gray-100",
     style,

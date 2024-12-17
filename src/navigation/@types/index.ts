@@ -105,6 +105,8 @@ export type MoreTabParams = {
   // Security
   Security: undefined;
   ChangePassword: undefined;
+  // Manage Users
+  ManageUsers: undefined;
   // Forms
   Forms: undefined;
   EditForm: undefined;

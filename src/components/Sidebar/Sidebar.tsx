@@ -29,15 +29,16 @@ import SafeAreaView from "@/ui/SafeAreaView";
 import { useLogout } from "@/hooks/api/auth";
 import { useGetNotifications } from "@/hooks/api/chapter";
 import { useSidebarStore } from "@/store/overlay/sidebar-store";
+import { ChapterRole } from "@/@types";
 
 interface SidebarProps {
   children: React.ReactNode;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ children }) => {
-  const { user } = useUser();
   const navigation = useNavigation();
   const sidebarStore = useSidebarStore();
+  const { user, hasPermission } = useUser();
 
   const logoutMutation = useLogout();
   const notificationQuery = useGetNotifications();
@@ -98,7 +99,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           icon: "ListBullets",
           label: "Forms",
           screen: "Forms",
-          newFeature: false,
+          newFeature: true,
         },
         {
           icon: "Bell",
@@ -117,6 +118,13 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           label: "Settings",
           screen: "Settings",
           newFeature: false,
+        },
+        {
+          icon: "UsersThree",
+          label: "Manage Users",
+          screen: "ManageUsers",
+          newFeature: false,
+          hidden: !hasPermission(ChapterRole.Admin),
         },
         {
           icon: "ShieldCheck",

@@ -132,8 +132,13 @@ const Content: React.FC<Props> = ({ data, close }) => {
 
   const contentContainerStyle = tw.style(
     "gap-y-4 pt-6 px-6",
-    hasPermission(ChapterRole.Editor) ? "pb-26" : "pb-10",
+    hasPermission(ChapterRole.Editor) ? "pb-24" : "pb-10",
   );
+
+  const favoriteIcon = pnm.starred ? "StarFill" : "Star";
+  const favoriteIconColor = pnm.starred
+    ? tw.color("yellow-500")
+    : tw.color("primary");
 
   return (
     <>
@@ -148,10 +153,9 @@ const Content: React.FC<Props> = ({ data, close }) => {
             <IconButton
               size="sm"
               color="secondary"
+              iconName={favoriteIcon}
+              iconColor={favoriteIconColor}
               loading={updateMutation.isPending}
-              iconName={pnm.starred ? "StarFill" : "Star"}
-              // prettier-ignore
-              iconColor={pnm.starred ? tw.color("yellow-500") : tw.color("primary")}
               onPress={onFavorite}
             />
             <IconButton
