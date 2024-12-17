@@ -15,4 +15,6 @@ export interface ISelectOption<T = any> {
   label: string;
   /** The value of the item */
   value: T;
+  /** Whether the item is disabled */
+  disabled?: boolean;
 }

@@ -40,8 +40,8 @@ const CustomFormField: React.FC<CustomFormFieldProps> = ({
   const bottomSheetStore = useBottomSheetStore();
 
   const icon: IconType = (() => {
-    if (item.type === FieldType.LONGTEXT) return "Paragraph";
-    else if (item.type === FieldType.CHECKBOX) return "CheckSquareOffset";
+    if (item.type === FieldType.LongText) return "Paragraph";
+    else if (item.type === FieldType.Checkbox) return "CheckSquareOffset";
     return "TextAa";
   })();
 

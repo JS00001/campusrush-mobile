@@ -39,31 +39,35 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   onPress,
 }) => {
   const containerStyles = tw.style(
-    "px-8 py-3",
     "flex-row items-center gap-3",
+    "px-8 py-3",
     selected && "bg-white",
   );
 
   const textStyles = tw.style("text-gray-600 font-medium");
 
+  const ItemIcon = () => {
+    if (loading) {
+      return <ActivityIndicator size={20} color={tw.color("gray-800")} />;
+    }
+
+    return (
+      <Icon
+        size={18}
+        icon={icon}
+        color={tw.color("gray-600")}
+        weight="duotone"
+      />
+    );
+  };
+
   return (
     <TouchableHighlight underlayColor={tw.color("gray-200")} onPress={onPress}>
       <View>
-        {selected && (
-          <View style={tw`w-1.5 h-full bg-blue-600 absolute z-10`} />
-        )}
+        {selected && <View style={tw`w-1 h-full bg-blue-600 absolute z-10`} />}
 
         <View style={containerStyles}>
-          {loading ? (
-            <ActivityIndicator size={20} color={tw.color("gray-800")} />
-          ) : (
-            <Icon
-              size={18}
-              icon={icon}
-              color={tw.color("gray-600")}
-              weight="duotone"
-            />
-          )}
+          <ItemIcon />
 
           <Text type="p2" style={textStyles}>
             {label}

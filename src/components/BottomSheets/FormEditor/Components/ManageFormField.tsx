@@ -60,15 +60,15 @@ const Content: React.FC<Props> = ({
   const selectOptions: ISelectOption[] = [
     {
       label: "Text",
-      value: FieldType.TEXT,
+      value: FieldType.Text,
     },
     {
       label: "Paragraph",
-      value: FieldType.LONGTEXT,
+      value: FieldType.LongText,
     },
     {
       label: "Checkbox",
-      value: FieldType.CHECKBOX,
+      value: FieldType.Checkbox,
     },
   ];
 

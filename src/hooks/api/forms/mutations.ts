@@ -49,14 +49,13 @@ export const useCreateForm = () => {
       return response;
     },
     onSuccess: async (res) => {
+      posthog.capture('form_created');
       queryClient.setQueryData<{ forms: IForm[] }>(['forms'], (previous) => {
         if (!previous) return { forms: [res.data.form] };
         return { forms: [...previous.forms, res.data.form] };
       });
 
-      await queryClient.invalidateQueries({ queryKey: ['forms'] });
-
-      posthog.capture('form_created');
+      queryClient.invalidateQueries({ queryKey: ['forms'] });
     },
   });
 };

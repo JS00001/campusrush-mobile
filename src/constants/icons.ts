@@ -40,6 +40,7 @@ import Eye from 'phosphor-react-native/src/icons/Eye';
 import EyeSlash from 'phosphor-react-native/src/icons/EyeSlash';
 import Files from 'phosphor-react-native/src/icons/Files';
 import FunnelSimple from 'phosphor-react-native/src/icons/FunnelSimple';
+import Gavel from 'phosphor-react-native/src/icons/Gavel';
 import Gear from 'phosphor-react-native/src/icons/Gear';
 import Globe from 'phosphor-react-native/src/icons/Globe';
 import Heart from 'phosphor-react-native/src/icons/Heart';
@@ -123,6 +124,7 @@ export const Icons = {
   EyeSlash,
   Files,
   FunnelSimple,
+  Gavel,
   Gear,
   Globe,
   Heart,

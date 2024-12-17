@@ -23,6 +23,7 @@ import { getAccessToken } from "@/lib/auth";
 import queryClient from "@/lib/query-client";
 import { useBottomSheetStore } from "@/store";
 import { LogLevels, websocketLogger } from "@/lib/logger";
+import { NotificationType } from "@/@types";
 
 const MAX_LOGS = 100;
 
@@ -133,16 +134,16 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
     sendLog(`Received '${socketMessage.type}' message from websocket`);
 
     switch (socketMessage.type) {
-      case "NEW_MESSAGE": {
-        const conversation = socketMessage.data.payload.conversation;
+      case NotificationType.NewMessage: {
+        const conversation = socketMessage.data.payload!.conversation;
         const pnmId = conversation.pnm._id;
         queryClient.invalidateQueries({ queryKey: ["conversations"] });
         queryClient.invalidateQueries({ queryKey: ["conversation", pnmId] });
         break;
       }
 
-      case "NEW_PNM": {
-        const pnm = socketMessage.data.payload.pnm;
+      case NotificationType.NewPnm: {
+        const pnm = socketMessage.data.payload!.pnm;
         queryClient.invalidateQueries({ queryKey: ["contacts"] });
         queryClient.invalidateQueries({ queryKey: ["pnms"] });
 
@@ -166,16 +167,16 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
         break;
       }
 
-      case "MESSAGE_ERROR": {
-        const message = socketMessage.data.payload.message;
+      case NotificationType.MessageError: {
+        const message = socketMessage.data.payload!.message;
         queryClient.invalidateQueries({
           queryKey: ["conversation", message.pnm],
         });
         break;
       }
 
-      case "NEW_DYNAMIC_NOTIFICATION": {
-        const data = socketMessage.data.payload;
+      case NotificationType.NewDynamicNotification: {
+        const data = socketMessage.data.payload!;
         bottomSheetStore.open("DYNAMIC_NOTIFICATION", {
           title: data.title,
           message: data.message,
@@ -185,8 +186,8 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
         break;
       }
 
-      case "NEW_EVENT_RESPONSE": {
-        const event = socketMessage.data.payload.event;
+      case NotificationType.NewEventResponse: {
+        const event = socketMessage.data.payload!.event;
         queryClient.invalidateQueries({ queryKey: ["events"] });
         queryClient.invalidateQueries({ queryKey: ["event", event._id] });
 
@@ -209,9 +210,9 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
         break;
       }
 
-      case "NEW_FORM_RESPONSE": {
-        const form = socketMessage.data.payload.form;
-        const pnmId = socketMessage.data.payload.response.pnm._id;
+      case NotificationType.NewFormResponse: {
+        const form = socketMessage.data.payload!.form;
+        const pnmId = socketMessage.data.payload!.response.pnm._id;
         queryClient.invalidateQueries({ queryKey: ["forms"] });
         queryClient.invalidateQueries({ queryKey: ["form", form._id] });
         queryClient.invalidateQueries({ queryKey: ["pnmResponses", pnmId] });
@@ -231,6 +232,19 @@ const WebsocketProvider: React.FC<{ children: React.ReactNode }> = ({
               },
             });
           },
+        });
+      }
+
+      case NotificationType.RoleUpdated: {
+        await queryClient.refetchQueries({ queryKey: ["user"] });
+        queryClient.invalidateQueries({ queryKey: ["chapterUsers"] });
+
+        // Handle toast notifications
+        if (!socketMessage.toastNotification) return;
+        Toast.show({
+          type: "info",
+          text1: socketMessage.toastNotification.title,
+          text2: socketMessage.toastNotification.body,
         });
       }
     }

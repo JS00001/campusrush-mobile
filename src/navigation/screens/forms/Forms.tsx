@@ -18,6 +18,7 @@ import { alert } from "@/lib/util";
 import { Layout } from "@/ui/Layout";
 import FlatList from "@/ui/FlatList";
 import Searchbox from "@/ui/Searchbox";
+import { ChapterRole } from "@/@types";
 import Form from "@/ui/ListItems/Form";
 import IconButton from "@/ui/IconButton";
 import useSearch from "@/hooks/useSearch";
@@ -25,6 +26,7 @@ import FormLoader from "@/ui/Loaders/Form";
 import Menu, { MenuAction } from "@/ui/Menu";
 import ActionButton from "@/ui/ActionButton";
 import { useBottomSheetStore } from "@/store";
+import RoleGuard from "@/components/RoleGuard";
 import { useDeleteForms, useGetForms } from "@/hooks/api/forms";
 
 const FormsScreen = () => {
@@ -96,14 +98,17 @@ const FormsScreen = () => {
             onChangeText={search.setQuery}
             contentContainerStyle={tw`flex-shrink`}
           />
-          <Menu actions={moreMenu}>
-            <IconButton
-              size="lg"
-              color="secondary"
-              iconName="DotsThree"
-              style={tw`flex-grow`}
-            />
-          </Menu>
+
+          <RoleGuard role={ChapterRole.Editor}>
+            <Menu actions={moreMenu}>
+              <IconButton
+                size="lg"
+                color="secondary"
+                iconName="DotsThree"
+                style={tw`flex-grow`}
+              />
+            </Menu>
+          </RoleGuard>
         </View>
 
         <FlatList
@@ -118,11 +123,13 @@ const FormsScreen = () => {
           renderItem={({ item: form }) => <Form form={form} />}
         />
 
-        <ActionButton
-          ph-label="create-form"
-          icon="Plus"
-          onPress={onNewFormPress}
-        />
+        <RoleGuard role={ChapterRole.Editor}>
+          <ActionButton
+            ph-label="create-form"
+            icon="Plus"
+            onPress={onNewFormPress}
+          />
+        </RoleGuard>
       </Layout.Content>
     </Layout.Root>
   );

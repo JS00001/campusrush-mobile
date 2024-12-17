@@ -11,13 +11,19 @@
  */
 
 import * as Device from 'expo-device';
-import Axios, { AxiosError } from 'axios';
 import Toast from 'react-native-toast-message';
+import Axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 import type { API } from '@/types';
 
+import {
+  getAccessToken,
+  getRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from '@/lib/auth';
+import { refresh } from '@/api';
 import { httpLogger } from '@/lib/logger';
-import { getAccessToken } from '@/lib/auth';
 import AppConstants, { Urls } from '@/constants';
 
 const defaultHeaders = {
@@ -32,6 +38,12 @@ const axios = Axios.create({
     ...defaultHeaders,
   },
 });
+
+/**
+ * Variables for handling token refreshing
+ */
+let isRefreshing = false;
+let failedQueue: { resolve: Function; reject: Function }[] = [];
 
 /**
  * Request interceptor
@@ -54,6 +66,7 @@ axios.interceptors.request.use(async (config) => {
 axios.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
+    const originalRequest = error.config!;
     const responseData = error.response?.data as API.ErrorResponse;
     const errorDetails = (error.response?.data as API.ErrorResponse).error;
 
@@ -79,13 +92,13 @@ axios.interceptors.response.use(
 
     /** 401 - EXPIRED_TOKEN */
     if (errorDetails.message === 'EXPIRED_TOKEN') {
-      // TODO: Add retry logic
-      return Promise.resolve(errorHandledResponse);
+      return handleExpiredTokenResponse(originalRequest, error);
     }
 
     /** 401 - UNAUTHORIZED */
     if (errorDetails.message === 'UNAUTHORIZED') {
-      // TODO: Add retry logic/logout
+      setAccessToken(null);
+      setRefreshToken(null);
       return Promise.resolve(errorHandledResponse);
     }
 
@@ -113,5 +126,79 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+/**
+ * Take all requests that have been queued, and check if the initial
+ * refresh query has passed or failed. If it passed, resolve the
+ * requests with the new token. If it failed, reject the requests
+ * with the error.
+ */
+const processQueue = (error: Error | null, token: string | null = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+
+  failedQueue = [];
+};
+
+/**
+ * If a request has an expired token, queue all requests that are also expired, then
+ * attempt to refresh the token. If the token refresh is successful, resolve all queued
+ * requests with the new token. If the token refresh fails, reject all queued requests
+ * with the error.
+ */
+const handleExpiredTokenResponse = async (
+  reqConfig: InternalAxiosRequestConfig<any>,
+  error: AxiosError,
+) => {
+  // If we are in the process of refreshing the access token, queue all other failed requests
+  // to be fixed once the access token has been refreshed
+  if (isRefreshing) {
+    const promise = new Promise((resolve, reject) => {
+      failedQueue.push({ resolve, reject });
+    });
+
+    return promise.then((token) => {
+      reqConfig.headers['Authorization'] = `Bearer ${token}`;
+      return axios(reqConfig);
+    });
+  }
+
+  // Attempt to refresh the access token
+  isRefreshing = true;
+
+  try {
+    const refreshToken = await getRefreshToken();
+
+    if (!refreshToken) {
+      return Promise.reject(error);
+    }
+
+    const response = await refresh({ refreshToken });
+
+    if ('error' in response) {
+      processQueue(new Error('Error refreshing token'), null);
+      return Promise.reject(error);
+    }
+
+    // If we successfully get a new access token, update the request headers
+    // then call all queued requests with the new token
+    const accessToken = response.data.accessToken;
+    reqConfig.headers['Authorization'] = `Bearer ${accessToken}`;
+    setAccessToken(accessToken);
+    processQueue(null, accessToken);
+
+    return axios(reqConfig);
+  } catch (error: any) {
+    processQueue(error, null);
+    return Promise.reject(error);
+  } finally {
+    isRefreshing = false;
+  }
+};
 
 export default axios;

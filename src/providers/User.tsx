@@ -12,14 +12,15 @@
 
 import { createContext, useContext, useRef } from "react";
 
-import type { IChapter, IUser } from "@/types";
+import { ChapterRole, IChapter, IUser } from "@/@types";
 
 import { useGetUser } from "@/hooks/api/user";
-import { useQonversion } from "./external/Qonversion";
+import { useQonversion } from "@/providers/external/Qonversion";
 
 interface IUserContext {
   user: IUser;
   chapter: IChapter;
+  hasPermission: (role: ChapterRole) => boolean;
 }
 
 const UserContext = createContext<IUserContext>({} as IUserContext);
@@ -38,6 +39,25 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   chapter.isPro = chapter.isPro || !!entitlements.length;
 
   /**
+   * Check if the user has at least a specific role in the chapter.
+   */
+  const hasPermission = (role: ChapterRole) => {
+    if (!chapter || !user) return false;
+
+    const rolePriority = {
+      [ChapterRole.Viewer]: 0,
+      [ChapterRole.Editor]: 1,
+      [ChapterRole.Admin]: 2,
+      [ChapterRole.Owner]: 3,
+    };
+
+    const userRolePriority = rolePriority[user.chapterRole];
+    const requiredRolePriority = rolePriority[role];
+
+    return userRolePriority >= requiredRolePriority;
+  };
+
+  /**
    * On the first app load, we want to fetch this query if needed (if the user is loggedin)
    * then, we dont want to fetch it again (we set it on login and register)
    * so we keep track of it already being initialized
@@ -48,7 +68,7 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   }
 
   return (
-    <UserContext.Provider value={{ user, chapter }}>
+    <UserContext.Provider value={{ user, chapter, hasPermission }}>
       {children}
     </UserContext.Provider>
   );

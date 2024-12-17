@@ -19,6 +19,7 @@ import FormEditorSheet from "./FormEditor";
 import ActionMenuSheet from "./ActionMenu";
 import ManageFormFieldSheet from "./FormEditor/Components/ManageFormField";
 import CreatePnmSheet from "./CreatePnm";
+import ManageUserSheet from "./ManageUser";
 import CustomPhoneNumberSheet from "./CustomPhoneNumber";
 import DeveloperToolsSheet from "./DevTools";
 import DynamicNotificationSheet from "./DynamicNotification";
@@ -30,6 +31,7 @@ import FormResponsesSheet from "./FormResponses";
 import PnmSheet from "./PnmDetails";
 import PlanComparisonSheet from "./PlanComparison";
 import PrivacyPolicySheet from "./PrivacyPolicy";
+import PurchasePhoneNumberSheet from "./PurchasePhoneNumber";
 import TagSelectorSheet from "./TagSelector";
 import TermsOfServiceSheet from "./TermsOfService";
 import UpdatePnmSheet from "./UpdatePnm";
@@ -39,7 +41,6 @@ import ViolationsSheet from "./Violations";
 import type { IndividualSheetName } from "./@types";
 
 import { useBottomSheetStore } from "@/store";
-import PurchasePhoneNumberSheet from "./PurchasePhoneNumber";
 
 /**
  * The list of all bottom sheets we want to support
@@ -60,6 +61,7 @@ const BottomSheets: Record<IndividualSheetName, React.FC<any>> = {
   FORM_RESPONSE: FormResponseSheet,
   FORM_RESPONSES: FormResponsesSheet,
   MANAGE_FORM_FIELD: ManageFormFieldSheet,
+  MANAGE_USER: ManageUserSheet,
   PNM: PnmSheet,
   PLAN_COMPARISON: PlanComparisonSheet,
   PRIVACY_POLICY: PrivacyPolicySheet,

@@ -37,6 +37,8 @@ interface SelectProps<T = any> extends ViewProps {
   error?: string;
   /** The style of the select */
   style?: any;
+  /** Whether the select is disabled */
+  disabled?: boolean;
   /** The function to call when the value changes */
   onChange: (value: string) => void;
 }
@@ -48,6 +50,7 @@ const Select: React.FC<SelectProps> = ({
   error,
   value,
   style,
+  disabled,
   onChange,
 }) => {
   const sheetRef = useRef<BottomSheetModal>(null);
@@ -80,9 +83,10 @@ const Select: React.FC<SelectProps> = ({
   const selectStyles = tw.style(
     "border bg-gray-100 rounded-xl px-5 w-full",
     "flex-row justify-between items-center",
-    value ? "py-2" : "py-4",
+    value ? "py-1.5" : "py-3.5",
     error && "border-red-500",
     !error && "border-gray-100",
+    disabled && "disabled",
     style,
   );
 
@@ -97,7 +101,11 @@ const Select: React.FC<SelectProps> = ({
 
   return (
     <>
-      <TouchableOpacity style={selectStyles} onPress={toggleExpanded}>
+      <TouchableOpacity
+        style={selectStyles}
+        onPress={toggleExpanded}
+        disabled={disabled}
+      >
         <View>
           {value && (
             <Text type="p4" style={labelStyles}>

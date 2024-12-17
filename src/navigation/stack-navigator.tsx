@@ -67,6 +67,8 @@ import FormsScreen from "@/navigation/screens/forms/Forms";
 import EditFormScreen from "@/navigation/screens/forms/Edit";
 import CreateFormScreen from "@/navigation/screens/forms/Create";
 
+import ManageUsersScreen from "@/navigation/screens/ManageUsers";
+
 /**
  * Stack Navigator for Auth Screens
  *
@@ -338,6 +340,13 @@ export const MoreStack = () => {
       <Stack.Screen
         name="ChangePassword"
         component={SettingsChangePasswordScreen}
+      />
+
+      {/* Manage users and all sub screens */}
+      <Stack.Screen
+        name="ManageUsers"
+        component={ManageUsersScreen}
+        options={{ gestureEnabled: false, animation: "none" }}
       />
 
       {/* Forms and all subscreens */}
