@@ -29,6 +29,7 @@ import AppConstants from "@/constants";
 import { Detail } from "@/ui/DetailList";
 import IconButton from "@/ui/IconButton";
 import ButtonGroup from "@/ui/ButtonGroup";
+import { useUser } from "@/providers/User";
 import { useBottomSheetStore } from "@/store";
 import { BottomSheet } from "@/ui/BottomSheet";
 import RoleGuard from "@/components/RoleGuard";
@@ -41,6 +42,7 @@ const Content: React.FC<Props> = ({ data, close }) => {
   const initialEvent = data.event;
 
   const copy = useCopy();
+  const { hasPermission } = useUser();
   const bottomSheetStore = useBottomSheetStore();
 
   const deleteMutation = useDeleteEvent();
@@ -145,11 +147,14 @@ const Content: React.FC<Props> = ({ data, close }) => {
       </Detail.List>
 
       <ButtonGroup>
-        <RoleGuard role={ChapterRole.Editor}>
-          <Button color="secondary" onPress={onEditPress}>
-            Edit
-          </Button>
-        </RoleGuard>
+        <Button
+          disabled={!hasPermission(ChapterRole.Editor)}
+          color="secondary"
+          onPress={onEditPress}
+        >
+          Edit
+        </Button>
+
         <Button onPress={onViewResponsesPress}>View Responses</Button>
       </ButtonGroup>
     </BottomSheetContainer>

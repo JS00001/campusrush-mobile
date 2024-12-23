@@ -15,12 +15,13 @@ import { useCallback } from "react";
 import tw from "@/lib/tailwind";
 import HomeView from "@/views/Home";
 import { Layout } from "@/ui/Layout";
+import { ChapterRole } from "@/@types";
 import { useUser } from "@/providers/User";
 import { useBottomSheetStore } from "@/store";
 import HomeBackground from "@/components/Backgrounds/Home";
 
 const HomeScreen = () => {
-  const { chapter } = useUser();
+  const { chapter, hasPermission } = useUser();
   const bottomSheetStore = useBottomSheetStore();
 
   /**
@@ -29,7 +30,11 @@ const HomeScreen = () => {
    * sheet so they can confirm their phone number.
    */
   const onScreenLoad = useCallback(() => {
-    if (chapter.isPro && !chapter.phoneNumber) {
+    if (
+      chapter.isPro &&
+      !chapter.phoneNumber &&
+      hasPermission(ChapterRole.Admin)
+    ) {
       bottomSheetStore.open("PURCHASE_PHONE_NUMBER");
     }
   }, [chapter]);
