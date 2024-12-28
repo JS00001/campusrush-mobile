@@ -12,6 +12,8 @@
 
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
+import { ChapterRole } from '@/@types';
+import { useUser } from '@/providers/User';
 import { getChapterNotifications, getChapterUsers } from '@/api';
 
 /**
@@ -56,7 +58,10 @@ export const useGetNotifications = () => {
  * Get a list of all the chapter's sub-users
  */
 export const useGetChapterUsers = () => {
+  const { hasPermission } = useUser();
+
   const query = useQuery({
+    enabled: hasPermission(ChapterRole.Admin),
     queryKey: ['chapterUsers'],
     queryFn: async () => {
       const res = await getChapterUsers();
