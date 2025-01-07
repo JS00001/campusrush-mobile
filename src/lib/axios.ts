@@ -68,7 +68,13 @@ axios.interceptors.response.use(
   (error: AxiosError) => {
     const originalRequest = error.config!;
     const responseData = error.response?.data as API.ErrorResponse;
-    const errorDetails = (error.response?.data as API.ErrorResponse).error;
+    const errorDetails = (error.response?.data as API.ErrorResponse)?.error;
+
+    // If there no error field, then our server did not respond with a proper error
+    // so its probably a network error/the server is down
+    if (!errorDetails) {
+      return Promise.reject(error);
+    }
 
     /**
      * If we *successfully* handle a common error, we want to return the

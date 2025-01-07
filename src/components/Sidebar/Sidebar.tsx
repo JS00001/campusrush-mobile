@@ -99,7 +99,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           icon: "ListBullets",
           label: "Forms",
           screen: "Forms",
-          newFeature: true,
+          newFeature: false,
         },
         {
           icon: "Bell",
@@ -123,7 +123,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           icon: "UsersThree",
           label: "Manage Users",
           screen: "ManageUsers",
-          newFeature: true,
+          newFeature: false,
           hidden: !hasPermission(ChapterRole.Admin),
         },
         {

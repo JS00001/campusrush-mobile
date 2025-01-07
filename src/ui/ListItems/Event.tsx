@@ -43,7 +43,6 @@ const Event: React.FC<EventProps> = ({ event }) => {
   const containerStyles = tw.style(
     "flex-row gap-2 justify-between items-center",
     "p-5 rounded-xl relative bg-gray-100",
-    isEventInPast && "disabled",
   );
 
   const textStyles = tw.style(
